@@ -15,6 +15,7 @@
 ### 2.1 Charaktererstellung und Stufenaufstieg
 - Ein Charakter kann eine oder mehrere Klassenstufen haben, wobei die Summe der Klassenstufen der Charakterstufe entspricht.
 - Ein Charakter kann mehrere Archetypen einer Klasse haben, sofern diese sich nicht widersprechen.
+- Archetypen werden in der Klassen-Tabelle verlinkt.
 - Ein Charakter hat eine Rasse.
 - Ein Charakter hat Talente.
 - Ein Charakter hat Ausrüstung.
@@ -67,7 +68,7 @@
 | Frage | Antwort | Status |
 | --- | --- | --- |
 | Wer sind die Nutzer im MVP? | Nur Spieler. Im MVP können Charaktere erstellt und Stufen hinzugefügt werden. Weitere Rollen sind nicht vorgesehen. | Erledigt |
-| Sind wichtige Datenmodelle und deren Beziehungen definiert? | Noch nicht. | Offen |
+| Sind wichtige Datenmodelle und deren Beziehungen definiert? | Teilweise. Das README enthält erste Entitäten wie Charakter, Charakterstufen, Klassen, Skills, Attribute, Rassen und Feats. Für den MVP fehlen aber noch Archetypen, Ausrüstung, Wesenszüge, aktive Effekte und Zustände, Session-Logik und Verlaufshistorie. | Offen |
 | Ist die Anwendungslogik für Fähigkeiten, Effekte und Zustände festgelegt? | Noch nicht. | Offen |
 | Ist die Entscheidung zu Authentifizierung, Benutzerverwaltung und Zugriffskontrolle getroffen? | Noch nicht. | Offen |
 | Ist die technische Architektur für Backend, Frontend und Datenbank festgelegt? | Noch nicht. | Offen |
