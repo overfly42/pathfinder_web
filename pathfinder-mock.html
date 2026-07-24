@@ -444,12 +444,13 @@
   }
   .gear-add-btn:hover{color:var(--brass);}
 
-  /* ---------- EQUIPMENT TABS ---------- */
-  .equip-tabs{
+  /* ---------- SUB-TABS (reusable: Ausrüstung, Fertigkeiten/Talente/...) ---------- */
+  .tab-bar{
     display:flex; gap:4px; margin-bottom:14px;
     border-bottom:1px solid var(--parchment-shadow);
+    flex-wrap:wrap;
   }
-  .equip-tab{
+  .tab-btn{
     font-family:'Cinzel',serif; font-weight:600; font-size:11px; letter-spacing:0.05em; text-transform:uppercase;
     color:var(--ink-faint);
     background:transparent; border:none;
@@ -459,10 +460,22 @@
     margin-bottom:-1px;
     transition:color .15s, border-color .15s;
   }
-  .equip-tab:hover{color:var(--ink-soft);}
-  .equip-tab.active{color:var(--brass-dark); border-bottom-color:var(--brass);}
-  .equip-panel{display:none;}
-  .equip-panel.active{display:block;}
+  .tab-btn:hover{color:var(--ink-soft);}
+  .tab-btn.active{color:var(--brass-dark); border-bottom-color:var(--brass);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .trait-item{
+    padding:9px 2px;
+    border-bottom:1px dashed var(--parchment-shadow);
+  }
+  .trait-item:last-child{border-bottom:none;}
+  .trait-item .name{
+    font-size:13.5px; font-weight:600; color:var(--ink);
+  }
+  .trait-item .desc{
+    font-size:12px; color:var(--ink-soft); margin-top:2px; line-height:1.4;
+  }
 
   /* ---------- EQUIPMENT SLOTS / PAPERDOLL ---------- */
   .paperdoll{
@@ -841,22 +854,84 @@
           <div class="save"><span class="name">Willen</span><span class="val">+5</span></div>
         </div>
 
-        <div class="section-label">Fertigkeiten</div>
-        <div class="skill-row"><span>Schleichen</span><span class="val">+12</span></div>
-        <div class="skill-row"><span>Wahrnehmung</span><span class="val">+10</span></div>
-        <div class="skill-row"><span>Wildnisleben</span><span class="val">+9</span></div>
-        <div class="skill-row"><span>Akrobatik</span><span class="val">+8</span></div>
-        <div class="skill-row"><span>Weltwissen (Natur)</span><span class="val">+6</span></div>
-        <div class="skill-row"><span>Heilkunde</span><span class="val">+5</span></div>
+        <div class="section-label">Fertigkeiten &amp; Fähigkeiten</div>
+
+        <div class="tabset">
+          <div class="tab-bar">
+            <button type="button" class="tab-btn active" onclick="showTab('skills', this)">Fertigkeiten</button>
+            <button type="button" class="tab-btn" onclick="showTab('feats', this)">Talente</button>
+            <button type="button" class="tab-btn" onclick="showTab('traits', this)">Wesenszüge</button>
+            <button type="button" class="tab-btn" onclick="showTab('classfeatures', this)">Klassenfähigkeiten</button>
+          </div>
+
+          <div class="tab-panel active" data-tab="skills">
+            <div class="skill-row"><span>Schleichen</span><span class="val">+12</span></div>
+            <div class="skill-row"><span>Wahrnehmung</span><span class="val">+10</span></div>
+            <div class="skill-row"><span>Wildnisleben</span><span class="val">+9</span></div>
+            <div class="skill-row"><span>Akrobatik</span><span class="val">+8</span></div>
+            <div class="skill-row"><span>Weltwissen (Natur)</span><span class="val">+6</span></div>
+            <div class="skill-row"><span>Heilkunde</span><span class="val">+5</span></div>
+          </div>
+
+          <div class="tab-panel" data-tab="feats">
+            <div class="trait-item">
+              <div class="name">Punktzielschuss</div>
+              <div class="desc">+1 auf Angriffs- und Schadenswürfe mit Fernkampfwaffen im Nahbereich (bis 9 m).</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Gezielter Schuss</div>
+              <div class="desc">Kein Malus für Fernkampfangriffe auf ein Ziel, das im Nahkampf gebunden ist.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Schneller Schuss</div>
+              <div class="desc">Ein zusätzlicher Fernkampfangriff pro Runde bei −2 auf alle Angriffswürfe.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Tödlicher Schuss</div>
+              <div class="desc">−2 auf Fernkampf-Angriffswürfe für +4 auf den Schaden.</div>
+            </div>
+          </div>
+
+          <div class="tab-panel" data-tab="traits">
+            <div class="trait-item">
+              <div class="name">Scharfsinnige Beobachterin</div>
+              <div class="desc">+1 auf Wahrnehmungswürfe; Wahrnehmung gilt immer als Klassenfertigkeit.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Kind des Waldes</div>
+              <div class="desc">+1 auf Wildnisleben-Würfe zum Aufspüren von Fährten in Waldgebieten.</div>
+            </div>
+          </div>
+
+          <div class="tab-panel" data-tab="classfeatures">
+            <div class="trait-item">
+              <div class="name">Waldkunde (Wald)</div>
+              <div class="desc">Bonus auf Initiative, Wahrnehmung, Überleben, Heimlichkeit und Schadenswürfe im bevorzugten Geländetyp.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Günstlingsfeind</div>
+              <div class="desc">Bonus auf Angriffs-, Schadens- und bestimmte Fertigkeitswürfe gegen einen gewählten Gegnertyp.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Kampfstil: Bogenschütze</div>
+              <div class="desc">Gewährt zusätzliche Talente für den Umgang mit Fernkampfwaffen zu niedrigeren Stufenvoraussetzungen.</div>
+            </div>
+            <div class="trait-item">
+              <div class="name">Waldläuferzauber</div>
+              <div class="desc">Wirkt Zauber der Waldläuferliste; verfügbare Zauberslots richten sich nach der effektiven Waldläuferstufe.</div>
+            </div>
+          </div>
+        </div>
 
         <div class="section-label">Ausrüstung</div>
 
-        <div class="equip-tabs">
-          <button type="button" class="equip-tab active" onclick="showEquipTab('inventory', this)">Inventar</button>
-          <button type="button" class="equip-tab" onclick="showEquipTab('slots', this)">Ausrüstungsplätze</button>
-        </div>
+        <div class="tabset">
+          <div class="tab-bar">
+            <button type="button" class="tab-btn active" onclick="showTab('inventory', this)">Inventar</button>
+            <button type="button" class="tab-btn" onclick="showTab('slots', this)">Ausrüstungsplätze</button>
+          </div>
 
-        <div class="equip-panel active" data-tab="inventory">
+        <div class="tab-panel active" data-tab="inventory">
           <div class="gear-list" id="gearList">
 
             <div class="gear-item">
@@ -969,7 +1044,7 @@
           </details>
         </div>
 
-        <div class="equip-panel" data-tab="slots">
+        <div class="tab-panel" data-tab="slots">
           <div class="paperdoll">
 
             <div class="paperdoll-figure">
@@ -1094,6 +1169,8 @@
             </div>
 
           </div>
+        </div>
+
         </div>
 
       </div>
@@ -1437,11 +1514,12 @@
     });
   });
 
-  function showEquipTab(name, btn){
-    document.querySelectorAll('.equip-panel').forEach(function(p){
+  function showTab(name, btn){
+    var group = btn.closest('.tabset');
+    group.querySelectorAll('.tab-panel').forEach(function(p){
       p.classList.toggle('active', p.dataset.tab === name);
     });
-    document.querySelectorAll('.equip-tab').forEach(function(t){
+    group.querySelectorAll('.tab-btn').forEach(function(t){
       t.classList.toggle('active', t === btn);
     });
   }
