@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pathfinder Character Sheet</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Pathfinder 1e</p>
+          <h1>Character Sheet</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="select-group">
+            <span>User</span>
+            <select>
+              <option>Player One</option>
+              <option>Player Two</option>
+            </select>
+          </label>
+          <label class="select-group">
+            <span>Character</span>
+            <select>
+              <option>Kael Thornwood</option>
+              <option>Aria Voss</option>
+            </select>
+          </label>
+          <button class="btn secondary">New</button>
+          <button class="btn primary">Level Up</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Character sections">
+        <button class="tab active" data-view="overview">Overview</button>
+        <button class="tab" data-view="inventory">Inventory</button>
+        <button class="tab" data-view="levelup">Level Up</button>
+      </nav>
+
+      <main class="layout">
+        <div class="content-grid">
+          <div class="main-column">
+            <section class="panel hero scroll-panel">
+              <div class="panel-search">
+                <input type="text" placeholder="Search sheet" />
+              </div>
+              <div class="hero-content">
+                <div class="avatar">KT</div>
+                <div>
+                  <h2>Kael Thornwood</h2>
+                  <p>Human Ranger • Level 4 • Neutral Good</p>
+                  <p>Campaign: Pathfinder Society</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h3>Abilities</h3>
+              <div class="stats-grid">
+                <div class="stat"><span>STR</span><strong>16</strong><small>+3</small></div>
+                <div class="stat"><span>DEX</span><strong>14</strong><small>+2</small></div>
+                <div class="stat"><span>CON</span><strong>13</strong><small>+1</small></div>
+                <div class="stat"><span>INT</span><strong>12</strong><small>+1</small></div>
+                <div class="stat"><span>WIS</span><strong>15</strong><small>+2</small></div>
+                <div class="stat"><span>CHA</span><strong>10</strong><small>+0</small></div>
+              </div>
+            </section>
+
+            <section class="panel grid-2">
+              <div>
+                <h3>Combat</h3>
+                <ul class="list">
+                  <li>HP: 28/28</li>
+                  <li>AC: 16</li>
+                  <li>Initiative: +2</li>
+                  <li>Speed: 30 ft.</li>
+                  <li>BAB: +3</li>
+                  <li>Fort: +4</li>
+                  <li>Ref: +3</li>
+                  <li>Will: +2</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Skills</h3>
+                <ul class="list">
+                  <li>Perception +6</li>
+                  <li>Stealth +6</li>
+                  <li>Survival +6</li>
+                  <li>Nature +4</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="panel" id="view-content">
+              <h3>Character Overview</h3>
+              <p>Track your stats, combat values, skills, and inventory from one place.</p>
+
+              <div class="overview-grid">
+                <div>
+                  <h4>Class Abilities</h4>
+                  <ul class="list compact">
+                    <li class="help-item" title="Hunter's Quarry: gain a bonus against a chosen foe.">
+                      Hunter's Quarry
+                    </li>
+                    <li class="help-item" title="Track: add +4 to Survival checks to follow tracks.">
+                      Track
+                    </li>
+                    <li class="help-item" title="Favored Enemy: gain bonuses against a selected creature type.">
+                      Favored Enemy
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4>Feats</h4>
+                  <ul class="list compact">
+                    <li class="help-item" title="Point Blank Shot: increase ranged attack accuracy at close range.">
+                      Point Blank Shot
+                    </li>
+                    <li class="help-item" title="Precise Shot: avoid cover penalties when firing ranged attacks.">
+                      Precise Shot
+                    </li>
+                    <li class="help-item" title="Rapid Shot: make an additional ranged attack with a penalty.">
+                      Rapid Shot
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="side-column">
+            <section class="panel side-panel scroll-panel">
+              <h3>Available Actions</h3>
+              <div class="panel-search">
+                <input type="text" placeholder="Search actions" />
+              </div>
+              <div class="button-row vertical">
+                <button class="btn primary">Attack</button>
+                <button class="btn secondary">Study</button>
+                <button class="btn secondary">Use Potion</button>
+                <button class="btn secondary">Heal</button>
+              </div>
+            </section>
+
+            <section class="panel side-panel lower scroll-panel">
+              <h3>Effects</h3>
+              <div class="panel-search">
+                <input type="text" placeholder="Search effects" />
+              </div>
+
+              <div class="effect-group">
+                <h4>Active</h4>
+                <ul class="list compact">
+                  <li class="effect-item active">
+                    <span>Hunter's Blessing</span>
+                    <button class="toggle-btn">Disable</button>
+                  </li>
+                  <li class="effect-item active">
+                    <span>Shielded</span>
+                    <button class="toggle-btn">Disable</button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="effect-group">
+                <h4>Conditions</h4>
+                <ul class="list compact">
+                  <li class="effect-item inactive">
+                    <span>Blessed</span>
+                    <button class="toggle-btn">Enable</button>
+                  </li>
+                  <li class="effect-item inactive">
+                    <span>Fatigued</span>
+                    <button class="toggle-btn">Enable</button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="effect-group">
+                <h4>Spells</h4>
+                <ul class="list compact">
+                  <li class="effect-item inactive">
+                    <span>Magic Missile</span>
+                    <button class="toggle-btn">Enable</button>
+                  </li>
+                  <li class="effect-item inactive">
+                    <span>Hunter's Quarry</span>
+                    <button class="toggle-btn">Enable</button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
