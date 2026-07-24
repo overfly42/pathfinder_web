@@ -289,12 +289,14 @@
   .vital .bar span{display:block; height:100%; background:var(--wax-light); width:87%;}
 
   .vital.hp{position:relative;}
-  .hp-popover summary{
+  .hp-popover summary, .gear-item summary, .gear-add summary{
     cursor:pointer;
     list-style:none;
     display:inline-flex;
   }
-  .hp-popover summary::-webkit-details-marker{display:none;}
+  .hp-popover summary::-webkit-details-marker,
+  .gear-item summary::-webkit-details-marker,
+  .gear-add summary::-webkit-details-marker{display:none;}
   .hp-popover-body{
     position:absolute; top:calc(100% + 8px); left:0;
     z-index:20;
@@ -305,6 +307,7 @@
     box-shadow:0 10px 24px rgba(0,0,0,0.5);
     width:170px;
   }
+  .hp-popover-body.gear-form{width:220px;}
   .hp-popover-body::before{
     content:""; position:absolute; top:-6px; left:14px;
     width:0; height:0;
@@ -322,6 +325,7 @@
     outline:none;
   }
   .hp-popover-body input:focus{border-color:var(--brass);}
+  .hp-popover-body input + input{margin-top:8px;}
   .hp-popover-actions{
     display:flex; gap:6px; margin-top:8px;
   }
@@ -337,6 +341,9 @@
   .hp-btn:hover{filter:brightness(1.12);}
   .hp-btn.dmg{background:var(--wax); color:#f2e6c8; border-color:var(--wax-light);}
   .hp-btn.heal{background:var(--forest); color:#f2e6c8; border-color:var(--forest-light);}
+  .hp-btn.confirm{background:var(--brass-dark); color:#f2e6c8; border-color:var(--brass);}
+  .hp-btn.ghost{background:transparent; color:var(--brass-light); border-color:var(--brass-dark);}
+  .hp-btn.ghost:hover{background:rgba(179,137,63,0.15);}
 
   .section-label{
     font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
@@ -394,17 +401,48 @@
   }
 
   .gear-item{
-    display:flex; justify-content:space-between; gap:10px;
+    display:flex; align-items:center; gap:10px;
     padding:9px 12px; margin-bottom:8px;
     background:rgba(255,255,255,0.32);
     border:1px solid var(--parchment-shadow);
     border-left:3px solid var(--brass);
     border-radius:6px;
     font-size:13px;
+    position:relative;
   }
   .gear-item .qty{
     font-family:'JetBrains Mono',monospace; color:var(--ink-faint); font-size:12px;
+    flex:0 0 auto;
   }
+  .gear-item .gear-edit{flex:1; min-width:0;}
+  .gear-item .gear-name{
+    display:block;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    border-bottom:1px dashed transparent;
+  }
+  .gear-item .gear-name:hover{border-bottom-color:var(--ink-faint);}
+  .gear-del{
+    flex:0 0 auto;
+    width:22px; height:22px;
+    border-radius:50%;
+    border:1px solid var(--parchment-shadow);
+    background:rgba(255,255,255,0.3);
+    color:var(--wax);
+    font-size:11px; line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .15s, border-color .15s;
+  }
+  .gear-del:hover{background:rgba(126,42,38,0.15); border-color:var(--wax);}
+
+  .gear-add{position:relative; margin-top:2px;}
+  .gear-add-btn{
+    font-family:'Cinzel',serif; font-weight:600; font-size:11.5px; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--brass-dark);
+    padding:8px 2px;
+    transition:color .15s;
+  }
+  .gear-add-btn:hover{color:var(--brass);}
 
   /* ---------- EQUIPMENT TABS ---------- */
   .equip-tabs{
@@ -483,6 +521,78 @@
     .slot.left select{text-align:left;}
     .slot.left::after, .slot.right::before{display:none;}
   }
+
+  /* ---------- ITEM DETAIL SCREEN ---------- */
+  .modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(10,7,4,0.72);
+    z-index:100;
+    align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-dialog{
+    width:100%; max-width:480px;
+    max-height:85vh;
+    overflow-y:auto;
+    background:linear-gradient(180deg, var(--parchment) 0%, var(--parchment-2) 100%);
+    border:1px solid var(--parchment-shadow);
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.55);
+  }
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:16px 20px 14px;
+    border-bottom:1px solid var(--parchment-shadow);
+  }
+  .modal-head h2{
+    margin:0;
+    font-family:'Cinzel',serif; font-size:16px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink);
+  }
+  .modal-close{
+    flex:0 0 auto;
+    width:26px; height:26px;
+    border-radius:50%;
+    border:1px solid var(--parchment-shadow);
+    background:rgba(255,255,255,0.4);
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .15s, border-color .15s, color .15s;
+  }
+  .modal-close:hover{background:rgba(126,42,38,0.15); border-color:var(--wax); color:var(--wax);}
+  .modal-body{padding:18px 20px;}
+  .detail-group{margin-bottom:20px;}
+  .detail-group:last-child{margin-bottom:0;}
+  .detail-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:10px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:'Spectral',serif; font-size:12.5px;
+    padding:7px 12px;
+    border-radius:20px;
+    border:1.5px dashed var(--parchment-shadow);
+    background:rgba(255,255,255,0.25);
+    color:var(--ink-faint);
+    cursor:pointer;
+    transition:border-color .15s, background .15s, color .15s;
+  }
+  .chip:hover{border-color:var(--brass); color:var(--ink-soft);}
+  .chip.active{
+    border-style:solid; border-color:var(--brass-dark);
+    background:linear-gradient(160deg, var(--brass-light), var(--brass) 80%);
+    color:#2a1608; font-weight:600;
+  }
+  .modal-foot{
+    padding:14px 20px 18px;
+    border-top:1px solid var(--parchment-shadow);
+    display:flex; justify-content:flex-end;
+  }
+  .modal-foot .hp-btn{flex:0 0 auto; padding:9px 22px;}
 
   /* ---------- RIGHT COLUMN ---------- */
   .right-col{
@@ -747,12 +857,116 @@
         </div>
 
         <div class="equip-panel active" data-tab="inventory">
-          <div class="gear-item"><span>+1 Kompositlangbogen</span><span class="qty">1×</span></div>
-          <div class="gear-item"><span>Lederrüstung, verstärkt +2</span><span class="qty">1×</span></div>
-          <div class="gear-item"><span>Wurfmesser</span><span class="qty">5×</span></div>
-          <div class="gear-item"><span>Heiltrank, gering</span><span class="qty">3×</span></div>
-          <div class="gear-item"><span>Ranger-Ausrüstungsset</span><span class="qty">1×</span></div>
-          <div class="gear-item"><span>Seil, 15 m</span><span class="qty">1×</span></div>
+          <div class="gear-list" id="gearList">
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">+1 Kompositlangbogen</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="+1 Kompositlangbogen" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="1" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">1×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">Lederrüstung, verstärkt +2</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="Lederrüstung, verstärkt +2" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="1" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">1×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">Wurfmesser</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="Wurfmesser" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="5" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">5×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">Heiltrank, gering</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="Heiltrank, gering" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="3" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">3×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">Ranger-Ausrüstungsset</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="Ranger-Ausrüstungsset" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="1" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">1×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+            <div class="gear-item">
+              <details class="gear-edit" name="gearPopover">
+                <summary class="gear-name">Seil, 15 m</summary>
+                <div class="hp-popover-body gear-form">
+                  <input type="text" class="gear-input-name" value="Seil, 15 m" placeholder="Bezeichnung">
+                  <input type="number" class="gear-input-qty" value="1" min="1" placeholder="Anzahl">
+                  <div class="hp-popover-actions">
+                    <button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>
+                    <button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>
+                  </div>
+                </div>
+              </details>
+              <span class="qty">1×</span>
+              <button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>
+            </div>
+
+          </div>
+
+          <details class="gear-add" name="gearPopover">
+            <summary class="gear-add-btn">+ Gegenstand hinzufügen</summary>
+            <div class="hp-popover-body gear-form">
+              <input type="text" id="gearAddName" placeholder="Bezeichnung">
+              <input type="number" id="gearAddQty" value="1" min="1" placeholder="Anzahl">
+              <div class="hp-popover-actions">
+                <button type="button" class="hp-btn confirm" onclick="addGearItem()">Hinzufügen</button>
+              </div>
+            </div>
+          </details>
         </div>
 
         <div class="equip-panel" data-tab="slots">
@@ -1068,6 +1282,47 @@
 
 </div>
 
+<div class="modal-overlay" id="itemDetailOverlay" onclick="closeItemDetailBackdrop(event)">
+  <div class="modal-dialog" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2 id="itemDetailTitle">Gegenstand</h2>
+      <button type="button" class="modal-close" onclick="closeItemDetail()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="detail-group">
+        <div class="detail-label">Verstärkung</div>
+        <div class="chip-row single">
+          <button type="button" class="chip">+0</button>
+          <button type="button" class="chip active">+1</button>
+          <button type="button" class="chip">+2</button>
+          <button type="button" class="chip">+3</button>
+          <button type="button" class="chip">+4</button>
+          <button type="button" class="chip">+5</button>
+        </div>
+      </div>
+
+      <div class="detail-group">
+        <div class="detail-label">Waffeneigenschaften</div>
+        <div class="chip-row multi">
+          <button type="button" class="chip">Flammend</button>
+          <button type="button" class="chip">Eisig</button>
+          <button type="button" class="chip">Stoßend</button>
+          <button type="button" class="chip">Scharf</button>
+          <button type="button" class="chip">Geschwindigkeit</button>
+          <button type="button" class="chip">Wachsam</button>
+          <button type="button" class="chip">Tödliche Präzision</button>
+          <button type="button" class="chip">Geisterberührung</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="hp-btn confirm" onclick="closeItemDetail()">Fertig</button>
+    </div>
+  </div>
+</div>
+
 <script>
   function applyHp(sign){
     var el = document.querySelector('.vital.hp');
@@ -1088,8 +1343,97 @@
   }
 
   document.addEventListener('click', function(e){
-    document.querySelectorAll('.hp-popover[open]').forEach(function(details){
+    document.querySelectorAll('.hp-popover[open], .gear-edit[open], .gear-add[open]').forEach(function(details){
       if(!details.contains(e.target)) details.removeAttribute('open');
+    });
+  });
+
+  function escapeHtml(str){
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function buildGearItemHtml(name, qty){
+    var safeName = escapeHtml(name);
+    return '<details class="gear-edit" name="gearPopover">' +
+        '<summary class="gear-name">' + safeName + '</summary>' +
+        '<div class="hp-popover-body gear-form">' +
+          '<input type="text" class="gear-input-name" value="' + safeName + '" placeholder="Bezeichnung">' +
+          '<input type="number" class="gear-input-qty" value="' + qty + '" min="1" placeholder="Anzahl">' +
+          '<div class="hp-popover-actions">' +
+            '<button type="button" class="hp-btn ghost" onclick="openItemDetail(this)">Eigenschaften</button>' +
+            '<button type="button" class="hp-btn confirm" onclick="saveGearItem(this)">Speichern</button>' +
+          '</div>' +
+        '</div>' +
+      '</details>' +
+      '<span class="qty">' + qty + '×</span>' +
+      '<button type="button" class="gear-del" onclick="removeGearItem(this)" title="Gegenstand entfernen">✕</button>';
+  }
+
+  function addGearItem(){
+    var nameInput = document.getElementById('gearAddName');
+    var qtyInput = document.getElementById('gearAddQty');
+    var name = nameInput.value.trim();
+    var qty = parseInt(qtyInput.value, 10) || 1;
+    if(!name) return;
+
+    var row = document.createElement('div');
+    row.className = 'gear-item';
+    row.innerHTML = buildGearItemHtml(name, qty);
+    document.getElementById('gearList').appendChild(row);
+
+    nameInput.value = '';
+    qtyInput.value = '1';
+    document.querySelector('.gear-add').removeAttribute('open');
+  }
+
+  function saveGearItem(btn){
+    var item = btn.closest('.gear-item');
+    var nameInput = item.querySelector('.gear-input-name');
+    var qtyInput = item.querySelector('.gear-input-qty');
+    var name = nameInput.value.trim();
+    var qty = parseInt(qtyInput.value, 10) || 1;
+    if(!name) return;
+
+    item.querySelector('.gear-name').textContent = name;
+    item.querySelector('.qty').textContent = qty + '×';
+    item.querySelector('.gear-edit').removeAttribute('open');
+  }
+
+  function removeGearItem(btn){
+    btn.closest('.gear-item').remove();
+  }
+
+  function openItemDetail(btn){
+    var item = btn.closest('.gear-item');
+    var name = item.querySelector('.gear-name').textContent;
+    document.getElementById('itemDetailTitle').textContent = name;
+    document.getElementById('itemDetailOverlay').classList.add('open');
+    item.querySelector('.gear-edit').removeAttribute('open');
+  }
+
+  function closeItemDetail(){
+    document.getElementById('itemDetailOverlay').classList.remove('open');
+  }
+
+  function closeItemDetailBackdrop(e){
+    if(e.target.id === 'itemDetailOverlay') closeItemDetail();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeItemDetail();
+  });
+
+  document.querySelectorAll('.chip-row.single .chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chip.parentElement.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.chip-row.multi .chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chip.classList.toggle('active');
     });
   });
 

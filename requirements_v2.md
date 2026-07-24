@@ -19,6 +19,7 @@
 - Ein Charakter hat eine Rasse.
 - Ein Charakter hat Talente.
 - Ein Charakter hat Ausrüstung.
+- Ausrüstung kann festen Ausrüstungsplätzen zugeordnet werden (z. B. Kopf, Stirnband, Gürtel, Ring links/rechts). Auswählbar sind dabei nur Gegenstände, die sich im Inventar des Charakters befinden.
 - Ein Charakter hat Wesenszüge.
 
 ## 3. Nutzergruppen
