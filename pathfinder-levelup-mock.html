@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stufenaufstieg — Gefährtenbuch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --shell-1:#1b130d;
+    --shell-2:#241a11;
+    --leather-line:#3c2a18;
+    --parchment:#ece0c3;
+    --parchment-2:#e2d3ab;
+    --parchment-shadow:#c9b587;
+    --ink:#2a2013;
+    --ink-soft:#6b5738;
+    --ink-faint:#8a7757;
+    --brass:#b3893f;
+    --brass-light:#e0bd75;
+    --brass-dark:#7c5c26;
+    --wax:#7e2a26;
+    --wax-light:#a4382f;
+    --forest:#3c6b47;
+    --forest-light:#5c8e64;
+    --danger:#8a2f24;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; min-height:100%;
+    background:var(--shell-1);
+    font-family:'Spectral',serif;
+    color:var(--ink);
+  }
+
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--brass-dark); border-radius:6px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--brass);}
+
+  .app{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:radial-gradient(ellipse at top, #2a1e13 0%, var(--shell-1) 70%);
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:10px 22px;
+    background:linear-gradient(180deg, var(--shell-2) 0%, var(--shell-1) 100%);
+    border-bottom:2px solid var(--leather-line);
+    box-shadow:0 6px 16px rgba(0,0,0,0.45);
+    position:relative;
+    z-index:5;
+  }
+  header::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-2px; height:2px;
+    background:linear-gradient(90deg, transparent, var(--brass) 20%, var(--brass-light) 50%, var(--brass) 80%, transparent);
+    opacity:0.6;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    color:var(--brass-light);
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    letter-spacing:0.06em;
+    padding-right:18px;
+    border-right:1px solid var(--leather-line);
+    margin-right:4px;
+    white-space:nowrap;
+  }
+  .brand .sigil{
+    width:30px; height:30px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--brass-light), var(--brass) 55%, var(--brass-dark) 100%);
+    border:1px solid var(--brass-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:var(--shell-1); font-weight:700;
+    box-shadow:0 0 0 3px rgba(179,137,63,0.15);
+  }
+  .brand .title{font-size:16px;}
+  .brand .subtitle{
+    display:block; font-family:'Spectral',serif; font-weight:400;
+    font-style:italic; font-size:10.5px; letter-spacing:0.03em;
+    color:var(--ink-faint); margin-top:1px;
+  }
+  header .spacer{flex:1;}
+  .btn-outline{
+    font-family:'Cinzel',serif;
+    font-weight:600; font-size:12px; letter-spacing:0.03em;
+    color:var(--brass-light);
+    background:transparent;
+    border:1px solid var(--brass-dark);
+    border-radius:8px;
+    padding:9px 14px;
+    display:flex; align-items:center; gap:6px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s, border-color .15s;
+    text-decoration:none;
+  }
+  .btn-outline:hover{background:rgba(179,137,63,0.12); border-color:var(--brass);}
+
+  /* ---------- WIZARD SHELL ---------- */
+  .wizard-wrap{
+    flex:1 1 auto;
+    display:flex;
+    justify-content:center;
+    padding:26px 18px 60px;
+  }
+  .wizard{
+    width:100%; max-width:880px;
+    display:flex; flex-direction:column;
+    gap:20px;
+  }
+
+  /* ---------- CHARACTER CONTEXT BANNER ---------- */
+  .char-context-banner{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+    background:var(--shell-2);
+    border:1px solid var(--leather-line);
+    border-radius:10px;
+    padding:14px 18px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+  }
+  .char-context-banner .who{
+    font-family:'Cinzel',serif; font-weight:600; font-size:14.5px; color:var(--brass-light);
+  }
+  .char-context-banner .who .sub{
+    display:block; font-family:'Spectral',serif; font-style:italic; font-weight:400; font-size:11.5px;
+    color:var(--ink-faint); margin-top:2px;
+  }
+  .char-context-banner .transition{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:var(--parchment);
+    display:flex; align-items:center; gap:10px;
+  }
+  .char-context-banner .transition .arrow{color:var(--brass); font-size:16px;}
+
+  /* ---------- STEPPER ---------- */
+  .stepper{
+    display:flex; align-items:flex-start;
+    background:var(--shell-2);
+    border:1px solid var(--leather-line);
+    border-radius:10px;
+    padding:16px 10px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    overflow-x:auto;
+  }
+  .step-item{
+    flex:1;
+    min-width:70px;
+    display:flex; flex-direction:column; align-items:center;
+    gap:6px;
+    position:relative;
+    cursor:pointer;
+  }
+  .step-item .dot{
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px;
+    background:var(--shell-1);
+    border:1.5px solid var(--leather-line);
+    color:var(--ink-faint);
+    transition:all .15s;
+    z-index:1;
+  }
+  .step-item .line{
+    position:absolute; top:14px; left:calc(-50% + 14px); right:calc(50% + 14px);
+    height:1.5px; background:var(--leather-line);
+    z-index:0;
+  }
+  .step-item:first-child .line{display:none;}
+  .step-item .label{
+    font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--ink-faint); text-align:center;
+    max-width:80px;
+  }
+  .step-item.active .dot{
+    background:radial-gradient(circle at 30% 25%, var(--brass-light), var(--brass) 60%, var(--brass-dark) 100%);
+    border-color:var(--brass);
+    color:#2a1608;
+    box-shadow:0 0 0 3px rgba(179,137,63,0.2);
+  }
+  .step-item.active .label{color:var(--brass-light);}
+  .step-item.done .dot{
+    background:var(--forest); border-color:var(--forest-light); color:#f2e6c8;
+  }
+  .step-item.done .label{color:var(--ink-soft);}
+  .step-item.done .line, .step-item.active .line{background:var(--brass-dark);}
+
+  /* ---------- PANEL ---------- */
+  .panel{
+    background:linear-gradient(180deg, var(--parchment) 0%, var(--parchment-2) 100%);
+    border:1px solid var(--parchment-shadow);
+    border-radius:10px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.45), inset 0 0 40px rgba(120,90,40,0.08);
+    position:relative;
+    overflow:hidden;
+  }
+  .panel::before{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(120,90,40,0.035) 0px, transparent 1px, transparent 3px);
+  }
+  .panel-head{
+    padding:16px 24px 14px;
+    border-bottom:1px solid var(--parchment-shadow);
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.25), transparent);
+  }
+  .panel-head h2{
+    margin:0;
+    font-family:'Cinzel',serif;
+    font-size:16px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink);
+  }
+  .panel-head .hint{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px; color:var(--ink-faint);
+    text-align:right;
+  }
+  .panel-body{padding:20px 24px 26px; position:relative;}
+
+  .field-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:8px;
+  }
+  .text-input{
+    width:100%; box-sizing:border-box;
+    font-family:'Spectral',serif; font-size:14.5px;
+    padding:9px 12px;
+    border-radius:6px;
+    border:1px solid var(--parchment-shadow);
+    background:rgba(255,255,255,0.5);
+    color:var(--ink);
+    outline:none;
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .text-input:focus{border-color:var(--brass); background:rgba(255,255,255,0.7);}
+  .field-row{margin-bottom:20px;}
+  .field-row:last-child{margin-bottom:0;}
+
+  .section-label{
+    font-family:'Cinzel',serif; font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--brass-dark);
+    margin:22px 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--parchment-shadow);
+  }
+  .section-label:first-of-type{margin-top:0;}
+
+  .warning-note{
+    background:rgba(126,42,38,0.12);
+    border:1px solid var(--wax);
+    color:var(--wax);
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:12.5px;
+    margin-bottom:14px;
+  }
+  .info-note{
+    background:rgba(60,107,71,0.12);
+    border:1px solid var(--forest);
+    color:var(--forest);
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:12.5px;
+  }
+
+  /* ---------- CLASS ROWS (reused for new-class picker) ---------- */
+  .class-row-wrap{
+    background:rgba(255,255,255,0.32);
+    border:1px solid var(--parchment-shadow);
+    border-left:3px solid var(--brass);
+    border-radius:6px;
+    padding:12px 14px; margin-bottom:10px;
+  }
+  .class-row{
+    display:grid; grid-template-columns:1.4fr 1.4fr;
+    gap:10px; align-items:end;
+  }
+  .class-row label{
+    display:block;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:4px;
+  }
+  .class-options{margin-top:10px; padding-top:10px; border-top:1px dashed var(--parchment-shadow);}
+  .class-options:empty{margin-top:0; padding-top:0; border-top:none;}
+  .option-group{margin-bottom:10px;}
+  .option-group:last-child{margin-bottom:0;}
+  .option-group .og-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:6px;
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skill-row-edit{
+    display:grid; grid-template-columns:1fr auto auto 46px;
+    gap:10px; align-items:center;
+    padding:8px 10px;
+    border-bottom:1px dashed var(--parchment-shadow);
+    font-size:13px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .skill-row-edit:hover{background:rgba(179,137,63,0.08);}
+  .skill-row-edit.active{
+    background:linear-gradient(160deg, rgba(224,189,117,0.3), rgba(179,137,63,0.12));
+  }
+  .skill-row-edit.disabled{opacity:0.4; cursor:not-allowed;}
+  .skill-row-edit.disabled:hover{background:none;}
+  .skill-row-edit:last-child{border-bottom:none;}
+  .sr-name{color:var(--ink);}
+  .sr-ability{
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-faint); margin-left:4px;
+  }
+  .sr-existing{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink-faint); text-align:right; white-space:nowrap;
+  }
+  .sr-pick{
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--brass-dark); text-align:center; white-space:nowrap;
+  }
+  .skill-row-edit.active .sr-pick{color:var(--forest); font-weight:700;}
+  .sr-total{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--forest); text-align:right;
+  }
+
+  /* ---------- CHIP PICKER ---------- */
+  .panel-search{margin-bottom:14px;}
+  .panel-search input{
+    width:100%; box-sizing:border-box;
+    font-family:'Spectral',serif; font-size:13px;
+    padding:8px 10px; border-radius:6px;
+    border:1px solid var(--parchment-shadow);
+    background:rgba(255,255,255,0.5); color:var(--ink);
+    outline:none;
+  }
+  .panel-search input:focus{border-color:var(--brass);}
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:'Spectral',serif; font-size:12.5px;
+    padding:7px 12px;
+    border-radius:20px;
+    border:1.5px dashed var(--parchment-shadow);
+    background:rgba(255,255,255,0.25);
+    color:var(--ink-faint);
+    cursor:pointer;
+    transition:border-color .15s, background .15s, color .15s;
+  }
+  .chip:hover{border-color:var(--brass); color:var(--ink-soft);}
+  .chip.active{
+    border-style:solid; border-color:var(--brass-dark);
+    background:linear-gradient(160deg, var(--brass-light), var(--brass) 80%);
+    color:#2a1608; font-weight:600;
+  }
+  .chip.disabled{opacity:0.4; cursor:not-allowed;}
+  .tag{
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:3px 7px; border-radius:20px;
+    white-space:nowrap;
+  }
+  .tag.class-skill{background:rgba(60,107,71,0.18); color:var(--forest);}
+  .pick-counter{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);}
+  .pick-counter b{color:var(--ink);}
+  .selected-empty{font-family:'Spectral',serif; font-style:italic; font-size:12.5px; color:var(--ink-faint);}
+
+  /* ---------- SUMMARY ---------- */
+  .summary-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .summary-block{
+    background:rgba(255,255,255,0.3);
+    border:1px solid var(--parchment-shadow);
+    border-radius:8px; padding:14px 16px;
+  }
+  .summary-block .sb-title{
+    font-family:'Cinzel',serif; font-weight:600; font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--brass-dark); margin-bottom:8px;
+  }
+  .summary-block .sb-line{
+    display:flex; justify-content:space-between; gap:8px;
+    font-size:13px; padding:4px 0;
+    border-bottom:1px dashed var(--parchment-shadow);
+  }
+  .summary-block .sb-line:last-child{border-bottom:none;}
+  .summary-block .sb-line .val{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink);}
+  .summary-full{grid-column:1 / -1;}
+
+  .confirm-banner{
+    display:none;
+    margin-top:16px;
+    background:rgba(60,107,71,0.18);
+    border:1px solid var(--forest);
+    border-radius:8px;
+    padding:12px 16px;
+    font-family:'Spectral',serif; font-size:13.5px; color:var(--forest);
+  }
+  .confirm-banner.show{display:block;}
+
+  /* ---------- NAV ---------- */
+  .wizard-nav{display:flex; justify-content:space-between; align-items:center;}
+  .btn-nav{
+    font-family:'Cinzel',serif; font-weight:600; font-size:13px; letter-spacing:0.04em;
+    border-radius:8px; padding:11px 20px;
+    cursor:pointer; display:flex; align-items:center; gap:8px;
+    transition:transform .12s, opacity .15s;
+  }
+  .btn-nav:disabled{opacity:0.35; cursor:not-allowed;}
+  .btn-nav:not(:disabled):hover{transform:translateY(-1px);}
+  .btn-nav.prev{color:var(--brass-light); background:transparent; border:1px solid var(--brass-dark);}
+  .btn-nav.prev:not(:disabled):hover{background:rgba(179,137,63,0.12);}
+  .btn-nav.next{
+    color:#2a1608;
+    background:radial-gradient(circle at 30% 25%, var(--brass-light) 0%, var(--brass) 45%, var(--brass-dark) 100%);
+    border:1px solid var(--brass-dark);
+    box-shadow:0 3px 0 var(--brass-dark), 0 6px 12px rgba(0,0,0,0.4);
+  }
+
+  .wizard-step{display:none;}
+  .wizard-step.active{display:block;}
+
+  @media (max-width:640px){
+    .class-row{grid-template-columns:1fr;}
+    .summary-grid{grid-template-columns:1fr;}
+    .step-item .label{display:none;}
+    .skill-row-edit{grid-template-columns:1fr auto;}
+    .skill-row-edit .sr-existing{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="brand">
+      <div class="sigil">P</div>
+      <div>
+        <div class="title">GEFÄHRTENBUCH</div>
+        <span class="subtitle">Stufenaufstieg</span>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <a class="btn-outline" href="pathfinder-mock.html">← Zurück zum Charakterbogen</a>
+  </header>
+
+  <div class="wizard-wrap">
+    <div class="wizard">
+
+      <div class="char-context-banner">
+        <div class="who">Elyra Silberauge<span class="sub">Elf · Waldläuferin (Bogenschütze)</span></div>
+        <div class="transition">Stufe <span id="ctxOldLevel">7</span><span class="arrow">→</span><span id="ctxNewLevel">8</span></div>
+      </div>
+
+      <div class="stepper" id="stepper"></div>
+
+      <!-- STEP 1: KLASSENSTUFE -->
+      <section class="panel wizard-step active" data-step="1">
+        <div class="panel-head">
+          <h2>Klassenstufe</h2>
+          <span class="hint">Schritt 1 von 6</span>
+        </div>
+        <div class="panel-body">
+          <div class="section-label">Bestehende Klassen</div>
+          <div id="existingClassList"></div>
+
+          <div class="section-label">Diese Stufe erhält</div>
+          <div class="field-row" style="max-width:340px;">
+            <select class="text-input" id="levelTargetSelect" onchange="onLevelTargetChange(this.value)"></select>
+          </div>
+
+          <div id="newClassPanel" style="display:none;">
+            <div class="class-row-wrap">
+              <div class="class-row">
+                <div><label>Klasse</label><select class="text-input" id="newClassSelect" onchange="onNewClassChange()"></select></div>
+                <div><label>Archetyp</label><select class="text-input" id="newClassArchetype"></select></div>
+              </div>
+              <div class="class-options" id="newClassOptions"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: ATTRIBUT -->
+      <section class="panel wizard-step" data-step="2">
+        <div class="panel-head">
+          <h2>Attribut</h2>
+          <span class="hint">Schritt 2 von 6</span>
+        </div>
+        <div class="panel-body">
+          <div class="warning-note" id="noAbilityIncreaseNote" style="display:none;">Auf dieser Stufe gibt es keine Attributssteigerung (nur alle 4 Stufen: 4, 8, 12, 16, 20).</div>
+          <div id="abilityIncreaseWrap">
+            <div class="field-label">Wähle ein Attribut für die Steigerung um +1.</div>
+            <div class="chip-row" id="abilityIncreaseChips" style="margin-top:10px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3: FERTIGKEITEN -->
+      <section class="panel wizard-step" data-step="3">
+        <div class="panel-head">
+          <h2>Fertigkeiten</h2>
+          <span class="hint">Schritt 3 von 6</span>
+        </div>
+        <div class="panel-body">
+          <div class="pick-counter" style="margin-bottom:14px;">Neue Fertigkeitspunkte diese Stufe: <b id="skillPointsRemaining">0 / 0</b></div>
+          <div id="skillList"></div>
+        </div>
+      </section>
+
+      <!-- STEP 4: TALENTE -->
+      <section class="panel wizard-step" data-step="4">
+        <div class="panel-head">
+          <h2>Talente</h2>
+          <span class="hint">Schritt 4 von 6</span>
+        </div>
+        <div class="panel-body">
+          <div class="warning-note" id="noFeatNote" style="display:none;">Auf dieser Stufe gibt es kein neues Talent (nur auf Stufe 1 und ungeraden Stufen).</div>
+          <div id="featPickWrap">
+            <div class="panel-search">
+              <input type="text" id="featSearch" placeholder="Talente durchsuchen …" oninput="renderFeatPick()">
+            </div>
+            <div class="pick-counter" style="margin-bottom:10px;">Ausgewählt: <b id="newFeatCount">0</b> / <b>1</b></div>
+            <div class="chip-row" id="featPickChips"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 5: ZAUBER -->
+      <section class="panel wizard-step" data-step="5">
+        <div class="panel-head">
+          <h2>Zauber</h2>
+          <span class="hint">Schritt 5 von 6</span>
+        </div>
+        <div class="panel-body" id="levelSpellBody"></div>
+      </section>
+
+      <!-- STEP 6: ZUSAMMENFASSUNG -->
+      <section class="panel wizard-step" data-step="6">
+        <div class="panel-head">
+          <h2>Zusammenfassung</h2>
+          <span class="hint">Schritt 6 von 6</span>
+        </div>
+        <div class="panel-body">
+          <div class="summary-grid">
+            <div class="summary-block summary-full">
+              <div class="sb-title">Klassenstufe</div>
+              <div class="sb-line"><span id="sumClassLine">—</span><span class="val" id="sumLevelTransition">—</span></div>
+            </div>
+            <div class="summary-block">
+              <div class="sb-title">Attributssteigerung</div>
+              <div class="sb-line"><span id="sumAbility">—</span></div>
+            </div>
+            <div class="summary-block">
+              <div class="sb-title">Neues Talent</div>
+              <div class="sb-line"><span id="sumFeat">—</span></div>
+            </div>
+            <div class="summary-block summary-full">
+              <div class="sb-title">Neue Fertigkeitsränge</div>
+              <div id="sumSkills"></div>
+            </div>
+            <div class="summary-block summary-full">
+              <div class="sb-title">Neue Zauber</div>
+              <div class="sb-line"><span id="sumSpell">—</span></div>
+            </div>
+          </div>
+          <div class="info-note" style="margin-top:16px;">Dieser Stufenaufstieg wird zusammen mit dem vorherigen Stand in der Charakterhistorie festgehalten.</div>
+          <div class="confirm-banner" id="confirmBanner">✦ Stufenaufstieg wurde (im Mock) übernommen und in der Historie vermerkt.</div>
+        </div>
+      </section>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-nav prev" id="btnPrev" onclick="prevStep()">← Zurück</button>
+        <button type="button" class="btn-nav next" id="btnNext" onclick="nextStep()">Weiter →</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var TOTAL_STEPS = 6;
+  var SPELL_STEP = 5;
+  var currentStep = 1;
+
+  /* ---------- STATIC DATA (shared with Charaktererstellung) ---------- */
+  var CLASSES = ['Barbar','Barde','Druide','Hexenmeister','Kleriker','Krieger','Magier','Mönch','Orakel','Paladin','Schurke','Waldläufer'];
+
+  var ARCHETYPES = {
+    'Barbar':['Keiner','Berserker','Invulnerable Rager'],
+    'Barde':['Keiner','Archivar','Sänger der Meere'],
+    'Druide':['Keiner','Tierfreund','Weltenwandler'],
+    'Hexenmeister':['Keiner','Fluchbringer','Blutlinie: Drache'],
+    'Kleriker':['Keiner','Kriegspriester','Heiler des Volkes'],
+    'Krieger':['Keiner','Waffenmeister','Söldnerkommandant'],
+    'Magier':['Keiner','Beschwörer','Kriegsmagier'],
+    'Mönch':['Keiner','Zen-Archer','Fäuste des Windes'],
+    'Orakel':['Keiner','Wiedergänger','Lebensbündnis'],
+    'Paladin':['Keiner','Rächer','Hüter des Glaubens'],
+    'Schurke':['Keiner','Meucheldieb','Klingentänzer'],
+    'Waldläufer':['Keiner','Bogenschütze','Gefährtenbinder']
+  };
+
+  var CLASS_SKILL_POINTS = {
+    'Barbar':4, 'Barde':6, 'Druide':4, 'Hexenmeister':2, 'Kleriker':2, 'Krieger':2,
+    'Magier':2, 'Mönch':4, 'Orakel':2, 'Paladin':2, 'Schurke':8, 'Waldläufer':6
+  };
+
+  var CLASS_SPELL_TYPE = {
+    'Barbar':'none', 'Krieger':'none', 'Mönch':'none', 'Schurke':'none', 'Paladin':'none',
+    'Kleriker':'divine-prepared', 'Druide':'divine-prepared', 'Waldläufer':'divine-prepared',
+    'Magier':'arcane-prepared',
+    'Hexenmeister':'spontaneous', 'Barde':'spontaneous', 'Orakel':'spontaneous'
+  };
+
+  var CLASS_OPTIONS = {
+    'Kleriker':[{key:'domain', label:'Domänen (max. 2)', max:2, choices:['Kriegsdomäne','Sonne','Tod','Leben','Wissen','List','Zerstörung','Erde']}],
+    'Hexenmeister':[{key:'bloodline', label:'Blutlinie', max:1, choices:['Arkanum','Drache','Unheilig','Elementar','Fey','Abyssisch']}],
+    'Magier':[{key:'school', label:'Spezialschule (optional)', max:1, choices:['Hervorrufung','Verzauberung','Illusion','Nekromantie','Verwandlung','Weissagung','Bannmagie','Universalist']}],
+    'Waldläufer':[
+      {key:'enemy', label:'Günstlingsfeind', max:1, choices:['Aberrationen','Tiere','Konstrukte','Drachen','Feen','Humanoide (Menschen)','Magische Bestien','Untote']},
+      {key:'terrain', label:'Bevorzugtes Terrain', max:1, choices:['Wald','Sumpf','Gebirge','Ebene','Wüste','Dschungel','Unterreich']}
+    ],
+    'Druide':[{key:'bond', label:'Naturbindung', max:1, choices:['Tiergefährte','Domäne (Natur)']}],
+    'Orakel':[
+      {key:'mystery', label:'Mysterium', max:1, choices:['Leben','Knochen','Flamme','Natur','Zeit','Wasser']},
+      {key:'curse', label:'Verfluchung', max:1, choices:['Blindheit','Verstummt','Verflucht mit Schuppen','Frostgezeichnet']}
+    ]
+  };
+
+  var SPELLS_BY_CLASS = {
+    'Magier': ['Magisches Geschoss','Schild','Farbenstrahl','Schlaf','Identifizieren','Sprung','Unsichtbare Hand: Diener','Nebelwolke'],
+    'Hexenmeister': ['Magisches Geschoss','Schild','Farbenstrahl','Schlaf','Person betören','Beschwichtigen'],
+    'Barde': ['Verzaubern','Tarnung','Furchtlosigkeit','Beschwichtigen','Person betören','Unsichtbare Hand: Diener'],
+    'Orakel': ['Segnen','Heiliger Schild','Wunden heilen, leicht','Waffensegen','Command','Schutz vor Bösem']
+  };
+
+  var FEATS = [
+    'Verbesserte Initiative','Punktzielschuss','Gezielter Schuss','Schneller Schuss','Tödlicher Schuss',
+    'Waffenfokus','Ausweichen','Kampfreflexe','Zäh wie Leder','Eisenwille','Blitzreflexe',
+    'Zweiwaffenkampf','Kraftangriff','Wurfwaffenexperte','Fertigkeitsfokus','Beweglich wie eine Katze'
+  ];
+
+  var SKILLS = [
+    {key:'akrobatik', name:'Akrobatik', ability:'ges'},
+    {key:'fingerfertigkeit', name:'Fingerfertigkeit', ability:'ges'},
+    {key:'fluchtkunst', name:'Fluchtkunst', ability:'ges'},
+    {key:'heimlichkeit', name:'Heimlichkeit', ability:'ges'},
+    {key:'reiten', name:'Reiten', ability:'ges'},
+    {key:'falle_entschaerfen', name:'Falle entschärfen', ability:'ges'},
+    {key:'klettern', name:'Klettern', ability:'sta'},
+    {key:'schwimmen', name:'Schwimmen', ability:'sta'},
+    {key:'auftreten', name:'Auftreten', ability:'cha'},
+    {key:'bluffen', name:'Bluffen', ability:'cha'},
+    {key:'diplomatie', name:'Diplomatie', ability:'cha'},
+    {key:'einschuechtern', name:'Einschüchtern', ability:'cha'},
+    {key:'tierumgang', name:'Tierumgang', ability:'cha'},
+    {key:'verkleiden', name:'Verkleiden', ability:'cha'},
+    {key:'umd', name:'Gegenstände magisch nutzen', ability:'cha'},
+    {key:'heilkunde', name:'Heilkunde', ability:'wei'},
+    {key:'wahrnehmung', name:'Wahrnehmung', ability:'wei'},
+    {key:'wildnisleben', name:'Wildnisleben', ability:'wei'},
+    {key:'motiv_erkennen', name:'Motiv erkennen', ability:'wei'},
+    {key:'handwerk', name:'Handwerk', ability:'int'},
+    {key:'linguistik', name:'Linguistik', ability:'int'},
+    {key:'zauberkunde', name:'Zauberkunde', ability:'int'},
+    {key:'wissen_arkanes', name:'Wissen (Arkanes)', ability:'int'},
+    {key:'wissen_natur', name:'Wissen (Natur)', ability:'int'},
+    {key:'wissen_religion', name:'Wissen (Religion)', ability:'int'},
+    {key:'wissen_lokal', name:'Wissen (lokal)', ability:'int'}
+  ];
+
+  var CLASS_SKILLS = {
+    'Krieger': ['klettern','einschuechtern','reiten','schwimmen','handwerk'],
+    'Barbar': ['klettern','einschuechtern','wahrnehmung','reiten','schwimmen','wildnisleben','handwerk'],
+    'Barde': ['akrobatik','auftreten','bluffen','diplomatie','verkleiden','fingerfertigkeit','umd','heimlichkeit','wissen_arkanes','wissen_natur','wissen_religion','wissen_lokal','linguistik','motiv_erkennen','zauberkunde','wahrnehmung','tierumgang'],
+    'Druide': ['heilkunde','wildnisleben','wissen_natur','reiten','schwimmen','wahrnehmung','tierumgang','fluchtkunst','klettern'],
+    'Hexenmeister': ['bluffen','einschuechtern','wissen_arkanes','umd','zauberkunde','diplomatie'],
+    'Kleriker': ['diplomatie','heilkunde','wissen_religion','zauberkunde','motiv_erkennen','linguistik'],
+    'Magier': ['wissen_arkanes','zauberkunde','linguistik','umd'],
+    'Mönch': ['akrobatik','klettern','einschuechtern','fluchtkunst','heilkunde','wissen_religion','wahrnehmung','schwimmen','motiv_erkennen','heimlichkeit'],
+    'Orakel': ['diplomatie','heilkunde','wissen_religion','zauberkunde','motiv_erkennen','linguistik'],
+    'Paladin': ['diplomatie','heilkunde','reiten','wissen_religion','motiv_erkennen','handwerk'],
+    'Schurke': ['akrobatik','bluffen','klettern','diplomatie','verkleiden','fluchtkunst','einschuechtern','fingerfertigkeit','wissen_lokal','linguistik','wahrnehmung','motiv_erkennen','falle_entschaerfen','heimlichkeit','umd','tierumgang','handwerk','auftreten'],
+    'Waldläufer': ['klettern','handwerk','fluchtkunst','heilkunde','reiten','schwimmen','wildnisleben','wahrnehmung','wissen_natur','tierumgang','heimlichkeit']
+  };
+
+  var ABILITIES = [
+    {key:'sta', name:'STÄ'}, {key:'ges', name:'GES'}, {key:'kon', name:'KON'},
+    {key:'int', name:'INT'}, {key:'wei', name:'WEI'}, {key:'cha', name:'CHA'}
+  ];
+
+  /* ---------- CHARACTER (loaded baseline — would come from the backend) ---------- */
+  var character = {
+    name: 'Elyra Silberauge',
+    classes: [
+      {rowId:'existing1', cls:'Waldläufer', level:7, archetype:'Bogenschütze',
+        options:{enemy:['Untote'], terrain:['Wald']}}
+    ],
+    abilityScores: {sta:14, ges:18, kon:13, int:10, wei:15, cha:8},
+    feats: ['Punktzielschuss','Gezielter Schuss','Schneller Schuss','Tödlicher Schuss'],
+    traits: ['Scharfsinnige Beobachterin','Kind des Waldes'],
+    skillRanks: {heimlichkeit:7, wahrnehmung:7, wildnisleben:6, akrobatik:5, wissen_natur:4, heilkunde:3},
+    spellsKnown: {}
+  };
+
+  /* ---------- LEVEL-UP STATE ---------- */
+  var levelUpTarget = {mode:'existing', rowId:'existing1'};
+  var newClassOptionSelections = {};
+  var abilityIncreaseChoice = null;
+  var newSkillRanks = {};
+  var newFeatChoice = null;
+  var newSpellChoice = null;
+
+  /* ---------- HELPERS ---------- */
+  function abilityMod(score){ return Math.floor((score - 10) / 2); }
+  function formatMod(m){ return (m >= 0 ? '+' : '') + m; }
+  function abilityNameByKey(key){ var a = ABILITIES.find(function(x){ return x.key === key; }); return a ? a.name : key; }
+  function escapeHtml(str){ var div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
+  function getOldTotalLevel(){ return character.classes.reduce(function(s,c){ return s + c.level; }, 0); }
+  function getNewLevel(){ return getOldTotalLevel() + 1; }
+  function getReceivingClassName(){
+    if(levelUpTarget.mode === 'existing'){
+      var c = character.classes.find(function(x){ return x.rowId === levelUpTarget.rowId; });
+      return c ? c.cls : null;
+    }
+    var sel = document.getElementById('newClassSelect');
+    return sel ? sel.value : null;
+  }
+  function effectiveClassNames(){
+    var names = character.classes.map(function(c){ return c.cls; });
+    if(levelUpTarget.mode === 'new'){
+      var sel = document.getElementById('newClassSelect');
+      if(sel && sel.value) names.push(sel.value);
+    }
+    return names;
+  }
+  function effectiveAbilityTotal(key){
+    var v = character.abilityScores[key];
+    if(abilityIncreaseChoice === key) v += 1;
+    return v;
+  }
+  function abilityIncreaseGrantedThisLevel(){ return getNewLevel() % 4 === 0; }
+  function featGrantedThisLevel(){ return getNewLevel() % 2 === 1; }
+
+  /* ---------- STEPPER / NAV ---------- */
+  var STEP_LABELS = ['Klassenstufe','Attribut','Fertigkeiten','Talente','Zauber','Zusammenfassung'];
+  function renderStepper(){
+    var el = document.getElementById('stepper');
+    el.innerHTML = '';
+    STEP_LABELS.forEach(function(label, i){
+      var n = i + 1;
+      var item = document.createElement('div');
+      item.className = 'step-item' + (n === currentStep ? ' active' : (n < currentStep ? ' done' : ''));
+      item.onclick = function(){ goToStep(n); };
+      item.innerHTML = '<div class="line"></div><div class="dot">' + (n < currentStep ? '✓' : n) + '</div><div class="label">' + label + '</div>';
+      el.appendChild(item);
+    });
+  }
+  function goToStep(n){
+    if(n < 1 || n > TOTAL_STEPS) return;
+    currentStep = n;
+    document.querySelectorAll('.wizard-step').forEach(function(p){
+      p.classList.toggle('active', parseInt(p.dataset.step, 10) === n);
+    });
+    document.getElementById('btnPrev').disabled = (n === 1);
+    var btnNext = document.getElementById('btnNext');
+    btnNext.textContent = (n === TOTAL_STEPS) ? 'Stufenaufstieg übernehmen ✦' : 'Weiter →';
+    renderStepContent(n);
+    renderStepper();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function nextStep(){
+    if(currentStep === TOTAL_STEPS){ finishLevelUp(); return; }
+    goToStep(currentStep + 1);
+  }
+  function prevStep(){ goToStep(currentStep - 1); }
+  function finishLevelUp(){ document.getElementById('confirmBanner').classList.add('show'); }
+  function renderStepContent(n){
+    if(n === 1){ renderExistingClasses(); renderLevelTargetSelect(); }
+    if(n === 2){ renderAbilityIncreaseStep(); }
+    if(n === 3){ renderSkillStep(); }
+    if(n === 4){ renderFeatPick(); }
+    if(n === SPELL_STEP){ renderLevelSpellStep(); }
+    if(n === TOTAL_STEPS){ renderSummary(); }
+  }
+
+  /* ---------- STEP 1: KLASSENSTUFE ---------- */
+  function renderExistingClasses(){
+    document.getElementById('existingClassList').innerHTML = character.classes.map(function(c){
+      var optLines = Object.keys(c.options || {}).map(function(k){ return k + ': ' + c.options[k].join(', '); }).join(' · ');
+      return '<div class="summary-block" style="margin-bottom:10px;">' +
+        '<div class="sb-title">' + c.cls + ' — Archetyp: ' + c.archetype + '</div>' +
+        '<div class="sb-line"><span>Aktuelle Stufe</span><span class="val">' + c.level + '</span></div>' +
+        (optLines ? '<div class="sb-line"><span>Zusatzoptionen</span><span class="val">' + optLines + '</span></div>' : '') +
+        '</div>';
+    }).join('');
+  }
+  function renderLevelTargetSelect(){
+    var sel = document.getElementById('levelTargetSelect');
+    var opts = character.classes.map(function(c){
+      return '<option value="existing:' + c.rowId + '"' + (levelUpTarget.mode === 'existing' && levelUpTarget.rowId === c.rowId ? ' selected' : '') + '>' +
+        c.cls + ' (Stufe ' + c.level + ' → ' + (c.level + 1) + ')</option>';
+    }).join('');
+    opts += '<option value="new"' + (levelUpTarget.mode === 'new' ? ' selected' : '') + '>+ Neue Klasse (Multiclass, Stufe 1)</option>';
+    sel.innerHTML = opts;
+    var newPanel = document.getElementById('newClassPanel');
+    if(levelUpTarget.mode === 'new'){
+      newPanel.style.display = 'block';
+      var known = character.classes.map(function(c){ return c.cls; });
+      var newSel = document.getElementById('newClassSelect');
+      newSel.innerHTML = CLASSES.filter(function(c){ return known.indexOf(c) === -1; }).map(function(c){ return '<option>' + c + '</option>'; }).join('');
+      onNewClassChange();
+    } else {
+      newPanel.style.display = 'none';
+    }
+  }
+  function onLevelTargetChange(val){
+    if(val === 'new'){ levelUpTarget = {mode:'new'}; }
+    else { levelUpTarget = {mode:'existing', rowId: val.split(':')[1]}; }
+    renderLevelTargetSelect();
+  }
+  function onNewClassChange(){
+    var cls = document.getElementById('newClassSelect').value;
+    var archSel = document.getElementById('newClassArchetype');
+    archSel.innerHTML = (ARCHETYPES[cls] || ['Keiner']).map(function(a){ return '<option>' + a + '</option>'; }).join('');
+    renderNewClassOptions();
+  }
+  function renderNewClassOptions(){
+    var cls = document.getElementById('newClassSelect').value;
+    var groups = CLASS_OPTIONS[cls] || [];
+    var wrap = document.getElementById('newClassOptions');
+    Object.keys(newClassOptionSelections).forEach(function(k){
+      if(!groups.some(function(g){ return g.key === k; })) delete newClassOptionSelections[k];
+    });
+    if(groups.length === 0){ wrap.innerHTML = ''; return; }
+    wrap.innerHTML = groups.map(function(g){
+      if(!newClassOptionSelections[g.key]) newClassOptionSelections[g.key] = [];
+      var chosen = newClassOptionSelections[g.key];
+      return '<div class="option-group">' +
+        '<div class="og-label">' + g.label + ' <span class="pick-counter">(<b>' + chosen.length + '</b>/' + g.max + ')</span></div>' +
+        '<div class="chip-row">' + g.choices.map(function(c){
+          var active = chosen.indexOf(c) !== -1;
+          var disabled = !active && chosen.length >= g.max;
+          return '<button type="button" class="chip' + (active ? ' active' : '') + (disabled ? ' disabled' : '') +
+            '" onclick="toggleNewClassOption(\'' + g.key + '\', \'' + c + '\', ' + g.max + ')">' + c + '</button>';
+        }).join('') + '</div></div>';
+    }).join('');
+  }
+  function toggleNewClassOption(key, value, max){
+    var arr = newClassOptionSelections[key];
+    var idx = arr.indexOf(value);
+    if(idx !== -1){ arr.splice(idx, 1); }
+    else if(arr.length < max){ arr.push(value); }
+    renderNewClassOptions();
+  }
+
+  /* ---------- STEP 2: ATTRIBUT ---------- */
+  function renderAbilityIncreaseStep(){
+    var granted = abilityIncreaseGrantedThisLevel();
+    document.getElementById('noAbilityIncreaseNote').style.display = granted ? 'none' : 'block';
+    document.getElementById('abilityIncreaseWrap').style.display = granted ? 'block' : 'none';
+    if(!granted){ abilityIncreaseChoice = null; return; }
+    document.getElementById('abilityIncreaseChips').innerHTML = ABILITIES.map(function(a){
+      var cur = character.abilityScores[a.key];
+      var active = abilityIncreaseChoice === a.key;
+      return '<button type="button" class="chip' + (active ? ' active' : '') + '" onclick="toggleAbilityIncrease(\'' + a.key + '\')">' +
+        a.name + ' ' + cur + ' → ' + (cur + 1) + ' (' + formatMod(abilityMod(cur)) + ' → ' + formatMod(abilityMod(cur + 1)) + ')</button>';
+    }).join('');
+  }
+  function toggleAbilityIncrease(key){
+    abilityIncreaseChoice = (abilityIncreaseChoice === key) ? null : key;
+    renderAbilityIncreaseStep();
+  }
+
+  /* ---------- STEP 3: FERTIGKEITEN ---------- */
+  function classSkillSet(){
+    var set = {};
+    effectiveClassNames().forEach(function(cls){ (CLASS_SKILLS[cls] || []).forEach(function(k){ set[k] = true; }); });
+    return set;
+  }
+  function skillPointsForThisLevel(){
+    var cls = getReceivingClassName();
+    var base = CLASS_SKILL_POINTS[cls] || 2;
+    var intMod = abilityMod(effectiveAbilityTotal('int'));
+    return Math.max(1, base + intMod);
+  }
+  function newSkillPointsSpent(){
+    return Object.keys(newSkillRanks).reduce(function(s, k){ return s + (newSkillRanks[k] || 0); }, 0);
+  }
+  function renderSkillStep(){
+    var budget = skillPointsForThisLevel();
+    var spent = newSkillPointsSpent();
+    var remaining = budget - spent;
+    var remEl = document.getElementById('skillPointsRemaining');
+    remEl.textContent = remaining + ' / ' + budget;
+
+    var set = classSkillSet();
+    var wrap = document.getElementById('skillList');
+    wrap.innerHTML = '';
+    SKILLS.forEach(function(s){
+      var existingRanks = character.skillRanks[s.key] || 0;
+      var picked = newSkillRanks[s.key] || 0;
+      var isClassSkill = !!set[s.key];
+      var totalRanks = existingRanks + picked;
+      var abMod = abilityMod(effectiveAbilityTotal(s.ability));
+      var bonus = totalRanks + abMod + (isClassSkill && totalRanks > 0 ? 3 : 0);
+      var disabled = !picked && remaining <= 0;
+      var row = document.createElement('div');
+      row.className = 'skill-row-edit' + (picked ? ' active' : '') + (disabled ? ' disabled' : '');
+      row.onclick = disabled ? null : function(){ toggleNewSkillRank(s.key); };
+      row.innerHTML =
+        '<div class="sr-name">' + s.name + ' <span class="sr-ability">(' + s.ability.toUpperCase() + ')</span>' + (isClassSkill ? ' <span class="tag class-skill">Klasse</span>' : '') + '</div>' +
+        '<div class="sr-existing">bereits ' + existingRanks + '</div>' +
+        '<div class="sr-pick">' + (picked ? '+1 ✓' : '+1 Rang') + '</div>' +
+        '<div class="sr-total">' + formatMod(bonus) + '</div>';
+      wrap.appendChild(row);
+    });
+  }
+  function toggleNewSkillRank(key){
+    var cur = newSkillRanks[key] || 0;
+    if(cur === 1){ newSkillRanks[key] = 0; renderSkillStep(); return; }
+    var remaining = skillPointsForThisLevel() - newSkillPointsSpent();
+    if(remaining <= 0) return;
+    newSkillRanks[key] = 1;
+    renderSkillStep();
+  }
+
+  /* ---------- STEP 4: TALENTE ---------- */
+  function renderFeatPick(){
+    var granted = featGrantedThisLevel();
+    document.getElementById('noFeatNote').style.display = granted ? 'none' : 'block';
+    document.getElementById('featPickWrap').style.display = granted ? 'block' : 'none';
+    if(!granted){ newFeatChoice = null; return; }
+    var query = (document.getElementById('featSearch').value || '').toLowerCase();
+    var available = FEATS.filter(function(f){ return character.feats.indexOf(f) === -1; });
+    document.getElementById('featPickChips').innerHTML = available.filter(function(f){
+      return f.toLowerCase().indexOf(query) !== -1;
+    }).map(function(f){
+      var active = newFeatChoice === f;
+      return '<button type="button" class="chip' + (active ? ' active' : '') + '" onclick="toggleNewFeat(\'' + f + '\')">' + f + '</button>';
+    }).join('');
+    document.getElementById('newFeatCount').textContent = newFeatChoice ? 1 : 0;
+  }
+  function toggleNewFeat(name){
+    newFeatChoice = (newFeatChoice === name) ? null : name;
+    renderFeatPick();
+  }
+
+  /* ---------- STEP 5: ZAUBER ---------- */
+  function renderLevelSpellStep(){
+    var cls = getReceivingClassName();
+    var type = CLASS_SPELL_TYPE[cls] || 'none';
+    var body = document.getElementById('levelSpellBody');
+    if(type !== 'arcane-prepared' && type !== 'spontaneous'){
+      var note = type === 'divine-prepared'
+        ? 'Diese Klasse bereitet Zauber frei aus der vollen Klassen-Zauberliste vor — hier ist keine Auswahl nötig.'
+        : 'Diese Klasse hat keine Zauberfähigkeit.';
+      body.innerHTML = '<div class="selected-empty">' + note + '</div>';
+      return;
+    }
+    var alreadyKnown = character.spellsKnown[cls] || [];
+    var known = (SPELLS_BY_CLASS[cls] || []).filter(function(n){ return alreadyKnown.indexOf(n) === -1; });
+    var max = 1;
+    var typeLabel = type === 'arcane-prepared' ? 'Zauberbuch (arkan, vorbereitend)' : 'Bekannte Zauber (spontan)';
+    body.innerHTML = '<div class="summary-block">' +
+      '<div class="sb-title">' + cls + ' — ' + typeLabel + ' — neuer Zauber diese Stufe</div>' +
+      '<div class="pick-counter" style="margin-bottom:10px;">Ausgewählt: <b>' + (newSpellChoice ? 1 : 0) + '</b> / <b>' + max + '</b></div>' +
+      '<div class="chip-row">' + known.map(function(n){
+        var active = newSpellChoice === n;
+        return '<button type="button" class="chip' + (active ? ' active' : '') + '" onclick="toggleNewSpell(\'' + n + '\')">' + n + '</button>';
+      }).join('') + '</div></div>';
+  }
+  function toggleNewSpell(name){
+    newSpellChoice = (newSpellChoice === name) ? null : name;
+    renderLevelSpellStep();
+  }
+
+  /* ---------- STEP 6: ZUSAMMENFASSUNG ---------- */
+  function renderSummary(){
+    var oldLevel = getOldTotalLevel();
+    var newLevel = getNewLevel();
+    document.getElementById('ctxOldLevel').textContent = oldLevel;
+    document.getElementById('ctxNewLevel').textContent = newLevel;
+
+    var cls = getReceivingClassName();
+    var classLine, optLines = [];
+    if(levelUpTarget.mode === 'existing'){
+      var c = character.classes.find(function(x){ return x.rowId === levelUpTarget.rowId; });
+      classLine = c.cls + ' (' + c.archetype + '): Stufe ' + c.level + ' → ' + (c.level + 1);
+    } else {
+      var archetype = document.getElementById('newClassArchetype').value;
+      Object.keys(newClassOptionSelections).forEach(function(k){
+        if(newClassOptionSelections[k].length) optLines.push(k + ': ' + newClassOptionSelections[k].join(', '));
+      });
+      classLine = cls + ' (neu, ' + archetype + '): Stufe 1' + (optLines.length ? ' — ' + optLines.join(' · ') : '');
+    }
+    document.getElementById('sumClassLine').textContent = classLine;
+    document.getElementById('sumLevelTransition').textContent = oldLevel + ' → ' + newLevel;
+
+    document.getElementById('sumAbility').textContent = abilityIncreaseGrantedThisLevel()
+      ? (abilityIncreaseChoice
+        ? (abilityNameByKey(abilityIncreaseChoice) + ' ' + character.abilityScores[abilityIncreaseChoice] + ' → ' + (character.abilityScores[abilityIncreaseChoice] + 1))
+        : '— noch nicht gewählt —')
+      : 'Keine (nicht Stufe 4/8/12/16/20).';
+
+    document.getElementById('sumFeat').textContent = featGrantedThisLevel()
+      ? (newFeatChoice || '— noch nicht gewählt —')
+      : 'Keins auf dieser Stufe.';
+
+    var skillLines = SKILLS.filter(function(s){ return newSkillRanks[s.key]; }).map(function(s){
+      return '<div class="sb-line"><span>' + s.name + '</span><span class="val">+1 Rang</span></div>';
+    });
+    document.getElementById('sumSkills').innerHTML = skillLines.length ? skillLines.join('') : '<div class="sb-line"><span>Keine neuen Ränge vergeben.</span></div>';
+
+    var type = CLASS_SPELL_TYPE[cls] || 'none';
+    document.getElementById('sumSpell').textContent = (type === 'arcane-prepared' || type === 'spontaneous')
+      ? (newSpellChoice || '— noch nicht gewählt —')
+      : 'Keine Änderung nötig.';
+  }
+
+  /* ---------- INIT ---------- */
+  document.getElementById('ctxOldLevel').textContent = getOldTotalLevel();
+  document.getElementById('ctxNewLevel').textContent = getNewLevel();
+  renderStepper();
+  renderStepContent(1);
+</script>
+
+</body>
+</html>
