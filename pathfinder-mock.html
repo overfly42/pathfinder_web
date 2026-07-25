@@ -167,6 +167,21 @@
   .btn-outline:hover{background:rgba(179,137,63,0.12); border-color:var(--brass);}
   .btn-outline .plus{font-size:14px; color:var(--brass);}
 
+  .lang-select{
+    font-family:'Cinzel',serif;
+    font-weight:600; font-size:12px; letter-spacing:0.03em;
+    color:var(--brass-light);
+    background:transparent;
+    border:1px solid var(--brass-dark);
+    border-radius:8px;
+    padding:9px 10px;
+    cursor:pointer;
+    outline:none;
+    transition:background .15s, border-color .15s;
+  }
+  .lang-select:hover{background:rgba(179,137,63,0.12); border-color:var(--brass);}
+  .lang-select option{color:#2a1608; background:var(--parchment);}
+
   /* ---------- MAIN LAYOUT ---------- */
   .main{
     flex:1 1 auto;
@@ -823,6 +838,10 @@
         <span class="star">✦</span>
         Stufenaufstieg
       </div>
+      <select class="lang-select" title="Sprache" aria-label="Sprache" onchange="document.documentElement.lang = this.value;">
+        <option value="de" selected>DE</option>
+        <option value="en">EN</option>
+      </select>
     </div>
   </header>
 
