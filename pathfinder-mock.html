@@ -477,6 +477,42 @@
     font-size:12px; color:var(--ink-soft); margin-top:2px; line-height:1.4;
   }
 
+  /* ---------- SPELLCASTING OVERVIEW ---------- */
+  .spell-tab-block{margin-bottom:16px;}
+  .spell-tab-block:last-child{margin-bottom:0;}
+  .spell-table-row{
+    display:grid; grid-template-columns:64px repeat(3,1fr);
+    align-items:center; gap:8px;
+    background:rgba(255,255,255,0.3);
+    border:1px solid var(--parchment-shadow);
+    border-radius:8px;
+    padding:9px 12px;
+    margin-bottom:10px;
+  }
+  .spell-table-row.locked{opacity:0.55;}
+  .spell-table-row .grade{
+    font-family:'Cinzel',serif; font-weight:600; font-size:12.5px; color:var(--ink);
+  }
+  .spell-table-row .stat{display:flex; flex-direction:column; gap:2px;}
+  .spell-table-row .stat-label{
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .spell-table-row .stat-val{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--ink);
+  }
+  .chip-row.spellprep{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip-row.spellprep .chip{font-family:'Spectral',serif; font-size:12.5px;}
+  .chip-row.spellprep .chip.used{
+    border-style:solid; border-color:var(--parchment-shadow);
+    background:rgba(42,32,19,0.1); color:var(--ink-faint);
+    text-decoration:line-through; text-decoration-color:var(--ink-faint);
+  }
+  .spell-hint{
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-faint);
+    margin-bottom:10px;
+  }
+
   /* ---------- EQUIPMENT SLOTS / PAPERDOLL ---------- */
   .paperdoll{
     display:grid;
@@ -863,6 +899,7 @@
             <button type="button" class="tab-btn" onclick="showTab('traits', this)">Wesenszüge</button>
             <button type="button" class="tab-btn" onclick="showTab('classfeatures', this)">Klassenfähigkeiten</button>
             <button type="button" class="tab-btn" onclick="showTab('raceabilities', this)">Rasseneigenschaften</button>
+            <button type="button" class="tab-btn" onclick="showTab('spells', this)">Zauber</button>
           </div>
 
           <div class="tab-panel active" data-tab="skills">
@@ -945,6 +982,32 @@
               <div class="desc">+2 Bonus auf Rettungswürfe gegen Bezauberungseffekte; Immunität gegen magischen Schlaf.</div>
             </div>
           </div>
+
+          <div class="tab-panel" data-tab="spells">
+            <div class="spell-hint">Vorbereitete Zauber des Tages · zum Wirken anklicken. Auswahl der Vorbereitung erfolgt im Zauberbuch (Ausrüstung).</div>
+
+            <div class="spell-tab-block">
+              <div class="spell-table-row">
+                <span class="grade">Grad 1</span>
+                <div class="stat"><span class="stat-label">Vorbereitet</span><span class="stat-val">2</span></div>
+                <div class="stat"><span class="stat-label">Frei</span><span class="stat-val free-count">2</span></div>
+                <div class="stat"><span class="stat-label">Gewirkt</span><span class="stat-val used-count">0</span></div>
+              </div>
+              <div class="chip-row spellprep">
+                <button type="button" class="chip" onclick="toggleSpellCast(this)">Verstricken</button>
+                <button type="button" class="chip" onclick="toggleSpellCast(this)">Langer Schritt</button>
+              </div>
+            </div>
+
+            <div class="spell-tab-block">
+              <div class="spell-table-row locked">
+                <span class="grade">Grad 2</span>
+                <div class="stat"><span class="stat-label">Vorbereitet</span><span class="stat-val">—</span></div>
+                <div class="stat"><span class="stat-label">Frei</span><span class="stat-val">—</span></div>
+                <div class="stat"><span class="stat-label">Verfügbar ab</span><span class="stat-val">Stufe 8</span></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="section-label">Ausrüstung</div>
@@ -953,6 +1016,7 @@
           <div class="tab-bar">
             <button type="button" class="tab-btn active" onclick="showTab('inventory', this)">Inventar</button>
             <button type="button" class="tab-btn" onclick="showTab('slots', this)">Ausrüstungsplätze</button>
+            <button type="button" class="tab-btn" onclick="showTab('spellbook', this)">Zauberbuch</button>
           </div>
 
         <div class="tab-panel active" data-tab="inventory">
@@ -1192,6 +1256,36 @@
               </select>
             </div>
 
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="spellbook">
+          <div class="spell-hint">Waldläuferzauber · göttlich, vorbereitend aus der vollen Klassenliste (kein Zauberbuch nötig). Auswahl gilt bis zur nächsten Vorbereitung (z. B. nach Rast).</div>
+
+          <div class="spell-tab-block" data-max="2">
+            <div class="spell-table-row">
+              <span class="grade">Grad 1</span>
+              <div class="stat"><span class="stat-label">Pro Tag</span><span class="stat-val">2</span></div>
+              <div class="stat"><span class="stat-label">Vorbereitet</span><span class="stat-val prep-count">2 / 2</span></div>
+              <div class="stat"></div>
+            </div>
+            <div class="chip-row spellprep">
+              <button type="button" class="chip active" onclick="toggleSpellPrepare(this)">Verstricken</button>
+              <button type="button" class="chip active" onclick="toggleSpellPrepare(this)">Langer Schritt</button>
+              <button type="button" class="chip" onclick="toggleSpellPrepare(this)">Spurlos</button>
+              <button type="button" class="chip" onclick="toggleSpellPrepare(this)">Mit Tieren sprechen</button>
+              <button type="button" class="chip" onclick="toggleSpellPrepare(this)">Alarmieren</button>
+              <button type="button" class="chip" onclick="toggleSpellPrepare(this)">Gift verzögern</button>
+            </div>
+          </div>
+
+          <div class="spell-tab-block">
+            <div class="spell-table-row locked">
+              <span class="grade">Grad 2</span>
+              <div class="stat"><span class="stat-label">Pro Tag</span><span class="stat-val">—</span></div>
+              <div class="stat"><span class="stat-label">Verfügbar ab</span><span class="stat-val">Stufe 8</span></div>
+              <div class="stat"></div>
+            </div>
           </div>
         </div>
 
@@ -1537,6 +1631,33 @@
       chip.classList.toggle('active');
     });
   });
+
+  function toggleSpellPrepare(chip){
+    var block = chip.closest('.spell-tab-block');
+    var max = parseInt(block.dataset.max, 10);
+    var group = chip.closest('.chip-row');
+    var activeCount = group.querySelectorAll('.chip.active').length;
+
+    if(!chip.classList.contains('active') && activeCount >= max) return;
+    chip.classList.toggle('active');
+
+    activeCount = group.querySelectorAll('.chip.active').length;
+    var counter = block.querySelector('.prep-count');
+    if(counter) counter.textContent = activeCount + ' / ' + max;
+  }
+
+  function toggleSpellCast(chip){
+    chip.classList.toggle('used');
+    var block = chip.closest('.spell-tab-block');
+    var group = chip.closest('.chip-row');
+    var freeCount = group.querySelectorAll('.chip:not(.used)').length;
+    var usedCount = group.querySelectorAll('.chip.used').length;
+
+    var freeEl = block.querySelector('.free-count');
+    var usedEl = block.querySelector('.used-count');
+    if(freeEl) freeEl.textContent = freeCount;
+    if(usedEl) usedEl.textContent = usedCount;
+  }
 
   function showTab(name, btn){
     var group = btn.closest('.tabset');

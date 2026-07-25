@@ -22,6 +22,16 @@
 - Ausrüstung kann festen Ausrüstungsplätzen zugeordnet werden (z. B. Kopf, Stirnband, Gürtel, Ring links/rechts). Auswählbar sind dabei nur Gegenstände, die sich im Inventar des Charakters befinden.
 - Ein Charakter hat Wesenszüge.
 
+### 2.2 Zauberwirken
+- Ein Charakter hat je nach Klasse eine von drei Zauberwirker-Arten: keine Zauberfähigkeit, vorbereitendes Zauberwirken oder spontanes Zauberwirken (jeweils arkan oder göttlich).
+- Für zauberkundige Charaktere werden pro Zaubergrad geführt: die Anzahl bekannter Zauber, die Anzahl täglich verfügbarer Zauberplätze und die aktuell vorbereiteten bzw. nutzbaren Zauber.
+- Vorbereitendes Zauberwirken (z. B. Waldläufer, Kleriker, Druide, Magier): Täglich wird eine Auswahl an Zaubern vorbereitet, die anschließend beim Wirken verbraucht wird.
+  - Göttliche vorbereitende Zauberwirker wählen ihre Vorbereitung frei aus der vollständigen Klassen-Zauberliste, ohne eine feste bekannte Liste.
+  - Arkane vorbereitende Zauberwirker (z. B. Magier) führen ein Zauberbuch mit einer begrenzten, individuell erlernten Auswahl an Zaubern, aus der jeweils vorbereitet wird. Das Zauberbuch wird wie das Inventar verwaltet (Zauber hinzufügen/entfernen).
+- Spontanes Zauberwirken (z. B. Hexenmeister, Barde, Orakel): Es existiert eine kurze, feste Liste bekannter Zauber, die ohne tägliche Vorbereitung direkt gegen die verfügbaren Zauberplätze gewirkt werden. Die bekannte Liste wird ebenfalls wie eine Inventarliste verwaltet und ändert sich in der Regel nur bei Stufenaufstieg.
+- Für vorbereitete bzw. bekannte Zauber muss zwischen drei Zuständen unterschieden werden: nicht vorbereitet, vorbereitet (bzw. bekannt und verfügbar) sowie gewirkt/verbraucht für den aktuellen Tag.
+- Verbrauchte bzw. vorbereitete Zauber werden zeit- oder ereignisbasiert zurückgesetzt (z. B. nach einer Rast), analog zu anderen Zuständen und Effekten (siehe Abschnitt 2).
+
 ## 3. Nutzergruppen
 - Spielerinnen und Spieler.
 - Spielleiterinnen und Spielleiter als spätere Erweiterung.
@@ -50,6 +60,9 @@
 - Die Anwendung muss eine Historie für Stufenaufstiege und Änderungen an Charakterdaten führen.
 - Die Anwendung muss Zustände, Effekte und Zauber an einem Charakter speichern und deren Ablauf verwalten können.
 - Die Anwendung muss Zustände, Effekte und Zauber zeitbasiert oder ereignisbasiert automatisch aufheben können.
+- Die Anwendung muss je nach Zauberwirker-Art (keine, vorbereitend, spontan; arkan oder göttlich) bekannte Zauber, tägliche Zauberplätze und vorbereitete Zauber pro Zaubergrad verwalten können.
+- Die Anwendung muss für Zauber die drei Zustände nicht vorbereitet, vorbereitet/bekannt und gewirkt/verbraucht unterscheiden und beim Wirken sowie bei Rücksetzung (z. B. nach Rast) aktualisieren können.
+- Die Anwendung muss für arkane vorbereitende Zauberwirker ein Zauberbuch mit einer editierbaren, individuell erlernten Zauberliste unterstützen; göttliche vorbereitende Zauberwirker müssen stattdessen aus der vollständigen Klassen-Zauberliste vorbereiten können.
 - Die Anwendung muss mehreren Nutzern gleichzeitig und unabhängig voneinander Zugriff auf ihre eigenen Charaktere ermöglichen.
 - Die Anwendung muss Regeltexte und Fähigkeitsbeschreibungen für die Regelhilfe bereitstellen.
 - Die Anwendung muss Nutzerinformationen und Charakterdaten sicher speichern und abrufen können.
