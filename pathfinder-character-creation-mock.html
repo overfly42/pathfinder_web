@@ -128,20 +128,22 @@
     background:var(--shell-2);
     border:1px solid var(--leather-line);
     border-radius:10px;
-    padding:16px 14px;
+    padding:16px 10px;
     box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    overflow-x:auto;
   }
   .step-item{
     flex:1;
+    min-width:70px;
     display:flex; flex-direction:column; align-items:center;
     gap:6px;
     position:relative;
     cursor:pointer;
   }
   .step-item .dot{
-    width:30px; height:30px; border-radius:50%;
+    width:28px; height:28px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.5px;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px;
     background:var(--shell-1);
     border:1.5px solid var(--leather-line);
     color:var(--ink-faint);
@@ -149,15 +151,15 @@
     z-index:1;
   }
   .step-item .line{
-    position:absolute; top:15px; left:calc(-50% + 15px); right:calc(50% + 15px);
+    position:absolute; top:14px; left:calc(-50% + 14px); right:calc(50% + 14px);
     height:1.5px; background:var(--leather-line);
     z-index:0;
   }
   .step-item:first-child .line{display:none;}
   .step-item .label{
-    font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:0.04em; text-transform:uppercase;
+    font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.03em; text-transform:uppercase;
     color:var(--ink-faint); text-align:center;
-    max-width:90px;
+    max-width:80px;
   }
   .step-item.active .dot{
     background:radial-gradient(circle at 30% 25%, var(--brass-light), var(--brass) 60%, var(--brass-dark) 100%);
@@ -219,8 +221,10 @@
     background:rgba(255,255,255,0.5);
     color:var(--ink);
     outline:none;
+    cursor:pointer;
     transition:border-color .15s, background .15s;
   }
+  input.text-input{cursor:text;}
   .text-input:focus{border-color:var(--brass); background:rgba(255,255,255,0.7);}
   .text-input::placeholder{color:var(--ink-faint);}
   .field-row{margin-bottom:20px;}
@@ -235,6 +239,16 @@
     border-bottom:1px solid var(--parchment-shadow);
   }
   .section-label:first-of-type{margin-top:0;}
+
+  .warning-note{
+    background:rgba(126,42,38,0.12);
+    border:1px solid var(--wax);
+    color:var(--wax);
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:12.5px;
+    margin-bottom:14px;
+  }
 
   /* ---------- RACE CARDS ---------- */
   .race-grid{
@@ -274,14 +288,16 @@
   .trait-item .desc{font-size:12px; color:var(--ink-soft); margin-top:2px; line-height:1.4;}
 
   /* ---------- CLASS ROWS ---------- */
-  .class-row{
-    display:grid; grid-template-columns:1.4fr 0.7fr 1.4fr auto;
-    gap:10px; align-items:end;
+  .class-row-wrap{
     background:rgba(255,255,255,0.32);
     border:1px solid var(--parchment-shadow);
     border-left:3px solid var(--brass);
     border-radius:6px;
     padding:12px 14px; margin-bottom:10px;
+  }
+  .class-row{
+    display:grid; grid-template-columns:1.4fr 0.7fr 1.4fr auto;
+    gap:10px; align-items:end;
   }
   .class-row label{
     display:block;
@@ -297,6 +313,7 @@
     background:rgba(255,255,255,0.5);
     color:var(--ink);
     outline:none;
+    cursor:pointer;
   }
   .class-row select:focus, .class-row input:focus{border-color:var(--brass);}
   .row-del{
@@ -312,6 +329,15 @@
     transition:background .15s, border-color .15s;
   }
   .row-del:hover{background:rgba(126,42,38,0.15); border-color:var(--wax);}
+
+  .class-options{margin-top:10px; padding-top:10px; border-top:1px dashed var(--parchment-shadow);}
+  .class-options:empty{margin-top:0; padding-top:0; border-top:none;}
+  .option-group{margin-bottom:10px;}
+  .option-group:last-child{margin-bottom:0;}
+  .option-group .og-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:6px;
+  }
 
   .add-link{
     display:inline-flex; align-items:center; gap:6px;
@@ -339,7 +365,7 @@
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:var(--ink);
   }
 
-  /* ---------- ABILITY SCORES ---------- */
+  /* ---------- BUDGET BAR (abilities / skills) ---------- */
   .budget-bar{
     display:flex; justify-content:space-between; align-items:center;
     background:rgba(255,255,255,0.35);
@@ -363,6 +389,7 @@
     outline:none; cursor:pointer;
   }
 
+  /* ---------- ABILITY SCORES ---------- */
   .ability-edit-grid{
     display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
   }
@@ -400,8 +427,35 @@
   }
   .ability-edit .mod{color:var(--forest); font-weight:600;}
   .ability-edit .cost{color:var(--ink-faint);}
+  .ability-edit .race-mod-line{
+    margin-top:8px; padding-top:8px; border-top:1px dashed var(--parchment-shadow);
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--brass-dark);
+  }
+  .ability-edit .race-mod-line b{color:var(--ink); font-size:13px;}
 
-  /* ---------- CHIP PICKER (feats / traits) ---------- */
+  /* ---------- SKILLS ---------- */
+  .skill-row-edit{
+    display:grid; grid-template-columns:1fr auto 46px;
+    gap:10px; align-items:center;
+    padding:8px 4px;
+    border-bottom:1px dashed var(--parchment-shadow);
+    font-size:13px;
+  }
+  .skill-row-edit:last-child{border-bottom:none;}
+  .sr-name{color:var(--ink);}
+  .sr-ability{
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-faint); margin-left:4px;
+  }
+  .sr-ctrl{display:flex; align-items:center; gap:8px;}
+  .sr-rank{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--ink);
+    min-width:14px; text-align:center;
+  }
+  .sr-total{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--forest); text-align:right;
+  }
+
+  /* ---------- CHIP PICKER (feats / traits / class-options / spells) ---------- */
   .panel-search{margin-bottom:14px;}
   .panel-search input{
     width:100%; box-sizing:border-box;
@@ -430,13 +484,17 @@
     color:#2a1608; font-weight:600;
   }
   .chip.disabled{opacity:0.4; cursor:not-allowed;}
+  .tag{
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:3px 7px; border-radius:20px;
+    white-space:nowrap;
+  }
+  .tag.class-skill{background:rgba(60,107,71,0.18); color:var(--forest);}
   .pick-counter{
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);
   }
   .pick-counter b{color:var(--ink);}
-  .selected-list{
-    margin-top:16px;
-  }
+  .selected-list{margin-top:16px;}
   .selected-empty{
     font-family:'Spectral',serif; font-style:italic; font-size:12.5px; color:var(--ink-faint);
   }
@@ -462,9 +520,7 @@
     transition:background .15s, border-color .15s;
   }
   .gear-del:hover{background:rgba(126,42,38,0.15); border-color:var(--wax);}
-  .gear-add-row{
-    display:flex; gap:8px; margin-top:12px;
-  }
+  .gear-add-row{display:flex; gap:8px; margin-top:12px;}
   .gear-add-row input:first-child{flex:3;}
   .gear-add-row input:last-child{flex:1;}
   .hp-btn{
@@ -474,8 +530,6 @@
   }
   .hp-btn:hover{filter:brightness(1.12);}
   .hp-btn.confirm{background:var(--brass-dark); color:#f2e6c8; border-color:var(--brass);}
-  .hp-btn.ghost{background:transparent; color:var(--ink-soft); border-color:var(--parchment-shadow);}
-  .hp-btn.ghost:hover{background:rgba(42,32,19,0.08);}
 
   /* ---------- SUMMARY ---------- */
   .summary-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
@@ -512,9 +566,7 @@
   .confirm-banner.show{display:block;}
 
   /* ---------- NAV ---------- */
-  .wizard-nav{
-    display:flex; justify-content:space-between; align-items:center;
-  }
+  .wizard-nav{display:flex; justify-content:space-between; align-items:center;}
   .btn-nav{
     font-family:'Cinzel',serif; font-weight:600; font-size:13px; letter-spacing:0.04em;
     border-radius:8px; padding:11px 20px;
@@ -523,10 +575,7 @@
   }
   .btn-nav:disabled{opacity:0.35; cursor:not-allowed;}
   .btn-nav:not(:disabled):hover{transform:translateY(-1px);}
-  .btn-nav.prev{
-    color:var(--brass-light); background:transparent;
-    border:1px solid var(--brass-dark);
-  }
+  .btn-nav.prev{color:var(--brass-light); background:transparent; border:1px solid var(--brass-dark);}
   .btn-nav.prev:not(:disabled):hover{background:rgba(179,137,63,0.12);}
   .btn-nav.next{
     color:#2a1608;
@@ -541,9 +590,10 @@
   @media (max-width:640px){
     .field-grid{grid-template-columns:1fr;}
     .ability-edit-grid{grid-template-columns:repeat(2,1fr);}
-    .class-row{grid-template-columns:1fr; }
+    .class-row{grid-template-columns:1fr;}
     .summary-grid{grid-template-columns:1fr;}
     .step-item .label{display:none;}
+    .skill-row-edit{grid-template-columns:1fr auto;}
   }
 </style>
 </head>
@@ -572,7 +622,7 @@
       <section class="panel wizard-step active" data-step="1">
         <div class="panel-head">
           <h2>Grunddaten</h2>
-          <span class="hint">Schritt 1 von 7</span>
+          <span class="hint">Schritt 1 von 9</span>
         </div>
         <div class="panel-body">
           <div class="field-grid">
@@ -581,8 +631,12 @@
               <input type="text" class="text-input" id="fldName" placeholder="z. B. Elyra Silberauge">
             </div>
             <div class="field-row">
-              <div class="field-label">Geschlecht (optional)</div>
-              <input type="text" class="text-input" id="fldGender" placeholder="z. B. weiblich">
+              <div class="field-label">Geschlecht</div>
+              <select class="text-input" id="fldGender">
+                <option value="maennlich">Männlich</option>
+                <option value="weiblich">Weiblich</option>
+                <option value="" selected>Keine Angabe</option>
+              </select>
             </div>
           </div>
 
@@ -592,6 +646,13 @@
             <div class="rd-title" id="raceDetailTitle"></div>
             <div id="raceDetailBody"></div>
           </div>
+          <div class="race-detail" id="raceFlexRow" style="display:none;">
+            <div class="rd-title">Freier Attributsbonus (+2)</div>
+            <div class="field-label">Diese Rasse gewährt +2 auf ein frei wählbares Attribut.</div>
+            <select class="text-input" id="raceFlexSelect" style="max-width:240px;" onchange="onFlexAbilityChange(this.value)">
+              <option value="">— Attribut wählen —</option>
+            </select>
+          </div>
         </div>
       </section>
 
@@ -599,10 +660,10 @@
       <section class="panel wizard-step" data-step="2">
         <div class="panel-head">
           <h2>Klasse &amp; Archetyp</h2>
-          <span class="hint">Schritt 2 von 7</span>
+          <span class="hint">Schritt 2 von 9</span>
         </div>
         <div class="panel-body">
-          <div class="field-label">Ein Charakter kann mehrere Klassenstufen haben; die Summe ergibt die Charakterstufe.</div>
+          <div class="field-label">Ein Charakter kann mehrere Klassenstufen haben; die Summe ergibt die Charakterstufe. Zusatzoptionen (z. B. Domänen, Blutlinie, Günstlingsfeind) erscheinen automatisch, sobald eine passende Klasse gewählt ist.</div>
           <div id="classRows" style="margin-top:14px;"></div>
           <button type="button" class="add-link" onclick="addClassRow()">+ Weitere Klasse hinzufügen</button>
 
@@ -617,7 +678,7 @@
       <section class="panel wizard-step" data-step="3">
         <div class="panel-head">
           <h2>Attribute</h2>
-          <span class="hint">Schritt 3 von 7</span>
+          <span class="hint">Schritt 3 von 9</span>
         </div>
         <div class="panel-body">
           <div class="budget-bar">
@@ -632,15 +693,31 @@
             </div>
             <div><span class="k">Verbleibend&nbsp;</span><span class="v" id="pointsRemaining">20</span></div>
           </div>
+          <div class="warning-note" id="abilityFlexWarning" style="display:none;">Bitte wähle in Schritt 1 (Grunddaten) ein Attribut für den freien Rassenbonus.</div>
           <div class="ability-edit-grid" id="abilityGrid"></div>
         </div>
       </section>
 
-      <!-- STEP 4: TALENTE -->
+      <!-- STEP 4: FERTIGKEITEN -->
       <section class="panel wizard-step" data-step="4">
         <div class="panel-head">
+          <h2>Fertigkeiten</h2>
+          <span class="hint">Schritt 4 von 9</span>
+        </div>
+        <div class="panel-body">
+          <div class="budget-bar">
+            <span class="k">Fertigkeitspunkte verbleibend</span>
+            <span class="v" id="skillPointsRemaining">0 / 0</span>
+          </div>
+          <div id="skillList"></div>
+        </div>
+      </section>
+
+      <!-- STEP 5: TALENTE -->
+      <section class="panel wizard-step" data-step="5">
+        <div class="panel-head">
           <h2>Talente</h2>
-          <span class="hint">Schritt 4 von 7</span>
+          <span class="hint">Schritt 5 von 9</span>
         </div>
         <div class="panel-body">
           <div class="panel-search">
@@ -655,11 +732,11 @@
         </div>
       </section>
 
-      <!-- STEP 5: WESENSZÜGE -->
-      <section class="panel wizard-step" data-step="5">
+      <!-- STEP 6: WESENSZÜGE -->
+      <section class="panel wizard-step" data-step="6">
         <div class="panel-head">
           <h2>Wesenszüge</h2>
-          <span class="hint">Schritt 5 von 7</span>
+          <span class="hint">Schritt 6 von 9</span>
         </div>
         <div class="panel-body">
           <div class="pick-counter" style="margin-bottom:10px;">Ausgewählt: <b id="traitCount">0</b> / <b>2</b></div>
@@ -671,11 +748,20 @@
         </div>
       </section>
 
-      <!-- STEP 6: AUSRÜSTUNG -->
-      <section class="panel wizard-step" data-step="6">
+      <!-- STEP 7: ZAUBER -->
+      <section class="panel wizard-step" data-step="7">
+        <div class="panel-head">
+          <h2>Zauber</h2>
+          <span class="hint">Schritt 7 von 9</span>
+        </div>
+        <div class="panel-body" id="spellStepBody"></div>
+      </section>
+
+      <!-- STEP 8: AUSRÜSTUNG -->
+      <section class="panel wizard-step" data-step="8">
         <div class="panel-head">
           <h2>Ausrüstung</h2>
-          <span class="hint">Schritt 6 von 7</span>
+          <span class="hint">Schritt 8 von 9</span>
         </div>
         <div class="panel-body">
           <div class="field-row" style="max-width:220px;">
@@ -686,26 +772,29 @@
           <div class="section-label">Inventar</div>
           <div id="gearList"></div>
           <div class="gear-add-row">
-            <input type="text" class="text-input" id="gearAddName" placeholder="Bezeichnung">
+            <input type="text" class="text-input" id="gearAddName" placeholder="Bezeichnung eingeben oder auswählen …" list="gearItemOptions" autocomplete="off">
             <input type="number" class="text-input" id="gearAddQty" value="1" min="1">
             <button type="button" class="hp-btn confirm" onclick="addGearItem()">Hinzufügen</button>
+            <datalist id="gearItemOptions"></datalist>
           </div>
           <div class="field-label" style="margin-top:14px;">Zuordnung zu Ausrüstungsplätzen (Kopf, Ringe, …) erfolgt später im Charakterbogen.</div>
         </div>
       </section>
 
-      <!-- STEP 7: ZUSAMMENFASSUNG -->
-      <section class="panel wizard-step" data-step="7">
+      <!-- STEP 9: ZUSAMMENFASSUNG -->
+      <section class="panel wizard-step" data-step="9">
         <div class="panel-head">
           <h2>Zusammenfassung</h2>
-          <span class="hint">Schritt 7 von 7</span>
+          <span class="hint">Schritt 9 von 9</span>
         </div>
         <div class="panel-body">
           <div class="summary-grid">
             <div class="summary-block">
               <div class="sb-title">Grunddaten</div>
               <div class="sb-line"><span>Name</span><span class="val" id="sumName">—</span></div>
+              <div class="sb-line"><span>Geschlecht</span><span class="val" id="sumGender">—</span></div>
               <div class="sb-line"><span>Rasse</span><span class="val" id="sumRace">—</span></div>
+              <div class="sb-line"><span>Rassenbonus-Attribut</span><span class="val" id="sumFlex">—</span></div>
               <div class="sb-line"><span>Charakterstufe</span><span class="val" id="sumLevel">—</span></div>
             </div>
             <div class="summary-block">
@@ -722,12 +811,24 @@
               <div class="sb-line"><span>Gegenstände</span><span class="val" id="sumGearCount">0</span></div>
             </div>
             <div class="summary-block summary-full">
+              <div class="sb-title">Fertigkeiten</div>
+              <div id="sumSkills"></div>
+            </div>
+            <div class="summary-block summary-full">
               <div class="sb-title">Talente</div>
               <div class="summary-chips" id="sumFeats"></div>
             </div>
             <div class="summary-block summary-full">
               <div class="sb-title">Wesenszüge</div>
               <div class="summary-chips" id="sumTraits"></div>
+            </div>
+            <div class="summary-block summary-full">
+              <div class="sb-title">Klassenoptionen</div>
+              <div id="sumClassOptions"></div>
+            </div>
+            <div class="summary-block summary-full">
+              <div class="sb-title">Zauber</div>
+              <div id="sumSpells"></div>
             </div>
           </div>
 
@@ -746,27 +847,37 @@
 </div>
 
 <script>
-  var TOTAL_STEPS = 7;
+  var TOTAL_STEPS = 9;
+  var SPELL_STEP = 7;
   var currentStep = 1;
 
+  /* ---------- STATIC DATA ---------- */
   var RACES = [
     {id:'mensch', name:'Mensch', short:'+2 auf ein frei wählbares Attribut; Bonustalent bei Stufe 1; zusätzliche Fertigkeitspunkte.',
+      flex:true, mods:{},
       traits:[{name:'Anpassungsfähig', desc:'+2 auf ein frei wählbares Attribut.'},{name:'Bonustalent', desc:'Erhält ein zusätzliches Talent auf Stufe 1.'},{name:'Vielseitig', desc:'Ein zusätzlicher Fertigkeitspunkt pro Stufe.'}]},
     {id:'elf', name:'Elf', short:'+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit.',
+      flex:false, mods:{ges:2, int:2, kon:-2},
       traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Elfische Waffenvertrautheit', desc:'Vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen.'},{name:'Zauberkundig', desc:'+2 auf Weltwissen zur Identifikation magischer Gegenstände.'},{name:'Widerstandsfähiger Geist', desc:'+2 auf Rettungswürfe gegen Bezauberung; Immunität gegen magischen Schlaf.'}]},
     {id:'zwerg', name:'Zwerg', short:'+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks &amp; Goblinoide.',
+      flex:false, mods:{kon:2, wei:2, cha:-2},
       traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Zwergenhass', desc:'+1 auf Angriffswürfe gegen Orks und Goblinoide.'},{name:'Standhaft', desc:'+2 auf Rettungswürfe gegen Gifte, Krankheiten und Zauber.'},{name:'Steinvertrautheit', desc:'Erkennt ungewöhnliche Steinkonstruktionen automatisch.'}]},
     {id:'halbling', name:'Halbling', short:'+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich.',
+      flex:false, mods:{ges:2, cha:2, sta:-2},
       traits:[{name:'Furchtlos', desc:'+2 auf Rettungswürfe gegen Furcht.'},{name:'Glücklich', desc:'+1 Glücksbonus auf alle Rettungswürfe.'},{name:'Flink', desc:'+4 auf Akrobatik bei Balanceakten.'}]},
     {id:'gnom', name:'Gnom', short:'+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber.',
+      flex:false, mods:{kon:2, cha:2, sta:-2},
       traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Illusionsaffinität', desc:'+1 auf Schwierigkeitsklasse eigener Illusionszauber.'},{name:'Riesenfeind', desc:'+4 auf KMD und RK gegen Wesen der Größenkategorie Riesig oder größer.'}]},
     {id:'halbelf', name:'Halbelf', short:'+2 auf ein frei wählbares Attribut; Niedrigsichtig; multitalentiert.',
+      flex:true, mods:{},
       traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Multitalentiert', desc:'Gilt in zwei gewählten Klassen als Favorisierte Klasse.'},{name:'Elfenblut', desc:'Gilt sowohl als Elf als auch als Mensch.'}]},
     {id:'halbork', name:'Halb-Ork', short:'+2 auf ein frei wählbares Attribut; Dunkelsicht; Kampfrausch.',
+      flex:true, mods:{},
       traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Kampfrausch', desc:'Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht.'},{name:'Orkblut', desc:'Gilt sowohl als Ork als auch als Mensch.'}]}
   ];
 
-  var CLASSES = ['Barbar','Barde','Druide','Hexenmeister','Kleriker','Krieger','Magier','Mönch','Paladin','Schurke','Waldläufer'];
+  var CLASSES = ['Barbar','Barde','Druide','Hexenmeister','Kleriker','Krieger','Magier','Mönch','Orakel','Paladin','Schurke','Waldläufer'];
+
   var ARCHETYPES = {
     'Barbar':['Keiner','Berserker','Invulnerable Rager'],
     'Barde':['Keiner','Archivar','Sänger der Meere'],
@@ -775,10 +886,45 @@
     'Kleriker':['Keiner','Kriegspriester','Heiler des Volkes'],
     'Krieger':['Keiner','Waffenmeister','Söldnerkommandant'],
     'Magier':['Keiner','Beschwörer','Kriegsmagier'],
-    'Mönch':['Keiner','Zen-Archer','Sohail der Fäuste'],
+    'Mönch':['Keiner','Zen-Archer','Fäuste des Windes'],
+    'Orakel':['Keiner','Wiedergänger','Lebensbündnis'],
     'Paladin':['Keiner','Rächer','Hüter des Glaubens'],
     'Schurke':['Keiner','Meucheldieb','Klingentänzer'],
     'Waldläufer':['Keiner','Bogenschütze','Gefährtenbinder']
+  };
+
+  var CLASS_SKILL_POINTS = {
+    'Barbar':4, 'Barde':6, 'Druide':4, 'Hexenmeister':2, 'Kleriker':2, 'Krieger':2,
+    'Magier':2, 'Mönch':4, 'Orakel':2, 'Paladin':2, 'Schurke':8, 'Waldläufer':6
+  };
+
+  var CLASS_SPELL_TYPE = {
+    'Barbar':'none', 'Krieger':'none', 'Mönch':'none', 'Schurke':'none', 'Paladin':'none',
+    'Kleriker':'divine-prepared', 'Druide':'divine-prepared', 'Waldläufer':'divine-prepared',
+    'Magier':'arcane-prepared',
+    'Hexenmeister':'spontaneous', 'Barde':'spontaneous', 'Orakel':'spontaneous'
+  };
+
+  var CLASS_OPTIONS = {
+    'Kleriker':[{key:'domain', label:'Domänen (max. 2)', max:2, choices:['Kriegsdomäne','Sonne','Tod','Leben','Wissen','List','Zerstörung','Erde']}],
+    'Hexenmeister':[{key:'bloodline', label:'Blutlinie', max:1, choices:['Arkanum','Drache','Unheilig','Elementar','Fey','Abyssisch']}],
+    'Magier':[{key:'school', label:'Spezialschule (optional)', max:1, choices:['Hervorrufung','Verzauberung','Illusion','Nekromantie','Verwandlung','Weissagung','Bannmagie','Universalist']}],
+    'Waldläufer':[
+      {key:'enemy', label:'Günstlingsfeind', max:1, choices:['Aberrationen','Tiere','Konstrukte','Drachen','Feen','Humanoide (Menschen)','Magische Bestien','Untote']},
+      {key:'terrain', label:'Bevorzugtes Terrain', max:1, choices:['Wald','Sumpf','Gebirge','Ebene','Wüste','Dschungel','Unterreich']}
+    ],
+    'Druide':[{key:'bond', label:'Naturbindung', max:1, choices:['Tiergefährte','Domäne (Natur)']}],
+    'Orakel':[
+      {key:'mystery', label:'Mysterium', max:1, choices:['Leben','Knochen','Flamme','Natur','Zeit','Wasser']},
+      {key:'curse', label:'Verfluchung', max:1, choices:['Blindheit','Verstummt','Verflucht mit Schuppen','Frostgezeichnet']}
+    ]
+  };
+
+  var SPELLS_BY_CLASS = {
+    'Magier': ['Magisches Geschoss','Schild','Farbenstrahl','Schlaf','Identifizieren','Sprung','Unsichtbare Hand: Diener','Nebelwolke'],
+    'Hexenmeister': ['Magisches Geschoss','Schild','Farbenstrahl','Schlaf','Person betören','Beschwichtigen'],
+    'Barde': ['Verzaubern','Tarnung','Furchtlosigkeit','Beschwichtigen','Person betören','Unsichtbare Hand: Diener'],
+    'Orakel': ['Segnen','Heiliger Schild','Wunden heilen, leicht','Waffensegen','Command','Schutz vor Bösem']
   };
 
   var FEATS = [
@@ -792,23 +938,84 @@
     'Magische Ahnung','Ausgezeichneter Ruf','Reaktionsschnell','Gläubige Seele','Tapferer Verteidiger','Weltgewandt'
   ];
 
+  var SKILLS = [
+    {key:'akrobatik', name:'Akrobatik', ability:'ges'},
+    {key:'fingerfertigkeit', name:'Fingerfertigkeit', ability:'ges'},
+    {key:'fluchtkunst', name:'Fluchtkunst', ability:'ges'},
+    {key:'heimlichkeit', name:'Heimlichkeit', ability:'ges'},
+    {key:'reiten', name:'Reiten', ability:'ges'},
+    {key:'falle_entschaerfen', name:'Falle entschärfen', ability:'ges'},
+    {key:'klettern', name:'Klettern', ability:'sta'},
+    {key:'schwimmen', name:'Schwimmen', ability:'sta'},
+    {key:'auftreten', name:'Auftreten', ability:'cha'},
+    {key:'bluffen', name:'Bluffen', ability:'cha'},
+    {key:'diplomatie', name:'Diplomatie', ability:'cha'},
+    {key:'einschuechtern', name:'Einschüchtern', ability:'cha'},
+    {key:'tierumgang', name:'Tierumgang', ability:'cha'},
+    {key:'verkleiden', name:'Verkleiden', ability:'cha'},
+    {key:'umd', name:'Gegenstände magisch nutzen', ability:'cha'},
+    {key:'heilkunde', name:'Heilkunde', ability:'wei'},
+    {key:'wahrnehmung', name:'Wahrnehmung', ability:'wei'},
+    {key:'wildnisleben', name:'Wildnisleben', ability:'wei'},
+    {key:'motiv_erkennen', name:'Motiv erkennen', ability:'wei'},
+    {key:'handwerk', name:'Handwerk', ability:'int'},
+    {key:'linguistik', name:'Linguistik', ability:'int'},
+    {key:'zauberkunde', name:'Zauberkunde', ability:'int'},
+    {key:'wissen_arkanes', name:'Wissen (Arkanes)', ability:'int'},
+    {key:'wissen_natur', name:'Wissen (Natur)', ability:'int'},
+    {key:'wissen_religion', name:'Wissen (Religion)', ability:'int'},
+    {key:'wissen_lokal', name:'Wissen (lokal)', ability:'int'}
+  ];
+
+  var CLASS_SKILLS = {
+    'Krieger': ['klettern','einschuechtern','reiten','schwimmen','handwerk'],
+    'Barbar': ['klettern','einschuechtern','wahrnehmung','reiten','schwimmen','wildnisleben','handwerk'],
+    'Barde': ['akrobatik','auftreten','bluffen','diplomatie','verkleiden','fingerfertigkeit','umd','heimlichkeit','wissen_arkanes','wissen_natur','wissen_religion','wissen_lokal','linguistik','motiv_erkennen','zauberkunde','wahrnehmung','tierumgang'],
+    'Druide': ['heilkunde','wildnisleben','wissen_natur','reiten','schwimmen','wahrnehmung','tierumgang','fluchtkunst','klettern'],
+    'Hexenmeister': ['bluffen','einschuechtern','wissen_arkanes','umd','zauberkunde','diplomatie'],
+    'Kleriker': ['diplomatie','heilkunde','wissen_religion','zauberkunde','motiv_erkennen','linguistik'],
+    'Magier': ['wissen_arkanes','zauberkunde','linguistik','umd'],
+    'Mönch': ['akrobatik','klettern','einschuechtern','fluchtkunst','heilkunde','wissen_religion','wahrnehmung','schwimmen','motiv_erkennen','heimlichkeit'],
+    'Orakel': ['diplomatie','heilkunde','wissen_religion','zauberkunde','motiv_erkennen','linguistik'],
+    'Paladin': ['diplomatie','heilkunde','reiten','wissen_religion','motiv_erkennen','handwerk'],
+    'Schurke': ['akrobatik','bluffen','klettern','diplomatie','verkleiden','fluchtkunst','einschuechtern','fingerfertigkeit','wissen_lokal','linguistik','wahrnehmung','motiv_erkennen','falle_entschaerfen','heimlichkeit','umd','tierumgang','handwerk','auftreten'],
+    'Waldläufer': ['klettern','handwerk','fluchtkunst','heilkunde','reiten','schwimmen','wildnisleben','wahrnehmung','wissen_natur','tierumgang','heimlichkeit']
+  };
+
   var POINT_COST = {7:-4,8:-2,9:-1,10:0,11:1,12:2,13:3,14:5,15:7,16:10,17:13,18:16};
   var ABILITIES = [
     {key:'sta', name:'STÄ'}, {key:'ges', name:'GES'}, {key:'kon', name:'KON'},
     {key:'int', name:'INT'}, {key:'wei', name:'WEI'}, {key:'cha', name:'CHA'}
   ];
-  var abilityScores = {sta:10, ges:10, kon:10, int:10, wei:10, cha:10};
 
+  var ITEM_CATALOG = [
+    'Langschwert','Kurzschwert','Rapier','Dolch','Streitkolben','Kriegshammer','Handaxt','Speer',
+    'Langbogen','Kurzbogen','Kompositlangbogen','Armbrust, leicht','Armbrust, schwer','Wurfmesser','Schleuder',
+    'Lederrüstung','Lederrüstung, verstärkt','Kettenhemd','Schuppenpanzer','Halbplatte','Vollplatte','Rundschild','Turmschild',
+    'Abenteurerausrüstung','Reisekleidung','Seil, 15 m','Fackel','Laterne, Blendlaterne','Lampenöl','Zunderkasten',
+    'Ranger-Ausrüstungsset','Dietrich','Kletterausrüstung','Schlafsack','Rucksack','Wasserschlauch','Reiseproviant (1 Tag)',
+    'Heiltrank, gering','Heiltrank, mäßig','Heiltrank, stark','Gegengift','Alchemistenfeuer','Säure (Fläschchen)','Rauchpulver',
+    'Zauberkomponentenbeutel','Zauberbuch, leer','Schreibfeder und Tinte','Pergament (Blatt)','Kerze','Angelausrüstung',
+    'Wurfnetz','Manacles','Laterne, Sturmlaterne','Spiegel, klein (Stahl)','Öllampe'
+  ];
+
+  /* ---------- STATE ---------- */
+  var abilityScores = {sta:10, ges:10, kon:10, int:10, wei:10, cha:10};
   var selectedRace = null;
+  var selectedFlexAbility = null;
   var selectedFeats = [];
   var selectedTraits = [];
+  var skillRanks = {};
+  var classRowCounter = 0;
+  var classOptionSelections = {};
+  var spellSelections = {};
   var gearItems = [
     {name:'Abenteurerausrüstung', qty:1},
     {name:'Reisekleidung', qty:1}
   ];
 
-  /* ---------- STEPPER ---------- */
-  var STEP_LABELS = ['Grunddaten','Klasse','Attribute','Talente','Wesenszüge','Ausrüstung','Zusammenfassung'];
+  /* ---------- STEPPER / NAV ---------- */
+  var STEP_LABELS = ['Grunddaten','Klasse','Attribute','Fertigkeiten','Talente','Wesenszüge','Zauber','Ausrüstung','Zusammenfassung'];
   function renderStepper(){
     var el = document.getElementById('stepper');
     el.innerHTML = '';
@@ -831,6 +1038,7 @@
     document.getElementById('btnPrev').disabled = (n === 1);
     var btnNext = document.getElementById('btnNext');
     btnNext.textContent = (n === TOTAL_STEPS) ? 'Charakter erstellen ✦' : 'Weiter →';
+    if(n === SPELL_STEP) renderSpellStep();
     if(n === TOTAL_STEPS) renderSummary();
     renderStepper();
     window.scrollTo({top:0, behavior:'smooth'});
@@ -840,10 +1048,7 @@
     goToStep(currentStep + 1);
   }
   function prevStep(){ goToStep(currentStep - 1); }
-
-  function finishCreation(){
-    document.getElementById('confirmBanner').classList.add('show');
-  }
+  function finishCreation(){ document.getElementById('confirmBanner').classList.add('show'); }
 
   /* ---------- STEP 1: RACE ---------- */
   function renderRaceGrid(){
@@ -858,32 +1063,59 @@
     });
   }
   function selectRace(id){
+    if(id !== selectedRace) selectedFlexAbility = null;
     selectedRace = id;
     renderRaceGrid();
     var race = RACES.find(function(r){ return r.id === id; });
     var detail = document.getElementById('raceDetail');
-    if(!race){ detail.style.display = 'none'; return; }
+    if(!race){ detail.style.display = 'none'; document.getElementById('raceFlexRow').style.display = 'none'; return; }
     document.getElementById('raceDetailTitle').textContent = race.name + ' — Rasseneigenschaften';
     document.getElementById('raceDetailBody').innerHTML = race.traits.map(function(t){
       return '<div class="trait-item"><div class="name">' + t.name + '</div><div class="desc">' + t.desc + '</div></div>';
     }).join('');
     detail.style.display = 'block';
+
+    var flexRow = document.getElementById('raceFlexRow');
+    if(race.flex){
+      var sel = document.getElementById('raceFlexSelect');
+      sel.innerHTML = '<option value="">— Attribut wählen —</option>' + ABILITIES.map(function(a){
+        return '<option value="' + a.key + '"' + (selectedFlexAbility === a.key ? ' selected' : '') + '>' + a.name + '</option>';
+      }).join('');
+      flexRow.style.display = 'block';
+    } else {
+      flexRow.style.display = 'none';
+    }
+    renderAbilityGrid();
+    renderSkillGrid();
+  }
+  function onFlexAbilityChange(val){
+    selectedFlexAbility = val || null;
+    renderAbilityGrid();
+    renderSkillGrid();
   }
 
   /* ---------- STEP 2: CLASSES ---------- */
   function addClassRow(cls, level){
+    var rowId = 'cr' + (classRowCounter++);
     var wrap = document.getElementById('classRows');
-    var row = document.createElement('div');
-    row.className = 'class-row';
+    var container = document.createElement('div');
+    container.className = 'class-row-wrap';
+    container.dataset.rowId = rowId;
 
-    var classOptions = CLASSES.map(function(c){ return '<option value="' + c + '"' + (c === cls ? ' selected' : '') + '>' + c + '</option>'; }).join('');
-    row.innerHTML =
-      '<div><label>Klasse</label><select class="cls-select" onchange="onClassChange(this)">' + classOptions + '</select></div>' +
-      '<div><label>Stufe</label><input type="number" class="cls-level" min="1" value="' + (level || 1) + '" oninput="updateTotalLevel()"></div>' +
-      '<div><label>Archetyp</label><select class="cls-archetype"></select></div>' +
-      '<button type="button" class="row-del" onclick="removeClassRow(this)" title="Klasse entfernen">✕</button>';
-    wrap.appendChild(row);
+    var classOptionsHtml = CLASSES.map(function(c){ return '<option value="' + c + '"' + (c === cls ? ' selected' : '') + '>' + c + '</option>'; }).join('');
+    container.innerHTML =
+      '<div class="class-row">' +
+        '<div><label>Klasse</label><select class="cls-select" onchange="onClassChange(this)">' + classOptionsHtml + '</select></div>' +
+        '<div><label>Stufe</label><input type="number" class="cls-level" min="1" value="' + (level || 1) + '" oninput="updateTotalLevel()"></div>' +
+        '<div><label>Archetyp</label><select class="cls-archetype"></select></div>' +
+        '<button type="button" class="row-del" onclick="removeClassRow(this)" title="Klasse entfernen">✕</button>' +
+      '</div>' +
+      '<div class="class-options"></div>';
+    wrap.appendChild(container);
+
+    var row = container.querySelector('.class-row');
     populateArchetypes(row);
+    populateClassOptions(container, rowId);
     updateTotalLevel();
   }
   function populateArchetypes(row){
@@ -892,13 +1124,48 @@
     var opts = ARCHETYPES[cls] || ['Keiner'];
     sel.innerHTML = opts.map(function(a){ return '<option>' + a + '</option>'; }).join('');
   }
+  function populateClassOptions(container, rowId){
+    var cls = container.querySelector('.cls-select').value;
+    var groups = CLASS_OPTIONS[cls] || [];
+    var optWrap = container.querySelector('.class-options');
+    if(!classOptionSelections[rowId]) classOptionSelections[rowId] = {};
+    var sel = classOptionSelections[rowId];
+    Object.keys(sel).forEach(function(k){
+      if(!groups.some(function(g){ return g.key === k; })) delete sel[k];
+    });
+    if(groups.length === 0){ optWrap.innerHTML = ''; return; }
+    optWrap.innerHTML = groups.map(function(g){
+      if(!sel[g.key]) sel[g.key] = [];
+      var chosen = sel[g.key];
+      return '<div class="option-group">' +
+        '<div class="og-label">' + g.label + ' <span class="pick-counter">(<b>' + chosen.length + '</b>/' + g.max + ')</span></div>' +
+        '<div class="chip-row">' + g.choices.map(function(c){
+          var active = chosen.indexOf(c) !== -1;
+          var disabled = !active && chosen.length >= g.max;
+          return '<button type="button" class="chip' + (active ? ' active' : '') + (disabled ? ' disabled' : '') + '" onclick="toggleClassOption(\'' + rowId + '\', \'' + g.key + '\', \'' + c + '\', ' + g.max + ')">' + c + '</button>';
+        }).join('') + '</div></div>';
+    }).join('');
+  }
+  function toggleClassOption(rowId, key, value, max){
+    var sel = classOptionSelections[rowId][key];
+    var idx = sel.indexOf(value);
+    if(idx !== -1){ sel.splice(idx, 1); }
+    else if(sel.length < max){ sel.push(value); }
+    var container = document.querySelector('.class-row-wrap[data-row-id="' + rowId + '"]');
+    populateClassOptions(container, rowId);
+  }
   function onClassChange(select){
+    var container = select.closest('.class-row-wrap');
     populateArchetypes(select.closest('.class-row'));
+    populateClassOptions(container, container.dataset.rowId);
+    updateTotalLevel();
   }
   function removeClassRow(btn){
     var wrap = document.getElementById('classRows');
     if(wrap.children.length <= 1) return;
-    btn.closest('.class-row').remove();
+    var container = btn.closest('.class-row-wrap');
+    delete classOptionSelections[container.dataset.rowId];
+    container.remove();
     updateTotalLevel();
   }
   function updateTotalLevel(){
@@ -910,6 +1177,7 @@
     var maxFeats = 1 + Math.floor(total / 2);
     document.getElementById('featMax').textContent = maxFeats;
     renderFeatChips();
+    renderSkillGrid();
   }
   function getTotalLevel(){ return parseInt(document.getElementById('totalLevelVal').textContent, 10) || 1; }
 
@@ -922,12 +1190,26 @@
     ABILITIES.forEach(function(a){ spent += POINT_COST[abilityScores[a.key]] || 0; });
     return spent;
   }
+  function raceMod(key){
+    var race = RACES.find(function(r){ return r.id === selectedRace; });
+    if(!race) return 0;
+    var m = (race.mods && race.mods[key]) || 0;
+    if(race.flex && selectedFlexAbility === key) m += 2;
+    return m;
+  }
+  function totalAbility(key){ return abilityScores[key] + raceMod(key); }
   function renderAbilityGrid(){
+    var race = RACES.find(function(r){ return r.id === selectedRace; });
+    var warning = document.getElementById('abilityFlexWarning');
+    warning.style.display = (race && race.flex && !selectedFlexAbility) ? 'block' : 'none';
+
     var grid = document.getElementById('abilityGrid');
     grid.innerHTML = '';
     ABILITIES.forEach(function(a){
       var score = abilityScores[a.key];
-      var mod = abilityMod(score);
+      var mod = raceMod(a.key);
+      var total = score + mod;
+      var totalMod = abilityMod(total);
       var cell = document.createElement('div');
       cell.className = 'ability-edit';
       cell.innerHTML =
@@ -937,7 +1219,8 @@
           '<span class="score">' + score + '</span>' +
           '<button type="button" class="stepper-btn" onclick="adjustAbility(\'' + a.key + '\', 1)" ' + (score >= 18 ? 'disabled' : '') + '>+</button>' +
         '</div>' +
-        '<div class="meta"><span class="mod">' + formatMod(mod) + '</span><span class="cost">' + (POINT_COST[score] || 0) + ' Pkt.</span></div>';
+        '<div class="meta"><span class="mod">' + formatMod(abilityMod(score)) + '</span><span class="cost">' + (POINT_COST[score] || 0) + ' Pkt.</span></div>' +
+        (mod !== 0 ? '<div class="race-mod-line">Rasse ' + formatMod(mod) + ' → <b>' + total + '</b> (' + formatMod(totalMod) + ')</div>' : '');
       grid.appendChild(cell);
     });
     var remaining = currentBudget() - spentPoints();
@@ -954,10 +1237,87 @@
     }
     abilityScores[key] = newScore;
     renderAbilityGrid();
+    renderSkillGrid();
   }
   function onBudgetChange(){ renderAbilityGrid(); }
 
-  /* ---------- STEP 4: FEATS ---------- */
+  /* ---------- STEP 4: SKILLS ---------- */
+  function classSkillSet(){
+    var set = {};
+    document.querySelectorAll('.cls-select').forEach(function(sel){
+      (CLASS_SKILLS[sel.value] || []).forEach(function(k){ set[k] = true; });
+    });
+    return set;
+  }
+  function skillPointsTotal(){
+    var intMod = abilityMod(totalAbility('int'));
+    var total = 0;
+    document.querySelectorAll('.class-row').forEach(function(row){
+      var cls = row.querySelector('.cls-select').value;
+      var lvl = parseInt(row.querySelector('.cls-level').value, 10) || 0;
+      var base = CLASS_SKILL_POINTS[cls] || 2;
+      var perLevel = Math.max(1, base + intMod);
+      total += perLevel * lvl;
+    });
+    return total;
+  }
+  function skillPointsSpent(){
+    var spent = 0;
+    SKILLS.forEach(function(s){
+      spent += skillRanks[s.key] || 0;
+    });
+    return spent;
+  }
+  function renderSkillGrid(){
+    var totalLevel = getTotalLevel();
+    SKILLS.forEach(function(s){
+      if((skillRanks[s.key] || 0) > totalLevel) skillRanks[s.key] = totalLevel;
+    });
+    var total = skillPointsTotal();
+    var set = classSkillSet();
+    var spent = skillPointsSpent();
+    var remaining = total - spent;
+    var remEl = document.getElementById('skillPointsRemaining');
+    remEl.textContent = remaining + ' / ' + total;
+    remEl.classList.toggle('over', remaining < 0);
+
+    var wrap = document.getElementById('skillList');
+    wrap.innerHTML = '';
+    SKILLS.forEach(function(s){
+      var ranks = skillRanks[s.key] || 0;
+      var isClassSkill = !!set[s.key];
+      var abMod = abilityMod(totalAbility(s.ability));
+      var bonus = ranks + abMod + (isClassSkill && ranks > 0 ? 3 : 0);
+      var canInc = ranks < totalLevel && (remaining - 1) >= 0;
+      var row = document.createElement('div');
+      row.className = 'skill-row-edit';
+      row.innerHTML =
+        '<div class="sr-name">' + s.name + ' <span class="sr-ability">(' + s.ability.toUpperCase() + ')</span>' + (isClassSkill ? ' <span class="tag class-skill">Klasse</span>' : '') + '</div>' +
+        '<div class="sr-ctrl">' +
+          '<button type="button" class="stepper-btn" onclick="adjustSkill(\'' + s.key + '\', -1)" ' + (ranks <= 0 ? 'disabled' : '') + '>−</button>' +
+          '<span class="sr-rank">' + ranks + '</span>' +
+          '<button type="button" class="stepper-btn" onclick="adjustSkill(\'' + s.key + '\', 1)" ' + (canInc ? '' : 'disabled') + '>+</button>' +
+        '</div>' +
+        '<div class="sr-total">' + formatMod(bonus) + '</div>';
+      wrap.appendChild(row);
+    });
+  }
+  function adjustSkill(key, dir){
+    var totalLevel = getTotalLevel();
+    var cur = skillRanks[key] || 0;
+    if(dir > 0){
+      var remaining = skillPointsTotal() - skillPointsSpent();
+      if(cur >= totalLevel) return;
+      if(remaining - 1 < 0) return;
+      skillRanks[key] = cur + 1;
+    } else {
+      if(cur <= 0) return;
+      skillRanks[key] = cur - 1;
+    }
+    renderSkillGrid();
+  }
+
+  /* ---------- STEP 5: FEATS ---------- */
   function renderFeatChips(){
     var query = (document.getElementById('featSearch').value || '').toLowerCase();
     var wrap = document.getElementById('featChips');
@@ -983,7 +1343,7 @@
     renderFeatChips();
   }
 
-  /* ---------- STEP 5: TRAITS ---------- */
+  /* ---------- STEP 6: TRAITS ---------- */
   function renderTraitChips(){
     var wrap = document.getElementById('traitChips');
     wrap.innerHTML = '';
@@ -1006,7 +1366,6 @@
     else if(selectedTraits.length < 2){ selectedTraits.push(name); }
     renderTraitChips();
   }
-
   function renderSelectedList(elId, list, emptyText){
     var el = document.getElementById(elId);
     if(list.length === 0){
@@ -1018,7 +1377,53 @@
     el.innerHTML = list.map(function(name){ return '<span class="chip active">' + name + '</span>'; }).join('');
   }
 
-  /* ---------- STEP 6: EQUIPMENT ---------- */
+  /* ---------- STEP 7: SPELLS ---------- */
+  function spellcastingClassesFromRows(){
+    var result = [];
+    document.querySelectorAll('.cls-select').forEach(function(sel){
+      var type = CLASS_SPELL_TYPE[sel.value] || 'none';
+      if(type === 'arcane-prepared' || type === 'spontaneous'){
+        if(!result.some(function(c){ return c.cls === sel.value; })) result.push({cls:sel.value, type:type});
+      }
+    });
+    return result;
+  }
+  function renderSpellStep(){
+    var body = document.getElementById('spellStepBody');
+    var casters = spellcastingClassesFromRows();
+    if(casters.length === 0){
+      body.innerHTML = '<div class="selected-empty">Kein zauberkundiger Charakter mit fester, begrenzter Zauberliste. Vorbereitende göttliche Zauberwirker (z. B. Kleriker, Druide, Waldläufer) wählen ihre Vorbereitung im Spiel frei aus der vollen Klassen-Zauberliste — hier ist keine Auswahl nötig.</div>';
+      return;
+    }
+    var max = 2 + Math.floor(getTotalLevel() / 4);
+    body.innerHTML = casters.map(function(c){
+      if(!spellSelections[c.cls]) spellSelections[c.cls] = [];
+      var sel = spellSelections[c.cls];
+      var known = SPELLS_BY_CLASS[c.cls] || [];
+      var typeLabel = c.type === 'arcane-prepared' ? 'Zauberbuch (arkan, vorbereitend)' : 'Bekannte Zauber (spontan)';
+      return '<div class="summary-block" style="margin-bottom:16px;">' +
+        '<div class="sb-title">' + c.cls + ' — ' + typeLabel + '</div>' +
+        '<div class="pick-counter" style="margin-bottom:10px;">Ausgewählt: <b>' + sel.length + '</b> / <b>' + max + '</b></div>' +
+        '<div class="chip-row">' + known.map(function(name){
+          var active = sel.indexOf(name) !== -1;
+          var disabled = !active && sel.length >= max;
+          return '<button type="button" class="chip' + (active ? ' active' : '') + (disabled ? ' disabled' : '') + '" onclick="toggleClassSpell(\'' + c.cls + '\', \'' + name + '\', ' + max + ')">' + name + '</button>';
+        }).join('') + '</div></div>';
+    }).join('');
+  }
+  function toggleClassSpell(cls, name, max){
+    var sel = spellSelections[cls];
+    var idx = sel.indexOf(name);
+    if(idx !== -1){ sel.splice(idx, 1); }
+    else if(sel.length < max){ sel.push(name); }
+    renderSpellStep();
+  }
+
+  /* ---------- STEP 8: EQUIPMENT ---------- */
+  function renderItemCatalog(){
+    var list = document.getElementById('gearItemOptions');
+    list.innerHTML = ITEM_CATALOG.map(function(name){ return '<option value="' + escapeHtml(name) + '">'; }).join('');
+  }
   function renderGearList(){
     var wrap = document.getElementById('gearList');
     wrap.innerHTML = '';
@@ -1053,11 +1458,25 @@
     return div.innerHTML;
   }
 
-  /* ---------- STEP 7: SUMMARY ---------- */
+  /* ---------- STEP 9: SUMMARY ---------- */
+  function genderLabel(v){
+    if(v === 'maennlich') return 'Männlich';
+    if(v === 'weiblich') return 'Weiblich';
+    return 'Keine Angabe';
+  }
+  function abilityNameByKey(key){
+    var a = ABILITIES.find(function(x){ return x.key === key; });
+    return a ? a.name : key;
+  }
   function renderSummary(){
     document.getElementById('sumName').textContent = document.getElementById('fldName').value.trim() || '—';
+    document.getElementById('sumGender').textContent = genderLabel(document.getElementById('fldGender').value);
+
     var race = RACES.find(function(r){ return r.id === selectedRace; });
     document.getElementById('sumRace').textContent = race ? race.name : '—';
+    document.getElementById('sumFlex').textContent = race && race.flex
+      ? (selectedFlexAbility ? abilityNameByKey(selectedFlexAbility) : '— noch nicht gewählt —')
+      : (race ? '– (feste Werte)' : '—');
     document.getElementById('sumLevel').textContent = getTotalLevel();
 
     var classesHtml = '';
@@ -1071,13 +1490,21 @@
 
     var abilitiesHtml = '';
     ABILITIES.forEach(function(a){
-      var score = abilityScores[a.key];
-      abilitiesHtml += '<div class="sb-line"><span>' + a.name + '</span><span class="val">' + score + ' (' + formatMod(abilityMod(score)) + ')</span></div>';
+      var total = totalAbility(a.key);
+      abilitiesHtml += '<div class="sb-line"><span>' + a.name + '</span><span class="val">' + total + ' (' + formatMod(abilityMod(total)) + ')</span></div>';
     });
     document.getElementById('sumAbilities').innerHTML = abilitiesHtml;
 
     document.getElementById('sumGold').textContent = (document.getElementById('fldGold').value || 0) + ' GM';
     document.getElementById('sumGearCount').textContent = gearItems.length;
+
+    var skillLines = SKILLS.filter(function(s){ return (skillRanks[s.key] || 0) > 0; }).map(function(s){
+      var abMod = abilityMod(totalAbility(s.ability));
+      var isClassSkill = classSkillSet()[s.key];
+      var bonus = skillRanks[s.key] + abMod + (isClassSkill && skillRanks[s.key] > 0 ? 3 : 0);
+      return '<div class="sb-line"><span>' + s.name + ' (' + skillRanks[s.key] + ' Rang)</span><span class="val">' + formatMod(bonus) + '</span></div>';
+    });
+    document.getElementById('sumSkills').innerHTML = skillLines.length ? skillLines.join('') : '<div class="sb-line"><span>Keine Fertigkeitsränge vergeben.</span></div>';
 
     document.getElementById('sumFeats').innerHTML = selectedFeats.length
       ? selectedFeats.map(function(f){ return '<span class="chip active">' + f + '</span>'; }).join('')
@@ -1085,6 +1512,26 @@
     document.getElementById('sumTraits').innerHTML = selectedTraits.length
       ? selectedTraits.map(function(t){ return '<span class="chip active">' + t + '</span>'; }).join('')
       : '<span class="selected-empty">Keine Wesenszüge gewählt.</span>';
+
+    var optionLines = [];
+    document.querySelectorAll('.class-row-wrap').forEach(function(container){
+      var cls = container.querySelector('.cls-select').value;
+      var rowId = container.dataset.rowId;
+      var groups = CLASS_OPTIONS[cls] || [];
+      var sel = classOptionSelections[rowId] || {};
+      groups.forEach(function(g){
+        var chosen = sel[g.key] || [];
+        if(chosen.length){
+          optionLines.push('<div class="sb-line"><span>' + cls + ' — ' + g.label.replace(/\s*\(.*\)/, '') + '</span><span class="val">' + chosen.join(', ') + '</span></div>');
+        }
+      });
+    });
+    document.getElementById('sumClassOptions').innerHTML = optionLines.length ? optionLines.join('') : '<div class="sb-line"><span>Keine Zusatzoptionen.</span></div>';
+
+    var spellLines = Object.keys(spellSelections).filter(function(cls){ return spellSelections[cls].length > 0; }).map(function(cls){
+      return '<div class="sb-line"><span>' + cls + '</span><span class="val">' + spellSelections[cls].join(', ') + '</span></div>';
+    });
+    document.getElementById('sumSpells').innerHTML = spellLines.length ? spellLines.join('') : '<div class="sb-line"><span>Keine Zauber ausgewählt.</span></div>';
   }
 
   /* ---------- INIT ---------- */
@@ -1094,6 +1541,7 @@
   renderAbilityGrid();
   renderFeatChips();
   renderTraitChips();
+  renderItemCatalog();
   renderGearList();
 </script>
 
