@@ -286,6 +286,24 @@
   .trait-item:last-child{border-bottom:none;}
   .trait-item .name{font-size:13.5px; font-weight:600; color:var(--ink);}
   .trait-item .desc{font-size:12px; color:var(--ink-soft); margin-top:2px; line-height:1.4;}
+  .trait-item.replaced .name{text-decoration:line-through; color:var(--ink-faint);}
+  .trait-item.replaced .desc{opacity:0.55;}
+
+  .alt-trait-item{cursor:pointer; border-radius:6px; padding:8px 10px; transition:background .15s;}
+  .alt-trait-item:hover{background:rgba(179,137,63,0.1);}
+  .alt-trait-item .name{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .alt-trait-item .pick-indicator{
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--brass-dark); white-space:nowrap;
+  }
+  .alt-trait-item .alt-replaces{color:var(--ink-faint); font-style:italic;}
+  .alt-trait-item.active{
+    background:linear-gradient(160deg, rgba(224,189,117,0.35), rgba(179,137,63,0.15));
+    box-shadow:inset 0 0 0 1px var(--brass-dark);
+  }
+  .alt-trait-item.active .pick-indicator{color:var(--forest);}
+  .alt-trait-item.disabled{cursor:not-allowed; opacity:0.45;}
+  .alt-trait-item.disabled:hover{background:none;}
 
   /* ---------- CLASS ROWS ---------- */
   .class-row-wrap{
@@ -490,6 +508,7 @@
     white-space:nowrap;
   }
   .tag.class-skill{background:rgba(60,107,71,0.18); color:var(--forest);}
+  .tag.replaced-tag{background:rgba(126,42,38,0.16); color:var(--wax);}
   .pick-counter{
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);
   }
@@ -509,8 +528,16 @@
     border-radius:6px;
     font-size:13px;
   }
-  .gear-item .qty{font-family:'JetBrains Mono',monospace; color:var(--ink-faint); font-size:12px;}
-  .gear-item .gear-name{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .gear-item .qty{font-family:'JetBrains Mono',monospace; color:var(--ink-faint); font-size:12px; flex:0 0 auto;}
+  .gear-item .gear-name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .gear-item .gear-price{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-faint);
+    flex:0 0 auto; white-space:nowrap;
+  }
+  .gear-item .gear-total{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12px; color:var(--forest);
+    flex:0 0 auto; min-width:56px; text-align:right; white-space:nowrap;
+  }
   .gear-del{
     flex:0 0 auto; width:22px; height:22px; border-radius:50%;
     border:1px solid var(--parchment-shadow);
@@ -520,9 +547,15 @@
     transition:background .15s, border-color .15s;
   }
   .gear-del:hover{background:rgba(126,42,38,0.15); border-color:var(--wax);}
-  .gear-add-row{display:flex; gap:8px; margin-top:12px;}
-  .gear-add-row input:first-child{flex:3;}
-  .gear-add-row input:last-child{flex:1;}
+  .gear-add-row{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;}
+  .gear-add-row .gear-name-input{flex:1 1 200px; min-width:160px;}
+  .gear-add-row .gear-price-input{flex:0 0 84px; width:84px;}
+  .gear-add-row .gear-qty-input{flex:0 0 56px; width:56px;}
+  .gear-cost-preview{
+    margin-top:8px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--ink-faint);
+  }
+  .gear-cost-preview b{color:var(--ink); font-weight:700;}
   .hp-btn{
     font-family:'Cinzel',serif; font-weight:600; font-size:12px; letter-spacing:0.02em;
     border-radius:6px; padding:9px 16px; cursor:pointer;
@@ -645,6 +678,11 @@
           <div class="race-detail" id="raceDetail" style="display:none;">
             <div class="rd-title" id="raceDetailTitle"></div>
             <div id="raceDetailBody"></div>
+          </div>
+          <div class="race-detail" id="raceAltRow" style="display:none;">
+            <div class="rd-title">Alternative Volksmerkmale (optional)</div>
+            <div class="field-label">Ersetzt jeweils ein Standard-Volksmerkmal derselben Rasse. Pro ersetztem Merkmal ist nur eine Alternative wählbar.</div>
+            <div id="raceAltBody"></div>
           </div>
           <div class="race-detail" id="raceFlexRow" style="display:none;">
             <div class="rd-title">Freier Attributsbonus (+2)</div>
@@ -771,12 +809,15 @@
 
           <div class="section-label">Inventar</div>
           <div id="gearList"></div>
+          <div class="field-label" id="gearTotalValue" style="margin-top:2px;">Gesamtwert: 0 GM</div>
           <div class="gear-add-row">
-            <input type="text" class="text-input" id="gearAddName" placeholder="Bezeichnung eingeben oder auswählen …" list="gearItemOptions" autocomplete="off">
-            <input type="number" class="text-input" id="gearAddQty" value="1" min="1">
+            <input type="text" class="text-input gear-name-input" id="gearAddName" placeholder="Bezeichnung eingeben oder auswählen …" list="gearItemOptions" autocomplete="off" oninput="onGearNameInput()">
+            <input type="number" class="text-input gear-price-input" id="gearAddPrice" value="0" min="0" step="0.01" placeholder="Preis" title="Preis pro Stück (GM)" oninput="updateGearCostPreview()">
+            <input type="number" class="text-input gear-qty-input" id="gearAddQty" value="1" min="1" title="Anzahl" oninput="updateGearCostPreview()">
             <button type="button" class="hp-btn confirm" onclick="addGearItem()">Hinzufügen</button>
             <datalist id="gearItemOptions"></datalist>
           </div>
+          <div class="gear-cost-preview" id="gearAddCostPreview">Kosten: 0 GM</div>
           <div class="field-label" style="margin-top:14px;">Zuordnung zu Ausrüstungsplätzen (Kopf, Ringe, …) erfolgt später im Charakterbogen.</div>
         </div>
       </section>
@@ -795,6 +836,7 @@
               <div class="sb-line"><span>Geschlecht</span><span class="val" id="sumGender">—</span></div>
               <div class="sb-line"><span>Rasse</span><span class="val" id="sumRace">—</span></div>
               <div class="sb-line"><span>Rassenbonus-Attribut</span><span class="val" id="sumFlex">—</span></div>
+              <div class="sb-line"><span>Alt. Volksmerkmale</span><span class="val" id="sumAltTraits">—</span></div>
               <div class="sb-line"><span>Charakterstufe</span><span class="val" id="sumLevel">—</span></div>
             </div>
             <div class="summary-block">
@@ -809,6 +851,7 @@
               <div class="sb-title">Ausrüstung</div>
               <div class="sb-line"><span>Startgold</span><span class="val" id="sumGold">0 GM</span></div>
               <div class="sb-line"><span>Gegenstände</span><span class="val" id="sumGearCount">0</span></div>
+              <div class="sb-line"><span>Inventarwert</span><span class="val" id="sumGearValue">0 GM</span></div>
             </div>
             <div class="summary-block summary-full">
               <div class="sb-title">Fertigkeiten</div>
@@ -855,25 +898,53 @@
   var RACES = [
     {id:'mensch', name:'Mensch', short:'+2 auf ein frei wählbares Attribut; Bonustalent bei Stufe 1; zusätzliche Fertigkeitspunkte.',
       flex:true, mods:{},
-      traits:[{name:'Anpassungsfähig', desc:'+2 auf ein frei wählbares Attribut.'},{name:'Bonustalent', desc:'Erhält ein zusätzliches Talent auf Stufe 1.'},{name:'Vielseitig', desc:'Ein zusätzlicher Fertigkeitspunkt pro Stufe.'}]},
+      traits:[{name:'Anpassungsfähig', desc:'+2 auf ein frei wählbares Attribut.'},{name:'Bonustalent', desc:'Erhält ein zusätzliches Talent auf Stufe 1.'},{name:'Vielseitig', desc:'Ein zusätzlicher Fertigkeitspunkt pro Stufe.'}],
+      alt:[
+        {name:'Bemerkenswerte Fertigkeit', desc:'Wählt eine Fertigkeit; +2 auf diese Fertigkeit statt eines Bonustalents.', replaces:['Bonustalent']},
+        {name:'Fokussierter Geist', desc:'+2 auf Rettungswürfe gegen Zaubereffekte, aber kein zusätzlicher Fertigkeitspunkt pro Stufe.', replaces:['Vielseitig']}
+      ]},
     {id:'elf', name:'Elf', short:'+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit.',
       flex:false, mods:{ges:2, int:2, kon:-2},
-      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Elfische Waffenvertrautheit', desc:'Vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen.'},{name:'Zauberkundig', desc:'+2 auf Weltwissen zur Identifikation magischer Gegenstände.'},{name:'Widerstandsfähiger Geist', desc:'+2 auf Rettungswürfe gegen Bezauberung; Immunität gegen magischen Schlaf.'}]},
+      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Elfische Waffenvertrautheit', desc:'Vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen.'},{name:'Zauberkundig', desc:'+2 auf Weltwissen zur Identifikation magischer Gegenstände.'},{name:'Widerstandsfähiger Geist', desc:'+2 auf Rettungswürfe gegen Bezauberung; Immunität gegen magischen Schlaf.'}],
+      alt:[
+        {name:'Eisenkultur', desc:'+2 auf Rettungswürfe gegen Verzauberungseffekte statt Waffenvertrautheit.', replaces:['Elfische Waffenvertrautheit']},
+        {name:'Küstenbewohner', desc:'Schwimmen gilt immer als Klassenfertigkeit, statt magische Gegenstände zu identifizieren.', replaces:['Zauberkundig']}
+      ]},
     {id:'zwerg', name:'Zwerg', short:'+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks &amp; Goblinoide.',
       flex:false, mods:{kon:2, wei:2, cha:-2},
-      traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Zwergenhass', desc:'+1 auf Angriffswürfe gegen Orks und Goblinoide.'},{name:'Standhaft', desc:'+2 auf Rettungswürfe gegen Gifte, Krankheiten und Zauber.'},{name:'Steinvertrautheit', desc:'Erkennt ungewöhnliche Steinkonstruktionen automatisch.'}]},
+      traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Zwergenhass', desc:'+1 auf Angriffswürfe gegen Orks und Goblinoide.'},{name:'Standhaft', desc:'+2 auf Rettungswürfe gegen Gifte, Krankheiten und Zauber.'},{name:'Steinvertrautheit', desc:'Erkennt ungewöhnliche Steinkonstruktionen automatisch.'}],
+      alt:[
+        {name:'Tiefenwanderer', desc:'+1 auf Angriffswürfe gegen Aberrationen statt gegen Orks und Goblinoide.', replaces:['Zwergenhass']},
+        {name:'Kampflustig', desc:'+1 auf Angriffswürfe bei zahlenmäßiger Unterlegenheit statt erhöhter Widerstandskraft.', replaces:['Standhaft']}
+      ]},
     {id:'halbling', name:'Halbling', short:'+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich.',
       flex:false, mods:{ges:2, cha:2, sta:-2},
-      traits:[{name:'Furchtlos', desc:'+2 auf Rettungswürfe gegen Furcht.'},{name:'Glücklich', desc:'+1 Glücksbonus auf alle Rettungswürfe.'},{name:'Flink', desc:'+4 auf Akrobatik bei Balanceakten.'}]},
+      traits:[{name:'Furchtlos', desc:'+2 auf Rettungswürfe gegen Furcht.'},{name:'Glücklich', desc:'+1 Glücksbonus auf alle Rettungswürfe.'},{name:'Flink', desc:'+4 auf Akrobatik bei Balanceakten.'}],
+      alt:[
+        {name:'Unauffällig', desc:'+2 auf Heimlichkeit statt Bonus auf Akrobatik bei Balanceakten.', replaces:['Flink']},
+        {name:'Geschickter Wanderer', desc:'Kein Bewegungsmalus durch schwieriges Gelände statt Furcht-Resistenz.', replaces:['Furchtlos']}
+      ]},
     {id:'gnom', name:'Gnom', short:'+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber.',
       flex:false, mods:{kon:2, cha:2, sta:-2},
-      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Illusionsaffinität', desc:'+1 auf Schwierigkeitsklasse eigener Illusionszauber.'},{name:'Riesenfeind', desc:'+4 auf KMD und RK gegen Wesen der Größenkategorie Riesig oder größer.'}]},
+      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Illusionsaffinität', desc:'+1 auf Schwierigkeitsklasse eigener Illusionszauber.'},{name:'Riesenfeind', desc:'+4 auf KMD und RK gegen Wesen der Größenkategorie Riesig oder größer.'}],
+      alt:[
+        {name:'Wortgewandt', desc:'+2 auf Bluffen und Diplomatie statt erhöhter Illusionsmagie.', replaces:['Illusionsaffinität']},
+        {name:'Waldgänger', desc:'Wildnisleben gilt immer als Klassenfertigkeit statt Bonus gegen Riesen.', replaces:['Riesenfeind']}
+      ]},
     {id:'halbelf', name:'Halbelf', short:'+2 auf ein frei wählbares Attribut; Niedrigsichtig; multitalentiert.',
       flex:true, mods:{},
-      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Multitalentiert', desc:'Gilt in zwei gewählten Klassen als Favorisierte Klasse.'},{name:'Elfenblut', desc:'Gilt sowohl als Elf als auch als Mensch.'}]},
+      traits:[{name:'Niedrigsichtig', desc:'Kann bei Dämmerlicht doppelt so weit sehen wie Menschen.'},{name:'Multitalentiert', desc:'Gilt in zwei gewählten Klassen als Favorisierte Klasse.'},{name:'Elfenblut', desc:'Gilt sowohl als Elf als auch als Mensch.'}],
+      alt:[
+        {name:'Wanderer im Grenzland', desc:'+2 auf Überleben und Diplomatie gegenüber Fremden statt zwei Favorisierten Klassen.', replaces:['Multitalentiert']},
+        {name:'Adaptierte Zauberkunde', desc:'Zugriff auf zusätzliche arkane Zaubertricks statt der Elfenblut-Abstammung.', replaces:['Elfenblut']}
+      ]},
     {id:'halbork', name:'Halb-Ork', short:'+2 auf ein frei wählbares Attribut; Dunkelsicht; Kampfrausch.',
       flex:true, mods:{},
-      traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Kampfrausch', desc:'Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht.'},{name:'Orkblut', desc:'Gilt sowohl als Ork als auch als Mensch.'}]}
+      traits:[{name:'Dunkelsicht', desc:'Sieht 18 m weit auch in völliger Dunkelheit.'},{name:'Kampfrausch', desc:'Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht.'},{name:'Orkblut', desc:'Gilt sowohl als Ork als auch als Mensch.'}],
+      alt:[
+        {name:'Einschüchternde Erscheinung', desc:'+2 auf Einschüchtern statt der Ork-Abstammung.', replaces:['Orkblut']},
+        {name:'Wildnisschritt', desc:'Kein Bewegungsmalus in Wildnisgelände statt Kampfrausch.', replaces:['Kampfrausch']}
+      ]}
   ];
 
   var CLASSES = ['Barbar','Barde','Druide','Hexenmeister','Kleriker','Krieger','Magier','Mönch','Orakel','Paladin','Schurke','Waldläufer'];
@@ -989,20 +1060,30 @@
   ];
 
   var ITEM_CATALOG = [
-    'Langschwert','Kurzschwert','Rapier','Dolch','Streitkolben','Kriegshammer','Handaxt','Speer',
-    'Langbogen','Kurzbogen','Kompositlangbogen','Armbrust, leicht','Armbrust, schwer','Wurfmesser','Schleuder',
-    'Lederrüstung','Lederrüstung, verstärkt','Kettenhemd','Schuppenpanzer','Halbplatte','Vollplatte','Rundschild','Turmschild',
-    'Abenteurerausrüstung','Reisekleidung','Seil, 15 m','Fackel','Laterne, Blendlaterne','Lampenöl','Zunderkasten',
-    'Ranger-Ausrüstungsset','Dietrich','Kletterausrüstung','Schlafsack','Rucksack','Wasserschlauch','Reiseproviant (1 Tag)',
-    'Heiltrank, gering','Heiltrank, mäßig','Heiltrank, stark','Gegengift','Alchemistenfeuer','Säure (Fläschchen)','Rauchpulver',
-    'Zauberkomponentenbeutel','Zauberbuch, leer','Schreibfeder und Tinte','Pergament (Blatt)','Kerze','Angelausrüstung',
-    'Wurfnetz','Manacles','Laterne, Sturmlaterne','Spiegel, klein (Stahl)','Öllampe'
+    {name:'Langschwert', price:15}, {name:'Kurzschwert', price:10}, {name:'Rapier', price:20}, {name:'Dolch', price:2},
+    {name:'Streitkolben', price:5}, {name:'Kriegshammer', price:12}, {name:'Handaxt', price:6}, {name:'Speer', price:5},
+    {name:'Langbogen', price:75}, {name:'Kurzbogen', price:30}, {name:'Kompositlangbogen', price:100},
+    {name:'Armbrust, leicht', price:35}, {name:'Armbrust, schwer', price:50}, {name:'Wurfmesser', price:1}, {name:'Schleuder', price:0},
+    {name:'Lederrüstung', price:10}, {name:'Lederrüstung, verstärkt', price:25}, {name:'Kettenhemd', price:100},
+    {name:'Schuppenpanzer', price:50}, {name:'Halbplatte', price:600}, {name:'Vollplatte', price:1500},
+    {name:'Rundschild', price:9}, {name:'Turmschild', price:30},
+    {name:'Abenteurerausrüstung', price:9}, {name:'Reisekleidung', price:1}, {name:'Seil, 15 m', price:1},
+    {name:'Fackel', price:0.01}, {name:'Laterne, Blendlaterne', price:12}, {name:'Lampenöl', price:0.1}, {name:'Zunderkasten', price:1},
+    {name:'Ranger-Ausrüstungsset', price:12}, {name:'Dietrich', price:30}, {name:'Kletterausrüstung', price:80},
+    {name:'Schlafsack', price:0.1}, {name:'Rucksack', price:2}, {name:'Wasserschlauch', price:1}, {name:'Reiseproviant (1 Tag)', price:0.5},
+    {name:'Heiltrank, gering', price:50}, {name:'Heiltrank, mäßig', price:300}, {name:'Heiltrank, stark', price:750},
+    {name:'Gegengift', price:50}, {name:'Alchemistenfeuer', price:20}, {name:'Säure (Fläschchen)', price:10}, {name:'Rauchpulver', price:20},
+    {name:'Zauberkomponentenbeutel', price:5}, {name:'Zauberbuch, leer', price:15}, {name:'Schreibfeder und Tinte', price:8},
+    {name:'Pergament (Blatt)', price:0.2}, {name:'Kerze', price:0.01}, {name:'Angelausrüstung', price:4},
+    {name:'Wurfnetz', price:20}, {name:'Manacles', price:15}, {name:'Laterne, Sturmlaterne', price:7},
+    {name:'Spiegel, klein (Stahl)', price:10}, {name:'Öllampe', price:0.1}
   ];
 
   /* ---------- STATE ---------- */
   var abilityScores = {sta:10, ges:10, kon:10, int:10, wei:10, cha:10};
   var selectedRace = null;
   var selectedFlexAbility = null;
+  var selectedAltTraits = [];
   var selectedFeats = [];
   var selectedTraits = [];
   var skillRanks = {};
@@ -1010,8 +1091,8 @@
   var classOptionSelections = {};
   var spellSelections = {};
   var gearItems = [
-    {name:'Abenteurerausrüstung', qty:1},
-    {name:'Reisekleidung', qty:1}
+    {name:'Abenteurerausrüstung', qty:1, price:9},
+    {name:'Reisekleidung', qty:1, price:1}
   ];
 
   /* ---------- STEPPER / NAV ---------- */
@@ -1063,17 +1144,20 @@
     });
   }
   function selectRace(id){
-    if(id !== selectedRace) selectedFlexAbility = null;
+    if(id !== selectedRace){ selectedFlexAbility = null; selectedAltTraits = []; }
     selectedRace = id;
     renderRaceGrid();
     var race = RACES.find(function(r){ return r.id === id; });
     var detail = document.getElementById('raceDetail');
-    if(!race){ detail.style.display = 'none'; document.getElementById('raceFlexRow').style.display = 'none'; return; }
+    if(!race){
+      detail.style.display = 'none';
+      document.getElementById('raceFlexRow').style.display = 'none';
+      document.getElementById('raceAltRow').style.display = 'none';
+      return;
+    }
     document.getElementById('raceDetailTitle').textContent = race.name + ' — Rasseneigenschaften';
-    document.getElementById('raceDetailBody').innerHTML = race.traits.map(function(t){
-      return '<div class="trait-item"><div class="name">' + t.name + '</div><div class="desc">' + t.desc + '</div></div>';
-    }).join('');
     detail.style.display = 'block';
+    renderRaceDetail();
 
     var flexRow = document.getElementById('raceFlexRow');
     if(race.flex){
@@ -1092,6 +1176,54 @@
     selectedFlexAbility = val || null;
     renderAbilityGrid();
     renderSkillGrid();
+  }
+  function currentRaceAlts(){
+    var race = RACES.find(function(r){ return r.id === selectedRace; });
+    return (race && race.alt) || [];
+  }
+  function replacedTraitNames(){
+    var names = {};
+    var alts = currentRaceAlts();
+    selectedAltTraits.forEach(function(altName){
+      var alt = alts.find(function(a){ return a.name === altName; });
+      if(alt) alt.replaces.forEach(function(t){ names[t] = true; });
+    });
+    return names;
+  }
+  function renderRaceDetail(){
+    var race = RACES.find(function(r){ return r.id === selectedRace; });
+    if(!race) return;
+    var replaced = replacedTraitNames();
+    document.getElementById('raceDetailBody').innerHTML = race.traits.map(function(t){
+      var isReplaced = !!replaced[t.name];
+      return '<div class="trait-item' + (isReplaced ? ' replaced' : '') + '">' +
+        '<div class="name">' + t.name + (isReplaced ? ' <span class="tag replaced-tag">Ersetzt</span>' : '') + '</div>' +
+        '<div class="desc">' + t.desc + '</div></div>';
+    }).join('');
+
+    var altRow = document.getElementById('raceAltRow');
+    var alts = race.alt || [];
+    if(alts.length === 0){ altRow.style.display = 'none'; return; }
+    altRow.style.display = 'block';
+    document.getElementById('raceAltBody').innerHTML = alts.map(function(a){
+      var active = selectedAltTraits.indexOf(a.name) !== -1;
+      var disabled = !active && a.replaces.some(function(t){ return replaced[t]; });
+      return '<div class="trait-item alt-trait-item' + (active ? ' active' : '') + (disabled ? ' disabled' : '') +
+        '" onclick="' + (disabled ? '' : ('toggleAltTrait(\'' + a.name + '\')')) + '">' +
+        '<div class="name">' + a.name + '<span class="pick-indicator">' + (active ? '✓ Gewählt' : 'Wählen') + '</span></div>' +
+        '<div class="desc">' + a.desc + ' <span class="alt-replaces">(ersetzt ' + a.replaces.join(', ') + ')</span></div></div>';
+    }).join('');
+  }
+  function toggleAltTrait(name){
+    var idx = selectedAltTraits.indexOf(name);
+    if(idx !== -1){ selectedAltTraits.splice(idx, 1); renderRaceDetail(); return; }
+    var alt = currentRaceAlts().find(function(a){ return a.name === name; });
+    if(!alt) return;
+    var replaced = replacedTraitNames();
+    var conflict = alt.replaces.some(function(t){ return replaced[t]; });
+    if(conflict) return;
+    selectedAltTraits.push(name);
+    renderRaceDetail();
   }
 
   /* ---------- STEP 2: CLASSES ---------- */
@@ -1420,32 +1552,65 @@
   }
 
   /* ---------- STEP 8: EQUIPMENT ---------- */
+  function formatPrice(gm){
+    gm = Math.round(gm * 100) / 100;
+    if(gm >= 1 || gm === 0) return gm + ' GM';
+    var sm = Math.round(gm * 10 * 100) / 100;
+    if(sm >= 1) return sm + ' SM';
+    var km = Math.round(gm * 100 * 100) / 100;
+    return km + ' KM';
+  }
+  function priceForName(name){
+    var found = ITEM_CATALOG.find(function(i){ return i.name === name; });
+    return found ? found.price : null;
+  }
   function renderItemCatalog(){
     var list = document.getElementById('gearItemOptions');
-    list.innerHTML = ITEM_CATALOG.map(function(name){ return '<option value="' + escapeHtml(name) + '">'; }).join('');
+    list.innerHTML = ITEM_CATALOG.map(function(i){ return '<option value="' + escapeHtml(i.name) + '">'; }).join('');
+  }
+  function onGearNameInput(){
+    var name = document.getElementById('gearAddName').value.trim();
+    var price = priceForName(name);
+    if(price !== null) document.getElementById('gearAddPrice').value = price;
+    updateGearCostPreview();
+  }
+  function updateGearCostPreview(){
+    var price = parseFloat(document.getElementById('gearAddPrice').value) || 0;
+    var qty = parseInt(document.getElementById('gearAddQty').value, 10) || 1;
+    document.getElementById('gearAddCostPreview').innerHTML = 'Kosten: <b>' + formatPrice(price * qty) + '</b>';
   }
   function renderGearList(){
     var wrap = document.getElementById('gearList');
     wrap.innerHTML = '';
+    var totalValue = 0;
     gearItems.forEach(function(item, i){
+      var price = item.price || 0;
+      totalValue += price * item.qty;
       var row = document.createElement('div');
       row.className = 'gear-item';
       row.innerHTML =
         '<span class="gear-name">' + escapeHtml(item.name) + '</span>' +
         '<span class="qty">' + item.qty + '×</span>' +
+        '<span class="gear-price">' + formatPrice(price) + ' / Stk.</span>' +
+        '<span class="gear-total">' + formatPrice(price * item.qty) + '</span>' +
         '<button type="button" class="gear-del" onclick="removeGearItem(' + i + ')" title="Gegenstand entfernen">✕</button>';
       wrap.appendChild(row);
     });
+    document.getElementById('gearTotalValue').textContent = 'Gesamtwert: ' + formatPrice(totalValue);
   }
   function addGearItem(){
     var nameInput = document.getElementById('gearAddName');
+    var priceInput = document.getElementById('gearAddPrice');
     var qtyInput = document.getElementById('gearAddQty');
     var name = nameInput.value.trim();
+    var price = parseFloat(priceInput.value) || 0;
     var qty = parseInt(qtyInput.value, 10) || 1;
     if(!name) return;
-    gearItems.push({name:name, qty:qty});
+    gearItems.push({name:name, qty:qty, price:price});
     nameInput.value = '';
+    priceInput.value = '0';
     qtyInput.value = '1';
+    updateGearCostPreview();
     renderGearList();
   }
   function removeGearItem(i){
@@ -1477,6 +1642,7 @@
     document.getElementById('sumFlex').textContent = race && race.flex
       ? (selectedFlexAbility ? abilityNameByKey(selectedFlexAbility) : '— noch nicht gewählt —')
       : (race ? '– (feste Werte)' : '—');
+    document.getElementById('sumAltTraits').textContent = selectedAltTraits.length ? selectedAltTraits.join(', ') : 'Keine';
     document.getElementById('sumLevel').textContent = getTotalLevel();
 
     var classesHtml = '';
@@ -1497,6 +1663,8 @@
 
     document.getElementById('sumGold').textContent = (document.getElementById('fldGold').value || 0) + ' GM';
     document.getElementById('sumGearCount').textContent = gearItems.length;
+    var gearValue = gearItems.reduce(function(sum, item){ return sum + (item.price || 0) * item.qty; }, 0);
+    document.getElementById('sumGearValue').textContent = formatPrice(gearValue);
 
     var skillLines = SKILLS.filter(function(s){ return (skillRanks[s.key] || 0) > 0; }).map(function(s){
       var abMod = abilityMod(totalAbility(s.ability));
@@ -1543,6 +1711,7 @@
   renderTraitChips();
   renderItemCatalog();
   renderGearList();
+  updateGearCostPreview();
 </script>
 
 </body>
