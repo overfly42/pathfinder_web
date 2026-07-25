@@ -182,6 +182,80 @@
   .lang-select:hover{background:rgba(179,137,63,0.12); border-color:var(--brass);}
   .lang-select option{color:#2a1608; background:var(--parchment);}
 
+  /* ---------- GLOBAL SEARCH ---------- */
+  .global-search{
+    position:relative;
+    flex:1 1 auto; max-width:460px;
+    display:flex; align-items:center; gap:8px;
+    background:var(--shell-2);
+    border:1px solid var(--leather-line);
+    border-radius:8px;
+    padding:9px 12px;
+    transition:border-color .15s;
+  }
+  .global-search:focus-within{border-color:var(--brass-dark);}
+  .global-search .search-icon{font-size:13px; opacity:0.7; flex:0 0 auto;}
+  .global-search input{
+    flex:1; min-width:0;
+    font-family:'Spectral',serif; font-size:14px;
+    background:transparent; border:none; outline:none;
+    color:var(--parchment);
+  }
+  .global-search input::placeholder{color:var(--ink-faint);}
+
+  .search-results{
+    display:none;
+    position:absolute; top:calc(100% + 8px); left:0; right:0;
+    background:var(--shell-2);
+    border:1px solid var(--leather-line);
+    border-radius:8px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    max-height:60vh; overflow-y:auto;
+    z-index:60;
+  }
+  .search-results.open{display:block;}
+  .search-result-item{
+    display:flex; align-items:center; gap:10px;
+    padding:11px 12px;
+    cursor:pointer;
+    border-bottom:1px solid var(--leather-line);
+    transition:background .12s;
+  }
+  .search-result-item:last-child{border-bottom:none;}
+  .search-result-item:hover, .search-result-item:active{background:rgba(179,137,63,0.16);}
+  .search-result-item .sr-label{
+    font-family:'Spectral',serif; font-weight:600; font-size:13.5px; color:var(--parchment);
+    flex:1; min-width:0;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .search-result-item .sr-value{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.5px; color:var(--brass-light);
+    flex:0 1 auto; max-width:38%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .search-result-item .sr-cat{
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--ink-faint);
+    background:rgba(255,255,255,0.08);
+    padding:3px 7px; border-radius:20px;
+    flex:0 0 auto; white-space:nowrap;
+  }
+  .search-empty{
+    padding:16px 12px;
+    font-family:'Spectral',serif; font-style:italic; font-size:13px;
+    color:var(--ink-faint);
+  }
+
+  .search-hit{animation:searchFlash 1.6s ease-out;}
+  @keyframes searchFlash{
+    0%{box-shadow:0 0 0 4px rgba(179,137,63,0.65); background-color:rgba(224,189,117,0.4);}
+    100%{box-shadow:0 0 0 0 rgba(179,137,63,0); background-color:transparent;}
+  }
+
+  @media (max-width:900px){
+    .global-search{max-width:none;}
+  }
+
   /* ---------- MAIN LAYOUT ---------- */
   .main{
     flex:1 1 auto;
@@ -823,6 +897,14 @@
       </div>
     </div>
 
+    <div class="global-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="globalSearch" placeholder="Suche: GAB, Wahrnehmung, Talente …"
+        oninput="handleGlobalSearch(this.value)" onfocus="handleGlobalSearch(this.value)"
+        autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
     <div class="spacer"></div>
 
     <div class="header-actions">
@@ -909,16 +991,23 @@
           <div class="save"><span class="name">Willen</span><span class="val">+5</span></div>
         </div>
 
+        <div class="section-label">Kampfwerte</div>
+        <div class="saves">
+          <div class="save"><span class="name">Grundangriffsbonus (GAB)</span><span class="val">+7</span></div>
+          <div class="save"><span class="name">Kampfmanöverbonus (KMB)</span><span class="val">+9</span></div>
+          <div class="save"><span class="name">Kampfmanöverabwehr (KMD)</span><span class="val">23</span></div>
+        </div>
+
         <div class="section-label">Fertigkeiten &amp; Fähigkeiten</div>
 
         <div class="tabset">
           <div class="tab-bar">
-            <button type="button" class="tab-btn active" onclick="showTab('skills', this)">Fertigkeiten</button>
-            <button type="button" class="tab-btn" onclick="showTab('feats', this)">Talente</button>
-            <button type="button" class="tab-btn" onclick="showTab('traits', this)">Wesenszüge</button>
-            <button type="button" class="tab-btn" onclick="showTab('classfeatures', this)">Klassenfähigkeiten</button>
-            <button type="button" class="tab-btn" onclick="showTab('raceabilities', this)">Rasseneigenschaften</button>
-            <button type="button" class="tab-btn" onclick="showTab('spells', this)">Zauber</button>
+            <button type="button" class="tab-btn active" data-tab="skills" onclick="showTab('skills', this)">Fertigkeiten</button>
+            <button type="button" class="tab-btn" data-tab="feats" onclick="showTab('feats', this)">Talente</button>
+            <button type="button" class="tab-btn" data-tab="traits" onclick="showTab('traits', this)">Wesenszüge</button>
+            <button type="button" class="tab-btn" data-tab="classfeatures" onclick="showTab('classfeatures', this)">Klassenfähigkeiten</button>
+            <button type="button" class="tab-btn" data-tab="raceabilities" onclick="showTab('raceabilities', this)">Rasseneigenschaften</button>
+            <button type="button" class="tab-btn" data-tab="spells" onclick="showTab('spells', this)">Zauber</button>
           </div>
 
           <div class="tab-panel active" data-tab="skills">
@@ -1033,9 +1122,9 @@
 
         <div class="tabset">
           <div class="tab-bar">
-            <button type="button" class="tab-btn active" onclick="showTab('inventory', this)">Inventar</button>
-            <button type="button" class="tab-btn" onclick="showTab('slots', this)">Ausrüstungsplätze</button>
-            <button type="button" class="tab-btn" onclick="showTab('spellbook', this)">Zauberbuch</button>
+            <button type="button" class="tab-btn active" data-tab="inventory" onclick="showTab('inventory', this)">Inventar</button>
+            <button type="button" class="tab-btn" data-tab="slots" onclick="showTab('slots', this)">Ausrüstungsplätze</button>
+            <button type="button" class="tab-btn" data-tab="spellbook" onclick="showTab('spellbook', this)">Zauberbuch</button>
           </div>
 
         <div class="tab-panel active" data-tab="inventory">
@@ -1554,13 +1643,141 @@
 
     input.value = '';
     el.querySelector('.hp-popover').removeAttribute('open');
+    searchIndex = null;
   }
 
   document.addEventListener('click', function(e){
     document.querySelectorAll('.hp-popover[open], .gear-edit[open], .gear-add[open]').forEach(function(details){
       if(!details.contains(e.target)) details.removeAttribute('open');
     });
+    if(!e.target.closest('.global-search')) closeSearchResults();
   });
+
+  /* ---------- GLOBAL SEARCH ---------- */
+  var SEARCH_ALIASES = {
+    'bab':'gab', 'cmb':'kmb', 'cmd':'kmd',
+    'ac':'rüstungsklasse', 'hp':'trefferpunkte',
+    'perc':'wahrnehmung', 'init':'initiative', 'spd':'bewegung'
+  };
+  var searchIndex = null;
+
+  function buildSearchIndex(){
+    var index = [];
+
+    document.querySelectorAll('.vital').forEach(function(el){
+      var k = el.querySelector('.k'), v = el.querySelector('.v');
+      if(k && v) index.push({label:k.textContent.trim(), value:v.textContent.trim(), category:'Wert', el:el});
+    });
+
+    document.querySelectorAll('.ability').forEach(function(el){
+      var name = el.querySelector('.name'), score = el.querySelector('.score'), mod = el.querySelector('.mod');
+      if(name) index.push({label:name.textContent.trim(), value:(score ? score.textContent.trim() : '') + ' (' + (mod ? mod.textContent.trim() : '') + ')', category:'Attribut', el:el});
+    });
+
+    document.querySelectorAll('.save').forEach(function(el){
+      var name = el.querySelector('.name'), val = el.querySelector('.val');
+      if(name && val) index.push({label:name.textContent.trim(), value:val.textContent.trim(), category:'Kampfwert', el:el});
+    });
+
+    document.querySelectorAll('.skill-row').forEach(function(el){
+      var spans = el.querySelectorAll('span');
+      if(spans.length >= 2) index.push({label:spans[0].textContent.trim(), value:spans[1].textContent.trim(), category:'Fertigkeit', el:el});
+    });
+
+    var traitCategories = {feats:'Talent', traits:'Wesenszug', classfeatures:'Klassenfähigkeit', raceabilities:'Rasseneigenschaft'};
+    document.querySelectorAll('.trait-item').forEach(function(el){
+      var name = el.querySelector('.name'), desc = el.querySelector('.desc');
+      if(!name) return;
+      var panel = el.closest('.tab-panel');
+      var category = (panel && traitCategories[panel.dataset.tab]) || 'Eigenschaft';
+      index.push({label:name.textContent.trim(), value:desc ? desc.textContent.trim() : '', category:category, el:el});
+    });
+
+    document.querySelectorAll('.gear-item').forEach(function(el){
+      var name = el.querySelector('.gear-name'), qty = el.querySelector('.qty');
+      if(name) index.push({label:name.textContent.trim(), value:qty ? qty.textContent.trim() : '', category:'Ausrüstung', el:el});
+    });
+
+    document.querySelectorAll('.slot').forEach(function(el){
+      var label = el.querySelector('label'), sel = el.querySelector('select');
+      if(!label || !sel) return;
+      var opt = sel.options[sel.selectedIndex];
+      index.push({label:label.textContent.trim(), value:(opt && opt.value) ? opt.textContent.trim() : '— leer —', category:'Ausrüstungsplatz', el:el});
+    });
+
+    document.querySelectorAll('.option-card').forEach(function(el){
+      var name = el.querySelector('.name');
+      if(name) index.push({label:name.textContent.trim(), value:'', category:'Option', el:el});
+    });
+
+    document.querySelectorAll('.seal').forEach(function(el){
+      var name = el.querySelector('.seal-name');
+      if(name) index.push({label:name.textContent.replace(/\s+/g,' ').trim(), value:'', category:el.classList.contains('inactive') ? 'Verfügbar' : 'Aktiver Effekt', el:el});
+    });
+
+    return index;
+  }
+
+  function matchesQuery(entry, q){
+    var haystack = (entry.label + ' ' + entry.value + ' ' + entry.category).toLowerCase();
+    if(haystack.indexOf(q) !== -1) return true;
+    var alias = SEARCH_ALIASES[q];
+    return !!alias && haystack.indexOf(alias) !== -1;
+  }
+
+  function closeSearchResults(){
+    document.getElementById('searchResults').classList.remove('open');
+  }
+
+  function handleGlobalSearch(query){
+    var resultsEl = document.getElementById('searchResults');
+    var q = query.trim().toLowerCase();
+    if(!q){ closeSearchResults(); return; }
+
+    if(!searchIndex) searchIndex = buildSearchIndex();
+    var matches = searchIndex.filter(function(e){ return matchesQuery(e, q); }).slice(0, 8);
+
+    resultsEl.innerHTML = '';
+    if(matches.length === 0){
+      resultsEl.innerHTML = '<div class="search-empty">Keine Treffer</div>';
+      resultsEl.classList.add('open');
+      return;
+    }
+
+    matches.forEach(function(m){
+      var row = document.createElement('div');
+      row.className = 'search-result-item';
+      row.innerHTML =
+        '<span class="sr-label">' + escapeHtml(m.label) + '</span>' +
+        (m.value ? '<span class="sr-value">' + escapeHtml(m.value) + '</span>' : '') +
+        '<span class="sr-cat">' + escapeHtml(m.category) + '</span>';
+      row.addEventListener('click', function(){ jumpToResult(m); });
+      resultsEl.appendChild(row);
+    });
+    resultsEl.classList.add('open');
+  }
+
+  function jumpToResult(entry){
+    revealElement(entry.el);
+    closeSearchResults();
+    var input = document.getElementById('globalSearch');
+    input.value = '';
+    input.blur();
+  }
+
+  function revealElement(el){
+    var panel = el.closest('.tab-panel');
+    if(panel){
+      var tabset = panel.closest('.tabset');
+      var btn = tabset && tabset.querySelector('.tab-bar .tab-btn[data-tab="' + panel.dataset.tab + '"]');
+      if(btn) showTab(panel.dataset.tab, btn);
+    }
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    el.classList.remove('search-hit');
+    void el.offsetWidth;
+    el.classList.add('search-hit');
+    setTimeout(function(){ el.classList.remove('search-hit'); }, 1600);
+  }
 
   function escapeHtml(str){
     var div = document.createElement('div');
@@ -1600,6 +1817,7 @@
     nameInput.value = '';
     qtyInput.value = '1';
     document.querySelector('.gear-add').removeAttribute('open');
+    searchIndex = null;
   }
 
   function saveGearItem(btn){
@@ -1613,10 +1831,12 @@
     item.querySelector('.gear-name').textContent = name;
     item.querySelector('.qty').textContent = qty + '×';
     item.querySelector('.gear-edit').removeAttribute('open');
+    searchIndex = null;
   }
 
   function removeGearItem(btn){
     btn.closest('.gear-item').remove();
+    searchIndex = null;
   }
 
   function openItemDetail(btn){
@@ -1636,7 +1856,11 @@
   }
 
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeItemDetail();
+    if(e.key === 'Escape'){
+      closeItemDetail();
+      closeSearchResults();
+      document.getElementById('globalSearch').blur();
+    }
   });
 
   document.querySelectorAll('.chip-row.single .chip').forEach(function(chip){
@@ -1691,6 +1915,7 @@
   function markSlotFilled(select){
     var slot = select.closest('.slot');
     if(slot) slot.classList.toggle('filled', !!select.value);
+    searchIndex = null;
   }
   document.querySelectorAll('.paperdoll select').forEach(function(sel){
     markSlotFilled(sel);
