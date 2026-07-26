@@ -271,6 +271,7 @@ header .spacer { flex: 1; }
   padding: 10px 18px;
   display: flex; align-items: center; gap: 8px;
   cursor: pointer;
+  text-decoration: none;
   box-shadow: 0 3px 0 var(--brass-dark), 0 6px 12px rgba(0,0,0,0.4);
   transition: transform .12s;
 }
@@ -522,6 +523,18 @@ input.text-input { cursor: text; }
   font-size: 12.5px;
   margin-bottom: 14px;
 }
+.info-note {
+  background: rgba(60,107,71,0.12);
+  border: 1px solid var(--forest);
+  color: var(--forest);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+.og-heading {
+  font-family: 'Cinzel', serif; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--brass-dark); margin-bottom: 10px;
+}
 
 .add-link {
   display: inline-flex; align-items: center; gap: 6px;
@@ -573,3 +586,17 @@ input.text-input { cursor: text; }
 .pick-counter b { color: var(--ink); }
 .selected-list { margin-top: 16px; }
 .selected-empty { font-family: 'Spectral', serif; font-style: italic; font-size: 12.5px; color: var(--ink-faint); }
+
+/* Search box used inline within a wizard step body (creation's Talente step,
+   level-up's Talente step) — named to avoid colliding with the sheet's
+   differently-shaped .panel-search. */
+.wizard-search { margin-bottom: 14px; }
+.wizard-search input {
+  width: 100%; box-sizing: border-box;
+  font-family: 'Spectral', serif; font-size: 13px;
+  padding: 8px 10px; border-radius: 6px;
+  border: 1px solid var(--parchment-shadow);
+  background: rgba(255,255,255,0.5); color: var(--ink);
+  outline: none;
+}
+.wizard-search input:focus { border-color: var(--brass); }

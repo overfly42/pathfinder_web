@@ -184,3 +184,23 @@ There are several technologies used throuout such a complex system. For this we 
 - FastAPI as backend server
 - PostgresSQL with Vector extension for the backend
 - Docker / Podman as server container
+
+# Running locally (current scaffold stage)
+The `frontend/` and `backend/` directories hold the current React + FastAPI scaffold (character sheet, character-creation wizard, level-up wizard — all served from static JSON fixtures, no database yet). To run them locally:
+
+**Backend** (FastAPI, port 8000):
+```bash
+cd backend
+source ~/python/pathfinder_web/bin/activate   # project venv, see CLAUDE.md
+pip install -r requirements.txt               # first time / after requirements.txt changes
+uvicorn app.main:app --reload --port 8000
+```
+
+**Frontend** (React + Vite, port 5173):
+```bash
+cd frontend
+npm install    # first time / after package.json changes
+npm run dev
+```
+
+Then open `http://localhost:5173/` in a browser. The frontend expects the backend on `http://localhost:8000` (overridable via a `VITE_API_URL` env var). Available routes: `/` (character sheet), `/create` (character creation), `/levelup/:characterId` (level-up).

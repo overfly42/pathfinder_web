@@ -3,6 +3,7 @@ import type { ClassRow, CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import { createId } from '../../lib/id';
 import { classDef, totalLevel } from '../../lib/creationCalculations';
+import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassStepProps {
   draft: CreationDraft;
@@ -101,32 +102,16 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
 
               {groups.length > 0 && (
                 <div className="class-options">
-                  {groups.map((g) => {
-                    const chosen = row.options[g.key] ?? [];
-                    return (
-                      <div className="option-group" key={g.key}>
-                        <div className="og-label">
-                          {g.label} <span className="pick-counter">(<b>{chosen.length}</b>/{g.max})</span>
-                        </div>
-                        <div className="chip-row">
-                          {g.choices.map((c) => {
-                            const active = chosen.includes(c);
-                            const disabled = !active && chosen.length >= g.max;
-                            return (
-                              <button
-                                key={c}
-                                type="button"
-                                className={`chip${active ? ' active' : ''}${disabled ? ' disabled' : ''}`}
-                                onClick={disabled ? undefined : () => toggleClassOption(row.id, g.key, c, g.max)}
-                              >
-                                {c}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
+                  {groups.map((g) => (
+                    <OptionGroupPicker
+                      key={g.key}
+                      label={g.label}
+                      max={g.max}
+                      choices={g.choices}
+                      selected={row.options[g.key] ?? []}
+                      onToggle={(choice) => toggleClassOption(row.id, g.key, choice, g.max)}
+                    />
+                  ))}
                 </div>
               )}
             </div>

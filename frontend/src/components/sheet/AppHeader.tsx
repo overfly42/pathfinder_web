@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { Character } from '../../types/character';
 import type { SearchEntry } from '../../search/types';
 import { GlobalSearch } from './GlobalSearch';
@@ -49,10 +50,10 @@ export function AppHeader({ character, onJump }: AppHeaderProps) {
           <span className="plus">+</span>
           Neuer Charakter
         </div>
-        <div className="btn-levelup">
+        <Link className="btn-levelup" to={`/levelup/${character.id}`}>
           <span className="star">✦</span>
           Stufenaufstieg
-        </div>
+        </Link>
         <select
           className="lang-select"
           title="Sprache"

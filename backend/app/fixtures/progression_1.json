@@ -1,0 +1,18 @@
+{
+  "name": "Elyra Silberauge",
+  "race": "Elfe",
+  "classes": [
+    {
+      "id": "existing1",
+      "className": "Waldläufer",
+      "level": 7,
+      "archetype": "Bogenschütze",
+      "options": { "enemy": ["Untote"], "terrain": ["Wald"] }
+    }
+  ],
+  "abilityScores": { "sta": 14, "ges": 18, "kon": 13, "int": 10, "wei": 15, "cha": 8 },
+  "feats": ["Punktzielschuss", "Gezielter Schuss", "Schneller Schuss", "Tödlicher Schuss"],
+  "traits": ["Scharfsinnige Beobachterin", "Kind des Waldes"],
+  "skillRanks": { "heimlichkeit": 7, "wahrnehmung": 7, "wildnisleben": 6, "akrobatik": 5, "wissen_natur": 4, "heilkunde": 3 },
+  "spellsKnown": {}
+}

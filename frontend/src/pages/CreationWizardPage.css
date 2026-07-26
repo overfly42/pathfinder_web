@@ -138,17 +138,6 @@
 .sr-rank { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: var(--ink); min-width: 14px; text-align: center; }
 .sr-total { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; color: var(--forest); text-align: right; }
 
-/* ---------- Search box used inline within a step body (Talente step) ---------- */
-.wizard-search { margin-bottom: 14px; }
-.wizard-search input {
-  width: 100%; box-sizing: border-box;
-  font-family: 'Spectral', serif; font-size: 13px;
-  padding: 8px 10px; border-radius: 6px;
-  border: 1px solid var(--parchment-shadow);
-  background: rgba(255,255,255,0.5); color: var(--ink);
-  outline: none;
-}
-.wizard-search input:focus { border-color: var(--brass); }
 
 /* ---------- Equipment (renamed from the mock's .gear-item to avoid colliding
    with the character sheet's differently-shaped .gear-item) ---------- */
