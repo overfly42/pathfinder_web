@@ -22,6 +22,12 @@
 - Ausrüstung kann festen Ausrüstungsplätzen zugeordnet werden (z. B. Kopf, Stirnband, Gürtel, Ring links/rechts). Auswählbar sind dabei nur Gegenstände, die sich im Inventar des Charakters befinden.
 - Ein Charakter hat Wesenszüge.
 
+Bei Mehrklassencharakteren werden die Werte aus allen Klassen kumulativ berechnet:
+- Trefferpunkte = Summe der Hit Dice aus allen Klassen (je Hit Die mindestens 1) + CON-Modifikator × Charakterstufe.
+- Base Attack Bonus und Rettungswürfe (Fortitude, Reflex, Will) werden klassenweise progressiv ermittelt und über alle Klassen kumuliert.
+- Fertigkeitspunkte pro Stufe ergeben sich aus der jeweils gewählten Klasse (+ INT-Modifikator); Klassenfertigkeiten gelten kumulativ aus allen Klassen des Charakters.
+- Beispiel: Barbar 5 / Magier 3 ergibt Charakterstufe 8, mit Hit Dice sowie BAB-/Rettungswurf-Progression aus beiden Klassen.
+
 ### 2.2 Zauberwirken
 - Ein Charakter hat je nach Klasse eine von drei Zauberwirker-Arten: keine Zauberfähigkeit, vorbereitendes Zauberwirken oder spontanes Zauberwirken (jeweils arkan oder göttlich).
 - Für zauberkundige Charaktere werden pro Zaubergrad geführt: die Anzahl bekannter Zauber, die Anzahl täglich verfügbarer Zauberplätze und die aktuell vorbereiteten bzw. nutzbaren Zauber.
@@ -31,6 +37,16 @@
 - Spontanes Zauberwirken (z. B. Hexenmeister, Barde, Orakel): Es existiert eine kurze, feste Liste bekannter Zauber, die ohne tägliche Vorbereitung direkt gegen die verfügbaren Zauberplätze gewirkt werden. Die bekannte Liste wird ebenfalls wie eine Inventarliste verwaltet und ändert sich in der Regel nur bei Stufenaufstieg.
 - Für vorbereitete bzw. bekannte Zauber muss zwischen drei Zuständen unterschieden werden: nicht vorbereitet, vorbereitet (bzw. bekannt und verfügbar) sowie gewirkt/verbraucht für den aktuellen Tag.
 - Verbrauchte bzw. vorbereitete Zauber werden zeit- oder ereignisbasiert zurückgesetzt (z. B. nach einer Rast), analog zu anderen Zuständen und Effekten (siehe Abschnitt 2).
+
+### 2.3 Ausrüstung
+- Gegenstände im Inventar (Waffen, Rüstung, Schilde u. a.) besitzen typspezifische Stat-Felder (z. B. Waffentyp/Schaden, Rüstungstyp/AC-Bonus und -Malus).
+- Die Rüstungsklasse (AC) wird automatisch aus der aktuell ausgerüsteten Ausrüstung sowie dem DEX-Modifikator berechnet.
+- Tragfähigkeit/Gewichtsgrenzen sind kein MVP-Bestandteil, sollen aber als spätere Erweiterung möglich bleiben.
+
+### 2.4 Charakterhintergrund
+- Ein Charakter kann eine Hintergrundgeschichte (Backstory) speichern.
+- Persönliche Ziele und Motivationen des Charakters können erfasst werden.
+- Beziehungen zu NPCs und anderen Charakteren können dokumentiert werden.
 
 ## 3. Nutzergruppen
 - Spielerinnen und Spieler.
@@ -68,6 +84,7 @@
 - Die Anwendung muss Nutzerinformationen und Charakterdaten sicher speichern und abrufen können.
 - Daten und Datenbeziehungen, zum Beispiel die Zuordnung von Fähigkeiten zu Klassen, müssen in der Datenbank gespeichert werden.
 - Die genaue Funktionalität von Fähigkeiten und deren Wirkungslogik muss im Programm umgesetzt werden.
+- Das Regelwerk (Klassen, Rassen, Feats, Zauber, deren Boni/Mali) muss als erweiterbares, datengetriebenes System umgesetzt werden: neue oder geänderte Regelelemente sollen ohne Code-Änderung eingepflegt werden können, und abhängige Charakterwerte müssen bei Regeländerungen automatisch neu berechnet werden.
 
 ## 7. MVP-Abgrenzung
 - Die erste Version soll als MVP klar abgegrenzt werden.

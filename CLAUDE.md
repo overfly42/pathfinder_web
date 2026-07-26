@@ -8,8 +8,6 @@ Pathfinder 1e web app for character creation, leveling, and play. Designed to ru
 
 Full functional scope: `requirements_v2.md`. Architecture and entity/ER details: `readme.md`.
 
-**Note:** `requirements.md` is an earlier draft superseded by `requirements_v2.md` (different structure, FR-numbered) — treat `requirements_v2.md` as current; confirm with the user before relying on `requirements.md`.
-
 ## Current State vs. Target Architecture
 
 The code in this repo today is **static HTML/CSS/JS mockups only** — there is no build tooling (no `package.json`), no backend, and no database wired up yet.
@@ -25,10 +23,8 @@ Do not migrate the mockups to React as a side effect of unrelated work — that 
 ## Files
 
 - `pathfinder-mock.html`, `pathfinder-character-creation-mock.html`, `pathfinder-levelup-mock.html` — the actual UI mockups (character sheet / character creation / level-up flow). Each is a single self-contained file with inline `<style>` and `<script>` (no shared `app.js`/`styles.css`, only a Google Fonts CDN link). This is the current living design surface.
-- `index.html`, `app.js`, `styles.css` — an earlier, minimal prototype (simple tab-switching character sheet demo), separate from the three mocks above.
 - `readme.md` — architecture and architecture decisions, including the entity-relationship model (Mermaid ER diagram).
-- `Database.dia` — Dia diagram of the DB schema (companion to the ER diagram in `readme.md`).
-- `requirements_v2.md` — current functional requirements (core features, spellcasting rules by caster type, MVP scope/checklist).
+- `requirements_v2.md` — current functional requirements (core features, multiclass calculation, spellcasting rules by caster type, equipment/lore, MVP scope/checklist).
 - `todos.md` — central open-items list: unresolved architecture/requirements decisions (from the `requirements_v2.md` §8 checklist) plus the gap analysis of the three mock files against `requirements_v2.md` (what's missing or inconsistent in the mocks). Check here before assuming a decision (e.g. tech stack, localization approach) is final. Supersedes the former `offene_punkte_ui_mocks.md`, which was merged into it.
 - `.claude/agents/code-improver.md` — custom subagent for readability/maintainability/performance passes, scoped to this project's current mockup stage vs. target architecture.
 
