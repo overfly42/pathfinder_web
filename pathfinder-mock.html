@@ -332,6 +332,42 @@
   .panel-search input::placeholder{color:var(--ink-faint);}
   .panel-search input:focus{border-color:var(--brass); background:rgba(255,255,255,0.7);}
 
+  .time-controls{
+    flex:0 0 auto;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 20px;
+    border-bottom:1px solid var(--parchment-shadow);
+    background:rgba(255,255,255,0.15);
+  }
+  .time-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .time-btn-group{
+    display:flex; gap:6px;
+  }
+  .time-btn{
+    font-family:'Cinzel',serif;
+    font-weight:600; font-size:11px; letter-spacing:0.02em;
+    color:var(--ink-soft);
+    background:rgba(255,255,255,0.5);
+    border:1px solid var(--parchment-shadow);
+    border-radius:6px;
+    padding:6px 10px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s, border-color .15s, color .15s;
+  }
+  .time-btn:hover{background:rgba(179,137,63,0.18); border-color:var(--brass); color:var(--ink);}
+  .time-btn.day{
+    color:var(--brass-dark);
+    border-color:var(--brass);
+    background:rgba(179,137,63,0.12);
+  }
+  .time-btn.day:hover{background:rgba(179,137,63,0.28);}
+
   /* ---------- LEFT: CHARACTER SHEET ---------- */
   .char-top{
     display:flex; gap:16px; align-items:center;
@@ -1475,10 +1511,19 @@
       </section>
 
       <!-- BOTTOM: EFFECTS -->
-      <section class="panel">
+      <section class="panel" id="effectsPanel">
         <div class="panel-head">
           <h2>Effekte</h2>
           <span class="hint">5 aktiv · 4 verfügbar</span>
+        </div>
+        <div class="time-controls">
+          <span class="time-label">Zeit vergeht</span>
+          <div class="time-btn-group">
+            <button type="button" class="time-btn" onclick="advanceTime('round')">+1 Runde</button>
+            <button type="button" class="time-btn" onclick="advanceTime('minute')">+1 Minute</button>
+            <button type="button" class="time-btn" onclick="advanceTime('hour')">+1 Stunde</button>
+            <button type="button" class="time-btn day" onclick="advanceTime('day')">+1 Tag</button>
+          </div>
         </div>
         <div class="panel-search">
           <input type="text" placeholder="Effekte durchsuchen">
@@ -1921,6 +1966,48 @@
     markSlotFilled(sel);
     sel.addEventListener('change', function(){ markSlotFilled(sel); });
   });
+
+  function advanceTime(unit){
+    var roundsElapsed = {round:1, minute:10, hour:600, day:Infinity}[unit];
+    var grids = document.querySelectorAll('#effectsPanel .seal-grid');
+    var activeGrid = grids[0];
+    var availableGrid = grids[1];
+
+    activeGrid.querySelectorAll('.seal').forEach(function(seal){
+      var ribbon = seal.querySelector('.seal-ribbon');
+      var durationMatch = ribbon.textContent.trim().match(/^(\d+)\s*Runden?$/);
+
+      if(unit === 'day'){
+        // a day includes a rest, so all active effects clear
+        expireSeal(seal, availableGrid);
+        return;
+      }
+      if(!durationMatch) return; // "bis Rast" / "solange aktiv" only clear on rest
+
+      var remaining = parseInt(durationMatch[1], 10) - roundsElapsed;
+      if(remaining <= 0){
+        expireSeal(seal, availableGrid);
+      } else {
+        ribbon.textContent = remaining + (remaining === 1 ? ' Runde' : ' Runden');
+      }
+    });
+
+    updateEffectHint();
+  }
+
+  function expireSeal(seal, availableGrid){
+    seal.classList.add('inactive');
+    seal.querySelector('.seal-blob').className = 'seal-blob inactive';
+    seal.querySelector('.seal-ribbon').className = 'seal-ribbon inactive';
+    seal.querySelector('.seal-ribbon').textContent = 'Aktivieren';
+    availableGrid.appendChild(seal);
+  }
+
+  function updateEffectHint(){
+    var grids = document.querySelectorAll('#effectsPanel .seal-grid');
+    var hint = document.querySelector('#effectsPanel .panel-head .hint');
+    hint.textContent = grids[0].querySelectorAll('.seal').length + ' aktiv · ' + grids[1].querySelectorAll('.seal').length + ' verfügbar';
+  }
 </script>
 
 </body>
