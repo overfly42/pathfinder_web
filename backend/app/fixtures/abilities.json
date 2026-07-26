@@ -1,0 +1,26 @@
+[
+  {
+    "key": "sta",
+    "name": "STÄ"
+  },
+  {
+    "key": "ges",
+    "name": "GES"
+  },
+  {
+    "key": "kon",
+    "name": "KON"
+  },
+  {
+    "key": "int",
+    "name": "INT"
+  },
+  {
+    "key": "wei",
+    "name": "WEI"
+  },
+  {
+    "key": "cha",
+    "name": "CHA"
+  }
+]

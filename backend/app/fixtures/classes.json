@@ -1,0 +1,374 @@
+[
+  {
+    "name": "Barbar",
+    "archetypes": [
+      "Keiner",
+      "Berserker",
+      "Invulnerable Rager"
+    ],
+    "skillPointsBase": 4,
+    "spellType": "none",
+    "classSkills": [
+      "klettern",
+      "einschuechtern",
+      "wahrnehmung",
+      "reiten",
+      "schwimmen",
+      "wildnisleben",
+      "handwerk"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Barde",
+    "archetypes": [
+      "Keiner",
+      "Archivar",
+      "Sänger der Meere"
+    ],
+    "skillPointsBase": 6,
+    "spellType": "spontaneous",
+    "classSkills": [
+      "akrobatik",
+      "auftreten",
+      "bluffen",
+      "diplomatie",
+      "verkleiden",
+      "fingerfertigkeit",
+      "umd",
+      "heimlichkeit",
+      "wissen_arkanes",
+      "wissen_natur",
+      "wissen_religion",
+      "wissen_lokal",
+      "linguistik",
+      "motiv_erkennen",
+      "zauberkunde",
+      "wahrnehmung",
+      "tierumgang"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Druide",
+    "archetypes": [
+      "Keiner",
+      "Tierfreund",
+      "Weltenwandler"
+    ],
+    "skillPointsBase": 4,
+    "spellType": "divine-prepared",
+    "classSkills": [
+      "heilkunde",
+      "wildnisleben",
+      "wissen_natur",
+      "reiten",
+      "schwimmen",
+      "wahrnehmung",
+      "tierumgang",
+      "fluchtkunst",
+      "klettern"
+    ],
+    "optionGroups": [
+      {
+        "key": "bond",
+        "label": "Naturbindung",
+        "max": 1,
+        "choices": [
+          "Tiergefährte",
+          "Domäne (Natur)"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hexenmeister",
+    "archetypes": [
+      "Keiner",
+      "Fluchbringer",
+      "Blutlinie: Drache"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "spontaneous",
+    "classSkills": [
+      "bluffen",
+      "einschuechtern",
+      "wissen_arkanes",
+      "umd",
+      "zauberkunde",
+      "diplomatie"
+    ],
+    "optionGroups": [
+      {
+        "key": "bloodline",
+        "label": "Blutlinie",
+        "max": 1,
+        "choices": [
+          "Arkanum",
+          "Drache",
+          "Unheilig",
+          "Elementar",
+          "Fey",
+          "Abyssisch"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Kleriker",
+    "archetypes": [
+      "Keiner",
+      "Kriegspriester",
+      "Heiler des Volkes"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "divine-prepared",
+    "classSkills": [
+      "diplomatie",
+      "heilkunde",
+      "wissen_religion",
+      "zauberkunde",
+      "motiv_erkennen",
+      "linguistik"
+    ],
+    "optionGroups": [
+      {
+        "key": "domain",
+        "label": "Domänen (max. 2)",
+        "max": 2,
+        "choices": [
+          "Kriegsdomäne",
+          "Sonne",
+          "Tod",
+          "Leben",
+          "Wissen",
+          "List",
+          "Zerstörung",
+          "Erde"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Krieger",
+    "archetypes": [
+      "Keiner",
+      "Waffenmeister",
+      "Söldnerkommandant"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "none",
+    "classSkills": [
+      "klettern",
+      "einschuechtern",
+      "reiten",
+      "schwimmen",
+      "handwerk"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Magier",
+    "archetypes": [
+      "Keiner",
+      "Beschwörer",
+      "Kriegsmagier"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "arcane-prepared",
+    "classSkills": [
+      "wissen_arkanes",
+      "zauberkunde",
+      "linguistik",
+      "umd"
+    ],
+    "optionGroups": [
+      {
+        "key": "school",
+        "label": "Spezialschule (optional)",
+        "max": 1,
+        "choices": [
+          "Hervorrufung",
+          "Verzauberung",
+          "Illusion",
+          "Nekromantie",
+          "Verwandlung",
+          "Weissagung",
+          "Bannmagie",
+          "Universalist"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Mönch",
+    "archetypes": [
+      "Keiner",
+      "Zen-Archer",
+      "Fäuste des Windes"
+    ],
+    "skillPointsBase": 4,
+    "spellType": "none",
+    "classSkills": [
+      "akrobatik",
+      "klettern",
+      "einschuechtern",
+      "fluchtkunst",
+      "heilkunde",
+      "wissen_religion",
+      "wahrnehmung",
+      "schwimmen",
+      "motiv_erkennen",
+      "heimlichkeit"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Orakel",
+    "archetypes": [
+      "Keiner",
+      "Wiedergänger",
+      "Lebensbündnis"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "spontaneous",
+    "classSkills": [
+      "diplomatie",
+      "heilkunde",
+      "wissen_religion",
+      "zauberkunde",
+      "motiv_erkennen",
+      "linguistik"
+    ],
+    "optionGroups": [
+      {
+        "key": "mystery",
+        "label": "Mysterium",
+        "max": 1,
+        "choices": [
+          "Leben",
+          "Knochen",
+          "Flamme",
+          "Natur",
+          "Zeit",
+          "Wasser"
+        ]
+      },
+      {
+        "key": "curse",
+        "label": "Verfluchung",
+        "max": 1,
+        "choices": [
+          "Blindheit",
+          "Verstummt",
+          "Verflucht mit Schuppen",
+          "Frostgezeichnet"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Paladin",
+    "archetypes": [
+      "Keiner",
+      "Rächer",
+      "Hüter des Glaubens"
+    ],
+    "skillPointsBase": 2,
+    "spellType": "none",
+    "classSkills": [
+      "diplomatie",
+      "heilkunde",
+      "reiten",
+      "wissen_religion",
+      "motiv_erkennen",
+      "handwerk"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Schurke",
+    "archetypes": [
+      "Keiner",
+      "Meucheldieb",
+      "Klingentänzer"
+    ],
+    "skillPointsBase": 8,
+    "spellType": "none",
+    "classSkills": [
+      "akrobatik",
+      "bluffen",
+      "klettern",
+      "diplomatie",
+      "verkleiden",
+      "fluchtkunst",
+      "einschuechtern",
+      "fingerfertigkeit",
+      "wissen_lokal",
+      "linguistik",
+      "wahrnehmung",
+      "motiv_erkennen",
+      "falle_entschaerfen",
+      "heimlichkeit",
+      "umd",
+      "tierumgang",
+      "handwerk",
+      "auftreten"
+    ],
+    "optionGroups": []
+  },
+  {
+    "name": "Waldläufer",
+    "archetypes": [
+      "Keiner",
+      "Bogenschütze",
+      "Gefährtenbinder"
+    ],
+    "skillPointsBase": 6,
+    "spellType": "divine-prepared",
+    "classSkills": [
+      "klettern",
+      "handwerk",
+      "fluchtkunst",
+      "heilkunde",
+      "reiten",
+      "schwimmen",
+      "wildnisleben",
+      "wahrnehmung",
+      "wissen_natur",
+      "tierumgang",
+      "heimlichkeit"
+    ],
+    "optionGroups": [
+      {
+        "key": "enemy",
+        "label": "Günstlingsfeind",
+        "max": 1,
+        "choices": [
+          "Aberrationen",
+          "Tiere",
+          "Konstrukte",
+          "Drachen",
+          "Feen",
+          "Humanoide (Menschen)",
+          "Magische Bestien",
+          "Untote"
+        ]
+      },
+      {
+        "key": "terrain",
+        "label": "Bevorzugtes Terrain",
+        "max": 1,
+        "choices": [
+          "Wald",
+          "Sumpf",
+          "Gebirge",
+          "Ebene",
+          "Wüste",
+          "Dschungel",
+          "Unterreich"
+        ]
+      }
+    ]
+  }
+]

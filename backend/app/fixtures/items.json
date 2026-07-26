@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Langschwert",
+    "price": 15
+  },
+  {
+    "name": "Kurzschwert",
+    "price": 10
+  },
+  {
+    "name": "Rapier",
+    "price": 20
+  },
+  {
+    "name": "Dolch",
+    "price": 2
+  },
+  {
+    "name": "Streitkolben",
+    "price": 5
+  },
+  {
+    "name": "Kriegshammer",
+    "price": 12
+  },
+  {
+    "name": "Handaxt",
+    "price": 6
+  },
+  {
+    "name": "Speer",
+    "price": 5
+  },
+  {
+    "name": "Langbogen",
+    "price": 75
+  },
+  {
+    "name": "Kurzbogen",
+    "price": 30
+  },
+  {
+    "name": "Kompositlangbogen",
+    "price": 100
+  },
+  {
+    "name": "Armbrust, leicht",
+    "price": 35
+  },
+  {
+    "name": "Armbrust, schwer",
+    "price": 50
+  },
+  {
+    "name": "Wurfmesser",
+    "price": 1
+  },
+  {
+    "name": "Schleuder",
+    "price": 0
+  },
+  {
+    "name": "Lederrüstung",
+    "price": 10
+  },
+  {
+    "name": "Lederrüstung, verstärkt",
+    "price": 25
+  },
+  {
+    "name": "Kettenhemd",
+    "price": 100
+  },
+  {
+    "name": "Schuppenpanzer",
+    "price": 50
+  },
+  {
+    "name": "Halbplatte",
+    "price": 600
+  },
+  {
+    "name": "Vollplatte",
+    "price": 1500
+  },
+  {
+    "name": "Rundschild",
+    "price": 9
+  },
+  {
+    "name": "Turmschild",
+    "price": 30
+  },
+  {
+    "name": "Abenteurerausrüstung",
+    "price": 9
+  },
+  {
+    "name": "Reisekleidung",
+    "price": 1
+  },
+  {
+    "name": "Seil, 15 m",
+    "price": 1
+  },
+  {
+    "name": "Fackel",
+    "price": 0.01
+  },
+  {
+    "name": "Laterne, Blendlaterne",
+    "price": 12
+  },
+  {
+    "name": "Lampenöl",
+    "price": 0.1
+  },
+  {
+    "name": "Zunderkasten",
+    "price": 1
+  },
+  {
+    "name": "Ranger-Ausrüstungsset",
+    "price": 12
+  },
+  {
+    "name": "Dietrich",
+    "price": 30
+  },
+  {
+    "name": "Kletterausrüstung",
+    "price": 80
+  },
+  {
+    "name": "Schlafsack",
+    "price": 0.1
+  },
+  {
+    "name": "Rucksack",
+    "price": 2
+  },
+  {
+    "name": "Wasserschlauch",
+    "price": 1
+  },
+  {
+    "name": "Reiseproviant (1 Tag)",
+    "price": 0.5
+  },
+  {
+    "name": "Heiltrank, gering",
+    "price": 50
+  },
+  {
+    "name": "Heiltrank, mäßig",
+    "price": 300
+  },
+  {
+    "name": "Heiltrank, stark",
+    "price": 750
+  },
+  {
+    "name": "Gegengift",
+    "price": 50
+  },
+  {
+    "name": "Alchemistenfeuer",
+    "price": 20
+  },
+  {
+    "name": "Säure (Fläschchen)",
+    "price": 10
+  },
+  {
+    "name": "Rauchpulver",
+    "price": 20
+  },
+  {
+    "name": "Zauberkomponentenbeutel",
+    "price": 5
+  },
+  {
+    "name": "Zauberbuch, leer",
+    "price": 15
+  },
+  {
+    "name": "Schreibfeder und Tinte",
+    "price": 8
+  },
+  {
+    "name": "Pergament (Blatt)",
+    "price": 0.2
+  },
+  {
+    "name": "Kerze",
+    "price": 0.01
+  },
+  {
+    "name": "Angelausrüstung",
+    "price": 4
+  },
+  {
+    "name": "Wurfnetz",
+    "price": 20
+  },
+  {
+    "name": "Manacles",
+    "price": 15
+  },
+  {
+    "name": "Laterne, Sturmlaterne",
+    "price": 7
+  },
+  {
+    "name": "Spiegel, klein (Stahl)",
+    "price": 10
+  },
+  {
+    "name": "Öllampe",
+    "price": 0.1
+  }
+]

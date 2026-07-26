@@ -1,0 +1,132 @@
+[
+  {
+    "key": "akrobatik",
+    "name": "Akrobatik",
+    "ability": "ges"
+  },
+  {
+    "key": "fingerfertigkeit",
+    "name": "Fingerfertigkeit",
+    "ability": "ges"
+  },
+  {
+    "key": "fluchtkunst",
+    "name": "Fluchtkunst",
+    "ability": "ges"
+  },
+  {
+    "key": "heimlichkeit",
+    "name": "Heimlichkeit",
+    "ability": "ges"
+  },
+  {
+    "key": "reiten",
+    "name": "Reiten",
+    "ability": "ges"
+  },
+  {
+    "key": "falle_entschaerfen",
+    "name": "Falle entschärfen",
+    "ability": "ges"
+  },
+  {
+    "key": "klettern",
+    "name": "Klettern",
+    "ability": "sta"
+  },
+  {
+    "key": "schwimmen",
+    "name": "Schwimmen",
+    "ability": "sta"
+  },
+  {
+    "key": "auftreten",
+    "name": "Auftreten",
+    "ability": "cha"
+  },
+  {
+    "key": "bluffen",
+    "name": "Bluffen",
+    "ability": "cha"
+  },
+  {
+    "key": "diplomatie",
+    "name": "Diplomatie",
+    "ability": "cha"
+  },
+  {
+    "key": "einschuechtern",
+    "name": "Einschüchtern",
+    "ability": "cha"
+  },
+  {
+    "key": "tierumgang",
+    "name": "Tierumgang",
+    "ability": "cha"
+  },
+  {
+    "key": "verkleiden",
+    "name": "Verkleiden",
+    "ability": "cha"
+  },
+  {
+    "key": "umd",
+    "name": "Gegenstände magisch nutzen",
+    "ability": "cha"
+  },
+  {
+    "key": "heilkunde",
+    "name": "Heilkunde",
+    "ability": "wei"
+  },
+  {
+    "key": "wahrnehmung",
+    "name": "Wahrnehmung",
+    "ability": "wei"
+  },
+  {
+    "key": "wildnisleben",
+    "name": "Wildnisleben",
+    "ability": "wei"
+  },
+  {
+    "key": "motiv_erkennen",
+    "name": "Motiv erkennen",
+    "ability": "wei"
+  },
+  {
+    "key": "handwerk",
+    "name": "Handwerk",
+    "ability": "int"
+  },
+  {
+    "key": "linguistik",
+    "name": "Linguistik",
+    "ability": "int"
+  },
+  {
+    "key": "zauberkunde",
+    "name": "Zauberkunde",
+    "ability": "int"
+  },
+  {
+    "key": "wissen_arkanes",
+    "name": "Wissen (Arkanes)",
+    "ability": "int"
+  },
+  {
+    "key": "wissen_natur",
+    "name": "Wissen (Natur)",
+    "ability": "int"
+  },
+  {
+    "key": "wissen_religion",
+    "name": "Wissen (Religion)",
+    "ability": "int"
+  },
+  {
+    "key": "wissen_lokal",
+    "name": "Wissen (lokal)",
+    "ability": "int"
+  }
+]

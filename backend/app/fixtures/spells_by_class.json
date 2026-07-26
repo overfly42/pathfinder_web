@@ -1,0 +1,36 @@
+{
+  "Magier": [
+    "Magisches Geschoss",
+    "Schild",
+    "Farbenstrahl",
+    "Schlaf",
+    "Identifizieren",
+    "Sprung",
+    "Unsichtbare Hand: Diener",
+    "Nebelwolke"
+  ],
+  "Hexenmeister": [
+    "Magisches Geschoss",
+    "Schild",
+    "Farbenstrahl",
+    "Schlaf",
+    "Person betören",
+    "Beschwichtigen"
+  ],
+  "Barde": [
+    "Verzaubern",
+    "Tarnung",
+    "Furchtlosigkeit",
+    "Beschwichtigen",
+    "Person betören",
+    "Unsichtbare Hand: Diener"
+  ],
+  "Orakel": [
+    "Segnen",
+    "Heiliger Schild",
+    "Wunden heilen, leicht",
+    "Waffensegen",
+    "Command",
+    "Schutz vor Bösem"
+  ]
+}

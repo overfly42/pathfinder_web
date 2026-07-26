@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,7 +22,7 @@ app.add_middleware(
 )
 
 
-def load_fixture(filename: str) -> dict:
+def load_fixture(filename: str) -> Any:
     with open(FIXTURES_DIR / filename, encoding="utf-8") as f:
         return json.load(f)
 
@@ -32,3 +33,53 @@ def get_character(character_id: str) -> dict:
     if filename is None:
         raise HTTPException(status_code=404, detail="Character not found")
     return load_fixture(filename)
+
+
+# Reference data for the character-creation and (later) level-up wizards.
+# One resource endpoint per entity rather than a single bundle, so a screen
+# only fetches what it needs (e.g. level-up needs classes/feats/skills but
+# not races/items) and each resource can grow independently. Still static
+# fixture reads for now, no DB, no filtering/query params.
+@app.get("/api/races")
+def get_races() -> list:
+    return load_fixture("races.json")
+
+
+@app.get("/api/classes")
+def get_classes() -> list:
+    return load_fixture("classes.json")
+
+
+@app.get("/api/feats")
+def get_feats() -> list:
+    return load_fixture("feats.json")
+
+
+@app.get("/api/traits")
+def get_traits() -> list:
+    return load_fixture("traits.json")
+
+
+@app.get("/api/skills")
+def get_skills() -> list:
+    return load_fixture("skills.json")
+
+
+@app.get("/api/abilities")
+def get_abilities() -> list:
+    return load_fixture("abilities.json")
+
+
+@app.get("/api/spells-by-class")
+def get_spells_by_class() -> dict:
+    return load_fixture("spells_by_class.json")
+
+
+@app.get("/api/point-buy-costs")
+def get_point_buy_costs() -> dict:
+    return load_fixture("point_buy_costs.json")
+
+
+@app.get("/api/items")
+def get_items() -> list:
+    return load_fixture("items.json")

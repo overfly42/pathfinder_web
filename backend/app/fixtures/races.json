@@ -1,0 +1,285 @@
+[
+  {
+    "id": "mensch",
+    "name": "Mensch",
+    "short": "+2 auf ein frei wählbares Attribut; Bonustalent bei Stufe 1; zusätzliche Fertigkeitspunkte.",
+    "flex": true,
+    "mods": {},
+    "traits": [
+      {
+        "name": "Anpassungsfähig",
+        "desc": "+2 auf ein frei wählbares Attribut."
+      },
+      {
+        "name": "Bonustalent",
+        "desc": "Erhält ein zusätzliches Talent auf Stufe 1."
+      },
+      {
+        "name": "Vielseitig",
+        "desc": "Ein zusätzlicher Fertigkeitspunkt pro Stufe."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Bemerkenswerte Fertigkeit",
+        "desc": "Wählt eine Fertigkeit; +2 auf diese Fertigkeit statt eines Bonustalents.",
+        "replaces": [
+          "Bonustalent"
+        ]
+      },
+      {
+        "name": "Fokussierter Geist",
+        "desc": "+2 auf Rettungswürfe gegen Zaubereffekte, aber kein zusätzlicher Fertigkeitspunkt pro Stufe.",
+        "replaces": [
+          "Vielseitig"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "elf",
+    "name": "Elf",
+    "short": "+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit.",
+    "flex": false,
+    "mods": {
+      "ges": 2,
+      "int": 2,
+      "kon": -2
+    },
+    "traits": [
+      {
+        "name": "Niedrigsichtig",
+        "desc": "Kann bei Dämmerlicht doppelt so weit sehen wie Menschen."
+      },
+      {
+        "name": "Elfische Waffenvertrautheit",
+        "desc": "Vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen."
+      },
+      {
+        "name": "Zauberkundig",
+        "desc": "+2 auf Weltwissen zur Identifikation magischer Gegenstände."
+      },
+      {
+        "name": "Widerstandsfähiger Geist",
+        "desc": "+2 auf Rettungswürfe gegen Bezauberung; Immunität gegen magischen Schlaf."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Eisenkultur",
+        "desc": "+2 auf Rettungswürfe gegen Verzauberungseffekte statt Waffenvertrautheit.",
+        "replaces": [
+          "Elfische Waffenvertrautheit"
+        ]
+      },
+      {
+        "name": "Küstenbewohner",
+        "desc": "Schwimmen gilt immer als Klassenfertigkeit, statt magische Gegenstände zu identifizieren.",
+        "replaces": [
+          "Zauberkundig"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zwerg",
+    "name": "Zwerg",
+    "short": "+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks & Goblinoide.",
+    "flex": false,
+    "mods": {
+      "kon": 2,
+      "wei": 2,
+      "cha": -2
+    },
+    "traits": [
+      {
+        "name": "Dunkelsicht",
+        "desc": "Sieht 18 m weit auch in völliger Dunkelheit."
+      },
+      {
+        "name": "Zwergenhass",
+        "desc": "+1 auf Angriffswürfe gegen Orks und Goblinoide."
+      },
+      {
+        "name": "Standhaft",
+        "desc": "+2 auf Rettungswürfe gegen Gifte, Krankheiten und Zauber."
+      },
+      {
+        "name": "Steinvertrautheit",
+        "desc": "Erkennt ungewöhnliche Steinkonstruktionen automatisch."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Tiefenwanderer",
+        "desc": "+1 auf Angriffswürfe gegen Aberrationen statt gegen Orks und Goblinoide.",
+        "replaces": [
+          "Zwergenhass"
+        ]
+      },
+      {
+        "name": "Kampflustig",
+        "desc": "+1 auf Angriffswürfe bei zahlenmäßiger Unterlegenheit statt erhöhter Widerstandskraft.",
+        "replaces": [
+          "Standhaft"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "halbling",
+    "name": "Halbling",
+    "short": "+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich.",
+    "flex": false,
+    "mods": {
+      "ges": 2,
+      "cha": 2,
+      "sta": -2
+    },
+    "traits": [
+      {
+        "name": "Furchtlos",
+        "desc": "+2 auf Rettungswürfe gegen Furcht."
+      },
+      {
+        "name": "Glücklich",
+        "desc": "+1 Glücksbonus auf alle Rettungswürfe."
+      },
+      {
+        "name": "Flink",
+        "desc": "+4 auf Akrobatik bei Balanceakten."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Unauffällig",
+        "desc": "+2 auf Heimlichkeit statt Bonus auf Akrobatik bei Balanceakten.",
+        "replaces": [
+          "Flink"
+        ]
+      },
+      {
+        "name": "Geschickter Wanderer",
+        "desc": "Kein Bewegungsmalus durch schwieriges Gelände statt Furcht-Resistenz.",
+        "replaces": [
+          "Furchtlos"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gnom",
+    "name": "Gnom",
+    "short": "+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber.",
+    "flex": false,
+    "mods": {
+      "kon": 2,
+      "cha": 2,
+      "sta": -2
+    },
+    "traits": [
+      {
+        "name": "Niedrigsichtig",
+        "desc": "Kann bei Dämmerlicht doppelt so weit sehen wie Menschen."
+      },
+      {
+        "name": "Illusionsaffinität",
+        "desc": "+1 auf Schwierigkeitsklasse eigener Illusionszauber."
+      },
+      {
+        "name": "Riesenfeind",
+        "desc": "+4 auf KMD und RK gegen Wesen der Größenkategorie Riesig oder größer."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Wortgewandt",
+        "desc": "+2 auf Bluffen und Diplomatie statt erhöhter Illusionsmagie.",
+        "replaces": [
+          "Illusionsaffinität"
+        ]
+      },
+      {
+        "name": "Waldgänger",
+        "desc": "Wildnisleben gilt immer als Klassenfertigkeit statt Bonus gegen Riesen.",
+        "replaces": [
+          "Riesenfeind"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "halbelf",
+    "name": "Halbelf",
+    "short": "+2 auf ein frei wählbares Attribut; Niedrigsichtig; multitalentiert.",
+    "flex": true,
+    "mods": {},
+    "traits": [
+      {
+        "name": "Niedrigsichtig",
+        "desc": "Kann bei Dämmerlicht doppelt so weit sehen wie Menschen."
+      },
+      {
+        "name": "Multitalentiert",
+        "desc": "Gilt in zwei gewählten Klassen als Favorisierte Klasse."
+      },
+      {
+        "name": "Elfenblut",
+        "desc": "Gilt sowohl als Elf als auch als Mensch."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Wanderer im Grenzland",
+        "desc": "+2 auf Überleben und Diplomatie gegenüber Fremden statt zwei Favorisierten Klassen.",
+        "replaces": [
+          "Multitalentiert"
+        ]
+      },
+      {
+        "name": "Adaptierte Zauberkunde",
+        "desc": "Zugriff auf zusätzliche arkane Zaubertricks statt der Elfenblut-Abstammung.",
+        "replaces": [
+          "Elfenblut"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "halbork",
+    "name": "Halb-Ork",
+    "short": "+2 auf ein frei wählbares Attribut; Dunkelsicht; Kampfrausch.",
+    "flex": true,
+    "mods": {},
+    "traits": [
+      {
+        "name": "Dunkelsicht",
+        "desc": "Sieht 18 m weit auch in völliger Dunkelheit."
+      },
+      {
+        "name": "Kampfrausch",
+        "desc": "Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht."
+      },
+      {
+        "name": "Orkblut",
+        "desc": "Gilt sowohl als Ork als auch als Mensch."
+      }
+    ],
+    "alt": [
+      {
+        "name": "Einschüchternde Erscheinung",
+        "desc": "+2 auf Einschüchtern statt der Ork-Abstammung.",
+        "replaces": [
+          "Orkblut"
+        ]
+      },
+      {
+        "name": "Wildnisschritt",
+        "desc": "Kein Bewegungsmalus in Wildnisgelände statt Kampfrausch.",
+        "replaces": [
+          "Kampfrausch"
+        ]
+      }
+    ]
+  }
+]

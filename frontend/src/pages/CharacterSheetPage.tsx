@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createId } from '../lib/id';
 import { useCharacter } from '../hooks/useCharacter';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
@@ -21,10 +22,6 @@ const ROUNDS_PER_UNIT: Record<TimeUnit, number> = {
   hour: 600,
   day: Infinity,
 };
-
-function createId() {
-  return typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random()}`;
-}
 
 export function CharacterSheetPage() {
   const { character, setCharacter, loading, error } = useCharacter('1');
