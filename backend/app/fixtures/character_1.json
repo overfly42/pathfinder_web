@@ -1,0 +1,174 @@
+{
+  "id": "1",
+  "name": "Elyra Silberauge",
+  "race": "Elfe",
+  "className": "Waldläuferin",
+  "archetype": "Bogenschütze",
+  "level": 7,
+  "hp": { "current": 54, "max": 62 },
+  "armorClass": 19,
+  "initiative": "+4",
+  "speed": "9 m",
+  "roundLabel": "Runde 3 · am Zug",
+  "abilities": [
+    { "key": "sta", "label": "STÄ", "score": 14, "mod": "+2" },
+    { "key": "ges", "label": "GES", "score": 18, "mod": "+4" },
+    { "key": "kon", "label": "KON", "score": 13, "mod": "+1" },
+    { "key": "int", "label": "INT", "score": 10, "mod": "+0" },
+    { "key": "wei", "label": "WEI", "score": 15, "mod": "+2" },
+    { "key": "cha", "label": "CHA", "score": 8, "mod": "−1" }
+  ],
+  "saves": [
+    { "key": "fort", "label": "Zähigkeit", "value": "+6" },
+    { "key": "ref", "label": "Reflex", "value": "+9" },
+    { "key": "will", "label": "Willen", "value": "+5" }
+  ],
+  "combat": [
+    { "key": "bab", "label": "Grundangriffsbonus (GAB)", "value": "+7" },
+    { "key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": "+9" },
+    { "key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": "23" }
+  ],
+  "skills": [
+    { "key": "schleichen", "label": "Schleichen", "value": "+12" },
+    { "key": "wahrnehmung", "label": "Wahrnehmung", "value": "+10" },
+    { "key": "wildnisleben", "label": "Wildnisleben", "value": "+9" },
+    { "key": "akrobatik", "label": "Akrobatik", "value": "+8" },
+    { "key": "weltwissen-natur", "label": "Weltwissen (Natur)", "value": "+6" },
+    { "key": "heilkunde", "label": "Heilkunde", "value": "+5" }
+  ],
+  "feats": [
+    { "key": "punktzielschuss", "name": "Punktzielschuss", "description": "+1 auf Angriffs- und Schadenswürfe mit Fernkampfwaffen im Nahbereich (bis 9 m)." },
+    { "key": "gezielter-schuss", "name": "Gezielter Schuss", "description": "Kein Malus für Fernkampfangriffe auf ein Ziel, das im Nahkampf gebunden ist." },
+    { "key": "schneller-schuss", "name": "Schneller Schuss", "description": "Ein zusätzlicher Fernkampfangriff pro Runde bei −2 auf alle Angriffswürfe." },
+    { "key": "toedlicher-schuss", "name": "Tödlicher Schuss", "description": "−2 auf Fernkampf-Angriffswürfe für +4 auf den Schaden." }
+  ],
+  "traits": [
+    { "key": "scharfsinnige-beobachterin", "name": "Scharfsinnige Beobachterin", "description": "+1 auf Wahrnehmungswürfe; Wahrnehmung gilt immer als Klassenfertigkeit." },
+    { "key": "kind-des-waldes", "name": "Kind des Waldes", "description": "+1 auf Wildnisleben-Würfe zum Aufspüren von Fährten in Waldgebieten." }
+  ],
+  "classFeatures": [
+    { "key": "waldkunde", "name": "Waldkunde (Wald)", "description": "Bonus auf Initiative, Wahrnehmung, Überleben, Heimlichkeit und Schadenswürfe im bevorzugten Geländetyp." },
+    { "key": "guenstlingsfeind", "name": "Günstlingsfeind", "description": "Bonus auf Angriffs-, Schadens- und bestimmte Fertigkeitswürfe gegen einen gewählten Gegnertyp." },
+    { "key": "kampfstil-bogenschuetze", "name": "Kampfstil: Bogenschütze", "description": "Gewährt zusätzliche Talente für den Umgang mit Fernkampfwaffen zu niedrigeren Stufenvoraussetzungen." },
+    { "key": "waldlaeuferzauber", "name": "Waldläuferzauber", "description": "Wirkt Zauber der Waldläuferliste; verfügbare Zauberslots richten sich nach der effektiven Waldläuferstufe." }
+  ],
+  "raceAbilities": [
+    { "key": "elfenblut", "name": "Elfenblut", "description": "Gilt sowohl als Elf als auch als Mensch, z. B. für Effekte und Voraussetzungen, die sich auf eine dieser Rassen beziehen." },
+    { "key": "niedrigsichtig", "name": "Niedrigsichtig", "description": "Kann bei Dämmerlicht doppelt so weit sehen wie Menschen." },
+    { "key": "elfische-waffenvertrautheit", "name": "Elfische Waffenvertrautheit", "description": "Gilt als vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen." },
+    { "key": "zauberkundig", "name": "Zauberkundig", "description": "+2 auf Weltwissen-Würfe zur Identifikation magischer Gegenstände." },
+    { "key": "widerstandsfaehiger-geist", "name": "Widerstandsfähiger Geist", "description": "+2 Bonus auf Rettungswürfe gegen Bezauberungseffekte; Immunität gegen magischen Schlaf." }
+  ],
+  "spellsKnown": [
+    {
+      "grade": 1,
+      "locked": false,
+      "prepared": 2,
+      "spells": [
+        { "key": "verstricken", "name": "Verstricken", "used": false },
+        { "key": "langer-schritt", "name": "Langer Schritt", "used": false }
+      ]
+    },
+    {
+      "grade": 2,
+      "locked": true,
+      "availableAtLevel": 8,
+      "spells": []
+    }
+  ],
+  "gear": [
+    { "id": "g1", "name": "+1 Kompositlangbogen", "qty": 1 },
+    { "id": "g2", "name": "Lederrüstung, verstärkt +2", "qty": 1 },
+    { "id": "g3", "name": "Wurfmesser", "qty": 5 },
+    { "id": "g4", "name": "Heiltrank, gering", "qty": 3 },
+    { "id": "g5", "name": "Ranger-Ausrüstungsset", "qty": 1 },
+    { "id": "g6", "name": "Seil, 15 m", "qty": 1 }
+  ],
+  "equipmentSlots": [
+    { "key": "kopf", "label": "Kopf", "side": "left", "row": 1, "selected": "", "options": [
+      { "value": "Zirkel des Wolfs", "label": "Zirkel des Wolfs" },
+      { "value": "Helm der Trittfestigkeit", "label": "Helm der Trittfestigkeit" }
+    ] },
+    { "key": "stirnband", "label": "Stirnband", "side": "left", "row": 2, "selected": "", "options": [
+      { "value": "Stirnband der Alchemie", "label": "Stirnband der Alchemie" }
+    ] },
+    { "key": "augen", "label": "Augen", "side": "left", "row": 3, "selected": "", "options": [
+      { "value": "Linse des Falkenblicks", "label": "Linse des Falkenblicks" }
+    ] },
+    { "key": "hals", "label": "Hals", "side": "left", "row": 4, "selected": "Amulett der Naturverbundenheit", "options": [
+      { "value": "Amulett der Naturverbundenheit", "label": "Amulett der Naturverbundenheit" }
+    ] },
+    { "key": "schultern", "label": "Schultern", "side": "left", "row": 5, "selected": "", "options": [
+      { "value": "Umhang der Rückenlosigkeit", "label": "Umhang der Rückenlosigkeit" }
+    ] },
+    { "key": "brust", "label": "Brust", "side": "left", "row": 6, "selected": "", "options": [
+      { "value": "Brosche der Standhaftigkeit", "label": "Brosche der Standhaftigkeit" }
+    ] },
+    { "key": "handgelenke", "label": "Handgelenke", "side": "left", "row": 7, "selected": "Armschienen des Bogenschützen", "options": [
+      { "value": "Armschienen des Bogenschützen", "label": "Armschienen des Bogenschützen" }
+    ] },
+    { "key": "koerper", "label": "Körper", "side": "right", "row": 1, "selected": "", "options": [
+      { "value": "Robe der Zauberkunde", "label": "Robe der Zauberkunde" }
+    ] },
+    { "key": "ruestung", "label": "Rüstung", "side": "right", "row": 2, "selected": "Lederrüstung, verstärkt +2", "options": [
+      { "value": "Lederrüstung, verstärkt +2", "label": "Lederrüstung, verstärkt +2" }
+    ] },
+    { "key": "guertel", "label": "Gürtel", "side": "right", "row": 3, "selected": "Gürtel der Stärke +2", "options": [
+      { "value": "Gürtel der Stärke +2", "label": "Gürtel der Stärke +2" }
+    ] },
+    { "key": "ring-links", "label": "Ring (links)", "side": "right", "row": 4, "selected": "Ring des Schutzes +1", "options": [
+      { "value": "Ring des Schutzes +1", "label": "Ring des Schutzes +1" }
+    ] },
+    { "key": "ring-rechts", "label": "Ring (rechts)", "side": "right", "row": 5, "selected": "", "options": [
+      { "value": "Ring der Sprunghaftigkeit", "label": "Ring der Sprunghaftigkeit" }
+    ] },
+    { "key": "haende", "label": "Hände", "side": "right", "row": 6, "selected": "", "options": [
+      { "value": "Handschuhe des Fallenstellers", "label": "Handschuhe des Fallenstellers" }
+    ] },
+    { "key": "fuesse", "label": "Füße", "side": "right", "row": 7, "selected": "Stiefel der Wanderung", "options": [
+      { "value": "Stiefel der Wanderung", "label": "Stiefel der Wanderung" }
+    ] }
+  ],
+  "spellbook": [
+    {
+      "grade": 1,
+      "locked": false,
+      "perDay": 2,
+      "maxPrepared": 2,
+      "spells": [
+        { "key": "verstricken", "name": "Verstricken", "prepared": true },
+        { "key": "langer-schritt", "name": "Langer Schritt", "prepared": true },
+        { "key": "spurlos", "name": "Spurlos", "prepared": false },
+        { "key": "mit-tieren-sprechen", "name": "Mit Tieren sprechen", "prepared": false },
+        { "key": "alarmieren", "name": "Alarmieren", "prepared": false },
+        { "key": "gift-verzoegern", "name": "Gift verzögern", "prepared": false }
+      ]
+    },
+    {
+      "grade": 2,
+      "locked": true,
+      "availableAtLevel": 8,
+      "spells": []
+    }
+  ],
+  "actions": [
+    { "id": "a1", "icon": "🏹", "name": "Schneller Schuss", "tag": "standard", "description": "Zwei Angriffe mit dem Langbogen bei −2 auf beide Angriffswürfe." },
+    { "id": "a2", "icon": "🛡", "name": "Ausweichen", "tag": "reaction", "description": "+4 auf die Rüstungsklasse gegen einen angesagten Angriff." },
+    { "id": "a3", "icon": "🌿", "name": "Lautlos schleichen", "tag": "move", "description": "Bewegt sich bis zur halben Geschwindigkeit, ohne entdeckt zu werden." },
+    { "id": "a4", "icon": "🧪", "name": "Heiltrank verabreichen", "tag": "standard", "description": "Heilt einen Verbündeten in Reichweite um 2W8+2 Trefferpunkte." },
+    { "id": "a5", "icon": "🪤", "name": "Falle stellen", "tag": "full", "description": "Bereitet eine Falle mit Handwerk (Fallenbau) am aktuellen Feld vor." }
+  ],
+  "effectsActive": [
+    { "id": "e1", "icon": "🎯", "amount": "+2", "name": "Jagdglück", "detail": "gg. markiertes Ziel", "variant": "buff", "active": true, "durationRounds": 8, "durationLabel": "8 Runden" },
+    { "id": "e2", "icon": "☠", "amount": "−2", "name": "Vergiftet", "detail": "Zähigkeitswürfe", "variant": "debuff", "active": true, "durationRounds": 3, "durationLabel": "3 Runden" },
+    { "id": "e3", "icon": "⚡", "amount": "+1", "name": "Eile", "detail": "Angriff, Reflex, Init.", "variant": "buff", "active": true, "durationRounds": 4, "durationLabel": "4 Runden" },
+    { "id": "e4", "icon": "💤", "amount": "−6", "name": "Erschöpft", "detail": "STÄ & GES", "variant": "debuff", "active": true, "durationRounds": null, "durationLabel": "bis Rast" },
+    { "id": "e5", "icon": "🎵", "amount": "+1", "name": "Bardenlied", "detail": "Angriff & Schaden", "variant": "neutral", "active": true, "durationRounds": null, "durationLabel": "solange aktiv" }
+  ],
+  "effectsAvailable": [
+    { "id": "av1", "icon": "🙏", "amount": "+1", "name": "Gesegnet", "detail": "Angriff & gg. Furcht", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" },
+    { "id": "av2", "icon": "😩", "amount": "−2", "name": "Ermüdet", "detail": "STÄ & GES", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" },
+    { "id": "av3", "icon": "✨", "amount": "1W4+1", "name": "Magisches Geschoss", "detail": "pro Geschoss", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Wirken" },
+    { "id": "av4", "icon": "🐾", "amount": "+2", "name": "Jägers Fährte", "detail": "gg. markiertes Ziel", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" }
+  ]
+}
