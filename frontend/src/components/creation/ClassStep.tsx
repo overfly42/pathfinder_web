@@ -20,8 +20,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   }
 
   function onClassChange(rowId: string, className: string) {
-    const cls = classDef(options, className);
-    updateRow(rowId, { className, archetype: cls?.archetypes[0] ?? 'Keiner', options: {} });
+    updateRow(rowId, { className, archetypes: [], options: {} });
   }
 
   function addClassRow() {
@@ -30,8 +29,23 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       ...prev,
       classRows: [
         ...prev.classRows,
-        { id: createId(), className: first.name, level: 1, archetype: first.archetypes[0] ?? 'Keiner', options: {} },
+        { id: createId(), className: first.name, level: 1, archetypes: [], options: {} },
       ],
+    }));
+  }
+
+  function toggleArchetype(rowId: string, archetype: string, max: number) {
+    setDraft((prev) => ({
+      ...prev,
+      classRows: prev.classRows.map((row) => {
+        if (row.id !== rowId) return row;
+        const idx = row.archetypes.indexOf(archetype);
+        let next: string[];
+        if (idx !== -1) next = row.archetypes.filter((a) => a !== archetype);
+        else if (row.archetypes.length < max) next = [...row.archetypes, archetype];
+        else next = row.archetypes;
+        return { ...row, archetypes: next };
+      }),
     }));
   }
 
@@ -67,7 +81,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       <div style={{ marginTop: 14 }}>
         {draft.classRows.map((row) => {
           const cls = classDef(options, row.className);
-          const archetypes = cls?.archetypes ?? ['Keiner'];
+          const archetypeChoices = (cls?.archetypes ?? []).filter((a) => a !== 'Keiner');
           const groups = cls?.optionGroups ?? [];
           return (
             <div className="class-row-wrap" key={row.id}>
@@ -89,16 +103,18 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
                     onChange={(e) => updateRow(row.id, { level: parseInt(e.target.value, 10) || 0 })}
                   />
                 </div>
-                <div>
-                  <label>Archetyp</label>
-                  <select value={row.archetype} onChange={(e) => updateRow(row.id, { archetype: e.target.value })}>
-                    {archetypes.map((a) => (
-                      <option key={a}>{a}</option>
-                    ))}
-                  </select>
-                </div>
                 <button type="button" className="row-del" onClick={() => removeClassRow(row.id)} title="Klasse entfernen">✕</button>
               </div>
+
+              {archetypeChoices.length > 0 && (
+                <OptionGroupPicker
+                  label="Archetypen"
+                  max={archetypeChoices.length}
+                  choices={archetypeChoices}
+                  selected={row.archetypes}
+                  onToggle={(a) => toggleArchetype(row.id, a, archetypeChoices.length)}
+                />
+              )}
 
               {groups.length > 0 && (
                 <div className="class-options">

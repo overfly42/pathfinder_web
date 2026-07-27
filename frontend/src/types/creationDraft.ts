@@ -8,7 +8,8 @@ export interface ClassRow {
   id: string;
   className: string;
   level: number;
-  archetype: string;
+  /** Zero or more non-conflicting archetypes applied to this class (Requirement 2.1). */
+  archetypes: string[];
   /** classOptionSelections: option group key -> chosen values (e.g. domain -> ['Sonne','Tod']) */
   options: Record<string, string[]>;
 }

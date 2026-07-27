@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { GearItem } from '../../types/character';
 
 const ENHANCEMENT_OPTIONS = ['+0', '+1', '+2', '+3', '+4', '+5'];
 const WEAPON_PROPERTIES = [
@@ -13,13 +14,22 @@ const WEAPON_PROPERTIES = [
 ];
 
 interface ItemDetailModalProps {
-  itemName: string | null;
+  item: GearItem | null;
   onClose: () => void;
+  onSave: (id: string, enhancement: string, properties: string[]) => void;
 }
 
-export function ItemDetailModal({ itemName, onClose }: ItemDetailModalProps) {
-  const [enhancement, setEnhancement] = useState('+1');
+export function ItemDetailModal({ item, onClose, onSave }: ItemDetailModalProps) {
+  const [enhancement, setEnhancement] = useState('+0');
   const [properties, setProperties] = useState<string[]>([]);
+
+  // Re-seed the edit state from the actual item's stored values every time a (different) item
+  // is opened, instead of keeping whatever the previous item left behind.
+  useEffect(() => {
+    if (!item) return;
+    setEnhancement(item.enhancement ?? '+0');
+    setProperties(item.properties ?? []);
+  }, [item]);
 
   function toggleProperty(property: string) {
     setProperties((prev) =>
@@ -27,16 +37,21 @@ export function ItemDetailModal({ itemName, onClose }: ItemDetailModalProps) {
     );
   }
 
+  function handleDone() {
+    if (item) onSave(item.id, enhancement, properties);
+    onClose();
+  }
+
   return (
     <div
-      className={`modal-overlay${itemName ? ' open' : ''}`}
+      className={`modal-overlay${item ? ' open' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
-          <h2>{itemName ?? 'Gegenstand'}</h2>
+          <h2>{item?.name ?? 'Gegenstand'}</h2>
           <button type="button" className="modal-close" onClick={onClose}>✕</button>
         </div>
         <div className="modal-body">
@@ -73,7 +88,7 @@ export function ItemDetailModal({ itemName, onClose }: ItemDetailModalProps) {
           </div>
         </div>
         <div className="modal-foot">
-          <button type="button" className="hp-btn confirm" onClick={onClose}>Fertig</button>
+          <button type="button" className="hp-btn confirm" onClick={handleDone}>Fertig</button>
         </div>
       </div>
     </div>

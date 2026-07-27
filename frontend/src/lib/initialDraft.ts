@@ -9,7 +9,7 @@ export function createInitialDraft(): CreationDraft {
     flexAbility: null,
     altTraits: [],
     classRows: [
-      { id: createId(), className: 'Waldläufer', level: 1, archetype: 'Keiner', options: {} },
+      { id: createId(), className: 'Waldläufer', level: 1, archetypes: [], options: {} },
     ],
     abilityScores: { sta: 10, ges: 10, kon: 10, int: 10, wei: 10, cha: 10 },
     pointBudget: 20,

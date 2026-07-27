@@ -1,0 +1,83 @@
+{
+  "id": "2",
+  "name": "Bram Eisenfaust",
+  "race": "Halbork",
+  "className": "Krieger",
+  "archetype": "Waffenmeister",
+  "level": 3,
+  "hp": { "current": 34, "max": 34 },
+  "armorClass": 18,
+  "initiative": "+1",
+  "speed": "6 m",
+  "roundLabel": "Runde 1 · am Zug",
+  "abilities": [
+    { "key": "sta", "label": "STÄ", "score": 18, "mod": "+4" },
+    { "key": "ges", "label": "GES", "score": 12, "mod": "+1" },
+    { "key": "kon", "label": "KON", "score": 15, "mod": "+2" },
+    { "key": "int", "label": "INT", "score": 10, "mod": "+0" },
+    { "key": "wei", "label": "WEI", "score": 11, "mod": "+0" },
+    { "key": "cha", "label": "CHA", "score": 8, "mod": "−1" }
+  ],
+  "saves": [
+    { "key": "fort", "label": "Zähigkeit", "value": "+5" },
+    { "key": "ref", "label": "Reflex", "value": "+2" },
+    { "key": "will", "label": "Willen", "value": "+1" }
+  ],
+  "combat": [
+    { "key": "bab", "label": "Grundangriffsbonus (GAB)", "value": "+3" },
+    { "key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": "+7" },
+    { "key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": "18" }
+  ],
+  "skills": [
+    { "key": "einschuechtern", "label": "Einschüchtern", "value": "+6" },
+    { "key": "klettern", "label": "Klettern", "value": "+8" },
+    { "key": "reiten", "label": "Reiten", "value": "+4" }
+  ],
+  "feats": [
+    { "key": "waffenfokus-langschwert", "name": "Waffenfokus (Langschwert)", "description": "+1 auf Angriffswürfe mit Langschwertern." },
+    { "key": "energischer-angriff", "name": "Energischer Angriff", "description": "Tausche Angriffsbonus gegen Schadensbonus bei Nahkampfangriffen." },
+    { "key": "abwehrhaltung", "name": "Abwehrhaltung", "description": "+2 auf die Rüstungsklasse, wenn im selben Zug nur ein Angriff geführt wird." }
+  ],
+  "traits": [
+    { "key": "kampfrausch", "name": "Kampfrausch", "description": "+1 auf Initiative in der ersten Kampfrunde." }
+  ],
+  "classFeatures": [
+    { "key": "bonustalent", "name": "Bonustalent", "description": "Erhält auf jeder geraden Stufe zusätzlich zum normalen Talent ein Bonus-Kampftalent." },
+    { "key": "waffenmeister-training", "name": "Waffenmeister-Training", "description": "Steigender Bonus auf Angriffs- und Schadenswürfe mit der gewählten Waffenkategorie." }
+  ],
+  "raceAbilities": [
+    { "key": "orkblut", "name": "Orkblut", "description": "Gilt sowohl als Ork als auch als Mensch." },
+    { "key": "dunkelsicht", "name": "Dunkelsicht", "description": "Sieht bis 18 m weit auch in völliger Dunkelheit." },
+    { "key": "hartnaeckigkeit", "name": "Hartnäckigkeit", "description": "Wird bei 0 TP nicht sofort kampfunfähig, sondern kann noch eine Runde handeln." }
+  ],
+  "spellsKnown": [],
+  "gear": [
+    { "id": "g1", "name": "Langschwert +1", "qty": 1 },
+    { "id": "g2", "name": "Kettenhemd", "qty": 1 },
+    { "id": "g3", "name": "Schwerer Schild", "qty": 1 },
+    { "id": "g4", "name": "Heiltrank, gering", "qty": 2 }
+  ],
+  "equipmentSlots": [
+    { "key": "kopf", "label": "Kopf", "side": "left", "row": 1, "selected": "", "options": [
+      { "value": "Helm der Trittfestigkeit", "label": "Helm der Trittfestigkeit" }
+    ] },
+    { "key": "hals", "label": "Hals", "side": "left", "row": 2, "selected": "", "options": [
+      { "value": "Amulett der Naturverbundenheit", "label": "Amulett der Naturverbundenheit" }
+    ] },
+    { "key": "koerper", "label": "Körper", "side": "right", "row": 1, "selected": "Kettenhemd", "options": [
+      { "value": "Kettenhemd", "label": "Kettenhemd" }
+    ] },
+    { "key": "guertel", "label": "Gürtel", "side": "right", "row": 2, "selected": "Gürtel der Stärke +2", "options": [
+      { "value": "Gürtel der Stärke +2", "label": "Gürtel der Stärke +2" }
+    ] }
+  ],
+  "spellbook": [],
+  "actions": [
+    { "id": "a1", "icon": "⚔", "name": "Wuchtiger Hieb", "tag": "standard", "description": "Nahkampfangriff mit dem Langschwert bei vollem Kraftaufwand." },
+    { "id": "a2", "icon": "🛡", "name": "Abwehrhaltung einnehmen", "tag": "standard", "description": "+2 auf die Rüstungsklasse bis zum nächsten Zug." },
+    { "id": "a3", "icon": "😠", "name": "Einschüchtern", "tag": "standard", "description": "Versetzt einen Gegner in Reichweite in Furcht." }
+  ],
+  "effectsActive": [
+    { "id": "e1", "icon": "💪", "amount": "+2", "name": "Wut", "detail": "STÄ & KON, −2 RK", "variant": "buff", "active": true, "durationRounds": 6, "durationLabel": "6 Runden" }
+  ]
+}

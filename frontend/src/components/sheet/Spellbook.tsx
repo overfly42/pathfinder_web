@@ -1,11 +1,39 @@
+import { useRef, useState } from 'react';
 import type { PreparableSpellGrade } from '../../types/character';
 
 interface SpellbookProps {
   grades: PreparableSpellGrade[];
   onTogglePrepare: (grade: number, spellKey: string) => void;
+  onAddSpell: (grade: number, name: string) => void;
+  onRemoveSpell: (grade: number, spellKey: string) => void;
 }
 
-export function Spellbook({ grades, onTogglePrepare }: SpellbookProps) {
+function AddSpellRow({ grade, onAdd }: { grade: number; onAdd: (grade: number, name: string) => void }) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [name, setName] = useState('');
+
+  function handleAdd() {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    onAdd(grade, trimmed);
+    setName('');
+    detailsRef.current?.removeAttribute('open');
+  }
+
+  return (
+    <details className="gear-add" ref={detailsRef}>
+      <summary className="gear-add-btn">+ Zauber hinzufügen</summary>
+      <div className="hp-popover-body gear-form">
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Zaubername" />
+        <div className="hp-popover-actions">
+          <button type="button" className="hp-btn confirm" onClick={handleAdd}>Hinzufügen</button>
+        </div>
+      </div>
+    </details>
+  );
+}
+
+export function Spellbook({ grades, onTogglePrepare, onAddSpell, onRemoveSpell }: SpellbookProps) {
   return (
     <>
       <div className="spell-hint">
@@ -33,18 +61,30 @@ export function Spellbook({ grades, onTogglePrepare }: SpellbookProps) {
               )}
             </div>
             {!grade.locked && (
-              <div className="chip-row spellprep">
-                {grade.spells.map((spell) => (
-                  <button
-                    key={spell.key}
-                    type="button"
-                    className={`chip${spell.prepared ? ' active' : ''}`}
-                    onClick={() => onTogglePrepare(grade.grade, spell.key)}
-                  >
-                    {spell.name}
-                  </button>
-                ))}
-              </div>
+              <>
+                <div className="chip-row spellprep">
+                  {grade.spells.map((spell) => (
+                    <span key={spell.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <button
+                        type="button"
+                        className={`chip${spell.prepared ? ' active' : ''}`}
+                        onClick={() => onTogglePrepare(grade.grade, spell.key)}
+                      >
+                        {spell.name}
+                      </button>
+                      <button
+                        type="button"
+                        className="gear-del"
+                        title="Aus Zauberbuch entfernen"
+                        onClick={() => onRemoveSpell(grade.grade, spell.key)}
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <AddSpellRow grade={grade.grade} onAdd={onAddSpell} />
+              </>
             )}
           </div>
         );

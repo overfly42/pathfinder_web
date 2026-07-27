@@ -17,9 +17,11 @@ interface InventoryTabsProps {
   onAddGear: (name: string, qty: number) => void;
   onSaveGear: (id: string, name: string, qty: number) => void;
   onRemoveGear: (id: string) => void;
-  onOpenItemDetail: (name: string) => void;
+  onOpenItemDetail: (id: string) => void;
   onSlotChange: (key: string, value: string) => void;
   onTogglePrepare: (grade: number, spellKey: string) => void;
+  onAddSpellToBook: (grade: number, name: string) => void;
+  onRemoveSpellFromBook: (grade: number, spellKey: string) => void;
 }
 
 export function InventoryTabs({
@@ -32,6 +34,8 @@ export function InventoryTabs({
   onOpenItemDetail,
   onSlotChange,
   onTogglePrepare,
+  onAddSpellToBook,
+  onRemoveSpellFromBook,
 }: InventoryTabsProps) {
   return (
     <>
@@ -54,7 +58,12 @@ export function InventoryTabs({
         </TabPanel>
 
         <TabPanel active={activeTab} tabKey="spellbook">
-          <Spellbook grades={character.spellbook} onTogglePrepare={onTogglePrepare} />
+          <Spellbook
+            grades={character.spellbook}
+            onTogglePrepare={onTogglePrepare}
+            onAddSpell={onAddSpellToBook}
+            onRemoveSpell={onRemoveSpellFromBook}
+          />
         </TabPanel>
       </div>
     </>

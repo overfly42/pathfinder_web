@@ -1,7 +1,9 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useAppState } from '../state/AppStateContext';
 import { useCharacterProgression } from '../hooks/useCharacterProgression';
 import { useLevelUpOptions } from '../hooks/useLevelUpOptions';
+import { applyLevelUp } from '../lib/applyLevelUp';
 import type { LevelUpDraft } from '../types/levelUpDraft';
 import { Panel } from '../components/primitives/Panel';
 import { Stepper, type StepDef } from '../components/primitives/Stepper';
@@ -27,7 +29,12 @@ const STEPS: StepDef[] = [
 
 export function LevelUpWizardPage() {
   const { characterId = '1' } = useParams();
-  const { progression, loading: progressionLoading, error: progressionError } = useCharacterProgression(characterId);
+  const { getProgressionOverride, setProgressionOverride } = useAppState();
+  const { progression: fetchedProgression, loading: progressionLoading, error: progressionError } =
+    useCharacterProgression(characterId);
+  // A prior confirm in this session (or a fresh level-up on top of an already-leveled-up
+  // character) takes precedence over the freshly fetched fixture baseline.
+  const progression = getProgressionOverride(characterId) ?? fetchedProgression;
   const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions();
   const [draft, setDraft] = useState<LevelUpDraft | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -41,6 +48,7 @@ export function LevelUpWizardPage() {
         abilityIncrease: null,
         skillIncreases: {},
         newFeat: null,
+        newBonusFeat: null,
         newSpell: null,
       });
     }
@@ -82,6 +90,7 @@ export function LevelUpWizardPage() {
 
   function nextStep() {
     if (stepIndex === STEPS.length - 1) {
+      if (!showConfirmBanner) setProgressionOverride(characterId, applyLevelUp(prog, currentDraft));
       setShowConfirmBanner(true);
       return;
     }

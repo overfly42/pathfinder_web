@@ -3,7 +3,8 @@ import { getNewLevel, getOldTotalLevel } from '../../lib/levelUpCalculations';
 
 export function CharContextBanner({ progression }: { progression: CharacterProgression }) {
   const primary = progression.classes[0];
-  const subtitle = primary ? `${progression.race} · ${primary.className} (${primary.archetype})` : progression.race;
+  const archetypeLabel = primary?.archetypes.length ? primary.archetypes.join(', ') : 'Keiner';
+  const subtitle = primary ? `${progression.race} · ${primary.className} (${archetypeLabel})` : progression.race;
 
   return (
     <div className="char-context-banner">

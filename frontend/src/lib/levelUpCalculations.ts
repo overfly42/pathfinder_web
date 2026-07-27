@@ -52,6 +52,12 @@ export function featGrantedThisLevel(newLevel: number): boolean {
   return newLevel % 2 === 1;
 }
 
+/** Krieger (Fighter) gets an additional bonus combat feat on every even level, on top of the
+ *  normal odd-level feat progression shared by all classes. */
+export function fighterBonusFeatGrantedThisLevel(receivingClassName: string | null, newLevel: number): boolean {
+  return receivingClassName === 'Krieger' && newLevel % 2 === 0;
+}
+
 export function classSkillSetForLevelUp(
   progression: CharacterProgression,
   target: LevelUpTarget,

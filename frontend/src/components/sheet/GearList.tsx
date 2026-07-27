@@ -5,7 +5,7 @@ interface GearItemRowProps {
   item: GearItem;
   onSave: (id: string, name: string, qty: number) => void;
   onRemove: (id: string) => void;
-  onOpenDetail: (name: string) => void;
+  onOpenDetail: (id: string) => void;
 }
 
 function GearItemRow({ item, onSave, onRemove, onOpenDetail }: GearItemRowProps) {
@@ -34,7 +34,7 @@ function GearItemRow({ item, onSave, onRemove, onOpenDetail }: GearItemRowProps)
             placeholder="Anzahl"
           />
           <div className="hp-popover-actions">
-            <button type="button" className="hp-btn ghost" onClick={() => onOpenDetail(item.name)}>Eigenschaften</button>
+            <button type="button" className="hp-btn ghost" onClick={() => onOpenDetail(item.id)}>Eigenschaften</button>
             <button type="button" className="hp-btn confirm" onClick={handleSave}>Speichern</button>
           </div>
         </div>
@@ -84,7 +84,7 @@ interface GearListProps {
   onAdd: (name: string, qty: number) => void;
   onSave: (id: string, name: string, qty: number) => void;
   onRemove: (id: string) => void;
-  onOpenDetail: (name: string) => void;
+  onOpenDetail: (id: string) => void;
 }
 
 export function GearList({ gear, onAdd, onSave, onRemove, onOpenDetail }: GearListProps) {

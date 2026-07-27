@@ -10,6 +10,7 @@ FIXTURES_DIR = Path(__file__).parent / "fixtures"
 # id -> fixture filename. No database yet; this is a static mock data source.
 CHARACTER_FIXTURES = {
     "1": "character_1.json",
+    "2": "character_2.json",
 }
 
 # id -> fixture filename for the level-up wizard's baseline "character being
@@ -19,6 +20,7 @@ CHARACTER_FIXTURES = {
 # character domain model instead of two mock views of the same character.
 PROGRESSION_FIXTURES = {
     "1": "progression_1.json",
+    "2": "progression_2.json",
 }
 
 app = FastAPI(title="Pathfinder Web API")

@@ -49,6 +49,10 @@ export interface GearItem {
   id: string;
   name: string;
   qty: number;
+  /** Weapon/armor enhancement bonus, e.g. "+1". Only meaningful for magic gear. */
+  enhancement?: string;
+  /** Special weapon/armor properties chosen for this specific item. */
+  properties?: string[];
 }
 
 export interface EquipmentSlotOption {

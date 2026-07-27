@@ -6,7 +6,7 @@
       "id": "existing1",
       "className": "Waldläufer",
       "level": 7,
-      "archetype": "Bogenschütze",
+      "archetypes": ["Bogenschütze"],
       "options": { "enemy": ["Untote"], "terrain": ["Wald"] }
     }
   ],
@@ -14,5 +14,6 @@
   "feats": ["Punktzielschuss", "Gezielter Schuss", "Schneller Schuss", "Tödlicher Schuss"],
   "traits": ["Scharfsinnige Beobachterin", "Kind des Waldes"],
   "skillRanks": { "heimlichkeit": 7, "wahrnehmung": 7, "wildnisleben": 6, "akrobatik": 5, "wissen_natur": 4, "heilkunde": 3 },
-  "spellsKnown": {}
+  "spellsKnown": {},
+  "history": []
 }

@@ -20,7 +20,7 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
       const first = availableNewClasses[0] ?? options.classes[0];
       setDraft((prev) => ({
         ...prev,
-        target: { mode: 'new', className: first.name, archetype: first.archetypes[0] ?? 'Keiner', options: {} },
+        target: { mode: 'new', className: first.name, archetypes: [], options: {} },
       }));
       return;
     }
@@ -29,15 +29,23 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
   }
 
   function onNewClassChange(className: string) {
-    const cls = options.classes.find((c) => c.name === className);
     setDraft((prev) => ({
       ...prev,
-      target: { mode: 'new', className, archetype: cls?.archetypes[0] ?? 'Keiner', options: {} },
+      target: { mode: 'new', className, archetypes: [], options: {} },
     }));
   }
 
-  function onNewArchetypeChange(archetype: string) {
-    setDraft((prev) => (prev.target.mode === 'new' ? { ...prev, target: { ...prev.target, archetype } } : prev));
+  function toggleNewArchetype(archetype: string, max: number) {
+    setDraft((prev) => {
+      if (prev.target.mode !== 'new') return prev;
+      const chosen = prev.target.archetypes;
+      const idx = chosen.indexOf(archetype);
+      let next: string[];
+      if (idx !== -1) next = chosen.filter((a) => a !== archetype);
+      else if (chosen.length < max) next = [...chosen, archetype];
+      else next = chosen;
+      return { ...prev, target: { ...prev.target, archetypes: next } };
+    });
   }
 
   function toggleNewClassOption(groupKey: string, choice: string, max: number) {
@@ -66,9 +74,10 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
             .filter(([, values]) => values.length > 0)
             .map(([key, values]) => `${key}: ${values.join(', ')}`)
             .join(' · ');
+          const archetypeLabel = c.archetypes.length ? c.archetypes.join(', ') : 'Keiner';
           return (
             <div className="summary-block" style={{ marginBottom: 10 }} key={c.id}>
-              <div className="sb-title">{c.className} — Archetyp: {c.archetype}</div>
+              <div className="sb-title">{c.className} — Archetypen: {archetypeLabel}</div>
               <div className="sb-line"><span>Aktuelle Stufe</span><span className="val">{c.level}</span></div>
               {optLines && <div className="sb-line"><span>Zusatzoptionen</span><span className="val">{optLines}</span></div>}
             </div>
@@ -97,15 +106,19 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
                 ))}
               </select>
             </div>
-            <div>
-              <label>Archetyp</label>
-              <select value={target.archetype} onChange={(e) => onNewArchetypeChange(e.target.value)}>
-                {(newClassDef?.archetypes ?? ['Keiner']).map((a) => (
-                  <option key={a}>{a}</option>
-                ))}
-              </select>
-            </div>
           </div>
+          {newClassDef && (() => {
+            const archetypeChoices = newClassDef.archetypes.filter((a) => a !== 'Keiner');
+            return archetypeChoices.length > 0 ? (
+              <OptionGroupPicker
+                label="Archetypen"
+                max={archetypeChoices.length}
+                choices={archetypeChoices}
+                selected={target.archetypes}
+                onToggle={(a) => toggleNewArchetype(a, archetypeChoices.length)}
+              />
+            ) : null;
+          })()}
           {newClassDef && newClassDef.optionGroups.length > 0 && (
             <div className="class-options">
               {newClassDef.optionGroups.map((g) => (

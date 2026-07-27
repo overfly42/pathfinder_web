@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { createId } from '../lib/id';
+import { useAppState } from '../state/AppStateContext';
 import { useCharacter } from '../hooks/useCharacter';
 import { useEffectsCatalog } from '../hooks/useEffectsCatalog';
 import { Panel } from '../components/primitives/Panel';
@@ -13,7 +15,7 @@ import { InventoryTabs } from '../components/sheet/InventoryTabs';
 import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { EffectsView } from '../types/character';
+import type { Effect, EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import './CharacterSheetPage.css';
 
@@ -21,15 +23,20 @@ const ROUNDS_PER_UNIT: Record<TimeUnit, number> = {
   round: 1,
   minute: 10,
   hour: 600,
-  day: Infinity,
+  /** A day is a large but finite round count (24h), not Infinity — timed effects should decrement
+   *  and expire like any other unit, not get silently dropped (see handleAdvanceTime). */
+  day: 600 * 24,
 };
 
 export function CharacterSheetPage() {
-  const { character, setCharacter, loading, error } = useCharacter('1');
+  const { currentCharacterId, nameOverrides } = useAppState();
+  const { character: rawCharacter, setCharacter, loading, error } = useCharacter(currentCharacterId);
+  const nameOverride = nameOverrides[currentCharacterId];
+  const character = rawCharacter && nameOverride ? { ...rawCharacter, name: nameOverride } : rawCharacter;
   const { catalog: effectsCatalog, loading: catalogLoading, error: catalogError } = useEffectsCatalog();
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
-  const [itemDetailName, setItemDetailName] = useState<string | null>(null);
+  const [itemDetailId, setItemDetailId] = useState<string | null>(null);
   const [pendingReveal, setPendingReveal] = useState<string | null>(null);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -45,7 +52,7 @@ export function CharacterSheetPage() {
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
-      if (event.key === 'Escape') setItemDetailName(null);
+      if (event.key === 'Escape') setItemDetailId(null);
     }
     document.addEventListener('keydown', handleKeydown);
     return () => document.removeEventListener('keydown', handleKeydown);
@@ -66,6 +73,20 @@ export function CharacterSheetPage() {
     setPendingReveal(null);
     return () => cancelAnimationFrame(frame);
   }, [pendingReveal]);
+
+  if (!currentCharacterId) {
+    return (
+      <div className="app">
+        <AppHeader character={null} effects={null} onJump={() => {}} />
+        <div className="main" style={{ justifyContent: 'center' }}>
+          <Panel title="Kein Charakter">
+            <p style={{ marginBottom: 16 }}>Diesem Nutzer sind noch keine Charaktere zugeordnet.</p>
+            <Link className="btn-levelup" to="/create">+ Neuer Charakter</Link>
+          </Panel>
+        </div>
+      </div>
+    );
+  }
 
   if (loading || catalogLoading) {
     return (
@@ -154,11 +175,13 @@ export function CharacterSheetPage() {
     setCharacter((prev) => {
       if (!prev) return prev;
       const roundsElapsed = ROUNDS_PER_UNIT[unit];
-      const stillActive = [];
+      const stillActive: Effect[] = [];
 
       for (const effect of prev.effectsActive) {
-        if (unit === 'day') continue;
         if (effect.durationRounds == null) {
+          // "Bis Rast" effects only clear on an actual rest — a full day tick implies one,
+          // shorter ticks don't.
+          if (unit === 'day') continue;
           stillActive.push(effect);
           continue;
         }
@@ -167,8 +190,93 @@ export function CharacterSheetPage() {
         stillActive.push({ ...effect, durationRounds: remaining, durationLabel: `${remaining} ${remaining === 1 ? 'Runde' : 'Runden'}` });
       }
 
-      return { ...prev, effectsActive: stillActive };
+      const spellsKnown =
+        unit === 'day'
+          ? prev.spellsKnown.map((g) => ({ ...g, spells: g.spells.map((s) => ({ ...s, used: false })) }))
+          : prev.spellsKnown;
+
+      return { ...prev, effectsActive: stillActive, spellsKnown };
     });
+  }
+
+  /** Kurze Rast: renews spell slots and clears "bis Rast" effects without advancing any round
+   *  counters, unlike "+1 Tag" which also ticks timed effects down (Requirement: rest vs. day-tick
+   *  need to be distinguishable — see todos.md). */
+  function handleShortRest() {
+    setCharacter((prev) => {
+      if (!prev) return prev;
+      const effectsActive = prev.effectsActive.filter((effect) => effect.durationRounds !== null);
+      const spellsKnown = prev.spellsKnown.map((g) => ({ ...g, spells: g.spells.map((s) => ({ ...s, used: false })) }));
+      return { ...prev, effectsActive, spellsKnown };
+    });
+  }
+
+  function handleActivateEffect(defId: string) {
+    const def = effectsCatalog?.find((d) => d.id === defId);
+    if (!def) return;
+    setCharacter((prev) => {
+      if (!prev) return prev;
+      const effect: Effect = {
+        id: createId(),
+        icon: def.icon,
+        amount: def.amount,
+        name: def.name,
+        detail: def.detail,
+        variant: 'buff',
+        active: true,
+        durationRounds: null,
+        durationLabel: 'bis Rast',
+      };
+      return { ...prev, effectsActive: [...prev.effectsActive, effect] };
+    });
+  }
+
+  function handleRemoveActiveEffect(effectId: string) {
+    setCharacter((prev) => (prev ? { ...prev, effectsActive: prev.effectsActive.filter((e) => e.id !== effectId) } : prev));
+  }
+
+  function handleAddCustomEffect(name: string, rounds: number | null) {
+    setCharacter((prev) => {
+      if (!prev) return prev;
+      const effect: Effect = {
+        id: createId(),
+        icon: '✦',
+        amount: '',
+        name,
+        detail: 'Eigener Zustand',
+        variant: 'neutral',
+        active: true,
+        durationRounds: rounds,
+        durationLabel: rounds != null ? `${rounds} ${rounds === 1 ? 'Runde' : 'Runden'}` : 'bis Rast',
+      };
+      return { ...prev, effectsActive: [...prev.effectsActive, effect] };
+    });
+  }
+
+  function handleAddSpellToBook(grade: number, name: string) {
+    setCharacter((prev) => {
+      if (!prev) return prev;
+      const spellbook = prev.spellbook.map((g) =>
+        g.grade !== grade ? g : { ...g, spells: [...g.spells, { key: createId(), name, prepared: false }] },
+      );
+      return { ...prev, spellbook };
+    });
+  }
+
+  function handleRemoveSpellFromBook(grade: number, spellKey: string) {
+    setCharacter((prev) => {
+      if (!prev) return prev;
+      const spellbook = prev.spellbook.map((g) =>
+        g.grade !== grade ? g : { ...g, spells: g.spells.filter((s) => s.key !== spellKey) },
+      );
+      return { ...prev, spellbook };
+    });
+  }
+
+  function handleSaveItemDetail(id: string, enhancement: string, properties: string[]) {
+    setCharacter((prev) =>
+      prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, enhancement, properties } : item)) } : prev,
+    );
   }
 
   return (
@@ -199,9 +307,11 @@ export function CharacterSheetPage() {
             onAddGear={handleAddGear}
             onSaveGear={handleSaveGear}
             onRemoveGear={handleRemoveGear}
-            onOpenItemDetail={setItemDetailName}
+            onOpenItemDetail={setItemDetailId}
             onSlotChange={handleSlotChange}
             onTogglePrepare={handleTogglePrepare}
+            onAddSpellToBook={handleAddSpellToBook}
+            onRemoveSpellFromBook={handleRemoveSpellFromBook}
           />
         </Panel>
 
@@ -211,11 +321,19 @@ export function CharacterSheetPage() {
             effectsActive={effectsView.effectsActive}
             effectsAvailable={effectsView.effectsAvailable}
             onAdvanceTime={handleAdvanceTime}
+            onShortRest={handleShortRest}
+            onActivateEffect={handleActivateEffect}
+            onRemoveEffect={handleRemoveActiveEffect}
+            onAddCustomEffect={handleAddCustomEffect}
           />
         </div>
       </div>
 
-      <ItemDetailModal itemName={itemDetailName} onClose={() => setItemDetailName(null)} />
+      <ItemDetailModal
+        item={character.gear.find((item) => item.id === itemDetailId) ?? null}
+        onClose={() => setItemDetailId(null)}
+        onSave={handleSaveItemDetail}
+      />
     </div>
   );
 }

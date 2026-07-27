@@ -2,7 +2,7 @@ import type { AbilityKey } from './abilities';
 
 export type LevelUpTarget =
   | { mode: 'existing'; classId: string }
-  | { mode: 'new'; className: string; archetype: string; options: Record<string, string[]> };
+  | { mode: 'new'; className: string; archetypes: string[]; options: Record<string, string[]> };
 
 export interface LevelUpDraft {
   target: LevelUpTarget;
@@ -12,5 +12,7 @@ export interface LevelUpDraft {
   /** Skill key -> whether it received its +1 rank this level. */
   skillIncreases: Record<string, boolean>;
   newFeat: string | null;
+  /** Fighter-only bonus combat feat granted on even levels, independent of newFeat. */
+  newBonusFeat: string | null;
   newSpell: string | null;
 }

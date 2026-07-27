@@ -16,6 +16,15 @@ export function useCharacter(id: string): UseCharacterResult {
 
   useEffect(() => {
     let cancelled = false;
+
+    if (!id) {
+      // No character owned/selected (e.g. a freshly created user) — nothing to fetch.
+      setCharacter(null);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 

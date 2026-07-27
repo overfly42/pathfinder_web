@@ -1,0 +1,36 @@
+{
+  "name": "Bram Eisenfaust",
+  "race": "Halbork",
+  "classes": [
+    {
+      "id": "existing1",
+      "className": "Krieger",
+      "level": 3,
+      "archetypes": ["Waffenmeister"],
+      "options": {}
+    }
+  ],
+  "abilityScores": {
+    "sta": 18,
+    "ges": 12,
+    "kon": 15,
+    "int": 10,
+    "wei": 11,
+    "cha": 8
+  },
+  "feats": [
+    "Waffenfokus (Langschwert)",
+    "Energischer Angriff",
+    "Abwehrhaltung"
+  ],
+  "traits": [
+    "Kampfrausch"
+  ],
+  "skillRanks": {
+    "einschuechtern": 3,
+    "klettern": 3,
+    "reiten": 2
+  },
+  "spellsKnown": {},
+  "history": []
+}

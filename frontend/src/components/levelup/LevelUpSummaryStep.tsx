@@ -4,6 +4,7 @@ import type { LevelUpOptions } from '../../types/levelUpOptions';
 import {
   abilityIncreaseGrantedThisLevel,
   featGrantedThisLevel,
+  fighterBonusFeatGrantedThisLevel,
   getNewLevel,
   getOldTotalLevel,
   getReceivingClassAndLevel,
@@ -30,7 +31,8 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   if (target.mode === 'existing') {
     const c = progression.classes.find((x) => x.id === target.classId);
     if (c && info) {
-      classLine = `${c.className} (${c.archetype}): Stufe ${c.level} → ${info.level}`;
+      const archetypeLabel = c.archetypes.length ? c.archetypes.join(', ') : 'Keiner';
+      classLine = `${c.className} (${archetypeLabel}): Stufe ${c.level} → ${info.level}`;
       for (const g of options.classLevelOptions[info.className] ?? []) {
         if (!g.levels.includes(info.level)) continue;
         const chosen = draft.existingLevelOptionSelections[g.key] ?? [];
@@ -38,7 +40,8 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
       }
     }
   } else {
-    classLine = `${target.className} (neu, ${target.archetype}): Stufe 1`;
+    const archetypeLabel = target.archetypes.length ? target.archetypes.join(', ') : 'Keiner';
+    classLine = `${target.className} (neu, ${archetypeLabel}): Stufe 1`;
     for (const [key, values] of Object.entries(target.options)) {
       if (values.length) optLines.push(`${key}: ${values.join(', ')}`);
     }
@@ -58,6 +61,9 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
 
   const featGranted = featGrantedThisLevel(newLevel);
   const sumFeat = featGranted ? draft.newFeat || '— noch nicht gewählt —' : 'Keins auf dieser Stufe.';
+
+  const bonusFeatGranted = fighterBonusFeatGrantedThisLevel(className, newLevel);
+  const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
   const skillLines = options.skills.filter((s) => draft.skillIncreases[s.key]);
 
@@ -86,6 +92,13 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
           <div className="sb-line"><span>{sumFeat}</span></div>
         </div>
 
+        {bonusFeatGranted && (
+          <div className="summary-block">
+            <div className="sb-title">Bonus-Kampftalent (Krieger)</div>
+            <div className="sb-line"><span>{sumBonusFeat}</span></div>
+          </div>
+        )}
+
         <div className="summary-block summary-full">
           <div className="sb-title">Neue Fertigkeitsränge</div>
           {skillLines.length === 0 ? (
@@ -103,11 +116,20 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
         </div>
       </div>
 
+      {progression.history.length > 0 && (
+        <div className="summary-block summary-full" style={{ marginTop: 16 }}>
+          <div className="sb-title">Bisherige Historie</div>
+          {progression.history.map((entry) => (
+            <div className="sb-line" key={entry.id}><span>{entry.description}</span><span className="val">{entry.date}</span></div>
+          ))}
+        </div>
+      )}
+
       <div className="info-note" style={{ marginTop: 16 }}>
         Dieser Stufenaufstieg wird zusammen mit dem vorherigen Stand in der Charakterhistorie festgehalten.
       </div>
       {showConfirmBanner && (
-        <div className="confirm-banner">✦ Stufenaufstieg wurde (im Mock) übernommen und in der Historie vermerkt.</div>
+        <div className="confirm-banner">✦ Stufenaufstieg wurde übernommen und in der Historie vermerkt.</div>
       )}
     </>
   );

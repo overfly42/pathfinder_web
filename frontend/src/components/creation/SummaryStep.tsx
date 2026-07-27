@@ -70,7 +70,7 @@ export function SummaryStep({ draft, options, showConfirmBanner }: SummaryStepPr
           ) : (
             draft.classRows.map((row) => (
               <div className="sb-line" key={row.id}>
-                <span>{row.className}{row.archetype && row.archetype !== 'Keiner' ? ` (${row.archetype})` : ''}</span>
+                <span>{row.className}{row.archetypes.length ? ` (${row.archetypes.join(', ')})` : ''}</span>
                 <span className="val">Stufe {row.level}</span>
               </div>
             ))
