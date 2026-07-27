@@ -77,6 +77,20 @@ export interface ActionOption {
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';
 
+/** A condition/effect definition from the shared catalog (`/api/effects`) — the same for every
+ *  character, same as a feat or trait definition. Not character state. */
+export interface EffectDef {
+  id: string;
+  icon: string;
+  amount: string;
+  name: string;
+  detail: string;
+  /** Instructional label for the catalog entry, e.g. "Aktivieren" / "Wirken". */
+  durationLabel: string;
+}
+
+/** An effect currently applied to a specific character — character state, part of the
+ *  character resource just like feats or gear. */
 export interface Effect {
   id: string;
   icon: string;
@@ -88,6 +102,14 @@ export interface Effect {
   /** Rounds remaining, or null for "until rest" / "while active" effects that only clear on rest/day-advance. */
   durationRounds: number | null;
   durationLabel: string;
+}
+
+/** Combined view the effects panel/search renders: this character's active effects plus the
+ *  full catalog of effects not currently active on them. Assembled client-side, not fetched
+ *  as one resource, since the two halves come from different endpoints with different scope. */
+export interface EffectsView {
+  effectsActive: Effect[];
+  effectsAvailable: EffectDef[];
 }
 
 export interface Character {
@@ -116,5 +138,4 @@ export interface Character {
   spellbook: PreparableSpellGrade[];
   actions: ActionOption[];
   effectsActive: Effect[];
-  effectsAvailable: Effect[];
 }

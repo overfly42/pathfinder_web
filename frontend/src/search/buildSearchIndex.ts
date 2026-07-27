@@ -1,7 +1,7 @@
-import type { Character } from '../types/character';
+import type { Character, EffectsView } from '../types/character';
 import type { SearchEntry } from './types';
 
-export function buildSearchIndex(character: Character): SearchEntry[] {
+export function buildSearchIndex(character: Character, effects: EffectsView): SearchEntry[] {
   const index: SearchEntry[] = [];
 
   index.push(
@@ -50,10 +50,10 @@ export function buildSearchIndex(character: Character): SearchEntry[] {
     index.push({ id: `action-${action.id}`, label: action.name, value: '', category: 'Option' });
   }
 
-  for (const effect of character.effectsActive) {
+  for (const effect of effects.effectsActive) {
     index.push({ id: `effect-active-${effect.id}`, label: effect.name, value: '', category: 'Aktiver Effekt' });
   }
-  for (const effect of character.effectsAvailable) {
+  for (const effect of effects.effectsAvailable) {
     index.push({ id: `effect-available-${effect.id}`, label: effect.name, value: '', category: 'Verfügbar' });
   }
 

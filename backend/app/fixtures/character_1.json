@@ -164,11 +164,5 @@
     { "id": "e3", "icon": "⚡", "amount": "+1", "name": "Eile", "detail": "Angriff, Reflex, Init.", "variant": "buff", "active": true, "durationRounds": 4, "durationLabel": "4 Runden" },
     { "id": "e4", "icon": "💤", "amount": "−6", "name": "Erschöpft", "detail": "STÄ & GES", "variant": "debuff", "active": true, "durationRounds": null, "durationLabel": "bis Rast" },
     { "id": "e5", "icon": "🎵", "amount": "+1", "name": "Bardenlied", "detail": "Angriff & Schaden", "variant": "neutral", "active": true, "durationRounds": null, "durationLabel": "solange aktiv" }
-  ],
-  "effectsAvailable": [
-    { "id": "av1", "icon": "🙏", "amount": "+1", "name": "Gesegnet", "detail": "Angriff & gg. Furcht", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" },
-    { "id": "av2", "icon": "😩", "amount": "−2", "name": "Ermüdet", "detail": "STÄ & GES", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" },
-    { "id": "av3", "icon": "✨", "amount": "1W4+1", "name": "Magisches Geschoss", "detail": "pro Geschoss", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Wirken" },
-    { "id": "av4", "icon": "🐾", "amount": "+2", "name": "Jägers Fährte", "detail": "gg. markiertes Ziel", "variant": "neutral", "active": false, "durationRounds": null, "durationLabel": "Aktivieren" }
   ]
 }

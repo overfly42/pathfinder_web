@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
-import type { Character } from '../../types/character';
+import type { Character, EffectsView } from '../../types/character';
 import type { SearchEntry } from '../../search/types';
 import { GlobalSearch } from './GlobalSearch';
 
 interface AppHeaderProps {
   character: Character;
+  effects: EffectsView;
   onJump: (entry: SearchEntry) => void;
 }
 
-export function AppHeader({ character, onJump }: AppHeaderProps) {
+export function AppHeader({ character, effects, onJump }: AppHeaderProps) {
   return (
     <header>
       <div className="brand">
@@ -37,7 +38,7 @@ export function AppHeader({ character, onJump }: AppHeaderProps) {
         </div>
       </div>
 
-      <GlobalSearch character={character} onJump={onJump} />
+      <GlobalSearch character={character} effects={effects} onJump={onJump} />
 
       <div className="spacer" />
 

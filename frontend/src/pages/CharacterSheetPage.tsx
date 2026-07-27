@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createId } from '../lib/id';
 import { useCharacter } from '../hooks/useCharacter';
+import { useEffectsCatalog } from '../hooks/useEffectsCatalog';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
 import { CharacterHeader } from '../components/sheet/CharacterHeader';
@@ -12,7 +13,7 @@ import { InventoryTabs } from '../components/sheet/InventoryTabs';
 import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { Effect } from '../types/character';
+import type { EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import './CharacterSheetPage.css';
 
@@ -25,6 +26,7 @@ const ROUNDS_PER_UNIT: Record<TimeUnit, number> = {
 
 export function CharacterSheetPage() {
   const { character, setCharacter, loading, error } = useCharacter('1');
+  const { catalog: effectsCatalog, loading: catalogLoading, error: catalogError } = useEffectsCatalog();
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
   const [itemDetailName, setItemDetailName] = useState<string | null>(null);
@@ -65,7 +67,7 @@ export function CharacterSheetPage() {
     return () => cancelAnimationFrame(frame);
   }, [pendingReveal]);
 
-  if (loading) {
+  if (loading || catalogLoading) {
     return (
       <div className="app">
         <p style={{ color: '#e2d3ab', padding: 24 }}>Lade Charakter …</p>
@@ -73,13 +75,18 @@ export function CharacterSheetPage() {
     );
   }
 
-  if (error || !character) {
+  if (error || catalogError || !character || !effectsCatalog) {
     return (
       <div className="app">
-        <p style={{ color: '#e2d3ab', padding: 24 }}>Charakter konnte nicht geladen werden: {error}</p>
+        <p style={{ color: '#e2d3ab', padding: 24 }}>Charakter konnte nicht geladen werden: {error ?? catalogError}</p>
       </div>
     );
   }
+
+  const effectsView: EffectsView = {
+    effectsActive: character.effectsActive,
+    effectsAvailable: effectsCatalog.filter((def) => !character.effectsActive.some((active) => active.id === def.id)),
+  };
 
   function handleJump(entry: SearchEntry) {
     if (entry.tabGroup === 'skills' && entry.tabKey) setSkillsTab(entry.tabKey);
@@ -147,33 +154,26 @@ export function CharacterSheetPage() {
     setCharacter((prev) => {
       if (!prev) return prev;
       const roundsElapsed = ROUNDS_PER_UNIT[unit];
-      const stillActive: Effect[] = [];
-      const newlyExpired: Effect[] = [];
+      const stillActive = [];
 
       for (const effect of prev.effectsActive) {
-        if (unit === 'day') {
-          newlyExpired.push({ ...effect, active: false, durationRounds: null, durationLabel: 'Aktivieren' });
-          continue;
-        }
+        if (unit === 'day') continue;
         if (effect.durationRounds == null) {
           stillActive.push(effect);
           continue;
         }
         const remaining = effect.durationRounds - roundsElapsed;
-        if (remaining <= 0) {
-          newlyExpired.push({ ...effect, active: false, durationRounds: null, durationLabel: 'Aktivieren' });
-        } else {
-          stillActive.push({ ...effect, durationRounds: remaining, durationLabel: `${remaining} ${remaining === 1 ? 'Runde' : 'Runden'}` });
-        }
+        if (remaining <= 0) continue;
+        stillActive.push({ ...effect, durationRounds: remaining, durationLabel: `${remaining} ${remaining === 1 ? 'Runde' : 'Runden'}` });
       }
 
-      return { ...prev, effectsActive: stillActive, effectsAvailable: [...prev.effectsAvailable, ...newlyExpired] };
+      return { ...prev, effectsActive: stillActive };
     });
   }
 
   return (
     <div className="app">
-      <AppHeader character={character} onJump={handleJump} />
+      <AppHeader character={character} effects={effectsView} onJump={handleJump} />
 
       <div className="main">
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
@@ -208,8 +208,8 @@ export function CharacterSheetPage() {
         <div className="right-col">
           <ActionsPanel actions={character.actions} roundLabel={character.roundLabel} />
           <EffectsPanel
-            effectsActive={character.effectsActive}
-            effectsAvailable={character.effectsAvailable}
+            effectsActive={effectsView.effectsActive}
+            effectsAvailable={effectsView.effectsAvailable}
             onAdvanceTime={handleAdvanceTime}
           />
         </div>

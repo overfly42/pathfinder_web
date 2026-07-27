@@ -1,0 +1,6 @@
+[
+  { "id": "av1", "icon": "🙏", "amount": "+1", "name": "Gesegnet", "detail": "Angriff & gg. Furcht", "variant": "neutral", "durationLabel": "Aktivieren" },
+  { "id": "av2", "icon": "😩", "amount": "−2", "name": "Ermüdet", "detail": "STÄ & GES", "variant": "neutral", "durationLabel": "Aktivieren" },
+  { "id": "av3", "icon": "✨", "amount": "1W4+1", "name": "Magisches Geschoss", "detail": "pro Geschoss", "variant": "neutral", "durationLabel": "Wirken" },
+  { "id": "av4", "icon": "🐾", "amount": "+2", "name": "Jägers Fährte", "detail": "gg. markiertes Ziel", "variant": "neutral", "durationLabel": "Aktivieren" }
+]

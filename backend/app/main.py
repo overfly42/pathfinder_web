@@ -102,6 +102,11 @@ def get_items() -> list:
     return load_fixture("items.json")
 
 
+@app.get("/api/effects")
+def get_effects() -> list:
+    return load_fixture("effects.json")
+
+
 # Recurring per-class choices gated by level (e.g. a ranger's 2nd favored
 # enemy at level 5), distinct from /api/classes' optionGroups which are
 # one-time level-1 picks. Used by the level-up wizard only.

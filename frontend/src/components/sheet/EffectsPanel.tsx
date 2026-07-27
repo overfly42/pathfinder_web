@@ -1,11 +1,11 @@
-import type { Effect } from '../../types/character';
+import type { Effect, EffectDef } from '../../types/character';
 import { Panel, PanelSearch } from '../primitives/Panel';
 
 export type TimeUnit = 'round' | 'minute' | 'hour' | 'day';
 
 interface EffectsPanelProps {
   effectsActive: Effect[];
-  effectsAvailable: Effect[];
+  effectsAvailable: EffectDef[];
   onAdvanceTime: (unit: TimeUnit) => void;
 }
 
@@ -26,7 +26,7 @@ function ActiveSeal({ effect }: { effect: Effect }) {
   );
 }
 
-function AvailableSeal({ effect }: { effect: Effect }) {
+function AvailableSeal({ effect }: { effect: EffectDef }) {
   return (
     <div className="seal inactive" id={`effect-available-${effect.id}`}>
       <div className="seal-blob inactive">
