@@ -26,6 +26,7 @@ Do not migrate the mockups to React as a side effect of unrelated work — that 
 - `readme.md` — architecture and architecture decisions, including the entity-relationship model (Mermaid ER diagram).
 - `requirements_v2.md` — current functional requirements (core features, multiclass calculation, spellcasting rules by caster type, equipment/lore, MVP scope/checklist).
 - `todos.md` — central open-items list: unresolved architecture/requirements decisions (from the `requirements_v2.md` §8 checklist) plus the gap analysis of the three mock files against `requirements_v2.md` (what's missing or inconsistent in the mocks). Check here before assuming a decision (e.g. tech stack, localization approach) is final. Supersedes the former `offene_punkte_ui_mocks.md`, which was merged into it.
+- `roadmap.md` — the sequencing plan for the backend/database build-out: lifecycle-ordered vertical slices (user → character creation → items → effects → actions → level-up), each split into a thin pass then thick passes. Check here before starting backend work to see what slice comes next; `todos.md` remains the endpoint-by-endpoint status inventory.
 - `.claude/agents/code-improver.md` — custom subagent for readability/maintainability/performance passes, scoped to this project's current mockup stage vs. target architecture.
 - `requirements.txt` — Python dependencies for tooling around the mocks (currently `playwright` + `pytest-playwright`, used to drive/screenshot the mock HTML files for verification). Not app dependencies — there is no Python application code yet.
 
