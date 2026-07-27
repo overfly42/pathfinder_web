@@ -46,10 +46,10 @@ export function AppHeader({ character, onJump }: AppHeaderProps) {
           <span className="plus">+</span>
           Neuer Nutzer
         </div>
-        <div className="btn-outline">
+        <Link className="btn-outline" to="/create">
           <span className="plus">+</span>
           Neuer Charakter
-        </div>
+        </Link>
         <Link className="btn-levelup" to={`/levelup/${character.id}`}>
           <span className="star">✦</span>
           Stufenaufstieg
