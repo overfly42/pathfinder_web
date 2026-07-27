@@ -46,3 +46,83 @@ Abgleich der bestehenden Mocks (`pathfinder-mock.html` — Charakterbogen,
 - [ ] Spielleiter-Ansicht (Requirements Abschnitt 3: „spätere Erweiterung")
 - [ ] Echte Mehrsprachigkeit DE/EN — aktuell nur ein Sprach-Dropdown ohne übersetzte Inhalte
 - [ ] Auth-/Login-Flow (laut MVP-Abgrenzung, Requirements Abschnitt 7, bewusst ausgeklammert)
+
+## Backend-Endpunkte — Status
+
+Vollständige Beschreibung/Zweck je Endpunkt in `readme.md` (Abschnitt „API Endpoints"). Alle Pfad-IDs (`character_id`, `user_id`, `item_id`, `effect_id`, `spell_id`, `slot_id`, …) sind als UUID zu behandeln, analog zu den `uuid id`-Feldern im ER-Diagramm in `readme.md`. Der Sammelstatus hier dient als Fortschritts-Checkliste; `readme.md` bleibt die inhaltliche Doku.
+
+Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
+
+**Referenzdaten** — alle ✅ implementiert (Mock/Fixture, `backend/app/main.py`):
+- [x] `GET /api/races`, `GET /api/classes`, `GET /api/feats`, `GET /api/traits`, `GET /api/skills`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options`
+- [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
+
+**Nutzerverwaltung** — alle ❌ nicht implementiert:
+- [ ] `POST /api/users`
+- [ ] `GET /api/users`
+- [ ] `PATCH /api/users/{user_id}`
+
+**Charakterverwaltung** — alle ❌ nicht implementiert:
+- [ ] `GET /api/users/{user_id}/characters`
+- [ ] `POST /api/characters`
+- [ ] `PATCH /api/characters/{character_id}`
+- [ ] `DELETE /api/characters/{character_id}`
+- [ ] `PUT /api/characters/{character_id}/draft` (optional, Auto-Save)
+
+**Stufenaufstieg** — alle ❌ nicht implementiert:
+- [ ] `POST /api/characters/{character_id}/level-up`
+- [ ] `GET /api/characters/{character_id}/history`
+
+**Vitalwerte/Kampf** — ❌ nicht implementiert:
+- [ ] `PATCH /api/characters/{character_id}/hp`
+
+**Zustände/Effekte/Zeit** — alle ❌ nicht implementiert:
+- [ ] `POST /api/characters/{character_id}/effects/{effect_id}/activate`
+- [ ] `DELETE /api/characters/{character_id}/effects/{active_effect_id}`
+- [ ] `POST /api/characters/{character_id}/effects/custom`
+- [ ] `POST /api/characters/{character_id}/advance-time`
+- [ ] `POST /api/characters/{character_id}/rest`
+
+**Zauber** — alle ❌ nicht implementiert:
+- [ ] `POST /api/characters/{character_id}/spells/{spell_id}/cast`
+- [ ] `POST /api/characters/{character_id}/spells/{spell_id}/prepare`
+- [ ] `DELETE /api/characters/{character_id}/spells/{spell_id}/prepare`
+- [ ] `POST /api/characters/{character_id}/spellbook`
+- [ ] `DELETE /api/characters/{character_id}/spellbook/{spell_id}`
+
+**Ausrüstung/Inventar** — alle ❌ nicht implementiert:
+- [ ] `POST /api/characters/{character_id}/gear`
+- [ ] `PATCH /api/characters/{character_id}/gear/{item_id}`
+- [ ] `DELETE /api/characters/{character_id}/gear/{item_id}`
+- [ ] `PUT /api/characters/{character_id}/slots/{slot_id}`
+
+**Charakterhintergrund** — alle ❌ nicht implementiert:
+- [ ] `GET /api/characters/{character_id}/background`
+- [ ] `PUT /api/characters/{character_id}/background`
+
+**Regelwerk/Referenz** — ❌ nicht implementiert:
+- [ ] `GET /api/compendium/search?q=`
+
+## React-Frontend — Fehlende UI-Elemente / Bugs (Stand aktueller Scaffold)
+
+Ergänzung zu „UI-Mocks — Offene Punkte" oben: dort ging es um die drei statischen HTML-Mocks, die folgenden Punkte sind im aktuellen React-Scaffold (`frontend/src/`) bestätigt. `frontend/src/api/client.ts` hat aktuell nur `apiGet` — es existiert keinerlei Schreib-Infrastruktur, jede der folgenden Interaktionen ändert bislang nur lokalen React-State und geht beim Neuladen verloren.
+
+- [ ] **Nutzer-Picker im Header ist reiner Platzhalter**: `AppHeader.tsx` zeigt nur ein statisches Label „Anna", keine Optionsliste, kein Handler.
+- [ ] **„+ Neuer Nutzer"-Button ohne Funktion**: `AppHeader.tsx`, `onClick` fehlt.
+- [ ] **Charakter-Picker im Header ist reiner Platzhalter**: `AppHeader.tsx`, ebenfalls ohne Optionsliste/Handler; bestätigt auch im React-Code, nicht nur im alten HTML-Mock.
+- [ ] **Keine Charakterliste/-verwaltung**: keine Komponente/Seite zum Auswählen, Umbenennen oder Löschen von Charakteren existiert; Sheet und Level-up-Assistent verwenden aktuell hart codiert Charakter-ID „1".
+- [ ] **Zustände/Zauber im Effekte-Panel nicht aktivierbar**: `EffectsPanel.tsx` — die „Verfügbare Zustände & Zauber"-Siegel haben keinen `onClick`-Handler, obwohl der CSS-Hover-Style dafür vorbereitet wirkt.
+- [ ] **Kein vorzeitiges Entfernen eines aktiven Effekts**: nur automatischer Ablauf über Zeitfortschritt möglich, kein manueller „Entfernen"/Dispel-Button.
+- [ ] **Kein Freitext-Zustand/Effekt mit frei wählbarer Dauer**: weiterhin kein UI dafür (siehe auch Punkt oben unter „UI-Mocks").
+- [ ] **Kurze Rast vs. Tageswechsel weiterhin nicht unterschieden**: `CharacterSheetPage.tsx: handleAdvanceTime` behandelt „+1 Tag" als kompletten Reset aller aktiven Effekte, kein eigener Kurzrast-Pfad.
+- [ ] **Tagesbasierte Folgeeffekte (Gift/Krankheit) weiterhin nicht modelliert**.
+- [ ] **Zauberbuch/bekannte Zauber nicht als laufende Inventarliste im Sheet editierbar**: Hinzufügen/Entfernen ist weiterhin nur ein einmaliger Picker bei Erstellung/Stufenaufstieg, nicht im laufenden Charakterbogen (Requirement 2.2).
+- [ ] **Item-Detail-Modal nicht an Item-ID gebunden (Bug)**: `ItemDetailModal.tsx` hält Verstärkungsbonus und Eigenschaften in lokalem State, der bei jedem Öffnen zurückgesetzt wird und nicht dem tatsächlichen Gegenstand zugeordnet ist — mehr als nur „nicht persistiert".
+- [ ] **Ausrüstungs-Slots nicht ans Inventar gekoppelt**: Auswahlmöglichkeiten je Slot sind statische Fixture-Daten statt aus `character.gear` abgeleitet; AC wird nicht automatisch aus ausgerüsteten Gegenständen + GES-Modifikator neu berechnet (Requirement 2.3).
+- [ ] **Kein UI für Charakterhintergrund**: Backstory, Ziele/Motivationen, NPC-Beziehungen (Requirement 2.4) — weder im Sheet noch in den Assistenten vorhanden, keine Komponenten existieren.
+- [ ] **Regelhilfe/Kompendium weiterhin nicht vorhanden**: `GlobalSearch.tsx` durchsucht nur Daten des aktuell geladenen Charakters, keine durchsuchbare Regel-Datenbank.
+- [ ] **Mehrere Archetypen pro Klasse weiterhin nur Einzel-Dropdown**: `ClassStep.tsx`/`ClassChoiceStep.tsx` ohne Mehrfachauswahl/Konfliktprüfung — bestätigt auch im React-Code.
+- [ ] **Krieger-Bonustalent auf geraden Stufen weiterhin nicht abgebildet** (bestätigt auch im React-Code, `LevelFeatStep.tsx`).
+- [ ] **Assistenten enden nur mit Mock-Bestätigungstext statt echtem Speichervorgang**: `SummaryStep.tsx` bzw. `LevelUpSummaryStep.tsx` zeigen nur „... wurde (im Mock) erstellt/übernommen" an, kein API-Call.
+- [ ] **Kein Auto-Save/Draft-Save während der Assistenten** (weder Erstellung noch Stufenaufstieg).
+- [ ] **Stufenaufstiegs-Historie fehlt im Datenmodell**: `CharacterProgression`-Typ (`types/characterProgression.ts`) hat kein Verlaufsfeld, obwohl Requirement 2 eine nachvollziehbare Historie verlangt.

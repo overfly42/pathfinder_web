@@ -212,3 +212,97 @@ npm run dev
 ```
 
 Then open `http://localhost:5173/` in a browser — that's the only port you need to visit. Vite proxies `/api/*` requests to the backend on `http://localhost:8000` (see `frontend/vite.config.ts`; overridable via a `VITE_API_URL` env var if you want the frontend to hit a different backend origin directly). Available routes: `/` (character sheet), `/create` (character creation), `/levelup/:characterId` (level-up).
+
+# API Endpoints
+
+All entity ids in path parameters (`character_id`, `user_id`, `item_id`, `effect_id`, `spell_id`, `slot_id`, etc.) are UUIDs, consistent with the `uuid id` fields in the ER diagram above. Tracked with implementation status in `todos.md`.
+
+## Reference data (implemented — GET, static fixtures)
+
+These already exist in `backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database yet:
+
+| Method | Path |
+|---|---|
+| GET | `/api/races` |
+| GET | `/api/classes` |
+| GET | `/api/feats` |
+| GET | `/api/traits` |
+| GET | `/api/skills` |
+| GET | `/api/abilities` |
+| GET | `/api/spells-by-class` |
+| GET | `/api/point-buy-costs` |
+| GET | `/api/items` |
+| GET | `/api/effects` |
+| GET | `/api/class-level-options` |
+| GET | `/api/characters/{character_id}` |
+| GET | `/api/characters/{character_id}/progression` |
+
+## Not yet implemented
+
+The frontend (`frontend/src/api/client.ts`) currently only has `apiGet` — no write capability exists at all, so every user interaction below that changes data is presently local React state only and is lost on reload.
+
+**User management**
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/users` | create a user |
+| GET | `/api/users` | list users, for the user picker |
+| PATCH | `/api/users/{user_id}` | rename a user |
+
+**Character management**
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/users/{user_id}/characters` | list a user's characters |
+| POST | `/api/characters` | finalize the character-creation wizard |
+| PATCH | `/api/characters/{character_id}` | rename a character |
+| DELETE | `/api/characters/{character_id}` | delete a character |
+| PUT | `/api/characters/{character_id}/draft` | (optional) autosave the creation wizard mid-flight |
+
+**Level-up**
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/characters/{character_id}/level-up` | finalize the level-up wizard: applies class/HP/feat/skill/spell changes |
+| GET | `/api/characters/{character_id}/history` | level-up/change history (`requirements_v2.md` §2 requires this; no supporting data model exists yet) |
+
+**Vitals/combat**
+| Method | Path | Purpose |
+|---|---|---|
+| PATCH | `/api/characters/{character_id}/hp` | apply damage/heal to current HP |
+
+AC, initiative, etc. should be backend-computed from equipped items + ability modifiers rather than written directly; today AC is static fixture data with no recompute logic anywhere.
+
+**Effects, conditions, time**
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/characters/{character_id}/effects/{effect_id}/activate` | activate a catalog condition/effect on the character |
+| DELETE | `/api/characters/{character_id}/effects/{active_effect_id}` | manually remove/dispel an active effect early |
+| POST | `/api/characters/{character_id}/effects/custom` | add a free-form effect with a manually chosen duration |
+| POST | `/api/characters/{character_id}/advance-time` | advance time by round/minute/hour, counting down active effect durations |
+| POST | `/api/characters/{character_id}/rest` | day change / rest — reset spells and effects (kept separate from `advance-time` so a short rest and a full day change can eventually diverge) |
+
+**Spells**
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/characters/{character_id}/spells/{spell_id}/cast` | mark a known/prepared spell as used for the day |
+| POST | `/api/characters/{character_id}/spells/{spell_id}/prepare` | prepare a spell (server enforces `maxPrepared` per grade) |
+| DELETE | `/api/characters/{character_id}/spells/{spell_id}/prepare` | unprepare a spell |
+| POST | `/api/characters/{character_id}/spellbook` | add a spell to the spellbook/known list during play (`requirements_v2.md` §2.2: managed like inventory, not just at creation/level-up) |
+| DELETE | `/api/characters/{character_id}/spellbook/{spell_id}` | remove a spell from the spellbook/known list |
+
+**Equipment/inventory**
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/characters/{character_id}/gear` | add an inventory item |
+| PATCH | `/api/characters/{character_id}/gear/{item_id}` | rename/change quantity, set enhancement bonus, toggle special properties |
+| DELETE | `/api/characters/{character_id}/gear/{item_id}` | remove an inventory item |
+| PUT | `/api/characters/{character_id}/slots/{slot_id}` | equip/unequip an item into an equipment slot (should validate the item is in inventory and trigger AC recompute) |
+
+**Background/notes**
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/characters/{character_id}/background` | backstory, goals/motivations, NPC relationships |
+| PUT | `/api/characters/{character_id}/background` | save backstory/goals/relationships (`requirements_v2.md` §2.4 — no frontend UI exists for this yet either) |
+
+**Rules/reference**
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/compendium/search?q=` | full-text rule lookup across feats/spells/class features; today's in-sheet search only indexes the loaded character's own data, not a rules database |
