@@ -8,6 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from .db import get_db
+from .routers import users
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -32,9 +33,11 @@ app = FastAPI(title="Pathfinder Web API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST", "PATCH"],
     allow_headers=["*"],
 )
+
+app.include_router(users.router)
 
 
 def load_fixture(filename: str) -> Any:

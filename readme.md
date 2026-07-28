@@ -237,16 +237,24 @@ These already exist in `backend/app/main.py`, backed by JSON files in `backend/a
 | GET | `/api/characters/{character_id}` |
 | GET | `/api/characters/{character_id}/progression` |
 
-## Not yet implemented
+## User management (implemented — database-backed)
 
-The frontend (`frontend/src/api/client.ts`) currently only has `apiGet` — no write capability exists at all, so every user interaction below that changes data is presently local React state only and is lost on reload.
+The first slice with a real table + write endpoints (`backend/app/models/user.py`,
+`backend/app/routers/users.py`); `AppHeader`'s user picker and "+ Neuer Nutzer"
+form call these instead of local state:
 
-**User management**
 | Method | Path | Purpose |
 |---|---|---|
 | POST | `/api/users` | create a user |
 | GET | `/api/users` | list users, for the user picker |
-| PATCH | `/api/users/{user_id}` | rename a user |
+| PATCH | `/api/users/{user_id}` | rename a user (no frontend UI wired to this yet) |
+
+## Not yet implemented
+
+The frontend (`frontend/src/api/client.ts`) has `apiGet`/`apiPost`/`apiPatch`/`apiDelete`,
+but only the user-management endpoints above are wired up so far — every other
+user interaction below that changes data is presently local React state only
+and is lost on reload.
 
 **Character management**
 | Method | Path | Purpose |

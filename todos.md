@@ -57,10 +57,10 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [x] `GET /api/races`, `GET /api/classes`, `GET /api/feats`, `GET /api/traits`, `GET /api/skills`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options`
 - [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
 
-**Nutzerverwaltung** — alle ❌ nicht implementiert:
-- [ ] `POST /api/users`
-- [ ] `GET /api/users`
-- [ ] `PATCH /api/users/{user_id}`
+**Nutzerverwaltung** — alle ✅ implementiert (echte `users`-Tabelle, `backend/app/routers/users.py`):
+- [x] `POST /api/users`
+- [x] `GET /api/users`
+- [x] `PATCH /api/users/{user_id}` (Backend + Tests vorhanden, noch kein Frontend-UI dafür)
 
 **Charakterverwaltung** — alle ❌ nicht implementiert:
 - [ ] `GET /api/users/{user_id}/characters`

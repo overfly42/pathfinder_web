@@ -58,10 +58,13 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
 
 ### 1. User lifecycle (thin only)
 Cheapest slice — proves the whole pattern before harder ones.
-- [ ] `users` table.
-- [ ] `POST /api/users`, `GET /api/users`, `PATCH /api/users/{user_id}`.
-- [ ] Wire `AppHeader`'s user picker and "+ Neuer Nutzer" form to these
-      endpoints instead of `AppStateContext` local state.
+- [x] `users` table.
+- [x] `POST /api/users`, `GET /api/users`, `PATCH /api/users/{user_id}`.
+- [x] Wire `AppHeader`'s user picker and "+ Neuer Nutzer" form to these
+      endpoints instead of `AppStateContext` local state. Character ownership
+      (`characterOwners` in `AppStateContext`) stays local-only for now — the
+      two fixture characters start unowned by any user until slice 2 adds a
+      real `characters` table with a `user_id` FK.
 
 ### 2. Character creation — thin
 - [ ] Minimal `characters` table: name, user_id, race_id, class_id, level

@@ -150,12 +150,16 @@ function AddUserButton() {
   const [name, setName] = useState('');
   const { addUser } = useAppState();
 
-  function handleAdd() {
+  async function handleAdd() {
     const trimmed = name.trim();
     if (!trimmed) return;
-    addUser(trimmed);
-    setName('');
-    detailsRef.current?.removeAttribute('open');
+    try {
+      await addUser(trimmed);
+      setName('');
+      detailsRef.current?.removeAttribute('open');
+    } catch (err) {
+      console.error('Failed to create user', err);
+    }
   }
 
   return (
