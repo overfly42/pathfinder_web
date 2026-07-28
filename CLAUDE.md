@@ -10,15 +10,15 @@ Full functional scope: `requirements_v2.md`. Architecture and entity/ER details:
 
 ## Current State vs. Target Architecture
 
-The code in this repo today is **static HTML/CSS/JS mockups only** — there is no build tooling (no `package.json`), no backend, and no database wired up yet.
+The three root-level `pathfinder-*-mock.html` files are the original static HTML/CSS/JS mockups and remain the reference design surface, but the real build-out has since started in `backend/` (FastAPI) and `frontend/` (React + Vite + TypeScript). See `roadmap.md` for what's been built (foundation + which lifecycle slices) versus what's still mock data/fixtures.
 
-Target architecture (planned, not yet implemented):
-- Frontend: React
-- Backend: FastAPI (owns character state/progression logic, exposes domain objects rather than raw rows, evaluates which actions/options are legal for a character's current state)
-- Database: PostgreSQL with the vector extension
-- Deployment: Docker/Podman containers for backend + database
+Target architecture:
+- Frontend: React (`frontend/`, Vite + TypeScript) — in progress.
+- Backend: FastAPI (`backend/`; owns character state/progression logic, exposes domain objects rather than raw rows, evaluates which actions/options are legal for a character's current state) — endpoints so far mostly read static JSON fixtures (`backend/app/fixtures/*.json`), not the database yet; see `roadmap.md`/`todos.md` for per-endpoint status.
+- Database: PostgreSQL, via `docker-compose.yml` (`podman-compose up -d`, since this machine has Podman rather than Docker). SQLAlchemy + Alembic are wired (`backend/app/db.py`, `backend/app/config.py`, `backend/app/models/`, `backend/alembic/`), but no domain tables exist yet — that starts at roadmap slice 1 (users). Vector extension deliberately deferred until something needs it (e.g. compendium search).
+- Deployment: Docker/Podman containers for backend + database (not set up yet — dev today runs both directly via `dev.sh`, only the database is containerized so far).
 
-Do not migrate the mockups to React as a side effect of unrelated work — that migration happens deliberately.
+Do not migrate remaining mock behavior to the real stack as a side effect of unrelated work — each roadmap slice does that deliberately.
 
 ## Files
 
@@ -26,20 +26,41 @@ Do not migrate the mockups to React as a side effect of unrelated work — that 
 - `readme.md` — architecture and architecture decisions, including the entity-relationship model (Mermaid ER diagram).
 - `requirements_v2.md` — current functional requirements (core features, multiclass calculation, spellcasting rules by caster type, equipment/lore, MVP scope/checklist).
 - `todos.md` — central open-items list: unresolved architecture/requirements decisions (from the `requirements_v2.md` §8 checklist) plus the gap analysis of the three mock files against `requirements_v2.md` (what's missing or inconsistent in the mocks). Check here before assuming a decision (e.g. tech stack, localization approach) is final. Supersedes the former `offene_punkte_ui_mocks.md`, which was merged into it.
-- `roadmap.md` — the sequencing plan for the backend/database build-out: lifecycle-ordered vertical slices (user → character creation → items → effects → actions → level-up), each split into a thin pass then thick passes. Check here before starting backend work to see what slice comes next; `todos.md` remains the endpoint-by-endpoint status inventory.
+- `roadmap.md` — the sequencing plan for the backend/database build-out: a one-time Foundation (DB/ORM/migrations/test harness — done) followed by lifecycle-ordered vertical slices (user → character creation → items → effects → actions → level-up), each split into a thin pass then thick passes. Check here before starting backend work to see what slice comes next; `todos.md` remains the endpoint-by-endpoint status inventory.
 - `.claude/agents/code-improver.md` — custom subagent for readability/maintainability/performance passes, scoped to this project's current mockup stage vs. target architecture.
-- `requirements.txt` — Python dependencies for tooling around the mocks (currently `playwright` + `pytest-playwright`, used to drive/screenshot the mock HTML files for verification). Not app dependencies — there is no Python application code yet.
+- `requirements.txt` — Python dependencies for tooling that isn't part of the app itself: `playwright`/`pytest-playwright` (drive/screenshot the mock HTML files) and `podman-compose` (bring up the database; see Commands below).
+- `docker-compose.yml` — Postgres 16 service (`db`) for local dev. Run with `podman-compose` (see Commands).
+- `backend/requirements.txt` / `backend/requirements-dev.txt` — FastAPI app dependencies (`fastapi`, `uvicorn`, `sqlalchemy`, `alembic`, `psycopg`, `pydantic-settings`); `-dev` adds `pytest`/`httpx` for the test harness.
+- `backend/app/config.py`, `backend/app/db.py` — `Settings` (env-driven, defaults matching `docker-compose.yml`) and the SQLAlchemy engine/session/`get_db` dependency.
+- `backend/app/models/` — `Base` plus `UUIDPrimaryKeyMixin`/`TimestampMixin`, the schema conventions every future table should use (UUID PKs, English names per `readme.md`/`requirements_v2.md` §5, timestamps on mutable rows).
+- `backend/alembic/`, `backend/alembic.ini` — migrations, wired to `app.config.settings` and `app.models.Base.metadata`. No revisions yet (no tables yet).
+- `backend/tests/` — pytest integration harness: `conftest.py` spins up a dedicated `<db>_test` Postgres database (auto-created, schema reset per session) and gives tests a rolled-back-per-test `db_session` and a `client` (FastAPI `TestClient` with `get_db` overridden).
+- `frontend/src/api/client.ts` — `apiGet`/`apiPost`/`apiPatch`/`apiDelete` fetch helpers.
 
 ## Commands
 
-No build, lint, or test tooling exists yet for the app itself. To view a mockup, open the HTML file directly in a browser (e.g. `pathfinder-mock.html`); there is no dev server.
+To view a *mockup* HTML file directly (no dev server needed), open it in a browser (e.g. `pathfinder-mock.html`).
 
-For browser automation (e.g. driving a mock with Playwright to verify a change), use the project's dedicated venv rather than installing packages elsewhere:
+To run the real app (frontend + backend + database) for local dev:
+
+```bash
+./dev.sh   # brings up Postgres via podman-compose, then FastAPI (reload) + Vite together
+```
+
+Manual equivalents, using the project's dedicated venv (`~/python/pathfinder_web`) rather than installing packages elsewhere:
 
 ```bash
 source ~/python/pathfinder_web/bin/activate
-pip install -r requirements.txt   # first time / after requirements.txt changes
-playwright install chromium       # first time, downloads the browser binary
+pip install -r requirements.txt                    # playwright + podman-compose; first time / after changes
+playwright install chromium                        # first time, downloads the browser binary
+podman-compose up -d                                # Postgres, per docker-compose.yml
+
+pip install -r backend/requirements-dev.txt         # backend app + test deps
+cd backend && alembic upgrade head                  # apply migrations (no-op until slice 1 adds tables)
+uvicorn app.main:app --reload --port 8000           # backend dev server
+python -m pytest                                    # backend/tests, uses the <db>_test database
+
+cd frontend && npm install && npm run dev           # frontend dev server
 ```
 
 This venv is intended to be used for the whole project going forward, not just Playwright.

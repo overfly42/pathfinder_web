@@ -1,9 +1,13 @@
 import json
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+
+from .db import get_db
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -36,6 +40,12 @@ app.add_middleware(
 def load_fixture(filename: str) -> Any:
     with open(FIXTURES_DIR / filename, encoding="utf-8") as f:
         return json.load(f)
+
+
+@app.get("/api/health")
+def get_health(db: Annotated[Session, Depends(get_db)]) -> dict:
+    db.execute(text("SELECT 1"))
+    return {"status": "ok"}
 
 
 @app.get("/api/characters/{character_id}")

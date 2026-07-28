@@ -32,18 +32,27 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
 
 ## Foundation (one-time, not a lifecycle stage)
 
-- [ ] PostgreSQL via `docker-compose` (matches the target architecture in
+- [x] PostgreSQL via `docker-compose` (matches the target architecture in
       `readme.md`). Add the vector extension later, only when something
-      actually needs it (e.g. compendium search) — not upfront.
-- [ ] SQLAlchemy + Alembic for models and migrations.
-- [ ] Schema conventions: UUID primary keys (matches the ER diagram in
+      actually needs it (e.g. compendium search) — not upfront. This machine
+      has Podman, not Docker, so `docker-compose.yml` is run with
+      `podman-compose` (installed via root `requirements.txt`); the compose
+      file itself stays plain/portable.
+- [x] SQLAlchemy + Alembic for models and migrations. Wired in
+      `backend/app/db.py` + `backend/alembic/`; no revisions yet since no
+      domain tables exist (that starts at slice 1).
+- [x] Schema conventions: UUID primary keys (matches the ER diagram in
       `readme.md`), English table/column names (`requirements_v2.md` §5),
-      timestamps on mutable rows for future history/audit needs.
-- [ ] `apiPost` / `apiPatch` / `apiDelete` in `frontend/src/api/client.ts`
+      timestamps on mutable rows for future history/audit needs. Implemented
+      as `UUIDPrimaryKeyMixin`/`TimestampMixin` in `backend/app/models/base.py`.
+- [x] `apiPost` / `apiPatch` / `apiDelete` in `frontend/src/api/client.ts`
       (currently `apiGet`-only).
-- [ ] First pytest integration test harness (FastAPI `TestClient` + a test
+- [x] First pytest integration test harness (FastAPI `TestClient` + a test
       Postgres instance). A handful of Playwright E2E tests cover the
       lifecycle golden path later; per-feature testing is pytest-level.
+      `backend/tests/conftest.py` + `backend/tests/test_health.py` (backed by
+      a new `GET /api/health` endpoint that round-trips a query through the
+      real DB session) prove the harness end-to-end.
 
 ## Slices
 
