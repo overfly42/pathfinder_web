@@ -189,3 +189,9 @@
   padding: 12px 16px;
   font-family: 'Spectral', serif; font-size: 13.5px; color: var(--forest);
 }
+
+.confirm-banner-error {
+  background: rgba(140,40,40,0.18);
+  border-color: #8c2828;
+  color: #d97b7b;
+}

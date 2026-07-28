@@ -1,3 +1,3 @@
-export type AbilityKey = 'sta' | 'ges' | 'kon' | 'int' | 'wei' | 'cha';
+export type AbilityKey = 'ST' | 'GE' | 'KO' | 'IN' | 'WE' | 'CH';
 
-export const ABILITY_KEYS: AbilityKey[] = ['sta', 'ges', 'kon', 'int', 'wei', 'cha'];
+export const ABILITY_KEYS: AbilityKey[] = ['ST', 'GE', 'KO', 'IN', 'WE', 'CH'];

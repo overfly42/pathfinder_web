@@ -11,12 +11,12 @@
     }
   ],
   "abilityScores": {
-    "sta": 18,
-    "ges": 12,
-    "kon": 15,
-    "int": 10,
-    "wei": 11,
-    "cha": 8
+    "ST": 18,
+    "GE": 12,
+    "KO": 15,
+    "IN": 10,
+    "WE": 11,
+    "CH": 8
   },
   "feats": [
     "Waffenfokus (Langschwert)",

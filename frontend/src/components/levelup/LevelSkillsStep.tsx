@@ -19,7 +19,7 @@ interface LevelSkillsStepProps {
 
 export function LevelSkillsStep({ progression, options, draft, setDraft }: LevelSkillsStepProps) {
   const receivingClassName = getReceivingClassName(progression, draft.target);
-  const effectiveIntMod = abilityMod(effectiveAbilityTotal(progression, 'int', draft.abilityIncrease));
+  const effectiveIntMod = abilityMod(effectiveAbilityTotal(progression, 'IN', draft.abilityIncrease));
   const budget = skillPointsForThisLevel(receivingClassName, options.classes, effectiveIntMod);
   const spent = Object.values(draft.skillIncreases).filter(Boolean).length;
   const remaining = budget - spent;

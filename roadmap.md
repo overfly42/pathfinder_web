@@ -71,7 +71,7 @@ Cheapest slice — proves the whole pattern before harder ones.
       real `characters` table with a `user_id` FK.
 
 ### 2. Character creation — thin
-- [ ] Real `races` tables, normalized (no JSONB), covering composition/
+- [x] Real `races` tables, normalized (no JSONB), covering composition/
       identity only — not computed effects (see the handler-registry pattern
       in `CLAUDE.md`): `BaseRace` (id, code, name, short_description);
       `BaseRaceAbility` as one shared, reusable catalog of abilities/traits
@@ -90,14 +90,26 @@ Cheapest slice — proves the whole pattern before harder ones.
       trait for Human — needs normalizing when seeding). Every ability's
       actual mechanical effect — flat or conditional — is resolved by a
       handler function keyed by the ability's own UUID, not by table columns.
-      Seed from `backend/app/fixtures/races.json`.
-- [ ] Minimal `characters` table: name, user_id, race_id (real FK into
-      `BaseRace`), class_id, level fixed at 1, hit_points. Class data still
-      comes from fixtures for now (see Guiding decisions above).
-- [ ] `POST /api/characters`, `GET /api/characters/{id}`,
-      `PATCH /api/characters/{id}`, `DELETE /api/characters/{id}`.
-- [ ] Creation wizard's `SummaryStep` actually persists the character instead
-      of showing a mock confirmation banner.
+      Seed from `backend/app/fixtures/races.json` (`backend/app/seed/race_seed.py`,
+      idempotent — rerun any time with `python -m app.seed.race_seed`).
+      Ability keys are now two-letter codes (`ST`/`GE`/`KO`/`IN`/`WE`/`CH`,
+      not the old `sta`/`ges`/`kon`/`int`/`wei`/`cha`) — changed during this
+      slice and propagated everywhere a key was hardcoded (fixtures, frontend
+      `AbilityKey`, `backend/app/rules/race_abilities.py`).
+- [x] Minimal `characters` table: name, user_id, race_id (real FK into
+      `BaseRace`), class_name (string, not a FK — classes stay fixture-only;
+      see Guiding decisions above), level fixed at 1, hit_points (nullable —
+      no HP calculation exists yet, `classes.json` has no hit-die field to
+      compute from; that's a slice 3 concern, not faked here).
+- [x] `POST /api/characters`, `GET /api/characters/{id}`,
+      `PATCH /api/characters/{id}`, `DELETE /api/characters/{id}`
+      (`backend/app/routers/characters.py`; GET merges with the two existing
+      mock-fixture character views in `main.py` rather than replacing them).
+- [x] Creation wizard's `SummaryStep` actually persists the character instead
+      of showing a mock confirmation banner. Scope note: the created
+      character isn't added to the header's character picker/sheet view yet
+      (that needs `GET /api/users/{user_id}/characters`, still unimplemented,
+      plus the sheet's full computed shape — both later work).
 
 ### 3. Character creation — thick (its own iterations, not one lump)
 - [ ] Ability scores / point-buy.

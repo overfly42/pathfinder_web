@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from typing import Annotated, Any
+from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +9,9 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from .db import get_db
-from .routers import users
+from .models import Character
+from .routers import characters, races, users
+from .schemas.character import CharacterRead
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -33,11 +36,13 @@ app = FastAPI(title="Pathfinder Web API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
-    allow_methods=["GET", "POST", "PATCH"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
     allow_headers=["*"],
 )
 
 app.include_router(users.router)
+app.include_router(races.router)
+app.include_router(characters.router)
 
 
 def load_fixture(filename: str) -> Any:
@@ -52,11 +57,23 @@ def get_health(db: Annotated[Session, Depends(get_db)]) -> dict:
 
 
 @app.get("/api/characters/{character_id}")
-def get_character(character_id: str) -> dict:
+def get_character(character_id: str, db: Annotated[Session, Depends(get_db)]) -> dict:
     filename = CHARACTER_FIXTURES.get(character_id)
-    if filename is None:
+    if filename is not None:
+        return load_fixture(filename)
+
+    # Not one of the two mock sheet fixtures — try a real (slice 2) character.
+    # Its shape is minimal (no computed AC/abilities/etc. yet — that's a later
+    # "thick" pass), unlike the fixtures above.
+    try:
+        parsed_id = UUID(character_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail="Character not found") from exc
+
+    character = db.get(Character, parsed_id)
+    if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
-    return load_fixture(filename)
+    return CharacterRead.model_validate(character).model_dump(mode="json")
 
 
 @app.get("/api/characters/{character_id}/progression")
@@ -71,10 +88,8 @@ def get_character_progression(character_id: str) -> dict:
 # One resource endpoint per entity rather than a single bundle, so a screen
 # only fetches what it needs (e.g. level-up needs classes/feats/skills but
 # not races/items) and each resource can grow independently. Still static
-# fixture reads for now, no DB, no filtering/query params.
-@app.get("/api/races")
-def get_races() -> list:
-    return load_fixture("races.json")
+# fixture reads for now, no DB, no filtering/query params — except races,
+# which are real database tables as of roadmap slice 2 (see routers/races.py).
 
 
 @app.get("/api/classes")

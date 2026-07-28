@@ -13,13 +13,16 @@ import {
   totalLevel,
 } from '../../lib/creationCalculations';
 
+type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
+
 interface SummaryStepProps {
   draft: CreationDraft;
   options: CreationOptions;
-  showConfirmBanner: boolean;
+  submitState: SubmitState;
+  submitErrorMessage: string;
 }
 
-export function SummaryStep({ draft, options, showConfirmBanner }: SummaryStepProps) {
+export function SummaryStep({ draft, options, submitState, submitErrorMessage }: SummaryStepProps) {
   const race = selectedRace(draft, options);
   const level = totalLevel(draft);
   const gearValue = gearTotalValue(draft.gear);
@@ -160,8 +163,11 @@ export function SummaryStep({ draft, options, showConfirmBanner }: SummaryStepPr
         </div>
       </div>
 
-      {showConfirmBanner && (
-        <div className="confirm-banner">✦ Charakter wurde (im Mock) erstellt und würde nun gespeichert werden.</div>
+      {submitState === 'success' && (
+        <div className="confirm-banner">✦ Charakter wurde erstellt und gespeichert.</div>
+      )}
+      {submitState === 'error' && (
+        <div className="confirm-banner confirm-banner-error">{submitErrorMessage}</div>
       )}
     </>
   );

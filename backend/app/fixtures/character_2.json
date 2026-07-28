@@ -11,12 +11,12 @@
   "speed": "6 m",
   "roundLabel": "Runde 1 · am Zug",
   "abilities": [
-    { "key": "sta", "label": "STÄ", "score": 18, "mod": "+4" },
-    { "key": "ges", "label": "GES", "score": 12, "mod": "+1" },
-    { "key": "kon", "label": "KON", "score": 15, "mod": "+2" },
-    { "key": "int", "label": "INT", "score": 10, "mod": "+0" },
-    { "key": "wei", "label": "WEI", "score": 11, "mod": "+0" },
-    { "key": "cha", "label": "CHA", "score": 8, "mod": "−1" }
+    { "key": "ST", "label": "STÄ", "score": 18, "mod": "+4" },
+    { "key": "GE", "label": "GES", "score": 12, "mod": "+1" },
+    { "key": "KO", "label": "KON", "score": 15, "mod": "+2" },
+    { "key": "IN", "label": "INT", "score": 10, "mod": "+0" },
+    { "key": "WE", "label": "WEI", "score": 11, "mod": "+0" },
+    { "key": "CH", "label": "CHA", "score": 8, "mod": "−1" }
   ],
   "saves": [
     { "key": "fort", "label": "Zähigkeit", "value": "+5" },

@@ -53,8 +53,8 @@ Vollständige Beschreibung/Zweck je Endpunkt in `readme.md` (Abschnitt „API En
 
 Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 
-**Referenzdaten** — alle ✅ implementiert (Mock/Fixture, `backend/app/main.py`):
-- [x] `GET /api/races`, `GET /api/classes`, `GET /api/feats`, `GET /api/traits`, `GET /api/skills`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options`
+**Referenzdaten** — alle ✅ implementiert (`GET /api/races` jetzt echte Datenbank seit Slice 2, Rest Mock/Fixture in `backend/app/main.py`):
+- [x] `GET /api/races` (Datenbank), `GET /api/classes`, `GET /api/feats`, `GET /api/traits`, `GET /api/skills`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
 - [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
 
 **Nutzerverwaltung** — alle ✅ implementiert (echte `users`-Tabelle, `backend/app/routers/users.py`):
@@ -62,11 +62,12 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [x] `GET /api/users`
 - [x] `PATCH /api/users/{user_id}` (Backend + Tests vorhanden, noch kein Frontend-UI dafür)
 
-**Charakterverwaltung** — alle ❌ nicht implementiert:
+**Charakterverwaltung** — Grundgerüst (roadmap Slice 2, minimale „thin"-Zeile) ✅, Rest ❌:
 - [ ] `GET /api/users/{user_id}/characters`
-- [ ] `POST /api/characters`
-- [ ] `PATCH /api/characters/{character_id}`
-- [ ] `DELETE /api/characters/{character_id}`
+- [x] `POST /api/characters`
+- [x] `GET /api/characters/{character_id}` (zusammengeführt mit dem bestehenden Mock-Fixture-Endpunkt)
+- [x] `PATCH /api/characters/{character_id}`
+- [x] `DELETE /api/characters/{character_id}`
 - [ ] `PUT /api/characters/{character_id}/draft` (optional, Auto-Save)
 
 **Stufenaufstieg** — alle ❌ nicht implementiert:
@@ -123,7 +124,7 @@ Ergänzung zu „UI-Mocks — Offene Punkte" oben: dort ging es um die drei stat
 - [ ] **Regelhilfe/Kompendium weiterhin nicht vorhanden**: weiterhin offen (braucht echten Regeltext-Datenbestand, nicht nur UI-Verdrahtung).
 - [x] **Mehrere Archetypen pro Klasse weiterhin nur Einzel-Dropdown**: `ClassRow`/`ClassProgressionEntry`/`LevelUpTarget` speichern jetzt `archetypes: string[]`; `ClassStep.tsx` und `ClassLevelStep.tsx` nutzen dafür einen Mehrfachauswahl-Chip-Picker (`OptionGroupPicker`) statt eines Einzel-Dropdowns. **Weiterhin offen**: keine Konfliktprüfung zwischen Archetypen — dafür fehlen noch Metadaten (welche Archetypen sich gegenseitig ausschließen); das ist eine eigene Datenmodell-Entscheidung.
 - [x] **Krieger-Bonustalent auf geraden Stufen weiterhin nicht abgebildet**: `fighterBonusFeatGrantedThisLevel()` in `levelUpCalculations.ts` + zweiter Auswahl-Slot in `LevelFeatStep.tsx`/`LevelUpSummaryStep.tsx`. Bietet mangels Feat-Kategorien in `feats.json` bewusst die volle Talenteliste an statt einer hartcodierten "nur Kampftalente"-Liste — sobald Talente eine Kategorie/Tag-Eigenschaft haben, sollte hier gefiltert werden.
-- [~] **Assistenten enden nur mit Mock-Bestätigungstext statt echtem Speichervorgang**: Der **Stufenaufstiegs**-Assistent schreibt sein Ergebnis jetzt wirklich in den (session-lokalen) `AppStateContext` zurück (inkl. Historieneintrag) statt nur einen Banner zu zeigen. Der **Charaktererstellungs**-Assistent bleibt bewusst unverändert (Mock-Banner) — ein Draft in einen vollständigen `Character` (mit berechneten Rettungswürfen/Kampfwerten/AC) zu verwandeln hieße, genau die Berechnungen im Frontend nachzubauen, die eigentlich das Backend übernehmen soll.
+- [~] **Assistenten enden nur mit Mock-Bestätigungstext statt echtem Speichervorgang**: Der **Stufenaufstiegs**-Assistent schreibt sein Ergebnis jetzt wirklich in den (session-lokalen) `AppStateContext` zurück (inkl. Historieneintrag) statt nur einen Banner zu zeigen. Der **Charaktererstellungs**-Assistent ruft jetzt `POST /api/characters` echt auf (Slice 2, minimale Felder: Name/Nutzer/Rasse/Klasse) statt nur einen Mock-Banner zu zeigen — bewusst weiterhin **nicht** vollständig: einen Draft in einen vollständigen `Character` (mit berechneten Rettungswürfen/Kampfwerten/AC) zu verwandeln hieße, genau die Berechnungen im Frontend nachzubauen, die eigentlich das Backend übernehmen soll (kommt mit Slice 3). Der neu erstellte Charakter erscheint noch nicht im Charakter-Picker im Header (dafür fehlt `GET /api/users/{user_id}/characters`).
 - [ ] **Kein Auto-Save/Draft-Save während der Assistenten**: weiterhin offen.
 - [x] **Stufenaufstiegs-Historie fehlt im Datenmodell**: `CharacterProgression.history: HistoryEntry[]` ergänzt; der Level-up-Assistent hängt bei jedem Abschluss einen Eintrag an und zeigt die bisherige Historie in der Zusammenfassung an. Bleibt reines Session-State (kein Backend-Write) und wirkt sich nicht auf die separate `Character`-Sheet-Ansicht aus (siehe unten).
 - [ ] **Backend-Schreibzugriff weiterhin komplett offen**: alles oben bleibt lokaler React-State; `apiGet`-only-Client und die „Backend-Endpunkte — Status"-Liste oben sind unverändert. Zusätzliche bekannte Einschränkung: Charakterbogen (`/api/characters/{id}`) und Progression (`/api/characters/{id}/progression`) sind laut Backend-Kommentar weiterhin „zwei Mock-Ansichten desselben Charakters" — ein im Level-up-Assistenten übernommener Stufenaufstieg aktualisiert die Progression, nicht die im Charakterbogen angezeigten Werte.

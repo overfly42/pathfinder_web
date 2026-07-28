@@ -11,7 +11,7 @@ export function createInitialDraft(): CreationDraft {
     classRows: [
       { id: createId(), className: 'Waldläufer', level: 1, archetypes: [], options: {} },
     ],
-    abilityScores: { sta: 10, ges: 10, kon: 10, int: 10, wei: 10, cha: 10 },
+    abilityScores: { ST: 10, GE: 10, KO: 10, IN: 10, WE: 10, CH: 10 },
     pointBudget: 20,
     skillRanks: {},
     feats: [],

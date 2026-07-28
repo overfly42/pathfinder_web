@@ -1,0 +1,212 @@
+[
+  {
+    "id": "2756eef0-10f0-42d4-a6d4-10f0b44ec4be",
+    "name": "+2 auf einen frei wählbaren Attributswert",
+    "description": "+2 auf einen bei der Charaktererstellung frei wählbaren Attributswert."
+  },
+  {
+    "id": "e55030a3-b066-480f-ba0a-0653a8f132ca",
+    "name": "Bonustalent",
+    "description": "Erhält ein zusätzliches Talent auf Stufe 1."
+  },
+  {
+    "id": "6aeda00f-a761-4f4e-b943-d770c0018d07",
+    "name": "Vielseitig",
+    "description": "Ein zusätzlicher Fertigkeitspunkt pro Stufe."
+  },
+  {
+    "id": "949c1059-2dbc-450c-acfd-f5abbd8f15f9",
+    "name": "Bemerkenswerte Fertigkeit",
+    "description": "Wählt eine Fertigkeit; +2 auf diese Fertigkeit statt eines Bonustalents."
+  },
+  {
+    "id": "9eec4f64-535a-4e42-822a-14bf7b2789a2",
+    "name": "Fokussierter Geist",
+    "description": "+2 auf Rettungswürfe gegen Zaubereffekte, aber kein zusätzlicher Fertigkeitspunkt pro Stufe."
+  },
+  {
+    "id": "8e4cf2e6-4510-4aa9-b2bb-9be8b47b0332",
+    "name": "+2 auf Geschicklichkeit",
+    "description": "+2 auf Geschicklichkeit."
+  },
+  {
+    "id": "dc5ec0fe-68ce-47e0-9d61-4a86f8f2e651",
+    "name": "+2 auf Intelligenz",
+    "description": "+2 auf Intelligenz."
+  },
+  {
+    "id": "f98fed0e-f32b-46c7-8575-34875bbab69a",
+    "name": "-2 auf Konstitution",
+    "description": "-2 auf Konstitution."
+  },
+  {
+    "id": "1dfa61db-7964-4fe8-9641-dad61e3bd00b",
+    "name": "Niedrigsichtig",
+    "description": "Kann bei Dämmerlicht doppelt so weit sehen wie Menschen."
+  },
+  {
+    "id": "fd398f52-a5e2-478f-9fbf-a5915e7a5e24",
+    "name": "Elfische Waffenvertrautheit",
+    "description": "Vertraut mit Langschwertern, Rapieren, Langbögen und Kompositlangbögen."
+  },
+  {
+    "id": "4012a4c8-5157-4c62-86e2-5aa1a62f693c",
+    "name": "Zauberkundig",
+    "description": "+2 auf Weltwissen zur Identifikation magischer Gegenstände."
+  },
+  {
+    "id": "b372fc46-8b56-4506-a418-5fce421ec8d4",
+    "name": "Widerstandsfähiger Geist",
+    "description": "+2 auf Rettungswürfe gegen Bezauberung; Immunität gegen magischen Schlaf."
+  },
+  {
+    "id": "d1d4430e-916a-40c3-b0ea-dc012fbaa2cc",
+    "name": "Eisenkultur",
+    "description": "+2 auf Rettungswürfe gegen Verzauberungseffekte statt Waffenvertrautheit."
+  },
+  {
+    "id": "a8d429fe-f45f-40c3-a62c-ba3f4ffb73da",
+    "name": "Küstenbewohner",
+    "description": "Schwimmen gilt immer als Klassenfertigkeit, statt magische Gegenstände zu identifizieren."
+  },
+  {
+    "id": "9a2bf962-3eee-41d6-acef-972fc4b65ec0",
+    "name": "+2 auf Konstitution",
+    "description": "+2 auf Konstitution."
+  },
+  {
+    "id": "f4278c92-0328-476d-818a-ae0ce9e0aaef",
+    "name": "+2 auf Weisheit",
+    "description": "+2 auf Weisheit."
+  },
+  {
+    "id": "15891f93-77b5-4ee2-85c2-3486fc7365e5",
+    "name": "-2 auf Charisma",
+    "description": "-2 auf Charisma."
+  },
+  {
+    "id": "6670c6fd-ac89-468b-8072-3f6c68d43a35",
+    "name": "Dunkelsicht",
+    "description": "Sieht 18 m weit auch in völliger Dunkelheit."
+  },
+  {
+    "id": "22acbfc5-1904-4483-acbd-fb03980d1359",
+    "name": "Zwergenhass",
+    "description": "+1 auf Angriffswürfe gegen Orks und Goblinoide."
+  },
+  {
+    "id": "31a5b251-635e-4790-b92a-9b0f40dc016a",
+    "name": "Standhaft",
+    "description": "+2 auf Rettungswürfe gegen Gifte, Krankheiten und Zauber."
+  },
+  {
+    "id": "135bde0e-5306-4c43-a3ea-9b301a06c55b",
+    "name": "Steinvertrautheit",
+    "description": "Erkennt ungewöhnliche Steinkonstruktionen automatisch."
+  },
+  {
+    "id": "1a3ca835-69a7-491f-b635-995c90461828",
+    "name": "Tiefenwanderer",
+    "description": "+1 auf Angriffswürfe gegen Aberrationen statt gegen Orks und Goblinoide."
+  },
+  {
+    "id": "1003a5e5-11a3-4c60-a7af-961209f6c9b0",
+    "name": "Kampflustig",
+    "description": "+1 auf Angriffswürfe bei zahlenmäßiger Unterlegenheit statt erhöhter Widerstandskraft."
+  },
+  {
+    "id": "1dfff0e2-95a6-4635-a76e-639a2dab82af",
+    "name": "+2 auf Charisma",
+    "description": "+2 auf Charisma."
+  },
+  {
+    "id": "8ccc99e8-00c5-4245-8fb0-73d7fcd5bbdb",
+    "name": "-2 auf Stärke",
+    "description": "-2 auf Stärke."
+  },
+  {
+    "id": "aa6fa04b-8c05-404f-9160-2879dd2a4500",
+    "name": "Furchtlos",
+    "description": "+2 auf Rettungswürfe gegen Furcht."
+  },
+  {
+    "id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727",
+    "name": "Glücklich",
+    "description": "+1 Glücksbonus auf alle Rettungswürfe."
+  },
+  {
+    "id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95",
+    "name": "Flink",
+    "description": "+4 auf Akrobatik bei Balanceakten."
+  },
+  {
+    "id": "fe24029b-dc76-4708-b9bf-e137ae04d23e",
+    "name": "Unauffällig",
+    "description": "+2 auf Heimlichkeit statt Bonus auf Akrobatik bei Balanceakten."
+  },
+  {
+    "id": "c6cb9b48-c02f-44ae-bfdd-85ebb303f06f",
+    "name": "Geschickter Wanderer",
+    "description": "Kein Bewegungsmalus durch schwieriges Gelände statt Furcht-Resistenz."
+  },
+  {
+    "id": "5184c07d-c187-4ffd-90f2-b3d1e14fa125",
+    "name": "Illusionsaffinität",
+    "description": "+1 auf Schwierigkeitsklasse eigener Illusionszauber."
+  },
+  {
+    "id": "5c76de08-744b-4c9e-80c7-01e34b3c8a7f",
+    "name": "Riesenfeind",
+    "description": "+4 auf KMD und RK gegen Wesen der Größenkategorie Riesig oder größer."
+  },
+  {
+    "id": "1bb50eae-20a0-4f58-afec-ade394107e47",
+    "name": "Wortgewandt",
+    "description": "+2 auf Bluffen und Diplomatie statt erhöhter Illusionsmagie."
+  },
+  {
+    "id": "3734e512-02fb-443e-ba32-6feaaf7087d7",
+    "name": "Waldgänger",
+    "description": "Wildnisleben gilt immer als Klassenfertigkeit statt Bonus gegen Riesen."
+  },
+  {
+    "id": "1ce3c2e6-d5b8-4ffa-9214-1810cc623859",
+    "name": "Multitalentiert",
+    "description": "Gilt in zwei gewählten Klassen als Favorisierte Klasse."
+  },
+  {
+    "id": "75bf49c2-8c6e-466f-9f68-b84c6f0205ff",
+    "name": "Elfenblut",
+    "description": "Gilt sowohl als Elf als auch als Mensch."
+  },
+  {
+    "id": "2a12be9f-919f-4127-a5f7-28f9068453e3",
+    "name": "Wanderer im Grenzland",
+    "description": "+2 auf Überleben und Diplomatie gegenüber Fremden statt zwei Favorisierten Klassen."
+  },
+  {
+    "id": "0142c2b1-e697-43cc-853a-f214c3187c53",
+    "name": "Adaptierte Zauberkunde",
+    "description": "Zugriff auf zusätzliche arkane Zaubertricks statt der Elfenblut-Abstammung."
+  },
+  {
+    "id": "4356f09c-b682-4697-a44e-cc16cea6b74f",
+    "name": "Kampfrausch",
+    "description": "Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht."
+  },
+  {
+    "id": "4a2474f8-19d8-4d36-8cdf-08c3cbe384b5",
+    "name": "Orkblut",
+    "description": "Gilt sowohl als Ork als auch als Mensch."
+  },
+  {
+    "id": "053ddf9f-0841-4bfb-ae11-4686a9574809",
+    "name": "Einschüchternde Erscheinung",
+    "description": "+2 auf Einschüchtern statt der Ork-Abstammung."
+  },
+  {
+    "id": "dc57662e-1074-4dbc-a510-b542ce0015fa",
+    "name": "Wildnisschritt",
+    "description": "Kein Bewegungsmalus in Wildnisgelände statt Kampfrausch."
+  }
+]

@@ -42,9 +42,9 @@
     "short": "+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit.",
     "flex": false,
     "mods": {
-      "ges": 2,
-      "int": 2,
-      "kon": -2
+      "GE": 2,
+      "IN": 2,
+      "KO": -2
     },
     "traits": [
       {
@@ -87,9 +87,9 @@
     "short": "+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks & Goblinoide.",
     "flex": false,
     "mods": {
-      "kon": 2,
-      "wei": 2,
-      "cha": -2
+      "KO": 2,
+      "WE": 2,
+      "CH": -2
     },
     "traits": [
       {
@@ -132,9 +132,9 @@
     "short": "+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich.",
     "flex": false,
     "mods": {
-      "ges": 2,
-      "cha": 2,
-      "sta": -2
+      "GE": 2,
+      "CH": 2,
+      "ST": -2
     },
     "traits": [
       {
@@ -173,9 +173,9 @@
     "short": "+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber.",
     "flex": false,
     "mods": {
-      "kon": 2,
-      "cha": 2,
-      "sta": -2
+      "KO": 2,
+      "CH": 2,
+      "ST": -2
     },
     "traits": [
       {

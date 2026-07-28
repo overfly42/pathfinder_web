@@ -232,25 +232,25 @@ Then open `http://localhost:5173/` in a browser — that's the only port you nee
 
 All entity ids in path parameters (`character_id`, `user_id`, `item_id`, `effect_id`, `spell_id`, `slot_id`, etc.) are UUIDs, consistent with the `uuid id` fields in the ER diagram above. Tracked with implementation status in `todos.md`.
 
-## Reference data (implemented — GET, static fixtures)
+## Reference data
 
-These already exist in `backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database yet:
+Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races, which are real database tables as of roadmap slice 2 (`backend/app/routers/races.py`, `backend/app/models/race.py`):
 
-| Method | Path |
-|---|---|
-| GET | `/api/races` |
-| GET | `/api/classes` |
-| GET | `/api/feats` |
-| GET | `/api/traits` |
-| GET | `/api/skills` |
-| GET | `/api/abilities` |
-| GET | `/api/spells-by-class` |
-| GET | `/api/point-buy-costs` |
-| GET | `/api/items` |
-| GET | `/api/effects` |
-| GET | `/api/class-level-options` |
-| GET | `/api/characters/{character_id}` |
-| GET | `/api/characters/{character_id}/progression` |
+| Method | Path | Backed by |
+|---|---|---|
+| GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
+| GET | `/api/classes` | fixture |
+| GET | `/api/feats` | fixture |
+| GET | `/api/traits` | fixture |
+| GET | `/api/skills` | fixture |
+| GET | `/api/abilities` | fixture |
+| GET | `/api/spells-by-class` | fixture |
+| GET | `/api/point-buy-costs` | fixture |
+| GET | `/api/items` | fixture |
+| GET | `/api/effects` | fixture |
+| GET | `/api/class-level-options` | fixture |
+| GET | `/api/characters/{character_id}` | fixture for the two mock characters, database for real (slice 2) characters |
+| GET | `/api/characters/{character_id}/progression` | fixture |
 
 ## User management (implemented — database-backed)
 
@@ -264,20 +264,34 @@ form call these instead of local state:
 | GET | `/api/users` | list users, for the user picker |
 | PATCH | `/api/users/{user_id}` | rename a user (no frontend UI wired to this yet) |
 
+## Character management (implemented — database-backed, roadmap slice 2)
+
+`backend/app/models/character.py`, `backend/app/routers/characters.py`. Minimal "thin" character
+row only (name, user, race, class name, level fixed at 1, nullable hit_points) — no ability
+scores/skills/feats/traits/computed AC yet, that's a later "thick" pass (roadmap slice 3). The
+creation wizard's `SummaryStep` calls `POST /api/characters` for real instead of showing a mock
+confirmation banner; the created character isn't yet added to the header's character
+picker (needs `GET /api/users/{user_id}/characters`, still unimplemented below) or renderable
+on the full character sheet (needs the thick pass).
+
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/characters` | finalize the character-creation wizard |
+| GET | `/api/characters/{character_id}` | fetch a character (merged into the existing mock-fixture endpoint) |
+| PATCH | `/api/characters/{character_id}` | rename a character |
+| DELETE | `/api/characters/{character_id}` | delete a character |
+
 ## Not yet implemented
 
 The frontend (`frontend/src/api/client.ts`) has `apiGet`/`apiPost`/`apiPatch`/`apiDelete`,
-but only the user-management endpoints above are wired up so far — every other
-user interaction below that changes data is presently local React state only
+but only the user-management and character-management endpoints above are wired up so far —
+every other user interaction below that changes data is presently local React state only
 and is lost on reload.
 
 **Character management**
 | Method | Path | Purpose |
 |---|---|---|
 | GET | `/api/users/{user_id}/characters` | list a user's characters |
-| POST | `/api/characters` | finalize the character-creation wizard |
-| PATCH | `/api/characters/{character_id}` | rename a character |
-| DELETE | `/api/characters/{character_id}` | delete a character |
 | PUT | `/api/characters/{character_id}/draft` | (optional) autosave the creation wizard mid-flight |
 
 **Level-up**

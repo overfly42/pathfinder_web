@@ -2,131 +2,131 @@
   {
     "key": "akrobatik",
     "name": "Akrobatik",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "fingerfertigkeit",
     "name": "Fingerfertigkeit",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "fluchtkunst",
     "name": "Fluchtkunst",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "heimlichkeit",
     "name": "Heimlichkeit",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "reiten",
     "name": "Reiten",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "falle_entschaerfen",
     "name": "Falle entschärfen",
-    "ability": "ges"
+    "ability": "GE"
   },
   {
     "key": "klettern",
     "name": "Klettern",
-    "ability": "sta"
+    "ability": "ST"
   },
   {
     "key": "schwimmen",
     "name": "Schwimmen",
-    "ability": "sta"
+    "ability": "ST"
   },
   {
     "key": "auftreten",
     "name": "Auftreten",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "bluffen",
     "name": "Bluffen",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "diplomatie",
     "name": "Diplomatie",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "einschuechtern",
     "name": "Einschüchtern",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "tierumgang",
     "name": "Tierumgang",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "verkleiden",
     "name": "Verkleiden",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "umd",
     "name": "Gegenstände magisch nutzen",
-    "ability": "cha"
+    "ability": "CH"
   },
   {
     "key": "heilkunde",
     "name": "Heilkunde",
-    "ability": "wei"
+    "ability": "WE"
   },
   {
     "key": "wahrnehmung",
     "name": "Wahrnehmung",
-    "ability": "wei"
+    "ability": "WE"
   },
   {
     "key": "wildnisleben",
     "name": "Wildnisleben",
-    "ability": "wei"
+    "ability": "WE"
   },
   {
     "key": "motiv_erkennen",
     "name": "Motiv erkennen",
-    "ability": "wei"
+    "ability": "WE"
   },
   {
     "key": "handwerk",
     "name": "Handwerk",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "linguistik",
     "name": "Linguistik",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "zauberkunde",
     "name": "Zauberkunde",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "wissen_arkanes",
     "name": "Wissen (Arkanes)",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "wissen_natur",
     "name": "Wissen (Natur)",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "wissen_religion",
     "name": "Wissen (Religion)",
-    "ability": "int"
+    "ability": "IN"
   },
   {
     "key": "wissen_lokal",
     "name": "Wissen (lokal)",
-    "ability": "int"
+    "ability": "IN"
   }
 ]

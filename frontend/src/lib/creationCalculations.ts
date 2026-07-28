@@ -56,7 +56,7 @@ export function classSkillSet(draft: CreationDraft, options: CreationOptions): S
 }
 
 export function skillPointsTotal(draft: CreationDraft, options: CreationOptions): number {
-  const intMod = abilityMod(totalAbility(draft, options, 'int'));
+  const intMod = abilityMod(totalAbility(draft, options, 'IN'));
   return draft.classRows.reduce((sum, row) => {
     const cls = classDef(options, row.className);
     const base = cls?.skillPointsBase ?? 2;

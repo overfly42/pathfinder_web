@@ -1,26 +1,26 @@
 [
   {
-    "key": "sta",
+    "key": "ST",
     "name": "STÄ"
   },
   {
-    "key": "ges",
+    "key": "GE",
     "name": "GES"
   },
   {
-    "key": "kon",
+    "key": "KO",
     "name": "KON"
   },
   {
-    "key": "int",
+    "key": "IN",
     "name": "INT"
   },
   {
-    "key": "wei",
+    "key": "WE",
     "name": "WEI"
   },
   {
-    "key": "cha",
+    "key": "CH",
     "name": "CHA"
   }
 ]
