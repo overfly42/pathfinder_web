@@ -21,10 +21,14 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   a single atomic slice — "character creation" and "level-up" in particular
   are each their own multi-iteration mini-roadmap.
 - **Reference data stays in JSON fixtures** (`backend/app/fixtures/*.json`)
-  through all of the slices below. Migrating races/classes/feats/spells/
-  items/effects into the database is deliberately its own later slice (#9),
-  done once the schemas that consume this data have stabilized — not
-  designed speculatively now.
+  through all of the slices below, with one exception: **races** are pulled
+  forward into slice 2 as a real, normalized set of tables (see `readme.md`'s
+  ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
+  `RaceAbilityReplacement`), because `characters.race_id` needs a real FK
+  target from the start rather than a loose fixture-string reference.
+  Migrating classes/feats/spells/items/effects into the database remains a
+  later slice (#8), done once the schemas that consume this data have
+  stabilized — not designed speculatively now.
 - **Shared modifier/bonus-stacking design**: items and effects are both
   fundamentally "things that apply modifiers to character stats." Design
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
@@ -67,8 +71,29 @@ Cheapest slice — proves the whole pattern before harder ones.
       real `characters` table with a `user_id` FK.
 
 ### 2. Character creation — thin
-- [ ] Minimal `characters` table: name, user_id, race_id, class_id, level
-      fixed at 1, hit_points. Race/class data still comes from fixtures.
+- [ ] Real `races` tables, normalized (no JSONB), covering composition/
+      identity only — not computed effects (see the handler-registry pattern
+      in `CLAUDE.md`): `BaseRace` (id, code, name, short_description);
+      `BaseRaceAbility` as one shared, reusable catalog of abilities/traits
+      (id, name, description only — e.g. Darkvision is one row shared by
+      Dwarf and Half-Orc, not duplicated per race, and this includes ability-
+      score bonuses like Human's "+2 to any attribute" — no separate
+      modifier table, since even superficially flat bonuses turn out to have
+      exceptions often enough that a growing pile of nullable condition
+      columns isn't actually simpler than a handler function); `RaceAbilityGrant`
+      join (race_id, ability_id, is_alternate) for which abilities a race has
+      by default vs. as an optional pick; `RaceAbilityReplacement`
+      (base_race_id, ability_id, replaces_ability_id) scoping alternate-trait
+      swaps to one race. Per the rulebook, the "+2 to any attribute" ability
+      is one shared row reused by Human/Half-Elf/Half-Orc, not three separate
+      ones (today's `races.json` inconsistently only lists it as a named
+      trait for Human — needs normalizing when seeding). Every ability's
+      actual mechanical effect — flat or conditional — is resolved by a
+      handler function keyed by the ability's own UUID, not by table columns.
+      Seed from `backend/app/fixtures/races.json`.
+- [ ] Minimal `characters` table: name, user_id, race_id (real FK into
+      `BaseRace`), class_id, level fixed at 1, hit_points. Class data still
+      comes from fixtures for now (see Guiding decisions above).
 - [ ] `POST /api/characters`, `GET /api/characters/{id}`,
       `PATCH /api/characters/{id}`, `DELETE /api/characters/{id}`.
 - [ ] Creation wizard's `SummaryStep` actually persists the character instead
@@ -76,13 +101,20 @@ Cheapest slice — proves the whole pattern before harder ones.
 
 ### 3. Character creation — thick (its own iterations, not one lump)
 - [ ] Ability scores / point-buy.
-- [ ] Skills.
+- [ ] Skills, including racial skill bonuses (e.g. Elf's +2 Knowledge
+      (arcana)). Once skill totals actually need to sum these, resolve them
+      via the same handler-registry pattern as ability-score bonuses
+      (`CLAUDE.md`) — no separate modifier table.
 - [ ] Feats.
-- [ ] Traits.
+- [ ] Traits, including persisting a character's chosen alternate racial
+      traits — the schema for this exists as of slice 2
+      (`RaceAbilityGrant`/`RaceAbilityReplacement`), so this is wiring, not a
+      new data-model decision.
 - [ ] Starting spellbook/known spells.
-- [ ] Deliberately deferred further: alternate racial traits and
-      archetype-conflict checking (needs a data-model decision on which
-      archetypes/traits mutually exclude each other — not yet made).
+- [ ] Deliberately deferred further: archetype-conflict checking for
+      classes (needs a data-model decision on which archetypes mutually
+      exclude each other — not yet made; the equivalent question for races
+      was resolved in slice 2).
 
 ### 4. Items / Inventory
 - [ ] Gear table + equipment slots.
@@ -115,9 +147,9 @@ Cheapest slice — proves the whole pattern before harder ones.
       to `AppStateContext`.
 
 ### 8. Reference-data migration (later, not upfront)
-- [ ] Move races/classes/feats/spells/items/effects from JSON fixtures into
+- [ ] Move classes/feats/spells/items/effects from JSON fixtures into
       database tables + seed scripts, once the schemas from slices 1–7 have
-      stabilized against real usage.
+      stabilized against real usage. Races are already handled in slice 2.
 
 ## Explicitly out of scope here
 

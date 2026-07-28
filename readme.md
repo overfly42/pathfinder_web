@@ -33,6 +33,8 @@ The backend is the central rules engine and application core of the system. It o
 
 Because Pathfinder contains many special rules, the backend must be designed as an extensible rules system. Classes, feats, spells, abilities, effects, and prerequisites should be added as reusable rule elements rather than being fully hard-coded from the beginning. This allows the system to grow step by step, starting with the core character workflow and later adding more detailed rules and content.
 
+Concretely: which rule elements apply to a character (race, class features, feats, effects, ...) is tracked as data — catalog tables plus grant/replacement relations, e.g. `BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement` for races. Computing what each one actually does is not modeled as further data columns, even for bonuses that look flat (Pathfinder has too many superficially-simple bonuses that turn out to be conditional, e.g. Skill Focus granting +3 normally but +6 at 10+ ranks). Instead, each rule element's effect is resolved by a small handler function, looked up by the element's own UUID (see `CLAUDE.md`). This keeps "what exists and what's granted to what" in data while "how it's computed" stays in code, without needing a schema migration every time a new kind of exception shows up.
+
 This approach keeps the implementation maintainable: the first version can focus on character creation, leveling, and basic sheet data, while later iterations add more specific rules and features without requiring a redesign of the whole backend.
 # Database
 The Database is heart of the backend. For this it is composed of tree main parts:
@@ -85,21 +87,32 @@ erDiagram
     }
     BaseRace {
         uuid id
-        data multiplyer_weight
+        string code
+        string name
+        string short_description
     }
-    BaseRacialFeat    {
+    BaseRaceAbility {
         uuid id
         string name
         string description
     }
-    BaseRacialFeatReplacement    {
-        uuid racial_feat_id
-        uuid replaces_racial_feat_id
+    RaceAbilityGrant {
+        uuid id
+        uuid race_id
+        uuid ability_id
+        bool is_alternate
     }
-    BaseRaceAbility    {
-        race_id
-        racial_feat_id
+    RaceAbilityReplacement {
+        uuid id
+        uuid base_race_id
+        uuid ability_id
+        uuid replaces_ability_id
     }
+    BaseRace ||--o{ RaceAbilityGrant : grants
+    BaseRaceAbility ||--o{ RaceAbilityGrant : "granted via"
+    BaseRace ||--o{ RaceAbilityReplacement : "defines swaps for"
+    BaseRaceAbility ||--o{ RaceAbilityReplacement : "as alternate"
+    BaseRaceAbility ||--o{ RaceAbilityReplacement : "as replaced"
     BaseFeat {
         uuid id 
         string name
@@ -133,11 +146,13 @@ erDiagram
     Character {
         uuid id
         uuid user_id
+        uuid race_id
         uuid prefered_class
         int current_hit_points
         string name
     }
     Character ||--o{ BaseClasses : has
+    Character ||--o{ BaseRace : has
     Character ||--o{ User:has
     CharacterAttribute {
         uuid attribute_id
