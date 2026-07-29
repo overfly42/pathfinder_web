@@ -40,7 +40,7 @@ export interface ClassDef {
 }
 
 export interface SkillDef {
-  key: string;
+  id: string;
   name: string;
   ability: AbilityKey;
 }

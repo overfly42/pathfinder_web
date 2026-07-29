@@ -52,20 +52,20 @@ export function SkillsStep({ draft, options, setDraft }: SkillsStepProps) {
 
       <div>
         {options.skills.map((skill) => {
-          const ranks = draft.skillRanks[skill.key] || 0;
-          const isClassSkill = classSkills.has(skill.key);
-          const bonus = skillBonus(draft, options, skill.key, skill.ability);
+          const ranks = draft.skillRanks[skill.id] || 0;
+          const isClassSkill = classSkills.has(skill.id);
+          const bonus = skillBonus(draft, options, skill.id, skill.ability);
           const canInc = ranks < level && remaining - 1 >= 0;
           return (
-            <div className="skill-row-edit" key={skill.key}>
+            <div className="skill-row-edit" key={skill.id}>
               <div className="sr-name">
                 {skill.name} <span className="sr-ability">({skill.ability.toUpperCase()})</span>
                 {isClassSkill && <span className="tag class-skill"> Klasse</span>}
               </div>
               <div className="sr-ctrl">
-                <button type="button" className="stepper-btn" disabled={ranks <= 0} onClick={() => adjustSkill(skill.key, -1)}>−</button>
+                <button type="button" className="stepper-btn" disabled={ranks <= 0} onClick={() => adjustSkill(skill.id, -1)}>−</button>
                 <span className="sr-rank">{ranks}</span>
-                <button type="button" className="stepper-btn" disabled={!canInc} onClick={() => adjustSkill(skill.key, 1)}>+</button>
+                <button type="button" className="stepper-btn" disabled={!canInc} onClick={() => adjustSkill(skill.id, 1)}>+</button>
               </div>
               <div className="sr-total">{formatMod(bonus)}</div>
             </div>

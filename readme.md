@@ -73,18 +73,16 @@ erDiagram
     }
     BaseSkill {
         uuid id
-        uuid attribute_id
-        string nameCharacterLevel
-        string description
+        string name
+        string ability
     }
     BaseClassSkill  {
         uuid skill_id
-        uuid class_id
+        uuid base_class_id
     }
-    BaseAttribute   {
-        uuid id
-        string name
-    }
+    %% BaseAttribute deliberately not implemented: ability scores are a
+    %% fixed 6-value code (ST/GE/KO/IN/WE/CH) used as a plain string
+    %% everywhere in the codebase, not a database-backed table.
     BaseRace {
         uuid id
         string code
@@ -167,10 +165,10 @@ erDiagram
         uuid base_class_id
         int hit_points
     }
-    CharacterSkill{
+    CharacterSkillRank{
         uuid level_id
         uuid skill_id
-        int skill_points
+        int ranks
     }
     CharacterFeat{
         uuid level_id
@@ -234,15 +232,15 @@ All entity ids in path parameters (`character_id`, `user_id`, `item_id`, `effect
 
 ## Reference data
 
-Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races (real database tables as of roadmap slice 2, `backend/app/routers/races.py`/`backend/app/models/race.py`) and classes (a real `BaseClass` table as of roadmap slice 3, `backend/app/models/base_class.py` — `name` (a FK target for `CharacterLevel.base_class_id`), `hit_dice`, and a self-referencing `arch_class_of` FK: null for a root class, or the parent's id for one archetype variant of it; skill points/class skills/spell type/archetype-and-option-group *definitions* still live in `classes.json`, joined by name):
+Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races (real database tables as of roadmap slice 2, `backend/app/routers/races.py`/`backend/app/models/race.py`), classes (a real `BaseClass` table as of roadmap slice 3, `backend/app/models/base_class.py` — `name` (a FK target for `CharacterLevel.base_class_id`), `hit_dice`, and a self-referencing `arch_class_of` FK: null for a root class, or the parent's id for one archetype variant of it; skill points/spell type/archetype-and-option-group *definitions* still live in `classes.json`, joined by name), and skills (real `BaseSkill`/`BaseClassSkill` tables, also as of roadmap slice 3, `backend/app/models/skill.py` — identity only (name + governing ability code), pulled out of the old `skills.json` fixture so `classSkills` has a real FK target and skill names have a stable id a future translation layer can key off of; `/api/classes`' `classSkills` field is overwritten with real skill ids from `BaseClassSkill` at read time, replacing the old fixture-key strings):
 
 | Method | Path | Backed by |
 |---|---|---|
 | GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
-| GET | `/api/classes` | fixture (identity/hit_dice/archetype-hierarchy mirrored in `BaseClass`, not exposed via this endpoint) |
+| GET | `/api/classes` | fixture, except `classSkills` (database, `BaseClassSkill`) and identity/hit_dice/archetype-hierarchy (mirrored in `BaseClass`, not exposed via this endpoint) |
 | GET | `/api/feats` | fixture |
 | GET | `/api/traits` | fixture |
-| GET | `/api/skills` | fixture |
+| GET | `/api/skills` | database (`BaseSkill`) |
 | GET | `/api/abilities` | fixture |
 | GET | `/api/spells-by-class` | fixture |
 | GET | `/api/point-buy-costs` | fixture |

@@ -40,18 +40,18 @@ export function LevelSkillsStep({ progression, options, draft, setDraft }: Level
       </div>
       <div>
         {options.skills.map((skill) => {
-          const existingRanks = progression.skillRanks[skill.key] || 0;
-          const picked = !!draft.skillIncreases[skill.key];
-          const isClassSkill = classSkills.has(skill.key);
+          const existingRanks = progression.skillRanks[skill.id] || 0;
+          const picked = !!draft.skillIncreases[skill.id];
+          const isClassSkill = classSkills.has(skill.id);
           const totalRanks = existingRanks + (picked ? 1 : 0);
           const abMod = abilityMod(effectiveAbilityTotal(progression, skill.ability, draft.abilityIncrease));
           const bonus = totalRanks + abMod + (isClassSkill && totalRanks > 0 ? 3 : 0);
           const disabled = !picked && remaining <= 0;
           return (
             <div
-              key={skill.key}
+              key={skill.id}
               className={`skill-row-pick${picked ? ' active' : ''}${disabled ? ' disabled' : ''}`}
-              onClick={disabled ? undefined : () => toggle(skill.key)}
+              onClick={disabled ? undefined : () => toggle(skill.id)}
             >
               <div className="sr-name">
                 {skill.name} <span className="sr-ability">({skill.ability.toUpperCase()})</span>

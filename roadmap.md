@@ -21,9 +21,9 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   a single atomic slice — "character creation" and "level-up" in particular
   are each their own multi-iteration mini-roadmap.
 - **Reference data stays in JSON fixtures** (`backend/app/fixtures/*.json`)
-  through all of the slices below, with two exceptions: **races** were pulled
-  forward into slice 2 as a real, normalized set of tables (see `readme.md`'s
-  ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
+  through all of the slices below, with three exceptions: **races** were
+  pulled forward into slice 2 as a real, normalized set of tables (see
+  `readme.md`'s ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
   `RaceAbilityReplacement`), because `characters.race_id` needs a real FK
   target from the start rather than a loose fixture-string reference; **classes**
   got a real `BaseClass` table in slice 3 for the same FK reason
@@ -32,11 +32,16 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   and the `arch_class_of` self-FK (root class vs. archetype variant), by
   explicit decision that class is central/complex enough to warrant earlier
   DB investment than race, with more class-mechanical fields expected to
-  migrate in over time. Skill points, class skills, and spell type still stay
-  in `classes.json` for now. Migrating the rest of feats/spells/items/effects
-  (and the remaining class content) into the database remains a later slice
-  (#8), done once the schemas that consume this data have stabilized — not
-  designed speculatively now.
+  migrate in over time; and **skills** got real `BaseSkill`/`BaseClassSkill`
+  tables, also in slice 3, so `classSkills` has a real FK target instead of
+  fixture-key strings and skill names have a stable id a future translation
+  layer can key off of (`name` stays a single unlocalized string for now —
+  DE/EN is still an open item, see `todos.md`). Skill points, spell type, and
+  archetype/option-group *definitions* still stay in `classes.json` for now.
+  Migrating the rest of feats/spells/items/effects (and the remaining class
+  content) into the database remains a later slice (#8), done once the
+  schemas that consume this data have stabilized — not designed
+  speculatively now.
 - **Shared modifier/bonus-stacking design**: items and effects are both
   fundamentally "things that apply modifiers to character stats." Design
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
@@ -209,10 +214,40 @@ Cheapest slice — proves the whole pattern before harder ones.
       choices land in `CharacterClassOption` (character_id, base_class_id,
       group_key, choice — one row per chosen value, so a max-2 group like
       Kleriker's domains is two rows), keyed by the root class's id.
-- [ ] Skills, including racial skill bonuses (e.g. Elf's +2 Knowledge
-      (arcana)). Once skill totals actually need to sum these, resolve them
-      via the same handler-registry pattern as ability-score bonuses
-      (`CLAUDE.md`) — no separate modifier table.
+- [x] Skills. Real `BaseSkill` (id, name, `ability` — the fixed 2-letter
+      code, not a `BaseAttribute` FK; see Guiding decisions above) and
+      `BaseClassSkill` (base_class_id, skill_id — replacing `classes.json`'s
+      `classSkills: string[]` arrays, root classes only) tables, seeded from
+      `backend/app/fixtures/seed/base_skills.json`/`base_class_skills.json`
+      via `backend/app/seed/skill_seed.py` (same idempotent upsert-by-id
+      pattern as `race_seed.py`/`class_seed.py`). `/api/skills`
+      (`backend/app/routers/skills.py`) is now fully database-backed;
+      `/api/classes` overwrites its `classSkills` field with real skill ids
+      at read time, the rest of `classes.json` unchanged.
+
+      What a character actually invested is `CharacterSkillRank` (level_id,
+      skill_id, ranks) — an audit entry per `CharacterLevel`, not a running
+      total (a character's current ranks in a skill is always `SUM(ranks)`
+      across these rows, computed via `Character.skill_ranks`, never stored
+      redundantly). Multi-level creation (the wizard doesn't ask which level
+      a rank came from) collapses the whole selection onto the highest
+      `CharacterLevel` row being created, as one row per skill touched; a
+      later level-up (slice 7) will instead add one new row per skill tied
+      to the new level, holding only that level's newly bought ranks — same
+      table, same insert shape, just a smaller delta, so creation and
+      level-up never need different persistence logic. Server-side
+      validation (`backend/app/routers/characters.py`) mirrors the wizard's
+      client-side math (`skillPointsTotal`/`skillBonus` in
+      `creationCalculations.ts`): per-skill ranks capped at total character
+      level, and total ranks capped at the skill-point budget computed from
+      each class's `skillPointsBase` (`classes.json`) plus the character's
+      *effective* INT modifier (base score + race flat bonus + flex pick,
+      via the new `race_ability_score_mods` helper in `routers/races.py`).
+
+      Racial skill bonuses (e.g. Elf's +2 Knowledge (arcana)) are not yet
+      modeled — no such `BaseRaceAbility` rows exist in the seed data yet;
+      when they're added, they resolve via the same handler-registry pattern
+      as ability-score bonuses (`CLAUDE.md`), not a separate modifier table.
 - [ ] Feats.
 - [ ] Traits, including persisting a character's chosen alternate racial
       traits — the schema for this exists as of slice 2

@@ -16,6 +16,25 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
 - [ ] **Lokalisierungs-/Übersetzungsansatz**: Noch nicht definiert (nur Anforderung: Deutsch Standard, Englisch zusätzlich).
 - [ ] **Qualitätskriterien** (Sicherheit, Zuverlässigkeit, Performance): Noch nicht festgelegt.
 
+## Referenzdaten-Inhalte sind Platzhalter, keine geprüften Regeln
+
+Die konkreten Inhalte der Referenzdaten — Fertigkeitsnamen (`base_skills.json`),
+Rasseneigenschaften/-namen (`base_races.json`, `base_race_abilities.json`),
+Klasseneigenschaften (`classes.json`, `base_classes.json`) usw. — sind aktuell
+von einem LLM plausibel geraten, nicht aus dem tatsächlichen Pathfinder-1e-
+Regelwerk extrahiert. Namen, Attributszuordnungen, Klassenfertigkeiten und
+Rassenboni können daher im Detail falsch sein. Für die aktuelle Phase reicht
+das aus, um das Datenmodell und alle Use Cases (Erstellung, Validierung,
+Persistenz) durchzuspielen — das ist bewusst kein Blocker für die laufende
+Slice-Arbeit.
+
+- [ ] **Vor dem produktiven Einsatz**: sämtliche Seed-/Fixture-Inhalte gegen
+      das echte Regelwerk prüfen und einzeln (nicht als Bulk-Ersetzung)
+      korrigieren, sobald der jeweilige Datenbereich (Rassen, Klassen,
+      Fertigkeiten, später Talente/Zauber/Gegenstände) strukturell
+      abgeschlossen ist — betrifft `backend/app/fixtures/seed/*.json` und die
+      verbleibenden `backend/app/fixtures/*.json`.
+
 ## UI-Mocks — Offene Punkte
 
 Abgleich der bestehenden Mocks (`pathfinder-mock.html` — Charakterbogen,

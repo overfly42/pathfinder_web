@@ -28,8 +28,9 @@ replacing `ABILITY_ANY_PLUS2` for that race. `ABILITY_ST_PLUS2` exists only
 for this purpose today — no race grants a fixed +2 STÄ, so this is the sole
 consumer of that catalog row. `routers/races.py`'s `resolve_flex_ability_id`
 does the lookup; the character's actual pick is persisted as a
-`CharacterAbilityChoice` row, not a raw attribute-code column, same as any
-future alternate-trait pick will be.
+`CharacterRacialChoice` row, not a raw attribute-code column — the same
+table optional alternate-trait picks use (see `routers/races.py`'s
+`resolve_alt_trait`).
 """
 
 import functools

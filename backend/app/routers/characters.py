@@ -11,16 +11,18 @@ from ..db import get_db
 from ..models import (
     BaseClass,
     BaseRace,
+    BaseSkill,
     Character,
-    CharacterAbilityChoice,
     CharacterClass,
     CharacterClassOption,
     CharacterLevel,
+    CharacterRacialChoice,
+    CharacterSkillRank,
     User,
 )
 from ..rules.point_buy import spent_points
 from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate
-from .races import race_has_flex, resolve_flex_ability_id
+from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
 
 router = APIRouter(prefix="/api/characters", tags=["characters"])
 
@@ -54,6 +56,18 @@ def resolve_archetype(db: Session, root: BaseClass, archetype_name: str) -> Base
     if variant is None:
         raise HTTPException(status_code=422, detail=f"Unknown archetype '{archetype_name}' for class '{root.name}'")
     return variant
+
+
+def _skill_points_total(classes: list, int_mod: int) -> int:
+    """Mirrors the frontend's `skillPointsTotal` (creationCalculations.ts):
+    per class-taken, max(1, class's base skill points + INT modifier) times
+    the levels taken in it, summed across all classes."""
+    total = 0
+    for selection in classes:
+        class_def = _class_def(selection.class_name) or {}
+        base = class_def.get("skillPointsBase", 2)
+        total += max(1, base + int_mod) * selection.level
+    return total
 
 
 def _validate_options(class_name: str, options: dict[str, list[str]]) -> None:
@@ -101,6 +115,42 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         if flex_ability_id is None:
             raise HTTPException(status_code=422, detail="Unknown flex_ability for this race")
 
+    alt_trait_ability_ids: list[UUID] = []
+    seen_replaced_ability_ids: set[UUID] = set()
+    for trait_name in body.alt_traits:
+        resolved = resolve_alt_trait(db, body.race_id, trait_name)
+        if resolved is None:
+            raise HTTPException(status_code=422, detail=f"Unknown alt_trait '{trait_name}' for this race")
+        ability_id, replaces = resolved
+        if replaces & seen_replaced_ability_ids:
+            raise HTTPException(
+                status_code=422, detail=f"alt_trait '{trait_name}' conflicts with another chosen alt_trait"
+            )
+        seen_replaced_ability_ids |= replaces
+        alt_trait_ability_ids.append(ability_id)
+
+    if body.skill_ranks:
+        total_level = sum(selection.level for selection in body.classes)
+        valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
+        for skill_id_str, ranks in body.skill_ranks.items():
+            try:
+                skill_id = UUID(skill_id_str)
+            except ValueError as exc:
+                raise HTTPException(status_code=422, detail=f"Invalid skill id '{skill_id_str}'") from exc
+            if skill_id not in valid_skill_ids:
+                raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id_str}'")
+            if ranks > total_level:
+                raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
+
+        race_mods = race_ability_score_mods(db, body.race_id)
+        effective_in = body.ability_scores["IN"] + race_mods.get("IN", 0)
+        if body.flex_ability == "IN":
+            effective_in += 2
+        int_mod = (effective_in - 10) // 2
+        budget = _skill_points_total(body.classes, int_mod)
+        if sum(body.skill_ranks.values()) > budget:
+            raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
+
     character = Character(
         name=body.name,
         user_id=body.user_id,
@@ -115,7 +165,9 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         point_budget=body.point_budget,
     )
     if flex_ability_id is not None:
-        character.ability_choices.append(CharacterAbilityChoice(ability_id=flex_ability_id))
+        character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
+    for ability_id in alt_trait_ability_ids:
+        character.racial_choices.append(CharacterRacialChoice(ability_id=ability_id))
 
     # The root of the first submitted class is favored by default — matches
     # the class picker's row order, not something the wizard asks for yet.
@@ -124,10 +176,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     seen_archetype_ids_by_root: dict[UUID, set[UUID]] = {}
 
     running_level = 0
+    last_level_row: CharacterLevel | None = None
     for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
         for _ in range(selection.level):
             running_level += 1
-            character.levels.append(CharacterLevel(level=running_level, base_class_id=root.id))
+            last_level_row = CharacterLevel(level=running_level, base_class_id=root.id)
+            character.levels.append(last_level_row)
         for group_key, choices in selection.options.items():
             for choice in choices:
                 character.class_options.append(
@@ -146,6 +200,11 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 continue
             seen_archetype_ids.add(archetype.id)
             character.class_memberships.append(CharacterClass(base_class_id=archetype.id))
+
+    if last_level_row is not None:
+        for skill_id_str, ranks in body.skill_ranks.items():
+            if ranks > 0:
+                last_level_row.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=ranks))
 
     db.add(character)
     db.commit()

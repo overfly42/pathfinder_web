@@ -6,14 +6,45 @@
       "id": "existing1",
       "className": "Waldläufer",
       "level": 7,
-      "archetypes": ["Bogenschütze"],
-      "options": { "enemy": ["Untote"], "terrain": ["Wald"] }
+      "archetypes": [
+        "Bogenschütze"
+      ],
+      "options": {
+        "enemy": [
+          "Untote"
+        ],
+        "terrain": [
+          "Wald"
+        ]
+      }
     }
   ],
-  "abilityScores": { "ST": 14, "GE": 18, "KO": 13, "IN": 10, "WE": 15, "CH": 8 },
-  "feats": ["Punktzielschuss", "Gezielter Schuss", "Schneller Schuss", "Tödlicher Schuss"],
-  "traits": ["Scharfsinnige Beobachterin", "Kind des Waldes"],
-  "skillRanks": { "heimlichkeit": 7, "wahrnehmung": 7, "wildnisleben": 6, "akrobatik": 5, "wissen_natur": 4, "heilkunde": 3 },
+  "abilityScores": {
+    "ST": 14,
+    "GE": 18,
+    "KO": 13,
+    "IN": 10,
+    "WE": 15,
+    "CH": 8
+  },
+  "feats": [
+    "Punktzielschuss",
+    "Gezielter Schuss",
+    "Schneller Schuss",
+    "Tödlicher Schuss"
+  ],
+  "traits": [
+    "Scharfsinnige Beobachterin",
+    "Kind des Waldes"
+  ],
+  "skillRanks": {
+    "432bdbaa-0286-4203-a117-1dbc4d68056b": 7,
+    "3d5d4e5f-c749-4346-a53b-2006bca05abb": 7,
+    "1b9fe08d-09e0-46c8-8772-dd573cab6fff": 6,
+    "61a2cb21-fcda-4a2d-8fb5-8ed12133c648": 5,
+    "0f6a271e-7eda-4d06-bdf8-8148a2c947ff": 4,
+    "a6246060-6731-498c-b6d3-3ff72876aa27": 3
+  },
   "spellsKnown": {},
   "history": []
 }

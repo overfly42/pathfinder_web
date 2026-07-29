@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
+from .race import BaseRaceAbility
 
 
 class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -48,7 +49,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # kept alongside the scores for display/audit, not re-validated on read.
     point_budget: Mapped[int] = mapped_column(Integer)
 
-    ability_choices: Mapped[list["CharacterAbilityChoice"]] = relationship()
+    racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship()
     levels: Mapped[list["CharacterLevel"]] = relationship(
         order_by="CharacterLevel.level", cascade="all, delete-orphan"
     )
@@ -118,12 +119,26 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         }
 
     @property
+    def skill_ranks(self) -> dict[str, int]:
+        """Current ranks per skill, summed from every `CharacterSkillRank`
+        row across all levels — never stored as its own total (CLAUDE.md)."""
+        totals: dict[str, int] = {}
+        for level in self.levels:
+            for entry in level.skill_ranks:
+                key = str(entry.skill_id)
+                totals[key] = totals.get(key, 0) + entry.ranks
+        return totals
+
+    @property
     def flex_ability(self) -> str | None:
         """Which attribute the race's flex "+2 to any" bonus (if any) was put
-        on, resolved from `ability_choices` via the same `HANDLERS` registry
+        on, resolved from `racial_choices` via the same `HANDLERS` registry
         used everywhere else — not a stored column. See `routers/races.py`'s
-        `resolve_flex_ability_id` for how a choice gets recorded."""
-        for choice in self.ability_choices:
+        `resolve_flex_ability_id` for how a choice gets recorded. An
+        ability-score-bonus alternate is always the flex pick, never a
+        flavor alt-trait (see `alt_traits`), so this is exactly the rows
+        with a `HANDLERS` entry."""
+        for choice in self.racial_choices:
             handler = HANDLERS.get(choice.ability_id)
             if handler is None:
                 continue
@@ -132,20 +147,31 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
                 return attribute
         return None
 
+    @property
+    def alt_traits(self) -> list[str]:
+        """Names of chosen optional alternate racial traits — flavor swaps
+        (e.g. Elf's Keen Senses variant), distinct from the mandatory flex
+        ability-score pick above. Resolved as every `racial_choices` row
+        *without* a `HANDLERS` entry, the mirror image of `flex_ability`."""
+        return [choice.ability.name for choice in self.racial_choices if choice.ability_id not in HANDLERS]
 
-class CharacterAbilityChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+
+class CharacterRacialChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Which specific alternate ability a character picked, for any racial
     grant that requires a choice among several `RaceAbilityReplacement`
-    options scoped to the character's race. Today the only user is the
-    mandatory "+2 to any attribute" flex bonus (Human/Half-Elf/Half-Orc); a
-    later "Traits" pass (roadmap slice 3) can reuse this same table for
-    optional alternate-trait picks instead of inventing a second one."""
+    options scoped to the character's race: the mandatory "+2 to any
+    attribute" flex bonus (Human/Half-Elf/Half-Orc) and optional
+    alternate-trait swaps (e.g. Elf's Keen Senses variant) both persist here
+    — one shared table rather than a second one per roadmap slice 3, since
+    both are "pick one ability id from this race's alternates" the same way."""
 
-    __tablename__ = "character_ability_choices"
+    __tablename__ = "character_racial_choices"
     __table_args__ = (UniqueConstraint("character_id", "ability_id"),)
 
     character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_race_abilities.id"))
+
+    ability: Mapped["BaseRaceAbility"] = relationship()
 
 
 class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -168,6 +194,26 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     base_class: Mapped[BaseClass] = relationship()
+    skill_ranks: Mapped[list["CharacterSkillRank"]] = relationship(cascade="all, delete-orphan")
+
+
+class CharacterSkillRank(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Ranks granted to a skill by one specific `CharacterLevel` — an audit
+    entry, not a running total. A character's current ranks in a skill is
+    always SUM(ranks) across these rows (see `Character.skill_ranks`),
+    computed rather than stored redundantly (CLAUDE.md). Multi-level
+    creation collapses onto the highest `CharacterLevel` row created in that
+    request (no per-level breakdown asked of the wizard); a later level-up
+    (roadmap slice 7) instead adds one new row per skill tied to the new
+    level, holding only that level's newly bought ranks — same table, same
+    insert shape, just a smaller delta."""
+
+    __tablename__ = "character_skill_ranks"
+    __table_args__ = (UniqueConstraint("level_id", "skill_id"),)
+
+    level_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("character_levels.id"))
+    skill_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_skills.id"))
+    ranks: Mapped[int] = mapped_column(Integer)
 
 
 class CharacterClassOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):

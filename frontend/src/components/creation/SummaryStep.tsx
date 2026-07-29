@@ -27,7 +27,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
   const level = totalLevel(draft);
   const gearValue = gearTotalValue(draft.gear);
 
-  const skillLines = options.skills.filter((s) => (draft.skillRanks[s.key] || 0) > 0);
+  const skillLines = options.skills.filter((s) => (draft.skillRanks[s.id] || 0) > 0);
 
   const optionLines: { label: string; value: string }[] = [];
   for (const row of draft.classRows) {
@@ -106,10 +106,10 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
             <div className="sb-line"><span>Keine Fertigkeitsränge vergeben.</span></div>
           ) : (
             skillLines.map((s) => {
-              const ranks = draft.skillRanks[s.key] || 0;
-              const bonus = skillBonus(draft, options, s.key, s.ability);
+              const ranks = draft.skillRanks[s.id] || 0;
+              const bonus = skillBonus(draft, options, s.id, s.ability);
               return (
-                <div className="sb-line" key={s.key}>
+                <div className="sb-line" key={s.id}>
                   <span>{s.name} ({ranks} Rang)</span>
                   <span className="val">{formatMod(bonus)}</span>
                 </div>

@@ -65,7 +65,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   const bonusFeatGranted = fighterBonusFeatGrantedThisLevel(className, newLevel);
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
-  const skillLines = options.skills.filter((s) => draft.skillIncreases[s.key]);
+  const skillLines = options.skills.filter((s) => draft.skillIncreases[s.id]);
 
   const classDef = className ? options.classes.find((c) => c.name === className) : undefined;
   const spellType = classDef?.spellType ?? 'none';
@@ -105,7 +105,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
             <div className="sb-line"><span>Keine neuen Ränge vergeben.</span></div>
           ) : (
             skillLines.map((s) => (
-              <div className="sb-line" key={s.key}><span>{s.name}</span><span className="val">+1 Rang</span></div>
+              <div className="sb-line" key={s.id}><span>{s.name}</span><span className="val">+1 Rang</span></div>
             ))
           )}
         </div>

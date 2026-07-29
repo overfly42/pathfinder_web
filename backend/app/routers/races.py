@@ -29,13 +29,34 @@ def race_has_flex(db: Session, race_id: UUID) -> bool:
     return False
 
 
+def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
+    """Flat (non-flex) ability-score bonuses this race grants by default,
+    e.g. Elf's +2 GE/-2 KO — via the same `HANDLERS` registry as everywhere
+    else. Used wherever a *total* (not base) ability score is needed before
+    item/effect modifiers exist yet, e.g. `routers/characters.py`'s
+    skill-point budget check (skill points depend on total INT, not base)."""
+    grants = db.scalars(
+        select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
+    ).all()
+    mods: dict[str, int] = {}
+    for grant in grants:
+        ability = db.get(BaseRaceAbility, grant.ability_id)
+        handler = HANDLERS.get(ability.id)
+        if handler is None:
+            continue
+        attribute, value = handler()
+        if attribute is not None:
+            mods[attribute] = mods.get(attribute, 0) + value
+    return mods
+
+
 def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID | None:
     """Which alternate ability row grants +2 to `attribute` as this race's
     flex bonus, via the same `RaceAbilityGrant`/`RaceAbilityReplacement`
     composition used for every other racial choice — not a lookup table of
     attribute codes. Returns `None` if this race doesn't offer `attribute` as
     a flex choice (including if it has no flex bonus at all). The returned id
-    is what `routers/characters.py` persists as a `CharacterAbilityChoice`."""
+    is what `routers/characters.py` persists as a `CharacterRacialChoice`."""
     replacements = db.scalars(
         select(RaceAbilityReplacement).where(
             RaceAbilityReplacement.base_race_id == race_id,
@@ -47,6 +68,40 @@ def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID 
         if handler is not None and handler()[0] == attribute:
             return replacement.ability_id
     return None
+
+
+def resolve_alt_trait(db: Session, race_id: UUID, name: str) -> tuple[UUID, set[UUID]] | None:
+    """Resolves a chosen optional alternate-trait name (matching
+    `_race_option`'s `alt[].name`) to its ability id plus the set of
+    base-trait ability ids it replaces, scoped to this race. Returns `None`
+    both when no such alternate exists for this race and when `name` refers
+    to a flex-only alternate (empty `replaces` once the `ABILITY_ANY_PLUS2`
+    marker is excluded) — those aren't valid `alt_traits` picks, they go
+    through `flex_ability`/`resolve_flex_ability_id` instead. The returned
+    ability id is what `routers/characters.py` persists as a
+    `CharacterRacialChoice`, same table as the flex pick."""
+    grant = db.scalar(
+        select(RaceAbilityGrant)
+        .join(BaseRaceAbility, BaseRaceAbility.id == RaceAbilityGrant.ability_id)
+        .where(
+            RaceAbilityGrant.race_id == race_id,
+            RaceAbilityGrant.is_alternate.is_(True),
+            BaseRaceAbility.name == name,
+        )
+    )
+    if grant is None:
+        return None
+    replacements = db.scalars(
+        select(RaceAbilityReplacement).where(
+            RaceAbilityReplacement.base_race_id == race_id,
+            RaceAbilityReplacement.ability_id == grant.ability_id,
+            RaceAbilityReplacement.replaces_ability_id != ABILITY_ANY_PLUS2,
+        )
+    ).all()
+    replaces = {r.replaces_ability_id for r in replacements}
+    if not replaces:
+        return None
+    return grant.ability_id, replaces
 
 
 @router.get("")

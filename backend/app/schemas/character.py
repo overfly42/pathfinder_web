@@ -48,6 +48,16 @@ class CharacterCreate(BaseModel):
     ability_scores: dict[str, int]
     point_budget: Literal[10, 15, 20, 25]
     flex_ability: str | None = None
+    # Optional alternate-trait names (matching `GET /api/races`' `alt[].name`
+    # for this character's race), resolved server-side via
+    # `routers/races.py`'s `resolve_alt_trait` and persisted as
+    # `CharacterRacialChoice` rows — same table as `flex_ability`.
+    alt_traits: list[str] = []
+    # skill_id (string, since UUID keys aren't valid JSON object keys) ->
+    # ranks. Collapsed onto the highest CharacterLevel row being created —
+    # see CharacterSkillRank's docstring for why creation doesn't split this
+    # per level the way a later level-up will.
+    skill_ranks: dict[str, int] = {}
 
     @field_validator("name")
     @classmethod
@@ -80,6 +90,20 @@ class CharacterCreate(BaseModel):
             raise ValueError(f"flex_ability must be one of {ABILITY_KEYS}")
         return value
 
+    @field_validator("alt_traits")
+    @classmethod
+    def alt_traits_must_not_have_duplicates(cls, value: list[str]) -> list[str]:
+        if len(set(value)) != len(value):
+            raise ValueError("alt_traits must not contain duplicates")
+        return value
+
+    @field_validator("skill_ranks")
+    @classmethod
+    def skill_ranks_must_not_be_negative(cls, value: dict[str, int]) -> dict[str, int]:
+        if any(ranks < 0 for ranks in value.values()):
+            raise ValueError("skill_ranks must not be negative")
+        return value
+
 
 class CharacterUpdate(BaseModel):
     name: str
@@ -106,3 +130,5 @@ class CharacterRead(BaseModel):
     ability_scores: dict[str, int]
     point_budget: int
     flex_ability: str | None
+    alt_traits: list[str]
+    skill_ranks: dict[str, int]

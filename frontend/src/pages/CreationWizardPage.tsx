@@ -103,6 +103,8 @@ export function CreationWizardPage() {
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,
+          alt_traits: draft.altTraits,
+          skill_ranks: draft.skillRanks,
         });
         setSubmitState('success');
       } catch {

@@ -6,7 +6,9 @@
       "id": "existing1",
       "className": "Krieger",
       "level": 3,
-      "archetypes": ["Waffenmeister"],
+      "archetypes": [
+        "Waffenmeister"
+      ],
       "options": {}
     }
   ],
@@ -27,9 +29,9 @@
     "Kampfrausch"
   ],
   "skillRanks": {
-    "einschuechtern": 3,
-    "klettern": 3,
-    "reiten": 2
+    "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf": 3,
+    "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7": 3,
+    "ea28d7f8-2b92-42aa-93c9-89dd78987f09": 2
   },
   "spellsKnown": {},
   "history": []

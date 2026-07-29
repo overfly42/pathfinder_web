@@ -5,12 +5,12 @@ from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from .db import get_db
-from .models import Character
-from .routers import characters, races, users
+from .models import BaseClass, BaseClassSkill, Character
+from .routers import characters, races, skills, users
 from .schemas.character import CharacterRead
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -42,6 +42,7 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(races.router)
+app.include_router(skills.router)
 app.include_router(characters.router)
 
 
@@ -88,13 +89,33 @@ def get_character_progression(character_id: str) -> dict:
 # One resource endpoint per entity rather than a single bundle, so a screen
 # only fetches what it needs (e.g. level-up needs classes/feats/skills but
 # not races/items) and each resource can grow independently. Still static
-# fixture reads for now, no DB, no filtering/query params — except races,
-# which are real database tables as of roadmap slice 2 (see routers/races.py).
+# fixture reads for now, no DB, no filtering/query params — except races
+# (roadmap slice 2, see routers/races.py) and skills (roadmap slice 3, see
+# routers/skills.py), which are real database tables; classes' identity/
+# hit_dice/archetype-hierarchy/class-skills are also DB-backed (BaseClass/
+# BaseClassSkill) even though this endpoint still layers that onto the rest
+# of classes.json's fixture content.
 
 
 @app.get("/api/classes")
-def get_classes() -> list:
-    return load_fixture("classes.json")
+def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
+    """`classes.json`'s content (skill points/spell type/archetypes/option
+    groups) stays fixture, joined by `name`, except `classSkills`: that field
+    is overwritten here with real skill ids from `base_class_skills`
+    (roadmap slice 3) instead of the old fixture-key strings, since skills
+    are now a real table (`BaseSkill`) — see `routers/skills.py`."""
+    classes = load_fixture("classes.json")
+    roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
+    root_id_by_name = {root.name: root.id for root in roots}
+    class_skills = db.scalars(select(BaseClassSkill)).all()
+    skill_ids_by_root_id: dict = {}
+    for row in class_skills:
+        skill_ids_by_root_id.setdefault(row.base_class_id, []).append(str(row.skill_id))
+
+    for class_def in classes:
+        root_id = root_id_by_name.get(class_def["name"])
+        class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
+    return classes
 
 
 @app.get("/api/feats")
@@ -105,11 +126,6 @@ def get_feats() -> list:
 @app.get("/api/traits")
 def get_traits() -> list:
     return load_fixture("traits.json")
-
-
-@app.get("/api/skills")
-def get_skills() -> list:
-    return load_fixture("skills.json")
 
 
 @app.get("/api/abilities")
