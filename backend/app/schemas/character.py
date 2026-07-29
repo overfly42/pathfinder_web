@@ -8,7 +8,7 @@ class CharacterCreate(BaseModel):
     user_id: UUID
     race_id: UUID
     class_name: str
-    hit_points: int | None = None
+    current_hit_points: int | None = None
 
     @field_validator("name", "class_name")
     @classmethod
@@ -40,4 +40,4 @@ class CharacterRead(BaseModel):
     race_id: UUID
     class_name: str
     level: int
-    hit_points: int | None
+    current_hit_points: int | None

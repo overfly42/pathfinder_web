@@ -86,19 +86,30 @@ Cheapest slice — proves the whole pattern before harder ones.
       (base_race_id, ability_id, replaces_ability_id) scoping alternate-trait
       swaps to one race. Per the rulebook, the "+2 to any attribute" ability
       is one shared row reused by Human/Half-Elf/Half-Orc, not three separate
-      ones (today's `races.json` inconsistently only lists it as a named
-      trait for Human — needs normalizing when seeding). Every ability's
-      actual mechanical effect — flat or conditional — is resolved by a
-      handler function keyed by the ability's own UUID, not by table columns.
-      Seed from `backend/app/fixtures/races.json` (`backend/app/seed/race_seed.py`,
-      idempotent — rerun any time with `python -m app.seed.race_seed`).
+      ones. Every ability's actual mechanical effect — flat or conditional —
+      is resolved by a handler function keyed by the ability's own UUID, not
+      by table columns: `backend/app/rules/race_abilities.py` defines a
+      handful of literal, hand-frozen UUID constants (one per distinct
+      ability-score bonus, e.g. `ABILITY_GE_PLUS2`) and a
+      `HANDLERS: dict[UUID, Callable]` — select by id, call the function, get
+      `(attribute, value)` back. These ids are the *only* link between that
+      module and the seed data; nothing derives or hashes them.
+      Seed data itself lives in `backend/app/fixtures/seed/` — one JSON file
+      per table (`base_races.json`, `base_race_abilities.json`,
+      `race_ability_grants.json`, `race_ability_replacements.json`),
+      DB-shaped rather than frontend-shaped, every row carrying its own
+      explicit `id`. The old frontend-shaped `backend/app/fixtures/races.json`
+      is no longer read by any code (superseded, not deleted — kept only as a
+      historical record of the original mock content). Loaded via
+      `backend/app/seed/race_seed.py` (idempotent upsert-by-id — rerun any
+      time with `python -m app.seed.race_seed`).
       Ability keys are now two-letter codes (`ST`/`GE`/`KO`/`IN`/`WE`/`CH`,
       not the old `sta`/`ges`/`kon`/`int`/`wei`/`cha`) — changed during this
       slice and propagated everywhere a key was hardcoded (fixtures, frontend
       `AbilityKey`, `backend/app/rules/race_abilities.py`).
 - [x] Minimal `characters` table: name, user_id, race_id (real FK into
       `BaseRace`), class_name (string, not a FK — classes stay fixture-only;
-      see Guiding decisions above), level fixed at 1, hit_points (nullable —
+      see Guiding decisions above), level fixed at 1, current_hit_points (nullable —
       no HP calculation exists yet, `classes.json` has no hit-die field to
       compute from; that's a slice 3 concern, not faked here).
 - [x] `POST /api/characters`, `GET /api/characters/{id}`,

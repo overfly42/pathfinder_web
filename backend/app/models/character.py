@@ -21,7 +21,9 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     race_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"))
     class_name: Mapped[str] = mapped_column(String(255))
     level: Mapped[int] = mapped_column(Integer, default=1)
-    # Nullable: HP calculation needs a class hit-die value that doesn't exist
-    # anywhere yet (classes.json has no hit-die field) — a slice 3 concern,
+    # Current (not max) HP — see readme.md's ER diagram, where max HP is derived
+    # from per-level CharacterLevel.hit_points rows (roadmap slice 7), not stored
+    # here. Nullable: HP calculation needs a class hit-die value that doesn't
+    # exist anywhere yet (classes.json has no hit-die field) — a slice 3 concern,
     # not something to fake here with a placeholder number.
-    hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    current_hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)

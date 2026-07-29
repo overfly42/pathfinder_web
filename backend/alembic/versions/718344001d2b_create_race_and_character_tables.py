@@ -45,7 +45,7 @@ def upgrade() -> None:
     sa.Column('race_id', sa.UUID(), nullable=False),
     sa.Column('class_name', sa.String(length=255), nullable=False),
     sa.Column('level', sa.Integer(), nullable=False),
-    sa.Column('hit_points', sa.Integer(), nullable=True),
+    sa.Column('current_hit_points', sa.Integer(), nullable=True),
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),

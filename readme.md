@@ -267,7 +267,7 @@ form call these instead of local state:
 ## Character management (implemented — database-backed, roadmap slice 2)
 
 `backend/app/models/character.py`, `backend/app/routers/characters.py`. Minimal "thin" character
-row only (name, user, race, class name, level fixed at 1, nullable hit_points) — no ability
+row only (name, user, race, class name, level fixed at 1, nullable current_hit_points) — no ability
 scores/skills/feats/traits/computed AC yet, that's a later "thick" pass (roadmap slice 3). The
 creation wizard's `SummaryStep` calls `POST /api/characters` for real instead of showing a mock
 confirmation banner; the created character isn't yet added to the header's character

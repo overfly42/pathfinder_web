@@ -24,7 +24,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         race_id=body.race_id,
         class_name=body.class_name,
         level=1,
-        hit_points=body.hit_points,
+        current_hit_points=body.current_hit_points,
     )
     db.add(character)
     db.commit()
