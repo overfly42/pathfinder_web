@@ -11,6 +11,17 @@ class ClassSelection(BaseModel):
 
     class_name: str
     level: int
+    # Zero or more archetypes for this class-taken (each a `BaseClass` row
+    # whose `arch_class_of` is this class's root) — combining archetypes that
+    # actually conflict isn't validated yet (see todos.md).
+    archetypes: list[str] = []
+    # Set server-side (the first class in a submitted `classes` list), not
+    # read from client input on create — kept on this shared model since
+    # CharacterRead needs to expose it per class-taken.
+    is_favored: bool = False
+    # group_key (e.g. "domain", "bloodline", "school") -> chosen value(s),
+    # validated against that class's `optionGroups` in classes.json.
+    options: dict[str, list[str]] = {}
 
     @field_validator("class_name")
     @classmethod

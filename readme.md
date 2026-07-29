@@ -234,12 +234,12 @@ All entity ids in path parameters (`character_id`, `user_id`, `item_id`, `effect
 
 ## Reference data
 
-Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races (real database tables as of roadmap slice 2, `backend/app/routers/races.py`/`backend/app/models/race.py`) and class *identity* (a minimal `BaseClass` table as of roadmap slice 3, `backend/app/models/base_class.py` — id/name only, a FK target for `CharacterLevel.base_class_id`; class rules content stays in `classes.json`, joined by name):
+Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races (real database tables as of roadmap slice 2, `backend/app/routers/races.py`/`backend/app/models/race.py`) and classes (a real `BaseClass` table as of roadmap slice 3, `backend/app/models/base_class.py` — `name` (a FK target for `CharacterLevel.base_class_id`), `hit_dice`, and a self-referencing `arch_class_of` FK: null for a root class, or the parent's id for one archetype variant of it; skill points/class skills/spell type/archetype-and-option-group *definitions* still live in `classes.json`, joined by name):
 
 | Method | Path | Backed by |
 |---|---|---|
 | GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
-| GET | `/api/classes` | fixture (identity mirrored in `BaseClass`, not exposed via this endpoint) |
+| GET | `/api/classes` | fixture (identity/hit_dice/archetype-hierarchy mirrored in `BaseClass`, not exposed via this endpoint) |
 | GET | `/api/feats` | fixture |
 | GET | `/api/traits` | fixture |
 | GET | `/api/skills` | fixture |
@@ -271,10 +271,20 @@ form call these instead of local state:
 race, ability scores, nullable current_hit_points) plus per-level history: `CharacterLevel` (one row
 per character level — `character_id`, `level`, `base_class_id`, nullable `hit_points`) rather than a
 `class_name`/`level` pair on `characters`, so multiclassing needs no later schema change (roadmap
-slice 3's class-selection item). `Character.level`/`Character.classes` are computed properties, not
-stored columns. `POST /api/characters` takes `classes: [{class_name, level}, ...]`. Skills/feats/
-traits/computed AC are still a later "thick" pass. The creation wizard's `SummaryStep` calls
-`POST /api/characters` for real instead of showing a mock confirmation banner; the created character
+slice 3's class-selection item). `base_class_id` always points at a root `BaseClass` row — archetype
+selection instead lives in `CharacterClass` (`character_classes`: character_id, base_class_id,
+is_favored), one row per class-or-archetype the character has (roots and archetypes share the
+`base_classes` catalog, so any number of archetypes per class is just more rows, no nested table);
+`is_favored` only applies to root rows. `CharacterClassOption` (character_id, base_class_id,
+group_key, choice) stores class option-group picks (domain, bloodline, mystery, school, favored
+enemy/terrain, ...) — one row per chosen value, keyed by the root class's id.
+`Character.level`/`Character.classes` are computed properties, not stored columns.
+`POST /api/characters` takes `classes: [{class_name, level, archetypes, options}, ...]` — zero or
+more archetypes per class-taken (see `resolve_root_class`/`resolve_archetype`/`_validate_options` in
+`routers/characters.py`); whether two chosen archetypes actually conflict isn't validated (see
+`todos.md`). Skills/feats/traits/computed AC are still a later "thick" pass. The creation wizard's
+`SummaryStep` calls `POST /api/characters` for real instead of showing a mock confirmation banner;
+the created character
 now appears in the header's character picker (`GET /api/users/{user_id}/characters`,
 `frontend/src/state/AppStateContext.tsx`'s `dbCharacterIds`), but selecting it on the main character
 sheet shows a placeholder rather than a full sheet — the thin/computed shape has none of the

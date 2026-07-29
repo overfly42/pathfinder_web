@@ -53,7 +53,9 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     assert body["name"] == "Elyra"
     assert body["race_id"] == race_id
     assert body["level"] == 1
-    assert body["classes"] == [{"class_name": "Waldläufer", "level": 1}]
+    assert body["classes"] == [
+        {"class_name": "Waldläufer", "level": 1, "archetypes": [], "is_favored": True, "options": {}}
+    ]
     assert body["current_hit_points"] == 8
     assert body["ability_scores"] == DEFAULT_ABILITY_SCORES
     assert body["point_budget"] == 20
@@ -99,9 +101,154 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
     body = response.json()
     assert body["level"] == 3
     assert body["classes"] == [
-        {"class_name": "Krieger", "level": 2},
-        {"class_name": "Schurke", "level": 1},
+        {"class_name": "Krieger", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
+        {"class_name": "Schurke", "level": 1, "archetypes": [], "is_favored": False, "options": {}},
     ]
+
+
+def test_create_character_with_archetype_persists_and_round_trips(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Krieger", "level": 2, "archetypes": ["Waffenmeister"]}],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert body["classes"] == [
+        {"class_name": "Krieger", "level": 2, "archetypes": ["Waffenmeister"], "is_favored": True, "options": {}}
+    ]
+
+    refetched = client.get(f"/api/characters/{body['id']}").json()
+    assert refetched["classes"] == body["classes"]
+
+
+def test_create_character_with_unknown_archetype_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, classes=[{"class_name": "Krieger", "level": 1, "archetypes": ["Berserker"]}]
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_multiple_archetypes_on_one_class_succeeds(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Krieger",
+                    "level": 1,
+                    "archetypes": ["Waffenmeister", "Söldnerkommandant"],
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert set(body["classes"][0]["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
+
+
+def test_create_character_with_same_class_across_rows_merges_archetypes(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {"class_name": "Krieger", "level": 1, "archetypes": ["Waffenmeister"]},
+                {"class_name": "Schurke", "level": 1},
+                {"class_name": "Krieger", "level": 1, "archetypes": ["Söldnerkommandant"]},
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert len(body["classes"]) == 2
+    krieger = next(c for c in body["classes"] if c["class_name"] == "Krieger")
+    assert krieger["level"] == 2
+    assert set(krieger["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
+
+
+def test_create_character_with_option_group_choice_persists(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Kleriker", "level": 1, "options": {"domain": ["Sonne", "Tod"]}}],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert body["classes"][0]["options"] == {"domain": ["Sonne", "Tod"]}
+
+
+def test_create_character_with_invalid_option_choice_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Kleriker", "level": 1, "options": {"domain": ["Nichtdomäne"]}}],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_exceeding_option_group_max_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Kleriker",
+                    "level": 1,
+                    "options": {"domain": ["Sonne", "Tod", "Wissen"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 422
 
 
 def test_create_character_over_point_buy_budget_is_rejected(client: TestClient, db_session: Session) -> None:

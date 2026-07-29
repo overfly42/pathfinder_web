@@ -1,10 +1,12 @@
 """Populates `base_classes` from `backend/app/fixtures/seed/base_classes.json` —
-identity rows only (id + name), used as the FK target for
-`CharacterLevel.base_class_id`. Class rules content (skill points, class
-skills, archetypes, spell type, ...) stays in `classes.json`, joined by name
-at read time; `name` here is the only link between the two.
+each row is either a root class (`arch_class_of` null) or one archetype
+variant of exactly one parent (`arch_class_of` = the parent's id), per
+`readme.md`'s ER diagram. `name` joins back to `classes.json` for skill
+points/class skills/spell type/etc.; `hit_dice` is only set on root rows.
 
-Idempotent: each row is upserted by its own `id`, safe to re-run.
+Idempotent: each row is upserted by its own `id`, safe to re-run. Root rows
+are upserted (and flushed) before archetype rows, since the latter's
+`arch_class_of` FK must point at an already-persisted parent.
 
 Run with the project venv active and the database up:
     cd backend && python -m app.seed.class_seed
@@ -25,20 +27,28 @@ def _load(filename: str) -> list[dict]:
     return json.loads((SEED_DIR / filename).read_text(encoding="utf-8"))
 
 
-def _upsert(db: Session, model: type, row: dict) -> None:
+def _upsert_base_class(db: Session, row: dict) -> None:
     row_id = UUID(row["id"])
-    instance = db.get(model, row_id)
-    fields = {k: v for k, v in row.items() if k != "id"}
+    arch_class_of = UUID(row["arch_class_of"]) if row["arch_class_of"] is not None else None
+    fields = {"name": row["name"], "hit_dice": row["hit_dice"], "arch_class_of": arch_class_of}
+    instance = db.get(BaseClass, row_id)
     if instance is None:
-        db.add(model(id=row_id, **fields))
+        db.add(BaseClass(id=row_id, **fields))
     else:
         for key, value in fields.items():
             setattr(instance, key, value)
 
 
 def seed_classes(db: Session) -> None:
-    for row in _load("base_classes.json"):
-        _upsert(db, BaseClass, row)
+    rows = _load("base_classes.json")
+    for row in rows:
+        if row["arch_class_of"] is None:
+            _upsert_base_class(db, row)
+    db.flush()
+
+    for row in rows:
+        if row["arch_class_of"] is not None:
+            _upsert_base_class(db, row)
     db.commit()
 
 

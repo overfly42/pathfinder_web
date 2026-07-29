@@ -94,7 +94,12 @@ export function CreationWizardPage() {
           name: draft.name.trim(),
           user_id: currentUserId,
           race_id: draft.raceId,
-          classes: draft.classRows.map((row) => ({ class_name: row.className, level: row.level })),
+          classes: draft.classRows.map((row) => ({
+            class_name: row.className,
+            level: row.level,
+            archetypes: row.archetypes,
+            options: row.options,
+          })),
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,

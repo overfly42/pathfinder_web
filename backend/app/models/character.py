@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import Boolean, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -52,6 +52,8 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     levels: Mapped[list["CharacterLevel"]] = relationship(
         order_by="CharacterLevel.level", cascade="all, delete-orphan"
     )
+    class_options: Mapped[list["CharacterClassOption"]] = relationship(cascade="all, delete-orphan")
+    class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:
@@ -61,16 +63,48 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def classes(self) -> list[dict]:
         """Reconstructs the class-row shape the creation wizard submitted
-        (`[{class_name, level}, ...]`) by grouping consecutive same-class runs
-        in `levels` (already ordered by level) — not a separate stored list."""
-        result: list[dict] = []
-        for character_level in self.levels:
-            name = character_level.base_class.name
-            if result and result[-1]["class_name"] == name:
-                result[-1]["level"] += 1
+        (`[{class_name, level, archetypes, is_favored, options}, ...]`) from
+        `levels` (always a root `BaseClass` per row — see `CharacterLevel`)
+        plus `class_memberships` (which root classes/archetypes the character
+        has, and which root is favored) — not a separate stored list.
+
+        Levels are grouped by root class regardless of position (not just
+        consecutive runs): a future non-contiguous multiclass level-up
+        (Fighter/Rogue/Fighter) should total "Fighter: 2", not split into two
+        entries, since archetype selection no longer lives per-level."""
+        options_by_root_id: dict[uuid.UUID, dict[str, list[str]]] = {}
+        for option in self.class_options:
+            group = options_by_root_id.setdefault(option.base_class_id, {})
+            group.setdefault(option.group_key, []).append(option.choice)
+
+        favored_by_root_id: dict[uuid.UUID, bool] = {}
+        archetypes_by_root_id: dict[uuid.UUID, list[str]] = {}
+        for membership in self.class_memberships:
+            base_class = membership.base_class
+            if base_class.arch_class_of is None:
+                favored_by_root_id[base_class.id] = membership.is_favored
             else:
-                result.append({"class_name": name, "level": 1})
-        return result
+                archetypes_by_root_id.setdefault(base_class.arch_class_of, []).append(base_class.name)
+
+        order: list[BaseClass] = []
+        level_counts: dict[uuid.UUID, int] = {}
+        for character_level in self.levels:
+            root = character_level.base_class
+            if root.id not in level_counts:
+                order.append(root)
+                level_counts[root.id] = 0
+            level_counts[root.id] += 1
+
+        return [
+            {
+                "class_name": root.name,
+                "level": level_counts[root.id],
+                "archetypes": archetypes_by_root_id.get(root.id, []),
+                "is_favored": favored_by_root_id.get(root.id, False),
+                "options": options_by_root_id.get(root.id, {}),
+            }
+            for root in order
+        ]
 
     @property
     def ability_scores(self) -> dict[str, int]:
@@ -117,9 +151,13 @@ class CharacterAbilityChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """One row per character level (readme.md's ER diagram): which class was
     taken at that level, and (once class hit-die data exists) the hit points
-    rolled/gained at it. `Character.level`/`Character.classes` are derived
-    from these rows rather than stored directly, so multiclassing and future
-    level-up history need no schema change."""
+    rolled/gained at it. `base_class_id` always points at a root `BaseClass`
+    row (`arch_class_of is None`) — never an archetype variant; archetype
+    selection lives once per class-taken in `CharacterClass`, not per level,
+    so a level-up only ever needs to record the base class. `Character.level`/
+    `Character.classes` are derived from these rows rather than stored
+    directly, so multiclassing and future level-up history need no schema
+    change."""
 
     __tablename__ = "character_levels"
     __table_args__ = (UniqueConstraint("character_id", "level"),)
@@ -128,5 +166,40 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     level: Mapped[int] = mapped_column(Integer)
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    base_class: Mapped[BaseClass] = relationship()
+
+
+class CharacterClassOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A chosen value for one of a class's `optionGroups` (domain, bloodline,
+    mystery, arcane school, favored enemy/terrain, ...) from `classes.json`.
+    One row per chosen value — a group allowing multiple picks (e.g. domains,
+    max 2) is multiple rows sharing `group_key`. `base_class_id` is always the
+    root class's id (options apply to the class as a whole, same reasoning
+    as `CharacterClass.is_favored`)."""
+
+    __tablename__ = "character_class_options"
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    group_key: Mapped[str] = mapped_column(String(64))
+    choice: Mapped[str] = mapped_column(String(255))
+
+
+class CharacterClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One row per class-or-archetype a character has. Both root classes and
+    archetype variants live in the same `base_classes` catalog (distinguished
+    by `arch_class_of`), so this is a simple membership join: taking Fighter
+    with one archetype is two rows — the Fighter root row and the archetype
+    row — with no nested table needed to support any number of archetypes.
+    `is_favored` only ever applies to root rows (a specific archetype isn't
+    independently "favored" — the class as a whole is); nothing computes a
+    favored-class bonus yet, this just records the choice."""
+
+    __tablename__ = "character_classes"
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    is_favored: Mapped[bool] = mapped_column(Boolean, default=False)
 
     base_class: Mapped[BaseClass] = relationship()

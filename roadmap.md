@@ -21,20 +21,22 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   a single atomic slice — "character creation" and "level-up" in particular
   are each their own multi-iteration mini-roadmap.
 - **Reference data stays in JSON fixtures** (`backend/app/fixtures/*.json`)
-  through all of the slices below, with two identity-only exceptions: **races**
-  were pulled forward into slice 2 as a real, normalized set of tables (see
-  `readme.md`'s ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
+  through all of the slices below, with two exceptions: **races** were pulled
+  forward into slice 2 as a real, normalized set of tables (see `readme.md`'s
+  ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
   `RaceAbilityReplacement`), because `characters.race_id` needs a real FK
   target from the start rather than a loose fixture-string reference; **classes**
-  got the same narrow treatment in slice 3 (`BaseClass`: id + name only) once
-  Skills needed a real FK target for per-level class history
-  (`CharacterLevel.base_class_id`) — see the slice 3 bullet below. Neither
-  exception migrates the class/race *rules content* (hit die, BAB/save
-  progression, skill points, class skills, spell type, ability mechanics)
-  into the database — that stays fixture/handler-resolved. Migrating the rest
-  of classes/feats/spells/items/effects into the database remains a later
-  slice (#8), done once the schemas that consume this data have stabilized —
-  not designed speculatively now.
+  got a real `BaseClass` table in slice 3 for the same FK reason
+  (`CharacterLevel.base_class_id`), and — unlike races — this was
+  deliberately *not* kept identity-only: `BaseClass` also carries `hit_dice`
+  and the `arch_class_of` self-FK (root class vs. archetype variant), by
+  explicit decision that class is central/complex enough to warrant earlier
+  DB investment than race, with more class-mechanical fields expected to
+  migrate in over time. Skill points, class skills, and spell type still stay
+  in `classes.json` for now. Migrating the rest of feats/spells/items/effects
+  (and the remaining class content) into the database remains a later slice
+  (#8), done once the schemas that consume this data have stabilized — not
+  designed speculatively now.
 - **Shared modifier/bonus-stacking design**: items and effects are both
   fundamentally "things that apply modifiers to character stats." Design
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
@@ -147,25 +149,66 @@ Cheapest slice — proves the whole pattern before harder ones.
 - [x] Class selection/storage, pulled forward ahead of Skills (which needs a
       class's `skillPointsBase`/`classSkills`) and ahead of its originally
       planned slice 7 (level-up) home, the same way races were pulled forward
-      in slice 2. Real `BaseClass` table (id, name — identity only, mirroring
-      `BaseRace`) gives `CharacterLevel.base_class_id` a FK target; class
-      rules content stays in `classes.json`, joined by name.
-      `CharacterLevel` (id, character_id, level, base_class_id, hit_points)
-      is one row *per character level* per `readme.md`'s ER diagram — history
-      from the start rather than a `class_name`/`level` pair on `characters`,
-      so multiclassing and future level-up need no schema redesign.
-      `Character.level`/`Character.classes` are computed properties derived
-      from these rows (`backend/app/models/character.py`), not stored
-      columns. `POST /api/characters` now accepts `classes: [{class_name,
-      level}, ...]` (matching `ClassStep.tsx`'s existing multiclass draft
-      shape, which previously only had `classRows[0]` submitted and the rest
-      silently discarded — `CreationWizardPage.tsx`). Seed data/script mirror
-      `race_seed.py`: `backend/app/fixtures/seed/base_classes.json` +
-      `backend/app/seed/class_seed.py` (`python -m app.seed.class_seed`).
+      in slice 2. Real `BaseClass` table gives `CharacterLevel.base_class_id`
+      a FK target; class rules content (skill points, class skills, spell
+      type, archetype/option-group *definitions*) stays in `classes.json`,
+      joined by name. `CharacterLevel` (id, character_id, level,
+      base_class_id, hit_points) is one row *per character level* per
+      `readme.md`'s ER diagram — history from the start rather than a
+      `class_name`/`level` pair on `characters`, so multiclassing and future
+      level-up need no schema redesign. `Character.level`/`Character.classes`
+      are computed properties derived from these rows
+      (`backend/app/models/character.py`), not stored columns. Seed data/
+      script mirror `race_seed.py`: `backend/app/fixtures/seed/base_classes.json`
+      + `backend/app/seed/class_seed.py` (`python -m app.seed.class_seed`).
       Explicitly **not** included here: HP-per-level computation (still
-      blocked on `classes.json` having no hit-die field), archetype
-      persistence, option-group-choice persistence — those remain open
-      (archetype conflict-checking already tracked in `todos.md`).
+      blocked on `classes.json` having no hit-die field at the time — see the
+      next bullet).
+- [x] Archetype + class option-group persistence, plus `hit_dice` and favored
+      class. By explicit decision, `BaseClass` gained `hit_dice` (int, e.g.
+      12 for Barbar) and a self-referencing `arch_class_of` FK (null = root
+      class; set = one archetype variant of exactly one parent), matching
+      `readme.md`'s pre-existing ER diagram
+      (`BaseClasses.arch_class_of`/`BaseClasses |o--o{ BaseClasses:has`).
+      Archetype rows are seeded from `classes.json`'s `archetypes` arrays
+      (skipping "Keiner") with fresh ids, `arch_class_of` = parent's id,
+      `hit_dice` left `None` (resolved via `BaseClass.root`/
+      `effective_hit_dice` instead of duplicating it).
+
+      Which classes/archetypes a character has lives in a new
+      `CharacterClass` table (`character_classes`: character_id,
+      base_class_id, is_favored) — one row per class-or-archetype, since
+      roots and archetypes already share the same `base_classes` catalog: a
+      Fighter with one archetype is two rows (the Fighter root row and the
+      archetype row), so any number of simultaneous archetypes per class
+      "just works" with no nested table. `is_favored` only applies to root
+      rows and defaults to the first submitted class being favored; nothing
+      computes a favored-class bonus yet (forward-looking data — Half-Elf's
+      two-favored-classes rule isn't automated either). Whether two chosen
+      archetypes actually *conflict* is still unsolved — this makes storing
+      several possible, not validated; still the same open item in
+      `todos.md` (no conflict-checking metadata in `classes.json`).
+
+      `CharacterLevel.base_class_id` **always** points at the root class now
+      (never an archetype row) — archetype selection lives once per
+      class-taken in `CharacterClass`, not per level, so a level-up only
+      ever needs to record the base class, and there's no possibility of
+      "different archetype at a later level of the same class" to guard
+      against (an earlier version of this pass added exactly that
+      consistency check; removed once archetype selection moved out of
+      `CharacterLevel`).
+
+      `POST /api/characters`'s `classes` rows now carry `archetypes:
+      list[str]` and `options: dict[str, list[str]]` (domain/bloodline/
+      mystery/school/favored-enemy-terrain/... choices, validated against
+      that class's `optionGroups` in `classes.json`); `resolve_root_class`/
+      `resolve_archetype`/`_validate_options`
+      (`backend/app/routers/characters.py`) resolve and validate them,
+      written so a future real level-up endpoint (slice 7) can reuse the
+      root resolver per new level rather than only at creation. Option-group
+      choices land in `CharacterClassOption` (character_id, base_class_id,
+      group_key, choice — one row per chosen value, so a max-2 group like
+      Kleriker's domains is two rows), keyed by the root class's id.
 - [ ] Skills, including racial skill bonuses (e.g. Elf's +2 Knowledge
       (arcana)). Once skill totals actually need to sum these, resolve them
       via the same handler-registry pattern as ability-score bonuses
