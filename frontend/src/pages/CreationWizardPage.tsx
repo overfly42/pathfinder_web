@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
+import { selectedRace } from '../lib/creationCalculations';
 import { useCreationOptions } from '../hooks/useCreationOptions';
 import { useAppState } from '../state/AppStateContext';
 import { createInitialDraft } from '../lib/initialDraft';
@@ -80,6 +81,12 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte Name und Klasse ausfüllen.');
         return;
       }
+      const race = selectedRace(draft, opts);
+      if (race?.flex && !draft.flexAbility) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Attribute" ein Attribut für den freien Rassenbonus wählen.');
+        return;
+      }
 
       setSubmitState('submitting');
       try {
@@ -88,6 +95,9 @@ export function CreationWizardPage() {
           user_id: currentUserId,
           race_id: draft.raceId,
           class_name: className,
+          ability_scores: draft.abilityScores,
+          point_budget: draft.pointBudget,
+          flex_ability: draft.flexAbility,
         });
         setSubmitState('success');
       } catch {

@@ -208,5 +208,10 @@
     "id": "dc57662e-1074-4dbc-a510-b542ce0015fa",
     "name": "Wildnisschritt",
     "description": "Kein Bewegungsmalus in Wildnisgelände statt Kampfrausch."
+  },
+  {
+    "id": "04d2de62-ece9-4345-be84-cf8bf00d94dd",
+    "name": "+2 auf Stärke",
+    "description": "+2 auf Stärke."
   }
 ]

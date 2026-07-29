@@ -123,7 +123,18 @@ Cheapest slice — proves the whole pattern before harder ones.
       plus the sheet's full computed shape — both later work).
 
 ### 3. Character creation — thick (its own iterations, not one lump)
-- [ ] Ability scores / point-buy.
+- [x] Ability scores / point-buy. `characters` stores only the six base
+      point-buy scores (`ability_score_st`..`ability_score_ch`), the
+      point-buy budget, and (for races with a flex bonus) which attribute it
+      was put on — never a computed total; race/item/spell modifiers stay
+      applied at read time, same composition-vs-computation split as
+      everything else (`CLAUDE.md`). Server validates spend against
+      `point_buy_costs.json` and the chosen budget
+      (`backend/app/rules/point_buy.py`), and that `flex_ability` is
+      set/unset consistent with whether the race actually grants a flex
+      bonus (`race_has_flex` in `backend/app/routers/races.py`). Wired end to
+      end: `AbilitiesStep`'s point-buy UI already existed and now the wizard
+      actually submits it (`CreationWizardPage.tsx`) instead of dropping it.
 - [ ] Skills, including racial skill bonuses (e.g. Elf's +2 Knowledge
       (arcana)). Once skill totals actually need to sum these, resolve them
       via the same handler-registry pattern as ability-score bonuses

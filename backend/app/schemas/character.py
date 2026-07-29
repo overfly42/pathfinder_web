@@ -1,6 +1,9 @@
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, field_validator
+
+from ..rules.point_buy import ABILITY_KEYS
 
 
 class CharacterCreate(BaseModel):
@@ -9,6 +12,9 @@ class CharacterCreate(BaseModel):
     race_id: UUID
     class_name: str
     current_hit_points: int | None = None
+    ability_scores: dict[str, int]
+    point_budget: Literal[10, 15, 20, 25]
+    flex_ability: str | None = None
 
     @field_validator("name", "class_name")
     @classmethod
@@ -17,6 +23,22 @@ class CharacterCreate(BaseModel):
         if not stripped:
             raise ValueError("must not be blank")
         return stripped
+
+    @field_validator("ability_scores")
+    @classmethod
+    def ability_scores_must_have_exactly_the_six_keys_in_range(cls, value: dict[str, int]) -> dict[str, int]:
+        if set(value) != set(ABILITY_KEYS):
+            raise ValueError(f"ability_scores must have exactly the keys {ABILITY_KEYS}")
+        if any(score < 7 or score > 18 for score in value.values()):
+            raise ValueError("ability_scores must each be between 7 and 18")
+        return value
+
+    @field_validator("flex_ability")
+    @classmethod
+    def flex_ability_must_be_a_known_key(cls, value: str | None) -> str | None:
+        if value is not None and value not in ABILITY_KEYS:
+            raise ValueError(f"flex_ability must be one of {ABILITY_KEYS}")
+        return value
 
 
 class CharacterUpdate(BaseModel):
@@ -41,3 +63,6 @@ class CharacterRead(BaseModel):
     class_name: str
     level: int
     current_hit_points: int | None
+    ability_scores: dict[str, int]
+    point_budget: int
+    flex_ability: str | None
