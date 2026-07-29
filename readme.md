@@ -234,12 +234,12 @@ All entity ids in path parameters (`character_id`, `user_id`, `item_id`, `effect
 
 ## Reference data
 
-Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races, which are real database tables as of roadmap slice 2 (`backend/app/routers/races.py`, `backend/app/models/race.py`):
+Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `backend/app/fixtures/`, not a database) — except races (real database tables as of roadmap slice 2, `backend/app/routers/races.py`/`backend/app/models/race.py`) and class *identity* (a minimal `BaseClass` table as of roadmap slice 3, `backend/app/models/base_class.py` — id/name only, a FK target for `CharacterLevel.base_class_id`; class rules content stays in `classes.json`, joined by name):
 
 | Method | Path | Backed by |
 |---|---|---|
 | GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
-| GET | `/api/classes` | fixture |
+| GET | `/api/classes` | fixture (identity mirrored in `BaseClass`, not exposed via this endpoint) |
 | GET | `/api/feats` | fixture |
 | GET | `/api/traits` | fixture |
 | GET | `/api/skills` | fixture |
@@ -262,17 +262,23 @@ form call these instead of local state:
 |---|---|---|
 | POST | `/api/users` | create a user |
 | GET | `/api/users` | list users, for the user picker |
+| GET | `/api/users/{user_id}/characters` | list a user's characters, for the header's character picker |
 | PATCH | `/api/users/{user_id}` | rename a user (no frontend UI wired to this yet) |
 
 ## Character management (implemented — database-backed, roadmap slice 2)
 
-`backend/app/models/character.py`, `backend/app/routers/characters.py`. Minimal "thin" character
-row only (name, user, race, class name, level fixed at 1, nullable current_hit_points) — no ability
-scores/skills/feats/traits/computed AC yet, that's a later "thick" pass (roadmap slice 3). The
-creation wizard's `SummaryStep` calls `POST /api/characters` for real instead of showing a mock
-confirmation banner; the created character isn't yet added to the header's character
-picker (needs `GET /api/users/{user_id}/characters`, still unimplemented below) or renderable
-on the full character sheet (needs the thick pass).
+`backend/app/models/character.py`, `backend/app/routers/characters.py`. Character row (name, user,
+race, ability scores, nullable current_hit_points) plus per-level history: `CharacterLevel` (one row
+per character level — `character_id`, `level`, `base_class_id`, nullable `hit_points`) rather than a
+`class_name`/`level` pair on `characters`, so multiclassing needs no later schema change (roadmap
+slice 3's class-selection item). `Character.level`/`Character.classes` are computed properties, not
+stored columns. `POST /api/characters` takes `classes: [{class_name, level}, ...]`. Skills/feats/
+traits/computed AC are still a later "thick" pass. The creation wizard's `SummaryStep` calls
+`POST /api/characters` for real instead of showing a mock confirmation banner; the created character
+now appears in the header's character picker (`GET /api/users/{user_id}/characters`,
+`frontend/src/state/AppStateContext.tsx`'s `dbCharacterIds`), but selecting it on the main character
+sheet shows a placeholder rather than a full sheet — the thin/computed shape has none of the
+rich fixture fields (`abilities`, `gear`, `spellsKnown`, ...) yet (needs the thick pass).
 
 | Method | Path | Purpose |
 |---|---|---|
@@ -291,7 +297,6 @@ and is lost on reload.
 **Character management**
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/api/users/{user_id}/characters` | list a user's characters |
 | PUT | `/api/characters/{character_id}/draft` | (optional) autosave the creation wizard mid-flight |
 
 **Level-up**

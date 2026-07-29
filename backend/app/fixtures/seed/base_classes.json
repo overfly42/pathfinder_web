@@ -1,0 +1,50 @@
+[
+  {
+    "id": "4558a936-bc38-4e40-afd8-bb85a7a03438",
+    "name": "Barbar"
+  },
+  {
+    "id": "d86ed793-9019-4df6-a004-ded7e21c760b",
+    "name": "Barde"
+  },
+  {
+    "id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "name": "Druide"
+  },
+  {
+    "id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
+    "name": "Hexenmeister"
+  },
+  {
+    "id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "name": "Kleriker"
+  },
+  {
+    "id": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
+    "name": "Krieger"
+  },
+  {
+    "id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "name": "Magier"
+  },
+  {
+    "id": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "name": "Mönch"
+  },
+  {
+    "id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "name": "Orakel"
+  },
+  {
+    "id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
+    "name": "Paladin"
+  },
+  {
+    "id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "name": "Schurke"
+  },
+  {
+    "id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "name": "Waldläufer"
+  }
+]

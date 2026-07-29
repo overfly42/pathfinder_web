@@ -1,4 +1,44 @@
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
+
+from app.seed.class_seed import seed_classes
+from app.seed.race_seed import seed_races
+
+DEFAULT_ABILITY_SCORES = {"ST": 10, "GE": 12, "KO": 13, "IN": 10, "WE": 10, "CH": 8}
+
+
+def _create_character(client: TestClient, db_session: Session, user_id: str, name: str) -> dict:
+    seed_races(db_session)
+    seed_classes(db_session)
+    race_id = next(r["id"] for r in client.get("/api/races").json() if r["name"] == "Elf")
+    return client.post(
+        "/api/characters",
+        json={
+            "name": name,
+            "user_id": user_id,
+            "race_id": race_id,
+            "classes": [{"class_name": "Krieger", "level": 1}],
+            "ability_scores": DEFAULT_ABILITY_SCORES,
+            "point_budget": 20,
+        },
+    ).json()
+
+
+def test_list_user_characters_returns_only_that_users_characters(client: TestClient, db_session: Session) -> None:
+    owner_id = client.post("/api/users", json={"name": "Anna"}).json()["id"]
+    other_id = client.post("/api/users", json={"name": "Bram"}).json()["id"]
+    _create_character(client, db_session, owner_id, "Elyra")
+    _create_character(client, db_session, other_id, "Not Elyra's")
+
+    response = client.get(f"/api/users/{owner_id}/characters")
+    assert response.status_code == 200
+    names = [c["name"] for c in response.json()]
+    assert names == ["Elyra"]
+
+
+def test_list_characters_for_unknown_user_returns_404(client: TestClient) -> None:
+    response = client.get("/api/users/00000000-0000-0000-0000-000000000000/characters")
+    assert response.status_code == 404
 
 
 def test_create_user(client: TestClient) -> None:

@@ -75,8 +75,8 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte im Schritt „Grunddaten" eine Rasse auswählen.');
         return;
       }
-      const className = draft.classRows[0]?.className;
-      if (!draft.name.trim() || !className) {
+      const hasClass = draft.classRows.length > 0 && draft.classRows.every((row) => row.className);
+      if (!draft.name.trim() || !hasClass) {
         setSubmitState('error');
         setSubmitErrorMessage('Bitte Name und Klasse ausfüllen.');
         return;
@@ -94,7 +94,7 @@ export function CreationWizardPage() {
           name: draft.name.trim(),
           user_id: currentUserId,
           race_id: draft.raceId,
-          class_name: className,
+          classes: draft.classRows.map((row) => ({ class_name: row.className, level: row.level })),
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,

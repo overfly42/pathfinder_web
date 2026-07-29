@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models import Character, CharacterAbilityChoice
 from app.rules.race_abilities import HANDLERS
+from app.seed.class_seed import seed_classes
 from app.seed.race_seed import seed_races
 
 DEFAULT_ABILITY_SCORES = {"ST": 10, "GE": 12, "KO": 13, "IN": 10, "WE": 10, "CH": 8}
@@ -27,12 +28,13 @@ def _human_race_id(client: TestClient, db_session: Session) -> str:
     return _race_id(client, db_session, "Mensch")
 
 
-def _character_payload(user_id: str, race_id: str, **overrides) -> dict:
+def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
+    seed_classes(db_session)
     payload = {
         "name": "Elyra",
         "user_id": user_id,
         "race_id": race_id,
-        "class_name": "Waldläufer",
+        "classes": [{"class_name": "Waldläufer", "level": 1}],
         "current_hit_points": 8,
         "ability_scores": DEFAULT_ABILITY_SCORES,
         "point_budget": 20,
@@ -45,25 +47,61 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
-    response = client.post("/api/characters", json=_character_payload(user_id, race_id))
+    response = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session))
     assert response.status_code == 201
     body = response.json()
     assert body["name"] == "Elyra"
     assert body["race_id"] == race_id
     assert body["level"] == 1
+    assert body["classes"] == [{"class_name": "Waldläufer", "level": 1}]
     assert body["current_hit_points"] == 8
     assert body["ability_scores"] == DEFAULT_ABILITY_SCORES
     assert body["point_budget"] == 20
     assert body["flex_ability"] is None
 
 
-def test_create_character_with_unknown_race_is_rejected(client: TestClient) -> None:
+def test_create_character_with_unknown_race_is_rejected(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     response = client.post(
         "/api/characters",
-        json=_character_payload(user_id, "00000000-0000-0000-0000-000000000000"),
+        json=_character_payload(user_id, "00000000-0000-0000-0000-000000000000", db_session),
     )
     assert response.status_code == 422
+
+
+def test_create_character_with_unknown_class_name_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, classes=[{"class_name": "Nichtklasse", "level": 1}]),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_multiple_classes_persists_per_level_history(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Krieger", "level": 2}, {"class_name": "Schurke", "level": 1}],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert body["level"] == 3
+    assert body["classes"] == [
+        {"class_name": "Krieger", "level": 2},
+        {"class_name": "Schurke", "level": 1},
+    ]
 
 
 def test_create_character_over_point_buy_budget_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -73,7 +111,7 @@ def test_create_character_over_point_buy_budget_is_rejected(client: TestClient, 
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, ability_scores={"ST": 18, "GE": 18, "KO": 18, "IN": 18, "WE": 18, "CH": 18}
+            user_id, race_id, db_session, ability_scores={"ST": 18, "GE": 18, "KO": 18, "IN": 18, "WE": 18, "CH": 18}
         ),
     )
     assert response.status_code == 422
@@ -85,7 +123,7 @@ def test_create_character_with_ability_score_out_of_range_is_rejected(client: Te
 
     response = client.post(
         "/api/characters",
-        json=_character_payload(user_id, race_id, ability_scores={**DEFAULT_ABILITY_SCORES, "ST": 19}),
+        json=_character_payload(user_id, race_id, db_session, ability_scores={**DEFAULT_ABILITY_SCORES, "ST": 19}),
     )
     assert response.status_code == 422
 
@@ -94,7 +132,7 @@ def test_create_character_for_flex_race_requires_flex_ability(client: TestClient
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
 
-    response = client.post("/api/characters", json=_character_payload(user_id, race_id))
+    response = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session))
     assert response.status_code == 422
 
 
@@ -102,7 +140,7 @@ def test_create_character_for_flex_race_with_flex_ability_succeeds(client: TestC
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
 
-    response = client.post("/api/characters", json=_character_payload(user_id, race_id, flex_ability="GE"))
+    response = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session, flex_ability="GE"))
     assert response.status_code == 201
     assert response.json()["flex_ability"] == "GE"
 
@@ -113,7 +151,9 @@ def test_create_character_for_flex_race_persists_choice_via_replacement_system(
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
 
-    created = client.post("/api/characters", json=_character_payload(user_id, race_id, flex_ability="ST")).json()
+    created = client.post(
+        "/api/characters", json=_character_payload(user_id, race_id, db_session, flex_ability="ST")
+    ).json()
 
     character = db_session.get(Character, created["id"])
     choices = db_session.scalars(
@@ -131,14 +171,14 @@ def test_create_character_for_non_flex_race_rejects_flex_ability(client: TestCli
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
-    response = client.post("/api/characters", json=_character_payload(user_id, race_id, flex_ability="GE"))
+    response = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session, flex_ability="GE"))
     assert response.status_code == 422
 
 
 def test_get_character(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    created = client.post("/api/characters", json=_character_payload(user_id, race_id)).json()
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.get(f"/api/characters/{created['id']}")
     assert response.status_code == 200
@@ -154,7 +194,7 @@ def test_get_unknown_character_returns_404(client: TestClient) -> None:
 def test_rename_character(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    created = client.post("/api/characters", json=_character_payload(user_id, race_id)).json()
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.patch(f"/api/characters/{created['id']}", json={"name": "Elyra Silberauge"})
     assert response.status_code == 200
@@ -164,7 +204,7 @@ def test_rename_character(client: TestClient, db_session: Session) -> None:
 def test_delete_character(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    created = client.post("/api/characters", json=_character_payload(user_id, race_id)).json()
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.delete(f"/api/characters/{created['id']}")
     assert response.status_code == 204

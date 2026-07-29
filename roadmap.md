@@ -21,14 +21,20 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   a single atomic slice — "character creation" and "level-up" in particular
   are each their own multi-iteration mini-roadmap.
 - **Reference data stays in JSON fixtures** (`backend/app/fixtures/*.json`)
-  through all of the slices below, with one exception: **races** are pulled
-  forward into slice 2 as a real, normalized set of tables (see `readme.md`'s
-  ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
+  through all of the slices below, with two identity-only exceptions: **races**
+  were pulled forward into slice 2 as a real, normalized set of tables (see
+  `readme.md`'s ER diagram — `BaseRace`, `BaseRaceAbility`, `RaceAbilityGrant`,
   `RaceAbilityReplacement`), because `characters.race_id` needs a real FK
-  target from the start rather than a loose fixture-string reference.
-  Migrating classes/feats/spells/items/effects into the database remains a
-  later slice (#8), done once the schemas that consume this data have
-  stabilized — not designed speculatively now.
+  target from the start rather than a loose fixture-string reference; **classes**
+  got the same narrow treatment in slice 3 (`BaseClass`: id + name only) once
+  Skills needed a real FK target for per-level class history
+  (`CharacterLevel.base_class_id`) — see the slice 3 bullet below. Neither
+  exception migrates the class/race *rules content* (hit die, BAB/save
+  progression, skill points, class skills, spell type, ability mechanics)
+  into the database — that stays fixture/handler-resolved. Migrating the rest
+  of classes/feats/spells/items/effects into the database remains a later
+  slice (#8), done once the schemas that consume this data have stabilized —
+  not designed speculatively now.
 - **Shared modifier/bonus-stacking design**: items and effects are both
   fundamentally "things that apply modifiers to character stats." Design
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
@@ -117,10 +123,13 @@ Cheapest slice — proves the whole pattern before harder ones.
       (`backend/app/routers/characters.py`; GET merges with the two existing
       mock-fixture character views in `main.py` rather than replacing them).
 - [x] Creation wizard's `SummaryStep` actually persists the character instead
-      of showing a mock confirmation banner. Scope note: the created
-      character isn't added to the header's character picker/sheet view yet
-      (that needs `GET /api/users/{user_id}/characters`, still unimplemented,
-      plus the sheet's full computed shape — both later work).
+      of showing a mock confirmation banner. The created character now
+      appears in the header's character picker (`GET
+      /api/users/{user_id}/characters`, added once class storage made a
+      freshly created character worth actually finding again). Selecting it
+      on the main character sheet still shows a placeholder rather than a
+      full sheet — that needs the sheet's full computed shape (later work,
+      the "thick" pass).
 
 ### 3. Character creation — thick (its own iterations, not one lump)
 - [x] Ability scores / point-buy. `characters` stores only the six base
@@ -135,6 +144,28 @@ Cheapest slice — proves the whole pattern before harder ones.
       bonus (`race_has_flex` in `backend/app/routers/races.py`). Wired end to
       end: `AbilitiesStep`'s point-buy UI already existed and now the wizard
       actually submits it (`CreationWizardPage.tsx`) instead of dropping it.
+- [x] Class selection/storage, pulled forward ahead of Skills (which needs a
+      class's `skillPointsBase`/`classSkills`) and ahead of its originally
+      planned slice 7 (level-up) home, the same way races were pulled forward
+      in slice 2. Real `BaseClass` table (id, name — identity only, mirroring
+      `BaseRace`) gives `CharacterLevel.base_class_id` a FK target; class
+      rules content stays in `classes.json`, joined by name.
+      `CharacterLevel` (id, character_id, level, base_class_id, hit_points)
+      is one row *per character level* per `readme.md`'s ER diagram — history
+      from the start rather than a `class_name`/`level` pair on `characters`,
+      so multiclassing and future level-up need no schema redesign.
+      `Character.level`/`Character.classes` are computed properties derived
+      from these rows (`backend/app/models/character.py`), not stored
+      columns. `POST /api/characters` now accepts `classes: [{class_name,
+      level}, ...]` (matching `ClassStep.tsx`'s existing multiclass draft
+      shape, which previously only had `classRows[0]` submitted and the rest
+      silently discarded — `CreationWizardPage.tsx`). Seed data/script mirror
+      `race_seed.py`: `backend/app/fixtures/seed/base_classes.json` +
+      `backend/app/seed/class_seed.py` (`python -m app.seed.class_seed`).
+      Explicitly **not** included here: HP-per-level computation (still
+      blocked on `classes.json` having no hit-die field), archetype
+      persistence, option-group-choice persistence — those remain open
+      (archetype conflict-checking already tracked in `todos.md`).
 - [ ] Skills, including racial skill bonuses (e.g. Elf's +2 Knowledge
       (arcana)). Once skill totals actually need to sum these, resolve them
       via the same handler-registry pattern as ability-score bonuses

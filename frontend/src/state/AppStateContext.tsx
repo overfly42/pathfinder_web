@@ -37,6 +37,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const [characterIds, setCharacterIds] = useState<string[]>(INITIAL_CHARACTER_IDS);
   const [characterOwners, setCharacterOwners] = useState<Record<string, string>>({});
+  // Real (database-backed) characters owned by currentUserId, per `GET /api/users/{id}/characters`
+  // (roadmap slice 2's follow-up) — kept separate from the fixture bookkeeping above since
+  // ownership here is server-authoritative, not locally assigned.
+  const [dbCharacterIds, setDbCharacterIds] = useState<string[]>([]);
   const [currentCharacterId, setCurrentCharacterId] = useState('');
   const [nameOverrides, setNameOverrides] = useState<Record<string, string>>({});
   const [progressionOverrides, setProgressionOverrides] = useState<Record<string, CharacterProgression>>({});
@@ -53,19 +57,37 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    if (!currentUserId) {
+      setDbCharacterIds([]);
+      return;
+    }
+    apiGet<{ id: string }[]>(`/api/users/${currentUserId}/characters`)
+      .then((data) => {
+        if (!cancelled) setDbCharacterIds(data.map((c) => c.id));
+      })
+      .catch((err: Error) => console.error('Failed to load characters', err));
+    return () => {
+      cancelled = true;
+    };
+  }, [currentUserId]);
+
   const visibleCharacterIds = useMemo(
-    () => characterIds.filter((id) => characterOwners[id] === currentUserId),
-    [characterIds, characterOwners, currentUserId],
+    () => [...characterIds.filter((id) => characterOwners[id] === currentUserId), ...dbCharacterIds],
+    [characterIds, characterOwners, currentUserId, dbCharacterIds],
   );
 
-  const setCurrentUserId = useCallback(
-    (id: string) => {
-      setCurrentUserIdState(id);
-      const owned = characterIds.filter((cid) => characterOwners[cid] === id);
-      setCurrentCharacterId(owned[0] ?? '');
-    },
-    [characterIds, characterOwners],
-  );
+  // Keeps the current selection valid whenever the visible set changes (user switch, a character
+  // getting removed, the db-characters fetch resolving, ...) — defaults to the first visible
+  // character, or none.
+  useEffect(() => {
+    setCurrentCharacterId((current) => (visibleCharacterIds.includes(current) ? current : visibleCharacterIds[0] ?? ''));
+  }, [visibleCharacterIds]);
+
+  const setCurrentUserId = useCallback((id: string) => {
+    setCurrentUserIdState(id);
+  }, []);
 
   const addUser = useCallback(async (name: string) => {
     const trimmed = name.trim();
@@ -73,8 +95,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const created = await apiPost<User>('/api/users', { name: trimmed });
     setUsers((prev) => [...prev, created]);
     setCurrentUserIdState(created.id);
-    // A freshly created user owns no characters yet — don't leak the previous user's selection.
-    setCurrentCharacterId('');
   }, []);
 
   const renameCharacter = useCallback((id: string, name: string) => {
@@ -83,21 +103,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setNameOverrides((prev) => ({ ...prev, [id]: trimmed }));
   }, []);
 
-  const removeCharacter = useCallback(
-    (id: string) => {
-      const nextIds = characterIds.filter((existing) => existing !== id);
-      const nextOwners = { ...characterOwners };
-      delete nextOwners[id];
-      setCharacterIds(nextIds);
-      setCharacterOwners(nextOwners);
-      setCurrentCharacterId((current) => {
-        if (current !== id) return current;
-        const stillOwned = nextIds.filter((cid) => nextOwners[cid] === currentUserId);
-        return stillOwned[0] ?? '';
-      });
-    },
-    [characterIds, characterOwners, currentUserId],
-  );
+  const removeCharacter = useCallback((id: string) => {
+    setCharacterIds((prev) => prev.filter((existing) => existing !== id));
+    setCharacterOwners((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setDbCharacterIds((prev) => prev.filter((existing) => existing !== id));
+  }, []);
 
   const getProgressionOverride = useCallback(
     (id: string) => progressionOverrides[id],

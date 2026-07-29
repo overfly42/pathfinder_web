@@ -1,5 +1,6 @@
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
-from .character import Character, CharacterAbilityChoice
+from .base_class import BaseClass
+from .character import Character, CharacterAbilityChoice, CharacterLevel
 from .race import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from .user import User
 
@@ -12,6 +13,8 @@ __all__ = [
     "BaseRaceAbility",
     "RaceAbilityGrant",
     "RaceAbilityReplacement",
+    "BaseClass",
     "Character",
     "CharacterAbilityChoice",
+    "CharacterLevel",
 ]

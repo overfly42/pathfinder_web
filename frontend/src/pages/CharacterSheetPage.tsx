@@ -104,6 +104,23 @@ export function CharacterSheetPage() {
     );
   }
 
+  // Real (database-backed) characters (roadmap slice 2+) only have the thin/computed shape so
+  // far — no abilities/saves/gear/etc. — unlike the two rich mock fixtures. Rather than crash on
+  // missing fields, show a placeholder until the sheet's full computed shape exists (roadmap
+  // slice 3+).
+  if (!('effectsActive' in character)) {
+    return (
+      <div className="app">
+        <AppHeader character={null} effects={null} onJump={() => {}} />
+        <div className="main" style={{ justifyContent: 'center' }}>
+          <Panel title={character.name}>
+            <p>Dieser Charakter wurde gespeichert, aber die vollständige Charakterbogen-Ansicht ist noch nicht verfügbar.</p>
+          </Panel>
+        </div>
+      </div>
+    );
+  }
+
   const effectsView: EffectsView = {
     effectsActive: character.effectsActive,
     effectsAvailable: effectsCatalog.filter((def) => !character.effectsActive.some((active) => active.id === def.id)),

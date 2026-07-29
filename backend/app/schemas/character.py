@@ -6,23 +6,52 @@ from pydantic import BaseModel, ConfigDict, field_validator
 from ..rules.point_buy import ABILITY_KEYS
 
 
+class ClassSelection(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    class_name: str
+    level: int
+
+    @field_validator("class_name")
+    @classmethod
+    def class_name_must_not_be_blank(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("class_name must not be blank")
+        return stripped
+
+    @field_validator("level")
+    @classmethod
+    def level_must_be_positive(cls, value: int) -> int:
+        if value < 1:
+            raise ValueError("level must be at least 1")
+        return value
+
+
 class CharacterCreate(BaseModel):
     name: str
     user_id: UUID
     race_id: UUID
-    class_name: str
+    classes: list[ClassSelection]
     current_hit_points: int | None = None
     ability_scores: dict[str, int]
     point_budget: Literal[10, 15, 20, 25]
     flex_ability: str | None = None
 
-    @field_validator("name", "class_name")
+    @field_validator("name")
     @classmethod
     def must_not_be_blank(cls, value: str) -> str:
         stripped = value.strip()
         if not stripped:
             raise ValueError("must not be blank")
         return stripped
+
+    @field_validator("classes")
+    @classmethod
+    def classes_must_not_be_empty(cls, value: list[ClassSelection]) -> list[ClassSelection]:
+        if not value:
+            raise ValueError("classes must not be empty")
+        return value
 
     @field_validator("ability_scores")
     @classmethod
@@ -60,7 +89,7 @@ class CharacterRead(BaseModel):
     name: str
     user_id: UUID
     race_id: UUID
-    class_name: str
+    classes: list[ClassSelection]
     level: int
     current_hit_points: int | None
     ability_scores: dict[str, int]
