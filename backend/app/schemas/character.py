@@ -63,6 +63,10 @@ class CharacterCreate(BaseModel):
     # wizard's featMax in creationCalculations.ts). Collapsed onto the
     # highest CharacterLevel row being created, same reasoning as skill_ranks.
     feat_ids: list[UUID] = []
+    # Chosen trait ids (max 2, a flat PF1e-standard cap unrelated to
+    # race/class, unlike feat_ids) — collapsed onto the highest CharacterLevel
+    # row being created, same reasoning as feat_ids.
+    trait_ids: list[UUID] = []
 
     @field_validator("name")
     @classmethod
@@ -116,6 +120,15 @@ class CharacterCreate(BaseModel):
             raise ValueError("feat_ids must not contain duplicates")
         return value
 
+    @field_validator("trait_ids")
+    @classmethod
+    def trait_ids_must_not_have_duplicates_and_max_two(cls, value: list[UUID]) -> list[UUID]:
+        if len(set(value)) != len(value):
+            raise ValueError("trait_ids must not contain duplicates")
+        if len(value) > 2:
+            raise ValueError("trait_ids must not exceed 2")
+        return value
+
 
 class CharacterUpdate(BaseModel):
     name: str
@@ -145,3 +158,4 @@ class CharacterRead(BaseModel):
     alt_traits: list[str]
     skill_ranks: dict[str, int]
     feat_ids: list[UUID]
+    trait_ids: list[UUID]

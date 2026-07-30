@@ -1,0 +1,62 @@
+[
+  {
+    "id": "35cfd6db-90fe-4679-9e40-41df59954619",
+    "name": "Scharfsinnige Beobachterin",
+    "description": "Du bemerkst Details, die anderen entgehen. Du erhältst einen Bonus von +1 auf Wahrnehmungs- und Sinneskunde-Proben, und Wahrnehmung wird zu einer Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "85b91c12-b1ad-4367-b946-42b5670cc826",
+    "name": "Kind des Waldes",
+    "description": "Du bist mit Wald und Wildnis aufgewachsen. Du erhältst einen Bonus von +1 auf Überlebenskunst-Proben, und Überlebenskunst wird zu einer Klassenfertigkeit für dich.",
+    "area": "region"
+  },
+  {
+    "id": "2f202b5a-4cdb-4a7c-859c-24f99a4f2999",
+    "name": "Geborene Anführerin",
+    "description": "Deine natürliche Ausstrahlung inspiriert andere. Du erhältst einen Bonus von +1 auf Diplomatie-Proben, und Diplomatie wird zu einer Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "cb44141d-2ddc-44bb-ba0c-d31309851d5a",
+    "name": "Kindheit auf der Straße",
+    "description": "Du hast in den Gassen einer Stadt überlebt. Du erhältst einen Bonus von +1 auf Fingerfertigkeit-Proben, und Fingerfertigkeit wird zu einer Klassenfertigkeit für dich.",
+    "area": "general"
+  },
+  {
+    "id": "97c08aa9-6695-43b5-a86a-babb86053a20",
+    "name": "Magische Ahnung",
+    "description": "Du hast früh Kontakt mit Magie gehabt. Du erhältst einen Bonus von +1 auf Zauberkunde-Proben, und Zauberkunde wird zu einer Klassenfertigkeit für dich.",
+    "area": "magic"
+  },
+  {
+    "id": "8fc9e389-dc08-4104-8af5-2e02584e331e",
+    "name": "Ausgezeichneter Ruf",
+    "description": "Dein guter Ruf eilt dir voraus. Du erhältst einen Bonus von +1 auf Bluffen-Proben, und Bluffen wird zu einer Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "31173923-48b6-4f0d-b9ef-692b3889cd14",
+    "name": "Reaktionsschnell",
+    "description": "Du reagierst außergewöhnlich schnell auf Gefahr. Du erhältst einen Bonus von +2 auf einen Initiativewurf pro Tag.",
+    "area": "combat"
+  },
+  {
+    "id": "4072e76f-cd6e-441e-8cca-73b9a01bf603",
+    "name": "Gläubige Seele",
+    "description": "Dein Glaube stärkt dich in schweren Momenten. Du erhältst einen Bonus von +1 auf Willenswürfe.",
+    "area": "faith"
+  },
+  {
+    "id": "fb5ed7fa-265c-46fd-8a9e-31b8799dca8f",
+    "name": "Tapferer Verteidiger",
+    "description": "Du kämpfst unbeirrt, wenn du Verbündete beschützt. Du erhältst einen Bonus von +1 auf Angriffswürfe gegen Gegner, die einen benachbarten Verbündeten im laufenden Kampf bereits getroffen haben.",
+    "area": "combat"
+  },
+  {
+    "id": "94bf56ed-b065-4ab4-ae2c-b09b99a9a4a5",
+    "name": "Weltgewandt",
+    "description": "Reisen und Handel sind dir vertraut. Du erhältst einen Bonus von +1 auf Menschenkenntnis-Proben, und Menschenkenntnis wird zu einer Klassenfertigkeit für dich.",
+    "area": "campaign"
+  }
+]

@@ -29,6 +29,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
 
   const skillLines = options.skills.filter((s) => (draft.skillRanks[s.id] || 0) > 0);
   const featNameById = new Map(options.feats.map((f) => [f.id, f.name]));
+  const traitNameById = new Map(options.traits.map((t) => [t.id, t.name]));
 
   const optionLines: { label: string; value: string }[] = [];
   for (const row of draft.classRows) {
@@ -136,7 +137,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
             {draft.traits.length === 0 ? (
               <span className="selected-empty">Keine Wesenszüge gewählt.</span>
             ) : (
-              draft.traits.map((t) => <span className="chip active" key={t}>{t}</span>)
+              draft.traits.map((id) => <span className="chip active" key={id}>{traitNameById.get(id) ?? id}</span>)
             )}
           </div>
         </div>

@@ -27,6 +27,7 @@ from .feat import (
 )
 from .race import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from .skill import BaseClassSkill, BaseSkill
+from .trait import BaseTrait, CharacterTrait
 from .user import User
 
 __all__ = [
@@ -54,6 +55,8 @@ __all__ = [
     "BaseFeatRequiredAbilityScore",
     "BaseFeatRequiredBab",
     "CharacterFeat",
+    "BaseTrait",
+    "CharacterTrait",
     "Character",
     "CharacterClass",
     "CharacterClassOption",

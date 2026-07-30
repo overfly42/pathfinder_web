@@ -72,8 +72,8 @@ Vollständige Beschreibung/Zweck je Endpunkt in `readme.md` (Abschnitt „API En
 
 Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 
-**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
-- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats` (Datenbank), `GET /api/classes`, `GET /api/traits`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
+**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats`/`GET /api/traits` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
+- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats`, `GET /api/traits` (Datenbank), `GET /api/classes`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
 - [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
 
 **Nutzerverwaltung** — alle ✅ implementiert (echte `users`-Tabelle, `backend/app/routers/users.py`):

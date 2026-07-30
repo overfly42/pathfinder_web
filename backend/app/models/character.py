@@ -136,6 +136,12 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         return [entry.feat_id for level in self.levels for entry in level.feats]
 
     @property
+    def trait_ids(self) -> list[uuid.UUID]:
+        """Every trait taken across all levels, flattened — same reasoning
+        as `feat_ids`."""
+        return [entry.trait_id for level in self.levels for entry in level.traits]
+
+    @property
     def flex_ability(self) -> str | None:
         """Which attribute the race's flex "+2 to any" bonus (if any) was put
         on, resolved from `racial_choices` via the same `HANDLERS` registry
@@ -202,6 +208,7 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     base_class: Mapped[BaseClass] = relationship()
     skill_ranks: Mapped[list["CharacterSkillRank"]] = relationship(cascade="all, delete-orphan")
     feats: Mapped[list["CharacterFeat"]] = relationship(cascade="all, delete-orphan")
+    traits: Mapped[list["CharacterTrait"]] = relationship(cascade="all, delete-orphan")
 
 
 class CharacterSkillRank(Base, UUIDPrimaryKeyMixin, TimestampMixin):

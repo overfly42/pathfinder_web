@@ -10,6 +10,7 @@ from app.models import (
     CharacterFeat,
     CharacterRacialChoice,
     CharacterSkillRank,
+    CharacterTrait,
     RaceAbilityReplacement,
 )
 from app.rules.race_abilities import HANDLERS
@@ -19,6 +20,7 @@ from app.seed.class_seed import seed_classes
 from app.seed.feat_seed import seed_feats
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
+from app.seed.trait_seed import seed_traits
 
 DEFAULT_ABILITY_SCORES = {"ST": 10, "GE": 12, "KO": 13, "IN": 10, "WE": 10, "CH": 8}
 
@@ -52,6 +54,12 @@ def _feat_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_feats(db_session)
     feats = client.get("/api/feats").json()
     return next(f["id"] for f in feats if f["name"] == name)
+
+
+def _trait_id(client: TestClient, db_session: Session, name: str) -> str:
+    seed_traits(db_session)
+    traits = client.get("/api/traits").json()
+    return next(t["id"] for t in traits if t["name"] == name)
 
 
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
@@ -722,6 +730,88 @@ def test_create_character_with_duplicate_feat_ids_is_rejected(client: TestClient
             flex_ability="ST",
             feat_ids=[ausweichen_id, ausweichen_id],
         ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_traits_on_highest_level(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    reaktionsschnell_id = _trait_id(client, db_session, "Reaktionsschnell")
+    weltgewandt_id = _trait_id(client, db_session, "Weltgewandt")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 3}],
+            trait_ids=[reaktionsschnell_id, weltgewandt_id],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert set(body["trait_ids"]) == {reaktionsschnell_id, weltgewandt_id}
+
+    character = db_session.get(Character, body["id"])
+    highest_level = max(character.levels, key=lambda level: level.level)
+    traits = db_session.scalars(select(CharacterTrait).where(CharacterTrait.level_id == highest_level.id)).all()
+    assert {str(t.trait_id) for t in traits} == {reaktionsschnell_id, weltgewandt_id}
+
+
+def test_create_character_with_more_than_two_traits_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    trait_ids = [
+        _trait_id(client, db_session, name)
+        for name in ["Reaktionsschnell", "Weltgewandt", "Gläubige Seele"]
+    ]
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, trait_ids=trait_ids),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_unknown_trait_id_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, trait_ids=["00000000-0000-0000-0000-000000000000"]
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_duplicate_trait_ids_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    reaktionsschnell_id = _trait_id(client, db_session, "Reaktionsschnell")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, trait_ids=[reaktionsschnell_id, reaktionsschnell_id]),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_two_traits_from_the_same_area_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    # "Reaktionsschnell" and "Tapferer Verteidiger" are both "combat" traits.
+    reaktionsschnell_id = _trait_id(client, db_session, "Reaktionsschnell")
+    verteidiger_id = _trait_id(client, db_session, "Tapferer Verteidiger")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, trait_ids=[reaktionsschnell_id, verteidiger_id]),
     )
     assert response.status_code == 422
 

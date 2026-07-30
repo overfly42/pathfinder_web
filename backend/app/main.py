@@ -17,7 +17,7 @@ from .models import (
     BaseClassSkill,
     Character,
 )
-from .routers import characters, feats, races, skills, users
+from .routers import characters, feats, races, skills, traits, users
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .schemas.character import CharacterRead
 
@@ -52,6 +52,7 @@ app.include_router(users.router)
 app.include_router(races.router)
 app.include_router(skills.router)
 app.include_router(feats.router)
+app.include_router(traits.router)
 app.include_router(characters.router)
 
 
@@ -157,11 +158,6 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
     return classes
-
-
-@app.get("/api/traits")
-def get_traits() -> list:
-    return load_fixture("traits.json")
 
 
 @app.get("/api/abilities")

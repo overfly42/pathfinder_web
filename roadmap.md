@@ -315,10 +315,44 @@ Cheapest slice — proves the whole pattern before harder ones.
       without migrating its own persistence — and its fighter bonus-feat
       slot now actually filters to `type === 'combat'` instead of offering
       the full feat list, closing the gap noted in `todos.md`.
-- [ ] Traits, including persisting a character's chosen alternate racial
-      traits — the schema for this exists as of slice 2
-      (`RaceAbilityGrant`/`RaceAbilityReplacement`), so this is wiring, not a
-      new data-model decision.
+- [x] Traits (PF1e background traits, e.g. "Reaktionsschnell" — distinct from
+      racial *alternate* traits, which are a different rule concept already
+      persisted via `CharacterRacialChoice`/`alt_traits` since the ability-
+      scores pass above; this bullet was previously miswritten as if it meant
+      that). Real `BaseTrait` (id, name, description, `area`) — `area` is a
+      plain categorization tag like `BaseFeat.type` (e.g. "combat", "faith",
+      "magic", "region", "social", "campaign", "general"), but unlike
+      `type`, it's load-bearing here: PF1e caps a character at one trait per
+      area, enforced in `create_character` via a DB lookup (can't live in a
+      `CharacterCreate` field validator alone, which never sees the
+      database). Seed data migrated from the old frontend-shaped
+      `backend/app/fixtures/traits.json` (10 names only) into DB-shaped rows
+      with placeholder descriptions/areas in
+      `backend/app/fixtures/seed/base_traits.json`, via
+      `backend/app/seed/trait_seed.py` (same idempotent upsert-by-id pattern
+      as `feat_seed.py`). `/api/traits` (`backend/app/routers/traits.py`) is
+      now fully database-backed, replacing the old fixture-reading mock
+      endpoint in `main.py`.
+
+      What a character took is `CharacterTrait` (level_id, trait_id) — same
+      per-`CharacterLevel` audit shape as `CharacterFeat`, exposed as
+      `Character.trait_ids`. `POST /api/characters`'s new `trait_ids:
+      list[UUID]` field is validated server-side
+      (`backend/app/routers/characters.py`): each id must exist in
+      `base_traits`, count capped at a flat 2 (a Pydantic validator on
+      `CharacterCreate`), and no two chosen traits may share an `area`
+      (checked after resolving the ids, alongside the existence check).
+      Collapsed onto the highest `CharacterLevel` row being created, same
+      reasoning as `feat_ids`.
+
+      `CreationWizardPage.tsx` now submits `draft.traits`; `TraitsStep.tsx`
+      switched from picking by trait *name* to picking by id (mirroring
+      `FeatsStep.tsx`) and mirrors the one-trait-per-area rule client-side —
+      chips are labelled with their area and traits whose area is already
+      taken are disabled, via a new optional `disabledIds` prop on the
+      shared `PickList` (defaults to none, so `FeatsStep` is unaffected).
+      `useCreationOptions`/`CreationOptions.traits` was retyped from
+      `string[]` to a new `TraitDef[]` (id/name/description/area).
 - [ ] Starting spellbook/known spells.
 - [ ] Deliberately deferred further: archetype-conflict checking for
       classes (needs a data-model decision on which archetypes mutually

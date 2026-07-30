@@ -13,12 +13,16 @@ interface PickListProps {
   selectedListLabel: string;
   emptyText: string;
   searchPlaceholder?: string;
+  /** Extra ids to render disabled beyond the max-based ones (e.g. traits
+   *  that would conflict with an already-chosen trait's area). */
+  disabledIds?: string[];
 }
 
-export function PickList({ items, selected, max, onToggle, selectedListLabel, emptyText, searchPlaceholder }: PickListProps) {
+export function PickList({ items, selected, max, onToggle, selectedListLabel, emptyText, searchPlaceholder, disabledIds }: PickListProps) {
   const [query, setQuery] = useState('');
   const filtered = searchPlaceholder ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase())) : items;
   const labelById = new Map(items.map((i) => [i.id, i.label]));
+  const extraDisabledIds = new Set(disabledIds ?? []);
 
   return (
     <>
@@ -33,7 +37,7 @@ export function PickList({ items, selected, max, onToggle, selectedListLabel, em
       <div className="chip-row">
         {filtered.map((item) => {
           const active = selected.includes(item.id);
-          const disabled = !active && selected.length >= max;
+          const disabled = !active && (selected.length >= max || extraDisabledIds.has(item.id));
           return (
             <button
               key={item.id}

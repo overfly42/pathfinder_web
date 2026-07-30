@@ -15,6 +15,7 @@ from ..models import (
     BaseFeat,
     BaseRace,
     BaseSkill,
+    BaseTrait,
     Character,
     CharacterClass,
     CharacterClassOption,
@@ -22,6 +23,7 @@ from ..models import (
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
+    CharacterTrait,
     User,
 )
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
@@ -196,6 +198,17 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             if feat_id not in valid_feat_ids:
                 raise HTTPException(status_code=422, detail=f"Unknown feat id '{feat_id}'")
 
+    if body.trait_ids:
+        traits_by_id = {
+            trait.id: trait for trait in db.scalars(select(BaseTrait).where(BaseTrait.id.in_(body.trait_ids))).all()
+        }
+        for trait_id in body.trait_ids:
+            if trait_id not in traits_by_id:
+                raise HTTPException(status_code=422, detail=f"Unknown trait id '{trait_id}'")
+        areas = [traits_by_id[trait_id].area for trait_id in body.trait_ids]
+        if len(set(areas)) != len(areas):
+            raise HTTPException(status_code=422, detail="trait_ids must not include two traits from the same area")
+
     character = Character(
         name=body.name,
         user_id=body.user_id,
@@ -252,6 +265,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 last_level_row.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=ranks))
         for feat_id in body.feat_ids:
             last_level_row.feats.append(CharacterFeat(feat_id=feat_id))
+        for trait_id in body.trait_ids:
+            last_level_row.traits.append(CharacterTrait(trait_id=trait_id))
 
     db.add(character)
     db.commit()

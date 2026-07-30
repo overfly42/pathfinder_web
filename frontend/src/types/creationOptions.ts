@@ -56,6 +56,15 @@ export interface FeatDef {
   type: string;
 }
 
+export interface TraitDef {
+  id: string;
+  name: string;
+  description: string;
+  /** Plain categorization tag (e.g. "combat", "social", "campaign") — a
+   *  character may take at most one trait per area, see `TraitsStep.tsx`. */
+  area: string;
+}
+
 export interface AbilityDef {
   key: AbilityKey;
   name: string;
@@ -70,7 +79,7 @@ export interface CreationOptions {
   races: RaceOption[];
   classes: ClassDef[];
   feats: FeatDef[];
-  traits: string[];
+  traits: TraitDef[];
   skills: SkillDef[];
   abilities: AbilityDef[];
   spellsByClass: Record<string, string[]>;

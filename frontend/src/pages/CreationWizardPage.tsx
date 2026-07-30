@@ -106,6 +106,7 @@ export function CreationWizardPage() {
           alt_traits: draft.altTraits,
           skill_ranks: draft.skillRanks,
           feat_ids: draft.feats,
+          trait_ids: draft.traits,
         });
         setSubmitState('success');
       } catch {
