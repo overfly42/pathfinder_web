@@ -35,7 +35,9 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
     return <div className="warning-note">Auf dieser Stufe gibt es kein neues Talent (nur auf Stufe 1 und ungeraden Stufen).</div>;
   }
 
-  const available = options.feats.filter((f) => !progression.feats.includes(f));
+  const notYetTaken = options.feats.filter((f) => !progression.feats.includes(f.name));
+  const available = notYetTaken.map((f) => f.name);
+  const combatAvailable = notYetTaken.filter((f) => f.type === 'combat').map((f) => f.name);
 
   function select(name: string) {
     setDraft((prev) => ({ ...prev, newFeat: prev.newFeat === name ? null : name }));
@@ -55,10 +57,8 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
           <div className="og-heading" style={{ marginTop: granted ? 16 : 0 }}>
             Bonus-Kampftalent (Krieger, gerade Stufe)
           </div>
-          {/* feats.json has no combat-feat category yet, so this offers the full feat list rather
-              than a hardcoded combat-feat name list — narrow it once feat metadata exists. */}
           <SingleChipPicker
-            items={available}
+            items={combatAvailable}
             selected={draft.newBonusFeat}
             onSelect={selectBonus}
             searchPlaceholder="Bonus-Kampftalente durchsuchen …"

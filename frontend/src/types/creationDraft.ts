@@ -31,6 +31,7 @@ export interface CreationDraft {
   abilityScores: Record<AbilityKey, number>;
   pointBudget: PointBudget;
   skillRanks: Record<string, number>;
+  /** Chosen feat ids (BaseFeat.id), not names. */
   feats: string[];
   traits: string[];
   /** spellSelections: class name -> chosen spell names */

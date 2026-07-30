@@ -58,6 +58,11 @@ class CharacterCreate(BaseModel):
     # see CharacterSkillRank's docstring for why creation doesn't split this
     # per level the way a later level-up will.
     skill_ranks: dict[str, int] = {}
+    # Chosen feat ids, capped server-side by the base progression plus any
+    # race/class bonus feat slots (see rules/feat_slots.py; mirrors the
+    # wizard's featMax in creationCalculations.ts). Collapsed onto the
+    # highest CharacterLevel row being created, same reasoning as skill_ranks.
+    feat_ids: list[UUID] = []
 
     @field_validator("name")
     @classmethod
@@ -104,6 +109,13 @@ class CharacterCreate(BaseModel):
             raise ValueError("skill_ranks must not be negative")
         return value
 
+    @field_validator("feat_ids")
+    @classmethod
+    def feat_ids_must_not_have_duplicates(cls, value: list[UUID]) -> list[UUID]:
+        if len(set(value)) != len(value):
+            raise ValueError("feat_ids must not contain duplicates")
+        return value
+
 
 class CharacterUpdate(BaseModel):
     name: str
@@ -132,3 +144,4 @@ class CharacterRead(BaseModel):
     flex_ability: str | None
     alt_traits: list[str]
     skill_ranks: dict[str, int]
+    feat_ids: list[UUID]

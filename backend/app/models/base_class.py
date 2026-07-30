@@ -67,10 +67,17 @@ class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     specific `BaseClassOptionChoice` (e.g. the Sun domain's Searing Light —
     only characters who picked "Sonne" in Cleric's `domain` group get it).
     This is the only place that conditioning lives; `CharacterClassOption`
-    stays a plain record of the pick with no mechanical meaning of its own."""
+    stays a plain record of the pick with no mechanical meaning of its own.
+
+    `level` is part of the uniqueness key (not just `base_class_id`/
+    `ability_id`/`option_choice_id`) so the same ability can be granted more
+    than once at different levels — e.g. Krieger's recurring bonus combat
+    feat is one shared `BaseClassAbility` row granted via several
+    `BaseClassAbilityGrant` rows, one per granting level, rather than one
+    near-duplicate catalog row per level."""
 
     __tablename__ = "base_class_ability_grants"
-    __table_args__ = (UniqueConstraint("base_class_id", "ability_id", "option_choice_id"),)
+    __table_args__ = (UniqueConstraint("base_class_id", "ability_id", "option_choice_id", "level"),)
 
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))

@@ -34,8 +34,32 @@ export function totalLevel(draft: CreationDraft): number {
   return draft.classRows.reduce((sum, row) => sum + (row.level || 0), 0);
 }
 
-export function featMax(level: number): number {
-  return 1 + Math.floor(level / 2);
+/** Base progression (1st level, then every odd level after) plus any bonus feat
+ *  slots granted by race (Human's "Bonustalent") or class (e.g. Krieger's bonus
+ *  combat feats, via each class's `bonusFeatLevels` — not a hardcoded class name,
+ *  since Fighter isn't the only source of bonus feats in the core rules and more
+ *  can be added as pure data later). Mirrors the backend's
+ *  `_feat_max`/`rules/feat_slots.py`; keep both in sync. Human can trade
+ *  "Bonustalent" away via the "Bemerkenswerte Fertigkeit" alternate trait, tracked
+ *  the same way as any other replaced trait. */
+export function featMax(draft: CreationDraft, options: CreationOptions): number {
+  const base = Math.ceil(totalLevel(draft) / 2);
+
+  const race = selectedRace(draft, options);
+  const replaced = replacedTraitNames(draft, options);
+  const raceBonus = race?.traits.some((t) => t.name === 'Bonustalent') && !replaced.has('Bonustalent') ? 1 : 0;
+
+  const levelByClassName = new Map<string, number>();
+  for (const row of draft.classRows) {
+    levelByClassName.set(row.className, (levelByClassName.get(row.className) ?? 0) + (row.level || 0));
+  }
+  let classBonus = 0;
+  for (const [className, level] of levelByClassName) {
+    const bonusFeatLevels = classDef(options, className)?.bonusFeatLevels ?? [];
+    classBonus += bonusFeatLevels.filter((grantLevel) => grantLevel <= level).length;
+  }
+
+  return base + raceBonus + classBonus;
 }
 
 export function spellPickMax(level: number): number {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, SkillDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, FeatDef, SkillDef } from '../types/creationOptions';
 import type { ClassLevelOptions } from '../types/classLevelOptions';
 import type { LevelUpOptions } from '../types/levelUpOptions';
 
@@ -24,7 +24,7 @@ export function useLevelUpOptions(): UseLevelUpOptionsResult {
 
     Promise.all([
       apiGet<ClassDef[]>('/api/classes'),
-      apiGet<string[]>('/api/feats'),
+      apiGet<FeatDef[]>('/api/feats'),
       apiGet<SkillDef[]>('/api/skills'),
       apiGet<AbilityDef[]>('/api/abilities'),
       apiGet<Record<string, string[]>>('/api/spells-by-class'),

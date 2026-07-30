@@ -4,10 +4,19 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import BaseRaceAbility, Character, CharacterRacialChoice, CharacterSkillRank, RaceAbilityReplacement
+from app.models import (
+    BaseRaceAbility,
+    Character,
+    CharacterFeat,
+    CharacterRacialChoice,
+    CharacterSkillRank,
+    RaceAbilityReplacement,
+)
 from app.rules.race_abilities import HANDLERS
+from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
+from app.seed.feat_seed import seed_feats
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
 
@@ -39,9 +48,16 @@ def _skill_id(client: TestClient, db_session: Session, name: str) -> str:
     return next(s["id"] for s in skills if s["name"] == name)
 
 
+def _feat_id(client: TestClient, db_session: Session, name: str) -> str:
+    seed_feats(db_session)
+    feats = client.get("/api/feats").json()
+    return next(f["id"] for f in feats if f["name"] == name)
+
+
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
-    seed_classes(db_session)  # base_class_option_groups FKs into base_classes
+    seed_classes(db_session)  # base_class_option_groups/base_class_ability_grants FK into base_classes
     seed_class_options(db_session)
+    seed_class_abilities(db_session)
     payload = {
         "name": "Elyra",
         "user_id": user_id,
@@ -488,6 +504,223 @@ def test_create_character_with_unknown_skill_id_is_rejected(client: TestClient, 
             db_session,
             flex_ability="ST",
             skill_ranks={"00000000-0000-0000-0000-000000000000": 1},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_feats_on_highest_level(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    ausweichen_id = _feat_id(client, db_session, "Ausweichen")
+    kampfreflexe_id = _feat_id(client, db_session, "Kampfreflexe")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 3}],
+            feat_ids=[ausweichen_id, kampfreflexe_id],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert set(body["feat_ids"]) == {ausweichen_id, kampfreflexe_id}
+
+    character = db_session.get(Character, body["id"])
+    highest_level = max(character.levels, key=lambda level: level.level)
+    feats = db_session.scalars(select(CharacterFeat).where(CharacterFeat.level_id == highest_level.id)).all()
+    assert {str(f.feat_id) for f in feats} == {ausweichen_id, kampfreflexe_id}
+
+
+def test_create_character_feats_exceeding_level_cap_are_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    feat_ids = [
+        _feat_id(client, db_session, name)
+        for name in ["Ausweichen", "Kampfreflexe", "Waffenfokus"]
+    ]
+
+    # Elf (no race bonus feat) Waldläufer (no class bonus feats) at level 1 ->
+    # featMax = base_feat_count(1) = 1, so three feats is over budget.
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            feat_ids=feat_ids,
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
+
+    # Human grants a bonus feat at 1st level ("Bonustalent"): base_feat_count(1)
+    # + 1 = 2, so two feats fit even though the base progression alone is 1.
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            feat_ids=feat_ids,
+        ),
+    )
+    assert response.status_code == 201
+
+    third_feat_id = _feat_id(client, db_session, "Waffenfokus")
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            feat_ids=feat_ids + [third_feat_id],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_feat_max_excludes_human_bonus_feat_when_traded_away(
+    client: TestClient, db_session: Session
+) -> None:
+    """"Bemerkenswerte Fertigkeit" replaces Human's bonus feat with a skill
+    bonus (`race_ability_replacements.json`) — the trade should drop the
+    extra feat slot too."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            alt_traits=["Bemerkenswerte Fertigkeit"],
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            feat_ids=feat_ids,
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
+
+    # Elf (no race bonus) Krieger at level 1: base_feat_count(1) = 1 +
+    # class_bonus_feat_slot_count (Krieger's 1st-level bonus combat feat
+    # grant) = 1 -> max 2.
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Krieger", "level": 1}],
+            feat_ids=feat_ids,
+        ),
+    )
+    assert response.status_code == 201
+
+    third_feat_id = _feat_id(client, db_session, "Waffenfokus")
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Krieger", "level": 1}],
+            feat_ids=feat_ids + [third_feat_id],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    feat_ids = [
+        _feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe", "Waffenfokus"]
+    ]
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Krieger", "level": 1}],
+            feat_ids=feat_ids,
+        ),
+    )
+    assert response.status_code == 201
+    assert set(response.json()["feat_ids"]) == set(feat_ids)
+
+    fourth_feat_id = _feat_id(client, db_session, "Punktzielschuss")
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Krieger", "level": 1}],
+            feat_ids=feat_ids + [fourth_feat_id],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_unknown_feat_id_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feat_ids=["00000000-0000-0000-0000-000000000000"],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_duplicate_feat_ids_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    ausweichen_id = _feat_id(client, db_session, "Ausweichen")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feat_ids=[ausweichen_id, ausweichen_id],
         ),
     )
     assert response.status_code == 422

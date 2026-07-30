@@ -1,0 +1,98 @@
+[
+  {
+    "id": "7b13b13a-dc99-46ec-8949-129287074a70",
+    "name": "Verbesserte Initiative",
+    "description": "Du reagierst schneller als gewöhnlich in einer angespannten Situation. Du erhältst einen Bonus von +4 auf Initiativewürfe.",
+    "type": "combat"
+  },
+  {
+    "id": "f2922069-181c-4909-ad22-2b6664501c60",
+    "name": "Punktzielschuss",
+    "description": "Du bist darin geübt, Fernkampfangriffe auch aus kurzer Distanz sicher auszuführen. Du erhältst +1 auf Angriffs- und Schadenswürfe mit Fernkampfwaffen innerhalb von 9 m.",
+    "type": "combat"
+  },
+  {
+    "id": "af2927b5-d02a-4de1-9d08-984678434824",
+    "name": "Gezielter Schuss",
+    "description": "Du bist darin geübt, auch im Nahkampf verwickelte Gegner gezielt mit Fernkampfwaffen anzugreifen, ohne den üblichen Angriffsabzug zu erleiden. Setzt Punktzielschuss voraus.",
+    "type": "combat"
+  },
+  {
+    "id": "576e5bd7-c273-469e-b8f9-afbf791e611d",
+    "name": "Schneller Schuss",
+    "description": "Du kannst außergewöhnlich schnell mit einer Fernkampfwaffe angreifen. Du kannst einen zusätzlichen Angriff mit einem Abzug von -2 auf alle Angriffswürfe in dieser Runde ausführen. Setzt Punktzielschuss voraus.",
+    "type": "combat"
+  },
+  {
+    "id": "b052b230-533c-4762-b1ba-a16c47ffb0b2",
+    "name": "Tödlicher Schuss",
+    "description": "Du kannst mit Fernkampfwaffen Präzision zugunsten von Wucht opfern. Du kannst dich entscheiden, einen Abzug von -1 auf Angriffswürfe mit Fernkampfwaffen hinzunehmen, um +2 Schaden zu erhalten. Setzt Punktzielschuss voraus.",
+    "type": "combat"
+  },
+  {
+    "id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8",
+    "name": "Waffenfokus",
+    "description": "Du bist besonders geübt im Umgang mit einer bestimmten Waffe. Du erhältst +1 auf Angriffswürfe mit der gewählten Waffe.",
+    "type": "combat"
+  },
+  {
+    "id": "2249f151-0809-4c55-80cc-76920111782e",
+    "name": "Ausweichen",
+    "description": "Du bist besonders geschickt darin, Angriffen auszuweichen. Du erhältst +1 auf die Rüstungsklasse gegen Angriffe eines einzelnen von dir gewählten Gegners.",
+    "type": "combat"
+  },
+  {
+    "id": "63c0f761-c63b-4291-b7f7-d3ad8b27a655",
+    "name": "Kampfreflexe",
+    "description": "Du kannst mehr Gelegenheitsangriffe ausführen als gewöhnlich und auch dann einen Gelegenheitsangriff ausführen, wenn du hilflos bist.",
+    "type": "combat"
+  },
+  {
+    "id": "83419823-fd94-4ef4-b44e-e3645cc88bbc",
+    "name": "Zäh wie Leder",
+    "description": "Du bist widerstandsfähiger als andere. Du erhältst zusätzliche Trefferpunkte in Höhe deiner Charakterstufe und einen weiteren Trefferpunkt bei jeder künftigen Stufe.",
+    "type": "general"
+  },
+  {
+    "id": "55be997d-0599-493f-b068-d616db9a59fb",
+    "name": "Eisenwille",
+    "description": "Du hast einen außerordentlich starken Willen. Du erhältst einen Bonus von +2 auf Willenswürfe.",
+    "type": "general"
+  },
+  {
+    "id": "04823a20-2479-429e-a754-73df5321eca3",
+    "name": "Blitzreflexe",
+    "description": "Du reagierst blitzschnell auf drohende Gefahren. Du erhältst einen Bonus von +2 auf Reflexwürfe.",
+    "type": "general"
+  },
+  {
+    "id": "5a54884c-8d29-432f-9bd5-2df6e923175e",
+    "name": "Zweiwaffenkampf",
+    "description": "Du bist darin geübt, in jeder Hand eine Waffe zu führen. Der übliche Angriffsabzug beim Kampf mit zwei Waffen verringert sich um 2.",
+    "type": "combat"
+  },
+  {
+    "id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0",
+    "name": "Kraftangriff",
+    "description": "Du kannst im Nahkampf Präzision zugunsten von reiner Wucht opfern. Du kannst dich entscheiden, einen Abzug auf Nahkampf-Angriffswürfe hinzunehmen, um einen entsprechenden Bonus auf den Schaden zu erhalten.",
+    "type": "combat"
+  },
+  {
+    "id": "8e01b6ed-f31d-49a5-9bb7-f223d4bac873",
+    "name": "Wurfwaffenexperte",
+    "description": "Du bist besonders geübt im Umgang mit Wurfwaffen. Du erleidest keinen Bereichsabzug mehr für die zweite Reichweitenkategorie beim Werfen von Waffen und kannst improvisierte Wurfgegenstände sicherer einsetzen.",
+    "type": "combat"
+  },
+  {
+    "id": "4a9d8e09-9aa5-44d0-b34e-f23ec5491fed",
+    "name": "Fertigkeitsfokus",
+    "description": "Du bist auf eine bestimmte Fertigkeit spezialisiert. Du erhältst +3 auf Proben mit der gewählten Fertigkeit; hast du bereits 10 oder mehr Ränge in dieser Fertigkeit, erhöht sich der Bonus auf +6.",
+    "type": "general"
+  },
+  {
+    "id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65",
+    "name": "Beweglich wie eine Katze",
+    "description": "Du bewegst dich behände auch über unsicheren Untergrund. Schwieriges Gelände, das durch natürliche Hindernisse entsteht, verlangsamt dich nicht mehr.",
+    "type": "general"
+  }
+]

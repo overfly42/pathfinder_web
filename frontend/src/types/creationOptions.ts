@@ -37,12 +37,23 @@ export interface ClassDef {
   spellType: SpellType;
   classSkills: string[];
   optionGroups: ClassOptionGroup[];
+  /** Which levels of this class grant a bonus feat slot (e.g. Krieger's 1st
+   *  and every even level) — real data from `base_class_ability_grants`, not
+   *  a hardcoded class name; see `featMax` in `creationCalculations.ts`. */
+  bonusFeatLevels: number[];
 }
 
 export interface SkillDef {
   id: string;
   name: string;
   ability: AbilityKey;
+}
+
+export interface FeatDef {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
 }
 
 export interface AbilityDef {
@@ -58,7 +69,7 @@ export interface ItemCatalogEntry {
 export interface CreationOptions {
   races: RaceOption[];
   classes: ClassDef[];
-  feats: string[];
+  feats: FeatDef[];
   traits: string[];
   skills: SkillDef[];
   abilities: AbilityDef[];

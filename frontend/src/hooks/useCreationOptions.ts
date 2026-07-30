@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, CreationOptions, ItemCatalogEntry, RaceOption, SkillDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, CreationOptions, FeatDef, ItemCatalogEntry, RaceOption, SkillDef } from '../types/creationOptions';
 
 interface UseCreationOptionsResult {
   options: CreationOptions | null;
@@ -25,7 +25,7 @@ export function useCreationOptions(): UseCreationOptionsResult {
     Promise.all([
       apiGet<RaceOption[]>('/api/races'),
       apiGet<ClassDef[]>('/api/classes'),
-      apiGet<string[]>('/api/feats'),
+      apiGet<FeatDef[]>('/api/feats'),
       apiGet<string[]>('/api/traits'),
       apiGet<SkillDef[]>('/api/skills'),
       apiGet<AbilityDef[]>('/api/abilities'),

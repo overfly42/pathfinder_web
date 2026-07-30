@@ -9,8 +9,16 @@ from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from .db import get_db
-from .models import BaseClass, BaseClassOptionChoice, BaseClassOptionGroup, BaseClassSkill, Character
-from .routers import characters, races, skills, users
+from .models import (
+    BaseClass,
+    BaseClassAbilityGrant,
+    BaseClassOptionChoice,
+    BaseClassOptionGroup,
+    BaseClassSkill,
+    Character,
+)
+from .routers import characters, feats, races, skills, users
+from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .schemas.character import CharacterRead
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
@@ -43,6 +51,7 @@ app.add_middleware(
 app.include_router(users.router)
 app.include_router(races.router)
 app.include_router(skills.router)
+app.include_router(feats.router)
 app.include_router(characters.router)
 
 
@@ -90,9 +99,10 @@ def get_character_progression(character_id: str) -> dict:
 # only fetches what it needs (e.g. level-up needs classes/feats/skills but
 # not races/items) and each resource can grow independently. Still static
 # fixture reads for now, no DB, no filtering/query params — except races
-# (roadmap slice 2, see routers/races.py) and skills (roadmap slice 3, see
-# routers/skills.py), which are real database tables; classes' identity/
-# hit_dice/archetype-hierarchy/class-skills/option-groups are also DB-backed
+# (roadmap slice 2, see routers/races.py), skills (roadmap slice 3, see
+# routers/skills.py) and feats (roadmap slice 3, see routers/feats.py),
+# which are real database tables; classes' identity/hit_dice/archetype-
+# hierarchy/class-skills/option-groups are also DB-backed
 # (BaseClass/BaseClassSkill/BaseClassOptionGroup/BaseClassOptionChoice) even
 # though this endpoint still layers that onto the rest of classes.json's
 # fixture content (skill points, spell type, archetype names).
@@ -101,11 +111,16 @@ def get_character_progression(character_id: str) -> dict:
 @app.get("/api/classes")
 def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     """`classes.json`'s content (skill points/spell type/archetypes) stays
-    fixture, joined by `name`, except `classSkills` and `optionGroups`: those
-    fields are overwritten here with real rows from `base_class_skills` and
-    `base_class_option_groups`/`base_class_option_choices` (roadmap slice 3)
-    instead of the fixture's own copies, now that both are real tables — see
-    `routers/skills.py` and `app/seed/class_option_seed.py`."""
+    fixture, joined by `name`, except `classSkills`, `optionGroups` and
+    `bonusFeatLevels`: those fields are overwritten here with real rows from
+    `base_class_skills`, `base_class_option_groups`/`base_class_option_choices`
+    and `base_class_ability_grants` (roadmap slice 3) instead of the
+    fixture's own copies, now that they're real tables — see
+    `routers/skills.py`, `app/seed/class_option_seed.py` and
+    `app/seed/class_ability_seed.py`. `bonusFeatLevels` (which levels of this
+    class grant a bonus feat slot, e.g. Krieger's 1st and every even level)
+    lets the frontend compute `featMax` without hardcoding a class name —
+    see `rules/feat_slots.py`."""
     classes = load_fixture("classes.json")
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_id_by_name = {root.name: root.id for root in roots}
@@ -129,16 +144,19 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             }
         )
 
+    bonus_feat_levels_by_root_id: dict = {}
+    bonus_feat_grants = db.scalars(
+        select(BaseClassAbilityGrant).where(BaseClassAbilityGrant.ability_id.in_(BONUS_FEAT_SLOT_ABILITY_IDS))
+    ).all()
+    for grant in bonus_feat_grants:
+        bonus_feat_levels_by_root_id.setdefault(grant.base_class_id, []).append(grant.level)
+
     for class_def in classes:
         root_id = root_id_by_name.get(class_def["name"])
         class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
+        class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
     return classes
-
-
-@app.get("/api/feats")
-def get_feats() -> list:
-    return load_fixture("feats.json")
 
 
 @app.get("/api/traits")

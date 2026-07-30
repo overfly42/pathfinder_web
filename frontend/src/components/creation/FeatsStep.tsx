@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
-import { featMax, totalLevel } from '../../lib/creationCalculations';
+import { featMax } from '../../lib/creationCalculations';
 import { PickList } from './PickList';
 
 interface FeatsStepProps {
@@ -11,20 +11,20 @@ interface FeatsStepProps {
 }
 
 export function FeatsStep({ draft, options, setDraft }: FeatsStepProps) {
-  const max = featMax(totalLevel(draft));
+  const max = featMax(draft, options);
 
-  function toggleFeat(name: string) {
+  function toggleFeat(id: string) {
     setDraft((prev) => {
-      const idx = prev.feats.indexOf(name);
-      if (idx !== -1) return { ...prev, feats: prev.feats.filter((f) => f !== name) };
+      const idx = prev.feats.indexOf(id);
+      if (idx !== -1) return { ...prev, feats: prev.feats.filter((f) => f !== id) };
       if (prev.feats.length >= max) return prev;
-      return { ...prev, feats: [...prev.feats, name] };
+      return { ...prev, feats: [...prev.feats, id] };
     });
   }
 
   return (
     <PickList
-      items={options.feats}
+      items={options.feats.map((f) => ({ id: f.id, label: f.name }))}
       selected={draft.feats}
       max={max}
       onToggle={toggleFeat}

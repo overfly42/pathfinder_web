@@ -23,7 +23,7 @@ export function TraitsStep({ draft, options, setDraft }: TraitsStepProps) {
 
   return (
     <PickList
-      items={options.traits}
+      items={options.traits.map((name) => ({ id: name, label: name }))}
       selected={draft.traits}
       max={MAX_TRAITS}
       onToggle={toggleTrait}

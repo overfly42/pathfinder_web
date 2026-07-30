@@ -12,18 +12,21 @@ from ..models import (
     BaseClass,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
+    BaseFeat,
     BaseRace,
     BaseSkill,
     Character,
     CharacterClass,
     CharacterClassOption,
+    CharacterFeat,
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
     User,
 )
+from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
-from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate
+from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
 
 router = APIRouter(prefix="/api/characters", tags=["characters"])
@@ -71,6 +74,24 @@ def _skill_points_total(classes: list, int_mod: int) -> int:
         base = class_def.get("skillPointsBase", 2)
         total += max(1, base + int_mod) * selection.level
     return total
+
+
+def _feat_max(
+    db: Session, race_id: UUID, classes: list[ClassSelection], replaced_ability_ids: set[UUID]
+) -> int:
+    """Base feat progression plus bonus feat slots granted by race or class,
+    resolved from real data rather than a hardcoded class name — see
+    `rules/feat_slots.py`. Mirrors the frontend's `featMax`
+    (creationCalculations.ts)."""
+    total_level = sum(selection.level for selection in classes)
+    max_feats = base_feat_count(total_level)
+
+    if race_grants_bonus_feat(db, race_id, replaced_ability_ids):
+        max_feats += 1
+
+    max_feats += class_bonus_feat_slot_count(db, classes)
+
+    return max_feats
 
 
 def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]]) -> None:
@@ -143,8 +164,9 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         seen_replaced_ability_ids |= replaces
         alt_trait_ability_ids.append(ability_id)
 
+    total_level = sum(selection.level for selection in body.classes)
+
     if body.skill_ranks:
-        total_level = sum(selection.level for selection in body.classes)
         valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
         for skill_id_str, ranks in body.skill_ranks.items():
             try:
@@ -164,6 +186,15 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         budget = _skill_points_total(body.classes, int_mod)
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
+
+    if body.feat_ids:
+        max_feats = _feat_max(db, body.race_id, body.classes, seen_replaced_ability_ids)
+        if len(body.feat_ids) > max_feats:
+            raise HTTPException(status_code=422, detail="Too many feats chosen for character level")
+        valid_feat_ids = set(db.scalars(select(BaseFeat.id)).all())
+        for feat_id in body.feat_ids:
+            if feat_id not in valid_feat_ids:
+                raise HTTPException(status_code=422, detail=f"Unknown feat id '{feat_id}'")
 
     character = Character(
         name=body.name,
@@ -219,6 +250,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         for skill_id_str, ranks in body.skill_ranks.items():
             if ranks > 0:
                 last_level_row.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=ranks))
+        for feat_id in body.feat_ids:
+            last_level_row.feats.append(CharacterFeat(feat_id=feat_id))
 
     db.add(character)
     db.commit()

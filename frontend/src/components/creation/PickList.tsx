@@ -1,10 +1,15 @@
 import { useState } from 'react';
 
+export interface PickListItem {
+  id: string;
+  label: string;
+}
+
 interface PickListProps {
-  items: string[];
+  items: PickListItem[];
   selected: string[];
   max: number;
-  onToggle: (name: string) => void;
+  onToggle: (id: string) => void;
   selectedListLabel: string;
   emptyText: string;
   searchPlaceholder?: string;
@@ -12,7 +17,8 @@ interface PickListProps {
 
 export function PickList({ items, selected, max, onToggle, selectedListLabel, emptyText, searchPlaceholder }: PickListProps) {
   const [query, setQuery] = useState('');
-  const filtered = searchPlaceholder ? items.filter((i) => i.toLowerCase().includes(query.toLowerCase())) : items;
+  const filtered = searchPlaceholder ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase())) : items;
+  const labelById = new Map(items.map((i) => [i.id, i.label]));
 
   return (
     <>
@@ -25,17 +31,17 @@ export function PickList({ items, selected, max, onToggle, selectedListLabel, em
         Ausgewählt: <b>{selected.length}</b> / <b>{max}</b>
       </div>
       <div className="chip-row">
-        {filtered.map((name) => {
-          const active = selected.includes(name);
+        {filtered.map((item) => {
+          const active = selected.includes(item.id);
           const disabled = !active && selected.length >= max;
           return (
             <button
-              key={name}
+              key={item.id}
               type="button"
               className={`chip${active ? ' active' : ''}${disabled ? ' disabled' : ''}`}
-              onClick={disabled ? undefined : () => onToggle(name)}
+              onClick={disabled ? undefined : () => onToggle(item.id)}
             >
-              {name}
+              {item.label}
             </button>
           );
         })}
@@ -46,8 +52,8 @@ export function PickList({ items, selected, max, onToggle, selectedListLabel, em
           <div className="selected-empty">{emptyText}</div>
         ) : (
           <div className="chip-row">
-            {selected.map((name) => (
-              <span className="chip active" key={name}>{name}</span>
+            {selected.map((id) => (
+              <span className="chip active" key={id}>{labelById.get(id) ?? id}</span>
             ))}
           </div>
         )}

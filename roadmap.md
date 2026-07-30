@@ -248,7 +248,73 @@ Cheapest slice — proves the whole pattern before harder ones.
       modeled — no such `BaseRaceAbility` rows exist in the seed data yet;
       when they're added, they resolve via the same handler-registry pattern
       as ability-score bonuses (`CLAUDE.md`), not a separate modifier table.
-- [ ] Feats.
+- [x] Feats. Real `BaseFeat` (id, name, description, `type` — a plain
+      categorization tag like `BaseSkill.ability`, e.g. "combat"/"general",
+      used both by prerequisite display later and today by the level-up
+      wizard's fighter bonus-feat slot to filter to combat feats) plus six
+      `BaseFeatRequired*` prerequisite tables (feat, skill, class level, class
+      ability, race, ability score, BAB) from an earlier pass
+      (`backend/app/models/feat.py`) — schema only, unused until this pass.
+      Seed data now exists too: `backend/app/fixtures/seed/base_feats.json`
+      (the 16 feats from the old `feats.json`, migrated to the DB-shaped id/
+      name/description/type rows `BaseFeat` expects) via
+      `backend/app/seed/feat_seed.py` (same idempotent upsert-by-id pattern as
+      `skill_seed.py`). `/api/feats` (`backend/app/routers/feats.py`) is now
+      fully database-backed, replacing the old fixture-reading mock endpoint
+      in `main.py`.
+
+      What a character actually took is `CharacterFeat` (level_id, feat_id) —
+      same per-`CharacterLevel` audit shape as `CharacterSkillRank`, exposed
+      as `Character.feat_ids` (flattened across all levels, never stored as
+      its own list). `POST /api/characters`'s new `feat_ids: list[UUID]`
+      field is validated server-side (`backend/app/routers/characters.py`):
+      each id must exist in `base_feats`, and the count is capped by
+      `backend/app/rules/feat_slots.py`'s `_feat_max` — base progression
+      (`(total_level + 1) // 2`: 1st level, then every odd level after) plus
+      bonus feat *slots* granted by race or class, resolved from real data
+      rather than a hardcoded class name (an earlier version of this pass
+      special-cased `class_name == "Krieger"`, which is wrong — Fighter isn't
+      the only bonus-feat source in the core rules, and hardcoding one name
+      would silently miss the rest). Race: whether the character's race has
+      a non-alternate `RaceAbilityGrant` for the "Bonustalent" ability
+      (Human's bonus feat at 1st level), minus a check that the character
+      didn't trade it away via the "Bemerkenswerte Fertigkeit" alternate
+      trait. Class: `BaseClassAbilityGrant` rows tagged as feat slots
+      (`BONUS_FEAT_SLOT_ABILITY_IDS`, the same hand-frozen-UUID convention as
+      `rules/race_abilities.py`), counted per class at `grant.level <=` that
+      class's cumulative level (summed across non-contiguous selections of
+      the same class first, since the grant's level is the class's own, not
+      the character's). Today only Krieger's recurring bonus combat feat
+      (1st, then every even level) is seeded this way: one shared
+      `BaseClassAbility` catalog row ("Bonus-Kampftalent") granted via 11
+      `BaseClassAbilityGrant` rows, one per granting level
+      (`backend/app/fixtures/seed/base_class_abilities.json` +
+      `base_class_ability_grants.json` via
+      `backend/app/seed/class_ability_seed.py`) — `BaseClassAbilityGrant`'s
+      unique constraint now includes `level` (migration `d925ead90c76`)
+      precisely so the same ability can recur across levels instead of
+      needing a near-duplicate catalog row per level. Adding another class's
+      bonus feats later is a pure data change (seed rows + one more id in
+      that set), not a new code path. `GET /api/classes` exposes each
+      class's `bonusFeatLevels: number[]` (from the same grant data) so the
+      frontend's `featMax` (`creationCalculations.ts`) can mirror this
+      without its own class-name hardcoding either. Multi-level creation
+      collapses feat picks onto the highest `CharacterLevel` row being
+      created, same reasoning as `skill_ranks`. Prerequisite *checking* (the
+      six `BaseFeatRequired*` tables) is still unevaluated anywhere — that's
+      slice 6 territory, not this pass.
+
+      `CreationWizardPage.tsx` now actually submits `draft.feats` (feat ids,
+      previously collected by `FeatsStep.tsx` but silently dropped on
+      submit); `PickList` (shared with `TraitsStep.tsx`) was generalized from
+      plain name strings to `{id, label}` items so `FeatsStep` can pick by id
+      while displaying names, without changing `TraitsStep`'s behavior
+      (traits stay name-keyed, wrapped as `{id: name, label: name}`). The
+      level-up wizard's `LevelFeatStep.tsx` (a later, still-local-only slice
+      7 concern) was adapted to the new `FeatDef[]` shape from `/api/feats`
+      without migrating its own persistence — and its fighter bonus-feat
+      slot now actually filters to `type === 'combat'` instead of offering
+      the full feat list, closing the gap noted in `todos.md`.
 - [ ] Traits, including persisting a character's chosen alternate racial
       traits — the schema for this exists as of slice 2
       (`RaceAbilityGrant`/`RaceAbilityReplacement`), so this is wiring, not a
