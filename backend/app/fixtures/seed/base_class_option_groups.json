@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1fba6617-4fe3-40dd-bec9-eb9ecc0fa20c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "key": "bond",
+    "label": "Naturbindung",
+    "max_choices": 1
+  },
+  {
+    "id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "base_class_id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
+    "key": "bloodline",
+    "label": "Blutlinie",
+    "max_choices": 1
+  },
+  {
+    "id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "key": "domain",
+    "label": "Domänen (max. 2)",
+    "max_choices": 2
+  },
+  {
+    "id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "key": "school",
+    "label": "Spezialschule (optional)",
+    "max_choices": 1
+  },
+  {
+    "id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "key": "mystery",
+    "label": "Mysterium",
+    "max_choices": 1
+  },
+  {
+    "id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "key": "curse",
+    "label": "Verfluchung",
+    "max_choices": 1
+  },
+  {
+    "id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "key": "enemy",
+    "label": "Günstlingsfeind",
+    "max_choices": 1
+  },
+  {
+    "id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "key": "terrain",
+    "label": "Bevorzugtes Terrain",
+    "max_choices": 1
+  }
+]

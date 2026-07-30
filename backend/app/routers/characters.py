@@ -10,6 +10,8 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import (
     BaseClass,
+    BaseClassOptionChoice,
+    BaseClassOptionGroup,
     BaseRace,
     BaseSkill,
     Character,
@@ -30,9 +32,10 @@ FIXTURES_DIR = Path(__file__).resolve().parent.parent / "fixtures"
 
 
 def _class_def(class_name: str) -> dict | None:
-    """Rules content (archetypes/optionGroups/skill points/...) for a root
-    class, straight from `classes.json` — `BaseClass` only carries identity
-    plus the structural bits (hit_dice, arch_class_of) that need a real FK."""
+    """Rules content (archetypes/skill points/...) for a root class, straight
+    from `classes.json` — `BaseClass` only carries identity plus the
+    structural bits (hit_dice, arch_class_of) that need a real FK. Option
+    groups are no longer read from here — see `_validate_options`."""
     classes = json.loads((FIXTURES_DIR / "classes.json").read_text(encoding="utf-8"))
     return next((c for c in classes if c["name"] == class_name), None)
 
@@ -70,18 +73,29 @@ def _skill_points_total(classes: list, int_mod: int) -> int:
     return total
 
 
-def _validate_options(class_name: str, options: dict[str, list[str]]) -> None:
-    class_def = _class_def(class_name) or {}
-    groups_by_key = {group["key"]: group for group in class_def.get("optionGroups", [])}
+def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]]) -> None:
+    """Validates submitted option-group choices (e.g. Kleriker's `domain`)
+    against `base_class_option_groups`/`base_class_option_choices` — real
+    tables now (see `app/seed/class_option_seed.py`), not `classes.json`."""
+    groups = db.scalars(select(BaseClassOptionGroup).where(BaseClassOptionGroup.base_class_id == root.id)).all()
+    groups_by_key = {group.key: group for group in groups}
     for group_key, choices in options.items():
         group = groups_by_key.get(group_key)
         if group is None:
-            raise HTTPException(status_code=422, detail=f"Unknown option group '{group_key}' for {class_name}")
-        if len(choices) > group["max"]:
+            raise HTTPException(status_code=422, detail=f"Unknown option group '{group_key}' for {root.name}")
+        if len(choices) > group.max_choices:
             raise HTTPException(status_code=422, detail=f"Too many choices for option group '{group_key}'")
+        valid_choice_names = {
+            choice.name
+            for choice in db.scalars(
+                select(BaseClassOptionChoice).where(BaseClassOptionChoice.group_id == group.id)
+            ).all()
+        }
         for choice in choices:
-            if choice not in group["choices"]:
-                raise HTTPException(status_code=422, detail=f"Invalid choice '{choice}' for option group '{group_key}'")
+            if choice not in valid_choice_names:
+                raise HTTPException(
+                    status_code=422, detail=f"Invalid choice '{choice}' for option group '{group_key}'"
+                )
 
 
 @router.post("", response_model=CharacterRead, status_code=201)
@@ -97,8 +111,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         for selection, root in zip(body.classes, roots)
     ]
 
-    for selection in body.classes:
-        _validate_options(selection.class_name, selection.options)
+    for selection, root in zip(body.classes, roots):
+        _validate_options(db, root, selection.options)
 
     if spent_points(body.ability_scores) > body.point_budget:
         raise HTTPException(status_code=422, detail="Ability scores exceed the chosen point-buy budget")

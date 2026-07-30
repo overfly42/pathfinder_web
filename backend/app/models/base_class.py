@@ -60,11 +60,54 @@ class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Which class grants which class ability, and at what level.
     `base_class_id` is always a root class's id (`arch_class_of is None`) —
     same simplification as `BaseClassSkill`: no archetype swaps a class
-    ability yet."""
+    ability yet.
+
+    `option_choice_id` is null for a grant every member of the class gets
+    (e.g. Cleric's Channel Energy) and set for a grant conditional on one
+    specific `BaseClassOptionChoice` (e.g. the Sun domain's Searing Light —
+    only characters who picked "Sonne" in Cleric's `domain` group get it).
+    This is the only place that conditioning lives; `CharacterClassOption`
+    stays a plain record of the pick with no mechanical meaning of its own."""
 
     __tablename__ = "base_class_ability_grants"
-    __table_args__ = (UniqueConstraint("base_class_id", "ability_id"),)
+    __table_args__ = (UniqueConstraint("base_class_id", "ability_id", "option_choice_id"),)
 
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
     level: Mapped[int] = mapped_column(Integer)
+
+
+class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A selectable option group a class offers at creation (Cleric's
+    `domain`, Sorcerer's `bloodline`, Wizard's `school`, Oracle's `mystery`/
+    `curse`, Ranger's `enemy`/`terrain`, ...) — replaces the `key`/`label`/
+    `max` fields of `classes.json`'s `optionGroups` array. `base_class_id` is
+    always a root class's id, same simplification as `BaseClassSkill`/
+    `BaseClassAbilityGrant` (no archetype adds/swaps an option group yet)."""
+
+    __tablename__ = "base_class_option_groups"
+    __table_args__ = (UniqueConstraint("base_class_id", "key"),)
+
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    key: Mapped[str] = mapped_column(String(64))
+    label: Mapped[str] = mapped_column(String(255))
+    max_choices: Mapped[int] = mapped_column(Integer)
+
+
+class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One selectable value within a `BaseClassOptionGroup` (e.g. Cleric's
+    "Kriegsdomäne" within its `domain` group) — identity only, same caveat as
+    `BaseClassAbility`: no mechanical effect is modeled for any choice yet,
+    this only replaces the `choices` string array in `classes.json`.
+    `CharacterClassOption.choice` (`character.py`) still stores the pick as a
+    free string rather than an FK to this table — reconciling that is a
+    follow-up, not done here."""
+
+    __tablename__ = "base_class_option_choices"
+    __table_args__ = (UniqueConstraint("group_id", "name"),)
+
+    group_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_option_groups.id"))
+    name: Mapped[str] = mapped_column(String(255))

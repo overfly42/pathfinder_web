@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models import BaseRaceAbility, Character, CharacterRacialChoice, CharacterSkillRank, RaceAbilityReplacement
 from app.rules.race_abilities import HANDLERS
+from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
@@ -39,7 +40,8 @@ def _skill_id(client: TestClient, db_session: Session, name: str) -> str:
 
 
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
-    seed_classes(db_session)
+    seed_classes(db_session)  # base_class_option_groups FKs into base_classes
+    seed_class_options(db_session)
     payload = {
         "name": "Elyra",
         "user_id": user_id,

@@ -9,7 +9,7 @@ from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from .db import get_db
-from .models import BaseClass, BaseClassSkill, Character
+from .models import BaseClass, BaseClassOptionChoice, BaseClassOptionGroup, BaseClassSkill, Character
 from .routers import characters, races, skills, users
 from .schemas.character import CharacterRead
 
@@ -92,29 +92,47 @@ def get_character_progression(character_id: str) -> dict:
 # fixture reads for now, no DB, no filtering/query params — except races
 # (roadmap slice 2, see routers/races.py) and skills (roadmap slice 3, see
 # routers/skills.py), which are real database tables; classes' identity/
-# hit_dice/archetype-hierarchy/class-skills are also DB-backed (BaseClass/
-# BaseClassSkill) even though this endpoint still layers that onto the rest
-# of classes.json's fixture content.
+# hit_dice/archetype-hierarchy/class-skills/option-groups are also DB-backed
+# (BaseClass/BaseClassSkill/BaseClassOptionGroup/BaseClassOptionChoice) even
+# though this endpoint still layers that onto the rest of classes.json's
+# fixture content (skill points, spell type, archetype names).
 
 
 @app.get("/api/classes")
 def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
-    """`classes.json`'s content (skill points/spell type/archetypes/option
-    groups) stays fixture, joined by `name`, except `classSkills`: that field
-    is overwritten here with real skill ids from `base_class_skills`
-    (roadmap slice 3) instead of the old fixture-key strings, since skills
-    are now a real table (`BaseSkill`) — see `routers/skills.py`."""
+    """`classes.json`'s content (skill points/spell type/archetypes) stays
+    fixture, joined by `name`, except `classSkills` and `optionGroups`: those
+    fields are overwritten here with real rows from `base_class_skills` and
+    `base_class_option_groups`/`base_class_option_choices` (roadmap slice 3)
+    instead of the fixture's own copies, now that both are real tables — see
+    `routers/skills.py` and `app/seed/class_option_seed.py`."""
     classes = load_fixture("classes.json")
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_id_by_name = {root.name: root.id for root in roots}
+
     class_skills = db.scalars(select(BaseClassSkill)).all()
     skill_ids_by_root_id: dict = {}
     for row in class_skills:
         skill_ids_by_root_id.setdefault(row.base_class_id, []).append(str(row.skill_id))
 
+    choice_names_by_group_id: dict = {}
+    for choice in db.scalars(select(BaseClassOptionChoice)).all():
+        choice_names_by_group_id.setdefault(choice.group_id, []).append(choice.name)
+    option_groups_by_root_id: dict = {}
+    for group in db.scalars(select(BaseClassOptionGroup)).all():
+        option_groups_by_root_id.setdefault(group.base_class_id, []).append(
+            {
+                "key": group.key,
+                "label": group.label,
+                "max": group.max_choices,
+                "choices": choice_names_by_group_id.get(group.id, []),
+            }
+        )
+
     for class_def in classes:
         root_id = root_id_by_name.get(class_def["name"])
         class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
+        class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
     return classes
 
 

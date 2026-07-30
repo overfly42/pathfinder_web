@@ -1,0 +1,247 @@
+[
+  {
+    "id": "dbea3f3f-b0e0-42c2-8a49-52f6f4bc67df",
+    "group_id": "1fba6617-4fe3-40dd-bec9-eb9ecc0fa20c",
+    "name": "Tiergefährte"
+  },
+  {
+    "id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "group_id": "1fba6617-4fe3-40dd-bec9-eb9ecc0fa20c",
+    "name": "Domäne (Natur)"
+  },
+  {
+    "id": "11eaf8ef-5b49-4a6b-a096-02ed885a38f7",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Arkanum"
+  },
+  {
+    "id": "942a3165-44e9-423d-a2db-c22006fb3262",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Drache"
+  },
+  {
+    "id": "24642261-76ae-4113-bb43-c6120f613aad",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Unheilig"
+  },
+  {
+    "id": "3aeaec6d-0ab8-4222-ad99-5a61dd98ce47",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Elementar"
+  },
+  {
+    "id": "73165db9-ab05-4711-99f1-a2a338062edb",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Fey"
+  },
+  {
+    "id": "9db48ab4-d614-4c2e-b6bb-03b8951dbde4",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Abyssisch"
+  },
+  {
+    "id": "b16cd7e4-1714-4301-9b1c-59cdb389da65",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Kriegsdomäne"
+  },
+  {
+    "id": "16438da5-eb97-48af-aca7-50c7542778a9",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Sonne"
+  },
+  {
+    "id": "618b6c88-2a0c-4408-a639-7d6b73a1427a",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Tod"
+  },
+  {
+    "id": "6a1e1944-2c31-4f88-83fe-26bd01cb8b6a",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Leben"
+  },
+  {
+    "id": "392fdb17-eb91-4d46-b38d-17942377df5d",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Wissen"
+  },
+  {
+    "id": "83454b24-baec-4553-b05d-5567eedc9e26",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "List"
+  },
+  {
+    "id": "be60a25f-3922-4913-af91-75211d8e65e4",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Zerstörung"
+  },
+  {
+    "id": "b98c3555-05f4-427e-9a77-2221e5fd34b1",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Erde"
+  },
+  {
+    "id": "f8afffd9-1460-40f8-9821-165a95ba1f35",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Hervorrufung"
+  },
+  {
+    "id": "c0cd3694-95ef-4296-86b0-df7a92b2d368",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Verzauberung"
+  },
+  {
+    "id": "1798a6c3-a5b9-4d55-a1ff-24a4e1daca67",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Illusion"
+  },
+  {
+    "id": "80cc50fc-d330-49aa-bea4-49cece7dd908",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Nekromantie"
+  },
+  {
+    "id": "7db8f7eb-5368-4ec5-9a73-fca73916d534",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Verwandlung"
+  },
+  {
+    "id": "ba84255e-f940-4663-9b8f-a18557f0cb10",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Weissagung"
+  },
+  {
+    "id": "aad694bd-d618-4cbc-a182-4e18eff55498",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Bannmagie"
+  },
+  {
+    "id": "1cf9ed45-b15f-4022-af30-42cbc397aa2a",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Universalist"
+  },
+  {
+    "id": "858fadf9-03eb-4c47-a83a-9adb4277f3ca",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Leben"
+  },
+  {
+    "id": "3de67bf0-77a0-43a4-94c6-1ad1fba8fb9a",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Knochen"
+  },
+  {
+    "id": "b15bdd74-a1bc-412d-b620-9fad1373d820",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Flamme"
+  },
+  {
+    "id": "41ca55cb-9e93-42c8-92f6-3c3e3f16de56",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Natur"
+  },
+  {
+    "id": "9b560125-bd15-44ab-990e-0c8abe4dc64c",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Zeit"
+  },
+  {
+    "id": "49411e03-5306-4ee5-af66-77006c591c8d",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Wasser"
+  },
+  {
+    "id": "8da95019-831e-4336-a346-2741096340f4",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Blindheit"
+  },
+  {
+    "id": "b32e5d82-97f3-45f4-8aa4-0dbdaf452c30",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Verstummt"
+  },
+  {
+    "id": "37a42372-564b-44a8-8b0f-32b135bbafd3",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Verflucht mit Schuppen"
+  },
+  {
+    "id": "272b16a8-ac17-4bb1-a6d4-022907743c2e",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Frostgezeichnet"
+  },
+  {
+    "id": "0a805c7c-8da8-46e4-a321-3c58b20e8385",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Aberrationen"
+  },
+  {
+    "id": "fe0d0c43-9e4a-414a-8c35-250a0779037f",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Tiere"
+  },
+  {
+    "id": "2004be7d-c20b-4ec3-9a64-f9309b0bdba8",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Konstrukte"
+  },
+  {
+    "id": "6474980a-55a6-41f4-9f7b-565b0d925c8f",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Drachen"
+  },
+  {
+    "id": "08200356-be93-43c8-9332-6b9f7ec2007a",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Feen"
+  },
+  {
+    "id": "4b629de4-8ed6-4c61-b133-0bc60234f90b",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoide (Menschen)"
+  },
+  {
+    "id": "b1019ce2-1d5b-4e10-a1a5-a29b3fa4446a",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Magische Bestien"
+  },
+  {
+    "id": "55fb7e4f-146e-43a6-8f0b-088ad1e95833",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Untote"
+  },
+  {
+    "id": "669d27f6-921c-4034-be7a-507a037de88f",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Wald"
+  },
+  {
+    "id": "c5b2f619-1e99-4182-b6e6-2629f2fe0c48",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Sumpf"
+  },
+  {
+    "id": "50a43d69-4328-48ec-8ab5-7e5e7c383e2b",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Gebirge"
+  },
+  {
+    "id": "39941aa4-bec5-4aa4-b7b7-e9483f3ff053",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Ebene"
+  },
+  {
+    "id": "7a09e21c-b7c3-4c1f-8a26-25c3ea9ddece",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Wüste"
+  },
+  {
+    "id": "d4f691f2-1fbc-4760-8829-f3c280a16a3e",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Dschungel"
+  },
+  {
+    "id": "3c959385-aa07-447d-907f-9156f9422073",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Unterreich"
+  }
+]
