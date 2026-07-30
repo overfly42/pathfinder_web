@@ -460,6 +460,32 @@ Cheapest slice — proves the whole pattern before harder ones.
       classes (needs a data-model decision on which archetypes mutually
       exclude each other — not yet made; the equivalent question for races
       was resolved in slice 2).
+- [ ] Fully playable level-1 character: HP/BAB/save progression, computed
+      (not stored) from real per-class data — `BaseClass` gains
+      `bab_progression` (good/¾/½) and `fort_save`/`ref_save`/`wil_save`
+      (good/poor), matching the fields already sketched in `readme.md`'s ER
+      diagram but never implemented; `CharacterLevel.hit_points` (already a
+      column, currently always unset) gets actually computed from
+      `hit_dice`. Multiclass sums each class's own contribution per
+      class-level taken (e.g. BAB/saves), not the total level against one
+      averaged progression.
+
+      Moved here from slice 7's original "thin: HP/BAB/save progression"
+      bullet, by explicit decision: a level-1 character already has BAB and
+      saves — computing them is what makes a *created* character playable,
+      not a leveling concern, so it belongs at the end of character
+      creation rather than gated behind items (4)/effects (5)/actions (6),
+      none of which a fresh level-1 character strictly needs. Level-up
+      (slice 7) reuses this computation per new level rather than
+      rebuilding it.
+- [ ] Minimal starting gear: a fixed weapon/armor/adventuring-gear list
+      (plus simple roleplay items, e.g. a cooking pot) attached to the
+      character at creation — descriptive only, no AC/attack-bonus
+      computation yet. Deliberately *not* the shared modifier/bonus-stacking
+      system slice 4 owns (magic items, enchantments, equip-slot swapping,
+      real AC recompute) — that stays scoped to what *ongoing* play needs
+      (buying/finding/enchanting gear later), not what a freshly created
+      character needs to already be playable.
 
 ### 4. Items / Inventory
 - [ ] Gear table + equipment slots.
@@ -484,7 +510,10 @@ Cheapest slice — proves the whole pattern before harder ones.
       thin-complete.
 
 ### 7. Level-up — thin then thick
-- [ ] Thin: single-class HP/BAB/save progression only.
+- [ ] Thin: single-class new-level choices (feat/skill/spell as applicable)
+      plus extending slice 3's HP/BAB/save computation by one level — not
+      building that computation fresh here (moved to slice 3: a level-1
+      character needs it too, not just a leveled-up one).
 - [ ] Thick: feat/skill/spell choices, multiclassing, archetypes, fighter
       bonus feat, history log (`character_levels`, `history` tables).
 - [ ] `POST /api/characters/{id}/level-up`, `GET /api/characters/{id}/history`.
