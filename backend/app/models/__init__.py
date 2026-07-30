@@ -27,6 +27,7 @@ from .feat import (
 )
 from .race import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from .skill import BaseClassSkill, BaseSkill
+from .spell import BaseClassSpell, BaseClassSpellsKnown, BaseSpell, BaseSpellComponent, CharacterSpell
 from .trait import BaseTrait, CharacterTrait
 from .user import User
 
@@ -57,6 +58,11 @@ __all__ = [
     "CharacterFeat",
     "BaseTrait",
     "CharacterTrait",
+    "BaseSpell",
+    "BaseSpellComponent",
+    "BaseClassSpell",
+    "BaseClassSpellsKnown",
+    "CharacterSpell",
     "Character",
     "CharacterClass",
     "CharacterClassOption",

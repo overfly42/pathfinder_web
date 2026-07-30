@@ -30,7 +30,13 @@ def _load(filename: str) -> list[dict]:
 def _upsert_base_class(db: Session, row: dict) -> None:
     row_id = UUID(row["id"])
     arch_class_of = UUID(row["arch_class_of"]) if row["arch_class_of"] is not None else None
-    fields = {"name": row["name"], "hit_dice": row["hit_dice"], "arch_class_of": arch_class_of}
+    fields = {
+        "name": row["name"],
+        "hit_dice": row["hit_dice"],
+        "arch_class_of": arch_class_of,
+        "casting_ability": row.get("casting_ability"),
+        "spell_tradition": row.get("spell_tradition"),
+    }
     instance = db.get(BaseClass, row_id)
     if instance is None:
         db.add(BaseClass(id=row_id, **fields))

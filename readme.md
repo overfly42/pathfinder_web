@@ -60,6 +60,8 @@ erDiagram
         float bab_progression
         string name
         string role
+        string casting_ability
+        string spell_tradition
     }
     BaseClasses |o--o{ BaseClasses:has
     BaseClassLevelAbility ||--o{ BaseClassAbilites : provies
@@ -188,6 +190,43 @@ erDiagram
         uuid character_item_id
         uuid character_item_ability_id
     }
+    BaseSpell {
+        uuid id
+        string name
+        string school
+        string description
+    }
+    BaseSpellComponents {
+        uuid spell_id
+        string tradition
+        bool verbal
+        bool somatic
+        bool material
+        string material_description
+        bool focus
+        string focus_description
+    }
+    BaseSpell ||--o{ BaseSpellComponents : "components per tradition"
+    BaseClassSpell {
+        uuid base_class_id
+        uuid spell_id
+        int grade
+    }
+    BaseClasses ||--o{ BaseClassSpell : offers
+    BaseSpell ||--o{ BaseClassSpell : "at grade"
+    BaseClassSpellsKnown {
+        uuid base_class_id
+        int level
+        int grade
+        int count
+    }
+    BaseClasses ||--o{ BaseClassSpellsKnown : "known/accessible per level"
+    CharacterSpell {
+        uuid level_id
+        uuid base_class_id
+        uuid spell_id
+    }
+    CharacterLevel ||--o{ CharacterSpell : knows
 
 ```
 
@@ -237,12 +276,13 @@ Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `back
 | Method | Path | Backed by |
 |---|---|---|
 | GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
-| GET | `/api/classes` | fixture, except `classSkills` (database, `BaseClassSkill`) and identity/hit_dice/archetype-hierarchy (mirrored in `BaseClass`, not exposed via this endpoint) |
-| GET | `/api/feats` | fixture |
-| GET | `/api/traits` | fixture |
+| GET | `/api/classes` | fixture, except `id`/`classSkills`/`optionGroups`/`bonusFeatLevels`/`castingAbility`/`spellTradition`/`spellsKnownByLevel` (database — `BaseClass`/`BaseClassSkill`/`BaseClassOptionGroup`/`BaseClassOptionChoice`/`BaseClassAbilityGrant`/`BaseClassSpellsKnown`) |
+| GET | `/api/feats` | database (`BaseFeat`) |
+| GET | `/api/traits` | database (`BaseTrait`) |
 | GET | `/api/skills` | database (`BaseSkill`) |
 | GET | `/api/abilities` | fixture |
-| GET | `/api/spells-by-class` | fixture |
+| GET | `/api/spells` | database (`BaseSpell`) |
+| GET | `/api/spells-by-class` | database (`BaseClassSpell`) |
 | GET | `/api/point-buy-costs` | fixture |
 | GET | `/api/items` | fixture |
 | GET | `/api/effects` | fixture |
@@ -335,8 +375,8 @@ AC, initiative, etc. should be backend-computed from equipped items + ability mo
 | POST | `/api/characters/{character_id}/spells/{spell_id}/cast` | mark a known/prepared spell as used for the day |
 | POST | `/api/characters/{character_id}/spells/{spell_id}/prepare` | prepare a spell (server enforces `maxPrepared` per grade) |
 | DELETE | `/api/characters/{character_id}/spells/{spell_id}/prepare` | unprepare a spell |
-| POST | `/api/characters/{character_id}/spellbook` | add a spell to the spellbook/known list during play (`requirements_v2.md` §2.2: managed like inventory, not just at creation/level-up) |
-| DELETE | `/api/characters/{character_id}/spellbook/{spell_id}` | remove a spell from the spellbook/known list |
+| POST | `/api/characters/{character_id}/spellbook` | add a spell to the spellbook during play (`requirements_v2.md` §2.2: managed like inventory, not just at creation/level-up) — arcane-prepared classes only, uncapped; spontaneous casters only learn new spells at level-up, divine-prepared casters already have the full list |
+| DELETE | `/api/characters/{character_id}/spellbook/{spell_id}` | remove a spell from the spellbook |
 
 **Equipment/inventory**
 | Method | Path | Purpose |

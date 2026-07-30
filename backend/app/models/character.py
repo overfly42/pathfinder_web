@@ -142,6 +142,20 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         return [entry.trait_id for level in self.levels for entry in level.traits]
 
     @property
+    def spell_ids(self) -> dict[str, list[uuid.UUID]]:
+        """Every spell known/in the spellbook, flattened across all levels and
+        grouped by `base_class_id` (stringified — UUID keys aren't valid JSON
+        object keys, same convention as `CharacterCreate.skill_ranks`) — same
+        per-level-audit-but-never-stored-as-its-own-list reasoning as
+        `feat_ids`/`trait_ids`, but grouped since a multiclassed character's
+        known spells are tracked separately per class."""
+        result: dict[str, list[uuid.UUID]] = {}
+        for level in self.levels:
+            for entry in level.spells:
+                result.setdefault(str(entry.base_class_id), []).append(entry.spell_id)
+        return result
+
+    @property
     def flex_ability(self) -> str | None:
         """Which attribute the race's flex "+2 to any" bonus (if any) was put
         on, resolved from `racial_choices` via the same `HANDLERS` registry
@@ -209,6 +223,7 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     skill_ranks: Mapped[list["CharacterSkillRank"]] = relationship(cascade="all, delete-orphan")
     feats: Mapped[list["CharacterFeat"]] = relationship(cascade="all, delete-orphan")
     traits: Mapped[list["CharacterTrait"]] = relationship(cascade="all, delete-orphan")
+    spells: Mapped[list["CharacterSpell"]] = relationship(cascade="all, delete-orphan")
 
 
 class CharacterSkillRank(Base, UUIDPrimaryKeyMixin, TimestampMixin):

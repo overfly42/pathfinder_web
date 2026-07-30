@@ -1,0 +1,140 @@
+[
+  {
+    "id": "b124c2ff-3f0d-5827-bb17-56cc93241362",
+    "name": "Licht",
+    "school": "Hervorrufung",
+    "description": "Lässt einen Gegenstand wie eine Fackel leuchten."
+  },
+  {
+    "id": "43f4bbdf-85df-50f6-b1a9-cda4242eb027",
+    "name": "Kleiner Trick",
+    "school": "Universalist",
+    "description": "Winzige magische Spielereien ohne Kampfnutzen."
+  },
+  {
+    "id": "66968537-87d8-5796-a368-6f02af534ab9",
+    "name": "Widerstand",
+    "school": "Bannmagie",
+    "description": "Gewährt ein leichtes Bonus auf einen Rettungswurf."
+  },
+  {
+    "id": "4109483a-4ad9-5523-88a2-358fc1c056ea",
+    "name": "Reinigen",
+    "school": "Weissagung",
+    "description": "Gibt eine leise Ahnung, wie eine bevorstehende Aufgabe zu meistern ist."
+  },
+  {
+    "id": "8db61df1-c4cf-5739-8d38-1b60dab9b1db",
+    "name": "Magisches Geschoss",
+    "school": "Hervorrufung",
+    "description": "Ein unfehlbares Geschoss aus reiner magischer Kraft."
+  },
+  {
+    "id": "47eb5796-5854-5b81-81a0-5484783b1e8a",
+    "name": "Schild",
+    "school": "Bannmagie",
+    "description": "Ein unsichtbares Kraftfeld blockt Angriffe und Magisches Geschoss."
+  },
+  {
+    "id": "6bda254d-43c3-5418-98e2-e02ed1e6bfdd",
+    "name": "Farbenstrahl",
+    "school": "Illusion",
+    "description": "Ein Strahl grellen Lichts blendet und betäubt Gegner."
+  },
+  {
+    "id": "f6d322af-bd17-504b-ac36-9ce7bc6fddbf",
+    "name": "Schlaf",
+    "school": "Verzauberung",
+    "description": "Versetzt schwächere Kreaturen in magischen Schlaf."
+  },
+  {
+    "id": "37c945e5-0848-58d7-9396-b24ca204f064",
+    "name": "Identifizieren",
+    "school": "Weissagung",
+    "description": "Enthüllt die magischen Eigenschaften eines Gegenstands."
+  },
+  {
+    "id": "7afaf80d-5057-50ef-9b8d-3db4a6c52406",
+    "name": "Sprung",
+    "school": "Verwandlung",
+    "description": "Erhöht die Sprungweite des Ziels deutlich."
+  },
+  {
+    "id": "8ba47a8d-1c19-5dda-9e31-ac1775588cbc",
+    "name": "Unsichtbare Hand: Diener",
+    "school": "Hervorrufung",
+    "description": "Ein unsichtbarer Kraftdiener erledigt einfache Handreichungen."
+  },
+  {
+    "id": "c5c962ad-1b8b-5bde-b93f-579cc56359cc",
+    "name": "Nebelwolke",
+    "school": "Hervorrufung",
+    "description": "Erschafft eine dichte, sichtblockierende Nebelbank."
+  },
+  {
+    "id": "924b9de6-1862-54e3-bc80-bdb6b2b8b605",
+    "name": "Person betören",
+    "school": "Verzauberung",
+    "description": "Macht eine humanoide Kreatur dem Wirker gegenüber freundlich gesinnt."
+  },
+  {
+    "id": "6c8271c1-da38-5f69-a213-18b9dc6b5fb4",
+    "name": "Beschwichtigen",
+    "school": "Verzauberung",
+    "description": "Beruhigt aufgewühlte Emotionen im Wirkbereich."
+  },
+  {
+    "id": "7fb23038-867b-50c2-be54-9f5f54bf0a97",
+    "name": "Verzaubern",
+    "school": "Verzauberung",
+    "description": "Verleiht der Stimme des Wirkers vorübergehend bezaubernde Kraft."
+  },
+  {
+    "id": "ce7123b3-eef7-5a81-afba-b51f6c8cc153",
+    "name": "Tarnung",
+    "school": "Illusion",
+    "description": "Verändert das Aussehen des Wirkers."
+  },
+  {
+    "id": "e68765d9-d2f4-5420-90c0-952ce36412d5",
+    "name": "Furchtlosigkeit",
+    "school": "Bannmagie",
+    "description": "Entfernt Furcht bei den Zielen."
+  },
+  {
+    "id": "e7d19662-d2a6-5534-8ef9-a4eafaa110aa",
+    "name": "Segnen",
+    "school": "Verzauberung",
+    "description": "Stärkt Verbündete im Kampf mit einem kleinen Moralbonus."
+  },
+  {
+    "id": "3d9ea55e-ba5f-5a87-90d0-ef66ba7bab5a",
+    "name": "Heiliger Schild",
+    "school": "Bannmagie",
+    "description": "Umgibt das Ziel mit einem schützenden, heiligen Kraftfeld."
+  },
+  {
+    "id": "75de2d74-9be5-5d66-a216-07532d86e0b4",
+    "name": "Wunden heilen, leicht",
+    "school": "Hervorrufung",
+    "description": "Heilt eine geringe Menge Schaden."
+  },
+  {
+    "id": "9ea6c391-a647-5b1c-8b35-a8c2001b4376",
+    "name": "Waffensegen",
+    "school": "Verzauberung",
+    "description": "Segnet Waffen der Verbündeten gegen Böses."
+  },
+  {
+    "id": "16939d56-c751-5f7a-b5d3-3a7a0f50871c",
+    "name": "Command",
+    "school": "Verzauberung",
+    "description": "Zwingt einem Ziel für eine Runde ein einzelnes Wort-Kommando auf."
+  },
+  {
+    "id": "07576baf-65a3-5e3c-a0be-9d679fabdb62",
+    "name": "Schutz vor Bösem",
+    "school": "Bannmagie",
+    "description": "Schirmt das Ziel gegen böse Kreaturen und Beeinflussung ab."
+  }
+]

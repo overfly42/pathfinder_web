@@ -20,6 +20,7 @@ from app.seed.class_seed import seed_classes
 from app.seed.feat_seed import seed_feats
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
+from app.seed.spell_seed import seed_spells
 from app.seed.trait_seed import seed_traits
 
 DEFAULT_ABILITY_SCORES = {"ST": 10, "GE": 12, "KO": 13, "IN": 10, "WE": 10, "CH": 8}
@@ -60,6 +61,17 @@ def _trait_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_traits(db_session)
     traits = client.get("/api/traits").json()
     return next(t["id"] for t in traits if t["name"] == name)
+
+
+def _spells_by_class(client: TestClient, db_session: Session, class_name: str) -> tuple[str, dict[str, str]]:
+    """(base_class_id, {spell_name: spell_id}) for a spontaneous/arcane-prepared class."""
+    seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_spells(db_session)
+    classes = client.get("/api/classes").json()
+    base_class_id = next(c["id"] for c in classes if c["name"] == class_name)
+    by_class = client.get("/api/spells-by-class").json()
+    name_to_id = {s["name"]: s["id"] for s in by_class[class_name]}
+    return base_class_id, name_to_id
 
 
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
@@ -858,3 +870,270 @@ def test_mock_character_fixtures_still_served(client: TestClient) -> None:
     response = client.get("/api/characters/1")
     assert response.status_code == 200
     assert response.json()["name"] == "Elyra Silberauge"
+
+
+def test_create_character_persists_known_spells_for_spontaneous_class(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Hexenmeister")
+
+    picked = [spells["Licht"], spells["Kleiner Trick"], spells["Magisches Geschoss"], spells["Schild"]]
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Hexenmeister", "level": 1}],
+            spell_ids={base_class_id: picked},
+        ),
+    )
+    assert response.status_code == 201
+    assert set(response.json()["spell_ids"][base_class_id]) == set(picked)
+
+
+def test_create_character_rejects_spontaneous_spell_over_grade_budget(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Hexenmeister")
+
+    # Hexenmeister known-count cap at level 1 is 2 grade-1 spells; picking 3.
+    picked = [spells["Magisches Geschoss"], spells["Schild"], spells["Farbenstrahl"]]
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Hexenmeister", "level": 1}],
+            spell_ids={base_class_id: picked},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_arcane_prepared_spellbook_with_all_cantrips(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+
+    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    grade1_picks = [spells["Magisches Geschoss"], spells["Schild"]]
+    ability_scores = dict(DEFAULT_ABILITY_SCORES, IN=14)  # +2 mod -> budget 2+2=4
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            ability_scores=ability_scores,
+            spell_ids={base_class_id: cantrips + grade1_picks},
+        ),
+    )
+    assert response.status_code == 201
+    assert set(response.json()["spell_ids"][base_class_id]) == set(cantrips + grade1_picks)
+
+
+def test_create_character_rejects_arcane_prepared_missing_cantrip(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+
+    incomplete_cantrips = [spells["Licht"]]  # missing Kleiner Trick / Widerstand
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            spell_ids={base_class_id: incomplete_cantrips},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_arcane_prepared_over_budget(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+
+    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    # Elf grants +2 IN (mod +1) -> budget 2+1=3 grade-1 picks; submitting 4.
+    grade1_picks = [
+        spells["Magisches Geschoss"],
+        spells["Schild"],
+        spells["Farbenstrahl"],
+        spells["Schlaf"],
+    ]
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            spell_ids={base_class_id: cantrips + grade1_picks},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_arcane_prepared_inaccessible_grade(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+
+    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    # Nebelwolke is grade 2, not accessible until class level 3.
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            spell_ids={base_class_id: cantrips + [spells["Nebelwolke"]]},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_spell_not_on_class_list(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+    _, orakel_spells = _spells_by_class(client, db_session, "Orakel")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            spell_ids={base_class_id: [orakel_spells["Segnen"]]},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_spell_ids_for_divine_prepared_class(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    _, orakel_spells = _spells_by_class(client, db_session, "Orakel")
+    # Waldläufer (the default payload class) is divine-prepared -- full list,
+    # no known-spell picking at all.
+    classes = client.get("/api/classes").json()
+    waldlaeufer_id = next(c["id"] for c in classes if c["name"] == "Waldläufer")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, spell_ids={waldlaeufer_id: [orakel_spells["Segnen"]]}
+        ),
+    )
+    assert response.status_code == 422
+
+
+def _magier_character(client: TestClient, db_session: Session, extra_grade1: list[str] | None = None) -> tuple[dict, str, dict[str, str]]:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    picked = cantrips + (extra_grade1 or [spells["Magisches Geschoss"]])
+    created = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 1}],
+            spell_ids={base_class_id: picked},
+        ),
+    ).json()
+    return created, base_class_id, spells
+
+
+def test_add_spell_to_spellbook(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spellbook",
+        json={"base_class_id": base_class_id, "spell_id": spells["Schild"]},
+    )
+    assert response.status_code == 201
+    assert spells["Schild"] in response.json()["spell_ids"][base_class_id]
+
+
+def test_add_spell_to_spellbook_rejects_already_known(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spellbook",
+        json={"base_class_id": base_class_id, "spell_id": spells["Magisches Geschoss"]},
+    )
+    assert response.status_code == 422
+
+
+def test_add_spell_to_spellbook_rejects_inaccessible_grade(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spellbook",
+        json={"base_class_id": base_class_id, "spell_id": spells["Nebelwolke"]},
+    )
+    assert response.status_code == 422
+
+
+def test_add_spell_to_spellbook_rejects_non_arcane_prepared_class(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Hexenmeister")
+    picked = [spells["Licht"], spells["Kleiner Trick"], spells["Magisches Geschoss"]]
+    character = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Hexenmeister", "level": 1}],
+            spell_ids={base_class_id: picked},
+        ),
+    ).json()
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spellbook",
+        json={"base_class_id": base_class_id, "spell_id": spells["Schild"]},
+    )
+    assert response.status_code == 422
+
+
+def test_remove_spell_from_spellbook(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+
+    response = client.delete(f"/api/characters/{character['id']}/spellbook/{spells['Licht']}")
+    assert response.status_code == 204
+
+    updated = client.get(f"/api/characters/{character['id']}").json()
+    assert spells["Licht"] not in updated["spell_ids"][base_class_id]
+
+
+def test_remove_unknown_spell_from_spellbook_is_404(client: TestClient, db_session: Session) -> None:
+    character, _, spells = _magier_character(client, db_session)
+
+    response = client.delete(f"/api/characters/{character['id']}/spellbook/{spells['Nebelwolke']}")
+    assert response.status_code == 404

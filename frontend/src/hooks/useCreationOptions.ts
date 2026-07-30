@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, CreationOptions, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, TraitDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, CreationOptions, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SpellDef, TraitDef } from '../types/creationOptions';
 
 interface UseCreationOptionsResult {
   options: CreationOptions | null;
@@ -29,7 +29,7 @@ export function useCreationOptions(): UseCreationOptionsResult {
       apiGet<TraitDef[]>('/api/traits'),
       apiGet<SkillDef[]>('/api/skills'),
       apiGet<AbilityDef[]>('/api/abilities'),
-      apiGet<Record<string, string[]>>('/api/spells-by-class'),
+      apiGet<Record<string, SpellDef[]>>('/api/spells-by-class'),
       apiGet<Record<number, number>>('/api/point-buy-costs'),
       apiGet<ItemCatalogEntry[]>('/api/items'),
     ])

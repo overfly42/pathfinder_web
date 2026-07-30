@@ -67,6 +67,13 @@ class CharacterCreate(BaseModel):
     # race/class, unlike feat_ids) — collapsed onto the highest CharacterLevel
     # row being created, same reasoning as feat_ids.
     trait_ids: list[UUID] = []
+    # base_class_id (string, since UUID keys aren't valid JSON object keys) ->
+    # chosen spell ids, for spontaneous/arcane-prepared classes only (see
+    # rules/spells.py) — grade-0 spells are mandatory-but-implicit for
+    # arcane-prepared classes (validated as present, not counted against the
+    # budget). Collapsed onto the highest CharacterLevel row being created,
+    # same reasoning as skill_ranks/feat_ids.
+    spell_ids: dict[str, list[UUID]] = {}
 
     @field_validator("name")
     @classmethod
@@ -129,6 +136,25 @@ class CharacterCreate(BaseModel):
             raise ValueError("trait_ids must not exceed 2")
         return value
 
+    @field_validator("spell_ids")
+    @classmethod
+    def spell_ids_must_not_have_duplicates(cls, value: dict[str, list[UUID]]) -> dict[str, list[UUID]]:
+        for spell_ids in value.values():
+            if len(set(spell_ids)) != len(spell_ids):
+                raise ValueError("spell_ids must not contain duplicates within a class")
+        return value
+
+
+class SpellbookAdd(BaseModel):
+    """Body for `POST /api/characters/{id}/spellbook` — the in-play
+    "add a spell to the spellbook" action (`requirements_v2.md` §2.2),
+    arcane-prepared classes only (see `rules/spells.py`'s module docstring:
+    spontaneous casters only learn new spells at level-up, and
+    divine-prepared casters have no known-spell list to add to)."""
+
+    base_class_id: UUID
+    spell_id: UUID
+
 
 class CharacterUpdate(BaseModel):
     name: str
@@ -159,3 +185,4 @@ class CharacterRead(BaseModel):
     skill_ranks: dict[str, int]
     feat_ids: list[UUID]
     trait_ids: list[UUID]
+    spell_ids: dict[str, list[UUID]]

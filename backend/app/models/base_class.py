@@ -27,6 +27,16 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     arch_class_of: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
     )
+    # Spellcasting ability (2-letter code, e.g. IN for Wizard, CH for
+    # Sorcerer/Bard, WE for Druid/Cleric/Ranger) and tradition (`'arcane'`/
+    # `'divine'`, the axis `BaseSpellComponent` keys off of) — null for
+    # non-casters. Real columns rather than another `classes.json` field,
+    # unlike `spellType`/`skillPointsBase`/etc.: these are new, and the
+    # intent going forward is fewer fixtures, not more. Only ever set on root
+    # rows, same reasoning as `hit_dice` (an archetype doesn't change its
+    # parent's casting ability or tradition).
+    casting_ability: Mapped[str | None] = mapped_column(String(2), nullable=True)
+    spell_tradition: Mapped[str | None] = mapped_column(String(16), nullable=True)
 
     parent: Mapped["BaseClass | None"] = relationship(
         remote_side="BaseClass.id", back_populates="archetypes"
@@ -40,6 +50,14 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def effective_hit_dice(self) -> int | None:
         return self.root.hit_dice
+
+    @property
+    def effective_casting_ability(self) -> str | None:
+        return self.root.casting_ability
+
+    @property
+    def effective_spell_tradition(self) -> str | None:
+        return self.root.spell_tradition
 
 
 class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

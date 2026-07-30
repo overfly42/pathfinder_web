@@ -34,7 +34,9 @@ export interface CreationDraft {
   /** Chosen feat ids (BaseFeat.id), not names. */
   feats: string[];
   traits: string[];
-  /** spellSelections: class name -> chosen spell names */
+  /** spellSelections: base_class_id -> chosen spell ids (grade-0 spells for
+   *  arcane-prepared classes are mandatory-but-implicit, not stored here —
+   *  see `spellIdsForSubmission` in creationCalculations.ts). */
   spellSelections: Record<string, string[]>;
   gold: number;
   gear: DraftGearItem[];

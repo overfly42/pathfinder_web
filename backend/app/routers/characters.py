@@ -12,6 +12,7 @@ from ..models import (
     BaseClass,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
+    BaseClassSpell,
     BaseFeat,
     BaseRace,
     BaseSkill,
@@ -23,12 +24,14 @@ from ..models import (
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
+    CharacterSpell,
     CharacterTrait,
     User,
 )
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
-from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection
+from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
+from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection, SpellbookAdd
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
 
 router = APIRouter(prefix="/api/characters", tags=["characters"])
@@ -168,6 +171,14 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
     total_level = sum(selection.level for selection in body.classes)
 
+    race_mods = race_ability_score_mods(db, body.race_id)
+
+    def _effective_ability_mod(ability: str) -> int:
+        score = body.ability_scores[ability] + race_mods.get(ability, 0)
+        if body.flex_ability == ability:
+            score += 2
+        return (score - 10) // 2
+
     if body.skill_ranks:
         valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
         for skill_id_str, ranks in body.skill_ranks.items():
@@ -180,12 +191,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             if ranks > total_level:
                 raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
 
-        race_mods = race_ability_score_mods(db, body.race_id)
-        effective_in = body.ability_scores["IN"] + race_mods.get("IN", 0)
-        if body.flex_ability == "IN":
-            effective_in += 2
-        int_mod = (effective_in - 10) // 2
-        budget = _skill_points_total(body.classes, int_mod)
+        budget = _skill_points_total(body.classes, _effective_ability_mod("IN"))
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
@@ -208,6 +214,64 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         areas = [traits_by_id[trait_id].area for trait_id in body.trait_ids]
         if len(set(areas)) != len(areas):
             raise HTTPException(status_code=422, detail="trait_ids must not include two traits from the same area")
+
+    if body.spell_ids:
+        level_by_root_id: dict[UUID, int] = {}
+        for selection, root in zip(body.classes, roots):
+            level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
+
+        for base_class_id_str, spell_ids in body.spell_ids.items():
+            try:
+                base_class_id = UUID(base_class_id_str)
+            except ValueError as exc:
+                raise HTTPException(status_code=422, detail=f"Invalid base_class_id '{base_class_id_str}'") from exc
+            class_level = level_by_root_id.get(base_class_id)
+            if class_level is None:
+                raise HTTPException(status_code=422, detail="spell_ids references a class this character isn't taking")
+            root = next(r for r in roots if r.id == base_class_id)
+
+            class_def = _class_def(root.name) or {}
+            spell_type = class_def.get("spellType", "none")
+            if spell_type not in ("spontaneous", "arcane-prepared"):
+                raise HTTPException(status_code=422, detail=f"{root.name} has no known-spell list to choose from")
+
+            grade_by_spell_id = {
+                row.spell_id: row.grade
+                for row in db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == base_class_id)).all()
+            }
+            for spell_id in spell_ids:
+                if spell_id not in grade_by_spell_id:
+                    raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
+
+            if spell_type == "spontaneous":
+                budget = spontaneous_known_budget(db, base_class_id, class_level)
+                picked_by_grade: dict[int, int] = {}
+                for spell_id in spell_ids:
+                    grade = grade_by_spell_id[spell_id]
+                    picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
+                for grade, picked_count in picked_by_grade.items():
+                    if picked_count > budget.get(grade, 0):
+                        raise HTTPException(
+                            status_code=422, detail=f"Too many grade {grade} spells known for {root.name}"
+                        )
+            else:  # arcane-prepared
+                mandatory_grade0 = {sid for sid, grade in grade_by_spell_id.items() if grade == 0}
+                submitted = set(spell_ids)
+                if not mandatory_grade0.issubset(submitted):
+                    raise HTTPException(
+                        status_code=422, detail=f"{root.name}'s spellbook must include all grade-0 spells"
+                    )
+                non_grade0 = submitted - mandatory_grade0
+                accessible_grades = known_grades(db, base_class_id, class_level)
+                for spell_id in non_grade0:
+                    if grade_by_spell_id[spell_id] not in accessible_grades:
+                        raise HTTPException(
+                            status_code=422, detail=f"Grade {grade_by_spell_id[spell_id]} not yet accessible for {root.name}"
+                        )
+                ability_mod = _effective_ability_mod(root.casting_ability) if root.casting_ability else 0
+                budget = arcane_prepared_budget(class_level, ability_mod)
+                if len(non_grade0) > budget:
+                    raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
 
     character = Character(
         name=body.name,
@@ -267,6 +331,10 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             last_level_row.feats.append(CharacterFeat(feat_id=feat_id))
         for trait_id in body.trait_ids:
             last_level_row.traits.append(CharacterTrait(trait_id=trait_id))
+        for base_class_id_str, spell_ids in body.spell_ids.items():
+            base_class_id = UUID(base_class_id_str)
+            for spell_id in spell_ids:
+                last_level_row.spells.append(CharacterSpell(base_class_id=base_class_id, spell_id=spell_id))
 
     db.add(character)
     db.commit()
@@ -285,6 +353,68 @@ def rename_character(
     db.commit()
     db.refresh(character)
     return character
+
+
+@router.post("/{character_id}/spellbook", response_model=CharacterRead, status_code=201)
+def add_to_spellbook(character_id: UUID, body: SpellbookAdd, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """In-play "add a spell to the spellbook" (`requirements_v2.md` §2.2:
+    managed like inventory, not just at creation/level-up). Arcane-prepared
+    classes only — spontaneous casters only ever learn new spells at
+    level-up (`rules/spells.py`), and divine-prepared casters already have
+    the full class list available, nothing to add. Uncapped (no server-side
+    limit): gold/downtime cost for scribing a new spell isn't tracked yet."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    root = db.get(BaseClass, body.base_class_id)
+    if root is None or root.arch_class_of is not None:
+        raise HTTPException(status_code=422, detail="Unknown base_class_id")
+    class_level = sum(1 for level in character.levels if level.base_class_id == root.id)
+    if class_level == 0:
+        raise HTTPException(status_code=422, detail="This character isn't taking that class")
+
+    class_def = _class_def(root.name) or {}
+    if class_def.get("spellType") != "arcane-prepared":
+        raise HTTPException(status_code=422, detail=f"{root.name} doesn't manage a spellbook this way")
+
+    class_spell = db.scalar(
+        select(BaseClassSpell).where(
+            BaseClassSpell.base_class_id == root.id, BaseClassSpell.spell_id == body.spell_id
+        )
+    )
+    if class_spell is None:
+        raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
+    if class_spell.grade != 0 and class_spell.grade not in known_grades(db, root.id, class_level):
+        raise HTTPException(status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {root.name}")
+
+    already_known = any(
+        entry.base_class_id == root.id and entry.spell_id == body.spell_id
+        for level in character.levels
+        for entry in level.spells
+    )
+    if already_known:
+        raise HTTPException(status_code=422, detail="Spell is already in the spellbook")
+
+    last_level = character.levels[-1]
+    last_level.spells.append(CharacterSpell(base_class_id=root.id, spell_id=body.spell_id))
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.delete("/{character_id}/spellbook/{spell_id}", status_code=204)
+def remove_from_spellbook(character_id: UUID, spell_id: UUID, db: Annotated[Session, Depends(get_db)]) -> None:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    entries = [entry for level in character.levels for entry in level.spells if entry.spell_id == spell_id]
+    if not entries:
+        raise HTTPException(status_code=404, detail="Spell not found in spellbook")
+    for entry in entries:
+        db.delete(entry)
+    db.commit()
 
 
 @router.delete("/{character_id}", status_code=204)

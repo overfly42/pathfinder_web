@@ -1,6 +1,6 @@
 import { ABILITY_KEYS, type AbilityKey } from '../types/abilities';
 import type { CreationDraft, DraftGearItem } from '../types/creationDraft';
-import type { CreationOptions, RaceOption } from '../types/creationOptions';
+import type { ClassDef, CreationOptions, RaceOption } from '../types/creationOptions';
 
 export function abilityMod(score: number): number {
   return Math.floor((score - 10) / 2);
@@ -62,12 +62,55 @@ export function featMax(draft: CreationDraft, options: CreationOptions): number 
   return base + raceBonus + classBonus;
 }
 
-export function spellPickMax(level: number): number {
-  return 2 + Math.floor(level / 4);
-}
-
 export function classDef(options: CreationOptions, className: string) {
   return options.classes.find((c) => c.name === className);
+}
+
+/** Total level taken in one specific class across every `classRows` entry
+ *  with that name (a class picked non-contiguously across multiple rows
+ *  still has one combined level for spell-budget purposes). */
+export function classTotalLevel(draft: CreationDraft, className: string): number {
+  return draft.classRows.filter((r) => r.className === className).reduce((sum, r) => sum + (r.level || 0), 0);
+}
+
+/** Non-grade-0 spellbook picks available to an arcane-prepared (Wizard-style)
+ *  caster: `2 + ability_mod` from reaching 1st level, +2 more per level
+ *  after. Grade-0 spells are handled separately (all of them, always) — see
+ *  `spellIdsForSubmission`. Mirrors the backend's
+ *  `rules/spells.py::arcane_prepared_budget` — keep both in sync. */
+export function arcanePreparedBudget(level: number, abilityModValue: number): number {
+  if (level < 1) return 0;
+  return (2 + abilityModValue) + 2 * (level - 1);
+}
+
+/** Which spell grades are castable at all at this class level, and (for
+ *  spontaneous casters) the known-spell cap per grade — straight from
+ *  `ClassDef.spellsKnownByLevel`, itself sourced from `BaseClassSpellsKnown`.
+ *  `null` counts (arcane-prepared classes) mean "accessible, uncapped". */
+export function spellGradeBudgetAtLevel(cls: ClassDef, level: number): Record<string, number | null> {
+  return cls.spellsKnownByLevel[String(level)] ?? {};
+}
+
+/** Every id a spontaneous/arcane-prepared class-row's picks should be
+ *  submitted as: for arcane-prepared classes this unions in every grade-0
+ *  spell (mandatory, not itself a player pick — see `SpellsStep.tsx`) with
+ *  whatever the player chose; for spontaneous classes it's just the picks.
+ *  Divine-prepared/none classes never appear here (no known-spell list to
+ *  submit). Keyed by `base_class_id`, matching `CharacterCreate.spell_ids`. */
+export function spellIdsForSubmission(draft: CreationDraft, options: CreationOptions): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+  for (const className of spellcastingClasses(draft, options)) {
+    const cls = classDef(options, className);
+    if (!cls?.id) continue;
+    const picked = draft.spellSelections[cls.id] ?? [];
+    if (cls.spellType === 'arcane-prepared') {
+      const mandatory = (options.spellsByClass[className] ?? []).filter((s) => s.grade === 0).map((s) => s.id);
+      result[cls.id] = Array.from(new Set([...mandatory, ...picked]));
+    } else {
+      result[cls.id] = picked;
+    }
+  }
+  return result;
 }
 
 export function classSkillSet(draft: CreationDraft, options: CreationOptions): Set<string> {

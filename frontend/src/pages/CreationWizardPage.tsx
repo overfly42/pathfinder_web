@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
-import { selectedRace } from '../lib/creationCalculations';
+import { selectedRace, spellIdsForSubmission } from '../lib/creationCalculations';
 import { useCreationOptions } from '../hooks/useCreationOptions';
 import { useAppState } from '../state/AppStateContext';
 import { createInitialDraft } from '../lib/initialDraft';
@@ -107,6 +107,7 @@ export function CreationWizardPage() {
           skill_ranks: draft.skillRanks,
           feat_ids: draft.feats,
           trait_ids: draft.traits,
+          spell_ids: spellIdsForSubmission(draft, opts),
         });
         setSubmitState('success');
       } catch {

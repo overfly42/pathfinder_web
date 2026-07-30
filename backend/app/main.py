@@ -15,9 +15,10 @@ from .models import (
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSkill,
+    BaseClassSpellsKnown,
     Character,
 )
-from .routers import characters, feats, races, skills, traits, users
+from .routers import characters, feats, races, skills, spells, traits, users
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .schemas.character import CharacterRead
 
@@ -53,6 +54,7 @@ app.include_router(races.router)
 app.include_router(skills.router)
 app.include_router(feats.router)
 app.include_router(traits.router)
+app.include_router(spells.router)
 app.include_router(characters.router)
 
 
@@ -121,10 +123,15 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     `app/seed/class_ability_seed.py`. `bonusFeatLevels` (which levels of this
     class grant a bonus feat slot, e.g. Krieger's 1st and every even level)
     lets the frontend compute `featMax` without hardcoding a class name —
-    see `rules/feat_slots.py`."""
+    see `rules/feat_slots.py`. `id` (the root `BaseClass` id — `null` if this
+    class name has no matching root row) is exposed so the frontend can key
+    `CharacterCreate.spell_ids`/`spellbook` calls by `base_class_id`, same
+    reasoning as `castingAbility`/`spellTradition`/`spellsKnownByLevel`
+    (roadmap slice 3's spellbook pass, see `rules/spells.py`)."""
     classes = load_fixture("classes.json")
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_id_by_name = {root.name: root.id for root in roots}
+    roots_by_id = {root.id: root for root in roots}
 
     class_skills = db.scalars(select(BaseClassSkill)).all()
     skill_ids_by_root_id: dict = {}
@@ -152,22 +159,31 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     for grant in bonus_feat_grants:
         bonus_feat_levels_by_root_id.setdefault(grant.base_class_id, []).append(grant.level)
 
+    # {root_id: {level: {grade: count | None}}} — count is null for
+    # arcane-prepared classes (grade-gating only, see rules/spells.py); the
+    # frontend's spell-picker budget math (creationCalculations.ts) mirrors
+    # the backend's rules/spells.py against this same table.
+    known_by_root_id: dict = {}
+    for row in db.scalars(select(BaseClassSpellsKnown)).all():
+        by_level = known_by_root_id.setdefault(row.base_class_id, {})
+        by_level.setdefault(str(row.level), {})[str(row.grade)] = row.count
+
     for class_def in classes:
         root_id = root_id_by_name.get(class_def["name"])
+        root = roots_by_id.get(root_id) if root_id else None
+        class_def["id"] = str(root_id) if root_id else None
         class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
+        class_def["castingAbility"] = root.casting_ability if root else None
+        class_def["spellTradition"] = root.spell_tradition if root else None
+        class_def["spellsKnownByLevel"] = known_by_root_id.get(root_id, {}) if root_id else {}
     return classes
 
 
 @app.get("/api/abilities")
 def get_abilities() -> list:
     return load_fixture("abilities.json")
-
-
-@app.get("/api/spells-by-class")
-def get_spells_by_class() -> dict:
-    return load_fixture("spells_by_class.json")
 
 
 @app.get("/api/point-buy-costs")

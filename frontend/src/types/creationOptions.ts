@@ -31,6 +31,9 @@ export interface ClassOptionGroup {
 }
 
 export interface ClassDef {
+  /** Root `BaseClass` id — `null` if this class name has no matching DB row
+   *  (shouldn't happen for any class.json entry, but the backend allows it). */
+  id: string | null;
   name: string;
   archetypes: string[];
   skillPointsBase: number;
@@ -41,6 +44,16 @@ export interface ClassDef {
    *  and every even level) — real data from `base_class_ability_grants`, not
    *  a hardcoded class name; see `featMax` in `creationCalculations.ts`. */
   bonusFeatLevels: number[];
+  /** 2-letter ability code the class casts with (e.g. IN for Wizard), or
+   *  `null` for non-casters. */
+  castingAbility: AbilityKey | null;
+  spellTradition: 'arcane' | 'divine' | null;
+  /** level (stringified) -> grade (stringified) -> known-spell cap, or
+   *  `null` for arcane-prepared classes (grade-*presence*, not count, is the
+   *  gate there — see `rules/spells.py` on the backend). Mirrors
+   *  `BaseClassSpellsKnown`; keep the frontend budget math in
+   *  `creationCalculations.ts` in sync with the backend's `rules/spells.py`. */
+  spellsKnownByLevel: Record<string, Record<string, number | null>>;
 }
 
 export interface SkillDef {
@@ -75,6 +88,12 @@ export interface ItemCatalogEntry {
   price: number;
 }
 
+export interface SpellDef {
+  id: string;
+  name: string;
+  grade: number;
+}
+
 export interface CreationOptions {
   races: RaceOption[];
   classes: ClassDef[];
@@ -82,7 +101,10 @@ export interface CreationOptions {
   traits: TraitDef[];
   skills: SkillDef[];
   abilities: AbilityDef[];
-  spellsByClass: Record<string, string[]>;
+  /** class name -> that class's spell list, sorted by grade then name.
+   *  Only present for spontaneous/arcane-prepared classes (divine-prepared
+   *  classes have no fixed known-spell list to pick from). */
+  spellsByClass: Record<string, SpellDef[]>;
   pointBuyCosts: Record<number, number>;
   items: ItemCatalogEntry[];
 }

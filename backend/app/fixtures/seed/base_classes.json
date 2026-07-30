@@ -3,216 +3,288 @@
     "id": "4558a936-bc38-4e40-afd8-bb85a7a03438",
     "name": "Barbar",
     "hit_dice": 12,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "d86ed793-9019-4df6-a004-ded7e21c760b",
     "name": "Barde",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "CH",
+    "spell_tradition": "arcane"
   },
   {
     "id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
     "name": "Druide",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "WE",
+    "spell_tradition": "divine"
   },
   {
     "id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
     "name": "Hexenmeister",
     "hit_dice": 6,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "CH",
+    "spell_tradition": "arcane"
   },
   {
     "id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
     "name": "Kleriker",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "WE",
+    "spell_tradition": "divine"
   },
   {
     "id": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
     "name": "Krieger",
     "hit_dice": 10,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "name": "Magier",
     "hit_dice": 6,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "IN",
+    "spell_tradition": "arcane"
   },
   {
     "id": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
     "name": "Mönch",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "name": "Orakel",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "CH",
+    "spell_tradition": "divine"
   },
   {
     "id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
     "name": "Paladin",
     "hit_dice": 10,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "name": "Schurke",
     "hit_dice": 8,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "name": "Waldläufer",
     "hit_dice": 10,
-    "arch_class_of": null
+    "arch_class_of": null,
+    "casting_ability": "WE",
+    "spell_tradition": "divine"
   },
   {
     "id": "f0f0df1f-cbba-4127-ad17-7457c1b40075",
     "name": "Berserker",
     "hit_dice": null,
-    "arch_class_of": "4558a936-bc38-4e40-afd8-bb85a7a03438"
+    "arch_class_of": "4558a936-bc38-4e40-afd8-bb85a7a03438",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "7b185134-2bab-4756-a119-7201dcc14fce",
     "name": "Invulnerable Rager",
     "hit_dice": null,
-    "arch_class_of": "4558a936-bc38-4e40-afd8-bb85a7a03438"
+    "arch_class_of": "4558a936-bc38-4e40-afd8-bb85a7a03438",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "3112b74c-6991-4a27-bfbc-84a8cadf6fe4",
     "name": "Archivar",
     "hit_dice": null,
-    "arch_class_of": "d86ed793-9019-4df6-a004-ded7e21c760b"
+    "arch_class_of": "d86ed793-9019-4df6-a004-ded7e21c760b",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "9bb1a408-52ac-4e16-80ac-31d9770a9b8c",
     "name": "Sänger der Meere",
     "hit_dice": null,
-    "arch_class_of": "d86ed793-9019-4df6-a004-ded7e21c760b"
+    "arch_class_of": "d86ed793-9019-4df6-a004-ded7e21c760b",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "23286620-ec21-4f57-9860-0cb18dfef199",
     "name": "Tierfreund",
     "hit_dice": null,
-    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf"
+    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "34624158-d13a-4270-99e6-60dd7321fd13",
     "name": "Weltenwandler",
     "hit_dice": null,
-    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf"
+    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "607eb088-6119-411a-b963-3ef26bd9f035",
     "name": "Fluchbringer",
     "hit_dice": null,
-    "arch_class_of": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e"
+    "arch_class_of": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "e8e962c8-5c91-44ca-a446-b5c55c06e599",
     "name": "Blutlinie: Drache",
     "hit_dice": null,
-    "arch_class_of": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e"
+    "arch_class_of": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "8f74c5ac-3146-4dda-870d-8e390d3e0425",
     "name": "Kriegspriester",
     "hit_dice": null,
-    "arch_class_of": "1e6e60de-d72f-4910-b19d-55ca11e14190"
+    "arch_class_of": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "fc55371b-b4c3-4de6-8362-6e6afa2f69ba",
     "name": "Heiler des Volkes",
     "hit_dice": null,
-    "arch_class_of": "1e6e60de-d72f-4910-b19d-55ca11e14190"
+    "arch_class_of": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "645fa4e8-dfc9-43eb-b210-2028dd9a7fe9",
     "name": "Waffenmeister",
     "hit_dice": null,
-    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50"
+    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "b90958cd-5375-4cf2-a888-ac4b0a8d9636",
     "name": "Söldnerkommandant",
     "hit_dice": null,
-    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50"
+    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "fb972afe-5673-4d06-813f-253dc095c509",
     "name": "Beschwörer",
     "hit_dice": null,
-    "arch_class_of": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c"
+    "arch_class_of": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "101f5bbe-881d-4d62-aa8d-2e67850826c1",
     "name": "Kriegsmagier",
     "hit_dice": null,
-    "arch_class_of": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c"
+    "arch_class_of": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "53f8caf6-7441-4254-9969-1bcab124467a",
     "name": "Zen-Archer",
     "hit_dice": null,
-    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d"
+    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "48092ba5-8946-40d0-b2a6-4e243caa1e14",
     "name": "Fäuste des Windes",
     "hit_dice": null,
-    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d"
+    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "3fa7ffc0-fd57-43ee-8456-101e5138ddfe",
     "name": "Wiedergänger",
     "hit_dice": null,
-    "arch_class_of": "949fe615-12a0-4eed-9e2e-25eaab3e3153"
+    "arch_class_of": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "b4b14671-e3a4-4c9a-98db-ebb1a1168f87",
     "name": "Lebensbündnis",
     "hit_dice": null,
-    "arch_class_of": "949fe615-12a0-4eed-9e2e-25eaab3e3153"
+    "arch_class_of": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "47b3516f-7f49-4be5-be74-ad073e33ba10",
     "name": "Rächer",
     "hit_dice": null,
-    "arch_class_of": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e"
+    "arch_class_of": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "731c4096-ab54-4924-9bf4-3a84f59339a7",
     "name": "Hüter des Glaubens",
     "hit_dice": null,
-    "arch_class_of": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e"
+    "arch_class_of": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "50e19825-9304-4226-8344-14899717cb4d",
     "name": "Meucheldieb",
     "hit_dice": null,
-    "arch_class_of": "08e2442c-c672-490b-a7d0-b89cdd89454c"
+    "arch_class_of": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "93000a82-a65d-4212-af03-1112caf4ee98",
     "name": "Klingentänzer",
     "hit_dice": null,
-    "arch_class_of": "08e2442c-c672-490b-a7d0-b89cdd89454c"
+    "arch_class_of": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "3583d3e8-b786-4b07-b288-fcf11bbd2c2c",
     "name": "Bogenschütze",
     "hit_dice": null,
-    "arch_class_of": "91ab69e8-7ab5-46de-af7f-292f585645b4"
+    "arch_class_of": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "casting_ability": null,
+    "spell_tradition": null
   },
   {
     "id": "814b90c3-16fc-40f2-a0a9-9ba4fb61cc8e",
     "name": "Gefährtenbinder",
     "hit_dice": null,
-    "arch_class_of": "91ab69e8-7ab5-46de-af7f-292f585645b4"
+    "arch_class_of": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "casting_ability": null,
+    "spell_tradition": null
   }
 ]

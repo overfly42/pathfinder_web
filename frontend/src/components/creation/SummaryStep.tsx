@@ -9,6 +9,7 @@ import {
   gearTotalValue,
   selectedRace,
   skillBonus,
+  spellIdsForSubmission,
   totalAbility,
   totalLevel,
 } from '../../lib/creationCalculations';
@@ -42,7 +43,14 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
     }
   }
 
-  const spellLines = Object.entries(draft.spellSelections).filter(([, spells]) => spells.length > 0);
+  const spellNameById = new Map(Object.values(options.spellsByClass).flat().map((s) => [s.id, s.name]));
+  const classNameByBaseClassId = new Map(options.classes.filter((c) => c.id).map((c) => [c.id as string, c.name]));
+  const spellLines = Object.entries(spellIdsForSubmission(draft, options))
+    .filter(([, ids]) => ids.length > 0)
+    .map(
+      ([baseClassId, ids]) =>
+        [classNameByBaseClassId.get(baseClassId) ?? baseClassId, ids.map((id) => spellNameById.get(id) ?? id)] as const,
+    );
 
   return (
     <>

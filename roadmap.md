@@ -353,7 +353,109 @@ Cheapest slice — proves the whole pattern before harder ones.
       shared `PickList` (defaults to none, so `FeatsStep` is unaffected).
       `useCreationOptions`/`CreationOptions.traits` was retyped from
       `string[]` to a new `TraitDef[]` (id/name/description/area).
-- [ ] Starting spellbook/known spells.
+- [x] Starting spellbook/known spells. Decided ahead of implementation (unlike
+      classes/skills, spells had no ER-diagram entities at all until now, and
+      `spells_by_class.json` is bare name lists with no per-spell grade
+      anywhere — the only place "grade" existed was hardcoded per-character
+      mock data in `character_1.json`, disconnected from the class spell
+      list): pull spells into the database this slice rather than deferring
+      to slice 8, same reasoning as feats/traits — `CharacterSpell` needs a
+      real FK target, and a shared spell catalog needs a stable id to hang a
+      grade on. Scope for this pass is the known/spellbook list only
+      (creation + level-up picker persistence + the add/remove-during-play
+      endpoint) — daily prepare/cast tracking and "is this legal right now"
+      checks stay deferred to slice 6, since `Spellbook.tsx`'s prepare-toggle
+      UI is still driven by mock per-character fixture data, not a real
+      per-day tracking model. Bonus spell slots from a high ability score
+      (e.g. CHA 12 granting an extra grade-1 slot/day) are part of that
+      deferred per-day tracking too, and out of scope here.
+
+      Schema, finalized against real PF1e mechanics (not just mirroring the
+      feat/trait shape) after a design pass:
+      - `BaseSpell` (id, name, school, description) — identity only, same
+        composition-vs-computation split as everywhere else.
+      - `BaseSpellComponents` (spell_id, tradition, verbal, somatic,
+        material, material_description, focus, focus_description) — a
+        spell's verbal/somatic/material/focus components can differ between
+        its arcane and divine version, so this is keyed by
+        `(spell_id, tradition)`, not by spell alone. Modeled now for a later
+        "available actions" pass (slice 6) that will actually check for a
+        component pouch/focus item; has no effect yet.
+      - `BaseClassSpell` (base_class_id, spell_id, grade) — a spell's grade
+        is per-class in PF1e (e.g. Cleric 3rd / Bard 2nd for the same
+        spell), not a spell-level constant. Mirrors `BaseClassSkill`'s join
+        shape.
+      - `BaseClassSpellsKnown` (base_class_id, level, grade, count) — the
+        classic per-class spells-known-by-level table (e.g. a 3rd-level
+        Sorcerer knows 4× grade-0, 2× grade-1). Doubles as the grade-gate:
+        if no row exists for a given `(base_class_id, level, grade)`, that
+        grade isn't accessible at that level, for any casting style. For
+        spontaneous casters (`spellType: 'spontaneous'`) `count` is the
+        cumulative known-spells cap at that level/grade — a level-up only
+        grants the *delta* from the previous level's count (e.g. 2 known at
+        level 1 → 3 known at level 2 grants exactly one new pick, not three).
+        For arcane-prepared (Wizard-style) classes, `count` isn't used to
+        cap known spells (the spellbook has no cap); only row *presence*
+        matters, for grade-gating.
+      - `BaseClass` gains two real columns (not fixture fields, since these
+        are new and the intent is fewer fixtures over time, not more):
+        `casting_ability` (2-letter code, e.g. CH for Bard/Sorcerer, IN for
+        Wizard, WE for Druid/Cleric/Ranger; null for non-casters) and
+        `spell_tradition` (`arcane`/`divine`/null) — the latter is what
+        `BaseSpellComponents` keys off of.
+      - Arcane-prepared (Wizard-style) spellbook growth: at class level 1,
+        all grade-0 spells plus `2 + casting-ability-mod` grade-1 spells;
+        each level after that, +2 new spells of any grade currently
+        accessible (per `BaseClassSpellsKnown`'s gate) — "below its maximum"
+        grade is an allowed pick, not a forced one. Separately, and
+        independent of level-up, the player can add further spells to the
+        spellbook at any time via the in-play add-to-spellbook action, with
+        no server-side cap (gold/downtime cost isn't tracked yet).
+      - Non-spontaneous, non-arcane-prepared casters (`spellType:
+        'divine-prepared'` — Cleric/Druid/Ranger-style) have no known-spell
+        list at all; they prepare from the full class spell list. No
+        `CharacterSpell` rows or picker for these classes in this pass,
+        matching `SpellsStep.tsx`'s existing messaging.
+      - `CharacterSpell` (level_id, base_class_id, spell_id) — per-
+        `CharacterLevel` audit row, same shape as `CharacterFeat`/
+        `CharacterTrait`, but also keyed by `base_class_id` since a
+        multiclassed character's known-spell budget is tracked separately
+        per class. The in-play "add to spellbook" action
+        (`requirements_v2.md` §2.2, `POST /api/characters/{id}/spellbook`,
+        plus `DELETE .../spellbook/{spell_id}`) collapses onto the
+        character's current highest `CharacterLevel`, same pattern used for
+        multi-level creation elsewhere.
+
+      Implementation: `backend/app/models/spell.py`, migration
+      `c2c1f53b71b2`, seed data + idempotent seed script
+      (`backend/app/fixtures/seed/base_spells.json` +
+      `base_spell_components.json` + `base_class_spells.json` +
+      `base_class_spells_known.json`, `backend/app/seed/spell_seed.py`;
+      `base_classes.json` gained `casting_ability`/`spell_tradition` per
+      caster class), budget/gating logic in `backend/app/rules/spells.py`
+      (mirrored on the frontend in `creationCalculations.ts` — keep both in
+      sync), validation wired into `POST /api/characters`
+      (`CharacterCreate.spell_ids`) and the two new endpoints in
+      `routers/characters.py`. `GET /api/spells` and `GET /api/spells-by-class`
+      (`routers/spells.py`) are now real, replacing the old
+      `spells_by_class.json` fixture endpoint; `GET /api/classes` additionally
+      exposes each class's `id`/`castingAbility`/`spellTradition`/
+      `spellsKnownByLevel`. `SpellsStep.tsx` (creation) and `LevelSpellStep.tsx`
+      (level-up) pick by spell id against the real per-grade budgets instead
+      of the old flat `spellPickMax` guess; `spellIdsForSubmission`
+      (creationCalculations.ts) unions in the mandatory grade-0 spells for
+      arcane-prepared classes before `POST /api/characters`. Covered by 18
+      new backend tests (`backend/tests/test_spells.py` +
+      `test_characters.py`) and an end-to-end browser smoke test through the
+      real creation wizard.
+
+      **Not done in this pass** (explicitly out of scope, see above): the
+      character *sheet*'s `Spellbook.tsx`/`CharacterSheetPage.tsx` still run
+      entirely on the two mock character fixtures, not a real backend
+      character, so the new `POST`/`DELETE .../spellbook` endpoints aren't
+      wired into the sheet UI yet — same "thin shape only" limitation as
+      gear/inventory. They're ready to use once the sheet gets its full
+      computed shape (later slice-3-adjacent work).
 - [ ] Deliberately deferred further: archetype-conflict checking for
       classes (needs a data-model decision on which archetypes mutually
       exclude each other — not yet made; the equivalent question for races

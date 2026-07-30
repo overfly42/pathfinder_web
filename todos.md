@@ -72,8 +72,8 @@ Vollständige Beschreibung/Zweck je Endpunkt in `readme.md` (Abschnitt „API En
 
 Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 
-**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats`/`GET /api/traits` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
-- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats`, `GET /api/traits` (Datenbank), `GET /api/classes`, `GET /api/abilities`, `GET /api/spells-by-class`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
+**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats`/`GET /api/traits`/`GET /api/spells`/`GET /api/spells-by-class` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
+- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats`, `GET /api/traits`, `GET /api/spells`, `GET /api/spells-by-class` (Datenbank), `GET /api/classes` (Fixture, überlagert mit Datenbank-Feldern — siehe `readme.md`), `GET /api/abilities`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
 - [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
 
 **Nutzerverwaltung** — alle ✅ implementiert (echte `users`-Tabelle, `backend/app/routers/users.py`):
@@ -103,12 +103,14 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [ ] `POST /api/characters/{character_id}/advance-time`
 - [ ] `POST /api/characters/{character_id}/rest`
 
-**Zauber** — alle ❌ nicht implementiert:
+**Zauber** — bekannte Zauber/Zauberbuch (Slice 3) ✅, Vorbereiten/Wirken pro Tag (Slice 6) ❌:
 - [ ] `POST /api/characters/{character_id}/spells/{spell_id}/cast`
 - [ ] `POST /api/characters/{character_id}/spells/{spell_id}/prepare`
 - [ ] `DELETE /api/characters/{character_id}/spells/{spell_id}/prepare`
-- [ ] `POST /api/characters/{character_id}/spellbook`
-- [ ] `DELETE /api/characters/{character_id}/spellbook/{spell_id}`
+- [x] `POST /api/characters/{character_id}/spellbook` (nur arkan-vorbereitende Klassen, siehe `roadmap.md`)
+- [x] `DELETE /api/characters/{character_id}/spellbook/{spell_id}`
+- [x] `POST /api/characters` (`spell_ids`) — bekannte Zauber/Zauberbuch bei Erstellung, real gegen `BaseClassSpellsKnown` validiert
+- [ ] Backend-Endpunkte oben sind fertig, aber **im Charakterbogen (`Spellbook.tsx`/`CharacterSheetPage.tsx`) noch nicht verdrahtet** — die Sheet-Ansicht läuft weiterhin komplett auf den beiden Mock-Charakter-Fixtures, nicht auf einem echten Backend-Charakter (siehe React-Frontend-Abschnitt unten und „Ausrüstungs-Slots" oben). Der Stufenaufstiegs-Assistent (`LevelSpellStep.tsx`) wurde auf die neuen Grad-/Budget-Regeln umgestellt, bleibt aber wie der Rest von Stufenaufstieg rein session-lokal (kein echter Endpoint, siehe roadmap Slice 7).
 
 **Ausrüstung/Inventar** — alle ❌ nicht implementiert:
 - [ ] `POST /api/characters/{character_id}/gear`
@@ -136,7 +138,7 @@ Ergänzung zu „UI-Mocks — Offene Punkte" oben: dort ging es um die drei stat
 - [x] **Kein Freitext-Zustand/Effekt mit frei wählbarer Dauer**: „+ Eigener Zustand"-Formular im Effekte-Panel (Name + optionale Rundenzahl, leer = „bis Rast").
 - [x] **Kurze Rast vs. Tageswechsel weiterhin nicht unterschieden**: eigener „Kurze Rast"-Button (löst nur „bis Rast"-Effekte auf + erneuert Zauberplätze, ohne Rundenzähler zu verändern); „+1 Tag" behandelt einen Tag jetzt als endliche Rundenzahl (24 h) statt alle Effekte pauschal zu löschen, und schließt zusätzlich eine Rast ein.
 - [ ] **Tagesbasierte Folgeeffekte (Gift/Krankheit) weiterhin nicht modelliert** — bewusst zurückgestellt, eigene Simulationslogik nötig.
-- [x] **Zauberbuch/bekannte Zauber nicht als laufende Inventarliste im Sheet editierbar**: „+ Zauber hinzufügen" / „✕" pro Zauber in `Spellbook.tsx`, analog zur Ausrüstungsliste.
+- [x] **Zauberbuch/bekannte Zauber nicht als laufende Inventarliste im Sheet editierbar**: „+ Zauber hinzufügen" / „✕" pro Zauber in `Spellbook.tsx`, analog zur Ausrüstungsliste. Bleibt reiner Session-State — die neuen echten Backend-Endpunkte (`POST`/`DELETE .../spellbook`, roadmap Slice 3) sind noch nicht angebunden, da `Spellbook.tsx`/`CharacterSheetPage.tsx` weiterhin komplett auf den beiden Mock-Charakter-Fixtures laufen, nicht auf einem echten Backend-Charakter.
 - [x] **Item-Detail-Modal nicht an Item-ID gebunden (Bug)**: `ItemDetailModal` bekommt jetzt das echte `GearItem` (nicht nur den Namen), seedet seinen State pro Item-ID neu und schreibt Verstärkung/Eigenschaften über `onSave` zurück in `character.gear` (`GearItem` hat dafür neue optionale Felder `enhancement`/`properties`).
 - [ ] **Ausrüstungs-Slots nicht ans Inventar gekoppelt / AC nicht neu berechnet**: bewusst zurückgestellt — AC soll laut Entscheidung künftig vom Backend berechnet werden, nicht im Frontend; erst nach diesem Architekturschritt sinnvoll umsetzbar.
 - [ ] **Kein UI für Charakterhintergrund**: weiterhin offen (neues Feature, kein Bugfix).
