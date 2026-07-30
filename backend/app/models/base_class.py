@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -40,3 +40,31 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def effective_hit_dice(self) -> int | None:
         return self.root.hit_dice
+
+
+class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Identity-only catalog of class features (Channel Energy, Rage, Sneak
+    Attack, ...) — mirrors `BaseRaceAbility`. Exists only so feat
+    prerequisites can reference a class ability by id (`BaseFeatRequiredClassAbility`
+    in `feat.py`); it is not yet a general class-features model (no
+    mechanical fields, no handler registry) — that is a larger, separate
+    effort than the feats slice this was introduced for."""
+
+    __tablename__ = "base_class_abilities"
+
+    name: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str] = mapped_column(Text)
+
+
+class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Which class grants which class ability, and at what level.
+    `base_class_id` is always a root class's id (`arch_class_of is None`) —
+    same simplification as `BaseClassSkill`: no archetype swaps a class
+    ability yet."""
+
+    __tablename__ = "base_class_ability_grants"
+    __table_args__ = (UniqueConstraint("base_class_id", "ability_id"),)
+
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    level: Mapped[int] = mapped_column(Integer)
