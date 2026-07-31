@@ -32,6 +32,7 @@ from .models import (
     BaseClass,
     BaseClassAbility,
     BaseClassAbilityGrant,
+    BaseClassAbilityReplacement,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSkill,
@@ -176,6 +177,18 @@ def _build_class_features(
     if not level_counts_by_root_id:
         return []
 
+    # Archetypes don't have independent levels — an archetype's own grants
+    # (`BaseClassAbilityGrant.base_class_id` = the archetype's id, see that
+    # model's docstring) are gated against the level count of the root class
+    # they're taken with, same as the root's own grants.
+    root_id_by_class_id: dict[UUID, UUID] = {root_id: root_id for root_id in level_counts_by_root_id}
+    archetype_ids: set[UUID] = set()
+    for membership in character.class_memberships:
+        base_class = membership.base_class
+        if base_class.arch_class_of in level_counts_by_root_id:
+            root_id_by_class_id[base_class.id] = base_class.arch_class_of
+            archetype_ids.add(base_class.id)
+
     chosen_option_ids: set[UUID] = set()
     for option in character.class_options:
         choice_row = db.scalar(
@@ -191,12 +204,24 @@ def _build_class_features(
             chosen_option_ids.add(choice_row.id)
 
     grants = db.scalars(
-        select(BaseClassAbilityGrant).where(BaseClassAbilityGrant.base_class_id.in_(level_counts_by_root_id))
+        select(BaseClassAbilityGrant).where(BaseClassAbilityGrant.base_class_id.in_(root_id_by_class_id))
     ).all()
+
+    replaced_grant_ids: set[UUID] = set()
+    if archetype_ids:
+        replaced_grant_ids = set(
+            db.scalars(
+                select(BaseClassAbilityReplacement.replaces_grant_id).where(
+                    BaseClassAbilityReplacement.archetype_class_id.in_(archetype_ids)
+                )
+            ).all()
+        )
 
     ability_ids: set[UUID] = set()
     for grant in grants:
-        if grant.level > level_counts_by_root_id[grant.base_class_id]:
+        if grant.id in replaced_grant_ids:
+            continue
+        if grant.level > level_counts_by_root_id[root_id_by_class_id[grant.base_class_id]]:
             continue
         if grant.option_choice_id is not None and grant.option_choice_id not in chosen_option_ids:
             continue

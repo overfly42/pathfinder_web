@@ -154,7 +154,8 @@
     "archetypes": [
       "Keiner",
       "Waffenmeister",
-      "Söldnerkommandant"
+      "Söldnerkommandant",
+      "Zwei-Waffen-Kämpfer"
     ],
     "skillPointsBase": 2,
     "spellType": "none",

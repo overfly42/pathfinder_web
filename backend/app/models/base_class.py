@@ -93,9 +93,14 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Which class grants which class ability, and at what level.
-    `base_class_id` is always a root class's id (`arch_class_of is None`) —
-    same simplification as `BaseClassSkill`: no archetype swaps a class
-    ability yet.
+    `base_class_id` is usually a root class's id (`arch_class_of is None`) —
+    same simplification as `BaseClassSkill` for classes that don't need
+    otherwise. An archetype that adds its own class features (rather than
+    only replacing base ones) instead has grant rows of its own, with
+    `base_class_id` set to the archetype's `BaseClass` id and `level` still
+    read against the character's level in the parent root class (archetypes
+    don't have independent levels) — see `BaseClassAbilityReplacement` for
+    how those archetype grants supersede specific root grants.
 
     `option_choice_id` is null for a grant every member of the class gets
     (e.g. Cleric's Channel Energy) and set for a grant conditional on one
@@ -120,6 +125,28 @@ class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
     )
     level: Mapped[int] = mapped_column(Integer)
+
+
+class BaseClassAbilityReplacement(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Scopes an archetype's class-feature swap to one specific parent grant:
+    within `archetype_class_id` (an archetype `BaseClass` row, `arch_class_of`
+    set), `ability_id` replaces `replaces_grant_id` — one exact
+    `BaseClassAbilityGrant` row of the parent root class, not the whole
+    ability. Grant-level rather than ability-level (contrast
+    `RaceAbilityReplacement`, which is ability-level since racial alternate
+    traits aren't leveled) because a Kämpfer archetype typically only swaps
+    some of a recurring feature's grants — e.g. Zwei-Waffen-Kämpfer's
+    Defensiver Wirbel replaces only the Kämpfer's level-3 and level-7
+    Rüstungstraining grants, leaving the level-11/15 grants to be separately
+    replaced by that archetype's Verbesserte Balance/Perfekte Balance."""
+
+    __tablename__ = "base_class_ability_replacements"
+
+    archetype_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    replaces_grant_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_ability_grants.id")
+    )
 
 
 class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):

@@ -140,6 +140,37 @@ def test_character_sheet_for_legacy_character_without_hit_points_does_not_crash(
     assert response.json()["hp"] == {"current": 0, "max": 0}
 
 
+def test_class_features_apply_archetype_replacements(client: TestClient, db_session: Session) -> None:
+    """Zwei-Waffen-Kämpfer replaces Rüstungstraining 1/2 (levels 3/7) with
+    Defensiver Wirbel, Waffentraining 1/2 (levels 5/9) with Zwillingsklingen/
+    Doppelangriff, and Rüstungstraining 3 (level 11) with Verbesserte Balance
+    — by level 11 every unlocked Rüstungstraining/Waffentraining grant has
+    been superseded, so neither base ability should show up anymore, while
+    unaffected base features (Bonus-Kampftalent, Tapferkeit, ...) still do."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Kämpfer", "level": 11, "archetypes": ["Zwei-Waffen-Kämpfer"]}],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    feature_names = {f["name"] for f in body["classFeatures"]}
+
+    assert {"Defensiver Wirbel", "Zwillingsklingen", "Doppelangriff", "Verbesserte Balance"} <= feature_names
+    assert "Rüstungstraining" not in feature_names
+    assert "Waffentraining" not in feature_names
+    assert {"Umgang mit Waffen und Rüstungen", "Tapferkeit", "Bonus-Kampftalent"} <= feature_names
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

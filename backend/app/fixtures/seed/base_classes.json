@@ -312,6 +312,19 @@
     "skill_points_base": null
   },
   {
+    "id": "c2a90668-18ca-4505-9fcc-2563ebd0bbeb",
+    "name": "Zwei-Waffen-Kämpfer",
+    "hit_dice": null,
+    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
     "id": "fb972afe-5673-4d06-813f-253dc095c509",
     "name": "Beschwörer",
     "hit_dice": null,

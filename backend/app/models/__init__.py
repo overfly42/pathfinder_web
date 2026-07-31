@@ -3,6 +3,7 @@ from .base_class import (
     BaseClass,
     BaseClassAbility,
     BaseClassAbilityGrant,
+    BaseClassAbilityReplacement,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
 )
@@ -45,6 +46,7 @@ __all__ = [
     "BaseClass",
     "BaseClassAbility",
     "BaseClassAbilityGrant",
+    "BaseClassAbilityReplacement",
     "BaseClassOptionGroup",
     "BaseClassOptionChoice",
     "BaseSkill",

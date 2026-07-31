@@ -33,5 +33,45 @@
     "id": "29d1891b-b30b-4bf2-9838-5f6a07561127",
     "name": "Waffenmeisterschaft",
     "description": "Auf der 20. Stufe wählt sich der Kämpfer eine bestimmte Waffe aus. Mit dieser Waffe bestätigt er automatisch jede Bedrohungschance eines kritischen Treffers, und der Multiplikator des kritischen Treffers erhöht sich um eins (aus x2 wird x3 und so weiter). Solange der Kämpfer die gewählte Waffe trägt, kann er nicht entwaffnet werden."
+  },
+  {
+    "id": "ac82cb23-3db4-49f9-8a1d-a645e5307334",
+    "name": "Defensiver Wirbel",
+    "description": "Ab der 3. Stufe erhält der Zwei-Waffen-Kämpfer, wenn er einen Vollen Angriff mit beiden Waffen ausführt, bis zum Beginn seines nächsten Zuges einen Ausweichbonus von +1 auf seine Rüstungsklasse gegen Nahkampfangriffe. Der Bonus steigt um weitere +1 alle vier Stufen nach der 3. Stufe. Ersetzt Rüstungstraining 1 und 2 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "43c02dfd-968c-40d7-837d-a6a19022de60",
+    "name": "Zwillingsklingen",
+    "description": "Ab der 5. Stufe erhält der Zwei-Waffen-Kämpfer einen Bonus von +1 auf seine Angriffs- und Schadenswürfe bei Vollen Angriffen mit zwei Waffen oder einer Doppelwaffe. Der Bonus steigt um weitere +1 alle vier Stufen nach der 5. Stufe. Ersetzt Waffentraining 1 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "736e04f5-b03f-4e2d-8417-4c1a141b2b5f",
+    "name": "Doppelangriff",
+    "description": "Ab der 9. Stufe kann der Zwei-Waffen-Kämpfer als Standard-Aktion einen Angriff mit seiner Haupt- und seiner Zweithand ausführen. Die Mali für Kampf mit zwei Waffen bleiben bestehen. Ersetzt Waffentraining 2 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "c2a4e336-e63d-4f2a-8af1-3f6021767012",
+    "name": "Verbesserte Balance",
+    "description": "Ab der 11. Stufe werden die Mali des Zwei-Waffen-Kämpfers im Kampf mit zwei Waffen um -1 gesenkt. Alternativ kann er eine Einhandwaffe in seiner Zweithand führen, als handle es sich dabei um eine Leichte Waffe mit den normalen Abzügen für eine leichte Waffe. Ersetzt Rüstungstraining 3 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "5dc452b7-4010-4817-a2eb-67bc371f66c3",
+    "name": "Doppelte Gelegenheit",
+    "description": "Ab der 13. Stufe kann der Zwei-Waffen-Kämpfer bei Gelegenheitsangriffen einmal mit der Haupt- und zusätzlich mit der Zweithand angreifen. Es gelten die üblichen Mali für Angriffe mit zwei Waffen. Ersetzt Waffentraining 3 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "ed480924-3da7-4d09-853c-721cb302dcc4",
+    "name": "Perfekte Balance",
+    "description": "Ab der 15. Stufe werden die Mali des Zwei-Waffen-Kämpfers im Kampf mit zwei Waffen um weitere -1 gesenkt. Dies addiert sich zu Verbesserter Balance. Alternativ kann er eine Einhandwaffe in seiner Zweithand führen, als handle es sich um eine Leichte Waffe mit den normalen Abzügen für eine Leichte Waffe. Ersetzt Rüstungstraining 4 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "4e865bbc-25b5-421c-aba0-933b73bd21ae",
+    "name": "Geschickter Doppelangriff",
+    "description": "Ab der 17. Stufe kann der Zwei-Waffen-Kämpfer, wenn er einen Gegner mit beiden Waffen trifft, das Kampfmanöver Entwaffnen oder Gegenstand zerschmettern (oder Zu-Fall-bringen, falls mindestens eine seiner Waffen hierfür verwendet werden kann) gegen diesen Gegner als Augenblickliche Aktion ausführen, ohne dabei Gelegenheitsangriffe zu provozieren. Ersetzt Waffentraining 4 (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "41d008f8-94bb-4890-aecf-ea957dc5a5f6",
+    "name": "Tödliche Verteidigung",
+    "description": "Ab der 19. Stufe provoziert jede Kreatur, die den Zwei-Waffen-Kämpfer bis zum Beginn seines nächsten Zuges trifft, nachdem er einen Vollen Angriff mit beiden Waffen geführt hat, einen Gelegenheitsangriff des Kämpfers. Ersetzt Waffenmeisterschaft (Zwei-Waffen-Kämpfer-Archetyp)."
   }
 ]

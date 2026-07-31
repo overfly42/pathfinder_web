@@ -168,6 +168,27 @@ Slice-Arbeit.
         `/api/races` exponiert — die Daten sind also vorhanden, aber vom
         Frontend noch nicht erreichbar. Archetypen (`Waffenmeister`,
         `Söldnerkommandant`) noch nicht gegen eine Quelle geprüft.
+  - [x] **Kämpfer-Archetyp Zwei-Waffen-Kämpfer** (Quelle:
+        <http://prd.5footstep.de/Expertenregeln/Klassen/Grundklassen/Kaempfer/ZweiWaffenKaempfer>):
+        Als neue `BaseClass`-Zeile (`arch_class_of` = Kämpfer) ergänzt, plus
+        alle 8 eigenen Klassenmerkmale (Defensiver Wirbel, Zwillingsklingen,
+        Doppelangriff, Verbesserte Balance, Doppelte Gelegenheit, Perfekte
+        Balance, Geschickter Doppelangriff, Tödliche Verteidigung) als
+        `BaseClassAbility`/`BaseClassAbilityGrant`-Zeilen, mit
+        `base_class_id` auf die Archetyp-Zeile statt die Kämpfer-Wurzel (bis
+        jetzt hatte kein Archetyp eigene Grants). Dafür neu eingeführt:
+        `BaseClassAbilityReplacement` (Migration `c09f87a2a76f`) — pro Zeile
+        ersetzt eine Archetyp-Fähigkeit einen konkreten
+        `BaseClassAbilityGrant` der Wurzelklasse (grant-genau, nicht
+        fähigkeits-genau wie `RaceAbilityReplacement`, weil ein
+        Kämpfer-Archetyp oft nur einzelne Stufen eines wiederkehrenden
+        Merkmals ersetzt, z. B. nur Rüstungstraining 1+2, nicht 3+4).
+        `sheet.py`s `_build_class_features` wertet das jetzt aus: ersetzte
+        Grants der Wurzelklasse fallen weg, sobald der Charakter den
+        Archetyp gewählt hat. Auch in `classes.json` und beiden
+        `pathfinder-*-mock.html`-Dateien als Archetyp-Option ergänzt.
+        `Waffenmeister`/`Söldnerkommandant` bleiben weiterhin ungeprüfte
+        Platzhalter ohne eigene Merkmale.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
