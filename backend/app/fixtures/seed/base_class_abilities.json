@@ -158,5 +158,165 @@
     "id": "1864222e-4fb1-46d0-9fad-09787afcd93c",
     "name": "Meisterjäger",
     "description": "Auf der 20. Stufe wird der Waldläufer zum Meisterjäger. Er kann sich immer mit seiner vollen Bewegungsrate bewegen und eine Spur mit Überlebenskunst verfolgen, ohne Abzüge hinzunehmen. Als Standard-Aktion kann er einen einzelnen Angriff gegen einen Erzfeind mit seinem höchsten Angriffsbonus ausführen; trifft er, nimmt der Gegner normal Schaden und muss einen Zähigkeitswurf bestehen (SG 10 + 1/2 Waldläuferstufe + WE-Modifikator) oder stirbt. Stattdessen kann der Waldläufer nicht-tödlichen Schaden in Höhe der aktuellen Trefferpunkte des Gegners verursachen; ein erfolgreicher Rettungswurf negiert den Schaden. Ein Waldläufer kann diese Fähigkeit nur einmal pro Tag gegen jede Art von Erzfeind einsetzen, aber nur einmal gegen denselben Gegner innerhalb von 24 Stunden."
+  },
+  {
+    "id": "bef83191-c876-4826-a907-b36cbc41af57",
+    "name": "Umgang mit Waffen und Rüstungen (Magier)",
+    "description": "Ein Magier beherrscht den Umgang mit Armbrüsten (leicht und schwer), Dolchen, Kampfstäben und Keulen. Jede Form von Rüstung behindert die Bewegung des Magiers, was dazu führen kann, dass Zauber mit einer Gestenkomponente fehlschlagen."
+  },
+  {
+    "id": "46c963c4-7417-424e-8f5d-532f5cd906c7",
+    "name": "Arkane Schule",
+    "description": "Auf der 1. Stufe kann sich ein Magier auf eine Zauberschule spezialisieren (Bannzauber, Beschwörung, Erkenntniszauber, Hervorrufung, Illusion, Nekromantie, Verwandlung oder Verzauberung) und erhält dadurch zusätzliche Zauber sowie besondere Fähigkeiten dieser Schule, muss dafür aber zwei Schulen als verboten festlegen. Ein Magier, der sich nicht spezialisiert, erhält stattdessen die Allgemeine Schule (Universalist) und kann Zauber aus allen Schulen ohne Einschränkung vorbereiten. Diese Wahl ist endgültig."
+  },
+  {
+    "id": "c700e6f4-8f4f-47c0-a14c-3d7298e41306",
+    "name": "Arkane Verbindung",
+    "description": "Auf der 1. Stufe geht der Magier eine mächtige Verbindung mit einem Vertrauten oder einem Fokus (einem verzauberbaren Amulett, Ring, Stecken, Stab oder einer Waffe) ein. Ein Fokus kann einmal pro Tag genutzt werden, um einen Zauber aus dem Zauberbuch des Magiers zu wirken, auch wenn er nicht vorbereitet wurde. Einmal getroffen, kann diese Wahl nicht mehr geändert werden."
+  },
+  {
+    "id": "ec587105-f50b-4426-a011-a3e7c3027f23",
+    "name": "Zaubertricks",
+    "description": "Ein Magier kann pro Tag eine Anzahl von Zaubertricks (Zauber des 0. Grades) vorbereiten, wie in der Zauber-pro-Tag-Tabelle angegeben."
+  },
+  {
+    "id": "cae3d314-82eb-4d80-8867-7947a11312d5",
+    "name": "Schriftrolle anfertigen",
+    "description": "Auf der 1. Stufe erhält ein Magier das Talent Schriftrolle anfertigen als Bonustalent."
+  },
+  {
+    "id": "708cc0bb-9bbb-4b3f-aba7-f9f9399002da",
+    "name": "Bonustalent (Magier)",
+    "description": "Auf der 5., 10., 15. und 20. Stufe erhält der Magier ein Bonustalent. Die Wahl ist auf metamagische Talente, Talente zur Erschaffung von magischen Gegenständen oder eine Zaubermeisterschaft beschränkt (kein freier Talent-Slot); die üblichen Voraussetzungen, einschließlich der minimalen Zauberstufe, gelten weiterhin."
+  },
+  {
+    "id": "469675c5-d1d9-461a-b5ff-cc498bda69d9",
+    "name": "Resistenz",
+    "description": "Schule der Bannzauber: Der Bannwirker erhält eine Resistenz von 5 gegen einen selbst gewählten Energietyp; die Wahl kann sich jeden Tag ändern. Ab der 11. Stufe steigt die Resistenz auf 10, ab der 20. Stufe wird daraus eine Immunität gegenüber dem gewählten Energietyp."
+  },
+  {
+    "id": "c1d3a3dc-49ca-44f3-8ace-d9d069a2f9b4",
+    "name": "Schutz",
+    "description": "Schule der Bannzauber: Der Bannwirker kann als Standard-Aktion ein Feld schützender Magie mit einem Radius von 3 m erschaffen, das eine Anzahl von Runden in Höhe seines IN-Modifikators anhält. Alle Verbündeten im Bereich (einschließlich er selbst) erhalten einen Ablenkungsbonus von +1 auf die RK, der sich alle 5 Magierstufen um +1 erhöht. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "871cd98e-4cf3-4bbc-9945-abd7b8bb6d98",
+    "name": "Energieabsorption",
+    "description": "Schule der Bannzauber: Ab der 6. Stufe kann der Bannwirker pro Tag eine Menge an Energieschaden in Höhe seiner Magierstufe x 3 absorbieren, nachdem Immunitäten, Empfindlichkeiten und Resistenzen angewendet wurden."
+  },
+  {
+    "id": "1555dee2-b17f-48ce-bcce-79a03c7e2c96",
+    "name": "Charme des Beschwörers",
+    "description": "Schule der Beschwörung: Beschwörungszauber der Art Herbeizaubern halten beim Beschwörer die Hälfte seiner Magierstufe (Minimum 1) länger an. Ab der 20. Stufe kann er die Dauer eines Zaubers vom Typ Monster herbeizaubern permanent machen (nur eine Anwendung gleichzeitig)."
+  },
+  {
+    "id": "768cbd3f-290b-43b9-aaa1-c31d487d4e05",
+    "name": "Säuregeschoss",
+    "description": "Schule der Beschwörung: Der Beschwörer kann als Standard-Aktion mit einem Berührungsangriff auf Entfernung (bis 9 m) ein Säuregeschoss verschießen, das 1W6 Punkte Säureschaden +1 pro 2 Magierstufen verursacht und Zauberresistenz ignoriert. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "75ea3fe6-5fce-48b5-b20e-fd73594134d8",
+    "name": "Dimensionsschritt",
+    "description": "Schule der Beschwörung: Ab der 8. Stufe kann sich der Beschwörer als Standard-Aktion einmal pro Tag bis zu 9 m pro Magierstufe teleportieren, ohne Gelegenheitsangriffe zu provozieren."
+  },
+  {
+    "id": "442cc715-a90e-4bef-96b1-ca5c392e2f2d",
+    "name": "Vorgewarnt",
+    "description": "Schule der Erkenntniszauber: Der Seher kann in einer Überraschungsrunde handeln (gilt aber als auf dem falschen Fuß erwischt) und erhält einen Bonus auf Initiative in Höhe seiner halben Magierstufe (Minimum +1). Ab der 20. Stufe zählt jeder Initiativewurf als natürliche 20."
+  },
+  {
+    "id": "49bc3a93-43c5-43fd-9d5f-56e2fb768afc",
+    "name": "Glück des Wahrsagers",
+    "description": "Schule der Erkenntniszauber: Der Seher kann eine Kreatur mit einer Standard-Aktion berühren und ihr einen Verständnisbonus in Höhe seiner halben Magierstufe (Minimum +1) auf Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Runde verleihen. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "33999553-a372-4b45-95d4-44dc86b305ee",
+    "name": "Ausspähungs-Adept",
+    "description": "Schule der Erkenntniszauber: Ab der 8. Stufe bemerkt der Seher immer, wenn er magisch beobachtet wird, und gilt selbst als eine Stufe bekannter, wenn er jemanden ausspäht, wodurch sehr bekannte Ziele einen Malus von -10 auf ihren Rettungswurf dagegen erleiden."
+  },
+  {
+    "id": "169b662a-ada0-4f5f-9f3e-4e60438dbc59",
+    "name": "Starke Zauber",
+    "description": "Schule der Hervorrufung: Hervorrufungszauber des Thaumaturgen, die Schaden an Trefferpunkten verursachen, erhalten einen Bonus in Höhe seiner halben Magierstufe (Minimum +1) auf den Schaden. Ab der 20. Stufe darf er bei Hervorrufungszaubern zweimal würfeln, um Zauberresistenz zu überwinden, und das bessere Ergebnis nehmen."
+  },
+  {
+    "id": "bb8a9975-2c48-4cb4-887c-44b42a65b009",
+    "name": "Energiegeschoss",
+    "description": "Schule der Hervorrufung: Der Thaumaturg kann als Standard-Aktion ein automatisch treffendes Energiegeschoss verschießen, das 1W4 Punkte Schaden plus den Bonusschaden aus Starke Zauber verursacht. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "421edf1e-98af-4961-9412-a2fe69d4cea2",
+    "name": "Elementarwand",
+    "description": "Schule der Hervorrufung: Ab der 8. Stufe kann der Thaumaturg eine Energiewand erschaffen (Säure-, Kälte-, Feuer- oder Elektroschaden), die für eine Anzahl an Runden in Höhe seiner Magierstufe hält und ansonsten wie Feuerwand funktioniert."
+  },
+  {
+    "id": "a6a8ffb8-76fc-42d0-b03e-80da6081f9a6",
+    "name": "Ausgedehnte Illusionen",
+    "description": "Schule der Illusion: Illusionszauber des Illusionisten mit dem Wirkungsdauer-Eintrag Konzentration halten nach Ende der Konzentration noch die Hälfte seiner Magierstufe (Minimum 1) an Runden an. Ab der 20. Stufe kann er einen solchen Zauber permanent machen (nur eine Illusion gleichzeitig)."
+  },
+  {
+    "id": "e8df814d-87a3-455e-8075-bb967f9b797c",
+    "name": "Blendstrahl",
+    "description": "Schule der Illusion: Der Illusionist kann als Standard-Aktion mit einem Berührungsangriff auf Entfernung (bis 9 m) einen Strahl verschießen, der Kreaturen 1 Runde blind macht (geblendet, wenn sie mehr Trefferwürfel als seine Magierstufe haben). Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "929b51f4-b0b0-4a16-8f95-94929ed03e10",
+    "name": "Unsichtbarkeitsfeld",
+    "description": "Schule der Illusion: Ab der 8. Stufe kann sich der Illusionist mit einer Schnellen Aktion für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe unsichtbar machen; funktioniert ansonsten wie Mächtige Unsichtbarkeit."
+  },
+  {
+    "id": "a80f90c6-771d-4921-b39d-e272e81b33df",
+    "name": "Macht über Untote",
+    "description": "Schule der Nekromantie: Der Nekromant erhält Untote befehligen oder Untote vertreiben als Bonustalent und kann (3 + IN-Modifikator) Mal pro Tag Energie fokussieren, nur um dieses Talent einzusetzen. Ab der 20. Stufe können Untote ihre Resistenz gegen Fokussieren nicht auf den Rettungswurf dagegen anrechnen."
+  },
+  {
+    "id": "04d4a848-7cfc-4a62-937a-e8a34f366870",
+    "name": "Grabeshauch",
+    "description": "Schule der Nekromantie: Der Nekromant kann als Standard-Aktion einen Berührungsangriff im Nahkampf ausführen, der eine Kreatur für eine Anzahl von Runden in Höhe seiner halben Magierstufe (Minimum 1) erschüttert macht; bereits erschütterte Ziele mit weniger Trefferwürfeln als seine Magierstufe verfallen für eine Runde in Panik. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "44b88cb6-ed36-41a5-9fc5-b7f8ea1e2d19",
+    "name": "Lebenssicht",
+    "description": "Schule der Nekromantie: Ab der 8. Stufe erhält der Nekromant Blindsicht in einem Radius von 3 m (+3 m alle weiteren 4 Magierstufen) für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe, mit der er lebende und untote Kreaturen (und ob sie leben oder untot sind) erkennt, jedoch keine Konstrukte oder ähnliches."
+  },
+  {
+    "id": "e8a40b10-a2a3-4745-8ee4-7e6384ef3a5c",
+    "name": "Körperliche Verbesserung",
+    "description": "Schule der Verwandlung: Der Wandler erhält einen Verbesserungsbonus von +1 auf ein physisches Attribut (ST, GE oder KO), der sich alle 5 Magierstufen um +1 bis maximal +5 auf der 20. Stufe steigert; das Attribut kann beim Vorbereiten von Zaubern gewechselt werden. Ab der 20. Stufe lässt sich der Bonus auf zwei physische Attribute verteilen."
+  },
+  {
+    "id": "b227f398-0fe3-4ddd-8731-289f9bb2549c",
+    "name": "Telekinetische Faust",
+    "description": "Schule der Verwandlung: Der Wandler kann als Standard-Aktion einen Berührungsangriff auf Entfernung (bis 9 m) mit einer telekinetischen Faust ausführen, die 1W4 Punkte Wuchtschaden +1 pro 2 Magierstufen verursacht. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "f1d59906-5d9c-4826-836e-9ff82bb7c518",
+    "name": "Form verändern",
+    "description": "Schule der Verwandlung: Ab der 8. Stufe kann der Wandler seine Gestalt für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe verändern, wie Bestiengestalt II oder Elementargestalt I; ab der 12. Stufe wie Bestiengestalt III oder Elementargestalt II."
+  },
+  {
+    "id": "211a4a9c-d6d7-4ba0-8313-024b9e6a1646",
+    "name": "Bezauberndes Lächeln",
+    "description": "Schule der Verzauberung: Der Verzauberer erhält einen Verbesserungsbonus von +2 auf Bluffen, Diplomatie und Einschüchtern, der sich alle 5 Magierstufen um +1 bis maximal +6 auf der 20. Stufe steigert. Ab der 20. Stufe wird ein erfolgreich abgewehrter Verzauberungszauber auf den Wirkenden reflektiert, als wäre Zauber zurückwerfen eingesetzt worden."
+  },
+  {
+    "id": "75b41f60-1098-4c7c-ae7c-e8bc370fee92",
+    "name": "Hauch der Benommenheit",
+    "description": "Schule der Verzauberung: Der Verzauberer kann eine lebende Kreatur mit einem Berührungsangriff im Nahkampf benommen machen, sofern sie nicht mehr Trefferwürfel als seine Magierstufe hat. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "6c697b32-21e5-41a7-a58c-2e83ea96cdcd",
+    "name": "Aura der Verzweiflung",
+    "description": "Schule der Verzauberung: Ab der 8. Stufe kann der Verzauberer für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe eine Aura der Verzweiflung mit 9 m Radius ausstrahlen; Feinde darin erhalten einen Malus von -2 auf Attributs-, Angriffs-, Schadens-, Rettungs- und Fertigkeitswürfe."
+  },
+  {
+    "id": "38b17c64-f38b-43e5-870c-bb989ac1356e",
+    "name": "Hand des Lehrlings",
+    "description": "Allgemeine Schule (Universalist): Der Universalist kann als Standard-Aktion einen einzigen Nahkampfwaffenangriff auf Entfernung (bis 9 m) ausführen, bei dem er seinen IN- statt GE-Modifikator auf den Angriffswurf anwendet (Schaden weiterhin nach Stärke); nicht für Kampfmanöver nutzbar. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+  },
+  {
+    "id": "32d7e533-3046-45c3-8ca7-83e0d8dae129",
+    "name": "Metamagische Meisterschaft",
+    "description": "Allgemeine Schule (Universalist): Ab der 8. Stufe kann der Universalist ein bekanntes metamagisches Talent auf einen gewirkten Zauber anwenden, ohne dessen Grad oder Zeitaufwand zu ändern. Einsetzbar einmal auf der 8. Stufe, ein weiteres Mal für je zwei weitere Magierstufen; erhöht das metamagische Talent den Zaubergrad um mehr als 1, ist pro zusätzlichem Grad eine weitere tägliche Anwendung nötig."
   }
 ]

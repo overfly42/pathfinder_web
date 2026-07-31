@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.models import BaseRace
 from app.rules.feat_slots import RACE_BONUS_FEAT_ABILITY_ID, class_bonus_feat_slot_count, race_grants_bonus_feat
 from app.seed.class_ability_seed import seed_class_abilities
+from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.race_seed import seed_races
 
@@ -15,6 +16,7 @@ def _selection(class_name: str, level: int) -> SimpleNamespace:
 
 def test_class_bonus_feat_slot_count_is_cumulative_by_class_level(db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)
     seed_class_abilities(db_session)
 
     # Kämpfer grants a bonus feat slot at 1st and every even level.
@@ -27,6 +29,7 @@ def test_class_bonus_feat_slot_count_is_cumulative_by_class_level(db_session: Se
 
 def test_class_bonus_feat_slot_count_sums_non_contiguous_class_selections(db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)
     seed_class_abilities(db_session)
 
     split = class_bonus_feat_slot_count(
@@ -38,6 +41,7 @@ def test_class_bonus_feat_slot_count_sums_non_contiguous_class_selections(db_ses
 
 def test_class_bonus_feat_slot_count_is_zero_for_classes_with_no_seeded_bonus_feats(db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)
     seed_class_abilities(db_session)
 
     assert class_bonus_feat_slot_count(db_session, [_selection("Waldläufer", 5)]) == 0

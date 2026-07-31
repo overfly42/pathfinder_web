@@ -10,12 +10,15 @@ Kämpfer's (Fighter's) recurring bonus combat feat is one shared
 `BaseClassAbilityGrant` rows, one per granting level (1st and every even
 level) — `BaseClassAbilityGrant`'s unique constraint includes `level`
 precisely so the same ability can recur this way instead of needing a
-near-duplicate catalog row per level. Other classes with bonus-feat-shaped
-features (e.g. a Wizard's periodic bonus feat, a Rogue talent that grants a
-feat) are deliberately not modeled yet — add more catalog/grant rows the
-same way, tagged in `rules/feat_slots.py`'s `BONUS_FEAT_SLOT_ABILITY_IDS`,
-when that data is needed. Not a general class-features model — see
-`BaseClassAbility`'s docstring.
+near-duplicate catalog row per level. Magier's periodic Bonustalent (5th/
+10th/15th/20th) uses the same recurring-grant shape, but is deliberately
+*not* tagged in `rules/feat_slots.py`'s `BONUS_FEAT_SLOT_ABILITY_IDS` — its
+choice is restricted to metamagic/item-creation/spell-mastery feats, not a
+free slot, same reasoning as Waldläufer's Kampfstiltalent. Other classes
+with bonus-feat-shaped features (e.g. a Rogue talent that grants a feat)
+remain unmodeled — add more catalog/grant rows the same way when that data
+is needed. Not a general class-features model — see `BaseClassAbility`'s
+docstring.
 
 The Zwei-Waffen-Kämpfer archetype is the first archetype with its own
 granted features: its `BaseClassAbilityGrant` rows use the archetype's own
@@ -27,6 +30,10 @@ records which specific root-Kämpfer grant each archetype ability supersedes
 Idempotent: each row is upserted by its own `id`, safe to re-run. Requires
 `base_classes` to already be seeded (`class_seed.seed_classes`) since
 `base_class_ability_grants`/`base_class_ability_replacements` rows FK into it.
+Also requires `base_class_option_choices` to already be seeded
+(`class_option_seed.seed_class_options`) whenever a grant sets
+`option_choice_id` — e.g. Magier's arcane-school-power grants, gated to the
+chosen school (see `sheet.py`'s `_build_class_features`).
 
 Run with the project venv active and the database up:
     cd backend && python -m app.seed.class_ability_seed

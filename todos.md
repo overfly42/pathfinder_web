@@ -216,6 +216,84 @@ Slice-Arbeit.
         umbenannt, fehlende ergänzt). `max_choices: 1` an beiden Gruppen
         unverändert gelassen (weitere Erzfeind-/Geländewahlen bei
         Stufenaufstieg sind ein separates, noch nicht gebautes Feature).
+  - [x] **Magier** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Magier>):
+        Trefferwürfel (W6)/GAB (halb)/Rettungswürfe (nur Willen gut)/
+        Fertigkeitspunkte (2 + IN)/Zauberattribut (IN)/Zaubertradition
+        (arcane-prepared) waren bereits korrekt. Klassenfertigkeiten waren
+        falsch: „Gegenstände magisch nutzen" (UMD) ist laut Quelle **keine**
+        Magier-Klassenfertigkeit und wurde entfernt; es fehlten Beruf,
+        Fliegen, Handwerk, Schätzen sowie „Wissen (alle)" — die Quelle listet
+        explizit alle Wissen-Unterfertigkeiten, nicht nur Wissen (Arkanes),
+        ergänzt wurden daher auch Wissen (Natur/Religion/lokal/Baukunst/
+        Gewölbekunde/Geographie). „Fliegen" und „Schätzen" gab es noch gar
+        nicht im gemeinsamen `base_skills.json`-Katalog und wurden dort neu
+        angelegt (analog zu Wissen (Baukunst) bei Kämpfer). Außerdem einen
+        falschen Fertigkeitsnamen korrigiert: der Katalogeintrag hieß
+        „Linguistik", die Quelle nennt die Fertigkeit „Sprachenkunde" —
+        umbenannt (nur der Anzeigename, nicht die ID/der interne Key), betrifft
+        damit auch die anderen Klassen, die dieselbe Katalogzeile nutzen
+        (Barde, Kleriker, Orakel, Schurke), aber nur als Namenskorrektur ohne
+        weitere Datenänderung an deren Klassenfertigkeiten-Listen.
+        Die bereits vorhandene Spezialschule-Options-Gruppe (`school`) hatte
+        zwei falsche Schulnamen — „Weissagung" (Quelle: „Erkenntniszauber")
+        und „Bannmagie" (Quelle: „Bannzauber") — korrigiert, die übrigen
+        sechs Schulen (Beschwörung/Hervorrufung/Illusion/Nekromantie/
+        Verwandlung/Verzauberung) sowie „Universalist" (Allgemeine Schule)
+        waren bereits richtig. Alle Klassenmerkmale der Quelle, die nicht an
+        eine einzelne Schulwahl gebunden sind, als reine Katalogzeilen
+        (`BaseClassAbility`/`BaseClassAbilityGrant`) ergänzt — gleiche Tiefe
+        wie bei Kämpfer/Waldläufer, keine Berechnungslogik: Umgang mit Waffen
+        und Rüstungen, Arkane Schule, Arkane Verbindung, Zaubertricks und
+        Schriftrolle anfertigen (alle Stufe 1), sowie Bonustalent (Stufen 5/
+        10/15/20, geteilte Katalogzeile analog zu Kämpfers Bonus-Kampftalent).
+        Bonustalent bewusst *nicht* in `feat_slots.py`s
+        `BONUS_FEAT_SLOT_ABILITY_IDS` aufgenommen — die Auswahl ist auf
+        metamagische/Gegenstandserschaffungs-/Zaubermeisterschaft-Talente
+        beschränkt, kein freier Slot (gleiche Begründung wie bei Waldläufers
+        Kampfstiltalent). Für „Arkane Verbindung" (Vertrauter oder Fokus) eine
+        neue Options-Gruppe (`arcane_bond`) samt der zwei Wahlmöglichkeiten
+        angelegt, analog zur bestehenden `school`-Gruppe. Dabei fiel auf, dass
+        die `school`-Options-Gruppe zusätzlich zu den zwei Namensfehlern eine
+        ganze Schule **fehlte**: „Beschwörung" war überhaupt nicht als Wahl
+        vorhanden (nur 7 der 8 echten Schulen + Universalist) — als achte
+        Wahlmöglichkeit ergänzt.
+        Alle 26 schulspezifischen Fähigkeiten (8 Schulen × 3 + Universalist ×
+        2: Bannzauber/Beschwörung/Erkenntniszauber/Hervorrufung/Illusion/
+        Nekromantie/Verwandlung/Verzauberung je „Stufe 1, Stufe 1, Stufe 6
+        oder 8", Universalist „Stufe 1, Stufe 8") als `BaseClassAbility`/
+        `BaseClassAbilityGrant`-Zeilen ergänzt, jede Grant-Zeile mit
+        `option_choice_id` auf die jeweilige Schulwahl verdrahtet — damit
+        landen beim Charakterbogen (`sheet.py`s `_build_class_features`, das
+        `option_choice_id`-Filtern existierte bereits für Kleriker-Domänen)
+        nur die Fähigkeiten der tatsächlich gewählten Schule in
+        `classFeatures`, stufenkorrekt gegated. Manuell End-to-End geprüft
+        (Hervorrufung-Magier Stufe 8 bekommt genau Starke Zauber/
+        Energiegeschoss/Elementarwand, Universalist genau Hand des
+        Lehrlings/Metamagische Meisterschaft). Gleiche Tiefe wie überall
+        sonst: die Zahlenwerte selbst (Skalierung mit halber Magierstufe,
+        Einsatzhäufigkeit „3 + IN-Modifikator" usw.) sind nicht berechnet,
+        nur die Fähigkeit samt Beschreibungstext ist vorhanden — jetzt als
+        eigener Punkt in `roadmap.md` (Slice 3, „Class-ability computation")
+        festgehalten, nicht nur hier erwähnt. Da die
+        `option_choice_id`-Grants jetzt eine reale FK auf
+        `base_class_option_choices` haben, mussten `test_classes.py` und
+        `test_feat_slots.py` (die `seed_class_abilities` bisher ohne
+        vorheriges `seed_class_options` aufriefen — bis dahin hatte kein
+        Grant `option_choice_id` gesetzt, daher unbemerkt) um den fehlenden
+        Seed-Aufruf ergänzt werden.
+        `test_character_sheet.py`s
+        `test_character_sheet_for_character_without_extras_has_empty_lists`
+        nutzte bisher Magier als Beispiel für „keine Klassenmerkmale" — auf
+        Barbar umgestellt (einzige verbliebene Klasse ganz ohne
+        `BaseClassAbilityGrant`-Daten). **Weiterhin nicht** modelliert: der
+        Vertrauten-Regelblock (Tabelle „Besondere Fähigkeiten des
+        Vertrauten") und Beschwörer/Kriegsmagier (Magiers zwei Archetypen)
+        wurden nicht gegen die Quelle geprüft. Die drei
+        `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
+        (gleiches Vorgehen wie beim noch unsynchronisierten Kämpfer→Krieger-
+        Rename in den Mocks) — deren `SPELLS_BY_CLASS['Magier']` fehlen
+        zusätzlich weiterhin die drei Zaubertricks (Licht, Kleiner Trick,
+        Widerstand).
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -224,7 +302,7 @@ Slice-Arbeit.
         |---|---|
         | Kämpfer | 28 (bereits korrigiert, siehe oben) |
         | Waldläufer | 18 (bereits korrigiert, siehe oben) |
-        | Magier | 18 |
+        | Magier | 18 (bereits korrigiert, siehe oben) |
         | Hexenmeister | 8 |
         | Schurke | 5 |
         | Orakel | 3 |
@@ -238,13 +316,14 @@ Slice-Arbeit.
         Mysterien/Bindungen) für Druide/Hexenmeister/Kleriker/Magier/Orakel/
         Waldläufer.
 
-        **Vorschlag für die Reihenfolge:** nach Kämpfer als Nächstes Magier,
-        Waldläufer, Hexenmeister — decken zusammen mit Kämpfer bereits ~85 %
-        der Testerwähnungen ab und spannen dabei die wichtigsten
-        mechanischen Achsen auf (volles GAB mit Bonustalenten, halbes GAB
-        arkan-vorbereitet, volles GAB als Teilzeit-Zauberwirker
-        divine-spontan, halbes GAB arkan-spontan). Danach Kleriker (einzige
-        vorbereitete Divine-Klasse mit Domänen) und Schurke
+        **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer und Magier
+        sind erledigt (siehe oben) und decken zusammen bereits ~85 % der
+        Testerwähnungen sowie die wichtigsten mechanischen Achsen ab (volles
+        GAB mit Bonustalenten, volles GAB als Teilzeit-Zauberwirker
+        divine-spontan, halbes GAB arkan-vorbereitet). Als Nächstes
+        Hexenmeister (halbes GAB arkan-spontan, letzte offene mechanische
+        Achse). Danach Kleriker (einzige vorbereitete Divine-Klasse mit
+        Domänen) und Schurke
         (fertigkeiten-/talentbasiert, keine Zauber — Kontrast zu Kämpfers
         talentbasiertem Nicht-Zauberwirker-Profil), um die Abdeckung
         abzurunden, ohne eine bereits abgedeckte Mechanik zu duplizieren.

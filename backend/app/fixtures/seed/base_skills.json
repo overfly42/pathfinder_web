@@ -101,7 +101,7 @@
   },
   {
     "id": "042a33bd-ac38-403f-b8aa-d4cfeb4db3c3",
-    "name": "Linguistik",
+    "name": "Sprachenkunde",
     "ability": "IN"
   },
   {
@@ -147,6 +147,16 @@
   {
     "id": "86843d3f-57ee-4bdf-8ede-f5aed34d818c",
     "name": "Wissen (Geographie)",
+    "ability": "IN"
+  },
+  {
+    "id": "a71cd8ed-15b2-4594-9819-0e320071513c",
+    "name": "Fliegen",
+    "ability": "GE"
+  },
+  {
+    "id": "791a87d6-c13a-4f44-bde4-fb39a46a462b",
+    "name": "Schätzen",
     "ability": "IN"
   }
 ]

@@ -290,9 +290,54 @@
     "skill_id": "042a33bd-ac38-403f-b8aa-d4cfeb4db3c3"
   },
   {
-    "id": "c522310b-8a84-4bb9-96ce-17aa12bc3ddd",
+    "id": "fec62b6c-f5c0-4155-bed4-7d3bff26c7fd",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
-    "skill_id": "7446d67a-7bc2-4455-877b-591500769be2"
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6"
+  },
+  {
+    "id": "5c5fdce0-83c1-4c2e-a168-ef022f6c938a",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "a71cd8ed-15b2-4594-9819-0e320071513c"
+  },
+  {
+    "id": "589f3cea-f7f7-4b4f-a640-a4ff55fcdce1",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b"
+  },
+  {
+    "id": "e36d777f-f0c3-4a4e-9409-93e3a519a1ad",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "791a87d6-c13a-4f44-bde4-fb39a46a462b"
+  },
+  {
+    "id": "81e1ef61-bbc8-4b7b-97c8-0bd50a2cbace",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "0f6a271e-7eda-4d06-bdf8-8148a2c947ff"
+  },
+  {
+    "id": "72d4a2ce-75ab-4df8-8381-b0fea7a5f7c2",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "11de822f-9662-476b-9023-d86989ab9d49"
+  },
+  {
+    "id": "cb400199-e10d-4f31-ba60-60c670cc922c",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "00e69f3e-86ef-4771-9bfe-e242cafee156"
+  },
+  {
+    "id": "12ea49a1-7fca-4ebd-886c-2ac1b9b3d031",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "cf1d814d-0811-4a88-b5d2-bca393c2fb74"
+  },
+  {
+    "id": "82903516-8861-417e-86fd-0fb58ec351df",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "960179c4-5aed-4352-8b84-bd78a8c3a10e"
+  },
+  {
+    "id": "3d1c4d84-9485-42e2-af51-fb6c5d9167d5",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "skill_id": "86843d3f-57ee-4bdf-8ede-f5aed34d818c"
   },
   {
     "id": "d54d0b7c-3655-4fa6-9174-42ac0aa2b43c",

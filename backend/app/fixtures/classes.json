@@ -178,10 +178,19 @@
     "skillPointsBase": 2,
     "spellType": "arcane-prepared",
     "classSkills": [
+      "beruf",
+      "fliegen",
+      "handwerk",
+      "schaetzen",
+      "sprachenkunde",
       "wissen_arkanes",
-      "zauberkunde",
-      "linguistik",
-      "umd"
+      "wissen_natur",
+      "wissen_religion",
+      "wissen_lokal",
+      "wissen_baukunst",
+      "wissen_gewoelbekunde",
+      "wissen_geographie",
+      "zauberkunde"
     ],
     "optionGroups": [
       {
@@ -189,14 +198,24 @@
         "label": "Spezialschule (optional)",
         "max": 1,
         "choices": [
+          "Bannzauber",
+          "Beschwörung",
+          "Erkenntniszauber",
           "Hervorrufung",
-          "Verzauberung",
           "Illusion",
           "Nekromantie",
           "Verwandlung",
-          "Weissagung",
-          "Bannmagie",
+          "Verzauberung",
           "Universalist"
+        ]
+      },
+      {
+        "key": "arcane_bond",
+        "label": "Arkane Verbindung",
+        "max": 1,
+        "choices": [
+          "Vertrauter",
+          "Fokus"
         ]
       }
     ]

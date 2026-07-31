@@ -54,5 +54,12 @@
     "key": "terrain",
     "label": "Bevorzugtes Terrain",
     "max_choices": 1
+  },
+  {
+    "id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "key": "arcane_bond",
+    "label": "Arkane Verbindung",
+    "max_choices": 1
   }
 ]

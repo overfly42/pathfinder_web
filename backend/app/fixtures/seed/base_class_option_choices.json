@@ -85,6 +85,11 @@
     "name": "Hervorrufung"
   },
   {
+    "id": "5d33badd-8004-431b-84bc-69ba2ee3a209",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Beschwörung"
+  },
+  {
     "id": "c0cd3694-95ef-4296-86b0-df7a92b2d368",
     "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
     "name": "Verzauberung"
@@ -107,12 +112,12 @@
   {
     "id": "ba84255e-f940-4663-9b8f-a18557f0cb10",
     "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
-    "name": "Weissagung"
+    "name": "Erkenntniszauber"
   },
   {
     "id": "aad694bd-d618-4cbc-a182-4e18eff55498",
     "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
-    "name": "Bannmagie"
+    "name": "Bannzauber"
   },
   {
     "id": "1cf9ed45-b15f-4022-af30-42cbc397aa2a",
@@ -383,5 +388,15 @@
     "id": "8247c6c6-c6db-4b5a-9a66-3b3fd91e4a30",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
     "name": "Wasser (oberhalb und unterhalb der Wasseroberfläche)"
+  },
+  {
+    "id": "bf26983e-e7be-4eba-8e63-0dfb3237b9e2",
+    "group_id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
+    "name": "Vertrauter"
+  },
+  {
+    "id": "44083bc7-8594-4548-9d27-6af0b21df1c2",
+    "group_id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
+    "name": "Fokus"
   }
 ]

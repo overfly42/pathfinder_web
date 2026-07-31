@@ -560,6 +560,31 @@ Cheapest slice — proves the whole pattern before harder ones.
       fields; `CreationWizardPage.tsx` now submits `draft.gear`. Starting
       gold (`draft.gold`) remains session-local/unsubmitted — out of scope
       for this pass, no `characters.gold` column exists yet.
+- [ ] **Class-ability computation (`HANDLERS` registry, mirrors
+      `rules/race_abilities.py`).** `BaseClassAbility`/`BaseClassAbilityGrant`
+      (introduced for Kämpfer's bonus feat, then Waldläufer/Magier's data
+      corrections — see `todos.md`) are composition-only today: which
+      abilities a class/archetype/school choice grants, and at what level,
+      is real data, gated correctly by level and by `option_choice_id`
+      (`sheet.py`'s `_build_class_features`) — but no ability's actual
+      mechanical effect is computed anywhere. Concretely inert right now:
+      Kämpfer's Rüstungstraining/Waffentraining/Tapferkeit numbers,
+      Waldläufer's Erzfeind/Bevorzugtes-Gelände bonuses, and all 26 of
+      Magier's arcane-school powers (flat bonuses like Bezauberndes
+      Lächeln's +2 Bluffen/Diplomatie/Einschüchtern, level-scaling ones like
+      Starke Zauber's spell-damage bonus, and per-day-use pools like "3 + IN-
+      Modifikator Mal pro Tag" abilities such as Säuregeschoss). Needs a
+      `rules/class_abilities.py` `HANDLERS: dict[UUID, Callable]` keyed by
+      `BaseClassAbility.id`, same hand-frozen-UUID convention as
+      `race_abilities.py` — flat-bonus cases can likely share one generic
+      handler factory (per CLAUDE.md's composition-vs-computation split),
+      conditional ones (level-scaling, per-day pools) each need their own
+      function. Where the effect is a passive numeric bonus (e.g. Bannzauber's
+      Resistenz, Verzauberung's Bezauberndes Lächeln), this should feed the
+      same `Modifier`/`stack()` design from slice 4/5 rather than a third
+      bonus system. Scope this once slice 5 (Effects) has landed, since
+      several of these abilities are duration/use-limited in the same way
+      active effects are — not a slice-3 concern to retrofit now.
 
 ### 4. Items / Inventory
 - [x] Gear table + equipment slots — scoped to armor/shield, the only two

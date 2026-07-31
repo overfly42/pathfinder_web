@@ -2,12 +2,14 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.seed.class_ability_seed import seed_class_abilities
+from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.skill_seed import seed_skills
 
 
 def test_list_classes_exposes_bonus_feat_levels_from_real_data(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)
     seed_class_abilities(db_session)
 
     response = client.get("/api/classes")
