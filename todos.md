@@ -136,7 +136,74 @@ Slice-Arbeit.
         wieder gebraucht werden, müssen sie neu und einzeln gegen die echte
         Quelle aufgebaut werden (nicht aus der Git-Historie zurückgeholt, da
         die alten Daten selbst ungeprüft/teilweise erfunden waren).
-  - [ ] Alle Klassen noch offen.
+  - [x] **Kämpfer** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Kaempfer>):
+        Der Klassenname war falsch — hieß `Krieger` statt `Kämpfer` — und wurde
+        überall korrigiert: `base_classes.json`/`classes.json`/
+        `character_2.json`/`progression_2.json`, Backend-Kommentare/Tests,
+        sowie im Frontend `levelUpCalculations.ts`s
+        `fighterBonusFeatGrantedThisLevel`, die hart `className === 'Krieger'`
+        verglich — nach der Umbenennung hätte das den Kämpfer-Bonustalent-Slot
+        beim Stufenaufstieg still und leise nicht mehr ausgelöst. Im selben
+        Zug wurde diese Funktion (jetzt `classBonusFeatGrantedThisLevel`)
+        generalisiert: statt eines hart codierten Klassennamens fragt sie
+        `ClassDef.bonusFeatLevels` ab (echte, vom Backend gelieferte Daten),
+        funktioniert damit für jede Klasse mit Bonustalent-Daten, und
+        vergleicht jetzt die eigene Stufe der Klasse statt der
+        Charaktergesamtstufe (behebt nebenbei einen Mehrklassen-Bug). Hit
+        Dice/GAB/Rettungswürfe/Fertigkeitspunkte waren bereits korrekt.
+        Klassenfertigkeiten waren nur zur Hälfte korrekt (5 von 10 laut
+        Quelle) — ergänzt: Beruf, Mit Tieren umgehen, Überlebenskunst,
+        Wissen (Baukunst), Wissen (Gewölbekunde); die letzten beiden gab es
+        noch gar nicht im gemeinsamen `base_skills.json`-Katalog und wurden
+        dort neu angelegt. Die restlichen Klassenmerkmale der Quelle
+        (Umgang mit Waffen und Rüstungen, Tapferkeit, Rüstungstraining,
+        Waffentraining inkl. Waffengruppen, Rüstungsmeisterschaft,
+        Waffenmeisterschaft) gab es im Datenmodell noch gar nicht (nur für
+        Bonustalent gab es bereits Daten) — als reine Katalogzeilen
+        (`BaseClassAbility`/`BaseClassAbilityGrant`) ergänzt, analog zu einer
+        unberechneten Rassenfähigkeit wie Dunkelsicht: keine
+        Berechnungslogik (kein Handler-Register für Klassenfähigkeiten wie
+        `rules/race_abilities.py`s `HANDLERS` existiert noch), und aktuell
+        auch kein Endpunkt, der generische Klassenfähigkeiten wie
+        `/api/races` exponiert — die Daten sind also vorhanden, aber vom
+        Frontend noch nicht erreichbar. Archetypen (`Waffenmeister`,
+        `Söldnerkommandant`) noch nicht gegen eine Quelle geprüft.
+  - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
+        (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
+        Stand 2026-07-31):
+
+        | Klasse | Testerwähnungen |
+        |---|---|
+        | Kämpfer | 28 (bereits korrigiert, siehe oben) |
+        | Waldläufer | 18 |
+        | Magier | 18 |
+        | Hexenmeister | 8 |
+        | Schurke | 5 |
+        | Orakel | 3 |
+        | Kleriker | 3 |
+        | Barde | 1 |
+        | Barbar, Druide, Mönch, Paladin | 0 |
+
+        Zusätzlich schon teilweise real hinterlegt (unabhängig von der
+        Testnutzung): Zauber-Tabellen (`base_class_spells*.json`) für Magier/
+        Hexenmeister/Barde/Orakel; Options-Gruppen (Domänen/Blutlinien/
+        Mysterien/Bindungen) für Druide/Hexenmeister/Kleriker/Magier/Orakel/
+        Waldläufer.
+
+        **Vorschlag für die Reihenfolge:** nach Kämpfer als Nächstes Magier,
+        Waldläufer, Hexenmeister — decken zusammen mit Kämpfer bereits ~85 %
+        der Testerwähnungen ab und spannen dabei die wichtigsten
+        mechanischen Achsen auf (volles GAB mit Bonustalenten, halbes GAB
+        arkan-vorbereitet, volles GAB als Teilzeit-Zauberwirker
+        divine-spontan, halbes GAB arkan-spontan). Danach Kleriker (einzige
+        vorbereitete Divine-Klasse mit Domänen) und Schurke
+        (fertigkeiten-/talentbasiert, keine Zauber — Kontrast zu Kämpfers
+        talentbasiertem Nicht-Zauberwirker-Profil), um die Abdeckung
+        abzurunden, ohne eine bereits abgedeckte Mechanik zu duplizieren.
+        Barbar/Druide/Mönch/Paladin haben aktuell keine Testabdeckung und
+        sind — analog zu Zwerg/Gnom/Halbelf bei den Rassen — gute
+        Kandidaten, um sie beim nächsten Aufräumdurchgang als ungeprüftes
+        Platzhaltermaterial zu entfernen, statt sie einzeln zu verifizieren.
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
     - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,
