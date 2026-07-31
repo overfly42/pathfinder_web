@@ -2,7 +2,8 @@
 each row is either a root class (`arch_class_of` null) or one archetype
 variant of exactly one parent (`arch_class_of` = the parent's id), per
 `readme.md`'s ER diagram. `name` joins back to `classes.json` for skill
-points/class skills/spell type/etc.; `hit_dice` is only set on root rows.
+points/class skills/spell type/etc.; `hit_dice`/`bab_progression`/
+`fort_save`/`ref_save`/`wil_save` are only set on root rows.
 
 Idempotent: each row is upserted by its own `id`, safe to re-run. Root rows
 are upserted (and flushed) before archetype rows, since the latter's
@@ -36,6 +37,11 @@ def _upsert_base_class(db: Session, row: dict) -> None:
         "arch_class_of": arch_class_of,
         "casting_ability": row.get("casting_ability"),
         "spell_tradition": row.get("spell_tradition"),
+        "bab_progression": row.get("bab_progression"),
+        "fort_save": row.get("fort_save"),
+        "ref_save": row.get("ref_save"),
+        "wil_save": row.get("wil_save"),
+        "skill_points_base": row.get("skill_points_base"),
     }
     instance = db.get(BaseClass, row_id)
     if instance is None:

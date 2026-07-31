@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -31,12 +31,29 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # Sorcerer/Bard, WE for Druid/Cleric/Ranger) and tradition (`'arcane'`/
     # `'divine'`, the axis `BaseSpellComponent` keys off of) — null for
     # non-casters. Real columns rather than another `classes.json` field,
-    # unlike `spellType`/`skillPointsBase`/etc.: these are new, and the
-    # intent going forward is fewer fixtures, not more. Only ever set on root
-    # rows, same reasoning as `hit_dice` (an archetype doesn't change its
-    # parent's casting ability or tradition).
+    # unlike `spellType`/etc.: these are new, and the intent going forward is
+    # fewer fixtures, not more. Only ever set on root rows, same reasoning as
+    # `hit_dice` (an archetype doesn't change its parent's casting ability or
+    # tradition).
     casting_ability: Mapped[str | None] = mapped_column(String(2), nullable=True)
     spell_tradition: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    # BAB/save progression (readme.md's ER diagram: `float bab_progression`,
+    # `bool wil_save`/`fort_save`/`ref_save`) — only ever set on root rows,
+    # same reasoning as `hit_dice`: an archetype doesn't change its parent's
+    # progression. `bab_progression` is the fraction of character level
+    # granted per level (1.0 full/0.75 3-in-4/0.5 half); a save being `True`
+    # means "good" (2 + level/2), `False` means "poor" (level/3) — see
+    # `rules/progression.py`.
+    bab_progression: Mapped[float | None] = mapped_column(Float, nullable=True)
+    fort_save: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    ref_save: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    wil_save: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    # Skill points gained per level, before the INT modifier (`classes.json`'s
+    # `skillPointsBase`) — only ever set on root rows, same reasoning as
+    # `hit_dice`. Migrated out of the fixture the same way `bab_progression`/
+    # the saves were: `_skill_points_total` (routers/characters.py) now reads
+    # this column instead of looking the class up by name in `classes.json`.
+    skill_points_base: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     parent: Mapped["BaseClass | None"] = relationship(
         remote_side="BaseClass.id", back_populates="archetypes"

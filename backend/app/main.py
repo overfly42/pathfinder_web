@@ -113,9 +113,9 @@ def get_character_progression(character_id: str) -> dict:
 
 @app.get("/api/classes")
 def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
-    """`classes.json`'s content (skill points/spell type/archetypes) stays
-    fixture, joined by `name`, except `classSkills`, `optionGroups` and
-    `bonusFeatLevels`: those fields are overwritten here with real rows from
+    """`classes.json`'s content (spell type/archetypes) stays fixture, joined
+    by `name`, except `classSkills`, `optionGroups`, `bonusFeatLevels` and
+    `skillPointsBase`: those fields are overwritten here with real rows from
     `base_class_skills`, `base_class_option_groups`/`base_class_option_choices`
     and `base_class_ability_grants` (roadmap slice 3) instead of the
     fixture's own copies, now that they're real tables — see
@@ -127,7 +127,11 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     class name has no matching root row) is exposed so the frontend can key
     `CharacterCreate.spell_ids`/`spellbook` calls by `base_class_id`, same
     reasoning as `castingAbility`/`spellTradition`/`spellsKnownByLevel`
-    (roadmap slice 3's spellbook pass, see `rules/spells.py`)."""
+    (roadmap slice 3's spellbook pass, see `rules/spells.py`). `babProgression`/
+    `fortSave`/`refSave`/`willSave` (roadmap slice 3's HP/BAB/save item)
+    likewise come straight from `BaseClass`, letting a future sheet/level-up
+    UI mirror `rules/progression.py`'s math without hardcoding per-class
+    progression."""
     classes = load_fixture("classes.json")
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_id_by_name = {root.name: root.id for root in roots}
@@ -178,6 +182,12 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["castingAbility"] = root.casting_ability if root else None
         class_def["spellTradition"] = root.spell_tradition if root else None
         class_def["spellsKnownByLevel"] = known_by_root_id.get(root_id, {}) if root_id else {}
+        class_def["babProgression"] = root.bab_progression if root else None
+        class_def["fortSave"] = root.fort_save if root else None
+        class_def["refSave"] = root.ref_save if root else None
+        class_def["willSave"] = root.wil_save if root else None
+        if root is not None:
+            class_def["skillPointsBase"] = root.skill_points_base
     return classes
 
 

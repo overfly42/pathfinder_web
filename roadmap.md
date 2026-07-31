@@ -460,15 +460,61 @@ Cheapest slice — proves the whole pattern before harder ones.
       classes (needs a data-model decision on which archetypes mutually
       exclude each other — not yet made; the equivalent question for races
       was resolved in slice 2).
-- [ ] Fully playable level-1 character: HP/BAB/save progression, computed
+- [x] Fully playable level-1 character: HP/BAB/save progression, computed
       (not stored) from real per-class data — `BaseClass` gains
-      `bab_progression` (good/¾/½) and `fort_save`/`ref_save`/`wil_save`
-      (good/poor), matching the fields already sketched in `readme.md`'s ER
-      diagram but never implemented; `CharacterLevel.hit_points` (already a
-      column, currently always unset) gets actually computed from
-      `hit_dice`. Multiclass sums each class's own contribution per
-      class-level taken (e.g. BAB/saves), not the total level against one
-      averaged progression.
+      `bab_progression` (`float`: 1.0 full/0.75 ¾/0.5 ½) and
+      `fort_save`/`ref_save`/`wil_save` (`bool`: good/poor), matching the
+      fields already sketched in `readme.md`'s ER diagram but never
+      implemented until now (migration `fa831e2478e2`; only ever set on root
+      rows, same as `hit_dice` — an archetype doesn't change its parent's
+      progression). Seeded with the real PF1e core-rulebook values for all
+      12 root classes (`backend/app/fixtures/seed/base_classes.json` via
+      `class_seed.py`). `GET /api/classes` exposes them as `babProgression`/
+      `fortSave`/`refSave`/`willSave`, same convention as `castingAbility`/
+      `spellTradition`.
+
+      BAB and saves are genuinely computed, not stored: `Character.bab`/
+      `Character.saves` (`backend/app/models/character.py`) group `levels`
+      by root class the same way `Character.classes` already does, then sum
+      each class's own contribution — `rules/progression.py`'s
+      `class_bab`/`class_save_bonus` — against that class's own level count,
+      never the total character level run through one averaged progression
+      (`requirements_v2.md` §2's multiclass rule; a Krieger 2/Schurke 1
+      character's BAB is `floor(2*1.0) + floor(1*0.75)`, not
+      `floor(3*something)`). Exposed as new `bab`/`saves` fields on
+      `CharacterRead`.
+
+      `CharacterLevel.hit_points` (already a column, previously always
+      unset) does get stored per level, unlike BAB/saves — it already had
+      per-level storage in the ER diagram, presumably as an audit trail
+      (which level contributed how much HP). Per an explicit decision with
+      the user (not assumed): the character's very first level ever is
+      auto-maxed (its class's hit die at max value, no input needed — PF1e
+      RAW is unconditional here); every level after that (including a newly
+      multiclassed class's first level) is a player-entered roll, submitted
+      via `CharacterCreate.hit_points` (level number as a string key -> HP
+      value) and validated against that level's class's hit die range
+      (`rules/progression.py`'s `is_valid_rolled_hit_points`, `1 <= value <=
+      hit_dice`) — creation rejects with 422 if a level 2..total_level entry
+      is missing, extra, out of range, or if level 1 is included at all.
+      `current_hit_points` (still "current, not max" per its existing
+      docstring) is server-computed once those rolls are validated, as
+      `sum(level.hit_points) + effective_CON_mod * total_level`
+      (`requirements_v2.md` §2's formula) — `CharacterCreate.current_hit_points`
+      (a flat client-supplied number, which nothing actually sent) was
+      removed in favor of this. Effective CON mod reuses the same
+      `race_ability_score_mods`/`_effective_ability_mod` helper already used
+      for INT (skill points) and casting-ability (spell budgets), so a
+      race's flat ability bonuses (e.g. Elf's -2 CON) apply to HP the same
+      way they apply everywhere else.
+
+      `BaseClass` also gained `skill_points_base` (int, only set on root
+      rows) in this pass, migrating `classes.json`'s `skillPointsBase` field
+      into the database the same way `bab_progression`/the saves were —
+      `_skill_points_total` (`routers/characters.py`) now reads
+      `root.skill_points_base` instead of looking the class up by name in
+      the fixture, and `GET /api/classes` overwrites its `skillPointsBase`
+      field with the real column at read time (migration `dc0c837e77bb`).
 
       Moved here from slice 7's original "thin: HP/BAB/save progression"
       bullet, by explicit decision: a level-1 character already has BAB and

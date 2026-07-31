@@ -30,6 +30,7 @@ from ..models import (
 )
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
+from ..rules.progression import is_valid_rolled_hit_points
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection, SpellbookAdd
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
@@ -69,15 +70,16 @@ def resolve_archetype(db: Session, root: BaseClass, archetype_name: str) -> Base
     return variant
 
 
-def _skill_points_total(classes: list, int_mod: int) -> int:
+def _skill_points_total(classes: list[ClassSelection], roots: list[BaseClass], int_mod: int) -> int:
     """Mirrors the frontend's `skillPointsTotal` (creationCalculations.ts):
     per class-taken, max(1, class's base skill points + INT modifier) times
-    the levels taken in it, summed across all classes."""
+    the levels taken in it, summed across all classes. `roots` is
+    index-aligned with `classes` (both come from the same `zip` elsewhere in
+    this module) — `BaseClass.skill_points_base`, not `classes.json`, is the
+    source of truth now."""
     total = 0
-    for selection in classes:
-        class_def = _class_def(selection.class_name) or {}
-        base = class_def.get("skillPointsBase", 2)
-        total += max(1, base + int_mod) * selection.level
+    for selection, root in zip(classes, roots):
+        total += max(1, root.skill_points_base + int_mod) * selection.level
     return total
 
 
@@ -171,6 +173,34 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
     total_level = sum(selection.level for selection in body.classes)
 
+    # Player-entered HP roll for every level except the character's very
+    # first (always maxed automatically) - see CharacterCreate.hit_points.
+    hit_dice_by_level: dict[int, int] = {}
+    running_level_for_hit_dice = 0
+    for selection, root in zip(body.classes, roots):
+        for _ in range(selection.level):
+            running_level_for_hit_dice += 1
+            hit_dice_by_level[running_level_for_hit_dice] = root.hit_dice
+
+    submitted_hit_points: dict[int, int] = {}
+    for level_str, value in body.hit_points.items():
+        try:
+            level_num = int(level_str)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid hit_points level '{level_str}'") from exc
+        submitted_hit_points[level_num] = value
+
+    if set(submitted_hit_points) != set(range(2, total_level + 1)):
+        raise HTTPException(
+            status_code=422, detail=f"hit_points must include exactly one entry for each of levels 2..{total_level}"
+        )
+    for level_num, value in submitted_hit_points.items():
+        hit_dice = hit_dice_by_level[level_num]
+        if not is_valid_rolled_hit_points(hit_dice, value):
+            raise HTTPException(
+                status_code=422, detail=f"hit_points for level {level_num} must be between 1 and {hit_dice}"
+            )
+
     race_mods = race_ability_score_mods(db, body.race_id)
 
     def _effective_ability_mod(ability: str) -> int:
@@ -191,7 +221,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             if ranks > total_level:
                 raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
 
-        budget = _skill_points_total(body.classes, _effective_ability_mod("IN"))
+        budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"))
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
@@ -277,7 +307,6 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         name=body.name,
         user_id=body.user_id,
         race_id=body.race_id,
-        current_hit_points=body.current_hit_points,
         ability_score_st=body.ability_scores["ST"],
         ability_score_ge=body.ability_scores["GE"],
         ability_score_ko=body.ability_scores["KO"],
@@ -302,7 +331,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
         for _ in range(selection.level):
             running_level += 1
-            last_level_row = CharacterLevel(level=running_level, base_class_id=root.id)
+            hit_points = root.hit_dice if running_level == 1 else submitted_hit_points[running_level]
+            last_level_row = CharacterLevel(level=running_level, base_class_id=root.id, hit_points=hit_points)
             character.levels.append(last_level_row)
         for group_key, choices in selection.options.items():
             for choice in choices:
@@ -322,6 +352,14 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 continue
             seen_archetype_ids.add(archetype.id)
             character.class_memberships.append(CharacterClass(base_class_id=archetype.id))
+
+    # requirements_v2.md §2: HP = sum of Hit Dice from all classes + CON mod
+    # x character level. A freshly created character starts at full health,
+    # so this is also the initial `current_hit_points` (damage tracking is a
+    # later `PATCH .../hp` concern, see todos.md).
+    character.current_hit_points = sum(level.hit_points for level in character.levels) + _effective_ability_mod(
+        "KO"
+    ) * total_level
 
     if last_level_row is not None:
         for skill_id_str, ranks in body.skill_ranks.items():

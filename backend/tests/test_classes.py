@@ -16,3 +16,32 @@ def test_list_classes_exposes_bonus_feat_levels_from_real_data(client: TestClien
     assert classes["Krieger"]["bonusFeatLevels"] == [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
     # No seeded bonus-feat data for other classes -> empty, not a guess.
     assert classes["Waldläufer"]["bonusFeatLevels"] == []
+
+
+def test_list_classes_exposes_bab_and_save_progression(client: TestClient, db_session: Session) -> None:
+    seed_classes(db_session)
+
+    response = client.get("/api/classes")
+    assert response.status_code == 200
+    classes = {c["name"]: c for c in response.json()}
+
+    # Krieger (Fighter): full BAB, good fort, poor ref/will.
+    assert classes["Krieger"]["babProgression"] == 1.0
+    assert classes["Krieger"]["fortSave"] is True
+    assert classes["Krieger"]["refSave"] is False
+    assert classes["Krieger"]["willSave"] is False
+    # Magier (Wizard): half BAB, poor fort/ref, good will.
+    assert classes["Magier"]["babProgression"] == 0.5
+    assert classes["Magier"]["fortSave"] is False
+    assert classes["Magier"]["willSave"] is True
+
+
+def test_list_classes_exposes_skill_points_base_from_real_data(client: TestClient, db_session: Session) -> None:
+    seed_classes(db_session)
+
+    response = client.get("/api/classes")
+    assert response.status_code == 200
+    classes = {c["name"]: c for c in response.json()}
+
+    assert classes["Schurke"]["skillPointsBase"] == 8
+    assert classes["Krieger"]["skillPointsBase"] == 2

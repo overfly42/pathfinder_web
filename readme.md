@@ -276,7 +276,7 @@ Mostly static-fixture GETs (`backend/app/main.py`, backed by JSON files in `back
 | Method | Path | Backed by |
 |---|---|---|
 | GET | `/api/races` | database (`BaseRace`/`BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement`) |
-| GET | `/api/classes` | fixture, except `id`/`classSkills`/`optionGroups`/`bonusFeatLevels`/`castingAbility`/`spellTradition`/`spellsKnownByLevel` (database — `BaseClass`/`BaseClassSkill`/`BaseClassOptionGroup`/`BaseClassOptionChoice`/`BaseClassAbilityGrant`/`BaseClassSpellsKnown`) |
+| GET | `/api/classes` | fixture, except `id`/`classSkills`/`optionGroups`/`bonusFeatLevels`/`castingAbility`/`spellTradition`/`spellsKnownByLevel`/`babProgression`/`fortSave`/`refSave`/`willSave` (database — `BaseClass`/`BaseClassSkill`/`BaseClassOptionGroup`/`BaseClassOptionChoice`/`BaseClassAbilityGrant`/`BaseClassSpellsKnown`) |
 | GET | `/api/feats` | database (`BaseFeat`) |
 | GET | `/api/traits` | database (`BaseTrait`) |
 | GET | `/api/skills` | database (`BaseSkill`) |

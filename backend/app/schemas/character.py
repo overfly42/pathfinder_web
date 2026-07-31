@@ -44,7 +44,15 @@ class CharacterCreate(BaseModel):
     user_id: UUID
     race_id: UUID
     classes: list[ClassSelection]
-    current_hit_points: int | None = None
+    # Player-entered HP roll for every level *except* the character's very
+    # first (that one is always maxed automatically — see
+    # `rules/progression.py`), keyed by character level number as a string
+    # (e.g. `{"2": 7, "3": 5}` for a level-3 character) since JSON object
+    # keys can't be ints. Validated server-side against that level's class's
+    # `hit_dice` (`routers/characters.py`): must cover exactly levels
+    # 2..total_level, one entry each, each between 1 and that die's max,
+    # inclusive.
+    hit_points: dict[str, int] = {}
     ability_scores: dict[str, int]
     point_budget: Literal[10, 15, 20, 25]
     flex_ability: str | None = None
@@ -178,6 +186,12 @@ class CharacterRead(BaseModel):
     classes: list[ClassSelection]
     level: int
     current_hit_points: int | None
+    # Computed (not stored) from each class's own `bab_progression`/
+    # `fort_save`/`ref_save`/`wil_save` and level count, summed across
+    # classes — see `Character.bab`/`Character.saves` (models/character.py)
+    # and `rules/progression.py`.
+    bab: int
+    saves: dict[str, int]
     ability_scores: dict[str, int]
     point_budget: int
     flex_ability: str | None

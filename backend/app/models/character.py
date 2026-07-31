@@ -4,6 +4,7 @@ from sqlalchemy import Boolean, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from ..rules.progression import class_bab, class_save_bonus
 from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
@@ -106,6 +107,37 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             }
             for root in order
         ]
+
+    def _class_level_counts(self) -> dict[BaseClass, int]:
+        """How many `levels` rows this character has per root class taken —
+        the shared grouping `bab`/`saves` need (each class's own progression
+        is computed against its own level count, then summed, per
+        `requirements_v2.md` §2's multiclass rule)."""
+        counts: dict[uuid.UUID, int] = {}
+        roots: dict[uuid.UUID, BaseClass] = {}
+        for character_level in self.levels:
+            root = character_level.base_class
+            counts[root.id] = counts.get(root.id, 0) + 1
+            roots[root.id] = root
+        return {roots[root_id]: count for root_id, count in counts.items()}
+
+    @property
+    def bab(self) -> int:
+        """Total base attack bonus, computed (not stored) from each class's
+        own `bab_progression` and level count, summed across classes."""
+        return sum(class_bab(root.bab_progression, count) for root, count in self._class_level_counts().items())
+
+    @property
+    def saves(self) -> dict[str, int]:
+        """Total Fortitude/Reflex/Will save bonuses, computed (not stored)
+        the same way as `bab` — each class's own good/poor progression
+        against its own level count, summed across classes."""
+        counts = self._class_level_counts()
+        return {
+            "fort": sum(class_save_bonus(root.fort_save, count) for root, count in counts.items()),
+            "ref": sum(class_save_bonus(root.ref_save, count) for root, count in counts.items()),
+            "will": sum(class_save_bonus(root.wil_save, count) for root, count in counts.items()),
+        }
 
     @property
     def ability_scores(self) -> dict[str, int]:

@@ -78,12 +78,18 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
     seed_classes(db_session)  # base_class_option_groups/base_class_ability_grants FK into base_classes
     seed_class_options(db_session)
     seed_class_abilities(db_session)
+    classes = overrides.get("classes", [{"class_name": "Waldläufer", "level": 1}])
+    total_level = sum(selection["level"] for selection in classes)
     payload = {
         "name": "Elyra",
         "user_id": user_id,
         "race_id": race_id,
-        "classes": [{"class_name": "Waldläufer", "level": 1}],
-        "current_hit_points": 8,
+        "classes": classes,
+        # Player-entered HP roll for every level past the first (see
+        # CharacterCreate.hit_points) - a flat 1 per level by default (always
+        # in-range for any class's hit die), overridable by tests that care
+        # about the actual HP total.
+        "hit_points": {str(level): 1 for level in range(2, total_level + 1)},
         "ability_scores": DEFAULT_ABILITY_SCORES,
         "point_budget": 20,
     }
@@ -104,7 +110,11 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     assert body["classes"] == [
         {"class_name": "Waldläufer", "level": 1, "archetypes": [], "is_favored": True, "options": {}}
     ]
-    assert body["current_hit_points"] == 8
+    # Waldläufer (d10, full BAB, good fort/ref, poor will) at char level 1,
+    # max HP for the character's first level, Elf's -2 KO (13 -> 11, mod 0).
+    assert body["current_hit_points"] == 10
+    assert body["bab"] == 1
+    assert body["saves"] == {"fort": 2, "ref": 2, "will": 0}
     assert body["ability_scores"] == DEFAULT_ABILITY_SCORES
     assert body["point_budget"] == 20
     assert body["flex_ability"] is None
@@ -143,6 +153,9 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
             race_id,
             db_session,
             classes=[{"class_name": "Krieger", "level": 2}, {"class_name": "Schurke", "level": 1}],
+            # Player-entered HP rolls for Krieger's 2nd level and Schurke's
+            # 1st level (character levels 2 and 3 - level 1 is auto-maxed).
+            hit_points={"2": 6, "3": 5},
         ),
     )
     assert response.status_code == 201
@@ -152,6 +165,68 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
         {"class_name": "Krieger", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
         {"class_name": "Schurke", "level": 1, "archetypes": [], "is_favored": False, "options": {}},
     ]
+    # HP/BAB/saves are each class's own contribution against its own level
+    # count, summed - not the total level against one averaged progression
+    # (requirements_v2.md §2). Char level 1 (Krieger's 1st) auto-maxes its
+    # d10 (10); the other two rolls are the player-entered values above (6,
+    # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
+    # level sum: 10+6+5=21.
+    assert body["current_hit_points"] == 21
+    # BAB: Krieger floor(2*1.0)=2, Schurke floor(1*0.75)=0.
+    assert body["bab"] == 2
+    # Fort: Krieger good (2+1)=3, Schurke poor (0)=0 -> 3.
+    # Ref: Krieger poor (0), Schurke good (2+0)=2 -> 2.
+    # Will: Krieger poor (0), Schurke poor (0) -> 0.
+    assert body["saves"] == {"fort": 3, "ref": 2, "will": 0}
+
+
+def test_create_character_missing_hit_points_for_a_higher_level_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, classes=[{"class_name": "Waldläufer", "level": 2}], hit_points={}
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_hit_points_out_of_hit_die_range_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 2}],
+            hit_points={"2": 11},  # Waldläufer is a d10 - 11 is out of range.
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_hit_points_for_level_one_is_rejected(client: TestClient, db_session: Session) -> None:
+    """Level 1 is always auto-maxed - the player can't submit (or override) a
+    roll for it."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, classes=[{"class_name": "Waldläufer", "level": 1}], hit_points={"1": 5}
+        ),
+    )
+    assert response.status_code == 422
 
 
 def test_create_character_with_archetype_persists_and_round_trips(client: TestClient, db_session: Session) -> None:
