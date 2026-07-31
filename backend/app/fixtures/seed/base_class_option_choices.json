@@ -172,7 +172,7 @@
   {
     "id": "0a805c7c-8da8-46e4-a321-3c58b20e8385",
     "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
-    "name": "Aberrationen"
+    "name": "Aberration"
   },
   {
     "id": "fe0d0c43-9e4a-414a-8c35-250a0779037f",
@@ -197,7 +197,7 @@
   {
     "id": "4b629de4-8ed6-4c61-b133-0bc60234f90b",
     "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
-    "name": "Humanoide (Menschen)"
+    "name": "Humanoider (Mensch)"
   },
   {
     "id": "b1019ce2-1d5b-4e10-a1a5-a29b3fa4446a",
@@ -210,19 +210,139 @@
     "name": "Untote"
   },
   {
+    "id": "3dcf2c28-3804-47f1-b7cc-1c11a1ca8287",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Böse)"
+  },
+  {
+    "id": "42b9c72e-05c2-42cd-8b94-7e1d47ef9d69",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Chaotisch)"
+  },
+  {
+    "id": "6f027577-dfad-4467-9ef7-9c0937338f36",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Erde)"
+  },
+  {
+    "id": "50a40900-7eaa-4bec-b14d-9cf4c32b7f65",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Einheimisch)"
+  },
+  {
+    "id": "a59c1145-a9fe-44c1-825e-44cf058a8c02",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Feuer)"
+  },
+  {
+    "id": "57d3c28f-8fad-4e0d-8a5e-7063c75947a7",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Gut)"
+  },
+  {
+    "id": "b2ee0f7f-b5dc-4b1a-86ef-c699afd77946",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Luft)"
+  },
+  {
+    "id": "e2d3f72e-ae42-4ff7-aed9-bdd6bb5aae54",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Rechtschaffen)"
+  },
+  {
+    "id": "4c5f562f-63f4-4278-809d-4254c37be987",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Externare (Wasser)"
+  },
+  {
+    "id": "ed00df3f-4cdd-4171-844b-194971d37bdd",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Elf)"
+  },
+  {
+    "id": "92a9a111-d2d5-4d91-9694-e6e831b677dc",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Halbling)"
+  },
+  {
+    "id": "98ff5ce6-f6bd-45f0-9a08-3ecdb790f12d",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Goblinoid)"
+  },
+  {
+    "id": "f5b8de93-6a65-41ba-b534-0fc7ea7d64ac",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Gnoll)"
+  },
+  {
+    "id": "621ca457-592d-4c88-bb7b-339ec70cc232",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Gnom)"
+  },
+  {
+    "id": "3515052d-d9eb-4b8c-b712-942f46ccfe78",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Ork)"
+  },
+  {
+    "id": "ad6bbf3b-0dd6-4f04-ba3a-b4c6fcd6d720",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Reptil)"
+  },
+  {
+    "id": "5c72fae2-94a8-4ec6-bae5-6c53e937eb0a",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Riesen)"
+  },
+  {
+    "id": "f5998905-7c46-4c38-9c95-2e7d6e7cf9e5",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Wasser)"
+  },
+  {
+    "id": "4ad61c9b-5ddc-47de-93ab-d6a8adf434c8",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (Zwerg)"
+  },
+  {
+    "id": "a8fe411f-082f-4e0c-afe8-5305823c02dd",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Humanoider (andere Untergruppe)"
+  },
+  {
+    "id": "b42def4f-df16-40a4-ad88-48b089339dea",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Monströser Humanoid"
+  },
+  {
+    "id": "4ec9789e-d6d1-4f7c-8337-574c55bc9ab8",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Pflanzen"
+  },
+  {
+    "id": "c48c7723-9c80-492e-b3e0-f345c1587c71",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Schlicken"
+  },
+  {
+    "id": "3f2f182d-1cb1-4239-ae63-4fc1b4882180",
+    "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
+    "name": "Ungeziefer"
+  },
+  {
     "id": "669d27f6-921c-4034-be7a-507a037de88f",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
-    "name": "Wald"
+    "name": "Wald (Laub- und Nadelwald)"
   },
   {
     "id": "c5b2f619-1e99-4182-b6e6-2629f2fe0c48",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
-    "name": "Sumpf"
+    "name": "Feuchtgebiete"
   },
   {
     "id": "50a43d69-4328-48ec-8ab5-7e5e7c383e2b",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
-    "name": "Gebirge"
+    "name": "Gebirge (einschließlich Hügel)"
   },
   {
     "id": "39941aa4-bec5-4aa4-b7b7-e9483f3ff053",
@@ -232,7 +352,7 @@
   {
     "id": "7a09e21c-b7c3-4c1f-8a26-25c3ea9ddece",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
-    "name": "Wüste"
+    "name": "Wüste (Sand- und Steinwüste)"
   },
   {
     "id": "d4f691f2-1fbc-4760-8829-f3c280a16a3e",
@@ -242,6 +362,26 @@
   {
     "id": "3c959385-aa07-447d-907f-9156f9422073",
     "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
-    "name": "Unterreich"
+    "name": "Unterirdisch (Höhlen und Verliese)"
+  },
+  {
+    "id": "e08d0958-0a5d-4a13-b0b0-92954f9fa532",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Kälte (Eis, Gletscher, Schnee und Tundra)"
+  },
+  {
+    "id": "9aa4a286-9bfb-4818-a7c2-b268d6424126",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Planare Ebenen (auswählen, materielle Ebene kann nicht gewählt werden)"
+  },
+  {
+    "id": "5f94606c-30e0-44ce-a6ba-c22b7570c00c",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Städtisch (Häuser, Straßen und Kanalisation)"
+  },
+  {
+    "id": "8247c6c6-c6db-4b5a-9a66-3b3fd91e4a30",
+    "group_id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
+    "name": "Wasser (oberhalb und unterhalb der Wasseroberfläche)"
   }
 ]

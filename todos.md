@@ -189,6 +189,33 @@ Slice-Arbeit.
         `pathfinder-*-mock.html`-Dateien als Archetyp-Option ergänzt.
         `Waffenmeister`/`Söldnerkommandant` bleiben weiterhin ungeprüfte
         Platzhalter ohne eigene Merkmale.
+  - [x] **Waldläufer** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer>):
+        Trefferwürfel/GAB/Rettungswürfe/Fertigkeitspunkte/Zauberattribut
+        (WE)/Zaubertradition (divine) waren bereits korrekt. Klassenfertigkeiten
+        korrigiert: `Fluchtkunst` war fälschlich als Klassenfertigkeit
+        hinterlegt (nicht Teil der Quellliste, Zeile in `base_class_skills.json`
+        entfernt) und es fehlten Beruf, Einschüchtern, Wissen (Geographie),
+        Wissen (Gewölbekunde), Zauberkunde (ergänzt; Wissen (Geographie) gab
+        es noch gar nicht im `base_skills.json`-Katalog und wurde dort neu
+        angelegt — analog zu Wissen (Baukunst)/(Gewölbekunde) bei Kämpfer).
+        Alle 17 Klassenmerkmale der Quelle (Umgang mit Waffen und Rüstungen,
+        Erzfeind, Spuren lesen, Tierempathie, Kampfstiltalent, Ausdauer,
+        Bevorzugtes Gelände, Bund des Jägers, Unterholz durchqueren, Schneller
+        Verfolger, Entrinnen, Beute, Tarnung, Verbessertes Entrinnen,
+        Meisterliches Verstecken, Verbesserte Beute, Meisterjäger) als reine
+        Katalogzeilen (`BaseClassAbility`/`BaseClassAbilityGrant`) ergänzt,
+        gleiche Tiefe wie bei Kämpfer (keine Berechnungslogik). Kampfstiltalent
+        bewusst *nicht* in `feat_slots.py`s `BONUS_FEAT_SLOT_ABILITY_IDS`
+        aufgenommen — im Gegensatz zu Kämpfers Bonustalent ist die Auswahl
+        auf eine kampfstilabhängige Talentliste beschränkt, kein freier Slot.
+        Die bereits vorhandenen `BaseClassOptionChoice`-Listen für die
+        Options-Gruppen `enemy` (Erzfeind) und `terrain` (Bevorzugtes Gelände)
+        waren stark unvollständig (8 von 32 bzw. 7 von 11 Einträgen, teils mit
+        abweichenden Bezeichnungen wie „Sumpf" statt „Feuchtgebiete") — auf
+        die vollständigen Quelllisten gebracht (Zeilen mit gleicher `id`
+        umbenannt, fehlende ergänzt). `max_choices: 1` an beiden Gruppen
+        unverändert gelassen (weitere Erzfeind-/Geländewahlen bei
+        Stufenaufstieg sind ein separates, noch nicht gebautes Feature).
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -196,7 +223,7 @@ Slice-Arbeit.
         | Klasse | Testerwähnungen |
         |---|---|
         | Kämpfer | 28 (bereits korrigiert, siehe oben) |
-        | Waldläufer | 18 |
+        | Waldläufer | 18 (bereits korrigiert, siehe oben) |
         | Magier | 18 |
         | Hexenmeister | 8 |
         | Schurke | 5 |

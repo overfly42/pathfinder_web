@@ -143,5 +143,10 @@
     "id": "960179c4-5aed-4352-8b84-bd78a8c3a10e",
     "name": "Wissen (Gewölbekunde)",
     "ability": "IN"
+  },
+  {
+    "id": "86843d3f-57ee-4bdf-8ede-f5aed34d818c",
+    "name": "Wissen (Geographie)",
+    "ability": "IN"
   }
 ]

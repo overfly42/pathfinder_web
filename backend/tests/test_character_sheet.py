@@ -98,7 +98,16 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
-    create_response = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session))
+    # Magier has no `BaseClassAbilityGrant` data yet (unlike Kämpfer/
+    # Waldläufer) — the default Waldläufer payload now has real level-1
+    # class features (Erzfeind, Spuren lesen, ...), so it can't stand in for
+    # "no class features" anymore.
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, classes=[{"class_name": "Magier", "level": 1}]
+        ),
+    )
     assert create_response.status_code == 201
     character_id = create_response.json()["id"]
 
@@ -138,6 +147,47 @@ def test_character_sheet_for_legacy_character_without_hit_points_does_not_crash(
     response = client.get(f"/api/characters/{character_id}")
     assert response.status_code == 200
     assert response.json()["hp"] == {"current": 0, "max": 0}
+
+
+def test_class_features_for_waldlaeufer_match_source(client: TestClient, db_session: Session) -> None:
+    """http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer - a level-20
+    Waldläufer should have unlocked every class feature in the "Tabelle:
+    Waldläufer" progression, including the recurring ones (Erzfeind,
+    Kampfstiltalent, Bevorzugtes Gelände) at their final grant."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, classes=[{"class_name": "Waldläufer", "level": 20}]
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    feature_names = {f["name"] for f in body["classFeatures"]}
+
+    assert feature_names == {
+        "Umgang mit Waffen und Rüstungen (Waldläufer)",
+        "Erzfeind",
+        "Spuren lesen",
+        "Tierempathie",
+        "Kampfstiltalent",
+        "Ausdauer",
+        "Bevorzugtes Gelände",
+        "Bund des Jägers",
+        "Unterholz durchqueren",
+        "Schneller Verfolger",
+        "Entrinnen",
+        "Beute",
+        "Tarnung",
+        "Verbessertes Entrinnen",
+        "Meisterliches Verstecken",
+        "Verbesserte Beute",
+        "Meisterjäger",
+    }
 
 
 def test_class_features_apply_archetype_replacements(client: TestClient, db_session: Session) -> None:

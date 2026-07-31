@@ -73,5 +73,90 @@
     "id": "41d008f8-94bb-4890-aecf-ea957dc5a5f6",
     "name": "Tödliche Verteidigung",
     "description": "Ab der 19. Stufe provoziert jede Kreatur, die den Zwei-Waffen-Kämpfer bis zum Beginn seines nächsten Zuges trifft, nachdem er einen Vollen Angriff mit beiden Waffen geführt hat, einen Gelegenheitsangriff des Kämpfers. Ersetzt Waffenmeisterschaft (Zwei-Waffen-Kämpfer-Archetyp)."
+  },
+  {
+    "id": "38befc85-98b1-46ff-bd63-8c31b3498a4f",
+    "name": "Umgang mit Waffen und Rüstungen (Waldläufer)",
+    "description": "Der Waldläufer ist geübt im Umgang mit allen einfachen Waffen und allen Kriegswaffen. Er ist geübt im Umgang mit leichten und mittelschweren Rüstungen und Schilden, außer Turmschilden."
+  },
+  {
+    "id": "5841475a-379c-46f3-8e44-bbb02b8a6033",
+    "name": "Erzfeind",
+    "description": "Auf der 1. Stufe wählt der Waldläufer eine Gruppe von Wesen aus der Liste der Erzfeinde aus. Er erhält einen Bonus von +2 auf alle Fertigkeitswürfe in Bluffen, Motiv erkennen, Überlebenskunst, Wahrnehmung und Wissen, wenn er sie gegen eine Kreatur durchführt, die aus der Gruppe des gewählten Erzfeindes stammt. Außerdem erhält er einen Bonus von +2 auf Angriffe und Schaden gegen Erzfeinde. Ein Waldläufer kann Fertigkeitsproben in Wissen auch untrainiert durchführen, wenn es darum geht, diese Kreaturen zu identifizieren. Ab der 5. Stufe und alle fünf weiteren Stufen (10., 15. und 20.) kann der Waldläufer einen weiteren Erzfeind auswählen. Zusätzlich darf er jedes Mal, wenn er einen neuen Erzfeind erhält, den Bonus gegen einen Erzfeind, inklusive des gerade ausgewählten, um +2 erhöhen. Fällt ein Gegner in mehr als eine Kategorie, addieren sich die Boni des Waldläufers nicht auf, es zählt lediglich der höchste Bonus."
+  },
+  {
+    "id": "0a968cfa-399c-46c3-aff4-4b6fea305a05",
+    "name": "Spuren lesen",
+    "description": "Der Waldläufer addiert seine halbe Stufe (Minimum 1) auf alle Fertigkeitswürfe auf Überlebenskunst, wenn er Spuren verfolgt oder identifiziert."
+  },
+  {
+    "id": "ebd5060b-066a-4bc0-bdfa-064222de85bf",
+    "name": "Tierempathie",
+    "description": "Ein Waldläufer kann die Einstellung eines Tieres ihm gegenüber verbessern. Diese Fähigkeit funktioniert genau wie ein Fertigkeitswurf auf Diplomatie, um die Einstellung einer Person zu verändern. Der Waldläufer würfelt 1W20 und addiert sowohl seine Waldläuferstufe als auch seinen CH-Modifikator zu dem Wurf. Ein domestiziertes Tier beginnt mit einer gleichgültigen Einstellung, während ein wildes Tier zunächst unfreundlich ist. Um Tierempathie einsetzen zu können, müssen sich Tier und Waldläufer betrachten können; im Normalfall nicht weiter als 9 m voneinander entfernt, und das Beeinflussen eines Tieres dauert im Großen und Ganzen eine Minute. Ein Waldläufer kann mit dieser Fähigkeit auch versuchen, magische Bestien mit einem Intelligenzwert von 1 oder 2 zu beeinflussen, nimmt dabei jedoch einen Malus von -4 auf seine Probe in Kauf."
+  },
+  {
+    "id": "2438f403-ea53-475e-b542-5b5e8a4ccfa8",
+    "name": "Kampfstiltalent",
+    "description": "Auf der 2. Stufe muss sich der Waldläufer für einen von zwei Kampfstilen entscheiden: Bogenschießen oder Kampf mit zwei Waffen. Diese Wahl beeinflusst die Klassenmerkmale des Waldläufers, schränkt aber nicht seine Wahlmöglichkeiten für Talente ein, die er durch Stufenaufstieg erhält. Die Meisterschaft des Waldläufers manifestiert sich als Bonustalent auf den Klassenstufen 2, 6, 10, 14 und 18, gewählt aus einer vom Kampfstil abhängigen, mit der Stufe wachsenden Talentliste (Bogenschießen: Fernschuss, Kernschuss, Präzisionsschuss, Schnelles Schießen, ab 6. Stufe zusätzlich Verbesserter Präzisionsschuss und Mehrfachschuss, ab 10. Stufe zusätzlich Punktgenaues Zielen und Aus vollem Lauf schießen; Kampf mit zwei Waffen: Doppelschnitt, Kampf mit zwei Waffen, Schnelle Waffenbereitschaft, Verbesserter Schildstoß, ab 6. Stufe zusätzlich Verbesserter Kampf mit zwei Waffen und Verteidigung mit zwei Waffen, ab 10. Stufe zusätzlich Mächtiger Kampf mit zwei Waffen und Zerreißen mit zwei Waffen). Der Waldläufer kann ein Kampfstiltalent auch dann auswählen, wenn er die Voraussetzungen nicht erfüllt. Er erhält die Vorteile seiner Kampfstiltalente nur, wenn er leichte, mittelschwere oder gar keine Rüstung trägt, und verliert sie, sobald er eine schwerere Rüstung anlegt. Die Wahl des Kampfstils ist endgültig."
+  },
+  {
+    "id": "b40ae463-808b-46c5-9276-c5c344c2050f",
+    "name": "Ausdauer",
+    "description": "Auf der 3. Stufe erhält der Waldläufer Ausdauer als Bonustalent."
+  },
+  {
+    "id": "8aa5db0e-1c76-4db5-8827-7e9e0aac0924",
+    "name": "Bevorzugtes Gelände",
+    "description": "Auf der 3. Stufe wählt der Waldläufer eine Geländeart aus der Liste der bevorzugten Gelände aus. Er erhält einen Bonus von +2 auf Initiative und alle Fertigkeitswürfe in Heimlichkeit, Überlebenskunst, Wahrnehmung und Wissen (Geographie), wenn er sich in einem bevorzugten Gelände aufhält. Ein Waldläufer, der sich durch sein bevorzugtes Gelände bewegt, hinterlässt normalerweise keine Spuren und kann nicht mit Spurenlesen verfolgt werden (kann aber eine Spur hinterlassen, wenn er möchte). Auf der 8. Stufe und alle fünf weiteren Stufen (13. und 18.) erhält der Waldläufer ein weiteres bevorzugtes Gelände. Zusätzlich darf er jedes Mal, wenn er ein neues bevorzugtes Gelände erhält, die Boni auf ein bevorzugtes Gelände, inklusive des gerade ausgewählten, um +2 erhöhen. Fällt ein Gelände in mehr als eine Kategorie, addieren sich die Boni nicht, es zählt lediglich der höchste."
+  },
+  {
+    "id": "bad16cb2-63c0-4459-9876-53b4fd4a2c1d",
+    "name": "Bund des Jägers",
+    "description": "Auf der 4. Stufe bildet der Waldläufer einen Bund mit seinen Jagdgefährten, entweder als Bund mit seinen Gefährten oder als Bund mit einem Tiergefährten — einmal gewählt, kann diese Form später nicht mehr geändert werden. Der Bund mit Gefährten ermöglicht es dem Waldläufer, eine Bewegungsaktion auszugeben, um allen Verbündeten innerhalb von 9 m, die ihn sehen oder hören können, für eine Anzahl von Runden gleich seinem WE-Modifikator (Minimum 1) die Hälfte seines Erzfeindbonusses gegen einen einzelnen Gegner zu geben; das addiert sich nicht mit eigenen Erzfeind-Boni der Verbündeten, es zählt der höchste. Der Tiergefährte wird aus einer festen Liste gewählt (Dachs, Hund, Kamel, Pferd, Pony, kleine Raubkatze, Giftschlange, Würgeschlange, Schreckensratte, Vogel, Wolf, in aquatischen Kampagnen auch Hai), teilt die Boni des Waldläufers für Erzfeinde und bevorzugtes Gelände, und funktioniert wie die Druiden-Fähigkeit Bund mit der Natur, außer dass die effektive Druidenstufe der Waldläuferstufe - 3 entspricht."
+  },
+  {
+    "id": "2b7b62b2-28f3-4395-8d1e-2d64b3a88a1b",
+    "name": "Unterholz durchqueren",
+    "description": "Ab der 7. Stufe kann sich ein Waldläufer mit seiner vollen Bewegungsrate durch jede Art von Unterholz (wie natürliche Dornen, Gestrüpp, verwilderte Landschaften und ähnliches Terrain) bewegen, ohne Verletzungen oder Behinderungen zu erleiden. Dornen und anderes Unterholz, das magisch verändert wurde, um die Bewegung zu erschweren, betreffen den Waldläufer weiterhin."
+  },
+  {
+    "id": "b69e7539-ab0e-467d-8d73-1db9378afa1f",
+    "name": "Schneller Verfolger",
+    "description": "Ab der 8. Stufe kann der Waldläufer sich mit seiner normalen Bewegungsrate bewegen und eine Spur mit Überlebenskunst verfolgen, ohne den normalen Malus von -5 hinzunehmen. Er nimmt nur einen Malus von -10 hin (anstelle von -20), wenn er sich beim Spuren lesen mit seiner doppelten Bewegungsrate bewegt."
+  },
+  {
+    "id": "1835b892-c354-424a-9e97-d16b7bb27849",
+    "name": "Entrinnen",
+    "description": "Ab der 9. Stufe kann der Waldläufer magischen und ungewöhnlichen Angriffen mit großer Gewandtheit ausweichen. Wenn ihm ein Reflexwurf gegen einen Angriff gelingt, der normalerweise halben Schaden bei einem erfolgreichen Rettungswurf verursacht, erleidet er keinen Schaden. Er kann Entrinnen nur benutzen, wenn er eine leichte, mittelschwere oder keine Rüstung trägt. Ein hilfloser Waldläufer kann Entrinnen nicht benutzen."
+  },
+  {
+    "id": "8c84a7a6-e17b-462c-92cb-9cb9f702dbc4",
+    "name": "Beute",
+    "description": "Ab der 11. Stufe kann der Waldläufer mit einer Standard-Aktion einen Gegner in Sichtweite als Beute auswählen. Wenn er die Spuren seiner Beute verfolgt, kann der Waldläufer 10 nehmen, während er sich mit normaler Bewegungsrate bewegt. Zusätzlich erhält er einen Verständnisbonus von +2 auf Angriffe gegen seine Beute, und alle Bedrohungen, die zu einem kritischen Treffer führen können, werden automatisch bestätigt. Ein Waldläufer kann immer nur eine Beute haben, und sie muss aus der Liste seiner Erzfeinde stammen. Er kann diesen Effekt jederzeit als Freie Aktion beenden, muss dann aber 24 Stunden warten, bevor er eine neue Beute wählen kann (nur eine Stunde, wenn er einen Beweis sieht, dass seine Beute tot ist)."
+  },
+  {
+    "id": "67431ada-9b99-46af-bc5c-d73d290f536f",
+    "name": "Tarnung",
+    "description": "Ab der 12. Stufe kann der Waldläufer die Fertigkeit Heimlichkeit benutzen, um sich in jedem seiner bevorzugten Gelände zu verstecken, selbst wenn dieses normalerweise keine Deckung oder Tarnung gewährt."
+  },
+  {
+    "id": "cb2a7a2f-ee4e-41ca-8d4a-f1ad88048644",
+    "name": "Verbessertes Entrinnen",
+    "description": "Ab der 16. Stufe verbessert sich das Entrinnen eines Waldläufers: Bei einem fehlgeschlagenen Rettungswurf nimmt er nur noch halben Schaden, bei einem erfolgreichen weiterhin keinen. Wenn der Waldläufer hilflos ist, kann er Verbessertes Entrinnen nicht einsetzen."
+  },
+  {
+    "id": "bc6cb321-3e61-4efb-b73c-32c53457cd4e",
+    "name": "Meisterliches Verstecken",
+    "description": "Ab der 17. Stufe kann der Waldläufer in jedem seiner bevorzugten Gelände einen Fertigkeitswurf auf Heimlichkeit durchführen, selbst wenn er beobachtet wird."
+  },
+  {
+    "id": "b115086c-bc94-4dac-8190-ccdbd0d97d17",
+    "name": "Verbesserte Beute",
+    "description": "Auf der 19. Stufe verbessert sich die Fähigkeit des Waldläufers, seine Beute zu jagen. Er kann eine Beute nun als Freie Aktion auswählen. Wenn er die Spuren seiner Beute verfolgt, kann der Waldläufer 20 nehmen, während er sich mit normaler Bewegungsrate bewegt. Sein Verständnisbonus auf Angriffe auf seine Beute erhöht sich auf +4. Wenn er seine Beute aufgibt oder sie getötet wird, kann er nach 10 Minuten eine neue Beute wählen."
+  },
+  {
+    "id": "1864222e-4fb1-46d0-9fad-09787afcd93c",
+    "name": "Meisterjäger",
+    "description": "Auf der 20. Stufe wird der Waldläufer zum Meisterjäger. Er kann sich immer mit seiner vollen Bewegungsrate bewegen und eine Spur mit Überlebenskunst verfolgen, ohne Abzüge hinzunehmen. Als Standard-Aktion kann er einen einzelnen Angriff gegen einen Erzfeind mit seinem höchsten Angriffsbonus ausführen; trifft er, nimmt der Gegner normal Schaden und muss einen Zähigkeitswurf bestehen (SG 10 + 1/2 Waldläuferstufe + WE-Modifikator) oder stirbt. Stattdessen kann der Waldläufer nicht-tödlichen Schaden in Höhe der aktuellen Trefferpunkte des Gegners verursachen; ein erfolgreicher Rettungswurf negiert den Schaden. Ein Waldläufer kann diese Fähigkeit nur einmal pro Tag gegen jede Art von Erzfeind einsetzen, aber nur einmal gegen denselben Gegner innerhalb von 24 Stunden."
   }
 ]
