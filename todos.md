@@ -43,7 +43,16 @@ Slice-Arbeit.
         „Geschult", vormals fälschlich „Vielseitig" benannt) bestätigt;
         zwei erfundene Alternativmerkmale („Bemerkenswerte Fertigkeit",
         „Fokussierter Geist" — keine passten zu echten PF1e-Inhalten)
-        entfernt, Mensch hat aktuell keine Alternativmerkmale. Dabei einen
+        entfernt. **Nachtrag (2026-07-31):** Die Aussage „Mensch hat aktuell
+        keine Alternativmerkmale" war falsch — die Quelle listet unter
+        „Alternative Volksmerkmale" tatsächlich 15 echte Einträge, die beim
+        ersten Durchgang übersehen wurden. Nachträglich ergänzt: Bergkind,
+        Blick für Begabungen, Doppelte Begabung, Elendskind, Findelkind,
+        Glattzüngig, Heldenhaft, Konzentriertes Lernen, Landkind, Meereskind,
+        Mischling, Naturkind, Sommerkind, Stadtkind, Winterkind — inklusive
+        korrekter Ersetzt-Beziehungen („Doppelte Begabung" ersetzt sogar drei
+        Merkmale gleichzeitig: den freien +2-Attributsbonus, Bonustalent
+        *und* Geschult). Dabei einen
         echten Bug behoben: „Geschult" (+1 Fertigkeitsrang pro Stufe) war
         zwar als Datensatz vorhanden, wurde aber nirgends berechnet — jetzt
         in `backend/app/rules/skill_points.py` (`race_grants_bonus_skill_point_per_level`,
@@ -73,8 +82,24 @@ Slice-Arbeit.
         z. B. „Schnell zu Fuß" ersetzt sowohl Verminderte Bewegungsrate als
         auch Wendig). Rein kompositionell (Auswahl-Optionen), keine neue
         Berechnung — siehe die zwei offenen Lücken unten.
-  - [ ] Restliche Rassen (Elf, Zwerg, Gnom, Halbelf, Halb-Ork) und alle
-        Klassen noch offen.
+  - [x] **Halb-Ork** (Quelle: <http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/HalbOrks>):
+        Zwei fehlende echte Standardmerkmale ergänzt: „Einschüchternd" (+2
+        Einschüchtern) und „Waffenvertrautheit (Halb-Orks)" (Krummschwert,
+        Zweihändige Axt, orkische Waffen als Kriegswaffen). Die vorhandene
+        Fähigkeit „Kampfrausch" war inhaltlich bereits die richtige
+        Standardfähigkeit, aber falsch benannt/zu knapp beschrieben — in
+        „Orkische Wildheit" umbenannt und die Beschreibung an den Wortlaut
+        der Quelle angeglichen. Zwei erfundene Alternativmerkmale
+        („Einschüchternde Erscheinung", „Wildnisschritt" — keines passte zu
+        echten PF1e-Inhalten) entfernt und durch **alle 14 echten
+        Alternativmerkmale** ersetzt (Bestiensinne, Geschult [teilt sich die
+        Katalogzeile mit Mensch], Gesteigerte Dunkelsicht, Geübter Kletterer,
+        Heilige Tätowierung, Herr der Bestien, Höhlenkundiger, Kettenkrieger,
+        Kind der Großstadt, Lumpensammler, Reißzähne, Schamanenschüler,
+        Waldwanderer, Zerstörer), inklusive korrekter Ersetzt-Beziehungen.
+        Rein kompositionell, keine neue Berechnung.
+  - [ ] Restliche Rassen (Elf, Zwerg, Gnom, Halbelf) und alle Klassen noch
+        offen.
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
     - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,

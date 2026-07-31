@@ -57,11 +57,20 @@ def test_flex_attribute_bonus_is_shared_and_not_duplicated_as_a_trait(
     # The 6 per-attribute alternates that back the flex bonus (see
     # `resolve_flex_ability_id`) are internal plumbing, not player-facing
     # alternate traits — they must not leak into `alt` alongside Mensch's/
-    # Halb-Ork's real optional trait swaps.
-    # Mensch has no alternate racial traits modeled yet (roadmap: only the
-    # real, verified PF1e standard traits are seeded for now; see todos.md).
-    assert {a["name"] for a in mensch["alt"]} == set()
-    assert {a["name"] for a in halbork["alt"]} == {"Einschüchternde Erscheinung", "Wildnisschritt"}
+    # Halb-Ork's real optional trait swaps (see
+    # test_mensch_standard_traits_and_alternates_are_real /
+    # test_halbork_standard_traits_and_alternates_are_real for the full,
+    # content-checked alternate-trait lists).
+    flex_backing_names = {
+        "+2 auf Geschicklichkeit",
+        "+2 auf Intelligenz",
+        "+2 auf Konstitution",
+        "+2 auf Weisheit",
+        "+2 auf Charisma",
+        "+2 auf Stärke",
+    }
+    assert flex_backing_names.isdisjoint({a["name"] for a in mensch["alt"]})
+    assert flex_backing_names.isdisjoint({a["name"] for a in halbork["alt"]})
 
 
 def test_resolve_flex_ability_id_goes_through_the_replacement_system(client: TestClient, db_session: Session) -> None:
@@ -146,6 +155,81 @@ def test_halbling_standard_traits_and_alternates_are_real(client: TestClient, db
     replaces_by_name = {a["name"]: set(a["replaces"]) for a in halbling["alt"]}
     assert replaces_by_name["Schnell zu Fuß"] == {"Verminderte Bewegungsrate", "Wendig"}
     assert replaces_by_name["Wanderslust"] == {"Furchtlos", "Halblingsglück"}
+
+
+def test_mensch_standard_traits_and_alternates_are_real(client: TestClient, db_session: Session) -> None:
+    """Content-correction pass against the real German SRD
+    (<http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Menschen>,
+    see todos.md) — the earlier Mensch-correction pass verified the standard
+    traits but incorrectly concluded Mensch has no alternate traits at all;
+    the source's "Alternative Volksmerkmale" section actually lists 15 real
+    entries, now seeded."""
+    seed_races(db_session)
+
+    response = client.get("/api/races")
+    mensch = {r["name"]: r for r in response.json()}["Mensch"]
+
+    trait_names = {t["name"] for t in mensch["traits"]}
+    assert trait_names == {"Bonustalent", "Geschult", "Normale Bewegungsrate", "Mittelgroß"}
+
+    alt_names = {a["name"] for a in mensch["alt"]}
+    assert alt_names == {
+        "Bergkind", "Blick für Begabungen", "Doppelte Begabung", "Elendskind", "Findelkind",
+        "Glattzüngig", "Heldenhaft", "Konzentriertes Lernen", "Landkind", "Meereskind",
+        "Mischling", "Naturkind", "Sommerkind", "Stadtkind", "Winterkind",
+    }
+    assert "Bemerkenswerte Fertigkeit" not in alt_names
+    assert "Fokussierter Geist" not in alt_names
+
+    replaces_by_name = {a["name"]: set(a["replaces"]) for a in mensch["alt"]}
+    assert replaces_by_name["Bergkind"] == {"Geschult"}
+    assert replaces_by_name["Blick für Begabungen"] == {"Bonustalent"}
+    # Replaces all three standard traits at once; the shared flex "+2 to any
+    # attribute" marker is filtered from `replaces` by `_race_option` (it's
+    # not a player-facing named trait), so only the other two show up.
+    assert replaces_by_name["Doppelte Begabung"] == {"Bonustalent", "Geschult"}
+
+
+def test_halbork_standard_traits_and_alternates_are_real(client: TestClient, db_session: Session) -> None:
+    """Content-correction pass against the real German SRD
+    (<http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/HalbOrks>,
+    see todos.md) — the DB previously had two missing standard traits
+    ("Einschüchternd", "Waffenvertrautheit (Halb-Orks)"), a standard trait
+    that existed but was misnamed/under-described ("Kampfrausch", now
+    "Orkische Wildheit"), and two invented alternates ("Einschüchternde
+    Erscheinung"/"Wildnisschritt") that didn't match any real trait. Now
+    corrected to the real standard traits plus all 14 real alternates."""
+    seed_races(db_session)
+
+    response = client.get("/api/races")
+    halbork = {r["name"]: r for r in response.json()}["Halb-Ork"]
+
+    trait_names = {t["name"] for t in halbork["traits"]}
+    assert trait_names == {
+        "Dunkelsicht",
+        "Orkische Wildheit",
+        "Orkblut",
+        "Einschüchternd",
+        "Waffenvertrautheit (Halb-Orks)",
+        "Normale Bewegungsrate",
+        "Mittelgroß",
+    }
+    assert "Kampfrausch" not in trait_names
+
+    alt_names = {a["name"] for a in halbork["alt"]}
+    assert alt_names == {
+        "Bestiensinne", "Geschult", "Gesteigerte Dunkelsicht", "Geübter Kletterer",
+        "Heilige Tätowierung", "Herr der Bestien", "Höhlenkundiger", "Kettenkrieger",
+        "Kind der Großstadt", "Lumpensammler", "Reißzähne", "Schamanenschüler",
+        "Waldwanderer", "Zerstörer",
+    }
+    assert "Einschüchternde Erscheinung" not in alt_names
+    assert "Wildnisschritt" not in alt_names
+
+    replaces_by_name = {a["name"]: set(a["replaces"]) for a in halbork["alt"]}
+    assert replaces_by_name["Geschult"] == {"Dunkelsicht"}
+    assert replaces_by_name["Kind der Großstadt"] == {"Waffenvertrautheit (Halb-Orks)"}
+    assert replaces_by_name["Gesteigerte Dunkelsicht"] == {"Orkische Wildheit"}
 
 
 def test_darkvision_is_one_shared_ability_across_races(client: TestClient, db_session: Session) -> None:

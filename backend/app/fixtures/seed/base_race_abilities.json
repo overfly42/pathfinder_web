@@ -266,8 +266,8 @@
   },
   {
     "id": "4356f09c-b682-4697-a44e-cc16cea6b74f",
-    "name": "Kampfrausch",
-    "description": "Kämpft bei 0 Trefferpunkten noch eine Runde weiter, bevor Bewusstlosigkeit droht."
+    "name": "Orkische Wildheit",
+    "description": "Einmal pro Tag kann ein Halb-Ork, der auf weniger als 0 Trefferpunkte reduziert wurde, ohne dabei zu Tode zu kommen, für eine Runde weiterkämpfen, als ob er nur kampfunfähig wäre. Sollte er nicht wieder auf über 0 Trefferpunkte gebracht werden, wird er am Ende seines nächsten Zuges sofort bewusstlos und beginnt zu sterben."
   },
   {
     "id": "4a2474f8-19d8-4d36-8cdf-08c3cbe384b5",
@@ -275,18 +275,158 @@
     "description": "Gilt sowohl als Ork als auch als Mensch."
   },
   {
-    "id": "053ddf9f-0841-4bfb-ae11-4686a9574809",
-    "name": "Einschüchternde Erscheinung",
-    "description": "+2 auf Einschüchtern statt der Ork-Abstammung."
-  },
-  {
-    "id": "dc57662e-1074-4dbc-a510-b542ce0015fa",
-    "name": "Wildnisschritt",
-    "description": "Kein Bewegungsmalus in Wildnisgelände statt Kampfrausch."
-  },
-  {
     "id": "04d2de62-ece9-4345-be84-cf8bf00d94dd",
     "name": "+2 auf Stärke",
     "description": "+2 auf Stärke."
+  },
+  {
+    "id": "342e6626-6d77-47d5-a129-3a3ccc017088",
+    "name": "Einschüchternd",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Einschüchtern."
+  },
+  {
+    "id": "6c0eb78d-253a-4506-bb24-1c27e5516902",
+    "name": "Waffenvertrautheit (Halb-Orks)",
+    "description": "Ist geübt im Umgang mit dem Krummschwert und der Zweihändigen Axt und behandelt alle Waffen, die als orkisch bezeichnet werden, als Kriegswaffen."
+  },
+  {
+    "id": "9d4cb38d-bec5-4053-9c31-04bd68b527b8",
+    "name": "Bestiensinne",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung. Diese Option ersetzt das Volksmerkmal Orkische Wildheit."
+  },
+  {
+    "id": "f845ca2e-acfb-4d0f-801a-091797ab961d",
+    "name": "Gesteigerte Dunkelsicht",
+    "description": "Hat Dunkelsicht mit einer Reichweite von 27 m statt 18 m. Dieses Volksmerkmal ersetzt Orkische Wildheit und setzt das Volksmerkmal Dunkelsicht voraus."
+  },
+  {
+    "id": "30336a27-22b7-484f-8112-0d16658d638b",
+    "name": "Geübter Kletterer",
+    "description": "Erhält einen Bonus von +1 auf Fertigkeitswürfe für Akrobatik und Klettern. Diese Option ersetzt das Volksmerkmal Einschüchternd."
+  },
+  {
+    "id": "86d28f76-c465-42d5-95cb-f6861ac56eb6",
+    "name": "Heilige Tätowierung",
+    "description": "Erhält einen Glücksbonus von +1 auf alle Rettungswürfe. Diese Option ersetzt das Volksmerkmal Orkische Wildheit."
+  },
+  {
+    "id": "57be838a-81e9-4177-8494-84b569d3f4d6",
+    "name": "Herr der Bestien",
+    "description": "Peitschen und Netze gelten für ihn als Kriegswaffen. Zudem erhält er einen Bonus von +2 auf Fertigkeitswürfe für Mit Tieren umgehen. Diese Option ersetzt das Volksmerkmal Orkische Wildheit."
+  },
+  {
+    "id": "9a27c8ec-da35-4d2a-b76c-9c1ed62eff7c",
+    "name": "Höhlenkundiger",
+    "description": "Erhält einen Bonus von +1 auf Fertigkeitswürfe für Wissen (Gewölbekunde) und Überlebenskunst, sofern er sich in einem unterirdischen Gebiet aufhält. Diese Option ersetzt das Volksmerkmal Einschüchternd."
+  },
+  {
+    "id": "132bb540-bd7f-4461-988d-e04cab1852e1",
+    "name": "Kettenkrieger",
+    "description": "Gilt im Umgang mit leichten und schweren Streitflegeln als geübt und behandelt zudem Schreckensflegel und Stachelketten als Kriegswaffen. Diese Option ersetzt das Volksmerkmal Waffenvertrautheit."
+  },
+  {
+    "id": "580aa838-29ca-442f-bb46-6202894bd42f",
+    "name": "Kind der Großstadt",
+    "description": "Ist geübt im Umgang mit Langschwert und Peitsche und erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Wissen (Lokales). Dieses Volksmerkmal ersetzt Waffenvertrautheit."
+  },
+  {
+    "id": "cbff267f-4136-4e01-aef9-6827ea33e8d4",
+    "name": "Lumpensammler",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Schätzen und Wahrnehmung, um versteckte Gegenstände (inklusive Fallen und Geheimtüren) zu finden, und um Essen als genießbar und Tränke durch ihren Geschmack zu identifizieren. Diese Option ersetzt das Volksmerkmal Einschüchternd."
+  },
+  {
+    "id": "91b06165-05ad-47b7-9732-18bdf36e1536",
+    "name": "Reißzähne",
+    "description": "Erhält einen primären natürlichen Bissangriff, der 1W4 Punkte Stichwaffenschaden verursacht. Diese Option ersetzt das Volksmerkmal Orkische Wildheit."
+  },
+  {
+    "id": "957c1327-1473-488e-97db-03f6d768ec3e",
+    "name": "Schamanenschüler",
+    "description": "Erhält das Bonustalent Ausdauer. Dieses Volksmerkmal ersetzt Einschüchternd."
+  },
+  {
+    "id": "88d07a1f-ab89-47d0-85cb-9d4471a25785",
+    "name": "Waldwanderer",
+    "description": "Besitzt Dämmersicht und erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Klettern. Dieses Volksmerkmal ersetzt Dunkelsicht."
+  },
+  {
+    "id": "503aeab6-9046-4604-9d18-e9704659bf55",
+    "name": "Zerstörer",
+    "description": "Erhält einen Bonus von +2 auf Stärkewürfe beim Zerbrechen von Gegenständen und einen Bonus von +2 auf Kampfmanöverwürfe für Waffe zerschmettern. Diese Option ersetzt das Volksmerkmal Orkische Wildheit."
+  },
+  {
+    "id": "f76f7a31-f5db-46f4-8a85-d1d33b456d62",
+    "name": "Bergkind",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Klettern und für Akrobatik bei Bewegung auf schmalen Oberflächen und unebenem Boden, und gilt als an große Höhenlagen angepasst. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "61cab58b-f25f-4db4-be39-91c913e4f710",
+    "name": "Blick für Begabungen",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Motiv erkennen. Bei der Wahl eines Tiergefährten, Vertrauten, Gefolgsmanns oder Reittiers erhält zudem diese Kreatur einen Bonus von +2 auf ein Attribut nach Wahl des Charakters. Dieses Volksmerkmal ersetzt Bonustalent."
+  },
+  {
+    "id": "5dfde8b8-1206-4260-82ff-b29586e9f1a9",
+    "name": "Doppelte Begabung",
+    "description": "Wählt zwei Attributswerte und erhält für jedes dieser Attribute einen Volksbonus von +2. Dieses Volksmerkmal ersetzt den freien Bonus von +2 auf einen Attributswert sowie die Volksmerkmale Bonustalent und Geschult."
+  },
+  {
+    "id": "512ce88b-67b2-43d3-a314-b633bc304ad3",
+    "name": "Elendskind",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit und Heimlichkeit sowie einen Volksbonus von +4 auf Fertigkeitswürfe für Überlebenskunst in Städten und unterirdischen Gebieten. Kann gegen Krankheiten stets zwei Rettungswürfe ablegen und das bessere Ergebnis nutzen. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "4695689d-40aa-49ec-82d4-3b5db63c3edb",
+    "name": "Findelkind",
+    "description": "Wähle ein humanoides Volk ohne die Unterart Mensch: beherrscht zu Spielbeginn dessen Sprache und besitzt dessen Volksmerkmal Waffenvertrautheit, sofern vorhanden. Andernfalls erhält er stattdessen das passende Bonustalent Fertigkeitsfokus oder Waffenfokus. Dieses Volksmerkmal ersetzt Bonustalent."
+  },
+  {
+    "id": "b580981f-8e8c-4658-ab03-4b51d33652d0",
+    "name": "Glattzüngig",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Bluffen und Diplomatie. Wenn er Diplomatie nutzt, um die Einstellung einer Kreatur zu verändern, kann er diese um bis zu drei Stufen statt nur um zwei verändern. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "2cab4f99-1e02-45cd-9232-211e69a22089",
+    "name": "Heldenhaft",
+    "description": "Erhält bei Nutzung der Optionsregeln zu Heldenpunkten bei einem Stufenaufstieg 2 Heldenpunkte statt 1. Mit dem Talent Heldenblut erhält er sogar 3 Heldenpunkte pro Stufe statt 2. Dieses Volksmerkmal ersetzt Bonustalent."
+  },
+  {
+    "id": "95d07e29-c009-4f29-9359-8f4ca6a7e48c",
+    "name": "Konzentriertes Lernen",
+    "description": "Erhält mit der 1., 8. und 16. Stufe das Bonustalent Fertigkeitsfokus für eine Fertigkeit seiner Wahl. Dieses Volksmerkmal ersetzt Bonustalent."
+  },
+  {
+    "id": "75ba6497-5f8b-486e-bc31-bd9c5aab4529",
+    "name": "Landkind",
+    "description": "Erhält einen Bonus in Höhe seiner halben Charakterstufe auf Würfe für eine Berufs- oder Handwerksfertigkeit seiner Wahl und kann einmal pro Tag Effekte ignorieren, die ihn erschöpfen oder ermüden würden. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "8fbe6bfe-4088-4f25-8de4-117e93316831",
+    "name": "Meereskind",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Beruf (Seefahrer) und Schwimmen, die beide stets Klassenfertigkeiten für ihn sind. Kann seinen Atem doppelt so lange anhalten. Zauberkundige erhalten einen Volksbonus von +4 auf Konzentrationswürfe, wenn sie Zauber unter Wasser wirken. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "e9798a24-e965-45d0-ab31-101082d4a969",
+    "name": "Mischling",
+    "description": "Kann ein zweites -kind-Volksmerkmal zusätzlich auswählen. Dieses Volksmerkmal ersetzt Bonustalent."
+  },
+  {
+    "id": "645d22bc-e903-40da-84df-bcad32018687",
+    "name": "Naturkind",
+    "description": "Erhält einen Bonus in Höhe der halben Charakterstufe auf Fertigkeitswürfe für Überlebenskunst sowie einen Bonus von +5 auf Konstitutionswürfe, um sich im Zustand Sterbend zu stabilisieren. Addiert die halbe Charakterstufe auf den Konstitutionswert, um die Höhe der negativen Trefferpunkte zu bestimmen, die zum Tod führen. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "6df743b7-1f34-44f2-903b-d495e81666a2",
+    "name": "Sommerkind",
+    "description": "Erhält einen Volksbonus von +2 auf Zähigkeitswürfe gegen heißes Klima sowie gegen die Fähigkeiten Ablenkung und Gift von Schwärmen und Ungeziefer. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "9d54a5c2-6db0-48c8-ae97-882542fe3de3",
+    "name": "Stadtkind",
+    "description": "Erhält einen Bonus von +1 auf Reflexwürfe und einen Ausweichbonus von +1 auf die Rüstungsklasse, solange er sich zu wenigstens zwei Verbündeten angrenzend befindet. Ansammlungen von Leuten gelten für ihn nicht als schwieriges Gelände. Dieses Volksmerkmal ersetzt Geschult."
+  },
+  {
+    "id": "8feabcc8-68b4-4a05-91ed-bc3c5084a861",
+    "name": "Winterkind",
+    "description": "Erhält einen Volksbonus von +2 auf Zähigkeitswürfe gegen die Effekte kalten Klimas, auf Würfe oder Rettungswürfe, um Ausrutschen und Fallen zu vermeiden, und auf seine KMV gegen Zu-Fall-bringen; dies gilt auch für Fertigkeitswürfe für Akrobatik und Klettern bei rutschigen Bedingungen. Dieses Volksmerkmal ersetzt Geschult."
   }
 ]
