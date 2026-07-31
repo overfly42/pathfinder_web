@@ -180,11 +180,6 @@ export function gearTotalValue(gear: DraftGearItem[]): number {
   return gear.reduce((sum, item) => sum + (item.price || 0) * item.qty, 0);
 }
 
-export function priceForItemName(options: CreationOptions, name: string): number | null {
-  const found = options.items.find((i) => i.name === name);
-  return found ? found.price : null;
-}
-
 export function genderLabel(value: CreationDraft['gender']): string {
   if (value === 'maennlich') return 'Männlich';
   if (value === 'weiblich') return 'Weiblich';

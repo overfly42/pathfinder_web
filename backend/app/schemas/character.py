@@ -39,6 +39,20 @@ class ClassSelection(BaseModel):
         return value
 
 
+class GearSelection(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    item_id: UUID
+    quantity: int
+
+    @field_validator("quantity")
+    @classmethod
+    def quantity_must_be_positive(cls, value: int) -> int:
+        if value < 1:
+            raise ValueError("quantity must be at least 1")
+        return value
+
+
 class CharacterCreate(BaseModel):
     name: str
     user_id: UUID
@@ -82,6 +96,14 @@ class CharacterCreate(BaseModel):
     # budget). Collapsed onto the highest CharacterLevel row being created,
     # same reasoning as skill_ranks/feat_ids.
     spell_ids: dict[str, list[UUID]] = {}
+    # Starting gear picked from the real `base_items` catalog (roadmap slice
+    # 3's "minimal starting gear" — descriptive only, no equip slots or AC
+    # computation yet, see CharacterGear). Unlike feat_ids/trait_ids/
+    # spell_ids, not collapsed onto a CharacterLevel row: gear isn't gained
+    # at a level, it's the character's current inventory (CharacterGear is
+    # keyed by character_id directly), matching how slice 4's in-play
+    # gear endpoints will manage it too.
+    gear: list[GearSelection] = []
 
     @field_validator("name")
     @classmethod
@@ -152,6 +174,14 @@ class CharacterCreate(BaseModel):
                 raise ValueError("spell_ids must not contain duplicates within a class")
         return value
 
+    @field_validator("gear")
+    @classmethod
+    def gear_must_not_have_duplicate_items(cls, value: list["GearSelection"]) -> list["GearSelection"]:
+        item_ids = [selection.item_id for selection in value]
+        if len(set(item_ids)) != len(item_ids):
+            raise ValueError("gear must not contain the same item_id more than once")
+        return value
+
 
 class SpellbookAdd(BaseModel):
     """Body for `POST /api/characters/{id}/spellbook` — the in-play
@@ -200,3 +230,4 @@ class CharacterRead(BaseModel):
     feat_ids: list[UUID]
     trait_ids: list[UUID]
     spell_ids: dict[str, list[UUID]]
+    gear: list[GearSelection]

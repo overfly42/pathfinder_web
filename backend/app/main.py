@@ -18,7 +18,7 @@ from .models import (
     BaseClassSpellsKnown,
     Character,
 )
-from .routers import characters, feats, races, skills, spells, traits, users
+from .routers import characters, feats, items, races, skills, spells, traits, users
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .schemas.character import CharacterRead
 
@@ -55,6 +55,7 @@ app.include_router(skills.router)
 app.include_router(feats.router)
 app.include_router(traits.router)
 app.include_router(spells.router)
+app.include_router(items.router)
 app.include_router(characters.router)
 
 
@@ -199,11 +200,6 @@ def get_abilities() -> list:
 @app.get("/api/point-buy-costs")
 def get_point_buy_costs() -> dict:
     return load_fixture("point_buy_costs.json")
-
-
-@app.get("/api/items")
-def get_items() -> list:
-    return load_fixture("items.json")
 
 
 @app.get("/api/effects")

@@ -108,6 +108,7 @@ export function CreationWizardPage() {
           feat_ids: draft.feats,
           trait_ids: draft.traits,
           spell_ids: spellIdsForSubmission(draft, opts),
+          gear: draft.gear.map((item) => ({ item_id: item.itemId, quantity: item.qty })),
         });
         setSubmitState('success');
       } catch {

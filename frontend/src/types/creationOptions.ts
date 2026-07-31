@@ -83,8 +83,15 @@ export interface AbilityDef {
   name: string;
 }
 
+export type ItemCategory = 'weapon' | 'armor' | 'shield' | 'gear' | 'tool' | 'consumable';
+
 export interface ItemCatalogEntry {
+  id: string;
   name: string;
+  /** Plain categorization tag (see `BaseItem.category` on the backend) — not
+   *  evaluated by any rule logic yet, only used to group/filter the gear
+   *  picker (`EquipmentStep.tsx`). */
+  category: ItemCategory;
   price: number;
 }
 

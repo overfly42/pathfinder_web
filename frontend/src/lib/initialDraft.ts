@@ -18,9 +18,6 @@ export function createInitialDraft(): CreationDraft {
     traits: [],
     spellSelections: {},
     gold: 0,
-    gear: [
-      { id: createId(), name: 'Abenteurerausrüstung', qty: 1, price: 9 },
-      { id: createId(), name: 'Reisekleidung', qty: 1, price: 1 },
-    ],
+    gear: [],
   };
 }

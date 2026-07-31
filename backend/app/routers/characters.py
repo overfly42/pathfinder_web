@@ -14,6 +14,7 @@ from ..models import (
     BaseClassOptionGroup,
     BaseClassSpell,
     BaseFeat,
+    BaseItem,
     BaseRace,
     BaseSkill,
     BaseTrait,
@@ -21,6 +22,7 @@ from ..models import (
     CharacterClass,
     CharacterClassOption,
     CharacterFeat,
+    CharacterGear,
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
@@ -303,6 +305,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 if len(non_grade0) > budget:
                     raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
 
+    if body.gear:
+        valid_item_ids = set(db.scalars(select(BaseItem.id)).all())
+        for selection in body.gear:
+            if selection.item_id not in valid_item_ids:
+                raise HTTPException(status_code=422, detail=f"Unknown item id '{selection.item_id}'")
+
     character = Character(
         name=body.name,
         user_id=body.user_id,
@@ -319,6 +327,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
     for ability_id in alt_trait_ability_ids:
         character.racial_choices.append(CharacterRacialChoice(ability_id=ability_id))
+    for selection in body.gear:
+        character.gear.append(CharacterGear(item_id=selection.item_id, quantity=selection.quantity))
 
     # The root of the first submitted class is favored by default — matches
     # the class picker's row order, not something the wizard asks for yet.

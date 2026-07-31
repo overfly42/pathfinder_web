@@ -524,14 +524,42 @@ Cheapest slice — proves the whole pattern before harder ones.
       none of which a fresh level-1 character strictly needs. Level-up
       (slice 7) reuses this computation per new level rather than
       rebuilding it.
-- [ ] Minimal starting gear: a fixed weapon/armor/adventuring-gear list
-      (plus simple roleplay items, e.g. a cooking pot) attached to the
-      character at creation — descriptive only, no AC/attack-bonus
-      computation yet. Deliberately *not* the shared modifier/bonus-stacking
-      system slice 4 owns (magic items, enchantments, equip-slot swapping,
-      real AC recompute) — that stays scoped to what *ongoing* play needs
-      (buying/finding/enchanting gear later), not what a freshly created
-      character needs to already be playable.
+- [x] Minimal starting gear: real `BaseItem` catalog (id, name, `category` —
+      a plain categorization tag, e.g. "weapon"/"armor"/"shield"/"gear"/
+      "tool"/"consumable", same convention as `BaseFeat.type`/`BaseTrait.area`
+      — not evaluated by any rule logic yet, only there so a picker can
+      group/filter by it now instead of a schema change later; `price`),
+      replacing `items.json`'s flat name/price list, seeded via
+      `backend/app/fixtures/seed/base_items.json` +
+      `backend/app/seed/item_seed.py` (same idempotent upsert-by-id pattern
+      as the other slice-3 catalogs). `GET /api/items`
+      (`backend/app/routers/items.py`) is now fully database-backed,
+      replacing the old fixture-reading mock endpoint in `main.py`.
+
+      What a character starts with is `CharacterGear` (character_id, item_id,
+      quantity) — unlike `CharacterFeat`/`CharacterTrait`/`CharacterSpell`,
+      *not* a per-`CharacterLevel` audit row: gear is bought/found/dropped
+      during play, not gained at a level, so it's keyed by `character_id`
+      directly, matching slice 4's planned character-scoped
+      `POST/PATCH/DELETE .../gear` endpoints (still those exact endpoints,
+      still ❌ — this pass only covers gear picked at creation time).
+      `POST /api/characters`'s new `gear: [{item_id, quantity}]` field is
+      validated server-side (`backend/app/routers/characters.py`): every
+      `item_id` must exist in `base_items`, quantity must be positive, and
+      duplicate `item_id`s in the same submission are rejected (rather than
+      silently overwriting) — descriptive only, no equip slots, no
+      AC/attack-bonus computation (still slice 4, along with the shared
+      modifier/bonus-stacking design and the in-play gear endpoints above).
+
+      `EquipmentStep.tsx` no longer accepts a freeform item name typed
+      against a `<datalist>` — it now picks by id from the real catalog
+      (a category filter plus an item dropdown, mirroring
+      `FeatsStep.tsx`/`TraitsStep.tsx`'s id-based-picker convention), with
+      picking the same item twice merging into one higher-quantity entry
+      rather than a duplicate row. `ItemCatalogEntry` gained `id`/`category`
+      fields; `CreationWizardPage.tsx` now submits `draft.gear`. Starting
+      gold (`draft.gold`) remains session-local/unsubmitted — out of scope
+      for this pass, no `characters.gold` column exists yet.
 
 ### 4. Items / Inventory
 - [ ] Gear table + equipment slots.

@@ -8,6 +8,7 @@ from app.models import (
     BaseRaceAbility,
     Character,
     CharacterFeat,
+    CharacterGear,
     CharacterRacialChoice,
     CharacterSkillRank,
     CharacterTrait,
@@ -18,6 +19,7 @@ from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.feat_seed import seed_feats
+from app.seed.item_seed import seed_items
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
 from app.seed.spell_seed import seed_spells
@@ -61,6 +63,12 @@ def _trait_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_traits(db_session)
     traits = client.get("/api/traits").json()
     return next(t["id"] for t in traits if t["name"] == name)
+
+
+def _item_id(client: TestClient, db_session: Session, name: str) -> str:
+    seed_items(db_session)
+    items = client.get("/api/items").json()
+    return next(i["id"] for i in items if i["name"] == name)
 
 
 def _spells_by_class(client: TestClient, db_session: Session, class_name: str) -> tuple[str, dict[str, str]]:
@@ -899,6 +907,75 @@ def test_create_character_with_two_traits_from_the_same_area_is_rejected(
     response = client.post(
         "/api/characters",
         json=_character_payload(user_id, race_id, db_session, trait_ids=[reaktionsschnell_id, verteidiger_id]),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_gear(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    dolch_id = _item_id(client, db_session, "Dolch")
+    fackel_id = _item_id(client, db_session, "Fackel")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            gear=[{"item_id": dolch_id, "quantity": 1}, {"item_id": fackel_id, "quantity": 5}],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert {(g["item_id"], g["quantity"]) for g in body["gear"]} == {(dolch_id, 1), (fackel_id, 5)}
+
+    character = db_session.get(Character, body["id"])
+    gear = db_session.scalars(select(CharacterGear).where(CharacterGear.character_id == character.id)).all()
+    assert {(str(g.item_id), g.quantity) for g in gear} == {(dolch_id, 1), (fackel_id, 5)}
+
+
+def test_create_character_with_unknown_item_id_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            gear=[{"item_id": "00000000-0000-0000-0000-000000000000", "quantity": 1}],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_duplicate_item_ids_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    dolch_id = _item_id(client, db_session, "Dolch")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            gear=[{"item_id": dolch_id, "quantity": 1}, {"item_id": dolch_id, "quantity": 2}],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_with_zero_quantity_gear_is_rejected(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    dolch_id = _item_id(client, db_session, "Dolch")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, gear=[{"item_id": dolch_id, "quantity": 0}]),
     )
     assert response.status_code == 422
 

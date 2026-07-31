@@ -56,6 +56,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     )
     class_options: Mapped[list["CharacterClassOption"]] = relationship(cascade="all, delete-orphan")
     class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
+    gear: Mapped[list["CharacterGear"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:
@@ -310,3 +311,20 @@ class CharacterClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     is_favored: Mapped[bool] = mapped_column(Boolean, default=False)
 
     base_class: Mapped[BaseClass] = relationship()
+
+
+class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A character's current inventory: one row per distinct `BaseItem` held,
+    with a quantity — not a per-`CharacterLevel` audit trail like
+    `CharacterFeat`/`CharacterTrait` (gear is bought/found/dropped during
+    play, not gained at level-up), so this is keyed by `character_id`
+    directly, matching roadmap slice 4's character-scoped
+    `POST/PATCH/DELETE .../gear` endpoints. Descriptive only for now — no
+    equip slots, no AC/attack-bonus computation (slice 4)."""
+
+    __tablename__ = "character_gear"
+    __table_args__ = (UniqueConstraint("character_id", "item_id"),)
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    item_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_items.id"))
+    quantity: Mapped[int] = mapped_column(Integer)

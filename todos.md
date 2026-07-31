@@ -72,8 +72,8 @@ Vollständige Beschreibung/Zweck je Endpunkt in `readme.md` (Abschnitt „API En
 
 Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 
-**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats`/`GET /api/traits`/`GET /api/spells`/`GET /api/spells-by-class` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
-- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats`, `GET /api/traits`, `GET /api/spells`, `GET /api/spells-by-class` (Datenbank), `GET /api/classes` (Fixture, überlagert mit Datenbank-Feldern — siehe `readme.md`), `GET /api/abilities`, `GET /api/point-buy-costs`, `GET /api/items`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
+**Referenzdaten** — alle ✅ implementiert (`GET /api/races` seit Slice 2, `GET /api/skills`/`GET /api/feats`/`GET /api/traits`/`GET /api/spells`/`GET /api/spells-by-class`/`GET /api/items` seit Slice 3 echte Datenbank, Rest Mock/Fixture in `backend/app/main.py`):
+- [x] `GET /api/races`, `GET /api/skills`, `GET /api/feats`, `GET /api/traits`, `GET /api/spells`, `GET /api/spells-by-class`, `GET /api/items` (Datenbank), `GET /api/classes` (Fixture, überlagert mit Datenbank-Feldern — siehe `readme.md`), `GET /api/abilities`, `GET /api/point-buy-costs`, `GET /api/effects`, `GET /api/class-level-options` (Fixture)
 - [x] `GET /api/characters/{character_id}`, `GET /api/characters/{character_id}/progression`
 
 **Nutzerverwaltung** — alle ✅ implementiert (echte `users`-Tabelle, `backend/app/routers/users.py`):
@@ -112,7 +112,8 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [x] `POST /api/characters` (`spell_ids`) — bekannte Zauber/Zauberbuch bei Erstellung, real gegen `BaseClassSpellsKnown` validiert
 - [ ] Backend-Endpunkte oben sind fertig, aber **im Charakterbogen (`Spellbook.tsx`/`CharacterSheetPage.tsx`) noch nicht verdrahtet** — die Sheet-Ansicht läuft weiterhin komplett auf den beiden Mock-Charakter-Fixtures, nicht auf einem echten Backend-Charakter (siehe React-Frontend-Abschnitt unten und „Ausrüstungs-Slots" oben). Der Stufenaufstiegs-Assistent (`LevelSpellStep.tsx`) wurde auf die neuen Grad-/Budget-Regeln umgestellt, bleibt aber wie der Rest von Stufenaufstieg rein session-lokal (kein echter Endpoint, siehe roadmap Slice 7).
 
-**Ausrüstung/Inventar** — alle ❌ nicht implementiert:
+**Ausrüstung/Inventar** — Startausrüstung bei Erstellung (Slice 3) ✅, laufende Inventarverwaltung (Slice 4) ❌:
+- [x] `POST /api/characters` (`gear`) — Startausrüstung aus dem echten `base_items`-Katalog (Name/Kategorie/Preis), rein deskriptiv gespeichert (`CharacterGear`, direkt am Charakter statt pro Stufe wie Talente/Wesenszüge, da Ausrüstung jederzeit im Spiel dazukommt/verschwindet). Keine Ausrüstungsplätze, keine AC-/Angriffsbonus-Berechnung — das bleibt Slice 4.
 - [ ] `POST /api/characters/{character_id}/gear`
 - [ ] `PATCH /api/characters/{character_id}/gear/{item_id}`
 - [ ] `DELETE /api/characters/{character_id}/gear/{item_id}`

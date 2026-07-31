@@ -1,0 +1,332 @@
+[
+  {
+    "id": "afbdea17-7394-47cb-adfb-e205a410b4ec",
+    "name": "Langschwert",
+    "category": "weapon",
+    "price": 15
+  },
+  {
+    "id": "a07a2cfa-e0e6-4848-bdc5-960e79d28a79",
+    "name": "Kurzschwert",
+    "category": "weapon",
+    "price": 10
+  },
+  {
+    "id": "39672b63-1356-4b0b-964c-73f14290ced4",
+    "name": "Rapier",
+    "category": "weapon",
+    "price": 20
+  },
+  {
+    "id": "248d13cd-51fd-470b-8d88-cb63e7f15e46",
+    "name": "Dolch",
+    "category": "weapon",
+    "price": 2
+  },
+  {
+    "id": "07d24f06-6033-4073-8bbe-ebcb47e0f062",
+    "name": "Streitkolben",
+    "category": "weapon",
+    "price": 5
+  },
+  {
+    "id": "32bc9182-5216-4457-8b61-287ec9a7c136",
+    "name": "Kriegshammer",
+    "category": "weapon",
+    "price": 12
+  },
+  {
+    "id": "66f83977-d1ed-458a-ae26-6352f17b2323",
+    "name": "Handaxt",
+    "category": "weapon",
+    "price": 6
+  },
+  {
+    "id": "d1887a60-0a90-4692-b957-7d4620207a40",
+    "name": "Speer",
+    "category": "weapon",
+    "price": 5
+  },
+  {
+    "id": "daf1f306-9507-4114-92f5-ce38704120e2",
+    "name": "Langbogen",
+    "category": "weapon",
+    "price": 75
+  },
+  {
+    "id": "834292ec-52a3-4b4d-b315-ed8158c85ea5",
+    "name": "Kurzbogen",
+    "category": "weapon",
+    "price": 30
+  },
+  {
+    "id": "07660882-168a-435f-9fc2-1acd179b0bd1",
+    "name": "Kompositlangbogen",
+    "category": "weapon",
+    "price": 100
+  },
+  {
+    "id": "3a06fdb2-d9f9-4099-883a-e9005cb4fade",
+    "name": "Armbrust, leicht",
+    "category": "weapon",
+    "price": 35
+  },
+  {
+    "id": "133727ef-e795-4c9b-a8a7-c4f7107c03d6",
+    "name": "Armbrust, schwer",
+    "category": "weapon",
+    "price": 50
+  },
+  {
+    "id": "b3e570d5-8cb3-4df0-ac5f-10b6f9e1d3c6",
+    "name": "Wurfmesser",
+    "category": "weapon",
+    "price": 1
+  },
+  {
+    "id": "09a718cb-3012-4617-a7fb-376b1ad100ba",
+    "name": "Schleuder",
+    "category": "weapon",
+    "price": 0
+  },
+  {
+    "id": "80f55a62-a017-498c-9586-c89489c78bbc",
+    "name": "Lederrüstung",
+    "category": "armor",
+    "price": 10
+  },
+  {
+    "id": "495054d7-729b-49a8-821b-182f1ec03cc4",
+    "name": "Lederrüstung, verstärkt",
+    "category": "armor",
+    "price": 25
+  },
+  {
+    "id": "540303fe-b4f0-4348-bb5a-d8b4eceabb6c",
+    "name": "Kettenhemd",
+    "category": "armor",
+    "price": 100
+  },
+  {
+    "id": "ade1ce00-43ba-4e6b-bcf8-03e5360b5ebc",
+    "name": "Schuppenpanzer",
+    "category": "armor",
+    "price": 50
+  },
+  {
+    "id": "be4ac20e-7875-4731-9c3f-769be0565dff",
+    "name": "Halbplatte",
+    "category": "armor",
+    "price": 600
+  },
+  {
+    "id": "f6f79fd0-e822-400b-b6e9-df23bb9e0b8f",
+    "name": "Vollplatte",
+    "category": "armor",
+    "price": 1500
+  },
+  {
+    "id": "222bf999-2f07-4726-ac36-c66894835191",
+    "name": "Rundschild",
+    "category": "shield",
+    "price": 9
+  },
+  {
+    "id": "44b091af-8c4f-48f0-a6c0-7c85c1fb838c",
+    "name": "Turmschild",
+    "category": "shield",
+    "price": 30
+  },
+  {
+    "id": "79876f1b-8619-443f-92b9-f5f31afd304b",
+    "name": "Abenteurerausrüstung",
+    "category": "gear",
+    "price": 9
+  },
+  {
+    "id": "30263498-87ae-4647-badb-04ece8c46bd8",
+    "name": "Reisekleidung",
+    "category": "gear",
+    "price": 1
+  },
+  {
+    "id": "54a7af2f-831e-4403-8f6b-6f675fb4ae24",
+    "name": "Seil, 15 m",
+    "category": "gear",
+    "price": 1
+  },
+  {
+    "id": "f826abd4-3e5c-454f-b045-8d80d928d9a8",
+    "name": "Fackel",
+    "category": "gear",
+    "price": 0.01
+  },
+  {
+    "id": "ca43a984-43c2-4802-8e0a-98c1fe475068",
+    "name": "Laterne, Blendlaterne",
+    "category": "gear",
+    "price": 12
+  },
+  {
+    "id": "b14ea1b7-cc4e-4bc0-9004-279d7c09176a",
+    "name": "Lampenöl",
+    "category": "consumable",
+    "price": 0.1
+  },
+  {
+    "id": "0ea92d3c-9a49-467a-8905-1f83ae57bc24",
+    "name": "Zunderkasten",
+    "category": "gear",
+    "price": 1
+  },
+  {
+    "id": "0353147d-5883-4150-bd56-ed10e4ee1941",
+    "name": "Ranger-Ausrüstungsset",
+    "category": "gear",
+    "price": 12
+  },
+  {
+    "id": "e63f823e-60c6-4f80-a27d-72bd4362b68b",
+    "name": "Dietrich",
+    "category": "tool",
+    "price": 30
+  },
+  {
+    "id": "fd483596-5374-4f70-b95e-c2667bb4bfd2",
+    "name": "Kletterausrüstung",
+    "category": "gear",
+    "price": 80
+  },
+  {
+    "id": "25105ee3-d347-40aa-9387-66d63d4a6cad",
+    "name": "Schlafsack",
+    "category": "gear",
+    "price": 0.1
+  },
+  {
+    "id": "a9c825b8-4344-4f15-ba97-aba99df0666e",
+    "name": "Rucksack",
+    "category": "gear",
+    "price": 2
+  },
+  {
+    "id": "dd3129fe-b341-4129-b61d-86da8762cb97",
+    "name": "Wasserschlauch",
+    "category": "gear",
+    "price": 1
+  },
+  {
+    "id": "18aa3486-7e87-42b1-bb09-213ae805b7c5",
+    "name": "Reiseproviant (1 Tag)",
+    "category": "consumable",
+    "price": 0.5
+  },
+  {
+    "id": "c23534bd-6601-49e3-a938-ff465f2dbb6a",
+    "name": "Heiltrank, gering",
+    "category": "consumable",
+    "price": 50
+  },
+  {
+    "id": "352155b5-97da-4dda-821d-64a9040ffb1c",
+    "name": "Heiltrank, mäßig",
+    "category": "consumable",
+    "price": 300
+  },
+  {
+    "id": "563e2e50-e01f-40b2-9fea-1d06f41d2bfb",
+    "name": "Heiltrank, stark",
+    "category": "consumable",
+    "price": 750
+  },
+  {
+    "id": "36ab89cd-4d3a-4154-84e8-2d115ec1de01",
+    "name": "Gegengift",
+    "category": "consumable",
+    "price": 50
+  },
+  {
+    "id": "4c6ed3a5-6020-4282-82cc-010e4d61956a",
+    "name": "Alchemistenfeuer",
+    "category": "consumable",
+    "price": 20
+  },
+  {
+    "id": "166caa06-7884-4fac-abef-807d3cbfff46",
+    "name": "Säure (Fläschchen)",
+    "category": "consumable",
+    "price": 10
+  },
+  {
+    "id": "ff763bd7-9716-4bf5-b7b6-13f4f93ba035",
+    "name": "Rauchpulver",
+    "category": "consumable",
+    "price": 20
+  },
+  {
+    "id": "cb5600fb-ceee-4a14-acff-e89e5f9c89c5",
+    "name": "Zauberkomponentenbeutel",
+    "category": "tool",
+    "price": 5
+  },
+  {
+    "id": "b352124d-eaa4-4a43-96b6-1dfeb1085bff",
+    "name": "Zauberbuch, leer",
+    "category": "gear",
+    "price": 15
+  },
+  {
+    "id": "7b7b1411-13d8-4816-b258-85e520902740",
+    "name": "Schreibfeder und Tinte",
+    "category": "tool",
+    "price": 8
+  },
+  {
+    "id": "fd661431-a35d-4c87-8ad6-4215d615d2c3",
+    "name": "Pergament (Blatt)",
+    "category": "gear",
+    "price": 0.2
+  },
+  {
+    "id": "4cde1e1c-c746-45ef-9375-5adafaf218f1",
+    "name": "Kerze",
+    "category": "gear",
+    "price": 0.01
+  },
+  {
+    "id": "3f14a7c0-1de0-412a-9df1-53410cffa2df",
+    "name": "Angelausrüstung",
+    "category": "gear",
+    "price": 4
+  },
+  {
+    "id": "f1fd771a-8201-4e44-a8bd-bf50fdef35e3",
+    "name": "Wurfnetz",
+    "category": "weapon",
+    "price": 20
+  },
+  {
+    "id": "2b7c9f5a-25e3-45f2-87bc-c87f2603ffb1",
+    "name": "Manacles",
+    "category": "gear",
+    "price": 15
+  },
+  {
+    "id": "73c9543c-d06d-466e-8b07-a7b93deefd23",
+    "name": "Laterne, Sturmlaterne",
+    "category": "gear",
+    "price": 7
+  },
+  {
+    "id": "e7bb5e25-21d1-4087-bf80-5d175d23a181",
+    "name": "Spiegel, klein (Stahl)",
+    "category": "gear",
+    "price": 10
+  },
+  {
+    "id": "5c2c7284-67ee-42ea-bca3-fe72ecc174cd",
+    "name": "Öllampe",
+    "category": "gear",
+    "price": 0.1
+  }
+]

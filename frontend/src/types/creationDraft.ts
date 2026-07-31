@@ -16,6 +16,11 @@ export interface ClassRow {
 
 export interface DraftGearItem {
   id: string;
+  /** `BaseItem.id` this entry was picked from — what's actually submitted to
+   *  the backend (`CharacterCreate.gear`). `name`/`price` are copied in at
+   *  pick time purely so the summary/inventory list can render without
+   *  re-looking them up in the catalog. */
+  itemId: string;
   name: string;
   qty: number;
   price: number;
