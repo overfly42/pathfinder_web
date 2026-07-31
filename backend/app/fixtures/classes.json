@@ -91,12 +91,15 @@
     "skillPointsBase": 2,
     "spellType": "spontaneous",
     "classSkills": [
+      "beruf",
       "bluffen",
       "einschuechtern",
-      "wissen_arkanes",
+      "fliegen",
+      "handwerk",
+      "schaetzen",
       "umd",
-      "zauberkunde",
-      "diplomatie"
+      "wissen_arkanes",
+      "zauberkunde"
     ],
     "optionGroups": [
       {
@@ -104,12 +107,16 @@
         "label": "Blutlinie",
         "max": 1,
         "choices": [
-          "Arkanum",
-          "Drache",
-          "Unheilig",
-          "Elementar",
-          "Fey",
-          "Abyssisch"
+          "Abnormale Blutlinie",
+          "Arkane Blutlinie",
+          "Blutlinie des Grabes",
+          "Dämonische Blutlinie",
+          "Drachenblutlinie",
+          "Elementare Blutlinie",
+          "Feenblutlinie",
+          "Himmlische Blutlinie",
+          "Schicksalhafte Blutlinie",
+          "Teuflische Blutlinie"
         ]
       }
     ]

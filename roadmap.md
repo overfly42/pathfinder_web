@@ -562,18 +562,22 @@ Cheapest slice — proves the whole pattern before harder ones.
       for this pass, no `characters.gold` column exists yet.
 - [ ] **Class-ability computation (`HANDLERS` registry, mirrors
       `rules/race_abilities.py`).** `BaseClassAbility`/`BaseClassAbilityGrant`
-      (introduced for Kämpfer's bonus feat, then Waldläufer/Magier's data
-      corrections — see `todos.md`) are composition-only today: which
-      abilities a class/archetype/school choice grants, and at what level,
-      is real data, gated correctly by level and by `option_choice_id`
-      (`sheet.py`'s `_build_class_features`) — but no ability's actual
-      mechanical effect is computed anywhere. Concretely inert right now:
-      Kämpfer's Rüstungstraining/Waffentraining/Tapferkeit numbers,
-      Waldläufer's Erzfeind/Bevorzugtes-Gelände bonuses, and all 26 of
+      (introduced for Kämpfer's bonus feat, then Waldläufer/Magier/
+      Hexenmeister's data corrections — see `todos.md`) are composition-only
+      today: which abilities a class/archetype/school/bloodline choice
+      grants, and at what level, is real data, gated correctly by level and
+      by `option_choice_id` (`sheet.py`'s `_build_class_features`) — but no
+      ability's actual mechanical effect is computed anywhere. Concretely
+      inert right now: Kämpfer's Rüstungstraining/Waffentraining/Tapferkeit
+      numbers, Waldläufer's Erzfeind/Bevorzugtes-Gelände bonuses, all 26 of
       Magier's arcane-school powers (flat bonuses like Bezauberndes
       Lächeln's +2 Bluffen/Diplomatie/Einschüchtern, level-scaling ones like
       Starke Zauber's spell-damage bonus, and per-day-use pools like "3 + IN-
-      Modifikator Mal pro Tag" abilities such as Säuregeschoss). Needs a
+      Modifikator Mal pro Tag" abilities such as Säuregeschoss), and all 60
+      of Hexenmeister's bloodline powers across its 10 bloodlines (same
+      three shapes again: flat bonuses like Dämonische Blutlinie's Stärke
+      des Abyss, level-scaling ones like Abnormale Blutlinie's Ungewöhnliche
+      Anatomie, and per-day-use pools like Säurestrahl). Needs a
       `rules/class_abilities.py` `HANDLERS: dict[UUID, Callable]` keyed by
       `BaseClassAbility.id`, same hand-frozen-UUID convention as
       `race_abilities.py` — flat-bonus cases can likely share one generic
@@ -585,6 +589,124 @@ Cheapest slice — proves the whole pattern before harder ones.
       bonus system. Scope this once slice 5 (Effects) has landed, since
       several of these abilities are duration/use-limited in the same way
       active effects are — not a slice-3 concern to retrofit now.
+- [ ] **Bonus-feat slot eligibility (generalize past Kämpfer's hardcoded
+      "combat" filter).** `BONUS_FEAT_SLOT_ABILITY_IDS` (`rules/feat_slots.py`)
+      only tracks *how many* bonus feat slots a class grants — not *which*
+      feats are legal for that slot. Today that's invisible because Kämpfer
+      is the only class tagged, and its slot happens to always mean "any
+      combat feat": `LevelFeatStep.tsx`'s bonus-feat picker hardcodes
+      `f.type === 'combat'`, and — found while scoping Magier's/
+      Hexenmeister's periodic bonus feats (`todos.md`) — **creation-time
+      picking has no restriction at all, for any class**: `_feat_max`
+      (`routers/characters.py`) and `featMax`/`FeatsStep.tsx` only ever check
+      a raw count, so a 1st-level Kämpfer can currently spend their
+      Bonus-Kampftalent on any feat in the catalog, not just a combat one.
+      This is why Magier's Bonustalent and Hexenmeister's Talent des Blutes
+      were deliberately left untagged rather than reusing
+      `BONUS_FEAT_SLOT_ABILITY_IDS` as-is: their eligible sets (metamagic/
+      item-creation/spell-mastery feats; a closed ~8-feat list per
+      bloodline) are narrower and differently-shaped than "combat", and
+      there's currently no way to express that difference in data.
+
+      Blocking prerequisite: `base_feats.json` only has 16 feats, typed just
+      `combat`/`general` — none of Magier's metamagic/item-creation/
+      spell-mastery feats or the ~80 named bloodline talents referenced in
+      Hexenmeister's ability descriptions exist in the catalog yet. Feat
+      catalog expansion (real `BaseFeat` rows with a richer `type` taxonomy)
+      has to land before eligibility data means anything.
+
+      Proposed design — one new join table, pure composition (no
+      `HANDLERS`-style code):
+      ```python
+      class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin):
+          """One eligible pick for a bonus-feat-slot ability. A slot's full
+          eligibility is the union of its rows. Exactly one of feat_type/
+          feat_id is set per row:
+          - feat_type: any BaseFeat with this type is eligible (broad
+            category — Kämpfer: "combat"; Magier: one row each for
+            "metamagic"/"item-creation"/"spell-mastery").
+          - feat_id: this exact feat is eligible (closed list — Hexenmeister's
+            per-bloodline talent list).
+          option_choice_id (nullable) narrows the row to characters who
+          picked that BaseClassOptionChoice, same meaning as
+          BaseClassAbilityGrant.option_choice_id — lets "Talent des Blutes"
+          share one ability_id across 10 different eligible lists.
+          """
+          ability_id: Mapped[UUID]              # FK BaseClassAbility
+          option_choice_id: Mapped[UUID | None]  # FK BaseClassOptionChoice
+          feat_type: Mapped[str | None]
+          feat_id: Mapped[UUID | None]
+      ```
+      "Is this ability a feat slot" becomes "does it have any rows here" —
+      retires the hand-frozen `BONUS_FEAT_SLOT_ABILITY_IDS` set entirely, so
+      a future class's bonus feat, whatever shape its eligibility takes, is
+      a pure data change (no code edit at all, not even adding an id to a
+      set).
+
+      Enforcement approach: aggregate/budget check, not per-slot
+      assignment — don't track which feat fills which grant, just require
+      "at least N of the picked feats satisfy this slot's eligibility",
+      mirroring how skill points/spells known are already budget-checked
+      elsewhere rather than slot-assigned. Simpler, no new creation payload
+      shape, and avoids awkwardness where a class has several slots sharing
+      one eligibility (Kämpfer has ~10 "combat" slots by 20th level — per-
+      slot assignment buys nothing there). Explicit slot assignment (like
+      the level-up wizard's separate `draft.newBonusFeat` field) stays a
+      fallback only if some future class needs genuinely different
+      eligibility for two slots taken at the same level.
+
+      Phased:
+      1. Feat catalog expansion — add the missing metamagic/item-creation/
+         spell-mastery feats and named bloodline talents as real `BaseFeat`
+         rows with proper `type`s (blocking prerequisite, see above).
+      2. `BaseClassAbilityFeatOption` model + migration + seed rows for
+         Kämpfer/Magier/Hexenmeister; retire `BONUS_FEAT_SLOT_ABILITY_IDS`.
+      3. Backend: extend creation's feat validation to check aggregate
+         eligibility counts, not just the total; expose resolved eligibility
+         (per-character for Hexenmeister, since it depends on the chosen
+         bloodline — same resolution shape as `_build_class_features`'s
+         `option_choice_id` filtering).
+      4. Frontend: replace `LevelFeatStep.tsx`'s hardcoded `f.type ===
+         'combat'` with a lookup against the resolved eligibility from step
+         3; optionally surface a hint in `FeatsStep.tsx` at creation ("must
+         include N combat feats").
+- [ ] **Class source-page fetch/preprocess tooling.** Every class data pass
+      so far (Kämpfer, Waldläufer, Magier, Hexenmeister — see `todos.md`)
+      manually curled the class's page from
+      <http://prd.5footstep.de/Grundregelwerk/Klassen/…>, converted it with
+      `html2text`, and read the result — repeated, ad-hoc, and wasteful: the
+      Hexenmeister fetch alone was ~190 KB of HTML that html2text turned
+      into 930 lines of plain text, of which the first ~200 were the
+      site-wide nav sidebar (`Übersicht > Grundregelwerk > Klassen > …`,
+      repeated on every single page) contributing nothing but token cost.
+      The site's TLS cert also doesn't match its hostname (shared hosting —
+      cert is for `*.your-server.de`), which is why plain `WebFetch` fails
+      outright and a raw `curl -k`/`requests(verify=False)` fetch is needed
+      instead; worth a one-line comment at the call site noting this is a
+      deliberate, scoped skip (a docs mirror, not a service handling
+      secrets) rather than a pattern to copy elsewhere.
+
+      A small `scripts/fetch_prd_page.py` (or similar, root-level next to
+      `dev.sh`) should: take a page path or full URL, fetch with cert
+      verification disabled, decode as ISO-8859-1 (the site's actual
+      encoding — `requests`/`curl` autodetection gets this wrong), strip the
+      repeated nav sidebar/footer/license boilerplate before running
+      `html2text` (or reimplement the bits of it actually needed — table
+      layout survives html2text reasonably but is still fragile, see the
+      Hexenmeister level-table parsing glitch below), and write the cleaned
+      text to a local cache (e.g. `scratchpad/prd_cache/<slug>.txt` or
+      similar, gitignored) keyed by page path so a re-run during the same
+      data-entry pass doesn't refetch. Should also flag known parser
+      footguns rather than silently mis-parsing: the Hexenmeister fetch's
+      "Tabelle: Hexenmeister" (BAB/saves) table silently *dropped* the 1st-
+      level row entirely (html2text's table-to-text conversion choked on
+      that particular row), only caught because the level-1 text elsewhere
+      on the page was cross-checked against it — a preprocessing pass
+      should at minimum sanity-check that a level/stufe table's row count
+      matches the class's expected level range (1–20) and warn if not.
+      Same tool should work for the other outstanding source pages this
+      project already links to (feats index, spell lists, races, prestige
+      classes) so it isn't Klassen-specific.
 
 ### 4. Items / Inventory
 - [x] Gear table + equipment slots — scoped to armor/shield, the only two

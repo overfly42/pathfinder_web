@@ -318,5 +318,335 @@
     "id": "32d7e533-3046-45c3-8ca7-83e0d8dae129",
     "name": "Metamagische Meisterschaft",
     "description": "Allgemeine Schule (Universalist): Ab der 8. Stufe kann der Universalist ein bekanntes metamagisches Talent auf einen gewirkten Zauber anwenden, ohne dessen Grad oder Zeitaufwand zu ändern. Einsetzbar einmal auf der 8. Stufe, ein weiteres Mal für je zwei weitere Magierstufen; erhöht das metamagische Talent den Zaubergrad um mehr als 1, ist pro zusätzlichem Grad eine weitere tägliche Anwendung nötig."
+  },
+  {
+    "id": "ace63039-12f9-46b0-8bab-bbb888aad261",
+    "name": "Umgang mit Waffen und Rüstungen (Hexenmeister)",
+    "description": "Der Hexenmeister ist im Umgang mit allen einfachen Waffen geübt. Er ist nicht im Umgang mit Rüstungen oder Schilden geübt. Jede Form von Rüstung behindert die Bewegung des Hexenmeisters, was dazu führen kann, dass Zauber mit einer Gestenkomponente fehlschlagen."
+  },
+  {
+    "id": "5e6530f2-650d-4ee3-b290-3f9259532d9e",
+    "name": "Blutlinie",
+    "description": "Jeder Hexenmeister hat eine Quelle seiner Macht – etwas in seiner Herkunft –, die ihm Zauber, Bonustalente, eine zusätzliche Klassenfertigkeit und andere besondere Fähigkeiten verleiht. Ein Hexenmeister muss auf der 1. Stufe eine Blutlinie wählen; diese Wahl kann später nicht mehr geändert werden. Ihre konkreten Auswirkungen zeigen sich als Geheimnis des Blutes und die einzelnen Macht-des-Blutes-Fähigkeiten der gewählten Blutlinie."
+  },
+  {
+    "id": "d843a20a-f937-4a5d-8386-cdd20874fb15",
+    "name": "Zaubertricks",
+    "description": "Der Hexenmeister lernt eine Anzahl von Zaubertricks (Zauber des 0. Grades), wie in der Tabelle: Dem Hexenmeister Bekannter Zauber angegeben. Diese Zauber werden wie andere Zauber gewirkt, können aber beliebig oft am Tag eingesetzt werden."
+  },
+  {
+    "id": "adfb607e-fc8a-439e-9530-27a7608058c0",
+    "name": "Materialkomponentenlos zaubern",
+    "description": "Der Hexenmeister erhält das Talent Materialkomponentenlos zaubern als Bonustalent auf der 1. Stufe."
+  },
+  {
+    "id": "005574a0-e156-4667-babe-3a2b94d4bce9",
+    "name": "Zauber des Blutes",
+    "description": "Auf der 3. Stufe und alle zwei weiteren Stufen lernt der Hexenmeister zusätzlich zu den normal beim Stufenaufstieg gelernten Zaubern einen neuen Zauber, der von seiner gewählten Blutlinie festgelegt wird (siehe die Bonuszauber-Liste der jeweiligen Blutlinie). Diese Zauber können in höheren Stufen nicht gegen andere Zauber ausgetauscht werden."
+  },
+  {
+    "id": "e33e8afc-4569-4848-8b6a-3e028497de71",
+    "name": "Talent des Blutes",
+    "description": "Auf der 7. Stufe und alle sechs weiteren Stufen erhält der Hexenmeister ein Bonustalent, das er aus der Talentliste seiner gewählten Blutlinie auswählen muss; die üblichen Voraussetzungen für das Talent gelten weiterhin (kein freier Talent-Slot)."
+  },
+  {
+    "id": "fddaa4cd-6be2-49d3-be71-c1468d8d4d5b",
+    "name": "Geheimnis des Blutes (Abnormale Blutlinie)",
+    "description": "Immer wenn der Hexenmeister einen Zauber der Unterart Verwandlung (Gestaltwechsel) wirkt, kann er die Dauer des Zaubers um 50 % verlängern (Minimum 1 Runde). Dieser Bonus addiert sich nicht mit der Verlängerung, die durch das Talent Zauber ausdehnen gewährt wird."
+  },
+  {
+    "id": "f72d8685-65fd-4086-b742-efd1e29d563d",
+    "name": "Säurestrahl",
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Standard-Aktion einen Säurestrahl abschießen. Das Ziel muss sich innerhalb von 9 m befinden und dem Hexenmeister muss ein Berührungsangriff auf Entfernung gelingen. Der Säurestrahl verursacht 1W6 Punkte Säureschaden +1 für jeweils zwei Stufen als Hexenmeister. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "90cf71ea-14ff-4222-9d5a-94465927ad2c",
+    "name": "Lange Glieder",
+    "description": "Ab der 3. Stufe erhöht sich die Reichweite des Hexenmeisters um 1,5 m, immer wenn er einen Berührungsangriff durchführt. Diese Fähigkeit erhöht nicht sein bedrohtes Gebiet. Ab der 11. Stufe verbessert sich ihre Reichweite um 3 m und ab der 17. Stufe verbessert sie sich um 4,5 m."
+  },
+  {
+    "id": "e60cb266-a31c-465b-8d66-96a5b9c6625b",
+    "name": "Ungewöhnliche Anatomie",
+    "description": "Ab der 9. Stufe verändert sich die Anatomie des Hexenmeisters. Er erhält eine 25%ige Wahrscheinlichkeit, einen kritischen Treffer oder einen Hinterhältigen Angriff zu ignorieren. Ab der 13. Stufe erhöht sich diese Wahrscheinlichkeit auf 50 %."
+  },
+  {
+    "id": "a44eb0f0-82e3-4aae-9015-31f15118b720",
+    "name": "Fremdartige Resistenz",
+    "description": "Ab der 15. Stufe erhält der Hexenmeister eine Zauberresistenz von 10 + Stufe als Hexenmeister."
+  },
+  {
+    "id": "010b6ae5-8740-4bf6-abb5-bb38e2a8062f",
+    "name": "Abnormale Form",
+    "description": "Auf der 20. Stufe erreichen die Veränderungen im Körper des Hexenmeisters ihren Höhepunkt. Von nun an ist er immun gegen kritische Treffer und hinterhältige Angriffe. Zusätzlich erhält er Dunkelsicht mit einer Reichweite von 18 m und eine Schadensreduzierung von 5/-."
+  },
+  {
+    "id": "e05882f5-754d-4159-9e2d-8fbe832b31d3",
+    "name": "Geheimnis des Blutes (Arkane Blutlinie)",
+    "description": "Wenn der Hexenmeister ein metamagisches Talent auf einen Zauber anwendet, erhält der Zauber einen Bonus von +1 auf den SG für den Rettungswurf. Dieser Bonus addiert sich nicht mit sich selbst und auch nicht mit dem Effekt des Talentes Zaubergrad erhöhen."
+  },
+  {
+    "id": "2a9c1235-4e48-4b58-9fc2-ba7e84f1e0bf",
+    "name": "Arkane Verbindung",
+    "description": "Auf der 1. Stufe erhält der Hexenmeister eine Arkane Verbindung, wie ein Magier, dessen Stufe der seinen entspricht. Für die Stärke seiner Verbindung zu seinem Fokus oder Vertrauten addieren sich seine Stufen als Hexenmeister und Magier auf. Diese Fähigkeit erlaubt es einem Hexenmeister nicht, gleichzeitig einen Vertrauten und einen arkanen Fokus zu besitzen."
+  },
+  {
+    "id": "02a971e5-0cde-48a5-b94b-59965e048c3e",
+    "name": "Metamagischer Adept",
+    "description": "Ab der 3. Stufe kann der Hexenmeister einen Zauber, den er gerade anwenden will, mit einem metamagischen Talent, welches ihm bekannt ist, verstärken, ohne den Zeitaufwand zu erhöhen. Er muss nach wie vor einen Zauber eines höheren Grades aufwenden, um den Spruch anzuwenden. Auf der 3. Stufe kann er diese Fähigkeit ein Mal pro Tag anwenden und ein weiteres Mal für jeweils vier Stufen als Hexenmeister nach der 3. bis zu einem Maximum von fünf Mal pro Tag auf der 19. Stufe. Auf der 20. Stufe wird diese Fähigkeit durch Arkane Apotheose ersetzt."
+  },
+  {
+    "id": "74de877d-86af-490e-99cd-292e9ffe47d3",
+    "name": "Neue Zauber",
+    "description": "Auf der 9. Stufe kann der Hexenmeister einen weiteren Zauber, den er anwenden kann, zu den ihm bekannten Zaubern hinzufügen. Auf der 13. und der 17. Stufe erhält er jeweils einen weiteren Zauber."
+  },
+  {
+    "id": "71968e58-d570-45a5-9e24-731d5d9ca15e",
+    "name": "Macht der Schule",
+    "description": "Auf der 15. Stufe kann ein Hexenmeister eine Schule der Magie auswählen. Seine Zauber dieser Schule erhalten einen Bonus von +2 auf ihren SG für den Rettungswurf. Dies addiert sich mit dem Bonus, der durch das Talent Zauberfokus erlangt wird."
+  },
+  {
+    "id": "a71dbb1c-22f1-45d9-90d3-b7b55e58f89e",
+    "name": "Arkane Apotheose",
+    "description": "Auf der 20. Stufe pulsiert der Körper des Hexenmeisters vor magischer Macht. Er kann seine Zauber mit jedem ihm bekannten metamagischen Talent verstärken, ohne den Zeitaufwand zu erhöhen. Er muss nach wie vor einen Zauberplatz eines höheren Grades aufwenden, um den Spruch zu wirken. Immer wenn der Hexenmeister einen magischen Gegenstand benutzt, der Ladungen hat, kann er anstelle von Ladungen auch Zauber pro Tag ausgeben. Für jeweils drei Zaubergrade des eingesetzten Zauberplatzes werden die benötigten Ladungen um eine reduziert."
+  },
+  {
+    "id": "ec9a9cb1-a7e4-4cc0-a961-2b5834f9d49d",
+    "name": "Geheimnis des Blutes (Blutlinie des Grabes)",
+    "description": "Einige Untote sind anfällig gegenüber geistesbeeinflussenden Zaubern, die der Hexenmeister wirkt. Körperliche Untote, die einmal Humanoide waren, zählen für den Hexenmeister als Humanoide, um zu bestimmen, welche Zauber sie betreffen können."
+  },
+  {
+    "id": "28028a47-0e03-4423-872e-00f3145ade31",
+    "name": "Grabeshauch",
+    "description": "Auf der 1. Stufe kann der Hexenmeister mit einem Berührungsangriff ein Wesen erschüttern. Der Effekt hält für eine Runde pro zwei Stufen des Hexenmeisters an (Minimum 1 Runde). Wenn er eine Kreatur berührt, die schon erschüttert ist, verfällt diese für eine Runde in Panik, wenn die Kreatur weniger Trefferwürfel als er Hexenmeister-Stufen hat. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "9a2746a2-3f0d-4399-ba66-af0f89f6abcf",
+    "name": "Gabe des Todes",
+    "description": "Auf der 3. Stufe erhält der Hexenmeister eine Resistenz gegen Kälte von 5 und eine Schadensreduzierung von 5/- gegen Betäubungsschaden. Auf der 9. Stufe erhöht sich die Kälteresistenz auf 10 und die Schadensreduzierung auf 10/- gegen Betäubungsschaden."
+  },
+  {
+    "id": "55476231-b9f0-4f25-b228-6d3733a5b9ba",
+    "name": "Griff des Todes",
+    "description": "Auf der 9. Stufe kann der Hexenmeister knöcherne Arme aus dem Boden herbeirufen, die seine Feinde angreifen. Die Arme schießen als Explosion in einem Radius von 6 m empor. Jeder in diesem Bereich erleidet 1W6 Hiebschaden je Hexenmeisterstufe; ein Reflexwurf halbiert den Schaden (SG 10 + ½ Stufe des Hexenmeisters + CH-Modifikator), wer den Rettungswurf verfehlt, kann sich für eine Runde lang nicht bewegen. Die Arme müssen aus einer soliden Oberfläche hervorbrechen und verschwinden nach einer Runde wieder. Ab der 9. Stufe ein Mal pro Tag einsetzbar, ab der 17. Stufe zwei Mal und ab der 20. Stufe drei Mal pro Tag. Reichweite 18 m."
+  },
+  {
+    "id": "d7fd1232-574c-457d-8edd-44e7cc3a0048",
+    "name": "Körperlose Gestalt",
+    "description": "Ab der 15. Stufe kann der Hexenmeister für eine Runde pro Stufe körperlos werden. In dieser Gestalt zählt er von der Kategorie her als Körperloses Wesen. Er erleidet nur halben Schaden von körperlichen Quellen, falls sie magisch sind (von nicht-magischen Waffen und Objekten kann er keinen Schaden erhalten); ebenso verursachen seine Zauber nur halben Schaden an körperlichen Kreaturen. Zauber und andere Effekte, die keinen Schaden verursachen, funktionieren normal. Nur ein Mal am Tag einsetzbar."
+  },
+  {
+    "id": "dc39138a-98b6-4a87-a240-16e1cd511dfc",
+    "name": "Einer von uns",
+    "description": "Ab der 20. Stufe beginnt der Körper des Hexenmeisters zu verwesen. Untote beginnen, den Hexenmeister als einen von ihnen zu betrachten. Er erhält Immunität gegen Kälte, Betäubungsschaden, Lähmung und Schlaf sowie eine Schadensreduzierung von 5/-. Nicht intelligente Untote bemerken den Hexenmeister nur, wenn sie von ihm angegriffen werden. Der Hexenmeister erhält einen Moral-Bonus von +4 auf Rettungswürfe gegen Zauber und zauberähnliche Fähigkeiten von Untoten."
+  },
+  {
+    "id": "84813e7c-ef3b-43da-8f2c-9deaea5c53d5",
+    "name": "Geheimnis des Blutes (Dämonische Blutlinie)",
+    "description": "Wenn der Hexenmeister einen Zauber der Unterart Herbeizauberung wirkt, erhalten die herbeigezauberten Kreaturen eine Schadensreduzierung von SR ½ Hexenmeisterstufe/gut (Minimum 1). Dies addiert sich nicht mit irgendeiner Schadensreduzierung, die die Kreatur sowieso schon hat."
+  },
+  {
+    "id": "df6d0837-bf53-47e3-95b8-4cd4fa581d7d",
+    "name": "Klauen",
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen. Die Klauen werden als natürliche Waffen behandelt, die es ihm erlauben, als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus auszuführen; der Hexenmeister gilt dabei immer als bewaffnet und erhält keine zusätzlichen Angriffe für einen hohen Grund-Angriffsbonus. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe werden diese Klauen als aufflammende Waffen gewertet, die jeweils bei einem Treffer 1W6 zusätzlichen Feuerschaden verursachen. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen."
+  },
+  {
+    "id": "1a78c395-9590-4aef-82f2-476369024096",
+    "name": "Dämonische Resistenz",
+    "description": "Ab der 3. Stufe erhält der Hexenmeister eine Resistenz gegen Elektrizität von 5 und einen Bonus von +2 auf Rettungswürfe gegen Gift. Auf der 9. Stufe erhöhen sich seine Resistenz gegen Elektrizität auf 10 und der Bonus gegen Gift auf +4."
+  },
+  {
+    "id": "56236fda-f776-4bc4-bdf4-2cfc99e7c727",
+    "name": "Stärke des Abyss",
+    "description": "Ab der 9. Stufe erhält der Hexenmeister einen innewohnenden Bonus von +2 auf seine Stärke. Dieser Bonus erhöht sich auf +4 auf der 13. Stufe und auf +6 auf der 17. Stufe."
+  },
+  {
+    "id": "a33ec830-06bf-4758-b209-db8037c30894",
+    "name": "Zusätzliche Herbeirufungen",
+    "description": "Ab der 15. Stufe ruft der Hexenmeister eine zusätzliche Kreatur, wenn er mit einem Monster herbeirufen-Zauber einen Dämonen oder eine infernalische Kreatur ruft."
+  },
+  {
+    "id": "222d9b02-0121-4fd7-b6e9-52fc515eb5e7",
+    "name": "Dämonische Macht",
+    "description": "Ab der 20. Stufe ist der Hexenmeister von der Macht des Abyss durchdrungen. Er ist immun gegen Elektrizität und Gift. Außerdem erhält er eine Resistenz gegen Säure, Kälte und Feuer von 10 und Telepathie mit einer Reichweite von 18 m."
+  },
+  {
+    "id": "ee04b2ab-fd91-4e33-acb2-84581fae12b3",
+    "name": "Geheimnis des Blutes (Drachenblutlinie)",
+    "description": "Wenn der Hexenmeister einen Zauber mit der Energiekategorie wirkt, die dem Energietyp seiner Drachenblutlinie entspricht, erhält dieser Zauber einen Schadensbonus von +1 auf jeden Würfel, der für die Bestimmung der Schadenspunkte gewürfelt wurde."
+  },
+  {
+    "id": "422b4a9f-d014-4c3f-8a3d-b9d388d739bc",
+    "name": "Klauen",
+    "description": "Auf der 1. Stufe muss der Hexenmeister eine metallene oder chromatische Drachenart auswählen, von der er abstammt; diese Wahl ist endgültig und bestimmt Energietyp und Odem-Form der folgenden Fähigkeiten. Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen, die als natürliche Waffen gelten und ihm als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus erlauben. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe verursachen seine Klauen zusätzlich 1W6 Schadenspunkte seines Energietyps. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen."
+  },
+  {
+    "id": "983dd877-158d-4479-84a5-191fc659a2ec",
+    "name": "Drachenresistenz",
+    "description": "Ab der 3. Stufe erhält der Hexenmeister eine Resistenz von 5 gegen die Energie seines Drachentyps und einen natürlichen Rüstungsbonus von +1. Auf der 9. Stufe steigt die Energieresistenz auf 10 und der natürliche Rüstungsbonus erhöht sich auf +2. Auf der 15. Stufe erhöht sich der natürliche Rüstungsbonus auf +4."
+  },
+  {
+    "id": "895ab00f-c22d-475a-acdf-ed1bce87a2d3",
+    "name": "Odemwaffe",
+    "description": "Auf der 9. Stufe erhält der Hexenmeister eine Odemwaffe, die 1W6 Energieschaden abhängig vom Drachentyp pro Stufe des Hexenmeisters verursacht (Reflexwurf für halben Schaden, SG 10 + ½ Stufe des Hexenmeisters + CH-Modifikator). Ab der 9. Stufe ein Mal pro Tag einsetzbar, ab der 17. Stufe zwei Mal und ab der 20. Stufe drei Mal pro Tag."
+  },
+  {
+    "id": "ddfdb5b2-0863-4f73-9594-ee9701611d89",
+    "name": "Schwingen",
+    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe lederne Schwingen aus seinem Rücken wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen."
+  },
+  {
+    "id": "f51d038f-ae06-4c85-bb12-95be7117f748",
+    "name": "Macht des Drachen",
+    "description": "Wenn der Hexenmeister die 20. Stufe erreicht, ist er immun gegen Lähmung, Schlaf und Schaden, der von Energie verursacht wird, die seinem Drachentyp entspricht. Außerdem erhält er Blindgespür mit einer Reichweite von 18 m."
+  },
+  {
+    "id": "e50e9e1e-8f07-4ae7-ac19-6f230d6aeeb3",
+    "name": "Geheimnis des Blutes (Elementare Blutlinie)",
+    "description": "Immer wenn der Hexenmeister einen Zauber mit einer Energiekategorie wirkt, kann er den Energietyp des Schadens in sein eigenes Element umändern. Dies ändert entsprechend auch die Unterart des Zaubers."
+  },
+  {
+    "id": "cde553e9-b33b-464c-81d7-29de4182c805",
+    "name": "Elementarstrahl",
+    "description": "Auf der 1. Stufe muss der Hexenmeister eines der vier Elemente (Feuer, Erde, Wasser oder Luft) auswählen, von dem seine Kräfte abstammen; diese Wahl ist endgültig. Als Standard-Aktion kann er einen Elementarstrahl abschießen (Ziel innerhalb von 9 m, Berührungsangriff auf Entfernung), der 1W6 Punkte Energieschaden seines Elements +1 für jeweils zwei Stufen als Hexenmeister verursacht. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "763c39b4-57fb-4c85-b93b-10b22e1673e0",
+    "name": "Elementarresistenz",
+    "description": "Auf der 3. Stufe erhält der Hexenmeister eine Resistenz von 10 gegen sein Element. Auf der 9. Stufe erhöht sich die Resistenz auf 20."
+  },
+  {
+    "id": "c6f133cf-a0c5-463e-8da3-dcb0990235ea",
+    "name": "Elementare Verwüstung",
+    "description": "Ab der 9. Stufe kann der Hexenmeister eine Elementare Verwüstung hervorrufen: eine Explosion mit 6 m Radius, die 1W6 Schaden pro Stufe des Hexenmeisters seines Elements verursacht (Reflexwurf halbiert den Schaden, SG 10 + ½ Stufe des Hexenmeisters + CH-Modifikator). Reichweite 18 m. Ab der 9. Stufe ein Mal pro Tag einsetzbar, ab der 17. Stufe zwei Mal und ab der 20. Stufe drei Mal pro Tag."
+  },
+  {
+    "id": "197208f9-54f6-407e-944f-4f4e3a66043e",
+    "name": "Elementarbewegung",
+    "description": "Ab der 15. Stufe erhält der Hexenmeister eine besondere Bewegungsart oder einen Bonus auf eine existierende Bewegungsart abhängig von seinem Element: Luft – Fliegen 18 m (gut); Erde – Graben 9 m; Feuer – +9 m Grundbewegungsrate; Wasser – Schwimmen 18 m."
+  },
+  {
+    "id": "72006fb6-0d44-4cc2-826a-a62f140355ca",
+    "name": "Elementarkörper",
+    "description": "Auf der 20. Stufe wird der Hexenmeister eins mit seinem Element. Er ist immun gegen kritische Treffer, Hinterhältige Angriffe und Schaden von seinem Element."
+  },
+  {
+    "id": "9e378c23-9d0b-4f35-90fe-961c87a9bf03",
+    "name": "Geheimnis des Blutes (Feenblutlinie)",
+    "description": "Immer wenn der Hexenmeister einen Zauber der Unterart Zwang wirkt, erhöht sich der SG für den Rettungswurf gegen diesen Zauber um +2."
+  },
+  {
+    "id": "09a2880e-15ba-4f9f-be6b-2f6bc1de2354",
+    "name": "Berührung des Lachens",
+    "description": "Auf der 1. Stufe kann der Hexenmeister mit einem Berührungsangriff ein Wesen dazu bringen, für eine Runde in Gelächter zu verfallen; ein lachendes Wesen kann nur eine Bewegungsaktion ausführen und sich normal verteidigen. Ein Wesen kann erst nach einem Tag erneut Ziel dieses Angriffs werden. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "c3fdb150-9afc-428f-9672-7e14ce532bad",
+    "name": "Unterholz durchqueren",
+    "description": "Beginnend mit der 3. Stufe kann sich der Hexenmeister mit seiner vollen Bewegungsrate durch jede Art von natürlichem Unterholz bewegen, ohne Verletzungen oder Behinderungen zu erleiden. Magisch verändertes Unterholz betrifft ihn weiterhin normal."
+  },
+  {
+    "id": "88b85b4b-e9e0-48c4-a5f2-4768cc3ecd67",
+    "name": "Verschwinden",
+    "description": "Ab der 9. Stufe kann der Hexenmeister für eine Runde pro Stufe unsichtbar werden (wie Mächtige Unsichtbarkeit). Die Runden müssen nicht hintereinander genutzt werden."
+  },
+  {
+    "id": "b8eeaf6e-2b5a-4c5d-89a2-98de5298ec2e",
+    "name": "Feenmagie",
+    "description": "Ab der 15. Stufe kann der Hexenmeister nach Belieben einen Zauberstufenwurf zum Überwinden einer Zauberresistenz wiederholen. Er muss sich für den zweiten Wurf entscheiden, bevor das Ergebnis des ersten bekannt ist, und muss das zweite Ergebnis akzeptieren, auch wenn es schlechter ist."
+  },
+  {
+    "id": "bc8f0320-c790-4705-9c02-fa14f7321732",
+    "name": "Feenseele",
+    "description": "Ab der 20. Stufe ist der Hexenmeister immun gegen Gift und erhält eine Schadensreduzierung von 10/kalt geschmiedetes Eisen. Tiere greifen ihn nicht an, außer sie werden durch Magie dazu gezwungen. Ein Mal am Tag kann er Schattenreise als zauberähnliche Fähigkeit wirken, wobei er seine Hexenmeisterstufe als Zauberstufe verwendet."
+  },
+  {
+    "id": "daa4f3db-91ec-4abc-9724-6dbd9f086430",
+    "name": "Geheimnis des Blutes (Himmlische Blutlinie)",
+    "description": "Wenn der Hexenmeister einen Zauber der Unterart Herbeizauberung wirkt, erhalten die herbeigezauberten Kreaturen eine Schadensreduzierung von SR ½ Hexenmeisterstufe/böse (Minimum 1). Dies addiert sich nicht mit irgendeiner Schadensreduzierung, die die Kreatur sowieso schon hat."
+  },
+  {
+    "id": "9a06cb72-e2d8-4869-8d54-f769d0df00d3",
+    "name": "Himmlisches Feuer",
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Standard-Aktion einen Strahl Himmlischen Feuers abschießen (Ziel innerhalb von 9 m, Berührungsangriff auf Entfernung). Gegen böse Wesen verursacht er 1W4 Punkte Feuerschaden +1 für jeweils zwei Stufen als Hexenmeister (göttlicher Schaden, unbeeinflusst von Energieresistenz oder -immunität); gute Wesen heilt er stattdessen um denselben Betrag (ein gutes Wesen profitiert nur ein Mal pro Tag). Gegen neutrale Wesen hat es keinen Effekt. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "a2e22695-c6d6-48e8-8229-705c4957247c",
+    "name": "Himmlische Resistenz",
+    "description": "Ab der 3. Stufe erhält der Hexenmeister eine Resistenz gegen Elektrizität und Kälte von 5. Auf der 9. Stufe erhöht sich seine Resistenz jeweils auf 10."
+  },
+  {
+    "id": "9aac0182-89e1-40ed-aece-9d3dab1a92bd",
+    "name": "Schwingen des Himmels",
+    "description": "Ab der 9. Stufe kann der Hexenmeister gefiederte Schwingen wachsen lassen und mit einer Bewegungsrate von 18 m und guter Manövrierfähigkeit fliegen, für eine Anzahl von Minuten pro Tag in Höhe seiner Hexenmeisterstufe (nicht am Stück nutzbar, kürzeste Zeitspanne eine Minute)."
+  },
+  {
+    "id": "d8d649f7-1934-40d7-b887-4430cd711a71",
+    "name": "Überzeugung",
+    "description": "Ab der 15. Stufe kann der Hexenmeister eine Attributs-, Fertigkeits-, Angriffs- oder Rettungswurfprobe wiederholen, die er gerade gemacht hat. Er muss sich vor Kenntnis des Ergebnisses entscheiden und das zweite Ergebnis akzeptieren. Ein Mal pro Tag nutzbar."
+  },
+  {
+    "id": "44f4bfaf-51f9-41fc-9f65-e9df384f830c",
+    "name": "Himmlischer Aufstieg",
+    "description": "Ab der 20. Stufe ist der Hexenmeister immun gegen Säure, Kälte und Versteinerung. Er erhält eine Resistenz gegen Elektrizität und Feuer von 10, einen Volksbonus von +4 auf Rettungswürfe gegen Gift und die Fähigkeit, in Zungen zu sprechen (wie der Zauber Zungen). Seine Schwingen des Himmels kann er fortan unbegrenzt einsetzen."
+  },
+  {
+    "id": "d2e46677-74ba-4d80-ac32-e9aea88f89a7",
+    "name": "Geheimnis des Blutes (Schicksalhafte Blutlinie)",
+    "description": "Wenn der Hexenmeister einen Zauber mit dem Ziel Persönlich wirkt, erhält er für eine Runde lang einen Glücksbonus in Höhe des Zaubergrades auf alle Rettungswürfe."
+  },
+  {
+    "id": "87c36a5c-2825-414a-beac-dbf15635c2f6",
+    "name": "Berührung des Schicksals",
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Standard-Aktion ein Wesen berühren und ihm für eine Runde einen Verständnisbonus auf Angriffs-, Attributs-, Fertigkeits- und Rettungswürfe in Höhe der halben Stufe des Hexenmeisters (Minimum +1) geben. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "2ee34f50-55aa-471d-8890-5e3da42c1a86",
+    "name": "Schicksalsbestimmt",
+    "description": "Ab der 3. Stufe erhält der Hexenmeister einen Glücksbonus von +1 auf alle Rettungswürfe in einer Überraschungsrunde oder wenn er anderweitig von einem Angriff keine Kenntnis hat. Ab der 7. Stufe und alle vier weiteren Stufen erhöht sich dieser Bonus um +1 bis zu einem Maximum von +5 auf der 19. Stufe."
+  },
+  {
+    "id": "13f4f98c-f3af-4f1d-83cc-670dc57511a9",
+    "name": "Vorherbestimmt",
+    "description": "Ab der 9. Stufe kann der Hexenmeister einen Angriffswurf, einen Bestätigungswurf für einen kritischen Treffer oder einen Zauberstufenwurf zum Überwinden einer Zauberresistenz wiederholen; er muss sich dafür entscheiden, nachdem er den ersten Wurf ausgeführt hat, aber bevor dessen Ergebnis bekannt ist, und muss das zweite Ergebnis akzeptieren. Auf der 9. Stufe ein Mal am Tag einsetzbar, ab der 17. Stufe zwei Mal pro Tag."
+  },
+  {
+    "id": "640d7c09-a2e1-4d7a-b3d0-c2536d4f4265",
+    "name": "Schicksalhafte Rettung",
+    "description": "Ab der 15. Stufe kann der Hexenmeister ein Mal pro Tag, wenn ein Angriff oder Zauber genug Schaden verursacht, um ihn zu töten, einen Willenswurf (SG 20) ablegen; gelingt dieser, sinken seine Trefferpunkte stattdessen auf -1 und er ist stabil. Der Bonus aus Schicksalsbestimmt wird dabei einbezogen."
+  },
+  {
+    "id": "ef374195-ca5d-4a8a-b37a-138341f3aee1",
+    "name": "Erfülltes Schicksal",
+    "description": "Auf der 20. Stufe werden kritische Treffer gegen den Hexenmeister nur bei einer natürlichen 20 bestätigt, während er selbst alle kritischen Treffer automatisch bestätigt. Ein Mal pro Tag gelingt ihm automatisch ein Zauberstufenwurf zum Überwinden einer Zauberresistenz, wenn er dies vor dem Wurf ankündigt."
+  },
+  {
+    "id": "7b55c965-bca2-4b9d-9d32-a029d8e4c0c1",
+    "name": "Geheimnis des Blutes (Teuflische Blutlinie)",
+    "description": "Immer wenn der Hexenmeister einen Zauber der Unterart Bezauberung wirkt, steigt der SG für den Rettungswurf gegen diesen Zauber um +2."
+  },
+  {
+    "id": "afd6e853-b2bb-4f62-a65f-8bef18fba2cf",
+    "name": "Verderbende Berührung",
+    "description": "Auf der 1. Stufe kann der Hexenmeister mit einem Berührungsangriff ein Wesen erschüttern; der Effekt hält für eine Runde pro zwei Stufen des Hexenmeisters an (Minimum 1 Runde). Erschütterte Kreaturen geben eine Aura des Bösen von sich, als wären sie ein böser Externar. Mehrfache Berührungen addieren sich nicht, setzen aber die Dauer zurück. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+  },
+  {
+    "id": "211a2840-05a8-450b-9a32-2cdfdcaafdd2",
+    "name": "Höllenresistenz",
+    "description": "Ab der 3. Stufe erhält der Hexenmeister eine Resistenz gegen Feuer von 5 und einen Bonus von +2 auf Rettungswürfe gegen Gift. Auf der 9. Stufe erhöhen sich die Feuerresistenz auf 10 und der Bonus gegen Gift auf +4."
+  },
+  {
+    "id": "fd3ab9bd-4863-4068-a1fe-7fbc34106867",
+    "name": "Höllenfeuer",
+    "description": "Ab der 9. Stufe kann der Hexenmeister eine Säule höllischen Feuers herbeirufen (3 m Radius, 1W6 Feuerschaden pro Stufe des Hexenmeisters, Reflexwurf halbiert, SG 10 + ½ Stufe des Hexenmeisters + CH-Modifikator); gute Kreaturen, die den Rettungswurf verfehlen, sind für eine Anzahl an Runden in Höhe der Hexenmeisterstufe erschüttert. Ab der 9. Stufe ein Mal pro Tag einsetzbar, ab der 17. Stufe zwei Mal und auf der 20. Stufe drei Mal pro Tag."
+  },
+  {
+    "id": "7bcb4dee-c516-4df9-bc5a-f24ea2cdde67",
+    "name": "Auf dunklen Schwingen",
+    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe furchterregende Fledermausflügel wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen."
+  },
+  {
+    "id": "fe557930-7026-4e9c-ad74-4655be7586f9",
+    "name": "Höllenmacht",
+    "description": "Ab der 20. Stufe ist der Hexenmeister immun gegen Feuer und Gift. Außerdem erhält er eine Resistenz gegen Säure und Kälte von 10 und kann perfekt in jeder Form von Dunkelheit bis zu einer Reichweite von 18 m sehen."
   }
 ]

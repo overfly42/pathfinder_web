@@ -12,32 +12,32 @@
   {
     "id": "11eaf8ef-5b49-4a6b-a096-02ed885a38f7",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Arkanum"
+    "name": "Arkane Blutlinie"
   },
   {
     "id": "942a3165-44e9-423d-a2db-c22006fb3262",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Drache"
+    "name": "Drachenblutlinie"
   },
   {
     "id": "24642261-76ae-4113-bb43-c6120f613aad",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Unheilig"
+    "name": "Teuflische Blutlinie"
   },
   {
     "id": "3aeaec6d-0ab8-4222-ad99-5a61dd98ce47",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Elementar"
+    "name": "Elementare Blutlinie"
   },
   {
     "id": "73165db9-ab05-4711-99f1-a2a338062edb",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Fey"
+    "name": "Feenblutlinie"
   },
   {
     "id": "9db48ab4-d614-4c2e-b6bb-03b8951dbde4",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
-    "name": "Abyssisch"
+    "name": "Dämonische Blutlinie"
   },
   {
     "id": "b16cd7e4-1714-4301-9b1c-59cdb389da65",
@@ -398,5 +398,25 @@
     "id": "44083bc7-8594-4548-9d27-6af0b21df1c2",
     "group_id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
     "name": "Fokus"
+  },
+  {
+    "id": "b37e5ed9-e3e8-4faa-975b-a3f0948e7b99",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Abnormale Blutlinie"
+  },
+  {
+    "id": "e6a81329-81d2-4a7f-9982-04e86250a06d",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie des Grabes"
+  },
+  {
+    "id": "5db99c84-10e7-4d11-8e78-1f14d47263ed",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Himmlische Blutlinie"
+  },
+  {
+    "id": "2b0b14c7-ada4-4106-aad5-396e601f4801",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Schicksalhafte Blutlinie"
   }
 ]

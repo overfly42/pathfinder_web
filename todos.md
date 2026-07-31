@@ -294,6 +294,66 @@ Slice-Arbeit.
         Rename in den Mocks) — deren `SPELLS_BY_CLASS['Magier']` fehlen
         zusätzlich weiterhin die drei Zaubertricks (Licht, Kleiner Trick,
         Widerstand).
+  - [x] **Hexenmeister** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Hexenmeister>):
+        Trefferwürfel (W6)/GAB (halb)/Rettungswürfe (nur Willen gut)/
+        Fertigkeitspunkte (2 + IN)/Zauberattribut (CH)/Zaubertradition (arcane,
+        `spellType: spontaneous`) waren bereits korrekt; `base_class_spells*
+        .json` hatte bereits echte Zeilen für Stufe 1–6 der „Bekannter
+        Zauber"-Tabelle, aber mit einer Lücke (Stufe 6 fehlte Grad 3 = 1) und
+        endete dort — auf die volle Tabelle bis Stufe 20 ergänzt (Lücke
+        mitkorrigiert). Klassenfertigkeiten waren falsch: „Diplomatie" ist
+        laut Quelle **keine** Hexenmeister-Klassenfertigkeit und wurde
+        entfernt; es fehlten Beruf, Fliegen, Handwerk und Schätzen (gleiche
+        vier wie bei der Magier-Korrektur, wiederverwendet). Die bereits
+        vorhandene `bloodline`-Options-Gruppe hatte nur 6 der 10 echten
+        Blutlinien, mit Kurz-/Fantasienamen statt der Quellennamen
+        („Arkanum"→„Arkane Blutlinie", „Drache"→„Drachenblutlinie",
+        „Unheilig"→„Teuflische Blutlinie", „Elementar"→„Elementare
+        Blutlinie", „Fey"→„Feenblutlinie", „Abyssisch"→„Dämonische
+        Blutlinie"); umbenannt und um die vier fehlenden ergänzt (Abnormale
+        Blutlinie, Blutlinie des Grabes, Himmlische Blutlinie, Schicksalhafte
+        Blutlinie). Alle Klassenmerkmale, die nicht an eine Blutlinie
+        gebunden sind, als reine Katalogzeilen ergänzt (gleiche Tiefe wie bei
+        Kämpfer/Waldläufer/Magier, keine Berechnungslogik): Umgang mit Waffen
+        und Rüstungen, Blutlinie (Übersicht), Zaubertricks und
+        Materialkomponentenlos zaubern (alle Stufe 1), sowie Zauber des
+        Blutes (Stufen 3/5/7/9/11/13/15/17/19) und Talent des Blutes (Stufen
+        7/13/19) — beides geteilte Katalogzeilen analog zu Kämpfers
+        Bonus-Kampftalent, beide bewusst *nicht* in `feat_slots.py`s
+        `BONUS_FEAT_SLOT_ABILITY_IDS`, da die Zauber-/Talentwahl auf die
+        gewählte Blutlinie beschränkt ist statt ein freier Slot zu sein
+        (gleiche Begründung wie Magiers Bonustalent). Für jede der 10
+        Blutlinien Geheimnis des Blutes (Stufe 1, ungated bis auf
+        `option_choice_id`) plus die 5 nummerierten Macht-des-Blutes-
+        Fähigkeiten (Stufen 1/3/9/15/20) als `BaseClassAbility`/
+        `BaseClassAbilityGrant`-Zeilen ergänzt, jede Grant-Zeile mit
+        `option_choice_id` auf die jeweilige Blutlinienwahl verdrahtet — 66
+        neue Katalogzeilen, 76 neue Grants insgesamt. Manuell End-to-End
+        geprüft (Drachenblutlinie liefert genau Geheimnis des Blutes/Klauen/
+        Drachenresistenz/Odemwaffe/Schwingen/Macht des Drachen, stufenkorrekt
+        gegated; `class_bonus_feat_slot_count` bleibt bei 0 für Hexenmeister,
+        da weder Zauber des Blutes noch Talent des Blutes als Slot getaggt
+        sind). Gleiche Tiefe wie überall sonst: die Zahlenwerte selbst sind
+        nicht berechnet, nur Fähigkeit samt Beschreibungstext. **Weiterhin
+        nicht** modelliert (kein Schema dafür vorhanden): die pro Blutlinie
+        zusätzliche Klassenfertigkeit (z. B. Wissen (Gewölbekunde) für die
+        Abnormale Blutlinie) und die pro Blutlinie eigene
+        Bonuszauber-/Bonustalente-Liste (welcher konkrete Zauber/welches
+        konkrete Talent bei Zauber des Blutes/Talent des Blutes zur Auswahl
+        steht) — beides bräuchte entweder ein neues Schema (choice-gated
+        Klassenfertigkeit) oder eine FK von Grant auf `base_spells`/
+        `base_feats` (choice- und levelgated gleichzeitig), beides über den
+        Rahmen dieser Korrektur hinaus. Die Drachenblutlinie-Tabelle
+        (Drachentyp → Energietyp/Odem-Form) und die Elementare-Blutlinie-
+        Tabelle (Element → Energietyp/Bewegungsart) sind nur als Kurzhinweis
+        in der ersten Macht-des-Blutes-Fähigkeit erwähnt, nicht als eigene
+        Datenstruktur. Die drei `pathfinder-*-mock.html`-Dateien wurden
+        **nicht** synchronisiert (gleiches Vorgehen wie bei Magier); die
+        `archetypes`-Liste in `classes.json` (`["Keiner", "Fluchbringer",
+        "Blutlinie: Drache"]`) wurde ebenfalls nicht geprüft — sie vermischt
+        mutmaßlich echte Archetypen mit einer Blutlinienwahl und gehört auf
+        die separate Archetypen-Quellenseite, nicht auf die hier bearbeitete
+        Basisklassenseite.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -303,7 +363,7 @@ Slice-Arbeit.
         | Kämpfer | 28 (bereits korrigiert, siehe oben) |
         | Waldläufer | 18 (bereits korrigiert, siehe oben) |
         | Magier | 18 (bereits korrigiert, siehe oben) |
-        | Hexenmeister | 8 |
+        | Hexenmeister | 8 (bereits korrigiert, siehe oben) |
         | Schurke | 5 |
         | Orakel | 3 |
         | Kleriker | 3 |
@@ -312,18 +372,16 @@ Slice-Arbeit.
 
         Zusätzlich schon teilweise real hinterlegt (unabhängig von der
         Testnutzung): Zauber-Tabellen (`base_class_spells*.json`) für Magier/
-        Hexenmeister/Barde/Orakel; Options-Gruppen (Domänen/Blutlinien/
-        Mysterien/Bindungen) für Druide/Hexenmeister/Kleriker/Magier/Orakel/
-        Waldläufer.
+        Barde/Orakel; Options-Gruppen (Domänen/Mysterien/Bindungen) für
+        Druide/Kleriker/Orakel/Waldläufer.
 
-        **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer und Magier
-        sind erledigt (siehe oben) und decken zusammen bereits ~85 % der
-        Testerwähnungen sowie die wichtigsten mechanischen Achsen ab (volles
-        GAB mit Bonustalenten, volles GAB als Teilzeit-Zauberwirker
-        divine-spontan, halbes GAB arkan-vorbereitet). Als Nächstes
-        Hexenmeister (halbes GAB arkan-spontan, letzte offene mechanische
-        Achse). Danach Kleriker (einzige vorbereitete Divine-Klasse mit
-        Domänen) und Schurke
+        **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer, Magier und
+        Hexenmeister sind erledigt (siehe oben) und decken zusammen bereits
+        ~90 % der Testerwähnungen sowie die wichtigsten mechanischen Achsen
+        ab (volles GAB mit Bonustalenten, volles GAB als Teilzeit-
+        Zauberwirker divine-spontan, halbes GAB arkan-vorbereitet, halbes GAB
+        arkan-spontan). Als Nächstes Kleriker (einzige vorbereitete
+        Divine-Klasse mit Domänen) und Schurke
         (fertigkeiten-/talentbasiert, keine Zauber — Kontrast zu Kämpfers
         talentbasiertem Nicht-Zauberwirker-Profil), um die Abdeckung
         abzurunden, ohne eine bereits abgedeckte Mechanik zu duplizieren.
