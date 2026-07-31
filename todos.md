@@ -98,8 +98,45 @@ Slice-Arbeit.
         Kind der Großstadt, Lumpensammler, Reißzähne, Schamanenschüler,
         Waldwanderer, Zerstörer), inklusive korrekter Ersetzt-Beziehungen.
         Rein kompositionell, keine neue Berechnung.
-  - [ ] Restliche Rassen (Elf, Zwerg, Gnom, Halbelf) und alle Klassen noch
-        offen.
+  - [x] **Elf** (Quelle: <http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Elfen>):
+        Vier Standardmerkmale waren falsch benannt/unvollständig — „Niedrigsichtig"
+        war eigentlich „Dämmersicht"; „Widerstandsfähiger Geist" und
+        „Zauberkundig" waren ein falsch benannter, aufgespaltener Ersatz für
+        die zwei echten Merkmale „Elfische Immunität" und „Elfenmagie"
+        (Elfenmagie fehlte dabei der SR-Überwindungs-Bonus, „Zauberkundig"
+        nutzte zudem die falsche Fertigkeit); „Elfische Waffenvertrautheit"
+        fehlten Kurzbogen/Kompositkurzbogen. Zwei erfundene Alternativmerkmale
+        („Eisenkultur", „Küstenbewohner") entfernt und durch **alle 13 echten
+        Alternativmerkmale** ersetzt (Abgesandter, Arkane Konzentration,
+        Dunkelsicht, Elementarresistenz, Ewiger Groll, Leichtfüßig,
+        Lichtbringer, Naturverbundenheit, Schleichender Jäger,
+        Stadtverbundenheit, Traumdeuter, Wasserverbundenheit, Wüstenläufer),
+        inklusive korrekter Ersetzt-Beziehungen (drei ersetzen zwei Merkmale
+        gleichzeitig). Elfs alternative „Dunkelsicht" ist bewusst eine eigene
+        Katalogzeile statt der mit Halb-Ork geteilten: sie trägt zusätzlich
+        Lichtempfindlichkeit, ein echter mechanischer Unterschied. Rein
+        kompositionell, keine neue Berechnung. Beim Korrigieren einen echten
+        Bug gefunden und behoben: die neue Katalogzeile für „-2 auf
+        Konstitution" nutzte zunächst eine frisch generierte UUID statt der
+        in `rules/race_abilities.py`s `HANDLERS`-Registry fest verdrahteten
+        `ABILITY_KO_MINUS2`-ID — dadurch griff Elfs KO-Malus in keiner
+        Berechnung (u. a. TP), bis die ID korrigiert wurde; ein Hinweis
+        darauf, wie leicht eine neue Zeile für ein bereits über `HANDLERS`
+        berechnetes Attribut die falsche ID bekommt, wenn sie nicht bewusst
+        mit der bestehenden Zeile abgeglichen wird.
+  - [x] **Zwerg, Gnom, Halbelf entfernt (2026-07-31):** Diese drei Rassen
+        wurden nie gegen `prd.5footstep.de` geprüft (reines LLM-geratenes
+        Platzhaltermaterial). Auf expliziten Wunsch komplett aus
+        `base_races.json`/`base_race_abilities.json`/`race_ability_grants.json`/
+        `race_ability_replacements.json` entfernt statt weiter als ungeprüfter
+        Platzhalter mitgeführt — mit Elf/Mensch/Halbling/Halb-Ork geteilte
+        Katalogzeilen (z. B. Dunkelsicht, die Attribut-±2-Katalogeinträge)
+        blieben erhalten. Aktuell sind nur noch **vier** Rassen spielbar:
+        Mensch, Halbling, Halb-Ork, Elf. Sollten Zwerg/Gnom/Halbelf später
+        wieder gebraucht werden, müssen sie neu und einzeln gegen die echte
+        Quelle aufgebaut werden (nicht aus der Git-Historie zurückgeholt, da
+        die alten Daten selbst ungeprüft/teilweise erfunden waren).
+  - [ ] Alle Klassen noch offen.
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
     - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,

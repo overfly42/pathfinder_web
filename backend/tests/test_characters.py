@@ -1,18 +1,14 @@
-from uuid import UUID
-
 from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import (
-    BaseRaceAbility,
     Character,
     CharacterFeat,
     CharacterGear,
     CharacterRacialChoice,
     CharacterSkillRank,
     CharacterTrait,
-    RaceAbilityReplacement,
 )
 from app.rules.race_abilities import HANDLERS
 from app.seed.class_ability_seed import seed_class_abilities
@@ -460,13 +456,16 @@ def test_create_character_persists_alt_traits(client: TestClient, db_session: Se
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
+    # "Dunkelsicht" replaces Dämmersicht, "Traumdeuter" replaces Elfische
+    # Immunität — two real, non-conflicting Elf alternates (see
+    # test_elf_standard_traits_and_alternates_are_real).
     response = client.post(
         "/api/characters",
-        json=_character_payload(user_id, race_id, db_session, alt_traits=["Eisenkultur", "Küstenbewohner"]),
+        json=_character_payload(user_id, race_id, db_session, alt_traits=["Dunkelsicht", "Traumdeuter"]),
     )
     assert response.status_code == 201
     body = response.json()
-    assert set(body["alt_traits"]) == {"Eisenkultur", "Küstenbewohner"}
+    assert set(body["alt_traits"]) == {"Dunkelsicht", "Traumdeuter"}
 
     character = db_session.get(Character, body["id"])
     choices = db_session.scalars(
@@ -504,24 +503,13 @@ def test_create_character_rejects_flex_only_alternate_as_alt_trait(client: TestC
 def test_create_character_rejects_conflicting_alt_traits(client: TestClient, db_session: Session) -> None:
     race_id = _elf_race_id(client, db_session)
 
-    kuestenbewohner_id = db_session.scalar(select(BaseRaceAbility.id).where(BaseRaceAbility.name == "Küstenbewohner"))
-    waffenvertrautheit_id = db_session.scalar(
-        select(BaseRaceAbility.id).where(BaseRaceAbility.name == "Elfische Waffenvertrautheit")
-    )
-    # Force a genuine conflict for this test: two alternates both replacing
-    # "Elfische Waffenvertrautheit" (no such overlap exists in the seed data
-    # today, see `race_ability_replacements.json`).
-    db_session.add(
-        RaceAbilityReplacement(
-            base_race_id=UUID(race_id), ability_id=kuestenbewohner_id, replaces_ability_id=waffenvertrautheit_id
-        )
-    )
-    db_session.commit()
-
+    # "Arkane Konzentration" and "Leichtfüßig" both genuinely replace
+    # "Elfische Waffenvertrautheit" (see race_ability_replacements.json) —
+    # a real conflict, no manual setup needed.
     user_id = _create_user(client)
     response = client.post(
         "/api/characters",
-        json=_character_payload(user_id, race_id, db_session, alt_traits=["Eisenkultur", "Küstenbewohner"]),
+        json=_character_payload(user_id, race_id, db_session, alt_traits=["Arkane Konzentration", "Leichtfüßig"]),
     )
     assert response.status_code == 422
 

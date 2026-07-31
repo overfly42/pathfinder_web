@@ -13,27 +13,29 @@ def test_list_races_reconstructs_fixture_shape(client: TestClient, db_session: S
     assert response.status_code == 200
     races = {r["name"]: r for r in response.json()}
 
-    assert set(races) == {"Mensch", "Elf", "Zwerg", "Halbling", "Gnom", "Halbelf", "Halb-Ork"}
+    # Elf, Zwerg, Gnom and Halbelf were never checked against the real SRD
+    # (only plausibly LLM-guessed content, see todos.md's disclaimer). Zwerg,
+    # Gnom and Halbelf have since been removed outright (unbacked by any
+    # source); Elf was instead corrected against the real source (see
+    # test_elf_standard_traits_and_alternates_are_real) since it's also the
+    # reference race used throughout the character-creation test suite.
+    assert set(races) == {"Mensch", "Elf", "Halbling", "Halb-Ork"}
 
     elf = races["Elf"]
     assert elf["flex"] is False
     assert elf["mods"] == {"GE": 2, "IN": 2, "KO": -2}
     trait_names = {t["name"] for t in elf["traits"]}
     assert trait_names == {
-        "Niedrigsichtig",
+        "Dämmersicht",
+        "Elfische Immunität",
+        "Elfenmagie",
+        "Geschärfte Sinne",
         "Elfische Waffenvertrautheit",
-        "Zauberkundig",
-        "Widerstandsfähiger Geist",
         # Speed/size (previously a plain `BaseRace.speed` column and an
         # unmodeled default) are now racial-trait grants like everything
         # else — see rules/speed.py.
         "Normale Bewegungsrate",
         "Mittelgroß",
-    }
-    alt_names = {a["name"]: a["replaces"] for a in elf["alt"]}
-    assert alt_names == {
-        "Eisenkultur": ["Elfische Waffenvertrautheit"],
-        "Küstenbewohner": ["Zauberkundig"],
     }
 
 
@@ -95,17 +97,14 @@ def test_race_speed_and_size_are_grants_not_a_column(client: TestClient, db_sess
     real racial-trait grant, same composition-vs-computation split as
     everything else — see rules/speed.py. Size (Klein/Mittelgroß) has no
     computation yet (flavor-only, like Darkvision), but the correct trait
-    must be granted to every race, including the two real Small races
-    (Halbling/Gnom) that were previously silently assumed Medium."""
+    must be granted to every race, including the real Small race
+    (Halbling) that was previously silently assumed Medium."""
     seed_races(db_session)
     races = {r["name"]: r["id"] for r in client.get("/api/races").json()}
 
     assert race_speed(db_session, races["Halbling"]) == "6 m"
-    assert race_speed(db_session, races["Gnom"]) == "6 m"
-    assert race_speed(db_session, races["Zwerg"]) == "6 m"
     assert race_speed(db_session, races["Mensch"]) == "9 m"
     assert race_speed(db_session, races["Elf"]) == "9 m"
-    assert race_speed(db_session, races["Halbelf"]) == "9 m"
     assert race_speed(db_session, races["Halb-Ork"]) == "9 m"
 
     response = client.get("/api/races")
@@ -232,12 +231,54 @@ def test_halbork_standard_traits_and_alternates_are_real(client: TestClient, db_
     assert replaces_by_name["Gesteigerte Dunkelsicht"] == {"Orkische Wildheit"}
 
 
-def test_darkvision_is_one_shared_ability_across_races(client: TestClient, db_session: Session) -> None:
+def test_elf_standard_traits_and_alternates_are_real(client: TestClient, db_session: Session) -> None:
+    """Content-correction pass against the real German SRD
+    (<http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Elfen>, see
+    todos.md) — the DB previously had two misnamed/under-described standard
+    traits ("Niedrigsichtig" for the real "Dämmersicht"; "Widerstandsfähiger
+    Geist" and "Zauberkundig" as a split, misnamed version of the real
+    "Elfische Immunität"/"Elfenmagie") and two invented alternates
+    ("Eisenkultur", "Küstenbewohner" — neither matched any real trait). Now
+    corrected to the real standard traits plus all 13 real alternates."""
+    seed_races(db_session)
+
+    response = client.get("/api/races")
+    elf = {r["name"]: r for r in response.json()}["Elf"]
+
+    trait_names = {t["name"] for t in elf["traits"]}
+    assert "Niedrigsichtig" not in trait_names
+    assert "Widerstandsfähiger Geist" not in trait_names
+    assert "Zauberkundig" not in trait_names
+
+    alt_names = {a["name"] for a in elf["alt"]}
+    assert alt_names == {
+        "Abgesandter", "Arkane Konzentration", "Dunkelsicht", "Elementarresistenz", "Ewiger Groll",
+        "Leichtfüßig", "Lichtbringer", "Naturverbundenheit", "Schleichender Jäger", "Stadtverbundenheit",
+        "Traumdeuter", "Wasserverbundenheit", "Wüstenläufer",
+    }
+    assert "Eisenkultur" not in alt_names
+    assert "Küstenbewohner" not in alt_names
+
+    replaces_by_name = {a["name"]: set(a["replaces"]) for a in elf["alt"]}
+    assert replaces_by_name["Dunkelsicht"] == {"Dämmersicht"}
+    assert replaces_by_name["Leichtfüßig"] == {"Geschärfte Sinne", "Elfische Waffenvertrautheit"}
+    assert replaces_by_name["Wasserverbundenheit"] == {"Elfenmagie", "Elfische Waffenvertrautheit"}
+
+
+def test_medium_size_is_one_shared_ability_across_races(client: TestClient, db_session: Session) -> None:
+    """"Mittelgroß" (like "Dunkelsicht") is one shared catalog row reused by
+    every medium-sized race's grant, not duplicated with a fresh id each
+    time — see rules/speed.py and the composition-vs-computation split in
+    CLAUDE.md. (Elf's "Dunkelsicht" alternate is a deliberate exception: it
+    carries an extra light-sensitivity drawback the plain shared ability
+    doesn't have, so it's intentionally its own catalog row instead of
+    reusing Half-Ork's/Zwerg's.)"""
     seed_races(db_session)
 
     response = client.get("/api/races")
     races = {r["name"]: r for r in response.json()}
 
-    zwerg_trait = next(t for t in races["Zwerg"]["traits"] if t["name"] == "Dunkelsicht")
-    halbork_trait = next(t for t in races["Halb-Ork"]["traits"] if t["name"] == "Dunkelsicht")
-    assert zwerg_trait["desc"] == halbork_trait["desc"]
+    mensch_trait = next(t for t in races["Mensch"]["traits"] if t["name"] == "Mittelgroß")
+    halbork_trait = next(t for t in races["Halb-Ork"]["traits"] if t["name"] == "Mittelgroß")
+    elf_trait = next(t for t in races["Elf"]["traits"] if t["name"] == "Mittelgroß")
+    assert mensch_trait["desc"] == halbork_trait["desc"] == elf_trait["desc"]
