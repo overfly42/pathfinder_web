@@ -20,7 +20,7 @@ from .models import (
 )
 from .routers import characters, feats, items, races, skills, spells, traits, users
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
-from .schemas.character import CharacterRead
+from .sheet import build_character_sheet
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -87,7 +87,7 @@ def get_character(character_id: str, db: Annotated[Session, Depends(get_db)]) ->
     character = db.get(Character, parsed_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
-    return CharacterRead.model_validate(character).model_dump(mode="json")
+    return build_character_sheet(character, db)
 
 
 @app.get("/api/characters/{character_id}/progression")

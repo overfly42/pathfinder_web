@@ -13,6 +13,11 @@ class BaseRace(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     code: Mapped[str] = mapped_column(String(64), unique=True)
     name: Mapped[str] = mapped_column(String(255))
     short_description: Mapped[str] = mapped_column(Text)
+    # Base land speed, pre-formatted for display (e.g. "9 m") — same
+    # composition-only convention as everywhere else; nullable at the
+    # schema level like every other column added after the initial table
+    # (see BaseClass.hit_dice), backfilled via race_seed.py.
+    speed: Mapped[str | None] = mapped_column(String(32), nullable=True)
 
 
 class BaseRaceAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

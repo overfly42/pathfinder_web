@@ -32,7 +32,7 @@ from ..models import (
 )
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
-from ..rules.progression import is_valid_rolled_hit_points
+from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection, SpellbookAdd
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
@@ -204,12 +204,10 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             )
 
     race_mods = race_ability_score_mods(db, body.race_id)
+    effective_scores = effective_ability_scores(body.ability_scores, race_mods, body.flex_ability)
 
     def _effective_ability_mod(ability: str) -> int:
-        score = body.ability_scores[ability] + race_mods.get(ability, 0)
-        if body.flex_ability == ability:
-            score += 2
-        return (score - 10) // 2
+        return ability_mod(effective_scores[ability])
 
     if body.skill_ranks:
         valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
@@ -300,8 +298,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         raise HTTPException(
                             status_code=422, detail=f"Grade {grade_by_spell_id[spell_id]} not yet accessible for {root.name}"
                         )
-                ability_mod = _effective_ability_mod(root.casting_ability) if root.casting_ability else 0
-                budget = arcane_prepared_budget(class_level, ability_mod)
+                casting_ability_mod = _effective_ability_mod(root.casting_ability) if root.casting_ability else 0
+                budget = arcane_prepared_budget(class_level, casting_ability_mod)
                 if len(non_grade0) > budget:
                     raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
 
@@ -367,9 +365,9 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     # x character level. A freshly created character starts at full health,
     # so this is also the initial `current_hit_points` (damage tracking is a
     # later `PATCH .../hp` concern, see todos.md).
-    character.current_hit_points = sum(level.hit_points for level in character.levels) + _effective_ability_mod(
-        "KO"
-    ) * total_level
+    character.current_hit_points = max_hit_points(
+        [level.hit_points for level in character.levels], _effective_ability_mod("KO"), total_level
+    )
 
     if last_level_row is not None:
         for skill_id_str, ranks in body.skill_ranks.items():

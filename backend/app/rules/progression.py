@@ -27,3 +27,42 @@ def class_save_bonus(is_good_save: bool, class_level: int) -> int:
     if is_good_save:
         return 2 + class_level // 2
     return class_level // 3
+
+
+def ability_mod(score: int) -> int:
+    """Standard PF1e ability modifier: floor((score - 10) / 2)."""
+    return (score - 10) // 2
+
+
+def effective_ability_scores(
+    base_scores: dict[str, int], race_mods: dict[str, int], flex_ability: str | None
+) -> dict[str, int]:
+    """A character's effective (post-race/flex) ability scores: base
+    point-buy scores plus the race's own (non-alternate) modifiers
+    (`routers/races.py`'s `race_ability_score_mods`), plus +2 on the flex
+    pick if the race grants one (`Character.flex_ability`). Never stored;
+    computed at read time, same composition-vs-computation split as `bab`/
+    `saves` (CLAUDE.md) — shared by `create_character`'s validation
+    (`routers/characters.py`) and `sheet.py`'s display so the two never
+    drift apart."""
+    result = dict(base_scores)
+    for ability, mod in race_mods.items():
+        result[ability] = result.get(ability, 0) + mod
+    if flex_ability is not None:
+        result[flex_ability] = result.get(flex_ability, 0) + 2
+    return result
+
+
+def max_hit_points(hit_points_by_level: list[int | None], effective_con_mod: int, total_level: int) -> int:
+    """Total max HP: sum of hit points gained/rolled at each level (the
+    first level's die is always maxed, see `is_valid_rolled_hit_points`'s
+    docstring) plus the effective CON modifier per level
+    (`requirements_v2.md` §2). A freshly created character's starting
+    current HP equals this too (see `create_character`) — damage tracking is
+    a later `PATCH .../hp` concern (todos.md).
+
+    Entries may be `None` for characters created before hit-die data existed
+    (`Character.current_hit_points`'s docstring documents this as an
+    expected historical state, not an error) — those contribute 0 rather
+    than raising, so old characters can still be displayed."""
+    return sum(hp or 0 for hp in hit_points_by_level) + effective_con_mod * total_level

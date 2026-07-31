@@ -256,8 +256,11 @@ def test_create_character_with_archetype_persists_and_round_trips(client: TestCl
         {"class_name": "Krieger", "level": 2, "archetypes": ["Waffenmeister"], "is_favored": True, "options": {}}
     ]
 
-    refetched = client.get(f"/api/characters/{body['id']}").json()
-    assert refetched["classes"] == body["classes"]
+    # GET /api/characters/{id} now returns the sheet's display shape
+    # (app/sheet.py), not a composition echo — verify persistence directly
+    # against the ORM instead.
+    db_character = db_session.get(Character, body["id"])
+    assert db_character.classes == body["classes"]
 
 
 def test_create_character_with_unknown_archetype_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -987,8 +990,11 @@ def test_get_character(client: TestClient, db_session: Session) -> None:
 
     response = client.get(f"/api/characters/{created['id']}")
     assert response.status_code == 200
+    # GET now returns the sheet's display shape (app/sheet.py); the raw
+    # persisted ability scores are covered by test_character_sheet.py and
+    # by db_session assertions elsewhere in this file.
     assert response.json()["name"] == "Elyra"
-    assert response.json()["ability_scores"] == DEFAULT_ABILITY_SCORES
+    assert response.json()["race"] == "Elf"
 
 
 def test_get_unknown_character_returns_404(client: TestClient) -> None:
@@ -1280,8 +1286,10 @@ def test_remove_spell_from_spellbook(client: TestClient, db_session: Session) ->
     response = client.delete(f"/api/characters/{character['id']}/spellbook/{spells['Licht']}")
     assert response.status_code == 204
 
-    updated = client.get(f"/api/characters/{character['id']}").json()
-    assert spells["Licht"] not in updated["spell_ids"][base_class_id]
+    # GET /api/characters/{id} now returns the sheet's display shape (app/
+    # sheet.py) rather than a composition echo — verify persistence directly.
+    db_character = db_session.get(Character, character["id"])
+    assert spells["Licht"] not in db_character.spell_ids[base_class_id]
 
 
 def test_remove_unknown_spell_from_spellbook_is_404(client: TestClient, db_session: Session) -> None:
