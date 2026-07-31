@@ -7,12 +7,18 @@ interface UseCharacterResult {
   setCharacter: React.Dispatch<React.SetStateAction<Character | null>>;
   loading: boolean;
   error: string | null;
+  /** Re-fetches the character from the backend — for real (database-backed)
+   *  characters, call this after a gear/slot mutation to pull the freshly
+   *  computed sheet (armorClass, equipmentSlots, ...) instead of hand-patching
+   *  local state. */
+  refetch: () => void;
 }
 
 export function useCharacter(id: string): UseCharacterResult {
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,7 +48,11 @@ export function useCharacter(id: string): UseCharacterResult {
     return () => {
       cancelled = true;
     };
-  }, [id]);
+  }, [id, reloadKey]);
 
-  return { character, setCharacter, loading, error };
+  function refetch() {
+    setReloadKey((key) => key + 1);
+  }
+
+  return { character, setCharacter, loading, error, refetch };
 }

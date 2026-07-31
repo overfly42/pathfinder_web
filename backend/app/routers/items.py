@@ -14,5 +14,13 @@ router = APIRouter(prefix="/api/items", tags=["items"])
 def list_items(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
     items = db.scalars(select(BaseItem).order_by(BaseItem.category, BaseItem.name)).all()
     return [
-        {"id": str(item.id), "name": item.name, "category": item.category, "price": item.price} for item in items
+        {
+            "id": str(item.id),
+            "name": item.name,
+            "category": item.category,
+            "price": item.price,
+            "acBonus": item.ac_bonus,
+            "maxDexBonus": item.max_dex_bonus,
+        }
+        for item in items
     ]

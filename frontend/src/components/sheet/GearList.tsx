@@ -1,22 +1,29 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { GearItem } from '../../types/character';
+import type { ItemCatalogEntry, ItemCategory } from '../../types/creationOptions';
+
+const CATEGORY_LABELS: Record<ItemCategory, string> = {
+  weapon: 'Waffen',
+  armor: 'Rüstung',
+  shield: 'Schilde',
+  gear: 'Ausrüstung',
+  tool: 'Werkzeug',
+  consumable: 'Verbrauchsgüter',
+};
 
 interface GearItemRowProps {
   item: GearItem;
-  onSave: (id: string, name: string, qty: number) => void;
+  onSave: (id: string, qty: number) => void;
   onRemove: (id: string) => void;
   onOpenDetail: (id: string) => void;
 }
 
 function GearItemRow({ item, onSave, onRemove, onOpenDetail }: GearItemRowProps) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
-  const [name, setName] = useState(item.name);
   const [qty, setQty] = useState(item.qty);
 
   function handleSave() {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    onSave(item.id, trimmed, qty);
+    onSave(item.id, qty);
     detailsRef.current?.removeAttribute('open');
   }
 
@@ -25,7 +32,6 @@ function GearItemRow({ item, onSave, onRemove, onOpenDetail }: GearItemRowProps)
       <details className="gear-edit" ref={detailsRef}>
         <summary className="gear-name">{item.name}</summary>
         <div className="hp-popover-body gear-form">
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Bezeichnung" />
           <input
             type="number"
             min={1}
@@ -45,16 +51,22 @@ function GearItemRow({ item, onSave, onRemove, onOpenDetail }: GearItemRowProps)
   );
 }
 
-function GearAddRow({ onAdd }: { onAdd: (name: string, qty: number) => void }) {
+function GearAddRow({ catalog, onAdd }: { catalog: ItemCatalogEntry[]; onAdd: (itemId: string, qty: number) => void }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
-  const [name, setName] = useState('');
+  const [category, setCategory] = useState<ItemCategory | ''>('');
+  const [selectedItemId, setSelectedItemId] = useState('');
   const [qty, setQty] = useState(1);
 
+  const categories = useMemo(() => Array.from(new Set(catalog.map((i) => i.category))) as ItemCategory[], [catalog]);
+  const filteredItems = useMemo(
+    () => (category ? catalog.filter((i) => i.category === category) : catalog),
+    [catalog, category],
+  );
+  const selectedItem = catalog.find((i) => i.id === selectedItemId) ?? filteredItems[0];
+
   function handleAdd() {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    onAdd(trimmed, qty || 1);
-    setName('');
+    if (!selectedItem) return;
+    onAdd(selectedItem.id, qty || 1);
     setQty(1);
     detailsRef.current?.removeAttribute('open');
   }
@@ -63,7 +75,23 @@ function GearAddRow({ onAdd }: { onAdd: (name: string, qty: number) => void }) {
     <details className="gear-add" ref={detailsRef}>
       <summary className="gear-add-btn">+ Gegenstand hinzufügen</summary>
       <div className="hp-popover-body gear-form">
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Bezeichnung" />
+        <select
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value as ItemCategory | '');
+            setSelectedItemId('');
+          }}
+        >
+          <option value="">Alle Kategorien</option>
+          {categories.map((c) => (
+            <option value={c} key={c}>{CATEGORY_LABELS[c] ?? c}</option>
+          ))}
+        </select>
+        <select value={selectedItem?.id ?? ''} onChange={(e) => setSelectedItemId(e.target.value)}>
+          {filteredItems.map((i) => (
+            <option value={i.id} key={i.id}>{i.name}</option>
+          ))}
+        </select>
         <input
           type="number"
           min={1}
@@ -72,7 +100,7 @@ function GearAddRow({ onAdd }: { onAdd: (name: string, qty: number) => void }) {
           placeholder="Anzahl"
         />
         <div className="hp-popover-actions">
-          <button type="button" className="hp-btn confirm" onClick={handleAdd}>Hinzufügen</button>
+          <button type="button" className="hp-btn confirm" onClick={handleAdd} disabled={!selectedItem}>Hinzufügen</button>
         </div>
       </div>
     </details>
@@ -81,13 +109,14 @@ function GearAddRow({ onAdd }: { onAdd: (name: string, qty: number) => void }) {
 
 interface GearListProps {
   gear: GearItem[];
-  onAdd: (name: string, qty: number) => void;
-  onSave: (id: string, name: string, qty: number) => void;
+  catalog: ItemCatalogEntry[];
+  onAdd: (itemId: string, qty: number) => void;
+  onSave: (id: string, qty: number) => void;
   onRemove: (id: string) => void;
   onOpenDetail: (id: string) => void;
 }
 
-export function GearList({ gear, onAdd, onSave, onRemove, onOpenDetail }: GearListProps) {
+export function GearList({ gear, catalog, onAdd, onSave, onRemove, onOpenDetail }: GearListProps) {
   return (
     <>
       <div className="gear-list">
@@ -95,7 +124,7 @@ export function GearList({ gear, onAdd, onSave, onRemove, onOpenDetail }: GearLi
           <GearItemRow key={item.id} item={item} onSave={onSave} onRemove={onRemove} onOpenDetail={onOpenDetail} />
         ))}
       </div>
-      <GearAddRow onAdd={onAdd} />
+      <GearAddRow catalog={catalog} onAdd={onAdd} />
     </>
   );
 }

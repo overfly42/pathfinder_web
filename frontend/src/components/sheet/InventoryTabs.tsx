@@ -1,4 +1,5 @@
 import type { Character } from '../../types/character';
+import type { ItemCatalogEntry } from '../../types/creationOptions';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 import { GearList } from './GearList';
 import { EquipmentSlots } from './EquipmentSlots';
@@ -12,10 +13,11 @@ const TABS: TabDef[] = [
 
 interface InventoryTabsProps {
   character: Character;
+  itemsCatalog: ItemCatalogEntry[];
   activeTab: string;
   onTabChange: (tab: string) => void;
-  onAddGear: (name: string, qty: number) => void;
-  onSaveGear: (id: string, name: string, qty: number) => void;
+  onAddGear: (itemId: string, qty: number) => void;
+  onSaveGear: (id: string, qty: number) => void;
   onRemoveGear: (id: string) => void;
   onOpenItemDetail: (id: string) => void;
   onSlotChange: (key: string, value: string) => void;
@@ -26,6 +28,7 @@ interface InventoryTabsProps {
 
 export function InventoryTabs({
   character,
+  itemsCatalog,
   activeTab,
   onTabChange,
   onAddGear,
@@ -46,6 +49,7 @@ export function InventoryTabs({
         <TabPanel active={activeTab} tabKey="inventory">
           <GearList
             gear={character.gear}
+            catalog={itemsCatalog}
             onAdd={onAddGear}
             onSave={onSaveGear}
             onRemove={onRemoveGear}

@@ -30,11 +30,21 @@ from ..models import (
     CharacterTrait,
     User,
 )
+from ..rules.equipment_slots import SLOT_CATEGORY
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
-from ..schemas.character import CharacterCreate, CharacterRead, CharacterUpdate, ClassSelection, SpellbookAdd
+from ..schemas.character import (
+    CharacterCreate,
+    CharacterRead,
+    CharacterUpdate,
+    ClassSelection,
+    GearSelection,
+    GearUpdate,
+    SlotUpdate,
+    SpellbookAdd,
+)
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
 
 router = APIRouter(prefix="/api/characters", tags=["characters"])
@@ -461,6 +471,98 @@ def remove_from_spellbook(character_id: UUID, spell_id: UUID, db: Annotated[Sess
     for entry in entries:
         db.delete(entry)
     db.commit()
+
+
+@router.post("/{character_id}/gear", response_model=CharacterRead, status_code=201)
+def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """In-play "add to inventory" (roadmap slice 4) — unlike creation's
+    `gear` validator, which rejects duplicate item_ids within one
+    submission, adding an already-owned item here just increases its
+    quantity (picking up another torch), rather than erroring."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    item = db.get(BaseItem, body.item_id)
+    if item is None:
+        raise HTTPException(status_code=422, detail="Unknown item_id")
+
+    existing = next((g for g in character.gear if g.item_id == body.item_id), None)
+    if existing is not None:
+        existing.quantity += body.quantity
+    else:
+        character.gear.append(CharacterGear(item_id=body.item_id, quantity=body.quantity))
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/gear/{item_id}", response_model=CharacterRead)
+def update_gear(
+    character_id: UUID, item_id: UUID, body: GearUpdate, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    gear_row = next((g for g in character.gear if g.item_id == item_id), None)
+    if gear_row is None:
+        raise HTTPException(status_code=404, detail="Item not found in inventory")
+
+    if body.quantity is not None:
+        gear_row.quantity = body.quantity
+    if body.enhancement is not None:
+        gear_row.enhancement = body.enhancement
+    if body.properties is not None:
+        gear_row.properties = body.properties
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.delete("/{character_id}/gear/{item_id}", status_code=204)
+def remove_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depends(get_db)]) -> None:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    gear_row = next((g for g in character.gear if g.item_id == item_id), None)
+    if gear_row is None:
+        raise HTTPException(status_code=404, detail="Item not found in inventory")
+    db.delete(gear_row)
+    db.commit()
+
+
+@router.put("/{character_id}/slots/{slot_key}", response_model=CharacterRead)
+def update_slot(
+    character_id: UUID, slot_key: str, body: SlotUpdate, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Equip/unequip into one of the two mechanically-real paperdoll slots
+    (`rules/equipment_slots.py`'s `SLOT_CATEGORY` — armor/shield are the
+    only categories with `BaseItem.ac_bonus` data; the other 12 wondrous-item
+    slots have no real catalog content yet, see that module's docstring, and
+    aren't reachable through this endpoint)."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    required_category = SLOT_CATEGORY.get(slot_key)
+    if required_category is None:
+        raise HTTPException(status_code=422, detail=f"Unknown or unsupported slot '{slot_key}'")
+
+    # Unequip whatever currently holds this slot (only one item per slot).
+    for gear_row in character.gear:
+        if gear_row.equipped_slot == slot_key:
+            gear_row.equipped_slot = None
+
+    if body.item_id is not None:
+        gear_row = next((g for g in character.gear if g.item_id == body.item_id), None)
+        if gear_row is None:
+            raise HTTPException(status_code=422, detail="Item is not in this character's inventory")
+        item = db.get(BaseItem, body.item_id)
+        if item is None or item.category != required_category:
+            raise HTTPException(status_code=422, detail=f"Item does not fit slot '{slot_key}'")
+        gear_row.equipped_slot = slot_key
+
+    db.commit()
+    db.refresh(character)
+    return character
 
 
 @router.delete("/{character_id}", status_code=204)

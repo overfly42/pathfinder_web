@@ -562,13 +562,76 @@ Cheapest slice — proves the whole pattern before harder ones.
       for this pass, no `characters.gold` column exists yet.
 
 ### 4. Items / Inventory
-- [ ] Gear table + equipment slots.
-- [ ] `POST /api/characters/{id}/gear`, `PATCH .../gear/{item_id}`,
-      `DELETE .../gear/{item_id}`, `PUT .../slots/{slot_id}`.
-- [ ] Decide the shared modifier/bonus-stacking design here (see Guiding
-      decisions above); reused by Effects in slice 5.
-- [ ] AC recompute can stay a stub (store equipped state only); real AC
-      computation is a thickening pass once the modifier design exists.
+- [x] Gear table + equipment slots — scoped to armor/shield, the only two
+      categories with a real, well-defined, unconditional mechanical effect
+      (AC). `BaseItem` gains `ac_bonus`/`max_dex_bonus` (nullable, only
+      populated for category "armor"/"shield" — armor's `max_dex_bonus`
+      caps the Dex bonus to AC while worn, per PF1e). `CharacterGear` gains
+      `equipped_slot` (one of the paperdoll's slot keys, `"ruestung"`/
+      `"schild"` today), `enhancement` (an item instance's own magic "+N",
+      previously a throwaway frontend-only field), and `properties`
+      (descriptive weapon properties, same "not evaluated by rule logic
+      yet" convention as `BaseItem.category`). Migration `8363bc616626`.
+
+      Explicit scope decision, not a partial implementation: the mock
+      paperdoll's other 12 "wondrous item" slots (ring, belt, amulet, ...)
+      are left exactly as before (cosmetic, frontend-only) — there are no
+      real magic-item catalog rows behind them (the fixture characters'
+      slot `options` are hand-typed flavor strings), and inventing
+      mechanical values for them now would be exactly the guessed-content
+      problem `todos.md` already flags, not a schema gap to close here.
+      `backend/app/rules/equipment_slots.py`'s `SLOT_DEFINITIONS` (the
+      paperdoll's fixed 15-slot layout — pure UI layout data, not rule
+      content) also adds a `"schild"` (shield) slot that never existed in
+      the original mock at all, and `SLOT_CATEGORY` maps only those two
+      keys to the `BaseItem.category` they accept.
+
+      Real PF1e SRD values (not guessed) seeded for the 6 armor + 2 shield
+      rows already in `base_items.json` (e.g. Lederrüstung +2 AC/max Dex
+      +6, Kettenhemd +4/+4, Vollplatte +9/+1, Turmschild +4 AC) — standard,
+      well-documented stats, unlike the flavor-heavy placeholder content
+      `todos.md` flags elsewhere.
+- [x] `POST /api/characters/{id}/gear` (upserts — adding an already-owned
+      item increases quantity instead of erroring, unlike creation's
+      duplicate-rejecting `gear` validator), `PATCH .../gear/{item_id}`
+      (quantity/enhancement/properties, any subset), `DELETE
+      .../gear/{item_id}`, `PUT .../slots/{slot_key}` (`slot_key` restricted
+      to `"ruestung"`/`"schild"`; validates the item is owned and its
+      category matches the slot; unequips whatever was previously in that
+      slot). All in `backend/app/routers/characters.py`, same
+      `CharacterRead`/204 response convention as the existing spellbook
+      endpoints. CORS `allow_methods` gained `PUT` (only `GET`/`POST`/
+      `PATCH`/`DELETE` before).
+- [x] Shared modifier/bonus-stacking design: `backend/app/rules/modifiers.py`
+      — a `Modifier(source, type, value)` dataclass and `stack()` applying
+      PF1e's real stacking rule (same-type bonuses take the max, not the
+      sum; dodge/circumstance/untyped always stack). Only "armor"/"shield"
+      types are actually produced today; the type-max logic is inert until
+      slice 5 gives it a second source (e.g. a spell granting natural
+      armor) — built once now, per the Guiding decision above, not
+      redesigned when effects arrives.
+- [x] AC recompute went further than the originally-planned stub: `armorClass`
+      is genuinely computed in `sheet.py` (`10 + min(dex_mod, max_dex_bonus
+      or dex_mod) + stack(modifiers)`) from whichever `CharacterGear` rows
+      have `equipped_slot` set, not just stored equip state with a
+      placeholder AC. Verified end-to-end through the real browser UI
+      (Playwright): equipping a +2 armor and +4 shield took AC 12 → 18,
+      unequipping the shield reverted it to 14, and a page reload (with a
+      fresh user/character reselect, since selection isn't persisted
+      client-side) still showed 14 with the armor still equipped —
+      confirming server-side persistence, not local state.
+
+      Frontend: `GearList.tsx`'s add/edit form switched from freeform
+      name+qty text input to a category-filtered catalog id picker
+      (mirrors `EquipmentStep.tsx`'s existing convention exactly — dropped
+      the rename affordance, since real items are catalog rows now, not
+      renameable); new `useItemsCatalog.ts` hook (mirrors
+      `useEffectsCatalog.ts`) and `useCharacter.ts` gained `refetch()`.
+      `CharacterSheetPage.tsx`'s gear/slot/item-detail handlers now branch
+      on whether the current character is real (a database UUID) vs. one
+      of the two mock sheet fixtures (`"1"`/`"2"`, no backing row) — real
+      characters call the new endpoints and `refetch()`, fixtures keep
+      their original local-only behavior unchanged.
 
 ### 5. Effects / Conditions / Time
 - [ ] Active-effects table with duration tracking.

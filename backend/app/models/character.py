@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import JSON, Boolean, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -319,8 +319,19 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `CharacterFeat`/`CharacterTrait` (gear is bought/found/dropped during
     play, not gained at level-up), so this is keyed by `character_id`
     directly, matching roadmap slice 4's character-scoped
-    `POST/PATCH/DELETE .../gear` endpoints. Descriptive only for now — no
-    equip slots, no AC/attack-bonus computation (slice 4)."""
+    `POST/PATCH/DELETE .../gear` endpoints.
+
+    `equipped_slot` (roadmap slice 4) is one of the paperdoll's slot keys
+    (`"ruestung"`/`"schild"` today — the only two with a real mechanical
+    effect, since `BaseItem.ac_bonus` only exists for armor/shield; see
+    `sheet.py`) or null if carried but not worn. `enhancement` is the item
+    instance's own magic "+N" bonus (two characters' "+1" and "+2" longswords
+    are the same `BaseItem` row with different `enhancement`), folded
+    directly into `BaseItem.ac_bonus` for armor/shield at AC-computation time
+    rather than tracked as a separate stacking type — PF1e combines armor/
+    shield enhancement into the one armor/shield bonus, it isn't distinct.
+    `properties` (e.g. "Flammend") is descriptive only, same "not evaluated
+    by rule logic yet" convention as `BaseItem.category`."""
 
     __tablename__ = "character_gear"
     __table_args__ = (UniqueConstraint("character_id", "item_id"),)
@@ -328,3 +339,6 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
     item_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_items.id"))
     quantity: Mapped[int] = mapped_column(Integer)
+    equipped_slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    enhancement: Mapped[int] = mapped_column(Integer, default=0)
+    properties: Mapped[list[str]] = mapped_column(JSON, default=list)

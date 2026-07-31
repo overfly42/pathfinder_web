@@ -82,7 +82,12 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
     # Subsystems that genuinely don't exist yet stay honest empty defaults,
     # not fabricated content — this is what used to trip the frontend's
     # "not available yet" placeholder (`!('effectsActive' in character)`).
-    assert body["equipmentSlots"] == []
+    # equipmentSlots (roadmap slice 4) is real for armor/shield now — see
+    # test_items.py — but this character equipped nothing, and the other 12
+    # wondrous-item slots have no real catalog content yet, so every slot's
+    # options/selected stay empty here.
+    assert len(body["equipmentSlots"]) == 15
+    assert all(slot["options"] == [] and slot["selected"] == "" for slot in body["equipmentSlots"])
     assert body["actions"] == []
     assert body["effectsActive"] == []
 

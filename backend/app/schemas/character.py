@@ -183,6 +183,29 @@ class CharacterCreate(BaseModel):
         return value
 
 
+class GearUpdate(BaseModel):
+    """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
+    quantity/enhancement/properties may be omitted (unchanged)."""
+
+    quantity: int | None = None
+    enhancement: int | None = None
+    properties: list[str] | None = None
+
+    @field_validator("quantity")
+    @classmethod
+    def quantity_must_be_positive(cls, value: int | None) -> int | None:
+        if value is not None and value < 1:
+            raise ValueError("quantity must be at least 1")
+        return value
+
+
+class SlotUpdate(BaseModel):
+    """Body for `PUT /api/characters/{id}/slots/{slot_key}` — `item_id: null`
+    unequips whatever is currently in that slot."""
+
+    item_id: UUID | None = None
+
+
 class SpellbookAdd(BaseModel):
     """Body for `POST /api/characters/{id}/spellbook` — the in-play
     "add a spell to the spellbook" action (`requirements_v2.md` §2.2),

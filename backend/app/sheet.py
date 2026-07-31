@@ -9,8 +9,10 @@ computation — joining those ids to their catalog rows and formatting values
 
 Subsystems that genuinely don't exist yet are left as honest empty defaults,
 not fabricated placeholder content:
-- `equipmentSlots`/AC-from-worn-gear (roadmap slice 4 — `BaseItem` has no
-  armor/shield/AC data yet).
+- `equipmentSlots`: armor/shield (roadmap slice 4) are real — equip state and
+  AC contribution come from `CharacterGear`/`BaseItem.ac_bonus`. The other 12
+  wondrous-item slots (rings, belts, ...) have no real catalog content yet,
+  so they're listed (for the paperdoll's fixed layout) with empty options.
 - `actions` catalog and `effectsActive` (roadmap slice 6).
 - Per-day spell prepare/cast tracking (roadmap slice 6) — `spellsKnown`
   (`used`) and `spellbook` (`prepared`) both list every known spell with
@@ -46,6 +48,8 @@ from .models import (
 )
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
+from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS
+from .rules.modifiers import Modifier, stack
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -78,6 +82,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     str_mod = ability_mods["ST"]
     dex_mod = ability_mods["GE"]
     bab = character.bab
+    armor_class, equipment_slots = _build_equipment(db, character, dex_mod)
 
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
@@ -91,7 +96,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "archetype": archetype,
         "level": total_level,
         "hp": {"current": hp_current, "max": hp_max},
-        "armorClass": 10 + dex_mod,
+        "armorClass": armor_class,
         "initiative": _fmt(dex_mod),
         "speed": race.speed if race and race.speed else "9 m",
         "roundLabel": "Runde 1",
@@ -119,7 +124,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "raceAbilities": _build_race_abilities(db, character.race_id),
         "spellsKnown": _build_spell_grades(db, character, "used"),
         "gear": _build_gear(db, character),
-        "equipmentSlots": [],
+        "equipmentSlots": equipment_slots,
         "spellbook": _build_spell_grades(db, character, "prepared"),
         "actions": [],
         "effectsActive": [],
@@ -248,5 +253,66 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
         item = items.get(gear_row.item_id)
         if item is None:
             continue
-        result.append({"id": str(gear_row.id), "name": item.name, "qty": gear_row.quantity})
+        # id is the item's own id, not the CharacterGear row's — matches
+        # PATCH/DELETE .../gear/{item_id}'s path param (item_id is already a
+        # stable per-character key, `CharacterGear.character_id`+`item_id` is
+        # unique), so the frontend can call those endpoints directly.
+        entry = {"id": str(gear_row.item_id), "name": item.name, "qty": gear_row.quantity}
+        if gear_row.enhancement:
+            entry["enhancement"] = f"+{gear_row.enhancement}"
+        if gear_row.properties:
+            entry["properties"] = gear_row.properties
+        result.append(entry)
     return result
+
+
+def _build_equipment(db: Session, character: Character, dex_mod: int) -> tuple[int, list[dict]]:
+    """Armor class + paperdoll slots from equipped gear (roadmap slice 4).
+    Only armor ("ruestung") and shield ("schild") have real `BaseItem.ac_bonus`
+    data (`rules/equipment_slots.SLOT_CATEGORY`) — the other 12 slots render
+    with empty options (see this module's docstring)."""
+    if not character.gear:
+        return 10 + dex_mod, [{**slot_def, "options": [], "selected": ""} for slot_def in SLOT_DEFINITIONS]
+
+    items = {
+        item.id: item
+        for item in db.scalars(select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))).all()
+    }
+    gear_by_slot = {g.equipped_slot: g for g in character.gear if g.equipped_slot}
+
+    modifiers: list[Modifier] = []
+    max_dex_bonus: int | None = None
+    for slot_key, category in SLOT_CATEGORY.items():
+        gear_row = gear_by_slot.get(slot_key)
+        item = items.get(gear_row.item_id) if gear_row else None
+        if item is None:
+            continue
+        modifiers.append(Modifier(source=item.name, type=category, value=(item.ac_bonus or 0) + gear_row.enhancement))
+        if category == "armor":
+            max_dex_bonus = item.max_dex_bonus
+
+    capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
+    armor_class = 10 + capped_dex_mod + stack(modifiers)
+
+    owned_by_category: dict[str, list[BaseItem]] = {}
+    for gear_row in character.gear:
+        item = items.get(gear_row.item_id)
+        if item is not None:
+            owned_by_category.setdefault(item.category, []).append(item)
+
+    equipment_slots = []
+    for slot_def in SLOT_DEFINITIONS:
+        required_category = SLOT_CATEGORY.get(slot_def["key"])
+        options: list[dict] = []
+        selected = ""
+        if required_category is not None:
+            options = [
+                {"value": str(candidate.id), "label": candidate.name}
+                for candidate in owned_by_category.get(required_category, [])
+            ]
+            equipped = gear_by_slot.get(slot_def["key"])
+            if equipped is not None:
+                selected = str(equipped.item_id)
+        equipment_slots.append({**slot_def, "options": options, "selected": selected})
+
+    return armor_class, equipment_slots

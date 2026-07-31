@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createId } from '../lib/id';
+import { apiDelete, apiPatch, apiPost, apiPut } from '../api/client';
 import { useAppState } from '../state/AppStateContext';
 import { useCharacter } from '../hooks/useCharacter';
 import { useEffectsCatalog } from '../hooks/useEffectsCatalog';
+import { useItemsCatalog } from '../hooks/useItemsCatalog';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
 import { CharacterHeader } from '../components/sheet/CharacterHeader';
@@ -28,16 +30,23 @@ const ROUNDS_PER_UNIT: Record<TimeUnit, number> = {
   day: 600 * 24,
 };
 
+// The two mock sheet fixtures (`backend/app/main.py`'s CHARACTER_FIXTURES) have no
+// backing database row — gear/slot mutations for them stay local-only (nothing to write to).
+const FIXTURE_CHARACTER_IDS = new Set(['1', '2']);
+
 export function CharacterSheetPage() {
   const { currentCharacterId, nameOverrides } = useAppState();
-  const { character: rawCharacter, setCharacter, loading, error } = useCharacter(currentCharacterId);
+  const { character: rawCharacter, setCharacter, loading, error, refetch } = useCharacter(currentCharacterId);
   const nameOverride = nameOverrides[currentCharacterId];
   const character = rawCharacter && nameOverride ? { ...rawCharacter, name: nameOverride } : rawCharacter;
   const { catalog: effectsCatalog, loading: catalogLoading, error: catalogError } = useEffectsCatalog();
+  const { catalog: itemsCatalog, loading: itemsLoading, error: itemsError } = useItemsCatalog();
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
   const [itemDetailId, setItemDetailId] = useState<string | null>(null);
   const [pendingReveal, setPendingReveal] = useState<string | null>(null);
+  const [gearError, setGearError] = useState<string | null>(null);
+  const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
   useEffect(() => {
@@ -88,7 +97,7 @@ export function CharacterSheetPage() {
     );
   }
 
-  if (loading || catalogLoading) {
+  if (loading || catalogLoading || itemsLoading) {
     return (
       <div className="app">
         <p style={{ color: '#e2d3ab', padding: 24 }}>Lade Charakter …</p>
@@ -96,27 +105,12 @@ export function CharacterSheetPage() {
     );
   }
 
-  if (error || catalogError || !character || !effectsCatalog) {
+  if (error || catalogError || itemsError || !character || !effectsCatalog || !itemsCatalog) {
     return (
       <div className="app">
-        <p style={{ color: '#e2d3ab', padding: 24 }}>Charakter konnte nicht geladen werden: {error ?? catalogError}</p>
-      </div>
-    );
-  }
-
-  // Real (database-backed) characters (roadmap slice 2+) only have the thin/computed shape so
-  // far — no abilities/saves/gear/etc. — unlike the two rich mock fixtures. Rather than crash on
-  // missing fields, show a placeholder until the sheet's full computed shape exists (roadmap
-  // slice 3+).
-  if (!('effectsActive' in character)) {
-    return (
-      <div className="app">
-        <AppHeader character={null} effects={null} onJump={() => {}} />
-        <div className="main" style={{ justifyContent: 'center' }}>
-          <Panel title={character.name}>
-            <p>Dieser Charakter wurde gespeichert, aber die vollständige Charakterbogen-Ansicht ist noch nicht verfügbar.</p>
-          </Panel>
-        </div>
+        <p style={{ color: '#e2d3ab', padding: 24 }}>
+          Charakter konnte nicht geladen werden: {error ?? catalogError ?? itemsError}
+        </p>
       </div>
     );
   }
@@ -140,26 +134,68 @@ export function CharacterSheetPage() {
     });
   }
 
-  function handleAddGear(name: string, qty: number) {
-    setCharacter((prev) => (prev ? { ...prev, gear: [...prev.gear, { id: createId(), name, qty }] } : prev));
+  async function handleAddGear(itemId: string, qty: number) {
+    if (!isRealCharacter) {
+      const item = itemsCatalog?.find((i) => i.id === itemId);
+      if (!item) return;
+      setCharacter((prev) => (prev ? { ...prev, gear: [...prev.gear, { id: createId(), name: item.name, qty }] } : prev));
+      return;
+    }
+    setGearError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/gear`, { item_id: itemId, quantity: qty });
+      refetch();
+    } catch {
+      setGearError('Gegenstand konnte nicht hinzugefügt werden.');
+    }
   }
 
-  function handleSaveGear(id: string, name: string, qty: number) {
-    setCharacter((prev) =>
-      prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, name, qty } : item)) } : prev,
-    );
+  async function handleSaveGear(id: string, qty: number) {
+    if (!isRealCharacter) {
+      setCharacter((prev) =>
+        prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, qty } : item)) } : prev,
+      );
+      return;
+    }
+    setGearError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/gear/${id}`, { quantity: qty });
+      refetch();
+    } catch {
+      setGearError('Gegenstand konnte nicht gespeichert werden.');
+    }
   }
 
-  function handleRemoveGear(id: string) {
-    setCharacter((prev) => (prev ? { ...prev, gear: prev.gear.filter((item) => item.id !== id) } : prev));
+  async function handleRemoveGear(id: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => (prev ? { ...prev, gear: prev.gear.filter((item) => item.id !== id) } : prev));
+      return;
+    }
+    setGearError(null);
+    try {
+      await apiDelete(`/api/characters/${currentCharacterId}/gear/${id}`);
+      refetch();
+    } catch {
+      setGearError('Gegenstand konnte nicht entfernt werden.');
+    }
   }
 
-  function handleSlotChange(key: string, value: string) {
-    setCharacter((prev) =>
-      prev
-        ? { ...prev, equipmentSlots: prev.equipmentSlots.map((slot) => (slot.key === key ? { ...slot, selected: value } : slot)) }
-        : prev,
-    );
+  async function handleSlotChange(key: string, value: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) =>
+        prev
+          ? { ...prev, equipmentSlots: prev.equipmentSlots.map((slot) => (slot.key === key ? { ...slot, selected: value } : slot)) }
+          : prev,
+      );
+      return;
+    }
+    setGearError(null);
+    try {
+      await apiPut(`/api/characters/${currentCharacterId}/slots/${key}`, { item_id: value || null });
+      refetch();
+    } catch {
+      setGearError('Ausrüstungsplatz konnte nicht geändert werden.');
+    }
   }
 
   function handleToggleSpellCast(grade: number, spellKey: string) {
@@ -290,10 +326,23 @@ export function CharacterSheetPage() {
     });
   }
 
-  function handleSaveItemDetail(id: string, enhancement: string, properties: string[]) {
-    setCharacter((prev) =>
-      prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, enhancement, properties } : item)) } : prev,
-    );
+  async function handleSaveItemDetail(id: string, enhancement: string, properties: string[]) {
+    if (!isRealCharacter) {
+      setCharacter((prev) =>
+        prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, enhancement, properties } : item)) } : prev,
+      );
+      return;
+    }
+    setGearError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/gear/${id}`, {
+        enhancement: parseInt(enhancement, 10) || 0,
+        properties,
+      });
+      refetch();
+    } catch {
+      setGearError('Gegenstand konnte nicht gespeichert werden.');
+    }
   }
 
   return (
@@ -317,8 +366,10 @@ export function CharacterSheetPage() {
             onToggleSpellCast={handleToggleSpellCast}
           />
 
+          {gearError && <p style={{ color: '#e29a9a' }}>{gearError}</p>}
           <InventoryTabs
             character={character}
+            itemsCatalog={itemsCatalog}
             activeTab={inventoryTab}
             onTabChange={setInventoryTab}
             onAddGear={handleAddGear}

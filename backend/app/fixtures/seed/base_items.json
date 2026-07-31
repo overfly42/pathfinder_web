@@ -93,49 +93,65 @@
     "id": "80f55a62-a017-498c-9586-c89489c78bbc",
     "name": "Lederrüstung",
     "category": "armor",
-    "price": 10
+    "price": 10,
+    "ac_bonus": 2,
+    "max_dex_bonus": 6
   },
   {
     "id": "495054d7-729b-49a8-821b-182f1ec03cc4",
     "name": "Lederrüstung, verstärkt",
     "category": "armor",
-    "price": 25
+    "price": 25,
+    "ac_bonus": 3,
+    "max_dex_bonus": 5
   },
   {
     "id": "540303fe-b4f0-4348-bb5a-d8b4eceabb6c",
     "name": "Kettenhemd",
     "category": "armor",
-    "price": 100
+    "price": 100,
+    "ac_bonus": 4,
+    "max_dex_bonus": 4
   },
   {
     "id": "ade1ce00-43ba-4e6b-bcf8-03e5360b5ebc",
     "name": "Schuppenpanzer",
     "category": "armor",
-    "price": 50
+    "price": 50,
+    "ac_bonus": 5,
+    "max_dex_bonus": 3
   },
   {
     "id": "be4ac20e-7875-4731-9c3f-769be0565dff",
     "name": "Halbplatte",
     "category": "armor",
-    "price": 600
+    "price": 600,
+    "ac_bonus": 9,
+    "max_dex_bonus": 0
   },
   {
     "id": "f6f79fd0-e822-400b-b6e9-df23bb9e0b8f",
     "name": "Vollplatte",
     "category": "armor",
-    "price": 1500
+    "price": 1500,
+    "ac_bonus": 9,
+    "max_dex_bonus": 1
   },
   {
     "id": "222bf999-2f07-4726-ac36-c66894835191",
     "name": "Rundschild",
     "category": "shield",
-    "price": 9
+    "price": 9,
+    "ac_bonus": 1,
+    "max_dex_bonus": null
   },
   {
     "id": "44b091af-8c4f-48f0-a6c0-7c85c1fb838c",
     "name": "Turmschild",
     "category": "shield",
-    "price": 30
+    "price": 30,
+    "ac_bonus": 4,
+    "max_dex_bonus": null
   },
   {
     "id": "79876f1b-8619-443f-92b9-f5f31afd304b",
