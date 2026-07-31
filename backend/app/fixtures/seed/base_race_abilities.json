@@ -137,27 +137,92 @@
   {
     "id": "aa6fa04b-8c05-404f-9160-2879dd2a4500",
     "name": "Furchtlos",
-    "description": "+2 auf Rettungswürfe gegen Furcht."
+    "description": "Erhält einen Volksbonus von +2 auf Rettungswürfe gegen Furcht; dieser Bonus addiert sich mit einem etwaigen Glücksbonus auf Rettungswürfe."
   },
   {
     "id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727",
-    "name": "Glücklich",
-    "description": "+1 Glücksbonus auf alle Rettungswürfe."
+    "name": "Halblingsglück",
+    "description": "Erhält einen Volksbonus von +1 auf alle Rettungswürfe."
   },
   {
     "id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95",
-    "name": "Flink",
-    "description": "+4 auf Akrobatik bei Balanceakten."
+    "name": "Wendig",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Akrobatik und Klettern."
   },
   {
-    "id": "fe24029b-dc76-4708-b9bf-e137ae04d23e",
-    "name": "Unauffällig",
-    "description": "+2 auf Heimlichkeit statt Bonus auf Akrobatik bei Balanceakten."
+    "id": "ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1",
+    "name": "Geschärfte Sinne",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Wahrnehmung."
   },
   {
-    "id": "c6cb9b48-c02f-44ae-bfdd-85ebb303f06f",
-    "name": "Geschickter Wanderer",
-    "description": "Kein Bewegungsmalus durch schwieriges Gelände statt Furcht-Resistenz."
+    "id": "381b0643-a9f9-4495-a69c-36e888518a86",
+    "name": "Waffenvertrautheit (Halblinge)",
+    "description": "Ist geübt im Umgang mit Schleudern und behandelt alle Waffen mit dem Wort „Halbling“ im Namen als Kriegswaffen statt als Exotische Waffen."
+  },
+  {
+    "id": "19799de5-4d30-4232-983b-a311410a6f99",
+    "name": "Arglistig",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Bluffen und Fingerfertigkeit; Fingerfertigkeit wird zur Klassenfertigkeit."
+  },
+  {
+    "id": "bf8f6fd8-a1fc-4863-bdb1-29fddb77ca0b",
+    "name": "Einschmeichelnd",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für eine gewählte Auftreten-Fertigkeit, die zur Klassenfertigkeit wird, sowie +2 auf Fertigkeitswürfe für Beruf und Handwerk."
+  },
+  {
+    "id": "a34b121d-4bfc-4391-9dcc-2ac4fe1499ce",
+    "name": "Flinker Schleuderer",
+    "description": "Kann eine Schleuder als freie Handlung nachladen; diese Handlung erfordert weiterhin beide Hände und provoziert weiterhin Gelegenheitsangriffe."
+  },
+  {
+    "id": "91389d34-c3f8-4704-ba3d-6dba6d329082",
+    "name": "Grenzreiter",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Mit Tieren umgehen und Reiten."
+  },
+  {
+    "id": "67c46d63-8126-470a-8bc5-3cb9511f2fed",
+    "name": "Mehrsprachigkeit",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Sprachenkunde, die zur Klassenfertigkeit wird, sowie eine zusätzliche Sprache zu Spielbeginn."
+  },
+  {
+    "id": "baf566db-a35e-428c-acf8-3ddc2221d243",
+    "name": "Praktisch begabt",
+    "description": "Erhält einen Bonus von +2 auf eine gewählte Beruf- oder Handwerksfertigkeit, auf Fertigkeitswürfe für Motiv erkennen und auf Rettungswürfe gegen Illusionen."
+  },
+  {
+    "id": "1efb3f6f-f6a4-4586-bf55-b308ebc5a616",
+    "name": "Schnell wie ein Schatten",
+    "description": "Senkt den Malus auf Heimlichkeit bei Bewegung um 5 und beim Schuss aus dem Hinterhalt um 10."
+  },
+  {
+    "id": "faf56e20-f416-4a44-9563-333fa6f8053e",
+    "name": "Schnell zu Fuß",
+    "description": "Hat eine normale Grundbewegungsrate von 9 m statt einer verminderten Bewegungsrate."
+  },
+  {
+    "id": "90ef8a0b-9d42-45af-b796-e9943e0109ab",
+    "name": "Tiefschlag",
+    "description": "Erhält gegen größere Gegner einen Bonus von +1 auf Würfe zur Bestätigung kritischer Treffer."
+  },
+  {
+    "id": "9ec991c4-f461-4aca-a36c-c8f536df08a0",
+    "name": "Vielseitiges Glück",
+    "description": "Kann dreimal pro Tag einen Glücksbonus auf einen Attributs-, Angriffs-, Rettungs- oder Fertigkeitswurf erhalten (+2 wenn vor dem Wurf gewählt, +1 wenn danach)."
+  },
+  {
+    "id": "625770a1-5a3f-488b-a759-8f97129c3b13",
+    "name": "Wanderslust",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Überlebenskunst und Wissen (Geographie) sowie +1 auf die Zauberstufe bei Zaubern, die der Fortbewegung dienen."
+  },
+  {
+    "id": "5f64337e-a8fe-415d-8f36-3922aa5d2b49",
+    "name": "Wuselig",
+    "description": "Erhält gegen größere Gegner einen Ausweichbonus von +1 auf die Rüstungsklasse und einen Bonus von +1 auf Reflexwürfe gegen Trampelangriffe."
+  },
+  {
+    "id": "560c27b8-363b-44e2-8ae5-3bfa605e3427",
+    "name": "Zaghaft",
+    "description": "Erhält einen Volksbonus von +1 auf Initiative und auf Angriffswürfe beim In-die-Zange-nehmen, aber einen Malus von -2 auf Rettungswürfe gegen Furcht ohne Moralbonus; bei Furchteffekten erhöht sich die Bewegungsrate um 3 m und es wird ein Ausweichbonus von +1 auf die Rüstungsklasse gewährt."
   },
   {
     "id": "5184c07d-c187-4ffd-90f2-b3d1e14fa125",

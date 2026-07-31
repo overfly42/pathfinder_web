@@ -24,16 +24,112 @@
     "replaces_ability_id": "31a5b251-635e-4790-b92a-9b0f40dc016a"
   },
   {
-    "id": "01546ade-1fe4-475c-8d91-aee59883ca23",
+    "id": "0411cd94-f613-4607-9841-daaa2fa1808c",
     "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
-    "ability_id": "fe24029b-dc76-4708-b9bf-e137ae04d23e",
+    "ability_id": "19799de5-4d30-4232-983b-a311410a6f99",
     "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
   },
   {
-    "id": "bf25bda2-c590-4ee6-9e16-330275431958",
+    "id": "5d082b36-0d04-4158-acc6-644fc3da4a0c",
     "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
-    "ability_id": "c6cb9b48-c02f-44ae-bfdd-85ebb303f06f",
+    "ability_id": "bf8f6fd8-a1fc-4863-bdb1-29fddb77ca0b",
+    "replaces_ability_id": "ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1"
+  },
+  {
+    "id": "6caa7d5e-53de-4e36-841d-c663869da9ac",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "bf8f6fd8-a1fc-4863-bdb1-29fddb77ca0b",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "4534fd4b-e6f9-40aa-a7c9-1e01d5313203",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "a34b121d-4bfc-4391-9dcc-2ac4fe1499ce",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "a94f4776-dbdb-4092-b910-a7c19ac1135b",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "91389d34-c3f8-4704-ba3d-6dba6d329082",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "aa2b46c8-eb8a-4a94-a8af-4f77ad838edb",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "67c46d63-8126-470a-8bc5-3cb9511f2fed",
+    "replaces_ability_id": "ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1"
+  },
+  {
+    "id": "1bd8d442-ddc9-49ed-b7ec-15651c8ea4dd",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "baf566db-a35e-428c-acf8-3ddc2221d243",
     "replaces_ability_id": "aa6fa04b-8c05-404f-9160-2879dd2a4500"
+  },
+  {
+    "id": "54ea55a3-f62b-458b-99d1-0335c1dec1c0",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "baf566db-a35e-428c-acf8-3ddc2221d243",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "b4d65206-83d5-47e4-b772-fc75087c09aa",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "1efb3f6f-f6a4-4586-bf55-b308ebc5a616",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "3c6df59d-d6cd-41a5-959c-0bfa85051ff0",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "faf56e20-f416-4a44-9563-333fa6f8053e",
+    "replaces_ability_id": "9a5db666-54d4-4112-b750-dbb1abf1265d"
+  },
+  {
+    "id": "b78f37e2-0aa4-45ee-b415-f38647701f8d",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "faf56e20-f416-4a44-9563-333fa6f8053e",
+    "replaces_ability_id": "9b46cb34-7afb-4ecf-90ad-df0e43921b95"
+  },
+  {
+    "id": "c6aabcad-cbc2-450f-9a46-5b119f18b1f3",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "90ef8a0b-9d42-45af-b796-e9943e0109ab",
+    "replaces_ability_id": "ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1"
+  },
+  {
+    "id": "409d097f-6161-418b-b116-a5cabbcc37c4",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "9ec991c4-f461-4aca-a36c-c8f536df08a0",
+    "replaces_ability_id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727"
+  },
+  {
+    "id": "3765d5b8-25a2-4871-bc22-f83c8a9fa2ff",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "625770a1-5a3f-488b-a759-8f97129c3b13",
+    "replaces_ability_id": "aa6fa04b-8c05-404f-9160-2879dd2a4500"
+  },
+  {
+    "id": "7ffc5ae9-9ef7-40ed-b9e1-91382360fe33",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "625770a1-5a3f-488b-a759-8f97129c3b13",
+    "replaces_ability_id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727"
+  },
+  {
+    "id": "b0b2cab5-2a73-4d74-975b-1866df5f4c69",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "5f64337e-a8fe-415d-8f36-3922aa5d2b49",
+    "replaces_ability_id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727"
+  },
+  {
+    "id": "3985477b-119b-4d1c-b812-21659bac882e",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "560c27b8-363b-44e2-8ae5-3bfa605e3427",
+    "replaces_ability_id": "aa6fa04b-8c05-404f-9160-2879dd2a4500"
+  },
+  {
+    "id": "cd75af85-a2a0-4c60-b593-03c4df7836a9",
+    "base_race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "560c27b8-363b-44e2-8ae5-3bfa605e3427",
+    "replaces_ability_id": "a39bbdd9-bcd7-4ab6-9257-89e8f922d727"
   },
   {
     "id": "b69b8eac-2c43-4103-8970-c81e287e4c5e",

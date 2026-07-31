@@ -109,6 +109,45 @@ def test_race_speed_and_size_are_grants_not_a_column(client: TestClient, db_sess
     assert "Klein" not in mensch_traits
 
 
+def test_halbling_standard_traits_and_alternates_are_real(client: TestClient, db_session: Session) -> None:
+    """Content-correction pass against the real German SRD
+    (<http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Halblinge>,
+    see todos.md) — the DB previously had "Flink"/"Glücklich" (wrong
+    names/values) and two invented alternates ("Unauffällig"/"Geschickter
+    Wanderer") that didn't match any real trait. Now corrected to the real
+    standard traits plus all 13 real alternates."""
+    seed_races(db_session)
+
+    response = client.get("/api/races")
+    halbling = {r["name"]: r for r in response.json()}["Halbling"]
+
+    trait_names = {t["name"] for t in halbling["traits"]}
+    assert trait_names == {
+        "Furchtlos",
+        "Halblingsglück",
+        "Wendig",
+        "Verminderte Bewegungsrate",
+        "Klein",
+        "Geschärfte Sinne",
+        "Waffenvertrautheit (Halblinge)",
+    }
+    assert "Flink" not in trait_names
+    assert "Glücklich" not in trait_names
+
+    alt_names = {a["name"] for a in halbling["alt"]}
+    assert alt_names == {
+        "Arglistig", "Einschmeichelnd", "Flinker Schleuderer", "Grenzreiter", "Mehrsprachigkeit",
+        "Praktisch begabt", "Schnell wie ein Schatten", "Schnell zu Fuß", "Tiefschlag",
+        "Vielseitiges Glück", "Wanderslust", "Wuselig", "Zaghaft",
+    }
+    assert "Unauffällig" not in alt_names
+    assert "Geschickter Wanderer" not in alt_names
+
+    replaces_by_name = {a["name"]: set(a["replaces"]) for a in halbling["alt"]}
+    assert replaces_by_name["Schnell zu Fuß"] == {"Verminderte Bewegungsrate", "Wendig"}
+    assert replaces_by_name["Wanderslust"] == {"Furchtlos", "Halblingsglück"}
+
+
 def test_darkvision_is_one_shared_ability_across_races(client: TestClient, db_session: Session) -> None:
     seed_races(db_session)
 

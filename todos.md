@@ -36,7 +36,8 @@ Slice-Arbeit.
       verbleibenden `backend/app/fixtures/*.json`. Begonnen, eine Rasse/
       Klasse nach der anderen (nicht als Bulk-Ersetzung), gegen
       `prd.5footstep.de` (deutsches PF1e-SRD) als Quelle:
-  - [x] **Mensch**: `base_race_abilities.json`/`race_ability_grants.json`/
+  - [x] **Mensch** (Quelle: <http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Menschen>):
+        `base_race_abilities.json`/`race_ability_grants.json`/
         `race_ability_replacements.json` korrigiert — die drei echten
         Standard-Volksmerkmale (freier +2-Attributsbonus, Bonustalent,
         „Geschult", vormals fälschlich „Vielseitig" benannt) bestätigt;
@@ -48,9 +49,51 @@ Slice-Arbeit.
         in `backend/app/rules/skill_points.py` (`race_grants_bonus_skill_point_per_level`,
         gleiches Muster wie `rules/feat_slots.py`s `race_grants_bonus_feat`)
         sowie im Frontend-Gegenstück (`creationCalculations.ts`s
-        `skillPointsTotal`) verdrahtet.
-  - [ ] Restliche Rassen (Elf, Zwerg, Halbling, Gnom, Halbelf, Halb-Ork) und
-        alle Klassen noch offen.
+        `skillPointsTotal`) verdrahtet. Im selben Zug strukturell für alle
+        7 Rassen korrigiert (nicht nur Mensch): Bewegungsrate war eine reine
+        `BaseRace.speed`-Spalte (jetzt entfernt, Migration `005957a8da7f`)
+        und Größe (Mittelgroß/Klein) war gar nicht modelliert — beides sind
+        jetzt echte Volksmerkmal-Grants (`rules/speed.py`), inklusive der
+        zwei tatsächlich kleinen Völker (Halbling, Gnom), die zuvor
+        stillschweigend als mittelgroß behandelt wurden.
+  - [x] **Halbling** (Quelle: <http://prd.5footstep.de/AusbauregelnIIIVoelker/Grundvoelker/Halblinge>):
+        Standard-Volksmerkmale korrigiert — „Flink" (falscher Name/Wert:
+        +4 auf Akrobatik nur bei Balanceakten) war eigentlich „Wendig" (+2
+        auf Akrobatik *und* Klettern); „Glücklich" war eigentlich
+        „Halblingsglück" (gleicher Wert, falscher Name/Bonustyp). Zwei
+        fehlende echte Standardmerkmale ergänzt: „Geschärfte Sinne" (+2
+        Wahrnehmung) und „Waffenvertrautheit (Halblinge)". Zwei erfundene
+        Alternativmerkmale („Unauffällig", „Geschickter Wanderer" — keines
+        passte zu echten PF1e-Inhalten) entfernt und durch **alle 13 echten
+        Alternativmerkmale** ersetzt (Arglistig, Einschmeichelnd, Flinker
+        Schleuderer, Grenzreiter, Mehrsprachigkeit, Praktisch begabt,
+        Schnell wie ein Schatten, Schnell zu Fuß, Tiefschlag, Vielseitiges
+        Glück, Wanderslust, Wuselig, Zaghaft), inklusive korrekter
+        Ersetzt-Beziehungen (mehrere ersetzen zwei Merkmale gleichzeitig,
+        z. B. „Schnell zu Fuß" ersetzt sowohl Verminderte Bewegungsrate als
+        auch Wendig). Rein kompositionell (Auswahl-Optionen), keine neue
+        Berechnung — siehe die zwei offenen Lücken unten.
+  - [ ] Restliche Rassen (Elf, Zwerg, Gnom, Halbelf, Halb-Ork) und alle
+        Klassen noch offen.
+  - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
+        (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
+    - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,
+          Furchtlos +2 gegen Furcht) und auf Fertigkeitswürfe (z. B. Wendig,
+          Geschärfte Sinne) fließen nirgends in `Character.saves` bzw. die
+          Fertigkeitsberechnung in `sheet.py`s `_build_skills` ein — anders
+          als Menschs „Geschult" (Slice: Mensch-Korrektur) wurde das hier
+          nicht mitgebaut, weil `Character.saves` aktuell eine reine
+          Modell-Property ohne DB-Zugriff ist; das bräuchte einen eigenen
+          Architekturschritt (ähnlich der Modifier-Stacking-Lösung aus
+          Slice 4), keinen Nebeneffekt einer Rassen-Korrektur.
+    - Gewählte Alternativmerkmale, die eine andere Rassen-Berechnung
+          überschreiben sollten (z. B. „Schnell zu Fuß" müsste die
+          Bewegungsrate auf 9 m ändern), wirken sich aktuell nicht aus:
+          `rules/speed.py`s `race_speed()` liest nur die
+          nicht-alternativen Grants, nicht `CharacterRacialChoice` (die
+          gewählten `alt_traits`). Composition (welches Merkmal gewählt
+          wurde) ist korrekt gespeichert, die Auswirkung auf die
+          Berechnung fehlt noch.
 
 ## UI-Mocks — Offene Punkte
 
