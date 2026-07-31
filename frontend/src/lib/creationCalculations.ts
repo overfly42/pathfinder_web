@@ -122,12 +122,21 @@ export function classSkillSet(draft: CreationDraft, options: CreationOptions): S
   return set;
 }
 
+/** Mirrors the backend's `_skill_points_total`/`rules/skill_points.py`; keep both in sync.
+ *  Human's "Geschult" (Skilled) racial trait grants +1 skill rank per *character* level, not
+ *  per class — same trade-away-via-alternate-trait handling as `featMax`'s "Bonustalent". */
 export function skillPointsTotal(draft: CreationDraft, options: CreationOptions): number {
   const intMod = abilityMod(totalAbility(draft, options, 'IN'));
+
+  const race = selectedRace(draft, options);
+  const replaced = replacedTraitNames(draft, options);
+  const raceBonusPerLevel = race?.traits.some((t) => t.name === 'Geschult') && !replaced.has('Geschult') ? 1 : 0;
+
   return draft.classRows.reduce((sum, row) => {
     const cls = classDef(options, row.className);
     const base = cls?.skillPointsBase ?? 2;
-    return sum + Math.max(1, base + intMod) * (row.level || 0);
+    const level = row.level || 0;
+    return sum + Math.max(1, base + intMod) * level + raceBonusPerLevel * level;
   }, 0);
 }
 

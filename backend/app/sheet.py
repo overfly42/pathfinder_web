@@ -50,6 +50,7 @@ from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS
 from .rules.modifiers import Modifier, stack
+from .rules.speed import race_speed
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -98,7 +99,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "hp": {"current": hp_current, "max": hp_max},
         "armorClass": armor_class,
         "initiative": _fmt(dex_mod),
-        "speed": race.speed if race and race.speed else "9 m",
+        "speed": race_speed(db, character.race_id) or "9 m",
         "roundLabel": "Runde 1",
         "abilities": [
             {

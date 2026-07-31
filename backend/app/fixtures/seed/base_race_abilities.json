@@ -2,27 +2,37 @@
   {
     "id": "2756eef0-10f0-42d4-a6d4-10f0b44ec4be",
     "name": "+2 auf einen frei wählbaren Attributswert",
-    "description": "+2 auf einen bei der Charaktererstellung frei wählbaren Attributswert."
+    "description": "Erhält bei der Charaktererschaffung einen Bonus von +2 auf einen Attributswert der Wahl."
   },
   {
     "id": "e55030a3-b066-480f-ba0a-0653a8f132ca",
     "name": "Bonustalent",
-    "description": "Erhält ein zusätzliches Talent auf Stufe 1."
+    "description": "Erhält ein zusätzliches Talent auf der 1. Stufe."
   },
   {
     "id": "6aeda00f-a761-4f4e-b943-d770c0018d07",
-    "name": "Vielseitig",
-    "description": "Ein zusätzlicher Fertigkeitspunkt pro Stufe."
+    "name": "Geschult",
+    "description": "Erhält einen zusätzlichen Fertigkeitsrang auf der 1. Stufe und einen weiteren zusätzlichen Fertigkeitsrang bei jedem weiteren Stufenaufstieg."
   },
   {
-    "id": "949c1059-2dbc-450c-acfd-f5abbd8f15f9",
-    "name": "Bemerkenswerte Fertigkeit",
-    "description": "Wählt eine Fertigkeit; +2 auf diese Fertigkeit statt eines Bonustalents."
+    "id": "2e0186d5-e532-4532-b7f7-b4c6f4834bde",
+    "name": "Normale Bewegungsrate",
+    "description": "Grundbewegungsrate von 9 m."
   },
   {
-    "id": "9eec4f64-535a-4e42-822a-14bf7b2789a2",
-    "name": "Fokussierter Geist",
-    "description": "+2 auf Rettungswürfe gegen Zaubereffekte, aber kein zusätzlicher Fertigkeitspunkt pro Stufe."
+    "id": "9a5db666-54d4-4112-b750-dbb1abf1265d",
+    "name": "Verminderte Bewegungsrate",
+    "description": "Grundbewegungsrate von 6 m."
+  },
+  {
+    "id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "name": "Mittelgroß",
+    "description": "Mittelgroße Kreaturen erhalten keinerlei Boni oder Mali aufgrund ihrer Größe."
+  },
+  {
+    "id": "fa596c0c-5e34-48f7-ac77-c2d979d53738",
+    "name": "Klein",
+    "description": "Kleine Kreaturen erhalten einen Größenbonus von +1 auf die Rüstungsklasse, einen Größenbonus von +1 auf Angriffswürfe und einen Größenbonus von +4 auf Fertigkeitswürfe für Heimlichkeit, aber einen Malus von -1 auf Kampfmanöverbonus und Kampfmanöverabwehr."
   },
   {
     "id": "8e4cf2e6-4510-4aa9-b2bb-9be8b47b0332",

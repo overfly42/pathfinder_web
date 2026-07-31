@@ -1,17 +1,5 @@
 [
   {
-    "id": "b7d2b9a1-9f95-4ade-b00a-b6ad1808bd61",
-    "base_race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
-    "ability_id": "949c1059-2dbc-450c-acfd-f5abbd8f15f9",
-    "replaces_ability_id": "e55030a3-b066-480f-ba0a-0653a8f132ca"
-  },
-  {
-    "id": "23277ad4-dca9-46ab-a031-c6484219b206",
-    "base_race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
-    "ability_id": "9eec4f64-535a-4e42-822a-14bf7b2789a2",
-    "replaces_ability_id": "6aeda00f-a761-4f4e-b943-d770c0018d07"
-  },
-  {
     "id": "f12fd139-504b-4c7c-823b-431f4fe4da3e",
     "base_race_id": "45790090-5c8f-494e-aefc-b1d3963c169f",
     "ability_id": "d1d4430e-916a-40c3-b0ea-dc012fbaa2cc",

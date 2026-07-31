@@ -3,49 +3,42 @@
     "id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
     "code": "mensch",
     "name": "Mensch",
-    "short_description": "+2 auf ein frei wählbares Attribut; Bonustalent bei Stufe 1; zusätzliche Fertigkeitspunkte.",
-    "speed": "9 m"
+    "short_description": "+2 auf ein frei wählbares Attribut; Bonustalent bei Stufe 1; Geschult (zusätzlicher Fertigkeitsrang pro Stufe)."
   },
   {
     "id": "45790090-5c8f-494e-aefc-b1d3963c169f",
     "code": "elf",
     "name": "Elf",
-    "short_description": "+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit.",
-    "speed": "9 m"
+    "short_description": "+2 GES, +2 INT, −2 KON; Niedrigsichtig; Waffenvertrautheit."
   },
   {
     "id": "1b9a3e8e-3ef5-4d36-8d2b-5c4ab36db0ed",
     "code": "zwerg",
     "name": "Zwerg",
-    "short_description": "+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks & Goblinoide.",
-    "speed": "6 m"
+    "short_description": "+2 KON, +2 WEI, −2 CHA; Dunkelsicht; Hass gegen Orks & Goblinoide."
   },
   {
     "id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
     "code": "halbling",
     "name": "Halbling",
-    "short_description": "+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich.",
-    "speed": "6 m"
+    "short_description": "+2 GES, +2 CHA, −2 STÄ; furchtlos; glücklich."
   },
   {
     "id": "91f6fb4f-4c8f-4698-87ed-4792456e71e8",
     "code": "gnom",
     "name": "Gnom",
-    "short_description": "+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber.",
-    "speed": "6 m"
+    "short_description": "+2 KON, +2 CHA, −2 STÄ; Niedrigsichtig; Illusionszauber."
   },
   {
     "id": "3982f232-647e-4c1d-a8da-5ba3e1536834",
     "code": "halbelf",
     "name": "Halbelf",
-    "short_description": "+2 auf ein frei wählbares Attribut; Niedrigsichtig; multitalentiert.",
-    "speed": "9 m"
+    "short_description": "+2 auf ein frei wählbares Attribut; Niedrigsichtig; multitalentiert."
   },
   {
     "id": "88d38c58-be34-42e6-b4a5-08704bc97cb8",
     "code": "halbork",
     "name": "Halb-Ork",
-    "short_description": "+2 auf ein frei wählbares Attribut; Dunkelsicht; Kampfrausch.",
-    "speed": "9 m"
+    "short_description": "+2 auf ein frei wählbares Attribut; Dunkelsicht; Kampfrausch."
   }
 ]

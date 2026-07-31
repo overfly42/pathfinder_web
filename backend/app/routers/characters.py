@@ -34,6 +34,7 @@ from ..rules.equipment_slots import SLOT_CATEGORY
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
+from ..rules.skill_points import race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import (
     CharacterCreate,
@@ -82,17 +83,23 @@ def resolve_archetype(db: Session, root: BaseClass, archetype_name: str) -> Base
     return variant
 
 
-def _skill_points_total(classes: list[ClassSelection], roots: list[BaseClass], int_mod: int) -> int:
+def _skill_points_total(
+    classes: list[ClassSelection], roots: list[BaseClass], int_mod: int, race_bonus_per_level: int = 0
+) -> int:
     """Mirrors the frontend's `skillPointsTotal` (creationCalculations.ts):
     per class-taken, max(1, class's base skill points + INT modifier) times
     the levels taken in it, summed across all classes. `roots` is
     index-aligned with `classes` (both come from the same `zip` elsewhere in
     this module) — `BaseClass.skill_points_base`, not `classes.json`, is the
-    source of truth now."""
+    source of truth now. `race_bonus_per_level` (e.g. Human's "Geschult") is
+    a flat extra rank per *character* level, not per class-taken — see
+    `rules/skill_points.py`."""
     total = 0
+    total_level = 0
     for selection, root in zip(classes, roots):
         total += max(1, root.skill_points_base + int_mod) * selection.level
-    return total
+        total_level += selection.level
+    return total + race_bonus_per_level * total_level
 
 
 def _feat_max(
@@ -231,7 +238,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             if ranks > total_level:
                 raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
 
-        budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"))
+        race_skill_bonus = 1 if race_grants_bonus_skill_point_per_level(db, body.race_id, seen_replaced_ability_ids) else 0
+        budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"), race_skill_bonus)
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 

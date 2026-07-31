@@ -35,6 +35,15 @@ Because Pathfinder contains many special rules, the backend must be designed as 
 
 Concretely: which rule elements apply to a character (race, class features, feats, effects, ...) is tracked as data — catalog tables plus grant/replacement relations, e.g. `BaseRaceAbility`/`RaceAbilityGrant`/`RaceAbilityReplacement` for races. Computing what each one actually does is not modeled as further data columns, even for bonuses that look flat (Pathfinder has too many superficially-simple bonuses that turn out to be conditional, e.g. Skill Focus granting +3 normally but +6 at 10+ ranks). Instead, each rule element's effect is resolved by a small handler function, looked up by the element's own UUID (see `CLAUDE.md`). This keeps "what exists and what's granted to what" in data while "how it's computed" stays in code, without needing a schema migration every time a new kind of exception shows up.
 
+### Request pipeline: from stored character to full sheet
+
+Reading a character (`GET /api/characters/{id}`, `backend/app/sheet.py`'s `build_character_sheet`) follows the same sequence every time, regardless of which rule elements are actually involved:
+
+1. **Collect composition, scoped to the character's current state.** Which race/class/feat/trait/spell/item ids apply — and, for anything level-gated (class features, a Fighter's recurring bonus feat, ...), only the grants whose own `level` is at or below what the character has actually reached in that class. A level-2 Barbarian only pulls in level-1 and level-2 grants for Barbarian, not level-3+. This is plain data lookups (`Character.feat_ids`/`trait_ids`/`classes`/... in `backend/app/models/character.py`, `BaseClassAbilityGrant.level <=` the class's level in `sheet.py`'s `_build_class_features`) — no rule logic runs yet, it's just gathering which UUIDs are in play.
+2. **Load the character's own base data** — ability scores, race, HP rolls per level, and so on — straight off the `Character`/`CharacterLevel` rows, independent of step 1.
+3. **Resolve each collected UUID exactly once**, looked up against that rule element's handler (`rules/race_abilities.py`'s `HANDLERS`, `rules/speed.py`'s `SPEED_HANDLERS`, `rules/feat_slots.py`, `rules/skill_points.py`, `rules/modifiers.py`'s `stack()` for equipped-gear bonuses, ...), applied on top of the base data from step 2. An id with no handler (e.g. Darkvision, or a race's size trait today) just passes through as flavor text with no computed effect.
+4. **Assemble the result**: the fully computed character (abilities, saves, BAB/CMB/CMD, AC, skills, ...) plus, eventually, the set of actions/options legal at the character's current state. That last part — `"actions"` in the sheet response — is deliberately still an empty stub; it's roadmap slice 6 ("Possible actions / legality checks"), not built yet.
+
 This approach keeps the implementation maintainable: the first version can focus on character creation, leveling, and basic sheet data, while later iterations add more specific rules and features without requiring a redesign of the whole backend.
 # Database
 The Database is heart of the backend. For this it is composed of tree main parts:

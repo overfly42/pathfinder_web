@@ -18,18 +18,6 @@
     "is_alternate": false
   },
   {
-    "id": "6f3ad30b-5c01-42be-8209-95b30b2c0aed",
-    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
-    "ability_id": "949c1059-2dbc-450c-acfd-f5abbd8f15f9",
-    "is_alternate": true
-  },
-  {
-    "id": "4f794031-c875-4d0f-9275-490aa490f955",
-    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
-    "ability_id": "9eec4f64-535a-4e42-822a-14bf7b2789a2",
-    "is_alternate": true
-  },
-  {
     "id": "671e7c5d-3499-4307-ae30-fd556cd4f6e5",
     "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f",
     "ability_id": "8e4cf2e6-4510-4aa9-b2bb-9be8b47b0332",
@@ -412,5 +400,89 @@
     "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8",
     "ability_id": "04d2de62-ece9-4345-be84-cf8bf00d94dd",
     "is_alternate": true
+  },
+  {
+    "id": "df789f1d-a6b5-45d0-9d90-1db719ab3d31",
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
+    "ability_id": "2e0186d5-e532-4532-b7f7-b4c6f4834bde",
+    "is_alternate": false
+  },
+  {
+    "id": "9139ce61-81f0-417a-b9f7-95e34ab12f7a",
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166",
+    "ability_id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "is_alternate": false
+  },
+  {
+    "id": "7d6d512d-4870-4d69-b5e4-d1e93895a7df",
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f",
+    "ability_id": "2e0186d5-e532-4532-b7f7-b4c6f4834bde",
+    "is_alternate": false
+  },
+  {
+    "id": "729cae3e-d080-493b-8248-9bc348eaed53",
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f",
+    "ability_id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "is_alternate": false
+  },
+  {
+    "id": "c07ee53f-01e0-43c1-a215-4172e80f3894",
+    "race_id": "1b9a3e8e-3ef5-4d36-8d2b-5c4ab36db0ed",
+    "ability_id": "9a5db666-54d4-4112-b750-dbb1abf1265d",
+    "is_alternate": false
+  },
+  {
+    "id": "64963603-e3c5-4417-b0dd-87f8bc019a5e",
+    "race_id": "1b9a3e8e-3ef5-4d36-8d2b-5c4ab36db0ed",
+    "ability_id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "is_alternate": false
+  },
+  {
+    "id": "afb4310e-563d-4f10-a503-6c62aefc51a1",
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "9a5db666-54d4-4112-b750-dbb1abf1265d",
+    "is_alternate": false
+  },
+  {
+    "id": "06f80cda-3806-4f7f-8d8c-5b86f9a65c4f",
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563",
+    "ability_id": "fa596c0c-5e34-48f7-ac77-c2d979d53738",
+    "is_alternate": false
+  },
+  {
+    "id": "f37e45e8-bdda-4339-b8ab-d2b7cbe55e22",
+    "race_id": "91f6fb4f-4c8f-4698-87ed-4792456e71e8",
+    "ability_id": "9a5db666-54d4-4112-b750-dbb1abf1265d",
+    "is_alternate": false
+  },
+  {
+    "id": "9eba4c0e-dae4-474f-89d1-2dc688f8ba88",
+    "race_id": "91f6fb4f-4c8f-4698-87ed-4792456e71e8",
+    "ability_id": "fa596c0c-5e34-48f7-ac77-c2d979d53738",
+    "is_alternate": false
+  },
+  {
+    "id": "03de04f0-0230-4249-b8e6-f70f268e1aec",
+    "race_id": "3982f232-647e-4c1d-a8da-5ba3e1536834",
+    "ability_id": "2e0186d5-e532-4532-b7f7-b4c6f4834bde",
+    "is_alternate": false
+  },
+  {
+    "id": "88e368b2-7c4a-4457-9b35-96e5eebeff04",
+    "race_id": "3982f232-647e-4c1d-a8da-5ba3e1536834",
+    "ability_id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "is_alternate": false
+  },
+  {
+    "id": "c1620215-2834-437e-85aa-c1cd81cc0be9",
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8",
+    "ability_id": "2e0186d5-e532-4532-b7f7-b4c6f4834bde",
+    "is_alternate": false
+  },
+  {
+    "id": "47b4a293-4bab-4426-9efa-97e8cd3b4c78",
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8",
+    "ability_id": "c98915e3-0ade-4fd4-a203-baed02fdfc7e",
+    "is_alternate": false
   }
 ]

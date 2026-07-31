@@ -576,12 +576,44 @@ def test_create_character_skill_ranks_exceeding_level_are_rejected(client: TestC
     assert response.status_code == 422
 
 
+def test_create_character_human_geschult_adds_one_skill_point_per_level(
+    client: TestClient, db_session: Session
+) -> None:
+    """Human's "Geschult" racial trait (rules/skill_points.py) grants +1
+    skill rank per character level on top of the class's own budget —
+    Waldläufer's skillPointsBase 6 + INT mod 0 + 1 (Geschult) = 7 at level 1,
+    one more than a race without the trait would allow."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    skill_names = [
+        "Akrobatik", "Fingerfertigkeit", "Fluchtkunst", "Heimlichkeit", "Reiten", "Falle entschärfen", "Klettern",
+    ]
+    skill_ranks = {_skill_id(client, db_session, name): 1 for name in skill_names}
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            skill_ranks=skill_ranks,
+        ),
+    )
+    assert response.status_code == 201
+
+
 def test_create_character_skill_ranks_exceeding_budget_are_rejected(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
-    # Waldläufer's skillPointsBase is 6; INT modifier is 0 for these scores,
-    # so 7 skills at 1 rank each (level cap at level 1) overspends the budget.
-    skill_names = ["Akrobatik", "Fingerfertigkeit", "Fluchtkunst", "Heimlichkeit", "Reiten", "Falle entschärfen", "Klettern"]
+    # Waldläufer's skillPointsBase is 6; INT modifier is 0 for these scores;
+    # Human's "Geschult" adds +1/level -> budget 7. 8 skills at 1 rank each
+    # (level cap at level 1) overspends it.
+    skill_names = [
+        "Akrobatik", "Fingerfertigkeit", "Fluchtkunst", "Heimlichkeit", "Reiten", "Falle entschärfen", "Klettern",
+        "Schwimmen",
+    ]
     skill_ranks = {_skill_id(client, db_session, name): 1 for name in skill_names}
 
     response = client.post(
@@ -695,31 +727,6 @@ def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
             feat_ids=feat_ids + [third_feat_id],
-        ),
-    )
-    assert response.status_code == 422
-
-
-def test_create_character_feat_max_excludes_human_bonus_feat_when_traded_away(
-    client: TestClient, db_session: Session
-) -> None:
-    """"Bemerkenswerte Fertigkeit" replaces Human's bonus feat with a skill
-    bonus (`race_ability_replacements.json`) — the trade should drop the
-    extra feat slot too."""
-    user_id = _create_user(client)
-    race_id = _human_race_id(client, db_session)
-    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
-
-    response = client.post(
-        "/api/characters",
-        json=_character_payload(
-            user_id,
-            race_id,
-            db_session,
-            flex_ability="ST",
-            alt_traits=["Bemerkenswerte Fertigkeit"],
-            classes=[{"class_name": "Waldläufer", "level": 1}],
-            feat_ids=feat_ids,
         ),
     )
     assert response.status_code == 422

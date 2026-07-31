@@ -33,7 +33,24 @@ Slice-Arbeit.
       korrigieren, sobald der jeweilige Datenbereich (Rassen, Klassen,
       Fertigkeiten, später Talente/Zauber/Gegenstände) strukturell
       abgeschlossen ist — betrifft `backend/app/fixtures/seed/*.json` und die
-      verbleibenden `backend/app/fixtures/*.json`.
+      verbleibenden `backend/app/fixtures/*.json`. Begonnen, eine Rasse/
+      Klasse nach der anderen (nicht als Bulk-Ersetzung), gegen
+      `prd.5footstep.de` (deutsches PF1e-SRD) als Quelle:
+  - [x] **Mensch**: `base_race_abilities.json`/`race_ability_grants.json`/
+        `race_ability_replacements.json` korrigiert — die drei echten
+        Standard-Volksmerkmale (freier +2-Attributsbonus, Bonustalent,
+        „Geschult", vormals fälschlich „Vielseitig" benannt) bestätigt;
+        zwei erfundene Alternativmerkmale („Bemerkenswerte Fertigkeit",
+        „Fokussierter Geist" — keine passten zu echten PF1e-Inhalten)
+        entfernt, Mensch hat aktuell keine Alternativmerkmale. Dabei einen
+        echten Bug behoben: „Geschult" (+1 Fertigkeitsrang pro Stufe) war
+        zwar als Datensatz vorhanden, wurde aber nirgends berechnet — jetzt
+        in `backend/app/rules/skill_points.py` (`race_grants_bonus_skill_point_per_level`,
+        gleiches Muster wie `rules/feat_slots.py`s `race_grants_bonus_feat`)
+        sowie im Frontend-Gegenstück (`creationCalculations.ts`s
+        `skillPointsTotal`) verdrahtet.
+  - [ ] Restliche Rassen (Elf, Zwerg, Halbling, Gnom, Halbelf, Halb-Ork) und
+        alle Klassen noch offen.
 
 ## UI-Mocks — Offene Punkte
 
