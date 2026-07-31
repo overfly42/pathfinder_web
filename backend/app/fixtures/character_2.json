@@ -2,7 +2,7 @@
   "id": "2",
   "name": "Bram Eisenfaust",
   "race": "Halbork",
-  "className": "Krieger",
+  "className": "Kämpfer",
   "archetype": "Waffenmeister",
   "level": 3,
   "hp": { "current": 34, "max": 34 },

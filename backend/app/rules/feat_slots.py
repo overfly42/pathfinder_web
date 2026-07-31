@@ -6,7 +6,7 @@ a bonus slot, and at what level — is real data (`RaceAbilityGrant`,
 composition-vs-computation split. Mirrors the frontend's `featMax` in
 creationCalculations.ts — keep both in sync.
 
-Deliberately NOT a per-class hardcoded rule ("if class_name == 'Krieger'"):
+Deliberately NOT a per-class hardcoded rule ("if class_name == 'Kämpfer'"):
 Fighter isn't the only source of bonus feats in the core rules (e.g. a
 handful of other classes/features grant feats too), and hardcoding one name
 would silently miss the rest and be wrong the moment a second source is
@@ -30,7 +30,7 @@ from ..models import BaseClass, BaseClassAbilityGrant, RaceAbilityGrant
 # Fertigkeit" alternate trait — see race_grants_bonus_feat's replaced_ability_ids.
 RACE_BONUS_FEAT_ABILITY_ID = UUID("e55030a3-b066-480f-ba0a-0653a8f132ca")
 
-# Krieger's (Fighter's) recurring bonus combat feat — one shared
+# Kämpfer's (Fighter's) recurring bonus combat feat — one shared
 # BaseClassAbility catalog row ("Bonus-Kampftalent"), granted via several
 # BaseClassAbilityGrant rows (one per granting level: 1st, then every even
 # level — see app/seed/class_ability_seed.py). A set, not a single id,
@@ -41,7 +41,7 @@ RACE_BONUS_FEAT_ABILITY_ID = UUID("e55030a3-b066-480f-ba0a-0653a8f132ca")
 # or hashes it.
 BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
     {
-        UUID("62ac4cf1-04b9-431b-9047-4156f6cb3481"),  # Krieger: Bonus-Kampftalent
+        UUID("62ac4cf1-04b9-431b-9047-4156f6cb3481"),  # Kämpfer: Bonus-Kampftalent
     }
 )
 

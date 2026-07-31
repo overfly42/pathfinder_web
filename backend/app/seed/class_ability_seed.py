@@ -3,7 +3,7 @@
 `base_class_ability_grants.json` — DB-shaped, one file per table, explicit
 `id` on every row, same convention as `race_seed.py`/`class_seed.py`.
 
-Today this only seeds Krieger's (Fighter's) recurring bonus combat feat: one
+Today this only seeds Kämpfer's (Fighter's) recurring bonus combat feat: one
 shared `BaseClassAbility` catalog row ("Bonus-Kampftalent") granted via
 several `BaseClassAbilityGrant` rows, one per granting level (1st and every
 even level) — `BaseClassAbilityGrant`'s unique constraint includes `level`

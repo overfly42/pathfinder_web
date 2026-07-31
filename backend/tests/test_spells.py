@@ -61,6 +61,6 @@ def test_classes_expose_casting_ability_tradition_and_known_table(client: TestCl
     assert hexenmeister["spellsKnownByLevel"]["1"]["0"] == 4
     assert hexenmeister["spellsKnownByLevel"]["1"]["1"] == 2
 
-    krieger = classes["Krieger"]
-    assert krieger["castingAbility"] is None
-    assert krieger["spellTradition"] is None
+    kaempfer = classes["Kämpfer"]
+    assert kaempfer["castingAbility"] is None
+    assert kaempfer["spellTradition"] is None

@@ -156,8 +156,8 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Krieger", "level": 2}, {"class_name": "Schurke", "level": 1}],
-            # Player-entered HP rolls for Krieger's 2nd level and Schurke's
+            classes=[{"class_name": "Kämpfer", "level": 2}, {"class_name": "Schurke", "level": 1}],
+            # Player-entered HP rolls for Kämpfer's 2nd level and Schurke's
             # 1st level (character levels 2 and 3 - level 1 is auto-maxed).
             hit_points={"2": 6, "3": 5},
         ),
@@ -166,21 +166,21 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
     body = response.json()
     assert body["level"] == 3
     assert body["classes"] == [
-        {"class_name": "Krieger", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
+        {"class_name": "Kämpfer", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
         {"class_name": "Schurke", "level": 1, "archetypes": [], "is_favored": False, "options": {}},
     ]
     # HP/BAB/saves are each class's own contribution against its own level
     # count, summed - not the total level against one averaged progression
-    # (requirements_v2.md §2). Char level 1 (Krieger's 1st) auto-maxes its
+    # (requirements_v2.md §2). Char level 1 (Kämpfer's 1st) auto-maxes its
     # d10 (10); the other two rolls are the player-entered values above (6,
     # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
     # level sum: 10+6+5=21.
     assert body["current_hit_points"] == 21
-    # BAB: Krieger floor(2*1.0)=2, Schurke floor(1*0.75)=0.
+    # BAB: Kämpfer floor(2*1.0)=2, Schurke floor(1*0.75)=0.
     assert body["bab"] == 2
-    # Fort: Krieger good (2+1)=3, Schurke poor (0)=0 -> 3.
-    # Ref: Krieger poor (0), Schurke good (2+0)=2 -> 2.
-    # Will: Krieger poor (0), Schurke poor (0) -> 0.
+    # Fort: Kämpfer good (2+1)=3, Schurke poor (0)=0 -> 3.
+    # Ref: Kämpfer poor (0), Schurke good (2+0)=2 -> 2.
+    # Will: Kämpfer poor (0), Schurke poor (0) -> 0.
     assert body["saves"] == {"fort": 3, "ref": 2, "will": 0}
 
 
@@ -243,13 +243,13 @@ def test_create_character_with_archetype_persists_and_round_trips(client: TestCl
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Krieger", "level": 2, "archetypes": ["Waffenmeister"]}],
+            classes=[{"class_name": "Kämpfer", "level": 2, "archetypes": ["Waffenmeister"]}],
         ),
     )
     assert response.status_code == 201
     body = response.json()
     assert body["classes"] == [
-        {"class_name": "Krieger", "level": 2, "archetypes": ["Waffenmeister"], "is_favored": True, "options": {}}
+        {"class_name": "Kämpfer", "level": 2, "archetypes": ["Waffenmeister"], "is_favored": True, "options": {}}
     ]
 
     # GET /api/characters/{id} now returns the sheet's display shape
@@ -266,7 +266,7 @@ def test_create_character_with_unknown_archetype_is_rejected(client: TestClient,
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, classes=[{"class_name": "Krieger", "level": 1, "archetypes": ["Berserker"]}]
+            user_id, race_id, db_session, classes=[{"class_name": "Kämpfer", "level": 1, "archetypes": ["Berserker"]}]
         ),
     )
     assert response.status_code == 422
@@ -286,7 +286,7 @@ def test_create_character_with_multiple_archetypes_on_one_class_succeeds(
             db_session,
             classes=[
                 {
-                    "class_name": "Krieger",
+                    "class_name": "Kämpfer",
                     "level": 1,
                     "archetypes": ["Waffenmeister", "Söldnerkommandant"],
                 }
@@ -311,18 +311,18 @@ def test_create_character_with_same_class_across_rows_merges_archetypes(
             race_id,
             db_session,
             classes=[
-                {"class_name": "Krieger", "level": 1, "archetypes": ["Waffenmeister"]},
+                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Waffenmeister"]},
                 {"class_name": "Schurke", "level": 1},
-                {"class_name": "Krieger", "level": 1, "archetypes": ["Söldnerkommandant"]},
+                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Söldnerkommandant"]},
             ],
         ),
     )
     assert response.status_code == 201
     body = response.json()
     assert len(body["classes"]) == 2
-    krieger = next(c for c in body["classes"] if c["class_name"] == "Krieger")
-    assert krieger["level"] == 2
-    assert set(krieger["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
+    kaempfer = next(c for c in body["classes"] if c["class_name"] == "Kämpfer")
+    assert kaempfer["level"] == 2
+    assert set(kaempfer["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
 
 
 def test_create_character_with_option_group_choice_persists(client: TestClient, db_session: Session) -> None:
@@ -725,8 +725,8 @@ def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClie
     race_id = _elf_race_id(client, db_session)
     feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
 
-    # Elf (no race bonus) Krieger at level 1: base_feat_count(1) = 1 +
-    # class_bonus_feat_slot_count (Krieger's 1st-level bonus combat feat
+    # Elf (no race bonus) Kämpfer at level 1: base_feat_count(1) = 1 +
+    # class_bonus_feat_slot_count (Kämpfer's 1st-level bonus combat feat
     # grant) = 1 -> max 2.
     response = client.post(
         "/api/characters",
@@ -734,7 +734,7 @@ def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClie
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Krieger", "level": 1}],
+            classes=[{"class_name": "Kämpfer", "level": 1}],
             feat_ids=feat_ids,
         ),
     )
@@ -747,7 +747,7 @@ def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClie
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Krieger", "level": 1}],
+            classes=[{"class_name": "Kämpfer", "level": 1}],
             feat_ids=feat_ids + [third_feat_id],
         ),
     )
@@ -770,7 +770,7 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
             race_id,
             db_session,
             flex_ability="ST",
-            classes=[{"class_name": "Krieger", "level": 1}],
+            classes=[{"class_name": "Kämpfer", "level": 1}],
             feat_ids=feat_ids,
         ),
     )
@@ -785,7 +785,7 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
             race_id,
             db_session,
             flex_ability="ST",
-            classes=[{"class_name": "Krieger", "level": 1}],
+            classes=[{"class_name": "Kämpfer", "level": 1}],
             feat_ids=feat_ids + [fourth_feat_id],
         ),
     )

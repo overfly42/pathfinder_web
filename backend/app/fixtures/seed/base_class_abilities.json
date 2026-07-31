@@ -2,6 +2,36 @@
   {
     "id": "62ac4cf1-04b9-431b-9047-4156f6cb3481",
     "name": "Bonus-Kampftalent",
-    "description": "Der Krieger erhält auf Stufe 1 und danach auf jeder geraden Stufe ein zusätzliches Kampftalent, unabhängig von der normalen Talent-Progression."
+    "description": "Der Kämpfer erhält auf Stufe 1 und danach auf jeder geraden Stufe ein zusätzliches Kampftalent, unabhängig von der normalen Talent-Progression."
+  },
+  {
+    "id": "0bdccf23-2958-44b0-9f20-fe031998ac27",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Der Kämpfer ist im Umgang mit allen einfachen Waffen und Kriegswaffen sowie mit allen Rüstungen und mit allen Schilden (inklusive Turmschilden) geübt."
+  },
+  {
+    "id": "c36a7845-5c1e-4906-97e1-fe06685ebc76",
+    "name": "Tapferkeit",
+    "description": "Ab der 2. Stufe erhält ein Kämpfer einen Bonus von +1 auf Willenswürfe gegen Furcht. Der Bonus erhöht sich alle vier Stufen über der 2. Stufe um +1."
+  },
+  {
+    "id": "0961a995-0fa8-489f-b3f5-c7580d8b23c8",
+    "name": "Rüstungstraining",
+    "description": "Ab der 3. Stufe lernt der Kämpfer, sich in einer Rüstung besser zu bewegen. Solange er eine Rüstung trägt, verringert sich der Rüstungsmalus um eins (bis auf ein Minimum von 0) und der maximale Geschicklichkeitsbonus, den seine Rüstung erlaubt, wird um eins erhöht. Alle weiteren vier Stufen (7., 11., 15.) verbessert sich das Rüstungstraining um einen Punkt, bis zu einem Maximum von -4 auf den Rüstungsmalus und +4 auf den maximalen Geschicklichkeitsbonus. Außerdem kann ein Kämpfer sich in einer mittelschweren Rüstung mit seiner normalen Bewegungsrate bewegen; ab der 7. Stufe gilt das auch für schwere Rüstung."
+  },
+  {
+    "id": "c45cd9a7-e370-4b20-9635-11c07a27b08d",
+    "name": "Waffentraining",
+    "description": "Ab der 5. Stufe wählt der Kämpfer eine Waffengruppe. Bei Angriffen mit Waffen aus dieser Gruppe erhält er +1 auf Angriff und Schaden. Alle weiteren vier Stufen (9., 13., 17.) wählt er eine weitere Waffengruppe mit +1, während sich die Boni bereits gewählter Gruppen um je +1 verbessern (Boni aus überlappenden Gruppen addieren sich nicht, es zählt der bessere). Der Bonus gilt auch für Kampfmanöver mit Waffen der gewählten Gruppe und für die Kampfmanöververteidigung gegen Entwaffnen/Zerschmettern der Waffe."
+  },
+  {
+    "id": "bc60ee19-50e1-42c5-b4b3-01cf4977c887",
+    "name": "Rüstungsmeisterschaft",
+    "description": "Ab der 19. Stufe erhält der Kämpfer eine Schadensreduzierung von 5/-, solange er eine Rüstung oder einen Schild trägt."
+  },
+  {
+    "id": "29d1891b-b30b-4bf2-9838-5f6a07561127",
+    "name": "Waffenmeisterschaft",
+    "description": "Auf der 20. Stufe wählt sich der Kämpfer eine bestimmte Waffe aus. Mit dieser Waffe bestätigt er automatisch jede Bedrohungschance eines kritischen Treffers, und der Multiplikator des kritischen Treffers erhöht sich um eins (aus x2 wird x3 und so weiter). Solange der Kämpfer die gewählte Waffe trägt, kann er nicht entwaffnet werden."
   }
 ]

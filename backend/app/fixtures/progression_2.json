@@ -4,7 +4,7 @@
   "classes": [
     {
       "id": "existing1",
-      "className": "Krieger",
+      "className": "Kämpfer",
       "level": 3,
       "archetypes": [
         "Waffenmeister"

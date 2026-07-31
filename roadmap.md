@@ -273,7 +273,7 @@ Cheapest slice — proves the whole pattern before harder ones.
       (`(total_level + 1) // 2`: 1st level, then every odd level after) plus
       bonus feat *slots* granted by race or class, resolved from real data
       rather than a hardcoded class name (an earlier version of this pass
-      special-cased `class_name == "Krieger"`, which is wrong — Fighter isn't
+      special-cased `class_name == "Kämpfer"`, which is wrong — Fighter isn't
       the only bonus-feat source in the core rules, and hardcoding one name
       would silently miss the rest). Race: whether the character's race has
       a non-alternate `RaceAbilityGrant` for the "Bonustalent" ability
@@ -284,7 +284,7 @@ Cheapest slice — proves the whole pattern before harder ones.
       `rules/race_abilities.py`), counted per class at `grant.level <=` that
       class's cumulative level (summed across non-contiguous selections of
       the same class first, since the grant's level is the class's own, not
-      the character's). Today only Krieger's recurring bonus combat feat
+      the character's). Today only Kämpfer's recurring bonus combat feat
       (1st, then every even level) is seeded this way: one shared
       `BaseClassAbility` catalog row ("Bonus-Kampftalent") granted via 11
       `BaseClassAbilityGrant` rows, one per granting level
@@ -479,7 +479,7 @@ Cheapest slice — proves the whole pattern before harder ones.
       each class's own contribution — `rules/progression.py`'s
       `class_bab`/`class_save_bonus` — against that class's own level count,
       never the total character level run through one averaged progression
-      (`requirements_v2.md` §2's multiclass rule; a Krieger 2/Schurke 1
+      (`requirements_v2.md` §2's multiclass rule; a Kämpfer 2/Schurke 1
       character's BAB is `floor(2*1.0) + floor(1*0.75)`, not
       `floor(3*something)`). Exposed as new `bab`/`saves` fields on
       `CharacterRead`.

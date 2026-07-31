@@ -128,5 +128,20 @@
     "id": "00e69f3e-86ef-4771-9bfe-e242cafee156",
     "name": "Wissen (lokal)",
     "ability": "IN"
+  },
+  {
+    "id": "7cf08043-8422-400c-88de-960f094fe9e6",
+    "name": "Beruf",
+    "ability": "WE"
+  },
+  {
+    "id": "cf1d814d-0811-4a88-b5d2-bca393c2fb74",
+    "name": "Wissen (Baukunst)",
+    "ability": "IN"
+  },
+  {
+    "id": "960179c4-5aed-4352-8b84-bd78a8c3a10e",
+    "name": "Wissen (Gewölbekunde)",
+    "ability": "IN"
   }
 ]

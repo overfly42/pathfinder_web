@@ -52,10 +52,20 @@ export function featGrantedThisLevel(newLevel: number): boolean {
   return newLevel % 2 === 1;
 }
 
-/** Krieger (Fighter) gets an additional bonus combat feat on every even level, on top of the
- *  normal odd-level feat progression shared by all classes. */
-export function fighterBonusFeatGrantedThisLevel(receivingClassName: string | null, newLevel: number): boolean {
-  return receivingClassName === 'Krieger' && newLevel % 2 === 0;
+/** Whether the receiving class grants a bonus feat slot at its own new level (e.g.
+ *  Kämpfer's 1st and every even level) — driven by each class's real `bonusFeatLevels`
+ *  data (see `ClassDef.bonusFeatLevels`), not a hardcoded class name, since other
+ *  classes can grant bonus feats too. Keyed by the class's own level (`classLevel`),
+ *  not the character's total level, so multiclassing resolves correctly. Mirrors the
+ *  backend's `_feat_max`/`rules/feat_slots.py`; keep both in sync. */
+export function classBonusFeatGrantedThisLevel(
+  receivingClassName: string | null,
+  classLevel: number | null,
+  classes: ClassDef[],
+): boolean {
+  if (receivingClassName === null || classLevel === null) return false;
+  const cls = classes.find((c) => c.name === receivingClassName);
+  return cls?.bonusFeatLevels.includes(classLevel) ?? false;
 }
 
 export function classSkillSetForLevelUp(

@@ -122,7 +122,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     fixture's own copies, now that they're real tables — see
     `routers/skills.py`, `app/seed/class_option_seed.py` and
     `app/seed/class_ability_seed.py`. `bonusFeatLevels` (which levels of this
-    class grant a bonus feat slot, e.g. Krieger's 1st and every even level)
+    class grant a bonus feat slot, e.g. Kämpfer's 1st and every even level)
     lets the frontend compute `featMax` without hardcoding a class name —
     see `rules/feat_slots.py`. `id` (the root `BaseClass` id — `null` if this
     class name has no matching root row) is exposed so the frontend can key

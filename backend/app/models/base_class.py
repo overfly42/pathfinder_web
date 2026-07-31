@@ -106,7 +106,7 @@ class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     `level` is part of the uniqueness key (not just `base_class_id`/
     `ability_id`/`option_choice_id`) so the same ability can be granted more
-    than once at different levels — e.g. Krieger's recurring bonus combat
+    than once at different levels — e.g. Kämpfer's recurring bonus combat
     feat is one shared `BaseClassAbility` row granted via several
     `BaseClassAbilityGrant` rows, one per granting level, rather than one
     near-duplicate catalog row per level."""

@@ -35,7 +35,7 @@ export function totalLevel(draft: CreationDraft): number {
 }
 
 /** Base progression (1st level, then every odd level after) plus any bonus feat
- *  slots granted by race (Human's "Bonustalent") or class (e.g. Krieger's bonus
+ *  slots granted by race (Human's "Bonustalent") or class (e.g. Kämpfer's bonus
  *  combat feats, via each class's `bonusFeatLevels` — not a hardcoded class name,
  *  since Fighter isn't the only source of bonus feats in the core rules and more
  *  can be added as pure data later). Mirrors the backend's

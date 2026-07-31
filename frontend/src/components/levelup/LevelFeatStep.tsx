@@ -3,8 +3,8 @@ import type { CharacterProgression } from '../../types/characterProgression';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
 import {
+  classBonusFeatGrantedThisLevel,
   featGrantedThisLevel,
-  fighterBonusFeatGrantedThisLevel,
   getNewLevel,
   getReceivingClassAndLevel,
 } from '../../lib/levelUpCalculations';
@@ -20,8 +20,8 @@ interface LevelFeatStepProps {
 export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFeatStepProps) {
   const newLevel = getNewLevel(progression);
   const granted = featGrantedThisLevel(newLevel);
-  const receivingClassName = getReceivingClassAndLevel(progression, draft.target)?.className ?? null;
-  const bonusGranted = fighterBonusFeatGrantedThisLevel(receivingClassName, newLevel);
+  const receiving = getReceivingClassAndLevel(progression, draft.target);
+  const bonusGranted = classBonusFeatGrantedThisLevel(receiving?.className ?? null, receiving?.level ?? null, options.classes);
 
   useEffect(() => {
     if (!granted) setDraft((prev) => (prev.newFeat === null ? prev : { ...prev, newFeat: null }));
@@ -55,7 +55,7 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
       {bonusGranted && (
         <>
           <div className="og-heading" style={{ marginTop: granted ? 16 : 0 }}>
-            Bonus-Kampftalent (Krieger, gerade Stufe)
+            Bonus-Kampftalent ({receiving?.className}, Stufe {receiving?.level})
           </div>
           <SingleChipPicker
             items={combatAvailable}

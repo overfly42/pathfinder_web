@@ -40,7 +40,7 @@ export interface ClassDef {
   spellType: SpellType;
   classSkills: string[];
   optionGroups: ClassOptionGroup[];
-  /** Which levels of this class grant a bonus feat slot (e.g. Krieger's 1st
+  /** Which levels of this class grant a bonus feat slot (e.g. Kämpfer's 1st
    *  and every even level) — real data from `base_class_ability_grants`, not
    *  a hardcoded class name; see `featMax` in `creationCalculations.ts`. */
   bonusFeatLevels: number[];

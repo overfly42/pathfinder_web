@@ -3,8 +3,8 @@ import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
 import {
   abilityIncreaseGrantedThisLevel,
+  classBonusFeatGrantedThisLevel,
   featGrantedThisLevel,
-  fighterBonusFeatGrantedThisLevel,
   getNewLevel,
   getOldTotalLevel,
   getReceivingClassAndLevel,
@@ -62,7 +62,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   const featGranted = featGrantedThisLevel(newLevel);
   const sumFeat = featGranted ? draft.newFeat || '— noch nicht gewählt —' : 'Keins auf dieser Stufe.';
 
-  const bonusFeatGranted = fighterBonusFeatGrantedThisLevel(className, newLevel);
+  const bonusFeatGranted = classBonusFeatGrantedThisLevel(className, info?.level ?? null, options.classes);
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
   const skillLines = options.skills.filter((s) => draft.skillIncreases[s.id]);
@@ -94,7 +94,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
 
         {bonusFeatGranted && (
           <div className="summary-block">
-            <div className="sb-title">Bonus-Kampftalent (Krieger)</div>
+            <div className="sb-title">Bonus-Kampftalent ({className})</div>
             <div className="sb-line"><span>{sumBonusFeat}</span></div>
           </div>
         )}

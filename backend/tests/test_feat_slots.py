@@ -17,12 +17,12 @@ def test_class_bonus_feat_slot_count_is_cumulative_by_class_level(db_session: Se
     seed_classes(db_session)
     seed_class_abilities(db_session)
 
-    # Krieger grants a bonus feat slot at 1st and every even level.
-    assert class_bonus_feat_slot_count(db_session, [_selection("Krieger", 1)]) == 1
-    assert class_bonus_feat_slot_count(db_session, [_selection("Krieger", 2)]) == 2
+    # Kämpfer grants a bonus feat slot at 1st and every even level.
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 1)]) == 1
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 2)]) == 2
     # Level 3 doesn't add a new slot (no grant at level 3) -> still 2.
-    assert class_bonus_feat_slot_count(db_session, [_selection("Krieger", 3)]) == 2
-    assert class_bonus_feat_slot_count(db_session, [_selection("Krieger", 4)]) == 3
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 3)]) == 2
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 4)]) == 3
 
 
 def test_class_bonus_feat_slot_count_sums_non_contiguous_class_selections(db_session: Session) -> None:
@@ -30,9 +30,9 @@ def test_class_bonus_feat_slot_count_sums_non_contiguous_class_selections(db_ses
     seed_class_abilities(db_session)
 
     split = class_bonus_feat_slot_count(
-        db_session, [_selection("Krieger", 1), _selection("Schurke", 1), _selection("Krieger", 2)]
+        db_session, [_selection("Kämpfer", 1), _selection("Schurke", 1), _selection("Kämpfer", 2)]
     )
-    single = class_bonus_feat_slot_count(db_session, [_selection("Krieger", 3)])
+    single = class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 3)])
     assert split == single == 2
 
 
