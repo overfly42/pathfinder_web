@@ -1,19 +1,22 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
+from app.models import BaseClassOptionChoice, BaseClassSpellGrant, BaseSpell
+from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.spell_seed import seed_spells
 
 
 def test_list_spells_is_database_backed(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
     seed_spells(db_session)
 
     response = client.get("/api/spells")
     assert response.status_code == 200
     spells = response.json()
 
-    assert len(spells) == 23
+    assert len(spells) == 102
     assert all({"id", "name", "school", "description"} <= set(spell) for spell in spells)
     magic_missile = next(s for s in spells if s["name"] == "Magisches Geschoss")
     assert magic_missile["school"] == "Hervorrufung"
@@ -21,6 +24,7 @@ def test_list_spells_is_database_backed(client: TestClient, db_session: Session)
 
 def test_spells_by_class_groups_by_root_class_with_grades(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
     seed_spells(db_session)
 
     response = client.get("/api/spells-by-class")
@@ -38,6 +42,7 @@ def test_spells_by_class_groups_by_root_class_with_grades(client: TestClient, db
 
 def test_classes_expose_casting_ability_tradition_and_known_table(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
     seed_spells(db_session)
 
     response = client.get("/api/classes")
@@ -64,3 +69,40 @@ def test_classes_expose_casting_ability_tradition_and_known_table(client: TestCl
     kaempfer = classes["Kämpfer"]
     assert kaempfer["castingAbility"] is None
     assert kaempfer["spellTradition"] is None
+
+
+def test_hexenmeister_zauber_des_blutes_is_seeded_per_bloodline(db_session: Session) -> None:
+    """http://prd.5footstep.de/Grundregelwerk/Klassen/Hexenmeister - unlike
+    Talent des Blutes (a real player choice, see test_feat_slots.py), Zauber
+    des Blutes is a fixed spell per bloodline per level - no choice at all,
+    hence a deterministic BaseClassSpellGrant rather than a pool. Spot-checks
+    the Drachenblutlinie (Draconic bloodline)'s real PF1e progression."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+
+    drachenblutlinie = db_session.query(BaseClassOptionChoice).filter_by(name="Drachenblutlinie").one()
+    grants = (
+        db_session.query(BaseClassSpellGrant)
+        .filter_by(option_choice_id=drachenblutlinie.id)
+        .order_by(BaseClassSpellGrant.level)
+        .all()
+    )
+    assert len(grants) == 9
+    assert [g.level for g in grants] == [3, 5, 7, 9, 11, 13, 15, 17, 19]
+
+    spell_names = [db_session.get(BaseSpell, g.spell_id).name for g in grants]
+    assert spell_names == [
+        "Magierrüstung",
+        "Energien widerstehen",
+        "Fliegen",
+        "Furcht",
+        "Zauberresistenz",
+        "Drachengestalt I",
+        "Drachengestalt II",
+        "Drachengestalt III",
+        "Wunsch",
+    ]
+
+    total_grants = db_session.query(BaseClassSpellGrant).count()
+    assert total_grants == 90  # 10 bloodlines x 9 levels each

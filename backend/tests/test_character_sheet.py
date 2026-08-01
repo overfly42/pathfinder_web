@@ -256,6 +256,43 @@ def test_class_features_include_picked_trick_via_option_group(client: TestClient
     assert {"Fallen finden", "Hinterhältiger Angriff", "Entrinnen"} <= feature_names
 
 
+def test_class_features_include_picked_hunter_bond_branch(client: TestClient, db_session: Session) -> None:
+    """Same proof as the Trick test above, for Waldläufer's Bund des Jägers
+    (a newly split overview + two option-gated branch abilities): picking
+    "Bund mit Gefährten" at 4th level should surface both the always-on
+    overview ability and that specific branch's text, but not the
+    Tiergefährte branch's."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Waldläufer",
+                    "level": 4,
+                    "options": {"hunter_bond": ["Bund mit Gefährten"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    feature_names = {f["name"] for f in body["classFeatures"]}
+
+    assert "Bund des Jägers" in feature_names  # always-on overview
+    assert "Bund mit Gefährten" in feature_names
+    assert "Tiergefährte (Bund des Jägers)" not in feature_names
+    # A fixed, ungated 1st-level feature is unaffected.
+    assert "Erzfeind" in feature_names
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

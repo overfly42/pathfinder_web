@@ -46,14 +46,14 @@
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "enemy",
     "label": "Günstlingsfeind",
-    "max_choices": 1
+    "max_choices": 5
   },
   {
     "id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "terrain",
     "label": "Bevorzugtes Terrain",
-    "max_choices": 1
+    "max_choices": 4
   },
   {
     "id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
@@ -75,5 +75,19 @@
     "key": "trick_advanced",
     "label": "Verbesserter Trick (ab Stufe 10)",
     "max_choices": 6
+  },
+  {
+    "id": "a2159156-004f-55a4-8ac4-c1effa2d8d2f",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "key": "combat_style",
+    "label": "Kampfstil",
+    "max_choices": 1
+  },
+  {
+    "id": "5f96a832-3c62-56a1-8e04-1efc2ab6d47f",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "key": "hunter_bond",
+    "label": "Bund des Jägers",
+    "max_choices": 1
   }
 ]

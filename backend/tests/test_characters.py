@@ -76,6 +76,7 @@ def _item_id(client: TestClient, db_session: Session, name: str) -> str:
 def _spells_by_class(client: TestClient, db_session: Session, class_name: str) -> tuple[str, dict[str, str]]:
     """(base_class_id, {spell_name: spell_id}) for a spontaneous/arcane-prepared class."""
     seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
     seed_spells(db_session)
     classes = client.get("/api/classes").json()
     base_class_id = next(c["id"] for c in classes if c["name"] == class_name)

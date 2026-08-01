@@ -3,8 +3,10 @@ from types import SimpleNamespace
 from sqlalchemy.orm import Session
 
 from app.models import (
+    BaseClass,
     BaseClassAbility,
     BaseClassAbilityFeatOption,
+    BaseClassAbilityGrant,
     BaseClassAbilitySpellOption,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
@@ -211,3 +213,103 @@ def test_schurke_hoehere_and_niedere_magie_have_spell_pool_rows(db_session: Sess
     assert {r.source_grade for r in niedere_rows} == {0}
     assert len(hoehere_rows) == 2  # Magier + Hexenmeister lists
     assert len(niedere_rows) == 2
+
+
+def test_waldlaeufer_kampfstiltalent_is_seeded_per_combat_style(db_session: Session) -> None:
+    """http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer - unlike
+    Hexenmeister's bloodline talents, there was no pre-resolved import for
+    this; the per-style feat lists only exist as prose on the class page."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+    seed_races(db_session)
+    seed_skills(db_session)
+    seed_feats(db_session)
+    seed_class_ability_options(db_session)
+
+    waldlaeufer = db_session.query(BaseClass).filter_by(name="Waldläufer").one()
+    combat_style = db_session.query(BaseClassOptionGroup).filter_by(key="combat_style").one()
+    assert combat_style.base_class_id == waldlaeufer.id
+    assert combat_style.max_choices == 1
+    style_choices = {c.name: c.id for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=combat_style.id).all()}
+    assert set(style_choices) == {"Bogenschießen", "Kampf mit zwei Waffen"}
+
+    kampfstiltalent = db_session.query(BaseClassAbility).filter_by(name="Kampfstiltalent").one()
+
+    bogenschiessen_rows = (
+        db_session.query(BaseClassAbilityFeatOption)
+        .filter_by(ability_id=kampfstiltalent.id, option_choice_id=style_choices["Bogenschießen"])
+        .all()
+    )
+    zwei_waffen_rows = (
+        db_session.query(BaseClassAbilityFeatOption)
+        .filter_by(ability_id=kampfstiltalent.id, option_choice_id=style_choices["Kampf mit zwei Waffen"])
+        .all()
+    )
+    # 4 base + 2 at 6th + 2 at 10th level per style - level-gating of when a
+    # feat becomes eligible isn't modeled, only the union of both styles'
+    # full eventual lists (see roadmap.md).
+    assert len(bogenschiessen_rows) == 8
+    assert len(zwei_waffen_rows) == 8
+    assert all(r.feat_type is None and r.feat_id is not None for r in bogenschiessen_rows + zwei_waffen_rows)
+
+
+def test_waldlaeufer_enemy_and_terrain_allow_all_repeated_picks(db_session: Session) -> None:
+    """http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer - Erzfeind
+    is granted at 1st/5th/10th/15th/20th (5 picks total across a career),
+    Bevorzugtes Gelände at 3rd/8th/13th/18th (4 picks) - the grant rows for
+    both were already correct, only `max_choices` was stuck at 1 from when
+    these were modeled as one-time picks (see roadmap.md)."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    waldlaeufer = db_session.query(BaseClass).filter_by(name="Waldläufer").one()
+    enemy = db_session.query(BaseClassOptionGroup).filter_by(key="enemy").one()
+    terrain = db_session.query(BaseClassOptionGroup).filter_by(key="terrain").one()
+    assert enemy.base_class_id == waldlaeufer.id
+    assert enemy.max_choices == 5
+    assert terrain.max_choices == 4
+
+    erzfeind = db_session.query(BaseClassAbility).filter_by(name="Erzfeind").one()
+    gelaende = db_session.query(BaseClassAbility).filter_by(name="Bevorzugtes Gelände").one()
+    erzfeind_levels = [
+        g.level for g in db_session.query(BaseClassAbilityGrant).filter_by(ability_id=erzfeind.id).order_by(BaseClassAbilityGrant.level)
+    ]
+    gelaende_levels = [
+        g.level for g in db_session.query(BaseClassAbilityGrant).filter_by(ability_id=gelaende.id).order_by(BaseClassAbilityGrant.level)
+    ]
+    assert erzfeind_levels == [1, 5, 10, 15, 20]
+    assert gelaende_levels == [3, 8, 13, 18]
+
+
+def test_waldlaeufer_bund_des_jaegers_has_two_gated_branches(db_session: Session) -> None:
+    """The class page describes Bund des Jägers as a one-time, irreversible
+    choice at 4th level between an ally-bonus branch and an animal-companion
+    branch (the latter itself picks from a fixed animal list, described in
+    prose only - the animal catalog itself is out of scope, see the
+    conversation this was scoped from)."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    waldlaeufer = db_session.query(BaseClass).filter_by(name="Waldläufer").one()
+    hunter_bond = db_session.query(BaseClassOptionGroup).filter_by(key="hunter_bond").one()
+    assert hunter_bond.base_class_id == waldlaeufer.id
+    assert hunter_bond.max_choices == 1
+
+    branch_choices = {c.name: c.id for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=hunter_bond.id).all()}
+    assert set(branch_choices) == {"Bund mit Gefährten", "Tiergefährte"}
+
+    overview = db_session.query(BaseClassAbility).filter_by(name="Bund des Jägers").one()
+    overview_grant = db_session.query(BaseClassAbilityGrant).filter_by(ability_id=overview.id).one()
+    assert overview_grant.option_choice_id is None  # everyone gets the overview text
+    assert overview_grant.level == 4
+
+    companion = db_session.query(BaseClassAbility).filter_by(name="Bund mit Gefährten").one()
+    animal = db_session.query(BaseClassAbility).filter_by(name="Tiergefährte (Bund des Jägers)").one()
+    companion_grant = db_session.query(BaseClassAbilityGrant).filter_by(ability_id=companion.id).one()
+    animal_grant = db_session.query(BaseClassAbilityGrant).filter_by(ability_id=animal.id).one()
+    assert companion_grant.option_choice_id == branch_choices["Bund mit Gefährten"]
+    assert animal_grant.option_choice_id == branch_choices["Tiergefährte"]
+    assert companion_grant.level == animal_grant.level == 4

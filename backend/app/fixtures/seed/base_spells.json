@@ -136,5 +136,479 @@
     "name": "Schutz vor Bösem",
     "school": "Bannmagie",
     "description": "Schirmt das Ziel gegen böse Kreaturen und Beeinflussung ab."
+  },
+  {
+    "id": "02b2b44d-660a-5896-9efa-fac7c3de9bdd",
+    "name": "Person vergrößern",
+    "school": "Verwandlung",
+    "description": "Humanoide Kreatur wächst zum Doppelten ihrer Größe an."
+  },
+  {
+    "id": "31839746-8dbf-53a7-bbd2-e83aa8bbc8f3",
+    "name": "Unsichtbares sehen",
+    "school": "Erkenntnis",
+    "description": "Enthüllt unsichtbare Kreaturen oder Gegenstände."
+  },
+  {
+    "id": "e2fb9206-bbc0-585a-bf81-3cd048036aae",
+    "name": "Zungen",
+    "school": "Erkenntnis",
+    "description": "Du kannst jede Sprache sprechen."
+  },
+  {
+    "id": "6785eb8b-71f1-5637-9d8e-681aa3589f33",
+    "name": "Schwarze Tentakel",
+    "school": "Beschwörung",
+    "description": "Tentakel winden sich um alle innerhalb einer Ausbreitung von 6m."
+  },
+  {
+    "id": "7b78704e-7820-5b9c-9fce-064021d39d01",
+    "name": "Schwachsinn",
+    "school": "Verzauberung",
+    "description": "IN und CH des Ziels sinken auf 1."
+  },
+  {
+    "id": "b19c3e79-08f3-5463-938d-d31f2a245fb0",
+    "name": "Schleier",
+    "school": "Illusion",
+    "description": "Verändert das Aussehen einer ganzen Gruppe von Kreaturen."
+  },
+  {
+    "id": "f19dc0e1-9721-586b-be50-8cc534615132",
+    "name": "Ebenenwechsel",
+    "school": "Beschwörung",
+    "description": "Bis zu acht Ziele reisen auf eine andere Ebene."
+  },
+  {
+    "id": "cc81935c-559f-52d4-9366-0e50d8d08bab",
+    "name": "Gedankenleere",
+    "school": "Bannzauber",
+    "description": "Ziel ist gegen geistesbeeinflussende und gefühlsbeeinflussende Magie und Ausspähung immun."
+  },
+  {
+    "id": "0a2aa169-338b-5b6e-8aab-e481c2608200",
+    "name": "Gestaltwandel",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in irgendeine Gestalt verwandeln und dir jede Runde eine andere Gestalt aussuchen."
+  },
+  {
+    "id": "c43eaf3b-f65b-5bfd-bafc-06110eaf6d55",
+    "name": "Unsichtbarkeit",
+    "school": "Illusion",
+    "description": "Ziel wird für 1 Min. / Stufe unsichtbar oder bis es angreift."
+  },
+  {
+    "id": "003a94e6-e56a-5785-b922-4065e3169556",
+    "name": "Magie bannen",
+    "school": "Bannzauber",
+    "description": "Beendet einen Zauber oder magischen Effekt."
+  },
+  {
+    "id": "afe707a1-5fba-5919-b539-e564b3bd18a6",
+    "name": "Dimensionstür",
+    "school": "Beschwörung",
+    "description": "Teleportiert dich über kurze Entfernungen."
+  },
+  {
+    "id": "c5ace4fb-8d71-5203-9847-8f38b10832d4",
+    "name": "Überlandflug",
+    "school": "Verwandlung",
+    "description": "Du fliegst mit einer Bewegungsrate von 12m und kannst über größere Distanzen eilen."
+  },
+  {
+    "id": "dc4eeae8-bdab-5c4c-ac3b-e94987853fa7",
+    "name": "Wahrer Blick",
+    "school": "Erkenntnis",
+    "description": "<sup>M</sup>Lässt dich alles so sehen, wie es wirklich ist."
+  },
+  {
+    "id": "e9bf219e-3ad8-5ae4-8e64-e9e267550026",
+    "name": "Mächtiges Teleportieren",
+    "school": "Beschwörung",
+    "description": "Wie Teleportieren, aber keine Einschränkung der Reichweite und kein Abkommen vom Ziel."
+  },
+  {
+    "id": "747408ac-5369-5284-a94e-4b468c93b580",
+    "name": "Wort der Macht: Betäubung",
+    "school": "Verzauberung",
+    "description": "Betäubt eine Kreatur mit 150 TP oder weniger."
+  },
+  {
+    "id": "650823dc-d7c2-52e9-a8a5-156ba05a0cd2",
+    "name": "Wunsch",
+    "school": "Allgemein",
+    "description": "<sup>M</sup>Wie Begrenzter Wunsch, aber mit weniger Einschränkung."
+  },
+  {
+    "id": "9577fead-73b6-59a4-a4a4-44cf78d875b8",
+    "name": "Kalte Hand",
+    "school": "Nekromantie",
+    "description": "Eine Berührung/Stufe verursacht 1W6 Schaden und unter Umständen 1 Stärkeschaden."
+  },
+  {
+    "id": "36d6fa6c-6081-55fd-b7de-2d97cb0ab2cf",
+    "name": "Falsches Leben",
+    "school": "Nekromantie",
+    "description": "Du erhältst 1W10 temporäre TP +1/Stufe (max. +10)."
+  },
+  {
+    "id": "063b49d8-3124-5961-b7b8-ef12eed23ba9",
+    "name": "Vampirgriff",
+    "school": "Nekromantie",
+    "description": "Berührung verursacht 1W6 Schaden/2 Stufen; Zaubernder erhält dieselbe Menge als TP."
+  },
+  {
+    "id": "01aa7e20-9dde-5add-8992-747406c76bde",
+    "name": "Tote beleben",
+    "school": "Nekromantie",
+    "description": "<sup>M</sup>Erschafft untote Skelette und Zombies."
+  },
+  {
+    "id": "9b4880f9-67dc-5f89-88e6-c7ac1d15a408",
+    "name": "Wellen der Erschöpfung",
+    "school": "Nekromantie",
+    "description": "Mehrere Ziele werden erschöpft."
+  },
+  {
+    "id": "a50a0224-b424-5303-9750-2fe2bb010de0",
+    "name": "Tod den Untoten",
+    "school": "Nekromantie",
+    "description": "<sup>M</sup>Zerstört 1W4 TW/Stufe an untoten Kreaturen (max. 20W4)."
+  },
+  {
+    "id": "082c6b7a-6466-5569-bcc3-8ec97f38d46f",
+    "name": "Finger des Todes",
+    "school": "Nekromantie",
+    "description": "Verursacht bei einem Ziel 10 SP/Stufe."
+  },
+  {
+    "id": "d43d323d-3965-55d8-ad06-26eef7a99060",
+    "name": "Verdorren",
+    "school": "Nekromantie",
+    "description": "Verursacht 1W6 Schaden/Stufe innerhalb von 9m."
+  },
+  {
+    "id": "d98f544e-6da7-5785-ac04-e67750e14724",
+    "name": "Entzug von Lebenskraft",
+    "school": "Nekromantie",
+    "description": "Ziel erhält 2W4 negative Stufen."
+  },
+  {
+    "id": "4ee0c3d7-a89a-53eb-898a-7a62a03c58f6",
+    "name": "Furcht auslösen",
+    "school": "Nekromantie",
+    "description": "Eine Kreatur mit 5 oder weniger TW flieht 1W4 Runden lang."
+  },
+  {
+    "id": "a7b61860-7519-5b23-b77d-d6bb04bbbeac",
+    "name": "Bärenstärke",
+    "school": "Verwandlung",
+    "description": "Ziel erhält 1 Min./Stufe +4 auf ST."
+  },
+  {
+    "id": "c5c90096-da11-5c2b-9c94-8cdfec2b7bd7",
+    "name": "Wut",
+    "school": "Verzauberung",
+    "description": "Ziel erhält +2 ST und KO, +1 auf Willenswürfe, -2 auf die RK."
+  },
+  {
+    "id": "0ecbf1d1-3536-5d06-b2d5-a17f40043481",
+    "name": "Steinhaut",
+    "school": "Bannzauber",
+    "description": "Gewährt SR 10/Adamant."
+  },
+  {
+    "id": "c4a92fea-e5f7-5cc6-94cd-deb4a94e6042",
+    "name": "Fortschicken",
+    "school": "Bannzauber",
+    "description": "Zwingt eine Kreatur dazu, auf ihre Heimatebene zurückzukehren."
+  },
+  {
+    "id": "d0224ff9-2311-5a83-8d3a-50eccfadb6b7",
+    "name": "Umwandlung",
+    "school": "Verwandlung",
+    "description": "<sup>M</sup>Du erhältst Boni im Kampf."
+  },
+  {
+    "id": "a273e580-e56a-558b-84ac-6664ff5727e5",
+    "name": "Unheilige Aura",
+    "school": "Bannzauber",
+    "description": "<sup>F</sup>+4 auf die RK, +4 Resistenz und ZR von 25 gegen gute Zauber."
+  },
+  {
+    "id": "3d31cfea-1aa5-5b23-82aa-c2f87b9f9b12",
+    "name": "Monster herbeizaubern IX",
+    "school": "Beschwörung",
+    "description": "Ruft eine extraplanare Kreatur herbei, die an deiner Seite kämpft."
+  },
+  {
+    "id": "b987fa2d-d38f-5913-8073-93a4f671a92e",
+    "name": "Magierrüstung",
+    "school": "Beschwörung",
+    "description": "Zielt erhält +4 auf die RK."
+  },
+  {
+    "id": "1309504b-68c8-5a9d-a8f8-51a62d5dde8e",
+    "name": "Energien widerstehen",
+    "school": "Bannzauber",
+    "description": "Du kannst 10 (oder mehr) Schadenspunkte/Angriff durch eine Art von Energie ignorieren."
+  },
+  {
+    "id": "9d9e5756-1788-5f98-9503-d64f83816611",
+    "name": "Fliegen",
+    "school": "Verwandlung",
+    "description": "Ziel kann mit einer Bewegungsrate von 18m fliegen."
+  },
+  {
+    "id": "6ffb4c6d-b030-52c0-a64a-248b212cbb7d",
+    "name": "Furcht",
+    "school": "Nekromantie",
+    "description": "Ziele innerhalb des Kegels fliehen 1 Runde/Stufe."
+  },
+  {
+    "id": "0658f91b-6fc0-5767-b81c-9a2ef94113fd",
+    "name": "Zauberresistenz",
+    "school": "Bannzauber",
+    "description": "Ziel erhält ZR 12 + Stufe."
+  },
+  {
+    "id": "d74891a6-3c15-5bb1-b55c-e4145d83b563",
+    "name": "Drachengestalt I",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in einen mittelgroßen Drachen verwandeln."
+  },
+  {
+    "id": "f483cbe3-3b3c-539c-a654-9ab2f235285a",
+    "name": "Drachengestalt II",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in einen großen Drachen verwandeln."
+  },
+  {
+    "id": "158d08e9-e6ae-5488-bd48-cbe77dfa0622",
+    "name": "Drachengestalt III",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in einen riesigen Drachen verwandeln."
+  },
+  {
+    "id": "bd65b722-ca88-584c-b4e1-2aa84c0d1496",
+    "name": "Brennende Hände",
+    "school": "Hervorrufung",
+    "description": "1W4 Feuerschaden pro Stufe (max. 5W4)."
+  },
+  {
+    "id": "010db273-7223-5d38-b483-81455a36c010",
+    "name": "Sengender Strahl",
+    "school": "Hervorrufung",
+    "description": "Berührungsangriff auf Entfernung, verursacht 4W6 Feuerschaden, +1 Strahl/4 Stufen (max. 3)."
+  },
+  {
+    "id": "bb71e1a5-c367-56b5-a319-13bafa38ba07",
+    "name": "Schutz vor Energien",
+    "school": "Bannzauber",
+    "description": "Absorbiert 12 Punkte/Stufe des Schadens von irgendeinem Energietyp."
+  },
+  {
+    "id": "1f842091-666c-57dc-9753-c7bbf7d84173",
+    "name": "Elementargestalt I",
+    "school": "Verwandlung",
+    "description": "Du nimmst die Gestalt eines kleinen Elementars an."
+  },
+  {
+    "id": "f73b4545-b652-5438-8ef3-bb3667df4f28",
+    "name": "Elementargestalt II",
+    "school": "Verwandlung",
+    "description": "Du kannst die Gestalt eines mittelgroßen Elementars annehmen."
+  },
+  {
+    "id": "adcd3f6b-1d06-583d-bf72-cdd4fc06ec24",
+    "name": "Elementargestalt III",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in einen großen Elementar verwandeln."
+  },
+  {
+    "id": "3f952577-adad-57a9-8363-c93a351e5fc9",
+    "name": "Elementargestalt IV",
+    "school": "Verwandlung",
+    "description": "Du kannst dich in einen riesigen Elementar verwandeln."
+  },
+  {
+    "id": "a71d9dfa-b6b2-5cfb-9039-45aa6a020d97",
+    "name": "Monster herbeizaubern VII",
+    "school": "Beschwörung",
+    "description": "Ruft eine extraplanare Kreatur herbei, die an deiner Seite kämpft."
+  },
+  {
+    "id": "6ce5c3e4-46a6-56a1-b228-3e68b331813a",
+    "name": "Elementarhorde",
+    "school": "Beschwörung",
+    "description": "Beschwört verschiedene Elementare."
+  },
+  {
+    "id": "78f60ab7-eca8-5fa5-8ac9-c3ab3f103757",
+    "name": "Verstricken",
+    "school": "Verwandlung",
+    "description": "Pflanzen verstricken jeden in einem Radius von 12m."
+  },
+  {
+    "id": "3820558c-0c13-5a29-8a81-c73cbf5debb8",
+    "name": "Fürchterlicher Lachanfall",
+    "school": "Verzauberung",
+    "description": "Ziel kann 1 Runde/Stufe nicht handeln."
+  },
+  {
+    "id": "7ede354d-0cc8-56ea-827e-e237a6f61254",
+    "name": "Tiefschlaf",
+    "school": "Verzauberung",
+    "description": "Lässt 10 TW an Kreaturen einschlafen."
+  },
+  {
+    "id": "a7fe73d8-00a9-5f02-8c00-29e87cdb9c94",
+    "name": "Vergiften",
+    "school": "Nekromantie",
+    "description": "Deine Berührung verursacht 1W3 KO-Schaden für 6 Runden."
+  },
+  {
+    "id": "ed8d3824-a78e-5662-97e8-15666434b5fa",
+    "name": "Hölzerner Weg",
+    "school": "Beschwörung",
+    "description": "Trete durch einen Baum zum anderen, weiter entfernten."
+  },
+  {
+    "id": "d89cc8bc-5f72-5f9d-9768-eebabdae24e5",
+    "name": "Ablenkung",
+    "school": "Illusion",
+    "description": "Macht dich unsichtbar und erschafft einen illusionären Doppelgänger."
+  },
+  {
+    "id": "2ac33e82-ab88-5d8c-8956-d83e9a1a60c7",
+    "name": "Äthertor",
+    "school": "Beschwörung",
+    "description": "Erschafft einen unsichtbaren Durchgang durch eine Barriere."
+  },
+  {
+    "id": "e8b2b0ec-8dc9-5b29-ad54-dc3e75eb7250",
+    "name": "Unwiderstehlicher Tanz",
+    "school": "Verzauberung",
+    "description": "Zwingt Ziel zu tanzen."
+  },
+  {
+    "id": "ce99d1b2-ac7c-5505-8515-b176ed2bf079",
+    "name": "Schutzkreis gegen Böses",
+    "school": "Bannzauber",
+    "description": "Wie Schutzzauber, aber in einem Radius von 3 m und 10 Min./Stufe."
+  },
+  {
+    "id": "e557e256-51b0-5d5b-8198-af3db2bb5bb2",
+    "name": "Fluch brechen",
+    "school": "Bannzauber",
+    "description": "Befreit eine Kreatur oder einen Gegenstand von einem Fluch."
+  },
+  {
+    "id": "77ee4183-09a9-5c7b-a61c-855912e7a9c0",
+    "name": "Flammenschlag",
+    "school": "Hervorrufung",
+    "description": "Streckt Feinde mit heiligem Feuer nieder (1W6/Stufe Schaden)."
+  },
+  {
+    "id": "4ee49e3c-ce7e-570e-b163-937bb4ff4787",
+    "name": "Mächtige Magie bannen",
+    "school": "Bannzauber",
+    "description": "Wie Magie bannen aber mit mehreren Zielen."
+  },
+  {
+    "id": "968c964e-216a-5b7e-9344-b93d99a3b528",
+    "name": "Verbannung",
+    "school": "Bannzauber",
+    "description": "Verbannt 2 TW/Stufe an extraplanaren Kreaturen."
+  },
+  {
+    "id": "02b725fb-a649-512c-9671-3104a94fab9b",
+    "name": "Sonnenfeuer",
+    "school": "Hervorrufung",
+    "description": "Lässt alle innerhalb von 3m erblinden und verursacht 6W6 Schaden."
+  },
+  {
+    "id": "8f93ec4d-66a4-5e66-b8a5-5fa3c7d5f02b",
+    "name": "Tor",
+    "school": "Beschwörung",
+    "description": "Verbindet zwei Ebenen zum Zweck des Reisens oder Herbeizauberns."
+  },
+  {
+    "id": "89829179-756e-57e4-8f4d-ac9669c719bc",
+    "name": "Alarm",
+    "school": "Bannzauber",
+    "description": "Schützt einen Bereich 2 Stunden/Stufe."
+  },
+  {
+    "id": "a733ce29-2e21-58df-8d99-450853c55a04",
+    "name": "Verschwimmen",
+    "school": "Illusion",
+    "description": "Angriffe gegen das Ziel unterliegen einer Fehlschlagchance von 20%."
+  },
+  {
+    "id": "c5380388-ebed-57cf-a2cf-330688fb8591",
+    "name": "Bewegungsfreiheit",
+    "school": "Bannzauber",
+    "description": "Ziel kann sich trotz Behinderungen normal bewegen."
+  },
+  {
+    "id": "e27fbadf-dcca-567c-8fc9-a29c6fe4f4e9",
+    "name": "Verzauberung brechen",
+    "school": "Bannzauber",
+    "description": "Hebt Verzauberungen, Verwandlungen und Flüche auf."
+  },
+  {
+    "id": "0f1afc3c-9ce6-502a-8285-9e9e78cb618a",
+    "name": "Zauber zurückwerfen",
+    "school": "Bannzauber",
+    "description": "Reflektiert 1W4+6 Zaubergrade, die auf den Zauberwirker zurückgeworfen werden."
+  },
+  {
+    "id": "484f129b-57a5-5991-ae62-9ecb9aa81f3c",
+    "name": "Moment der Eingebung",
+    "school": "Erkenntnis",
+    "description": "Du erhältst einen Verständnisbonus von +1/Stufe auf einen einzelnen Angriffs-, Fertigkeits- oder Rettungswurf."
+  },
+  {
+    "id": "fd308dcb-3c9d-5ba2-a87c-37574f67307a",
+    "name": "Sechster Sinn",
+    "school": "Erkenntnis",
+    "description": "Ein sechster Sinn warnt dich vor drohender Gefahr."
+  },
+  {
+    "id": "979075a6-60b6-5fca-9a04-16543ea5e042",
+    "name": "Schutz vor Gutem",
+    "school": "Bannzauber",
+    "description": "+2 auf die RK und Rettungswürfe, zusätzlicher Schutz gegen die gewählte Gesinnung."
+  },
+  {
+    "id": "89ed5d39-7933-59d8-ab60-3d0e72fbb243",
+    "name": "Einflüsterung",
+    "school": "Verzauberung",
+    "description": "Bringt ein Ziel dazu, eine vorgeschlagene Handlung auszuführen."
+  },
+  {
+    "id": "416f6474-dd45-5a22-ad3d-b24649fb8b11",
+    "name": "Monster bezaubern",
+    "school": "Verzauberung",
+    "description": "Lässt Monster glauben, es sei dein Verbündeter."
+  },
+  {
+    "id": "4a1a8252-1173-5f88-a2b2-65e7d76682c8",
+    "name": "Person beherrschen",
+    "school": "Verzauberung",
+    "description": "Du kannst einen Humanoiden telepathisch kontrollieren."
+  },
+  {
+    "id": "1dbbb90c-4e56-5e05-92eb-330a917b6ac8",
+    "name": "Bindender Ruf",
+    "school": "Beschwörung",
+    "description": "Wie Schwächerer Bindender Ruf, betrifft aber Kreaturen mit bis zu 12 TW."
+  },
+  {
+    "id": "bf0b2f51-5413-54a7-972b-ff6a483f6348",
+    "name": "Meteoritenschwarm",
+    "school": "Hervorrufung",
+    "description": "Vier explodierende Kugeln verursachen jeweils 6W6 Feuerschaden."
   }
 ]

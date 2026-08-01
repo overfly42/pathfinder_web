@@ -533,5 +533,25 @@
     "id": "64153076-322a-59e3-8b79-27528f69793c",
     "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
     "name": "Verbessertes Entrinnen"
+  },
+  {
+    "id": "734ade41-87ef-50e1-99b4-a579df28f489",
+    "group_id": "a2159156-004f-55a4-8ac4-c1effa2d8d2f",
+    "name": "Bogenschießen"
+  },
+  {
+    "id": "a17ff9e3-bc48-53ff-b221-96b8a87293ce",
+    "group_id": "a2159156-004f-55a4-8ac4-c1effa2d8d2f",
+    "name": "Kampf mit zwei Waffen"
+  },
+  {
+    "id": "2636de79-d72a-515c-a993-d3a55eee977a",
+    "group_id": "5f96a832-3c62-56a1-8e04-1efc2ab6d47f",
+    "name": "Bund mit Gefährten"
+  },
+  {
+    "id": "4ca3bde6-5cf2-5344-8c73-6b7e502f095c",
+    "group_id": "5f96a832-3c62-56a1-8e04-1efc2ab6d47f",
+    "name": "Tiergefährte"
   }
 ]

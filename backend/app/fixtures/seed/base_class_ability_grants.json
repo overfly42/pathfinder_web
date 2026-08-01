@@ -1657,5 +1657,19 @@
     "ability_id": "5e986b93-11d9-53e1-995e-0b6ac0a83238",
     "option_choice_id": "64153076-322a-59e3-8b79-27528f69793c",
     "level": 1
+  },
+  {
+    "id": "57b865f5-5383-5eb9-8a31-231c7c4cea1b",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "ability_id": "373da33f-1121-5e6b-abec-033d06b191c8",
+    "option_choice_id": "2636de79-d72a-515c-a993-d3a55eee977a",
+    "level": 4
+  },
+  {
+    "id": "bd689729-d8e8-5143-afc0-bd0b0f6fa38d",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "ability_id": "a98d91f5-2dff-506e-8bcc-03b3166ae731",
+    "option_choice_id": "4ca3bde6-5cf2-5344-8c73-6b7e502f095c",
+    "level": 4
   }
 ]

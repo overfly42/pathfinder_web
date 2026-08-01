@@ -592,9 +592,9 @@ Cheapest slice — proves the whole pattern before harder ones.
 - [ ] **"Pick from a restricted list" unification (generalizes past
       Kämpfer's hardcoded "combat" filter) — feat pools, ability pools,
       spell pools, and deterministic per-choice spell grants.** Schema
-      (phase 1) and seed data for everything except Waldläufer/§4 are now
-      in (phases 2–4, see the status note after the blocking-prerequisite
-      paragraph below) — validation/enforcement (phases 5–6) is still open.
+      (phase 1) and seed data (phases 2–4, see the status note after the
+      blocking-prerequisite paragraph below) are both fully in now —
+      validation/enforcement (phases 5–6) is still open.
       `BONUS_FEAT_SLOT_ABILITY_IDS` (`rules/feat_slots.py`) only tracks *how
       many* bonus feat slots a class grants — not *which* feats are legal
       for that slot. Today that's invisible because Kämpfer is the only
@@ -642,32 +642,87 @@ Cheapest slice — proves the whole pattern before harder ones.
       resolve by name against the current 325-feat catalog with zero gaps.
       Both are seeded now (see status below).
 
-      **Status (seeded):** §1 for Kämpfer/Magier/Hexenmeister, §2's Trick/
-      Verbesserte-Tricks catalog (23 tricks) plus its feat-granting members
-      (Kampfkniff/Schurkenfinesse/Waffentraining-trick, and "Talent"'s
-      unrestricted choice via one row per known `feat_type`), and §3 for
-      Höhere/Niedere Magie are all real rows now (`base_class_ability_feat_options.json`/
-      `base_class_ability_spell_options.json`, seeded by the new
-      `app.seed.class_ability_option_seed`). Verified end-to-end
-      (`test_feat_slots.py`, plus `test_character_sheet.py`'s
+      **Status (seeded):** §1 for Kämpfer/Magier/Hexenmeister/Waldläufer,
+      §2's Trick/Verbesserte-Tricks catalog (23 tricks) plus its
+      feat-granting members (Kampfkniff/Schurkenfinesse/Waffentraining-trick,
+      and "Talent"'s unrestricted choice via one row per known `feat_type`),
+      §3 for Höhere/Niedere Magie, and §4 (Hexenmeister's actual Zauber des
+      Blutes) are all real rows now (`base_class_ability_feat_options.json`/
+      `base_class_ability_spell_options.json`/`base_class_spell_grants.json`,
+      seeded by `app.seed.class_ability_option_seed`/`spell_seed`). Verified
+      end-to-end (`test_feat_slots.py`, `test_spells.py`, plus
+      `test_character_sheet.py`'s
       `test_class_features_include_picked_trick_via_option_group` — picking
       "Aufspringen" via `options: {"trick": [...]}` surfaces it in
       `classFeatures` with **zero changes to `sheet.py`**, confirming §2's
       core design bet that a repeated-pick group needs nothing beyond what
       domain/bloodline/school already exercise).
 
-      **Still open:** §1 for **Waldläufer's Kampfstiltalent** — unlike
-      Hexenmeister's bloodline talents, there is no pre-resolved import for
-      this; the per-combat-style feat lists (Bogenschütze/Zweiwaffenkampf)
-      only exist as prose on Waldläufer's own class page, which hasn't been
-      fetched in any session, and there's no `combat_style` option group for
-      Waldläufer yet either (only `enemy`/`terrain` exist) — needs both
-      before §1 can be seeded there. §4 (`BaseClassSpellGrant`, Hexenmeister's
-      actual fixed Zauber des Blutes) also has no seed data yet — the
-      per-bloodline-per-level spell assignments weren't part of any prior
-      import and need fresh sourcing. Phases 5–6 (validation/enforcement,
-      frontend) remain entirely unbuilt — these rows are real but nothing
-      reads them yet at creation or level-up time.
+      Waldläufer's Kampfstiltalent turned out fully resolvable once actually
+      fetched: <http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer>'s
+      prose lists both combat styles' full feat progression (Bogenschießen:
+      Fernschuss/Kernschuss/Präzisionsschuss/Schnelles Schießen, +2 at 6th,
+      +2 at 10th; Kampf mit zwei Waffen: Doppelschnitt/Kampf mit zwei
+      Waffen/Schnelle Waffenbereitschaft/Verbesserter Schildstoß, +2 at 6th,
+      +2 at 10th — 8 feats/style, all 16 already in the catalog, zero
+      missing). Added a `combat_style` option group (`max_choices: 1`) since
+      none existed before. *Not* modeled: which of a style's 8 feats are
+      eligible depends on the character's level (only 4 available before
+      6th) — `BaseClassAbilityFeatOption` seeds the full eventual union per
+      style, same "not yet enforced" scope as everywhere else here.
+
+      Hexenmeister's real Zauber des Blutes (fixed spell per bloodline per
+      odd level, 3rd–19th) came from the same class page's per-bloodline
+      "Bonuszauber:" lines, cross-checked against real PF1e bloodline data
+      (Drachenblutlinie's list matches the SRD's Draconic bloodline exactly).
+      78 of the 80 unique named spells (81 counting Elementarhorde, missed
+      on the first pass and caught before seeding) didn't exist in the
+      23-spell catalog yet — resolved via the PRD's bulk `/cache/
+      prd_datatable__zauber.txt` spell index (same shape as the feat index
+      `import_feats_from_prd.py` already uses), which supplied name/school/
+      description directly, no manual authoring needed. One data quirk found
+      and fixed: the index's "Zauber zurückwerfen" description is missing
+      its leading "R" ("eflektiert..." → "Reflektiert...") in the source
+      itself, not a parsing bug — corrected by hand. Spells resolvable with
+      a Hexenmeister-list grade also got a real `BaseClassSpell` row (72 of
+      79); several bloodline spells are legitimately off-list entirely
+      (e.g. Himmlische Blutlinie's "Segnen"/Bless is a Cleric spell, matching
+      real Celestial-bloodline rules) and correctly got no `BaseClassSpell`
+      row, only the `BaseClassSpellGrant`.
+
+      A second sweep over the already-imported classes surfaced three more
+      instances of this same "pick from a restricted list" shape that
+      weren't part of the original plan, all now closed too:
+      - Waldläufer's Erzfeind (levels 1/5/10/15/20) and Bevorzugtes Gelände
+        (3/8/13/18) already had correct `BaseClassAbilityGrant` rows for
+        every repeated occurrence from the original Waldläufer pass — only
+        their `BaseClassOptionGroup.max_choices` was still `1` from before
+        repeated-pick groups existed. Bumped to 5/4; no new catalog rows
+        needed (all 32 enemies/11 terrains already existed).
+      - Waldläufer's Bund des Jägers (4th level, previously one ungated
+        ability with both branches' text in one paragraph) split into the
+        same shape as Hexenmeister's bloodline powers: a short always-on
+        overview ability plus two new `option_choice_id`-gated ability rows
+        (one per branch) behind a new `hunter_bond` option group. The
+        animal-companion branch's text still only names the fixed animal
+        list in prose — no animal-companion catalog exists anywhere in the
+        schema, deliberately out of scope here.
+      - Found and fixed a real bug from the first pass: the `combat_style`
+        group's `base_class_id` was Mönch's, not Waldläufer's (a
+        copy-paste constant mistake in the seed-data generation script) —
+        the original test didn't catch it because it only filtered by
+        `key`, not `base_class_id` too. Fixed, and every option-group test
+        now asserts `base_class_id` explicitly to catch a repeat.
+
+      **Still open:** phases 5–6 (validation/enforcement, frontend) remain
+      entirely unbuilt — every table above is real and queryable, but nothing
+      reads them yet at creation or level-up time. Also still open, and
+      explicitly out of scope for this whole effort: Kämpfer's Waffentraining/
+      Waffenmeisterschaft (§5, needs a populated weapon catalog), Magier's
+      familiar-type choice under Arkane Verbindung, and the animal-companion
+      branch of Bund des Jägers above — all three need a new catalog concept
+      that doesn't exist yet (weapons, familiars, animal companions), not
+      just another `BaseClassOptionGroup`.
 
       ### 1. Feat pools — `BaseClassAbilityFeatOption`
       One new join table, pure composition (no `HANDLERS`-style code):
@@ -833,16 +888,17 @@ Cheapest slice — proves the whole pattern before harder ones.
          "Zaubermeisterschaft" and all ~80 named bloodline talents already
          existed in the 325-feat catalog (see the resolved-prerequisite
          note above); nothing to add.
-      3. [x] for Kämpfer/Magier/Hexenmeister — `BaseClassAbilityFeatOption`
-         seeded (94 rows total including §2's feat-granting tricks); see
-         `class_ability_option_seed.py`. **Not done for Waldläufer** (needs
-         a `combat_style` option group first, see "Still open" above).
+      3. [x] for Kämpfer/Magier/Hexenmeister/Waldläufer —
+         `BaseClassAbilityFeatOption` seeded (110 rows total including §2's
+         feat-granting tricks and Waldläufer's `combat_style`-gated
+         Kampfstiltalent lists); see `class_ability_option_seed.py`.
          `BONUS_FEAT_SLOT_ABILITY_IDS` **not yet retired** — still the only
          mechanism `rules/feat_slots.py` actually reads; phase 5 is what
          would replace it.
       4. [x] Schurke's Trick/Verbesserte Tricks (`BaseClassOptionGroup`/
-         `Choice` rows plus `BaseClassAbility`/`Grant` pairs, §2) and
-         Höhere/Niedere Magie (§3) are seeded.
+         `Choice` rows plus `BaseClassAbility`/`Grant` pairs, §2),
+         Hexenmeister's Zauber des Blutes (§4, 90 `BaseClassSpellGrant`
+         rows), and Höhere/Niedere Magie (§3) are all seeded.
       5. [ ] Backend: extend creation's feat validation to check aggregate
          eligibility counts, not just the total; expose resolved eligibility
          (per-character for Hexenmeister, since it depends on the chosen

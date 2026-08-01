@@ -430,6 +430,86 @@ Slice-Arbeit.
         Domänen-/Blutlinien-/Schulwahl) — bestätigt die Designentscheidung,
         Trick über die bestehende Options-Gruppen-Maschinerie zu
         modellieren statt über ein neues Pool-Schema.
+  - [x] **Nachtrag 2026-08-01 (Fortsetzung): Waldläufer-Kampfstiltalent und
+        Hexenmeisters echte Zauber des Blutes nachgeholt.** Beide oben als
+        offen markierten Lücken sind jetzt geschlossen. Waldläufer
+        (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer>):
+        die Klassenseite listet die vollständige Talentliste beider
+        Kampfstile im Fließtext (Bogenschießen: Fernschuss/Kernschuss/
+        Präzisionsschuss/Schnelles Schießen, +2 ab Stufe 6, +2 ab Stufe 10;
+        Kampf mit zwei Waffen: Doppelschnitt/Kampf mit zwei Waffen/Schnelle
+        Waffenbereitschaft/Verbesserter Schildstoß, +2 ab Stufe 6, +2 ab
+        Stufe 10) — alle 16 Talente existierten bereits im Katalog, keine
+        einzige Neuanlage nötig. Neue `combat_style`-Options-Gruppe
+        (`max_choices: 1`) ergänzt, die 16 Talente über
+        `BaseClassAbilityFeatOption` an Kampfstiltalent gekoppelt (gated auf
+        die jeweilige Stilwahl). **Nicht** modelliert: welche der 8 Talente
+        pro Stil ab welcher Stufe wählbar sind (nur 4 vor Stufe 6) — es wird
+        die volle Endliste je Stil hinterlegt, gleiche „noch nicht
+        durchgesetzt"-Tiefe wie überall sonst hier.
+
+        Hexenmeisters Zauber des Blutes (gleiche Quelle wie Talent des
+        Blutes) stammt aus den zehn „Bonuszauber:"-Zeilen je Blutlinie
+        (fester Zauber auf Stufe 3/5/7/9/11/13/15/17/19, keine echte Wahl —
+        anders als Talent des Blutes daher `BaseClassSpellGrant` statt
+        `BaseClassAbilitySpellOption`; Stichprobe Drachenblutlinie gegen die
+        echte PF1e-SRD-Progression verifiziert). Von den 81 referenzierten
+        Zaubern (80 eindeutige Namen plus Elementarhorde, die im ersten
+        Durchgang übersehen und vor dem Seeden nachgetragen wurde) fehlten
+        78 im 23-Zauber-Katalog — aufgelöst über den PRD-Bulk-Zauberindex
+        (`/cache/prd_datatable__zauber.txt`, gleiches Vorgehen wie
+        `import_feats_from_prd.py` für Talente), der Name/Schule/
+        Kurzbeschreibung direkt lieferte, keine manuelle Texterstellung
+        nötig. Ein Datenfehler in der Quelle gefunden und korrigiert:
+        „Zauber zurückwerfen"s Beschreibung fehlt im Index das führende „R"
+        („eflektiert…" statt „Reflektiert…"). 72 der 79 neuen Zauber haben
+        zusätzlich eine reguläre `BaseClassSpell`-Zeile für Hexenmeister
+        erhalten (Grad aus dem Index); die restlichen 7 sind laut Index
+        nicht auf der Hexenmeister/Magier-Liste und daher bewusst listenfrei
+        (z. B. Himmlische Blutlinie: „Segnen" ist ein Kleriker-Zauber — passt
+        zu den echten Regeln für die Himmlische Blutlinie) — nur der
+        `BaseClassSpellGrant` existiert für diese. `spell_seed.py` seedet
+        die neue Tabelle jetzt mit; Vorbedingung `class_option_seed.py`
+        ergänzt (mehrere Bestandstests in `test_characters.py`/`test_spells.py`
+        riefen `seed_spells` bisher ohne vorheriges `seed_class_options` auf
+        — bis dahin hatte `base_class_spells.json` keine Blutlinien-Gate,
+        daher unbemerkt — um den fehlenden Seed-Aufruf ergänzt).
+  - [x] **Nachtrag 2026-08-01 (Fortsetzung 2): Waldläufer-Erzfeind/
+        Bevorzugtes-Gelände auf wiederholte Wahl umgestellt, Bund des
+        Jägers als echte Wahl modelliert, ein Datenfehler aus dem vorigen
+        Durchgang korrigiert.** Beim Durchsuchen der bereits importierten
+        Klassen nach weiteren „Pick from a restricted list"-Lücken (siehe
+        `roadmap.md`) fiel auf: der eigentliche `BaseClassAbilityGrant`-Plan
+        für Erzfeind (Stufe 1/5/10/15/20) und Bevorzugtes Gelände (Stufe
+        3/8/13/18) war bereits von Anfang an korrekt hinterlegt — nur die
+        zugehörigen `BaseClassOptionGroup`-Zeilen (`enemy`/`terrain`) hatten
+        noch `max_choices: 1` aus der Zeit, bevor wiederholte Wahlen
+        unterstützt wurden. Reine Zahlenkorrektur auf 5/4, keine neuen
+        Zeilen nötig (die 32 Feinde/11 Gelände existierten schon vollständig).
+        Bund des Jägers (Stufe 4, bisher nur Fließtext mit beiden Zweigen
+        in einer Fähigkeitszeile) bekam eine neue `hunter_bond`-Options-Gruppe
+        (`max_choices: 1`, Wahlmöglichkeiten „Bund mit Gefährten"/
+        „Tiergefährte") und wurde nach demselben Muster wie Hexenmeisters
+        Blutlinien-Fähigkeiten aufgeteilt: eine gekürzte, ungegatete
+        Übersichtsfähigkeit (immer sichtbar) plus zwei neue
+        `option_choice_id`-gegatete Fähigkeitszeilen mit dem jeweiligen
+        Zweigtext. Die Tiergefährte-Zweigbeschreibung nennt weiterhin nur
+        die feste Tierliste als Fließtext (Dachs, Hund, Kamel, Pferd, Pony,
+        kleine Raubkatze, Giftschlange, Würgeschlange, Schreckensratte,
+        Vogel, Wolf, Hai) — welches konkrete Tier gewählt wurde, bleibt
+        bewusst außerhalb des Scopes (Tiergefährten-Katalog existiert
+        nirgends im Schema, eigener, größerer Posten).
+
+        **Dabei gefundener Bug (aus dem vorigen Durchgang, jetzt behoben):**
+        die neu angelegte `combat_style`-Options-Gruppe für Waldläufers
+        Kampfstiltalent hatte fälschlich Mönchs `base_class_id`
+        (`4ed3adcc-…`) statt Waldläufers (`91ab69e8-…`) — eine
+        Verwechslung beim Ausfüllen der Konstante im Erzeugungsskript, vom
+        ursprünglichen Test nicht bemerkt, da dieser nur nach dem `key`
+        filterte statt zusätzlich `base_class_id` zu prüfen. Behoben, und
+        der Test um eine `base_class_id`-Prüfung ergänzt (gleiche Ergänzung
+        vorsorglich auch bei `enemy`/`hunter_bond`), damit ein ähnlicher
+        Fehler künftig auffällt.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):

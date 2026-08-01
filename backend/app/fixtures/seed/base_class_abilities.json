@@ -112,7 +112,7 @@
   {
     "id": "bad16cb2-63c0-4459-9876-53b4fd4a2c1d",
     "name": "Bund des Jägers",
-    "description": "Auf der 4. Stufe bildet der Waldläufer einen Bund mit seinen Jagdgefährten, entweder als Bund mit seinen Gefährten oder als Bund mit einem Tiergefährten — einmal gewählt, kann diese Form später nicht mehr geändert werden. Der Bund mit Gefährten ermöglicht es dem Waldläufer, eine Bewegungsaktion auszugeben, um allen Verbündeten innerhalb von 9 m, die ihn sehen oder hören können, für eine Anzahl von Runden gleich seinem WE-Modifikator (Minimum 1) die Hälfte seines Erzfeindbonusses gegen einen einzelnen Gegner zu geben; das addiert sich nicht mit eigenen Erzfeind-Boni der Verbündeten, es zählt der höchste. Der Tiergefährte wird aus einer festen Liste gewählt (Dachs, Hund, Kamel, Pferd, Pony, kleine Raubkatze, Giftschlange, Würgeschlange, Schreckensratte, Vogel, Wolf, in aquatischen Kampagnen auch Hai), teilt die Boni des Waldläufers für Erzfeinde und bevorzugtes Gelände, und funktioniert wie die Druiden-Fähigkeit Bund mit der Natur, außer dass die effektive Druidenstufe der Waldläuferstufe - 3 entspricht."
+    "description": "Auf der 4. Stufe bildet der Waldläufer einen Bund mit seinen Jagdgefährten: entweder als Bund mit Gefährten oder als Bund mit einem Tiergefährten — einmal gewählt, kann diese Form später nicht mehr geändert werden."
   },
   {
     "id": "2b7b62b2-28f3-4395-8d1e-2d64b3a88a1b",
@@ -813,5 +813,15 @@
     "id": "5e986b93-11d9-53e1-995e-0b6ac0a83238",
     "name": "Verbessertes Entrinnen",
     "description": "Wie Entrinnen, aber der Schurke erleidet auch bei einem fehlgeschlagenen Rettungswurf nur halben Schaden. Funktioniert nicht, wenn der Schurke hilflos ist."
+  },
+  {
+    "id": "373da33f-1121-5e6b-abec-033d06b191c8",
+    "name": "Bund mit Gefährten",
+    "description": "Der Waldläufer kann als Bewegungsaktion allen Verbündeten innerhalb von 9 m, die ihn sehen oder hören können, für eine Anzahl von Runden gleich seinem WE-Modifikator (Minimum 1) die Hälfte seines Erzfeindbonusses gegen einen einzelnen Gegner geben; das addiert sich nicht mit eigenen Erzfeind-Boni der Verbündeten, es zählt der höchste."
+  },
+  {
+    "id": "a98d91f5-2dff-506e-8bcc-03b3166ae731",
+    "name": "Tiergefährte (Bund des Jägers)",
+    "description": "Der Waldläufer erhält einen Tiergefährten aus einer festen Liste (Dachs, Hund, Kamel, Pferd, Pony, kleine Raubkatze, Giftschlange, Würgeschlange, Schreckensratte, Vogel, Wolf, in aquatischen Kampagnen auch Hai), der die Boni des Waldläufers für Erzfeinde und bevorzugtes Gelände teilt und wie die Druiden-Fähigkeit Bund mit der Natur funktioniert, außer dass die effektive Druidenstufe der Waldläuferstufe - 3 entspricht."
   }
 ]
