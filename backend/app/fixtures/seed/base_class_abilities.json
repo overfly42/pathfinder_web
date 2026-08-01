@@ -698,5 +698,120 @@
     "id": "75814b17-afdb-4cc8-9c34-2e1575e50024",
     "name": "Meisterhafter Angriff",
     "description": "Auf der 20. Stufe kann der Schurke bei einem erfolgreichen Hinterhältigen Angriff sein Ziel wahlweise für 1W4 Stunden einschläfern, für 2W6 Runden lähmen oder töten; das Ziel erhält einen Zähigkeitswurf (SG 10 + ½ Schurkenstufe + IN-Modifikator des Schurken), um dem Effekt zu entgehen, ist danach aber für 24 Stunden gegen weitere Meisterhafte Angriffe dieses Schurken immun. Kreaturen, die gegen Hinterhältige Angriffe immun sind, können nicht von einem Meisterhaften Angriff betroffen werden."
+  },
+  {
+    "id": "35fd66c2-0983-5941-970c-9ea171487c6b",
+    "name": "Aufspringen",
+    "description": "Der Schurke kann als Freie Aktion aufstehen; er provoziert dabei weiterhin einen Gelegenheitsangriff, wenn er in einem von einem Gegner bedrohten Gebiet aufsteht."
+  },
+  {
+    "id": "00e4992b-261f-5a63-afd1-327fee2293cc",
+    "name": "Blutende Wunde",
+    "description": "Ein Hinterhältiger Angriff des Schurken kann bei einem lebenden Gegner eine blutende Wunde verursachen: das Ziel nimmt zu Beginn jeder seiner Runden einen Punkt Schaden pro Würfel des Hinterhältigen Angriffs (z. B. Blutung 4 bei 4W6). Ein Wurf auf Heilkunde (SG 15) oder jeder Effekt, der Trefferpunkte heilt, stoppt die Blutung; mehrere blutende Wunden addieren sich nicht, und der Schaden umgeht Schadensreduzierung."
+  },
+  {
+    "id": "d631d095-298f-5e92-a511-6f65ddd7cfb6",
+    "name": "Hochseilartist",
+    "description": "Der Schurke kann sich auf schmalen Absätzen mit voller Bewegungsrate bewegen, ohne Abzüge auf Akrobatik-Würfe hinzunehmen, und gilt dabei nicht als Auf dem falschen Fuß."
+  },
+  {
+    "id": "a57aa727-a5d8-56b0-9ea6-f0e5d2b3c8dc",
+    "name": "Höhere Magie",
+    "description": "Der Schurke kann zweimal pro Tag einen Zauber des 1. Grades aus der Hexenmeister-/Magier-Liste als zauberähnliche Fähigkeit wirken (Zauberstufe = Schurkenstufe, SG 11 + IN-Modifikator). Voraussetzung: IN 11+ und der Trick Niedere Magie."
+  },
+  {
+    "id": "cb30d94a-c1e4-55cb-b3ad-d7e7632f12e7",
+    "name": "Kampfkniff",
+    "description": "Der Schurke erhält ein Kampftalent, für das er die Voraussetzungen erfüllt, als Bonustalent."
+  },
+  {
+    "id": "9e2784c0-db6f-575b-945e-fcc0a12ba2a1",
+    "name": "Niedere Magie",
+    "description": "Der Schurke kann dreimal pro Tag einen Zaubertrick (Grad 0) aus der Hexenmeister-/Magier-Liste als zauberähnliche Fähigkeit wirken (Zauberstufe = Schurkenstufe, SG 10 + IN-Modifikator). Voraussetzung: IN 10+."
+  },
+  {
+    "id": "13b897ab-a2d2-588b-9c48-4030e96049cd",
+    "name": "Reaktionen verlangsamen",
+    "description": "Ein Gegner, der durch den Hinterhältigen Angriff des Schurken Schaden nimmt, kann für eine Runde keine Gelegenheitsangriffe ausführen."
+  },
+  {
+    "id": "347f84a8-2cda-5345-9230-43f8ff5fd1d5",
+    "name": "Schnelles Entschärfen",
+    "description": "Der Schurke benötigt nur die halbe normale Zeit (mindestens eine Runde), um mit Mechanismus ausschalten eine Falle zu entschärfen."
+  },
+  {
+    "id": "cd73a952-05aa-5a02-b766-492bf0318aaa",
+    "name": "Schnelle Heimlichkeit",
+    "description": "Der Schurke kann sich mit voller Bewegungsrate bewegen, während er Heimlichkeit einsetzt, ohne Abzüge hinzunehmen."
+  },
+  {
+    "id": "c95b40fd-7cab-5704-8d18-05c75e818479",
+    "name": "Schnelles Kriechen",
+    "description": "Am Boden liegend kann sich der Schurke mit halber Bewegungsrate fortbewegen (provoziert dabei normal Gelegenheitsangriffe) und kann kriechend einen 1,50-m-Schritt ausführen."
+  },
+  {
+    "id": "35c9a8a6-53ab-5791-8f3d-6c68f369b907",
+    "name": "Schurkenfinesse",
+    "description": "Der Schurke erhält das Talent Waffenfinesse als Bonustalent."
+  },
+  {
+    "id": "093f3e27-aabd-514a-b3fc-d95ebee3cc47",
+    "name": "Spürnase",
+    "description": "Kommt der Schurke einer Falle auf 3 m nahe, erhält er sofort einen (vom Spielleiter verdeckt gewürfelten) Fertigkeitswurf auf Wahrnehmung, um sie zu entdecken."
+  },
+  {
+    "id": "a9c8097e-a46b-515f-880f-0eb0c9c6227d",
+    "name": "Überraschungsangriff",
+    "description": "Während einer Überraschungsrunde erwischt der Schurke alle Gegner auf dem falschen Fuß, selbst wenn sie in dieser Runde bereits gehandelt haben."
+  },
+  {
+    "id": "83714078-369d-5391-af1d-cec31b35cb08",
+    "name": "Waffentraining",
+    "description": "Der Schurke erhält das Talent Waffenfokus als Bonustalent."
+  },
+  {
+    "id": "b1952af2-9ee9-581e-8912-af684cbbd9a8",
+    "name": "Widerstandsfähigkeit",
+    "description": "Einmal pro Tag kann der Schurke als Augenblickliche Aktion temporäre Trefferpunkte in Höhe seiner Schurkenstufe erhalten, aber nur wenn seine Trefferpunkte in den negativen Bereich fallen; dies kann ihn vor dem Sterben bewahren. Die temporären Trefferpunkte halten eine Minute."
+  },
+  {
+    "id": "185ca476-d781-52a1-a5fe-38d1a0d17d3e",
+    "name": "Ausweichrolle",
+    "description": "Einmal pro Tag kann der Schurke, wenn ein Angriff im Kampf ihn auf 0 oder weniger Trefferpunkte bringen würde, einen Reflexwurf (SG = verursachter Schaden) ablegen und bei Erfolg nur halben Schaden erleiden. Funktioniert nicht gegen Zauber/zauberähnliche Fähigkeiten, nicht wenn der Schurke seinen GE-Bonus auf RK verliert, und nicht zusammen mit Entrinnen."
+  },
+  {
+    "id": "259245f2-d5a8-578b-92d6-6d4e3d8573f8",
+    "name": "Bannschlag",
+    "description": "Ein Gegner, der durch einen Hinterhältigen Angriff Schaden nimmt, wird zusätzlich von einer bannähnlichen Wirkung gegen den Zauber mit dem niedrigsten Grad auf ihm getroffen (Zauberstufe = Schurkenstufe). Voraussetzung: der Trick Höhere Magie."
+  },
+  {
+    "id": "09d98ceb-f3ae-544e-8150-3028c3d2365c",
+    "name": "Entschlüpfender Geist",
+    "description": "Scheitert der Schurke an einem Rettungswurf gegen eine Verzauberung, darf er in der nächsten Runde einen erneuten Rettungswurf mit demselben SG ablegen — nur diese eine zusätzliche Chance."
+  },
+  {
+    "id": "8bfb0b7b-414b-523e-9eb8-2e1e20ef55ed",
+    "name": "Gelegenheit ausnutzen",
+    "description": "Einmal pro Runde kann der Schurke einen zusätzlichen Gelegenheitsangriff gegen einen Gegner ausführen, der soeben im Nahkampf getroffen wurde — auch mit Kampfreflexe nur einmal pro Runde nutzbar."
+  },
+  {
+    "id": "3f417e69-cb37-57f9-a559-3505b727c2bc",
+    "name": "Fertigkeitsmeisterschaft",
+    "description": "Der Schurke wählt (3 + IN-Bonus) Fertigkeiten, bei denen er immer 10 nehmen kann, selbst unter Umständen, die dies normalerweise verbieten. Der Trick kann mehrfach gewählt werden, jedes Mal mit neuen Fertigkeiten."
+  },
+  {
+    "id": "34923d44-6be9-5662-9cde-a190a0997e45",
+    "name": "Schwächender Schlag",
+    "description": "Ein Gegner, der durch einen Hinterhältigen Angriff Schaden nimmt, erleidet zusätzlich 2 Punkte temporären Stärkeschaden."
+  },
+  {
+    "id": "74d1053d-c623-538b-8222-e215cae425a1",
+    "name": "Talent",
+    "description": "Der Schurke erhält anstelle eines Tricks ein Talent seiner Wahl, für das er die Voraussetzungen erfüllt."
+  },
+  {
+    "id": "5e986b93-11d9-53e1-995e-0b6ac0a83238",
+    "name": "Verbessertes Entrinnen",
+    "description": "Wie Entrinnen, aber der Schurke erleidet auch bei einem fehlgeschlagenen Rettungswurf nur halben Schaden. Funktioniert nicht, wenn der Schurke hilflos ist."
   }
 ]

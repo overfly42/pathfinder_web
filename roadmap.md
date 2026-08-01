@@ -591,7 +591,10 @@ Cheapest slice — proves the whole pattern before harder ones.
       active effects are — not a slice-3 concern to retrofit now.
 - [ ] **"Pick from a restricted list" unification (generalizes past
       Kämpfer's hardcoded "combat" filter) — feat pools, ability pools,
-      spell pools, and deterministic per-choice spell grants.**
+      spell pools, and deterministic per-choice spell grants.** Schema
+      (phase 1) and seed data for everything except Waldläufer/§4 are now
+      in (phases 2–4, see the status note after the blocking-prerequisite
+      paragraph below) — validation/enforcement (phases 5–6) is still open.
       `BONUS_FEAT_SLOT_ABILITY_IDS` (`rules/feat_slots.py`) only tracks *how
       many* bonus feat slots a class grants — not *which* feats are legal
       for that slot. Today that's invisible because Kämpfer is the only
@@ -629,13 +632,42 @@ Cheapest slice — proves the whole pattern before harder ones.
       catalog has since grown to 325 feats across 8 real `type` tags
       (`combat: 149, general: 141, metamagic: 9, kritischer_treffer: 8,
       item_creation: 8, kampfkunst: 7, questtalente: 2, teamwork: 1`) via
-      `build_feats_seed.py`. Magier's Bonustalent still needs a
-      "Zaubermeisterschaft" (Spell Mastery) feat added as a named exception
-      (real rule: metamagic or item-creation type, *or* that one specific
-      feat) and Hexenmeister's ~80 named bloodline talents referenced in its
-      ability descriptions still need adding as real `BaseFeat` rows before
-      §1 can be seeded for those two classes — but the mechanism itself is
-      no longer blocked.
+      `build_feats_seed.py`. Both further prerequisites named above turned
+      out to already be resolved by existing data, not new work: Magier's
+      named exception ("Zaubermeisterschaft"/Spell Mastery) was already a
+      seeded feat, and Hexenmeister's ~80 named bloodline talents — assumed
+      missing here, based on the catalog's size *before* `build_feats_seed.py`
+      ran — all 80 references in `scripts/import_hexenmeister_bloodlines.py`'s
+      output (`app/fixtures/imported/hexenmeister_bloodline_bonus_feats.json`)
+      resolve by name against the current 325-feat catalog with zero gaps.
+      Both are seeded now (see status below).
+
+      **Status (seeded):** §1 for Kämpfer/Magier/Hexenmeister, §2's Trick/
+      Verbesserte-Tricks catalog (23 tricks) plus its feat-granting members
+      (Kampfkniff/Schurkenfinesse/Waffentraining-trick, and "Talent"'s
+      unrestricted choice via one row per known `feat_type`), and §3 for
+      Höhere/Niedere Magie are all real rows now (`base_class_ability_feat_options.json`/
+      `base_class_ability_spell_options.json`, seeded by the new
+      `app.seed.class_ability_option_seed`). Verified end-to-end
+      (`test_feat_slots.py`, plus `test_character_sheet.py`'s
+      `test_class_features_include_picked_trick_via_option_group` — picking
+      "Aufspringen" via `options: {"trick": [...]}` surfaces it in
+      `classFeatures` with **zero changes to `sheet.py`**, confirming §2's
+      core design bet that a repeated-pick group needs nothing beyond what
+      domain/bloodline/school already exercise).
+
+      **Still open:** §1 for **Waldläufer's Kampfstiltalent** — unlike
+      Hexenmeister's bloodline talents, there is no pre-resolved import for
+      this; the per-combat-style feat lists (Bogenschütze/Zweiwaffenkampf)
+      only exist as prose on Waldläufer's own class page, which hasn't been
+      fetched in any session, and there's no `combat_style` option group for
+      Waldläufer yet either (only `enemy`/`terrain` exist) — needs both
+      before §1 can be seeded there. §4 (`BaseClassSpellGrant`, Hexenmeister's
+      actual fixed Zauber des Blutes) also has no seed data yet — the
+      per-bloodline-per-level spell assignments weren't part of any prior
+      import and need fresh sourcing. Phases 5–6 (validation/enforcement,
+      frontend) remain entirely unbuilt — these rows are real but nothing
+      reads them yet at creation or level-up time.
 
       ### 1. Feat pools — `BaseClassAbilityFeatOption`
       One new join table, pure composition (no `HANDLERS`-style code):
@@ -792,21 +824,26 @@ Cheapest slice — proves the whole pattern before harder ones.
       that lands.
 
       Phased:
-      1. `BaseClassAbilityFeatOption` + `BaseClassAbilitySpellOption` +
-         `BaseClassSpellGrant` models/migration; `CharacterClassOption`
-         gains `level_id`/`grant_id`/`choice_id`; `BaseItem` gains
-         `weapon_group`. Pure schema, no seed data yet.
-      2. Feat catalog fill-in: Magier's metamagic/item-creation feats plus
-         "Zaubermeisterschaft", Hexenmeister's ~80 named bloodline talents —
-         blocking prerequisite for seeding §1 on those two classes.
-      3. Seed `BaseClassAbilityFeatOption` for Kämpfer/Magier/Hexenmeister/
-         Waldläufer (once Waldläufer gets a `combat_style` option group —
-         it only has `enemy`/`terrain` today); retire
-         `BONUS_FEAT_SLOT_ABILITY_IDS`.
-      4. Seed Schurke's Trick/Verbesserte Tricks as `BaseClassOptionGroup`/
-         `Choice` rows plus their `BaseClassAbility`/`Grant` pairs (§2), and
-         Höhere/Niedere Magie via §3.
-      5. Backend: extend creation's feat validation to check aggregate
+      1. [x] `BaseClassAbilityFeatOption` + `BaseClassAbilitySpellOption` +
+         `BaseClassSpellGrant` models/migration (`a92f912d53bf`);
+         `CharacterClassOption` gains `level_id`/`grant_id`/`choice_id`
+         (the latter now actually populated at creation time, see
+         `routers/characters.py`); `BaseItem` gains `weapon_group`.
+      2. [x] Feat catalog fill-in — turned out to be a no-op: both
+         "Zaubermeisterschaft" and all ~80 named bloodline talents already
+         existed in the 325-feat catalog (see the resolved-prerequisite
+         note above); nothing to add.
+      3. [x] for Kämpfer/Magier/Hexenmeister — `BaseClassAbilityFeatOption`
+         seeded (94 rows total including §2's feat-granting tricks); see
+         `class_ability_option_seed.py`. **Not done for Waldläufer** (needs
+         a `combat_style` option group first, see "Still open" above).
+         `BONUS_FEAT_SLOT_ABILITY_IDS` **not yet retired** — still the only
+         mechanism `rules/feat_slots.py` actually reads; phase 5 is what
+         would replace it.
+      4. [x] Schurke's Trick/Verbesserte Tricks (`BaseClassOptionGroup`/
+         `Choice` rows plus `BaseClassAbility`/`Grant` pairs, §2) and
+         Höhere/Niedere Magie (§3) are seeded.
+      5. [ ] Backend: extend creation's feat validation to check aggregate
          eligibility counts, not just the total; expose resolved eligibility
          (per-character for Hexenmeister, since it depends on the chosen
          bloodline — same resolution shape as `_build_class_features`'s

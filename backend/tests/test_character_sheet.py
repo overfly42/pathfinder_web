@@ -222,6 +222,40 @@ def test_class_features_apply_archetype_replacements(client: TestClient, db_sess
     assert {"Umgang mit Waffen und Rüstungen", "Tapferkeit", "Bonus-Kampftalent"} <= feature_names
 
 
+def test_class_features_include_picked_trick_via_option_group(client: TestClient, db_session: Session) -> None:
+    """Schurke's Trick is modeled as just another `BaseClassOptionGroup`
+    (roadmap.md's "pick from a restricted list" plan, §2) rather than a
+    dedicated pool mechanism — the design bet was that this needs zero
+    changes to `_build_class_features`, since a picked trick is only a
+    `CharacterClassOption` row plus an `option_choice_id`-gated grant, same
+    as a Kleriker domain. This is the test that actually proves that bet:
+    picking "Aufspringen" at 2nd level should surface it in classFeatures
+    exactly like a domain power does, with no sheet.py changes involved."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Schurke", "level": 2, "options": {"trick": ["Aufspringen"]}}],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    feature_names = {f["name"] for f in body["classFeatures"]}
+
+    assert "Aufspringen" in feature_names
+    # A trick never picked shouldn't appear just because it exists in the pool.
+    assert "Blutende Wunde" not in feature_names
+    # Fixed, ungated 1st/2nd-level features are unaffected.
+    assert {"Fallen finden", "Hinterhältiger Angriff", "Entrinnen"} <= feature_names
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

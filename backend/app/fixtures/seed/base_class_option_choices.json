@@ -418,5 +418,120 @@
     "id": "2b0b14c7-ada4-4106-aad5-396e601f4801",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
     "name": "Schicksalhafte Blutlinie"
+  },
+  {
+    "id": "67979205-d240-52f5-afbe-2a0df8cae404",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Aufspringen"
+  },
+  {
+    "id": "569bbdf8-fbd4-5e98-8644-aa2b4ca34b28",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Blutende Wunde"
+  },
+  {
+    "id": "e3eaa9a9-a58b-52e5-a899-eef06a4338bc",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Hochseilartist"
+  },
+  {
+    "id": "d08d3ee4-b358-5f71-a2f0-edb447cb8fc9",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Höhere Magie"
+  },
+  {
+    "id": "8c3e0cf0-942f-5e17-b34d-300546ff2ce9",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Kampfkniff"
+  },
+  {
+    "id": "b178e67a-71b7-50f0-9b05-d6fe6f685da5",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Niedere Magie"
+  },
+  {
+    "id": "dda2d068-0075-5f94-904f-9a871a1e6ad9",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Reaktionen verlangsamen"
+  },
+  {
+    "id": "e669442a-03c6-56b0-9e2a-72da3a0b9906",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Schnelles Entschärfen"
+  },
+  {
+    "id": "94a4befd-8fd1-5f73-b1ee-c793662496a7",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Schnelle Heimlichkeit"
+  },
+  {
+    "id": "3cd9b89a-d106-5e01-876f-46c3fb2b0ea6",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Schnelles Kriechen"
+  },
+  {
+    "id": "805013a8-ccdd-546f-bbfb-2faa98a4b1d8",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Schurkenfinesse"
+  },
+  {
+    "id": "225c74e0-58f0-51c9-a802-5a73ff80a2ee",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Spürnase"
+  },
+  {
+    "id": "bdca482b-7db0-5c86-a8d5-6e52a137441e",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Überraschungsangriff"
+  },
+  {
+    "id": "38dd0152-9a86-5e74-95d0-2bb9490a91db",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Waffentraining"
+  },
+  {
+    "id": "772ec890-b893-549e-8670-c07b97f1d369",
+    "group_id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
+    "name": "Widerstandsfähigkeit"
+  },
+  {
+    "id": "faea2378-7b2d-52df-818b-b056bcc3ca43",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Ausweichrolle"
+  },
+  {
+    "id": "8c0001bf-8f34-5349-b758-df3971e0db1f",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Bannschlag"
+  },
+  {
+    "id": "4bdc9d05-3165-54a9-84fa-1fc942535690",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Entschlüpfender Geist"
+  },
+  {
+    "id": "f223e228-3158-5181-91ae-9c9315edd8b8",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Gelegenheit ausnutzen"
+  },
+  {
+    "id": "43b110a0-bbf8-59fb-8448-86f355f4402b",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Fertigkeitsmeisterschaft"
+  },
+  {
+    "id": "53b8f809-f539-50a4-9c4d-72ce68da85e5",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Schwächender Schlag"
+  },
+  {
+    "id": "77de0776-6438-58b2-b8c5-4e00fd10536a",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Talent"
+  },
+  {
+    "id": "64153076-322a-59e3-8b79-27528f69793c",
+    "group_id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
+    "name": "Verbessertes Entrinnen"
   }
 ]

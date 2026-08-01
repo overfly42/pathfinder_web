@@ -389,6 +389,47 @@ Slice-Arbeit.
         `classes.json` wurden nicht gegen eine Quelle geprüft. Die drei
         `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
         (gleiches Vorgehen wie bei Magier/Hexenmeister).
+  - [x] **Nachtrag 2026-08-01: Schurke-Trick-Katalog sowie Kämpfer-/Magier-/
+        Hexenmeister-Talentpools nachgeholt.** Der oben als „weiterhin nicht
+        modelliert" markierte Trick-Katalog (siehe auch `roadmap.md`s „Pick
+        from a restricted list"-Plan) ist jetzt vollständig hinterlegt: alle
+        23 Tricks (15 Basis-/8 Verbesserte Tricks) als eigene
+        `BaseClassOptionGroup`/`Choice`-Paare (`trick`/`trick_advanced`,
+        analog zu Domänen/Blutlinie/Schule, nicht als separates
+        Pool-Schema — siehe `roadmap.md` für die Designentscheidung) plus
+        `BaseClassAbility`/`Grant`-Zeilen für den Beschreibungstext.
+        Kampfkniff/Schurkenfinesse/Waffentraining-Trick sind zusätzlich über
+        die neue `BaseClassAbilityFeatOption`-Tabelle an die
+        Talent-Kataloge gekoppelt (Kampfkniff: beliebiges Kampftalent;
+        Schurkenfinesse/Waffentraining: fest Waffenfinesse/Waffenfokus),
+        Höhere/Niedere Magie über `BaseClassAbilitySpellOption` an
+        Magier/Hexenmeisters Zaubertrick-/Grad-1-Listen. Gleichzeitig auch
+        Kämpfers Bonus-Kampftalent (bisher ungefiltert wählbar trotz
+        „nur Kampftalente"-Regel) und Magiers Bonustalent
+        (Metamagie/Gegenstandserschaffung/Zaubermeisterschaft) auf dieselbe
+        Art verdrahtet. Hexenmeisters Talent des Blutes ebenfalls: die
+        ursprüngliche Annahme, dass dafür ~80 neue Talente fehlen, war
+        veraltet (Stand vor `build_feats_seed.py`s Erweiterung auf 325
+        Talente) — alle 80 Referenzen aus dem bereits vorhandenen
+        `hexenmeister_bloodline_bonus_feats.json`-Import lösen sich
+        namensbasiert gegen den aktuellen Katalog auf, ohne dass ein
+        einziges Talent neu angelegt werden musste. **Weiterhin offen:**
+        Waldläufers Kampfstiltalent (keine vorbereitete Quelle wie bei
+        Hexenmeister — die stilspezifischen Talentlisten stehen nur als
+        Fließtext auf der Waldläufer-Klassenseite, noch nicht abgerufen;
+        außerdem fehlt Waldläufer noch eine `combat_style`-Options-Gruppe,
+        bisher nur `enemy`/`terrain`); Hexenmeisters tatsächliche
+        (deterministische) Zauber-des-Blutes-Zauber pro Blutlinie/Stufe
+        (neue Tabelle `BaseClassSpellGrant` existiert, aber ungefüllt —
+        die konkrete Zauberzuordnung wurde in keinem bisherigen Import
+        erfasst); sowie jegliche Durchsetzung dieser Pools bei
+        Charaktererstellung/Stufenaufstieg (die Daten sind vorhanden, aber
+        noch von keinem Endpunkt ausgewertet — siehe `roadmap.md` Phasen
+        5–6). End-to-end verifiziert, dass ein gewählter Trick ohne jede
+        Änderung an `sheet.py` in `classFeatures` auftaucht (genau wie eine
+        Domänen-/Blutlinien-/Schulwahl) — bestätigt die Designentscheidung,
+        Trick über die bestehende Options-Gruppen-Maschinerie zu
+        modellieren statt über ein neues Pool-Schema.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
