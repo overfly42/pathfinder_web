@@ -354,6 +354,41 @@ Slice-Arbeit.
         mutmaßlich echte Archetypen mit einer Blutlinienwahl und gehört auf
         die separate Archetypen-Quellenseite, nicht auf die hier bearbeitete
         Basisklassenseite.
+  - [x] **Schurke** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Schurke>):
+        Trefferwürfel (W8)/GAB (3/4)/Rettungswürfe (nur Reflex gut)/
+        Fertigkeitspunkte (8 + IN)/kein Zauberwirker (`spellType: none`)
+        waren bereits korrekt. Klassenfertigkeiten waren falsch: „Mit Tieren
+        umgehen" ist laut Quelle **keine** Schurken-Klassenfertigkeit und
+        wurde entfernt; es fehlten Beruf, Schätzen, Schwimmen und Wissen
+        (Gewölbekunde) (ergänzt, alle vier gab es bereits im gemeinsamen
+        `base_skills.json`-Katalog). Alle 10 Klassenmerkmale der Quelle als
+        `BaseClassAbility`/`BaseClassAbilityGrant`-Zeilen ergänzt, gleiche
+        Tiefe wie bei Kämpfer/Waldläufer/Magier/Hexenmeister (keine
+        Berechnungslogik, nur Fähigkeit samt Beschreibungstext, aber
+        stufenkorrekt gegated und mit der Quelltabelle abgeglichen): Umgang
+        mit Waffen und Rüstungen (Stufe 1), Hinterhältiger Angriff (10× auf
+        jeder ungeraden Stufe 1–19, wächst um 1W6), Fallen finden (Stufe 1),
+        Entrinnen (Stufe 2), Trick (10× auf jeder geraden Stufe 2–20),
+        Fallengespür (6× auf Stufe 3/6/9/12/15/18), Reflexbewegung (Stufe 4),
+        Verbesserte Reflexbewegung (Stufe 8), Verbesserte Tricks (Stufe 10)
+        und Meisterhafter Angriff (Stufe 20) — 33 Grants insgesamt.
+        **Weiterhin nicht** modelliert: der eigentliche Trick-Katalog (die
+        Quelle listet 15 einfache Tricks wie Blutende Wunde, Höhere/Niedere
+        Magie, Kampfkniff, Schurkenfinesse, Waffentraining, Widerstands­
+        fähigkeit sowie 8 Verbesserte Tricks wie Ausweichrolle, Bannschlag,
+        Fertigkeitsmeisterschaft, Verbessertes Entrinnen) — „Trick"/„Verbesserte
+        Tricks" sind nur als Auswahl-Slot hinterlegt, analog zu Kämpfers
+        Bonustalent, Waldläufers Kampfstiltalent und Magiers Bonustalent, bei
+        denen aus demselben Grund (freie Wahl aus einer eingeschränkten
+        Liste statt eines festen Ergebnisses pro Stufe) ebenfalls kein
+        Katalog der Wahlmöglichkeiten hinterlegt ist. Anders als bei
+        Hexenmeisters Blutlinien (feste, choice-gated Fähigkeitsfolge pro
+        Blutlinie) lässt sich das hier nicht ohne ein neues Schema für
+        wiederholte freie Talentwahl lösen — größerer Scope als diese
+        Korrektur. Die zwei Archetypen (`Meucheldieb`, `Klingentänzer`) in
+        `classes.json` wurden nicht gegen eine Quelle geprüft. Die drei
+        `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
+        (gleiches Vorgehen wie bei Magier/Hexenmeister).
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -364,7 +399,7 @@ Slice-Arbeit.
         | Waldläufer | 18 (bereits korrigiert, siehe oben) |
         | Magier | 18 (bereits korrigiert, siehe oben) |
         | Hexenmeister | 8 (bereits korrigiert, siehe oben) |
-        | Schurke | 5 |
+        | Schurke | 5 (bereits korrigiert, siehe oben) |
         | Orakel | 3 |
         | Kleriker | 3 |
         | Barde | 1 |
@@ -375,20 +410,19 @@ Slice-Arbeit.
         Barde/Orakel; Options-Gruppen (Domänen/Mysterien/Bindungen) für
         Druide/Kleriker/Orakel/Waldläufer.
 
-        **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer, Magier und
-        Hexenmeister sind erledigt (siehe oben) und decken zusammen bereits
-        ~90 % der Testerwähnungen sowie die wichtigsten mechanischen Achsen
-        ab (volles GAB mit Bonustalenten, volles GAB als Teilzeit-
-        Zauberwirker divine-spontan, halbes GAB arkan-vorbereitet, halbes GAB
-        arkan-spontan). Als Nächstes Kleriker (einzige vorbereitete
-        Divine-Klasse mit Domänen) und Schurke
-        (fertigkeiten-/talentbasiert, keine Zauber — Kontrast zu Kämpfers
-        talentbasiertem Nicht-Zauberwirker-Profil), um die Abdeckung
-        abzurunden, ohne eine bereits abgedeckte Mechanik zu duplizieren.
-        Barbar/Druide/Mönch/Paladin haben aktuell keine Testabdeckung und
-        sind — analog zu Zwerg/Gnom/Halbelf bei den Rassen — gute
-        Kandidaten, um sie beim nächsten Aufräumdurchgang als ungeprüftes
-        Platzhaltermaterial zu entfernen, statt sie einzeln zu verifizieren.
+        **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer, Magier,
+        Hexenmeister und Schurke sind erledigt (siehe oben) und decken
+        zusammen bereits ~95 % der Testerwähnungen sowie die wichtigsten
+        mechanischen Achsen ab (volles GAB mit Bonustalenten, volles GAB als
+        Teilzeit-Zauberwirker divine-spontan, halbes GAB arkan-vorbereitet,
+        halbes GAB arkan-spontan, 3/4 GAB fertigkeitsbasiert ohne Zauber).
+        Als Nächstes Kleriker (einzige vorbereitete Divine-Klasse mit
+        Domänen), um die Abdeckung abzurunden, ohne eine bereits abgedeckte
+        Mechanik zu duplizieren. Barbar/Druide/Mönch/Paladin haben aktuell
+        keine Testabdeckung und sind — analog zu Zwerg/Gnom/Halbelf bei den
+        Rassen — gute Kandidaten, um sie beim nächsten Aufräumdurchgang als
+        ungeprüftes Platzhaltermaterial zu entfernen, statt sie einzeln zu
+        verifizieren.
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
     - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,

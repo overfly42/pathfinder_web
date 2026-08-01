@@ -520,11 +520,6 @@
     "skill_id": "7446d67a-7bc2-4455-877b-591500769be2"
   },
   {
-    "id": "4b401dc9-3f08-4725-92a6-69e9beff56fb",
-    "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
-    "skill_id": "2e44f1b6-401d-4aab-b185-2e06f4e7eba8"
-  },
-  {
     "id": "6bb82713-b3cc-4f43-8cfe-8bc3d8f33be3",
     "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b"
@@ -533,6 +528,26 @@
     "id": "c54f47ce-81e5-47ca-aa19-710f52366c57",
     "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9"
+  },
+  {
+    "id": "10acdca5-8e2c-4622-a8bf-48cefd29a154",
+    "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6"
+  },
+  {
+    "id": "766de4e3-cdee-4aef-996c-b15555b3da7c",
+    "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "skill_id": "791a87d6-c13a-4f44-bde4-fb39a46a462b"
+  },
+  {
+    "id": "2c255533-d202-4b50-861f-5963f792b12f",
+    "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "skill_id": "e5fa3283-96aa-49ee-8836-ba3062bae32d"
+  },
+  {
+    "id": "b0e87368-67e9-4e14-8f82-78346f720125",
+    "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
+    "skill_id": "960179c4-5aed-4352-8b84-bd78a8c3a10e"
   },
   {
     "id": "d5edb936-d40c-417b-8fad-ac01850d4ff0",

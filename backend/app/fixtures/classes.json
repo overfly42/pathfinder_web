@@ -332,15 +332,18 @@
       "einschuechtern",
       "fingerfertigkeit",
       "wissen_lokal",
+      "wissen_gewoelbekunde",
       "linguistik",
       "wahrnehmung",
       "motiv_erkennen",
       "falle_entschaerfen",
       "heimlichkeit",
       "umd",
-      "tierumgang",
       "handwerk",
-      "auftreten"
+      "auftreten",
+      "beruf",
+      "schaetzen",
+      "schwimmen"
     ],
     "optionGroups": []
   },

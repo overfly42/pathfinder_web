@@ -648,5 +648,55 @@
     "id": "fe557930-7026-4e9c-ad74-4655be7586f9",
     "name": "Höllenmacht",
     "description": "Ab der 20. Stufe ist der Hexenmeister immun gegen Feuer und Gift. Außerdem erhält er eine Resistenz gegen Säure und Kälte von 10 und kann perfekt in jeder Form von Dunkelheit bis zu einer Reichweite von 18 m sehen."
+  },
+  {
+    "id": "212dcbc9-ec1d-4c48-9772-80ed55dc0ac5",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Der Schurke ist im Umgang mit allen einfachen Waffen, der Handarmbrust, dem Rapier, dem Totschläger, dem Kurzbogen und dem Kurzschwert geübt. Er ist außerdem im Umgang mit leichten Rüstungen geübt, nicht aber mit Schilden."
+  },
+  {
+    "id": "6af469fd-0127-46bc-a533-3456f15812b2",
+    "name": "Hinterhältiger Angriff",
+    "description": "Wenn der Schurke einen Gegner angreift, der seinen Geschicklichkeitsbonus auf die Rüstungsklasse verliert, oder ihn in die Zange nimmt, verursacht er zusätzlichen Schaden. Auf der 1. Stufe beträgt dieser 1W6 und erhöht sich alle zwei weiteren Stufen um 1W6 (bis 10W6 auf der 19. Stufe). Der zusätzliche Schaden wird bei einem kritischen Treffer nicht multipliziert, Fernkampfangriffe zählen nur innerhalb von 9 m als Hinterhältiger Angriff, und ein Ziel mit Tarnung kann so nicht getroffen werden."
+  },
+  {
+    "id": "f90bb9fc-519e-4412-b1c7-14931458a8af",
+    "name": "Fallen finden",
+    "description": "Der Schurke addiert die halbe Schurkenstufe zu Fertigkeitswürfen in Wahrnehmung, um Fallen zu finden, und in Mechanismus ausschalten (Minimum +1), und kann Mechanismus ausschalten auch zum Entschärfen magischer Fallen einsetzen."
+  },
+  {
+    "id": "f905bfbc-1715-45d7-bc35-1e3ddcdbf481",
+    "name": "Entrinnen",
+    "description": "Ab der 2. Stufe erleidet der Schurke bei einem erfolgreichen Reflexwurf gegen einen Angriff, der normalerweise halben Schaden verursacht, gar keinen Schaden. Entrinnen funktioniert nur, wenn der Schurke eine leichte oder keine Rüstung trägt und nicht hilflos ist."
+  },
+  {
+    "id": "e60909e7-128a-41d4-88cb-a14163c44257",
+    "name": "Trick",
+    "description": "Ab der 2. Stufe und danach für jeweils zwei weitere Stufen wählt der Schurke einen Trick aus einer festgelegten Liste (u. a. Aufspringen, Blutende Wunde, Hochseilartist, Höhere/Niedere Magie, Kampfkniff, Reaktionen verlangsamen, Schnelles Entschärfen, Schnelle Heimlichkeit, Schnelles Kriechen, Schurkenfinesse, Spürnase, Überraschungsangriff, Waffentraining, Widerstandsfähigkeit); ab der 10. Stufe kann er stattdessen einen Verbesserten Trick wählen (siehe Verbesserte Tricks). Der gleiche Trick kann nicht mehrfach gewählt werden."
+  },
+  {
+    "id": "fc5eaa0d-5a13-45f3-85f2-1537ffdb4118",
+    "name": "Fallengespür",
+    "description": "Ab der 3. Stufe erhält der Schurke einen Bonus von +1 auf Reflexwürfe gegen Fallen und einen Ausweichbonus von +1 auf die RK gegen Angriffe von Fallen. Der Bonus erhöht sich um +1 auf der 6., 9., 12., 15. und 18. Stufe (bis +6). Boni für Fallengespür aus verschiedenen Klassen addieren sich."
+  },
+  {
+    "id": "31f1bd12-7b8e-4de2-ba9c-064090ed4f79",
+    "name": "Reflexbewegung",
+    "description": "Ab der 4. Stufe kann der Schurke nicht mehr auf dem falschen Fuß erwischt werden und verliert seinen Geschicklichkeitsbonus auf die RK nicht mehr, wenn der Angreifer unsichtbar ist; gegen Bewegungsunfähigkeit oder eine erfolgreiche Finte verliert er den Bonus weiterhin."
+  },
+  {
+    "id": "84e458a2-6d43-4e3e-80e9-5bfc4e5de244",
+    "name": "Verbesserte Reflexbewegung",
+    "description": "Ab der 8. Stufe kann der Schurke nicht mehr in die Zange genommen werden, es sei denn, der in die Zange nehmende Gegner hat mindestens vier Schurkenstufen mehr als er. Besitzt der Schurke Reflexbewegung aus mehreren Klassen, addieren sich deren Stufen für diese Berechnung."
+  },
+  {
+    "id": "6d84a2b9-dc40-405a-aede-fbfc19089dc3",
+    "name": "Verbesserte Tricks",
+    "description": "Ab der 10. Stufe kann der Schurke bei jeder Trick-Wahl einen Verbesserten Trick anstelle eines normalen Tricks lernen (u. a. Ausweichrolle, Bannschlag, Entschlüpfender Geist, Fertigkeitsmeisterschaft, Gelegenheit ausnutzen, Schwächender Schlag, Talent, Verbessertes Entrinnen)."
+  },
+  {
+    "id": "75814b17-afdb-4cc8-9c34-2e1575e50024",
+    "name": "Meisterhafter Angriff",
+    "description": "Auf der 20. Stufe kann der Schurke bei einem erfolgreichen Hinterhältigen Angriff sein Ziel wahlweise für 1W4 Stunden einschläfern, für 2W6 Runden lähmen oder töten; das Ziel erhält einen Zähigkeitswurf (SG 10 + ½ Schurkenstufe + IN-Modifikator des Schurken), um dem Effekt zu entgehen, ist danach aber für 24 Stunden gegen weitere Meisterhafte Angriffe dieses Schurken immun. Kreaturen, die gegen Hinterhältige Angriffe immun sind, können nicht von einem Meisterhaften Angriff betroffen werden."
   }
 ]
