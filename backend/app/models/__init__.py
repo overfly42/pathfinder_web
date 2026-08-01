@@ -2,8 +2,10 @@ from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import (
     BaseClass,
     BaseClassAbility,
+    BaseClassAbilityFeatOption,
     BaseClassAbilityGrant,
     BaseClassAbilityReplacement,
+    BaseClassAbilitySpellOption,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
 )
@@ -30,7 +32,14 @@ from .feat import (
 from .item import BaseItem
 from .race import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from .skill import BaseClassSkill, BaseSkill
-from .spell import BaseClassSpell, BaseClassSpellsKnown, BaseSpell, BaseSpellComponent, CharacterSpell
+from .spell import (
+    BaseClassSpell,
+    BaseClassSpellGrant,
+    BaseClassSpellsKnown,
+    BaseSpell,
+    BaseSpellComponent,
+    CharacterSpell,
+)
 from .trait import BaseTrait, CharacterTrait
 from .user import User
 
@@ -47,6 +56,8 @@ __all__ = [
     "BaseClassAbility",
     "BaseClassAbilityGrant",
     "BaseClassAbilityReplacement",
+    "BaseClassAbilityFeatOption",
+    "BaseClassAbilitySpellOption",
     "BaseClassOptionGroup",
     "BaseClassOptionChoice",
     "BaseSkill",
@@ -65,6 +76,7 @@ __all__ = [
     "BaseSpell",
     "BaseSpellComponent",
     "BaseClassSpell",
+    "BaseClassSpellGrant",
     "BaseClassSpellsKnown",
     "CharacterSpell",
     "BaseItem",

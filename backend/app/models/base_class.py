@@ -150,12 +150,27 @@ class BaseClassAbilityReplacement(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 
 class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
-    """A selectable option group a class offers at creation (Cleric's
-    `domain`, Sorcerer's `bloodline`, Wizard's `school`, Oracle's `mystery`/
-    `curse`, Ranger's `enemy`/`terrain`, ...) — replaces the `key`/`label`/
-    `max` fields of `classes.json`'s `optionGroups` array. `base_class_id` is
-    always a root class's id, same simplification as `BaseClassSkill`/
-    `BaseClassAbilityGrant` (no archetype adds/swaps an option group yet)."""
+    """A selectable option group a class offers (Cleric's `domain`,
+    Sorcerer's `bloodline`, Wizard's `school`, Oracle's `mystery`/`curse`,
+    Ranger's `enemy`/`terrain`, Rogue's `trick`, ...) — replaces the
+    `key`/`label`/`max` fields of `classes.json`'s `optionGroups` array.
+    `base_class_id` is always a root class's id, same simplification as
+    `BaseClassSkill`/`BaseClassAbilityGrant` (no archetype adds/swaps an
+    option group yet).
+
+    `max_choices` has two meanings depending on the group's shape, told
+    apart by whether its members are picked once or repeatedly:
+    - **One-time group** (domain/bloodline/school/enemy/terrain): pick up to
+      `max_choices` values, once, at character creation.
+      `CharacterClassOption.grant_id` stays null for these picks.
+    - **Repeated-pick group** (Rogue's `trick`): `max_choices` is the total
+      number of picks allowed across a character's whole career, one per
+      qualifying `BaseClassAbilityGrant` occurrence (e.g. Rogue's Trick is
+      granted at 10 different levels, so `max_choices = 10`) — each pick
+      records which specific grant occurrence it fills via
+      `CharacterClassOption.grant_id`, since eligibility can vary by
+      occurrence (Rogue's "Verbesserte Tricks" pool only opens up for grants
+      from level 10 onward)."""
 
     __tablename__ = "base_class_option_groups"
     __table_args__ = (UniqueConstraint("base_class_id", "key"),)
@@ -168,15 +183,82 @@ class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """One selectable value within a `BaseClassOptionGroup` (e.g. Cleric's
-    "Kriegsdomäne" within its `domain` group) — identity only, same caveat as
-    `BaseClassAbility`: no mechanical effect is modeled for any choice yet,
-    this only replaces the `choices` string array in `classes.json`.
-    `CharacterClassOption.choice` (`character.py`) still stores the pick as a
-    free string rather than an FK to this table — reconciling that is a
-    follow-up, not done here."""
+    "Kriegsdomäne" within its `domain` group, or — for a repeated-pick group
+    like Rogue's `trick` — one individual trick) — identity only, same
+    caveat as `BaseClassAbility`: no mechanical effect lives here, this only
+    replaces the `choices` string array in `classes.json`. A choice's actual
+    effect is a `BaseClassAbility`/`BaseClassAbilityGrant(option_choice_id=
+    this.id)` pair, same pattern regardless of group shape.
+    `CharacterClassOption.choice_id` (`character.py`) is the real FK to this
+    table; `CharacterClassOption.choice` (the free string) is kept alongside
+    it as a cheap display/debug mirror, not the source of truth anymore."""
 
     __tablename__ = "base_class_option_choices"
     __table_args__ = (UniqueConstraint("group_id", "name"),)
 
     group_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_option_groups.id"))
     name: Mapped[str] = mapped_column(String(255))
+
+
+class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One eligible pick for a bonus-feat-slot ability (Kämpfer's
+    Bonus-Kampftalent, Magier's Bonustalent, Hexenmeister's Talent des
+    Blutes, Waldläufer's Kampfstiltalent, or a feat-granting Schurke trick
+    like Kampfkniff/Schurkenfinesse) — a slot's full eligibility is the
+    union of its rows. Exactly one of `feat_type`/`feat_id` is set per row:
+    - `feat_type`: any `BaseFeat` with this type is eligible (broad
+      category — Kämpfer: "combat"; Magier: one row each for
+      "metamagic"/"item_creation").
+    - `feat_id`: this exact feat is eligible (closed list — Hexenmeister's
+      per-bloodline talent list; Magier's "Zaubermeisterschaft" exception;
+      Schurkenfinesse's/Waffentraining's single fixed feat, a closed list of
+      one — i.e. no real choice at all, just reusing this table rather than
+      a separate deterministic-grant concept).
+
+    `option_choice_id` (nullable) narrows the row to characters who picked
+    that `BaseClassOptionChoice`, same meaning as
+    `BaseClassAbilityGrant.option_choice_id` — lets "Talent des Blutes"
+    share one `ability_id` across 10 different eligible lists (one per
+    bloodline).
+
+    "Is this ability a feat slot" is `EXISTS(row WHERE ability_id = this
+    ability)` — retires the hand-frozen `BONUS_FEAT_SLOT_ABILITY_IDS` set in
+    `rules/feat_slots.py` once seeded, so a future class's bonus feat,
+    whatever shape its eligibility takes, is a pure data change."""
+
+    __tablename__ = "base_class_ability_feat_options"
+
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
+    feat_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    feat_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"), nullable=True)
+
+
+class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Sibling to `BaseClassAbilityFeatOption` for abilities that grant a
+    pick from a spell list instead of a feat (Schurke's Höhere/Niedere
+    Magie: pick a spell from the Hexenmeister/Magier list at a fixed grade).
+    Exactly one shape is set per row:
+    - `spell_id`: this exact spell is eligible (closed list).
+    - `source_class_id` + `source_grade`: any spell in that class's list
+      (`BaseClassSpell`) at that grade is eligible (broad filter — reuses
+      the existing class spell list as the source of truth instead of
+      enumerating every eligible spell by hand).
+
+    `option_choice_id` — same meaning as `BaseClassAbilityFeatOption`."""
+
+    __tablename__ = "base_class_ability_spell_options"
+
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
+    spell_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_spells.id"), nullable=True
+    )
+    source_class_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
+    )
+    source_grade: Mapped[int | None] = mapped_column(Integer, nullable=True)

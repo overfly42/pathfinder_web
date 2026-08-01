@@ -280,11 +280,36 @@ class CharacterSkillRank(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 class CharacterClassOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """A chosen value for one of a class's `optionGroups` (domain, bloodline,
-    mystery, arcane school, favored enemy/terrain, ...) from `classes.json`.
-    One row per chosen value — a group allowing multiple picks (e.g. domains,
-    max 2) is multiple rows sharing `group_key`. `base_class_id` is always the
-    root class's id (options apply to the class as a whole, same reasoning
-    as `CharacterClass.is_favored`)."""
+    mystery, arcane school, favored enemy/terrain, Rogue's trick, ...) from
+    `classes.json`. One row per chosen value — a group allowing multiple
+    picks (e.g. domains, max 2) is multiple rows sharing `group_key`.
+    `base_class_id` is always the root class's id (options apply to the
+    class as a whole, same reasoning as `CharacterClass.is_favored`).
+
+    `level_id` (FK `character_levels`) is the level this specific pick was
+    made at — same per-level audit shape as `CharacterFeat`/
+    `CharacterSkillRank`. For a one-time group (domain/bloodline/school/
+    enemy/terrain), creation-time picks collapse onto the highest
+    `CharacterLevel` row created in that request, same convention as
+    `CharacterSkillRank`. For a repeated-pick group (see
+    `BaseClassOptionGroup.max_choices`'s docstring), each pick's `level_id`
+    is whichever level-up granted it.
+
+    `grant_id` (FK `base_class_ability_grants`, nullable) is only set for a
+    repeated-pick group: which specific recurring grant occurrence (e.g.
+    *the level-12 Trick grant*, not just "a Trick pick") this choice fills —
+    needed because eligibility can depend on which occurrence it is (Rogue's
+    "Verbesserte Tricks" pool only opens up from level 10 onward, checked as
+    a direct `grant.level >= 10` join instead of inferring it from a running
+    count of prior picks). Null for one-time groups, which aren't tied to
+    any single grant occurrence.
+
+    `choice_id` (FK `base_class_option_choices`, nullable) is the real
+    reference to the picked option — resolved and stored at write time,
+    since `_validate_options` (`routers/characters.py`) already guarantees
+    every stored `choice` string matches a real `BaseClassOptionChoice.name`
+    in that group before the row is created. `choice` (the free string)
+    stays as a cheap display/debug mirror, not the source of truth."""
 
     __tablename__ = "character_class_options"
 
@@ -292,6 +317,24 @@ class CharacterClassOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     group_key: Mapped[str] = mapped_column(String(64))
     choice: Mapped[str] = mapped_column(String(255))
+    level_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("character_levels.id"), nullable=True
+    )
+    grant_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_ability_grants.id"), nullable=True
+    )
+    choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
+
+    # Plain many-to-one, no back_populates/cascade — exists so a caller can
+    # assign `level=some_level_row` instead of `level_id=some_level_row.id`.
+    # The latter reads `None` when `some_level_row` hasn't been flushed yet
+    # (its id is a client-side `uuid.uuid4` default, not applied until
+    # flush); assigning the relationship lets SQLAlchemy resolve the FK from
+    # object identity at flush time instead, same as `last_level_row.feats
+    # .append(CharacterFeat(...))` already relies on for `level_id` there.
+    level: Mapped["CharacterLevel | None"] = relationship()
 
 
 class CharacterClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):

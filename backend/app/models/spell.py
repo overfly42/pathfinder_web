@@ -86,6 +86,32 @@ class BaseClassSpellsKnown(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     count: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
+class BaseClassSpellGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A fixed, level-gated bonus spell a class (or one of its
+    `BaseClassOptionChoice`s) grants automatically — no player choice
+    involved, unlike `BaseClassAbilitySpellOption` (`base_class.py`).
+    Concretely: Hexenmeister's "Zauber des Blutes" (each bloodline grants
+    one specific spell at each of a fixed set of odd levels). Same shape as
+    `BaseClassAbilityGrant` but for a spell instead of an ability — a
+    character gaining this just gets an ordinary `CharacterSpell` row
+    auto-inserted at the matching level, nothing new needed on that side.
+
+    `option_choice_id` is null for a class-wide fixed spell (no class
+    currently needs that shape, but the column matches
+    `BaseClassAbilityGrant`'s optionality for consistency) and set for the
+    bloodline/domain/etc. that grants this specific spell at this level."""
+
+    __tablename__ = "base_class_spell_grants"
+    __table_args__ = (UniqueConstraint("base_class_id", "option_choice_id", "spell_id", "level"),)
+
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
+    spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
+    level: Mapped[int] = mapped_column(Integer)
+
+
 class CharacterSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """A spell known/in the spellbook, granted at one specific
     `CharacterLevel` — same per-level audit shape as `CharacterFeat`/

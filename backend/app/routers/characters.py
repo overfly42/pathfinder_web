@@ -362,8 +362,23 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             character.levels.append(last_level_row)
         for group_key, choices in selection.options.items():
             for choice in choices:
+                choice_row = db.scalar(
+                    select(BaseClassOptionChoice)
+                    .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+                    .where(
+                        BaseClassOptionGroup.base_class_id == root.id,
+                        BaseClassOptionGroup.key == group_key,
+                        BaseClassOptionChoice.name == choice,
+                    )
+                )
                 character.class_options.append(
-                    CharacterClassOption(base_class_id=root.id, group_key=group_key, choice=choice)
+                    CharacterClassOption(
+                        base_class_id=root.id,
+                        group_key=group_key,
+                        choice=choice,
+                        choice_id=choice_row.id if choice_row is not None else None,
+                        level=last_level_row,
+                    )
                 )
 
         if root.id not in seen_root_ids:

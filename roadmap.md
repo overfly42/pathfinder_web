@@ -589,34 +589,56 @@ Cheapest slice — proves the whole pattern before harder ones.
       bonus system. Scope this once slice 5 (Effects) has landed, since
       several of these abilities are duration/use-limited in the same way
       active effects are — not a slice-3 concern to retrofit now.
-- [ ] **Bonus-feat slot eligibility (generalize past Kämpfer's hardcoded
-      "combat" filter).** `BONUS_FEAT_SLOT_ABILITY_IDS` (`rules/feat_slots.py`)
-      only tracks *how many* bonus feat slots a class grants — not *which*
-      feats are legal for that slot. Today that's invisible because Kämpfer
-      is the only class tagged, and its slot happens to always mean "any
-      combat feat": `LevelFeatStep.tsx`'s bonus-feat picker hardcodes
-      `f.type === 'combat'`, and — found while scoping Magier's/
-      Hexenmeister's periodic bonus feats (`todos.md`) — **creation-time
-      picking has no restriction at all, for any class**: `_feat_max`
-      (`routers/characters.py`) and `featMax`/`FeatsStep.tsx` only ever check
-      a raw count, so a 1st-level Kämpfer can currently spend their
-      Bonus-Kampftalent on any feat in the catalog, not just a combat one.
+- [ ] **"Pick from a restricted list" unification (generalizes past
+      Kämpfer's hardcoded "combat" filter) — feat pools, ability pools,
+      spell pools, and deterministic per-choice spell grants.**
+      `BONUS_FEAT_SLOT_ABILITY_IDS` (`rules/feat_slots.py`) only tracks *how
+      many* bonus feat slots a class grants — not *which* feats are legal
+      for that slot. Today that's invisible because Kämpfer is the only
+      class tagged, and its slot happens to always mean "any combat feat":
+      `LevelFeatStep.tsx`'s bonus-feat picker hardcodes `f.type === 'combat'`,
+      and — found while scoping Magier's/Hexenmeister's periodic bonus feats
+      (`todos.md`) — **creation-time picking has no restriction at all, for
+      any class**: `_feat_max` (`routers/characters.py`) and
+      `featMax`/`FeatsStep.tsx` only ever check a raw count, so a 1st-level
+      Kämpfer can currently spend their Bonus-Kampftalent on any feat in the
+      catalog, not just a combat one.
+
+      Comparing every "pick from a list" class feature across the classes
+      done so far (Kämpfer/Waldläufer/Magier/Hexenmeister/Schurke — see
+      `todos.md`) shows this isn't one gap but four different shapes,
+      depending on what's actually being picked:
+
+      | Class feature | Picks from | Mechanism |
+      |---|---|---|
+      | Kämpfer Bonus-Kampftalent, Magier Bonustalent, Hexenmeister Talent des Blutes, Waldläufer Kampfstiltalent | an existing `BaseFeat`, filtered by type or an explicit closed list | §1 `BaseClassAbilityFeatOption` |
+      | Schurke Trick / Verbesserte Tricks | a *new*, class-specific ability with its own text (some of which then themselves grant a feat or a spell) | §2 — reuse `BaseClassOptionGroup`/`Choice`, not a new table |
+      | Schurke Höhere/Niedere Magie | an existing `BaseSpell`, filtered to a class's list at a fixed grade | §3 `BaseClassAbilitySpellOption` |
+      | Hexenmeister Zauber des Blutes | an existing `BaseSpell`, but **fixed** per bloodline+level — no real choice at all | §4 `BaseClassSpellGrant` |
+      | Kämpfer Waffentraining (weapon group) / Waffenmeisterschaft (specific weapon) | a weapon-group tag / a specific `BaseItem` | deferred — no populated weapon catalog yet (slice 4 only seeded armor/shield) |
+
       This is why Magier's Bonustalent and Hexenmeister's Talent des Blutes
       were deliberately left untagged rather than reusing
-      `BONUS_FEAT_SLOT_ABILITY_IDS` as-is: their eligible sets (metamagic/
-      item-creation/spell-mastery feats; a closed ~8-feat list per
-      bloodline) are narrower and differently-shaped than "combat", and
-      there's currently no way to express that difference in data.
+      `BONUS_FEAT_SLOT_ABILITY_IDS` as-is (their eligible sets are narrower
+      and differently-shaped than "combat"), and why Schurke's Trick was
+      imported as a bare slot with no catalog of the ~23 individual talents
+      behind it (`todos.md`) — none of these had anywhere to live yet.
 
-      Blocking prerequisite: `base_feats.json` only has 16 feats, typed just
-      `combat`/`general` — none of Magier's metamagic/item-creation/
-      spell-mastery feats or the ~80 named bloodline talents referenced in
-      Hexenmeister's ability descriptions exist in the catalog yet. Feat
-      catalog expansion (real `BaseFeat` rows with a richer `type` taxonomy)
-      has to land before eligibility data means anything.
+      Blocking prerequisite from when this was first scoped (feat catalog
+      too small to make eligibility data meaningful) is **resolved**: the
+      catalog has since grown to 325 feats across 8 real `type` tags
+      (`combat: 149, general: 141, metamagic: 9, kritischer_treffer: 8,
+      item_creation: 8, kampfkunst: 7, questtalente: 2, teamwork: 1`) via
+      `build_feats_seed.py`. Magier's Bonustalent still needs a
+      "Zaubermeisterschaft" (Spell Mastery) feat added as a named exception
+      (real rule: metamagic or item-creation type, *or* that one specific
+      feat) and Hexenmeister's ~80 named bloodline talents referenced in its
+      ability descriptions still need adding as real `BaseFeat` rows before
+      §1 can be seeded for those two classes — but the mechanism itself is
+      no longer blocked.
 
-      Proposed design — one new join table, pure composition (no
-      `HANDLERS`-style code):
+      ### 1. Feat pools — `BaseClassAbilityFeatOption`
+      One new join table, pure composition (no `HANDLERS`-style code):
       ```python
       class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin):
           """One eligible pick for a bonus-feat-slot ability. A slot's full
@@ -624,9 +646,11 @@ Cheapest slice — proves the whole pattern before harder ones.
           feat_id is set per row:
           - feat_type: any BaseFeat with this type is eligible (broad
             category — Kämpfer: "combat"; Magier: one row each for
-            "metamagic"/"item-creation"/"spell-mastery").
+            "metamagic"/"item_creation").
           - feat_id: this exact feat is eligible (closed list — Hexenmeister's
-            per-bloodline talent list).
+            per-bloodline talent list; Magier's "Zaubermeisterschaft"
+            exception; Schurke's Schurkenfinesse → Waffenfinesse and
+            Waffentraining-trick → Waffenfokus, both closed lists of one).
           option_choice_id (nullable) narrows the row to characters who
           picked that BaseClassOptionChoice, same meaning as
           BaseClassAbilityGrant.option_choice_id — lets "Talent des Blutes"
@@ -641,7 +665,9 @@ Cheapest slice — proves the whole pattern before harder ones.
       retires the hand-frozen `BONUS_FEAT_SLOT_ABILITY_IDS` set entirely, so
       a future class's bonus feat, whatever shape its eligibility takes, is
       a pure data change (no code edit at all, not even adding an id to a
-      set).
+      set). Doubles as the mechanism for Schurke's feat-granting tricks
+      (Kampfkniff, Schurkenfinesse, Waffentraining-trick), keyed off the
+      *trick's own* `BaseClassAbility.id` — see §2.
 
       Enforcement approach: aggregate/budget check, not per-slot
       assignment — don't track which feat fills which grant, just require
@@ -655,20 +681,140 @@ Cheapest slice — proves the whole pattern before harder ones.
       fallback only if some future class needs genuinely different
       eligibility for two slots taken at the same level.
 
+      ### 2. Ability pools (Schurke's Trick) — reuse option groups, not a
+      new table
+      A pool of *new* class-specific abilities (as opposed to a filtered
+      slice of an existing catalog) turns out not to need a dedicated
+      "pool" concept at all: it's the exact same shape as Kleriker's
+      `domain`/Hexenmeister's `bloodline`/Magier's `school` groups, just with
+      more members and picked repeatedly instead of once. Trick becomes a
+      `BaseClassOptionGroup` (key `"trick"`, `max_choices = 10` — the total
+      Trick grants across a Schurke's career), one `BaseClassOptionChoice`
+      per trick, and each trick's actual mechanical text lives in the usual
+      `BaseClassAbility` + `BaseClassAbilityGrant(option_choice_id=...,
+      level=1)` pair — identical to how a domain's granted powers work
+      today. "Verbesserte Tricks" is a second group (`"trick_advanced"`)
+      following the same shape.
+
+      This was tempting to instead model as a self-referencing
+      `BaseClassAbility.pool_ability_id`, which would save the one
+      duplicate identity row per trick (name appears once in
+      `BaseClassOptionChoice.name`, once in `BaseClassAbility.name`) — but
+      that would need `sheet.py`'s `_build_class_features` to gain a
+      *second* source of ability grants (pool members have no
+      `BaseClassAbilityGrant` of their own to be found by), whereas routing
+      through `BaseClassOptionGroup`/`Choice` needs no change there at all:
+      whatever already turns "character has a matching `CharacterClassOption`
+      row" into "include this `option_choice_id`-gated grant" already works
+      unmodified for Trick, since it's just a group with more members and a
+      higher `max_choices`. Reusing an existing read path beats adding a
+      parallel one, so the minor row duplication is the better trade.
+
+      Needs `CharacterClassOption` (`character.py`) extended, since one-time
+      creation picks and Trick's repeated per-level picks both need to live
+      in the same table:
+      - `level_id: Mapped[UUID | None]` (FK `character_levels`) — which
+        `CharacterLevel` this pick was made at. Existing domain/bloodline/
+        school picks get this set to the highest `CharacterLevel` row
+        created at character creation (same collapse convention as
+        `CharacterSkillRank`/`CharacterFeat`), no behavior change. Repeated
+        picks (Trick) get the level-up's own row.
+      - `grant_id: Mapped[UUID | None]` (FK `base_class_ability_grants`) —
+        which specific recurring grant occurrence this pick fills (e.g. *the
+        level-12 Trick grant*, not just "a Trick pick"). Null for one-time
+        groups. Needed because eligibility for a repeated pick can depend on
+        which occurrence it is — "Verbesserte Tricks" only unlocks the
+        `trick_advanced` group from the grant at level 10 onward, and
+        without `grant_id` that has to be inferred from counting prior picks
+        instead of a direct `grant.level >= 10` join.
+      - `choice_id: Mapped[UUID | None]` (FK `base_class_option_choices`) —
+        finally resolves the model's own long-standing TODO ("`choice` still
+        stores the pick as a free string rather than an FK to this table —
+        reconciling that is a follow-up"). Safe to populate unconditionally
+        at write time: `_validate_options` (`routers/characters.py`) already
+        guarantees every stored `choice` string matches a real
+        `BaseClassOptionChoice.name` in that group before the row is ever
+        created. `choice` (the string) stays for now as a cheap
+        display/debug mirror of the resolved row, not removed in this pass.
+
+      `BaseClassOptionGroup.max_choices`'s docstring needs a one-line update
+      once a repeated-pick group exists: today it means "pick up to N,
+      once, at creation"; for a repeated-pick group it means "one pick per
+      qualifying grant, up to N total across a career" — same field, two
+      meanings depending on whether the group's abilities also use
+      `grant_id`, worth spelling out so the next class that reuses this
+      doesn't have to reverse-engineer which one applies.
+
+      ### 3. Spell pools (Schurke's Höhere/Niedere Magie) —
+      `BaseClassAbilitySpellOption`
+      Sibling to §1, same feat_type/feat_id duality applied to spells,
+      reusing `BaseClassSpell` (already `base_class_id` + `spell_id` +
+      `grade`) as the source of truth for the broad-filter case instead of
+      enumerating every eligible spell by hand:
+      ```python
+      class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin):
+          ability_id: Mapped[UUID]               # FK BaseClassAbility
+          option_choice_id: Mapped[UUID | None]  # FK BaseClassOptionChoice
+          spell_id: Mapped[UUID | None]          # closed list entry
+          source_class_id: Mapped[UUID | None]   # OR: broad filter — any
+          source_grade: Mapped[int | None]       #     spell in this class's
+                                                  #     list at this grade
+      ```
+      Niedere Magie: `source_class_id` = Hexenmeister/Magier, `source_grade
+      = 0`. Höhere Magie: same classes, `source_grade = 1` (plus a
+      trick-requires-trick prerequisite on Niedere Magie — prerequisite
+      *enforcement* stays out of scope, same "recorded but not yet checked"
+      state as every other `BaseFeatRequired*` row until slice 6).
+
+      ### 4. Deterministic per-choice spell grants (Hexenmeister's actual
+      Zauber des Blutes) — not a pool at all
+      Initially assumed this needed pool machinery too, but PF1e grants one
+      **fixed** spell per bloodline per level — no player choice. Same
+      shape as the bloodline power grants already modeled (Macht des
+      Blutes), just for a spell instead of an ability:
+      ```python
+      class BaseClassSpellGrant(Base, UUIDPrimaryKeyMixin):
+          base_class_id: Mapped[UUID]
+          option_choice_id: Mapped[UUID | None]  # the bloodline
+          spell_id: Mapped[UUID]
+          level: Mapped[int]
+      ```
+      Character side needs nothing new — leveling just auto-inserts the
+      matching `CharacterSpell` row, same as any other known-spell grant.
+
+      ### 5. Weapon groups / specific weapons — mostly still blocked
+      `BaseItem.weapon_group` (nullable tag, same convention as `category`)
+      is cheap to add now, and Waffentraining's "pick a group" would then
+      reuse the same `BaseClassOptionGroup`/`Choice`/`CharacterClassOption`
+      triple from §2. Waffenmeisterschaft (pick one specific weapon) stays
+      deferred — there's no populated weapon catalog yet (slice 4 only ever
+      seeded armor/shield rows), so there's nothing real to pick from until
+      that lands.
+
       Phased:
-      1. Feat catalog expansion — add the missing metamagic/item-creation/
-         spell-mastery feats and named bloodline talents as real `BaseFeat`
-         rows with proper `type`s (blocking prerequisite, see above).
-      2. `BaseClassAbilityFeatOption` model + migration + seed rows for
-         Kämpfer/Magier/Hexenmeister; retire `BONUS_FEAT_SLOT_ABILITY_IDS`.
-      3. Backend: extend creation's feat validation to check aggregate
+      1. `BaseClassAbilityFeatOption` + `BaseClassAbilitySpellOption` +
+         `BaseClassSpellGrant` models/migration; `CharacterClassOption`
+         gains `level_id`/`grant_id`/`choice_id`; `BaseItem` gains
+         `weapon_group`. Pure schema, no seed data yet.
+      2. Feat catalog fill-in: Magier's metamagic/item-creation feats plus
+         "Zaubermeisterschaft", Hexenmeister's ~80 named bloodline talents —
+         blocking prerequisite for seeding §1 on those two classes.
+      3. Seed `BaseClassAbilityFeatOption` for Kämpfer/Magier/Hexenmeister/
+         Waldläufer (once Waldläufer gets a `combat_style` option group —
+         it only has `enemy`/`terrain` today); retire
+         `BONUS_FEAT_SLOT_ABILITY_IDS`.
+      4. Seed Schurke's Trick/Verbesserte Tricks as `BaseClassOptionGroup`/
+         `Choice` rows plus their `BaseClassAbility`/`Grant` pairs (§2), and
+         Höhere/Niedere Magie via §3.
+      5. Backend: extend creation's feat validation to check aggregate
          eligibility counts, not just the total; expose resolved eligibility
          (per-character for Hexenmeister, since it depends on the chosen
          bloodline — same resolution shape as `_build_class_features`'s
-         `option_choice_id` filtering).
-      4. Frontend: replace `LevelFeatStep.tsx`'s hardcoded `f.type ===
+         `option_choice_id` filtering). Extend the same validation to
+         repeated ability-pool picks (Trick) using `grant_id`.
+      6. Frontend: replace `LevelFeatStep.tsx`'s hardcoded `f.type ===
          'combat'` with a lookup against the resolved eligibility from step
-         3; optionally surface a hint in `FeatsStep.tsx` at creation ("must
+         5; optionally surface a hint in `FeatsStep.tsx` at creation ("must
          include N combat feats").
 - [ ] **Class source-page fetch/preprocess tooling.** Every class data pass
       so far (Kämpfer, Waldläufer, Magier, Hexenmeister — see `todos.md`)

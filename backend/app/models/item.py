@@ -16,7 +16,14 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `ac_bonus`/`max_dex_bonus` (roadmap slice 4) are the exception: real,
     computed fields for category "armor"/"shield" — `ac_bonus` is the flat
     AC bonus while equipped, `max_dex_bonus` (armor only) caps the Dex
-    modifier applied to AC while worn. Both null for every other category."""
+    modifier applied to AC while worn. Both null for every other category.
+
+    `weapon_group` (e.g. "leichte_klingen", "keulen") is only set for
+    category "weapon" — same plain-tag convention as `category`, not
+    evaluated by any rule logic yet. Exists so a class feature that grants a
+    bonus per weapon *group* rather than per weapon (Kämpfer's
+    Waffentraining) has something to pick from; no weapon rows are seeded
+    yet (only armor/shield exist today), so this is currently unpopulated."""
 
     __tablename__ = "base_items"
 
@@ -25,3 +32,4 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     price: Mapped[float] = mapped_column(Float)
     ac_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
     max_dex_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    weapon_group: Mapped[str | None] = mapped_column(String(64), nullable=True)
