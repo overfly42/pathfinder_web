@@ -36,6 +36,7 @@ Do not migrate remaining mock behavior to the real stack as a side effect of unr
 - `backend/alembic/`, `backend/alembic.ini` — migrations, wired to `app.config.settings` and `app.models.Base.metadata`. No revisions yet (no tables yet).
 - `backend/tests/` — pytest integration harness: `conftest.py` spins up a dedicated `<db>_test` Postgres database (auto-created, schema reset per session) and gives tests a rolled-back-per-test `db_session` and a `client` (FastAPI `TestClient` with `get_db` overridden).
 - `frontend/src/api/client.ts` — `apiGet`/`apiPost`/`apiPatch`/`apiDelete` fetch helpers.
+- `backend/scripts/` — one-off import scripts pulling rule data from the German PRD (`prd.5footstep.de`) into `backend/app/fixtures/imported/`, staging material for expanding the feat catalog and implementing `HANDLERS` one feat at a time. `backend/scripts/README.md` documents the site's data shapes (bulk JSON index vs. permalink-resolved full-text feat pages vs. prose-only class pages) and known quirks (duplicate index rows, display-name/canonical-name mismatches) — read it before writing another importer against this site.
 
 ## Commands
 

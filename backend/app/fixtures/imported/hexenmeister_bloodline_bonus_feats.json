@@ -1,0 +1,612 @@
+[
+  {
+    "bloodline": "Abnormale Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Eiserner Wille",
+        "feat_name": "Eiserner Wille",
+        "skill_choice": null,
+        "feat_id": "ba907b93-511d-5ae7-b5f0-bc99a4df17af",
+        "prd_id": "1304"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Gewölbekunde))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Gewölbekunde)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Im Kampf zaubern",
+        "feat_name": "Im Kampf zaubern",
+        "skill_choice": null,
+        "feat_id": "39b7ebe1-c594-53d2-8987-f9b5d947a12c",
+        "prd_id": "1322"
+      },
+      {
+        "display_name": "Lautlos zaubern",
+        "feat_name": "Lautlos zaubern",
+        "skill_choice": null,
+        "feat_id": "7491e499-18d2-5a47-b25d-e799e94a80b3",
+        "prd_id": "1343"
+      },
+      {
+        "display_name": "Entwaffnen",
+        "feat_name": "Verbessertes Entwaffnen",
+        "skill_choice": null,
+        "feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+        "prd_id": "1419"
+      },
+      {
+        "display_name": "Verbesserte Initiative",
+        "feat_name": "Verbesserte Initiative",
+        "skill_choice": null,
+        "feat_id": "95a408f3-dc36-57c5-9124-a8fe47af78ef",
+        "prd_id": "1406"
+      },
+      {
+        "display_name": "Verbesserter Ringkampf",
+        "feat_name": "Verbesserter Ringkampf",
+        "skill_choice": null,
+        "feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44",
+        "prd_id": "1415"
+      },
+      {
+        "display_name": "Verbesserter waffenloser Schlag",
+        "feat_name": "Verbesserter waffenloser Schlag",
+        "skill_choice": null,
+        "feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c",
+        "prd_id": "1418"
+      }
+    ]
+  },
+  {
+    "bloodline": "Arkane Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Eiserner Wille",
+        "feat_name": "Eiserner Wille",
+        "skill_choice": null,
+        "feat_id": "ba907b93-511d-5ae7-b5f0-bc99a4df17af",
+        "prd_id": "1304"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Arkanes))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Arkanes)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Gestenlos zaubern",
+        "feat_name": "Gestenlos zaubern",
+        "skill_choice": null,
+        "feat_id": "1561f4ae-4097-54ac-b7cb-97d2c39b4e30",
+        "prd_id": "1317"
+      },
+      {
+        "display_name": "Im Kampf zaubern",
+        "feat_name": "Im Kampf zaubern",
+        "skill_choice": null,
+        "feat_id": "39b7ebe1-c594-53d2-8987-f9b5d947a12c",
+        "prd_id": "1322"
+      },
+      {
+        "display_name": "Schriftrolle anfertigen",
+        "feat_name": "Schriftrolle anfertigen",
+        "skill_choice": null,
+        "feat_id": "81a0d8d6-6fa8-5710-b058-8385e193493a",
+        "prd_id": "1384"
+      },
+      {
+        "display_name": "Verbesserter Gegenzauber",
+        "feat_name": "Verbesserter Gegenzauber",
+        "skill_choice": null,
+        "feat_id": "8cfac8cd-2a8c-52c6-9618-56da4bc7d936",
+        "prd_id": "1409"
+      },
+      {
+        "display_name": "Verbesserte Initiative",
+        "feat_name": "Verbesserte Initiative",
+        "skill_choice": null,
+        "feat_id": "95a408f3-dc36-57c5-9124-a8fe47af78ef",
+        "prd_id": "1406"
+      },
+      {
+        "display_name": "Zauberfokus",
+        "feat_name": "Zauberfokus",
+        "skill_choice": null,
+        "feat_id": "070a27c2-0499-540b-864f-f64dd04f2d74",
+        "prd_id": "1437"
+      }
+    ]
+  },
+  {
+    "bloodline": "Blutlinie des Grabes",
+    "bonus_feats": [
+      {
+        "display_name": "Abhärtung",
+        "feat_name": "Abhärtung",
+        "skill_choice": null,
+        "feat_id": "f1dec39b-f342-52b0-b6b4-fc8d1d15adab",
+        "prd_id": "1276"
+      },
+      {
+        "display_name": "Ausdauer",
+        "feat_name": "Ausdauer",
+        "skill_choice": null,
+        "feat_id": "b8f396f3-89c0-5294-9d35-286fbf509c6a",
+        "prd_id": "14670"
+      },
+      {
+        "display_name": "Eiserner Wille",
+        "feat_name": "Eiserner Wille",
+        "skill_choice": null,
+        "feat_id": "ba907b93-511d-5ae7-b5f0-bc99a4df17af",
+        "prd_id": "1304"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Religion))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Religion)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Gestenlos zaubern",
+        "feat_name": "Gestenlos zaubern",
+        "skill_choice": null,
+        "feat_id": "1561f4ae-4097-54ac-b7cb-97d2c39b4e30",
+        "prd_id": "1317"
+      },
+      {
+        "display_name": "Im Kampf zaubern",
+        "feat_name": "Im Kampf zaubern",
+        "skill_choice": null,
+        "feat_id": "39b7ebe1-c594-53d2-8987-f9b5d947a12c",
+        "prd_id": "1322"
+      },
+      {
+        "display_name": "Unverwüstlich",
+        "feat_name": "Unverwüstlich",
+        "skill_choice": null,
+        "feat_id": "86013c86-d075-581e-ad8a-50179f112001",
+        "prd_id": "1402"
+      },
+      {
+        "display_name": "Zauberfokus",
+        "feat_name": "Zauberfokus",
+        "skill_choice": null,
+        "feat_id": "070a27c2-0499-540b-864f-f64dd04f2d74",
+        "prd_id": "1437"
+      }
+    ]
+  },
+  {
+    "bloodline": "Dämonische Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Doppelschlag",
+        "feat_name": "Doppelschlag",
+        "skill_choice": null,
+        "feat_id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
+        "prd_id": "1298"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Die Ebenen))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Die Ebenen)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Große Zähigkeit",
+        "feat_name": "Große Zähigkeit",
+        "skill_choice": null,
+        "feat_id": "829e5260-09e3-5d30-b99a-01d0e3498b56",
+        "prd_id": "1320"
+      },
+      {
+        "display_name": "Heftiger Angriff",
+        "feat_name": "Heftiger Angriff",
+        "skill_choice": null,
+        "feat_id": "7cbd07ac-4827-5fc7-8d83-d58abb568b10",
+        "prd_id": "1321"
+      },
+      {
+        "display_name": "Verbesserter Ansturm",
+        "feat_name": "Verbesserter Ansturm",
+        "skill_choice": null,
+        "feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+        "prd_id": "1407"
+      },
+      {
+        "display_name": "Verbessertes Gegenstand zerschmettern",
+        "feat_name": "Verbessertes Gegenstand zerschmettern",
+        "skill_choice": null,
+        "feat_id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576",
+        "prd_id": "1421"
+      },
+      {
+        "display_name": "Verstärkte Herbeizauberung",
+        "feat_name": "Verstärkte Herbeizauberung",
+        "skill_choice": null,
+        "feat_id": "78b649fb-2b13-52e2-9380-7336f3f842f4",
+        "prd_id": "1425"
+      },
+      {
+        "display_name": "Zauber verstärken",
+        "feat_name": "Zauber verstärken",
+        "skill_choice": null,
+        "feat_id": "da5f828e-445d-570c-a8ef-5de2e8e05e90",
+        "prd_id": "1433"
+      }
+    ]
+  },
+  {
+    "bloodline": "Drachenblutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Abhärtung",
+        "feat_name": "Abhärtung",
+        "skill_choice": null,
+        "feat_id": "f1dec39b-f342-52b0-b6b4-fc8d1d15adab",
+        "prd_id": "1276"
+      },
+      {
+        "display_name": "Blind kämpfen",
+        "feat_name": "Blind kämpfen",
+        "skill_choice": null,
+        "feat_id": "6711c382-044f-5e84-acfc-ad76d3c4efcf",
+        "prd_id": "1294"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Fliegen)",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Fliegen",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Arkanes))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Arkanes)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Große Zähigkeit",
+        "feat_name": "Große Zähigkeit",
+        "skill_choice": null,
+        "feat_id": "829e5260-09e3-5d30-b99a-01d0e3498b56",
+        "prd_id": "1320"
+      },
+      {
+        "display_name": "Heftiger Angriff",
+        "feat_name": "Heftiger Angriff",
+        "skill_choice": null,
+        "feat_id": "7cbd07ac-4827-5fc7-8d83-d58abb568b10",
+        "prd_id": "1321"
+      },
+      {
+        "display_name": "Schnell zaubern",
+        "feat_name": "Schnell zaubern",
+        "skill_choice": null,
+        "feat_id": "7c14bd4c-eb9e-5e86-ba56-93fecfac4a74",
+        "prd_id": "1380"
+      },
+      {
+        "display_name": "Verbesserte Initiative",
+        "feat_name": "Verbesserte Initiative",
+        "skill_choice": null,
+        "feat_id": "95a408f3-dc36-57c5-9124-a8fe47af78ef",
+        "prd_id": "1406"
+      }
+    ]
+  },
+  {
+    "bloodline": "Elementare Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Ausweichen",
+        "feat_name": "Ausweichen",
+        "skill_choice": null,
+        "feat_id": "af312dc7-2a11-56dc-a227-7b80b8719d12",
+        "prd_id": "1285"
+      },
+      {
+        "display_name": "Blitzschnelle Reflexe",
+        "feat_name": "Blitzschnelle Reflexe",
+        "skill_choice": null,
+        "feat_id": "f1a526ec-5edf-522d-9fba-ee8b40e0098a",
+        "prd_id": "1295"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Die Ebenen))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Die Ebenen)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Große Zähigkeit",
+        "feat_name": "Große Zähigkeit",
+        "skill_choice": null,
+        "feat_id": "829e5260-09e3-5d30-b99a-01d0e3498b56",
+        "prd_id": "1320"
+      },
+      {
+        "display_name": "Heftiger Angriff",
+        "feat_name": "Heftiger Angriff",
+        "skill_choice": null,
+        "feat_id": "7cbd07ac-4827-5fc7-8d83-d58abb568b10",
+        "prd_id": "1321"
+      },
+      {
+        "display_name": "Verbesserte Initiative",
+        "feat_name": "Verbesserte Initiative",
+        "skill_choice": null,
+        "feat_id": "95a408f3-dc36-57c5-9124-a8fe47af78ef",
+        "prd_id": "1406"
+      },
+      {
+        "display_name": "Waffenfinesse",
+        "feat_name": "Waffenfinesse",
+        "skill_choice": null,
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "prd_id": "1454"
+      },
+      {
+        "display_name": "Zauber verstärken",
+        "feat_name": "Zauber verstärken",
+        "skill_choice": null,
+        "feat_id": "da5f828e-445d-570c-a8ef-5de2e8e05e90",
+        "prd_id": "1433"
+      }
+    ]
+  },
+  {
+    "bloodline": "Feenblutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Ausweichen",
+        "feat_name": "Ausweichen",
+        "skill_choice": null,
+        "feat_id": "af312dc7-2a11-56dc-a227-7b80b8719d12",
+        "prd_id": "1285"
+      },
+      {
+        "display_name": "Beweglichkeit",
+        "feat_name": "Beweglichkeit",
+        "skill_choice": null,
+        "feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+        "prd_id": "1293"
+      },
+      {
+        "display_name": "Blitzschnelle Reflexe",
+        "feat_name": "Blitzschnelle Reflexe",
+        "skill_choice": null,
+        "feat_id": "f1a526ec-5edf-522d-9fba-ee8b40e0098a",
+        "prd_id": "1295"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Natur))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Natur)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Kernschuss",
+        "feat_name": "Kernschuss",
+        "skill_choice": null,
+        "feat_id": "032ce28b-fb20-5a64-a2f1-ed6099303664",
+        "prd_id": "1330"
+      },
+      {
+        "display_name": "Präzisionsschuss",
+        "feat_name": "Präzisionsschuss",
+        "skill_choice": null,
+        "feat_id": "5e2c3a85-48ee-55ba-8ee7-858a83bfbea8",
+        "prd_id": "1370"
+      },
+      {
+        "display_name": "Schnell zaubern",
+        "feat_name": "Schnell zaubern",
+        "skill_choice": null,
+        "feat_id": "7c14bd4c-eb9e-5e86-ba56-93fecfac4a74",
+        "prd_id": "1380"
+      },
+      {
+        "display_name": "Verbesserte Initiative",
+        "feat_name": "Verbesserte Initiative",
+        "skill_choice": null,
+        "feat_id": "95a408f3-dc36-57c5-9124-a8fe47af78ef",
+        "prd_id": "1406"
+      }
+    ]
+  },
+  {
+    "bloodline": "Himmlische Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Ausweichen",
+        "feat_name": "Ausweichen",
+        "skill_choice": null,
+        "feat_id": "af312dc7-2a11-56dc-a227-7b80b8719d12",
+        "prd_id": "1285"
+      },
+      {
+        "display_name": "Angriff im Vorbeireiten",
+        "feat_name": "Angriff im Vorbeireiten",
+        "skill_choice": null,
+        "feat_id": "e86f3e3d-e593-517f-985a-de34f254c71f",
+        "prd_id": "1326"
+      },
+      {
+        "display_name": "Beweglichkeit",
+        "feat_name": "Beweglichkeit",
+        "skill_choice": null,
+        "feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+        "prd_id": "1293"
+      },
+      {
+        "display_name": "Berittener Kampf",
+        "feat_name": "Berittener Kampf",
+        "skill_choice": null,
+        "feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5",
+        "prd_id": "1291"
+      },
+      {
+        "display_name": "Eiserner Wille",
+        "feat_name": "Eiserner Wille",
+        "skill_choice": null,
+        "feat_id": "ba907b93-511d-5ae7-b5f0-bc99a4df17af",
+        "prd_id": "1304"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Religion))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Religion)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Waffenfinesse",
+        "feat_name": "Waffenfinesse",
+        "skill_choice": null,
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "prd_id": "1454"
+      },
+      {
+        "display_name": "Zauber ausdehnen",
+        "feat_name": "Zauber ausdehnen",
+        "skill_choice": null,
+        "feat_id": "c4cc36ed-94e0-51e5-89f2-17c2768fce48",
+        "prd_id": "1432"
+      }
+    ]
+  },
+  {
+    "bloodline": "Schicksalhafte Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Arkaner Schlag",
+        "feat_name": "Arkaner Schlag",
+        "skill_choice": null,
+        "feat_id": "633315cd-0874-59fe-8fce-bf0e16c357e8",
+        "prd_id": "1278"
+      },
+      {
+        "display_name": "Anführen",
+        "feat_name": "Anführen",
+        "skill_choice": null,
+        "feat_id": "23bd1eaa-28c1-595f-a776-48519dda9790",
+        "prd_id": "1458"
+      },
+      {
+        "display_name": "Ausdauer",
+        "feat_name": "Ausdauer",
+        "skill_choice": null,
+        "feat_id": "b8f396f3-89c0-5294-9d35-286fbf509c6a",
+        "prd_id": "14670"
+      },
+      {
+        "display_name": "Blitzschnelle Reflexe",
+        "feat_name": "Blitzschnelle Reflexe",
+        "skill_choice": null,
+        "feat_id": "f1a526ec-5edf-522d-9fba-ee8b40e0098a",
+        "prd_id": "1295"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Geschichte))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Geschichte)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Unverwüstlich",
+        "feat_name": "Unverwüstlich",
+        "skill_choice": null,
+        "feat_id": "86013c86-d075-581e-ad8a-50179f112001",
+        "prd_id": "1402"
+      },
+      {
+        "display_name": "Waffenfokus",
+        "feat_name": "Waffenfokus",
+        "skill_choice": null,
+        "feat_id": "e2e8a8f8-5f8d-5e3a-876c-0615cca204c5",
+        "prd_id": "1455"
+      },
+      {
+        "display_name": "Zaubereffekt maximieren",
+        "feat_name": "Zaubereffekt maximieren",
+        "skill_choice": null,
+        "feat_id": "9a6c18b0-e715-56be-b0a1-abef4d37c4b7",
+        "prd_id": "1436"
+      }
+    ]
+  },
+  {
+    "bloodline": "Teuflische Blutlinie",
+    "bonus_feats": [
+      {
+        "display_name": "Blind Kämpfen",
+        "feat_name": "Blind Kämpfen",
+        "skill_choice": null,
+        "feat_id": "6711c382-044f-5e84-acfc-ad76d3c4efcf",
+        "prd_id": "1294"
+      },
+      {
+        "display_name": "Defensive Kampfweise",
+        "feat_name": "Defensive Kampfweise",
+        "skill_choice": null,
+        "feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca",
+        "prd_id": "1296"
+      },
+      {
+        "display_name": "Durchschlagende Zauber",
+        "feat_name": "Durchschlagende Zauber",
+        "skill_choice": null,
+        "feat_id": "f70f9afd-4245-5975-af06-a315e231f5d1",
+        "prd_id": "1301"
+      },
+      {
+        "display_name": "Eiserner Wille",
+        "feat_name": "Eiserner Wille",
+        "skill_choice": null,
+        "feat_id": "ba907b93-511d-5ae7-b5f0-bc99a4df17af",
+        "prd_id": "1304"
+      },
+      {
+        "display_name": "Fertigkeitsfokus (Wissen (Die Ebenen))",
+        "feat_name": "Fertigkeitsfokus",
+        "skill_choice": "Wissen (Die Ebenen)",
+        "feat_id": "e50509fc-40a8-533e-80f5-32aa8afe4707",
+        "prd_id": "14719"
+      },
+      {
+        "display_name": "Täuscher",
+        "feat_name": "Täuscher",
+        "skill_choice": null,
+        "feat_id": "858e6fa7-a2e2-53be-859d-11f6853477ed",
+        "prd_id": "1388"
+      },
+      {
+        "display_name": "Verbessertes Entwaffnen",
+        "feat_name": "Verbessertes Entwaffnen",
+        "skill_choice": null,
+        "feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+        "prd_id": "1419"
+      },
+      {
+        "display_name": "Zauber ausdehnen",
+        "feat_name": "Zauber ausdehnen",
+        "skill_choice": null,
+        "feat_id": "c4cc36ed-94e0-51e5-89f2-17c2768fce48",
+        "prd_id": "1432"
+      }
+    ]
+  }
+]
