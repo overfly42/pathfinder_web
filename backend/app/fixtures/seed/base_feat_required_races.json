@@ -1,0 +1,386 @@
+[
+  {
+    "id": "d272bc69-b83e-5acd-b46d-fe021381f7ad",
+    "feat_id": "529350d5-62ae-5071-bd9d-60cd7a29e947",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "f4d13177-be83-575c-8742-55a9df61d9ab",
+    "feat_id": "3577ec9b-e3d1-50f2-a376-a7499a7623bc",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "9b831942-a734-5c42-99b5-fab4842bf3c9",
+    "feat_id": "1eb30217-89ee-57c3-baab-4e9d6ce63517",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "3360c62d-bf48-5e0d-afa8-220a53e16b5a",
+    "feat_id": "fc9704c4-3919-5476-95f7-671fbe17319c",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "044d9b74-cecd-59d7-b12f-735d01aae65b",
+    "feat_id": "f770acff-c2cb-5cc2-b941-1cc852da1840",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "64618108-666f-5ef3-b881-79333b711fcc",
+    "feat_id": "893c8d36-3b9c-5a95-a052-681bf5f40c3e",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "5b933ea4-e21f-59e7-92f9-eafc486a0274",
+    "feat_id": "c3a55e6c-7548-51ce-bd56-34a34b47eb29",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "c292c496-50e0-5613-8fae-ae10b2cdd351",
+    "feat_id": "bddd2053-a03a-5206-83e7-2e6966686c4c",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "7284f38f-9d07-5425-87c3-17da2df1e032",
+    "feat_id": "a394f87f-1331-585b-90b5-6ad0260b7b4b",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "89e7bf7e-f251-5175-b2a4-8524541062c8",
+    "feat_id": "3e7ff6eb-71db-5a80-bf4a-e47244c1b7fa",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "9d42a52f-873e-5de8-9fb5-b542b57e3519",
+    "feat_id": "7d246a74-9577-5470-8295-50fb0239b757",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "56ac00b0-1b2f-5711-901b-ac8acaf6cc53",
+    "feat_id": "ce77bfa5-b6d0-5490-934e-82555dec0e7d",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "585a1d79-91bb-5c5e-b4c3-4ac4bc2449c2",
+    "feat_id": "7d58627c-e105-594a-af8c-2b34fb3b44ed",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "5f3b5a23-b56a-5040-b9d8-2142af1f854e",
+    "feat_id": "0ce67397-2496-5618-87c3-d310d40d02c8",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "a841c7e2-dd5f-56fc-838e-df32f6bd613b",
+    "feat_id": "79ec5dd4-6efd-513c-93fa-091c8b91b0ab",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "c8f6afd3-8d8b-5b12-84a0-bb031dc3b888",
+    "feat_id": "86ed4757-b5fa-519b-a5bf-48719534c1cc",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "d66f23ea-5fcb-57c4-bf2e-29e02fd018a9",
+    "feat_id": "2e7dd39d-0019-5b1d-adbd-947090d8227a",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "1cffeff0-aa71-56cd-908a-a3423734524b",
+    "feat_id": "50f9e2dc-32c0-58ab-bec5-31c4da471a36",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "d28aca3b-b8f9-5336-a344-d60c6d025db3",
+    "feat_id": "6c68271f-2fe5-5a1f-a499-eb958fc9127f",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "2fee1843-8d5f-55f2-a83e-d53bddb7c830",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "63dfb86d-ea9e-5223-bb15-cd974d3a25a8",
+    "feat_id": "4eaacc58-d01d-5608-9241-4d2872e84d24",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "014a5687-1855-5f21-a519-4aeedc8226f3",
+    "feat_id": "79c63b2a-e479-5892-b45e-b00a2a5f25ea",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "9d2f6053-9091-5f3d-ac33-e08a6315d371",
+    "feat_id": "30717985-8594-5724-89c1-2d323d13e5aa",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "9194be9f-4c88-5d53-874f-0ed0b0b48118",
+    "feat_id": "85937410-23ad-56db-983c-f437d60fcf57",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "071707e0-d5de-5413-990b-07cbf83f0a21",
+    "feat_id": "3d2e10e8-d66d-5c51-9a0d-5831322e9e6d",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "1dff64d4-f8f3-58aa-87af-cc433e0c9a21",
+    "feat_id": "d354f4dd-4002-5e8f-89f1-3696f8b402aa",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "7f174a99-55e2-57e2-9671-0e328fa7845c",
+    "feat_id": "fb4e8a09-817e-5195-a966-3e3682e312e9",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "bedb94fb-8bac-51b2-b92d-103efe061210",
+    "feat_id": "1e5690a9-17ed-5cc2-899c-b209ab2ba521",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "6d48fed9-0484-5bbb-ab1d-7559167a9d6e",
+    "feat_id": "d2799c02-7916-5786-9c96-8179d1fd8fa7",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "8da96310-76e3-5f57-b7b9-30f8a3b160be",
+    "feat_id": "f48f0bf7-950b-580c-a3ba-50f18313e173",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "dc513e3a-307f-55c9-b10d-60e695c818a8",
+    "feat_id": "dee55855-dc1f-53e5-8b28-93b053c37fe4",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "2dd3829c-1eec-5463-9b86-76e602a90bc4",
+    "feat_id": "e5b10fac-1a21-5406-b8fd-2f49d6f6a288",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "b6050ee4-a0b9-5856-b553-d1a429a08f28",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "a49fc2aa-5234-5dba-bc11-152e79585884",
+    "feat_id": "387bc954-7d54-5ac8-8246-7db0f711b6e2",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "2ac18e7e-ced7-534e-bed1-bd434cab39bf",
+    "feat_id": "5c25e4bc-adb3-5ad3-9a1d-684d3e3dbec5",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "c5c84872-a568-5a46-9b7e-6413584b9039",
+    "feat_id": "979f923c-7fc6-5f75-81e2-a5e06e2bbb6d",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "8eb4fc76-4bce-5ffb-98d3-2ad400bd0420",
+    "feat_id": "cea2a934-bafa-5bc2-9095-58696a8d4c4e",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "39d46438-76d5-5b89-8a67-45c48d9f6487",
+    "feat_id": "689e66f5-8f55-54d3-a3a2-a778af152253",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "caaf7a2f-c9b8-5492-ae9a-9f7105161de9",
+    "feat_id": "e1fd8a5a-8fdf-51b6-8db9-5ccf29d9a492",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "11b2f8d6-14f3-5906-bca6-accce394b853",
+    "feat_id": "7993f139-c1ff-5e88-a9c1-b50fc89750ca",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "01b25fa0-ecf7-53c1-8100-e64a78b88e0b",
+    "feat_id": "8e41e099-297b-519c-a689-b6aa84555309",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "86b83aeb-d5e0-581a-b3c1-1a0335cb54b9",
+    "feat_id": "6c387bc6-0001-5270-9be2-557b2106ef71",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "fc538dde-5523-5832-8ef1-c6f839f62b1e",
+    "feat_id": "d1faad8e-3267-57dd-b963-736fea0528fd",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "5ae12066-4dc2-558b-9fc0-0b24c589e735",
+    "feat_id": "1cdce090-d233-5ce7-b060-a90c70429446",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "dd21a281-a6c8-52a1-873f-cd33153b6620",
+    "feat_id": "a42c3a56-f0dd-5d0b-80d6-05b42a356c0c",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "bb7739c6-625c-5f55-a2a1-60e09aaf848e",
+    "feat_id": "def9a591-e0ac-5784-94fd-83cfc1775d3a",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "34f3ad7b-a291-5dbf-8a84-712e10b61bb8",
+    "feat_id": "9eac4bd2-922e-5542-9e41-f704fbd55469",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "f85d2221-c946-5217-bf9e-26272b548399",
+    "feat_id": "1a800871-3ca5-5d9e-af7f-152ab355f439",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "c9fe32c3-0911-52cf-b6bc-61b2d88d5010",
+    "feat_id": "79a9b7f6-593f-5cf9-a60b-8386304287db",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "57614e3d-a819-56ba-ae9b-be9aeaf7b94a",
+    "feat_id": "99c89934-e22d-54e9-9274-d1394af118e7",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "a7326be8-f5b6-5c7b-85b4-874e81dc8c4b",
+    "feat_id": "8ef92717-8843-5d7f-94cc-ee706b9ceddb",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "2e6ac4b6-99f4-5769-8f5f-4356ccc727c3",
+    "feat_id": "f8898f1a-852f-5de2-bdd7-732898b1a6d1",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "fabf17a2-0a12-5400-9acd-18ad7d4209dc",
+    "feat_id": "7777c715-5e78-5678-9740-256a9d81ea55",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "a0f53028-61df-5f90-a2c2-c3c973ae962e",
+    "feat_id": "80a28ad8-7c02-5be7-a8a0-73c3c3a6015c",
+    "group_id": null,
+    "race_id": "c3bdea88-535d-41d7-8b0e-32be4ffb2166"
+  },
+  {
+    "id": "645b10f6-6c46-5f4e-85de-e5ef816f8881",
+    "feat_id": "4c4710f5-af8a-59fd-9b91-c9fd797e0ff9",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "14a64101-947e-5a3c-b1c0-94227459a455",
+    "feat_id": "7e0e00ac-e72a-520e-ae53-4b38cba19e6b",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "5762f6f6-2635-5b4a-bd6d-4225f9d2373e",
+    "feat_id": "550e08e4-f7cc-5ee8-ab13-b159e7a12165",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "05b65ac3-ed67-5eb6-9841-206b42ddcdb4",
+    "feat_id": "45e5415a-c515-519d-849a-b5ddec008998",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "b6addc79-4b3b-567a-868c-7505d516360b",
+    "feat_id": "8aacddab-c87b-5ab8-b3f9-c1a5c910d5ae",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "c08cf0ad-5106-54f5-99d3-066ab7afe1bc",
+    "feat_id": "048744e1-18b5-518c-919b-901f8374c68d",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  },
+  {
+    "id": "153d3a56-f387-51fa-a29b-32d3415117fe",
+    "feat_id": "df3d847e-292e-552f-8a14-942bf5a0c51b",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "b3ed1abf-0406-5064-adc4-f080b0efaf85",
+    "feat_id": "67de4ff0-46b3-5fc7-851e-161d4de8840c",
+    "group_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "8cd32fe5-a41d-51ca-86a0-f8e7843bee58",
+    "feat_id": "71e3ce1f-74c7-5b9b-8932-63788544c47f",
+    "group_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "57d09c72-869e-5d1b-8534-a6631f754567",
+    "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
+    "group_id": null,
+    "race_id": "30f7fc31-3ea1-43a2-b161-f745e71ff563"
+  }
+]

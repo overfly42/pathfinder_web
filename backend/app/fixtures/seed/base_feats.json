@@ -1,98 +1,2277 @@
 [
   {
-    "id": "7b13b13a-dc99-46ec-8949-129287074a70",
-    "name": "Verbesserte Initiative",
-    "description": "Du reagierst schneller als gewöhnlich in einer angespannten Situation. Du erhältst einen Bonus von +4 auf Initiativewürfe.",
-    "type": "combat"
-  },
-  {
     "id": "f2922069-181c-4909-ad22-2b6664501c60",
-    "name": "Punktzielschuss",
+    "name": "Kernschuss",
     "description": "Du bist darin geübt, Fernkampfangriffe auch aus kurzer Distanz sicher auszuführen. Du erhältst +1 auf Angriffs- und Schadenswürfe mit Fernkampfwaffen innerhalb von 9 m.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": null
   },
   {
     "id": "af2927b5-d02a-4de1-9d08-984678434824",
-    "name": "Gezielter Schuss",
+    "name": "Präzisionsschuss",
     "description": "Du bist darin geübt, auch im Nahkampf verwickelte Gegner gezielt mit Fernkampfwaffen anzugreifen, ohne den üblichen Angriffsabzug zu erleiden. Setzt Punktzielschuss voraus.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": "Kernschuss."
   },
   {
     "id": "576e5bd7-c273-469e-b8f9-afbf791e611d",
-    "name": "Schneller Schuss",
+    "name": "Schnelles Schießen",
     "description": "Du kannst außergewöhnlich schnell mit einer Fernkampfwaffe angreifen. Du kannst einen zusätzlichen Angriff mit einem Abzug von -2 auf alle Angriffswürfe in dieser Runde ausführen. Setzt Punktzielschuss voraus.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Kernschuss"
   },
   {
     "id": "b052b230-533c-4762-b1ba-a16c47ffb0b2",
-    "name": "Tödlicher Schuss",
+    "name": "Tödliche Zielgenauigkeit",
     "description": "Du kannst mit Fernkampfwaffen Präzision zugunsten von Wucht opfern. Du kannst dich entscheiden, einen Abzug von -1 auf Angriffswürfe mit Fernkampfwaffen hinzunehmen, um +2 Schaden zu erhalten. Setzt Punktzielschuss voraus.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": "GE 13, Grund-Angriffsbonus +1."
+  },
+  {
+    "id": "83419823-fd94-4ef4-b44e-e3645cc88bbc",
+    "name": "Abhärtung",
+    "description": "Du bist widerstandsfähiger als andere. Du erhältst zusätzliche Trefferpunkte in Höhe deiner Charakterstufe und einen weiteren Trefferpunkt bei jeder künftigen Stufe.",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "55be997d-0599-493f-b068-d616db9a59fb",
+    "name": "Eiserner Wille",
+    "description": "Du hast einen außerordentlich starken Willen. Du erhältst einen Bonus von +2 auf Willenswürfe.",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "04823a20-2479-429e-a754-73df5321eca3",
+    "name": "Blitzschnelle Reflexe",
+    "description": "Du reagierst blitzschnell auf drohende Gefahren. Du erhältst einen Bonus von +2 auf Reflexwürfe.",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "5a54884c-8d29-432f-9bd5-2df6e923175e",
+    "name": "Kampf mit zwei Waffen",
+    "description": "Du bist darin geübt, in jeder Hand eine Waffe zu führen. Der übliche Angriffsabzug beim Kampf mit zwei Waffen verringert sich um 2.",
+    "type": "combat",
+    "prerequisite_text": "GE 15"
+  },
+  {
+    "id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0",
+    "name": "Heftiger Angriff",
+    "description": "Du kannst im Nahkampf Präzision zugunsten von reiner Wucht opfern. Du kannst dich entscheiden, einen Abzug auf Nahkampf-Angriffswürfe hinzunehmen, um einen entsprechenden Bonus auf den Schaden zu erhalten.",
+    "type": "combat",
+    "prerequisite_text": "ST 13, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "8e01b6ed-f31d-49a5-9bb7-f223d4bac873",
+    "name": "Fernschuss",
+    "description": "Du bist besonders geübt im Umgang mit Wurfwaffen. Du erleidest keinen Bereichsabzug mehr für die zweite Reichweitenkategorie beim Werfen von Waffen und kannst improvisierte Wurfgegenstände sicherer einsetzen.",
+    "type": "combat",
+    "prerequisite_text": "Kernschuss"
+  },
+  {
+    "id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65",
+    "name": "Behände Bewegung",
+    "description": "Du bewegst dich behände auch über unsicheren Untergrund. Schwieriges Gelände, das durch natürliche Hindernisse entsteht, verlangsamt dich nicht mehr.",
+    "type": "general",
+    "prerequisite_text": "GE 13"
+  },
+  {
+    "id": "7b13b13a-dc99-46ec-8949-129287074a70",
+    "name": "Verbesserte Initiative",
+    "description": "Du reagierst schneller als gewöhnlich in einer angespannten Situation. Du erhältst einen Bonus von +4 auf Initiativewürfe.",
+    "type": "combat",
+    "prerequisite_text": null
   },
   {
     "id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8",
     "name": "Waffenfokus",
     "description": "Du bist besonders geübt im Umgang mit einer bestimmten Waffe. Du erhältst +1 auf Angriffswürfe mit der gewählten Waffe.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": "Umgang mit gewählter Waffe, GAB +1"
   },
   {
     "id": "2249f151-0809-4c55-80cc-76920111782e",
     "name": "Ausweichen",
     "description": "Du bist besonders geschickt darin, Angriffen auszuweichen. Du erhältst +1 auf die Rüstungsklasse gegen Angriffe eines einzelnen von dir gewählten Gegners.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": "GE 13"
   },
   {
     "id": "63c0f761-c63b-4291-b7f7-d3ad8b27a655",
     "name": "Kampfreflexe",
     "description": "Du kannst mehr Gelegenheitsangriffe ausführen als gewöhnlich und auch dann einen Gelegenheitsangriff ausführen, wenn du hilflos bist.",
-    "type": "combat"
-  },
-  {
-    "id": "83419823-fd94-4ef4-b44e-e3645cc88bbc",
-    "name": "Zäh wie Leder",
-    "description": "Du bist widerstandsfähiger als andere. Du erhältst zusätzliche Trefferpunkte in Höhe deiner Charakterstufe und einen weiteren Trefferpunkt bei jeder künftigen Stufe.",
-    "type": "general"
-  },
-  {
-    "id": "55be997d-0599-493f-b068-d616db9a59fb",
-    "name": "Eisenwille",
-    "description": "Du hast einen außerordentlich starken Willen. Du erhältst einen Bonus von +2 auf Willenswürfe.",
-    "type": "general"
-  },
-  {
-    "id": "04823a20-2479-429e-a754-73df5321eca3",
-    "name": "Blitzreflexe",
-    "description": "Du reagierst blitzschnell auf drohende Gefahren. Du erhältst einen Bonus von +2 auf Reflexwürfe.",
-    "type": "general"
-  },
-  {
-    "id": "5a54884c-8d29-432f-9bd5-2df6e923175e",
-    "name": "Zweiwaffenkampf",
-    "description": "Du bist darin geübt, in jeder Hand eine Waffe zu führen. Der übliche Angriffsabzug beim Kampf mit zwei Waffen verringert sich um 2.",
-    "type": "combat"
-  },
-  {
-    "id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0",
-    "name": "Kraftangriff",
-    "description": "Du kannst im Nahkampf Präzision zugunsten von reiner Wucht opfern. Du kannst dich entscheiden, einen Abzug auf Nahkampf-Angriffswürfe hinzunehmen, um einen entsprechenden Bonus auf den Schaden zu erhalten.",
-    "type": "combat"
-  },
-  {
-    "id": "8e01b6ed-f31d-49a5-9bb7-f223d4bac873",
-    "name": "Wurfwaffenexperte",
-    "description": "Du bist besonders geübt im Umgang mit Wurfwaffen. Du erleidest keinen Bereichsabzug mehr für die zweite Reichweitenkategorie beim Werfen von Waffen und kannst improvisierte Wurfgegenstände sicherer einsetzen.",
-    "type": "combat"
+    "type": "combat",
+    "prerequisite_text": null
   },
   {
     "id": "4a9d8e09-9aa5-44d0-b34e-f23ec5491fed",
     "name": "Fertigkeitsfokus",
     "description": "Du bist auf eine bestimmte Fertigkeit spezialisiert. Du erhältst +3 auf Proben mit der gewählten Fertigkeit; hast du bereits 10 oder mehr Ränge in dieser Fertigkeit, erhöht sich der Bonus auf +6.",
-    "type": "general"
+    "type": "general",
+    "prerequisite_text": null
   },
   {
-    "id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65",
-    "name": "Beweglich wie eine Katze",
-    "description": "Du bewegst dich behände auch über unsicheren Untergrund. Schwieriges Gelände, das durch natürliche Hindernisse entsteht, verlangsamt dich nicht mehr.",
-    "type": "general"
+    "id": "c6d6dddb-6d0f-52cc-b4bb-beac30ea5809",
+    "name": "Akrobat",
+    "description": "Bonus von +2 auf Würfe für Akrobatik und Fliegen",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "44dcfd46-d4ad-590c-88be-f0cd31d6807c",
+    "name": "Allgegenwärtiger Lehrmeister",
+    "description": "Lied des Erfolges wirkt auf einen Verbündeten 24 Stunden lang",
+    "type": "general",
+    "prerequisite_text": "CH 17,  Inspirierender Lehrmeister ^^^^, Bardenauftritt  Lied des Erfolges."
+  },
+  {
+    "id": "529350d5-62ae-5071-bd9d-60cd7a29e947",
+    "name": "Als Mensch durchgehen",
+    "description": "Bonus von +10 auf Fertigkeitswüfe für Verkleiden, um wie ein Mensch auszusehen",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf,  Halb-Ork oder  Halbling (siehe Speziell)."
+  },
+  {
+    "id": "23bd1eaa-28c1-595f-a776-48519dda9790",
+    "name": "Anführen",
+    "description": "Anführen",
+    "type": "general",
+    "prerequisite_text": "Charakter-Erfahrungsstufe 7"
+  },
+  {
+    "id": "e86f3e3d-e593-517f-985a-de34f254c71f",
+    "name": "Angriff im Vorbeireiten",
+    "description": "Bewegung vor und nach einem berittenen Sturmangriff",
+    "type": "combat",
+    "prerequisite_text": "1 Rang in  Reiten,  Berittener Kampf"
+  },
+  {
+    "id": "3577ec9b-e3d1-50f2-a376-a7499a7623bc",
+    "name": "Anpassungsfähiges Glück",
+    "description": "Dein Glück ist fast schon legendär.",
+    "type": "general",
+    "prerequisite_text": "Glücksmagnet, Volksmerkmal  Vielseitiges Glück, Charakterstufe 10,  Halbling."
+  },
+  {
+    "id": "e01ccc4c-4aaf-5fbd-a3bf-823e9ba195eb",
+    "name": "Arkane Rüstungsmeisterschaft",
+    "description": "Reduziert Chance eines arkanen Zauberpatzers um 20%",
+    "type": "combat",
+    "prerequisite_text": "Arkanes Rüstungstraining,  Umgang mit Rüstungen (mittelschwere),  Zauberstufe 7"
+  },
+  {
+    "id": "633315cd-0874-59fe-8fce-bf0e16c357e8",
+    "name": "Arkaner Schlag",
+    "description": "Schaden +1, Waffen werden als magisch behandelt",
+    "type": "combat",
+    "prerequisite_text": "Fähigkeit, arkane Zauber zu wirken"
+  },
+  {
+    "id": "1eb30217-89ee-57c3-baab-4e9d6ce63517",
+    "name": "Arkanes Können",
+    "description": "Zauber des 0. Grades dreimal am Tag als zauberähnliche Fähigkeit",
+    "type": "general",
+    "prerequisite_text": "CH 10;  Elf,  Gnom oder  Halb-Elf."
+  },
+  {
+    "id": "b0874197-c3bb-5d63-b943-cbb2b2229952",
+    "name": "Arkanes Rüstungstraining",
+    "description": "Reduziert Chance eines arkanen Zauberpatzers um 10%",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Rüstungen (leichte),  Zauberstufe 3"
+  },
+  {
+    "id": "0624c43a-289f-5fbc-b006-9de54290e367",
+    "name": "Athlet",
+    "description": "Bonus von +2 auf Würfe für Klettern und Schwimmen",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "name": "Aus vollem Lauf schießen",
+    "description": "Fernkampfangriff zu jedem Zeitpunkt während einer Bewegung möglich",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Ausweichen,  Beweglichkeit,  Kernschuss, Grund-Angriffsbonus +4"
+  },
+  {
+    "id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2",
+    "name": "Ausdauer",
+    "description": "Bonus von +4 auf Würfe, um nichttödlichen Schaden zu vermeiden",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "cdd3f686-ae9a-5ab5-9fe8-38c4e6d379d5",
+    "name": "Ausfallschritt",
+    "description": "Rüstungsmalus von  2 in Kauf nehmen, um mit Reichweite anzugreifen",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +6"
+  },
+  {
+    "id": "0b30c629-76d3-5280-b63e-a94fc06e30e3",
+    "name": "Ausweichen vorausahnen [Kampf]",
+    "description": "Erhalte einen Bonus von bis zu +2 auf Angriffswürfe gegen Kreaturen mit einem Ausweichenbonus",
+    "type": "combat",
+    "prerequisite_text": "Ausweichen,  Beweglichkeit; GAB +7 oder 4.  Mönchs- oder  Raufboldstufe^^ABRVI^^."
+  },
+  {
+    "id": "300d6b3d-f156-5d73-a954-f6b99be07dd6",
+    "name": "Bedrohliche Darbietung",
+    "description": "Alle Feinde im Umkreis von 9 m zu demoralisieren",
+    "type": "combat",
+    "prerequisite_text": "Waffenfokus, Umgang mit Waffen für die ausgewählte Waffe, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "f240d4a6-b268-51f5-9e56-bd19e2215ad2",
+    "name": "Beherzter Sturmangriff",
+    "description": "Doppelter Schaden bei berittenem Sturmangriff",
+    "type": "combat",
+    "prerequisite_text": "1 Rang in  Reiten,  Berittener Kampf,  Angriff im Vorbeireiten"
+  },
+  {
+    "id": "24874524-0fda-53a1-849c-2370bc9f4275",
+    "name": "Belesener Gauner",
+    "description": "Verändere die zauberähnliche Fähigkeit deines Schurkentricks mittels Studien",
+    "type": "general",
+    "prerequisite_text": "Schurkentrick Mindere Magie."
+  },
+  {
+    "id": "182a63e3-af2b-545a-9c46-b1d55dd4b1d3",
+    "name": "Beredsamkeit",
+    "description": "Bonus von +2 auf Würfe für Diplomatie und Einschüchtern",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "67b8bad3-0158-585c-adca-36c7493f8651",
+    "name": "Berittener Fernkampf",
+    "description": "Halbierter Malus bei Fernkampfangriffen im Reiten",
+    "type": "combat",
+    "prerequisite_text": "1 Rang in  Reiten,  Berittener Kampf"
+  },
+  {
+    "id": "9efde199-5675-5e16-9ebd-63932b7411f5",
+    "name": "Berittener Kampf",
+    "description": "Angriffe auf das Reittier können mit Wurf auf Reiten vermieden werden",
+    "type": "combat",
+    "prerequisite_text": "1 Rang in  Reiten"
+  },
+  {
+    "id": "3df46827-702c-5621-b542-ac5e664e3d29",
+    "name": "Berserkerheilung",
+    "description": "Erlange Schnelle Heilung, während du Berserkerlied nutzt oder dich im Kampfrausch befindest und Auftreten einsetzt",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Berserkerlied^^ABR^^ ^^VI^^."
+  },
+  {
+    "id": "fc9704c4-3919-5476-95f7-671fbe17319c",
+    "name": "Bestienreiter",
+    "description": "Du erhältst einen monströsen Tiergefährten oder ein monströses Reittier.",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Reittier oder  Tiergefährte, Charakterstufe 7,  Halb-Ork oder Ork."
+  },
+  {
+    "id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
+    "name": "Betäubender Schlag",
+    "description": "Gegner mit waffenlosem Schlag betäuben",
+    "type": "combat",
+    "prerequisite_text": "GE 13, WE 13,  Verbesserter waffenloser Schlag, Grund-Angriffsbonus +8"
+  },
+  {
+    "id": "7a329ee5-1d48-591e-b7f1-bb66b1828328",
+    "name": "Bevorzugter Richtspruch",
+    "description": "Richtsprüche haben höheren Effekt bei von der Liste der Waldläufererzfeinden ausgesuchten Kreaturen",
+    "type": "general",
+    "prerequisite_text": "Wähle ein bevorzugtes Volk von der  Liste der Erzfeinde des  Waldläufers. Jeder Heilige oder Unheilige Bonus, den du durch einen  Richtspruch erhältst, ist bei Angriffen gegen Kreaturen oder von Kreaturen dieser  Erzfeind-Kategorie um +1 höher."
+  },
+  {
+    "id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+    "name": "Beweglichkeit",
+    "description": "RK +4 gegen Gelegenheitsangriffe während einer Bewegung",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Ausweichen"
+  },
+  {
+    "id": "035036ca-960e-5272-8413-10426a9570b0",
+    "name": "Beweglichkeit kontern [Kampf]",
+    "description": "Gegner mit Beweglichkeit erhalten keinen Bonus, wenn sie bei dir Gelegenheitsangriffe provozieren",
+    "type": "combat",
+    "prerequisite_text": "Ausweichen,   Ausweichen vorausahnen^^ABR^^ ^^VI^^,  Beweglichkeit; GAB +9 oder 6.  Mönchs- oder  Raufboldstufe."
+  },
+  {
+    "id": "f770acff-c2cb-5cc2-b941-1cc852da1840",
+    "name": "Blattsänger",
+    "description": "Du erhältst Boni auf deinen Bardenauftritt in Wäldern und Elf oder Halb-Elf gegen Feen",
+    "type": "general",
+    "prerequisite_text": "CH 13, Klassenmerkmal  Bardenauftritt,  Elf oder  Halb-Elf."
+  },
+  {
+    "id": "6711c382-044f-5e84-acfc-ad76d3c4efcf",
+    "name": "Blind kämpfen",
+    "description": "Erneutes Auswürfeln der Fehlschlagchance bei Tarnung",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "893c8d36-3b9c-5a95-a052-681bf5f40c3e",
+    "name": "Blutrache",
+    "description": "Wenn du einen Verbündeten im Kampf fallen siehst, erfüllt dich das mit mörderischem Zorn.",
+    "type": "general",
+    "prerequisite_text": "Halb-Ork,  Ork, keine rechtschaffene  Gesinnung."
+  },
+  {
+    "id": "1e729c98-982b-5679-a793-c4e148d5af52",
+    "name": "Boxkampfbeinarbeit [Kampf, Kampfstil]",
+    "description": "Bewege dich um 1,50 m, ohne Gelegenheitsangriffe zu provozieren, wenn du mit einem waffenlosen Schlag triffst",
+    "type": "kampfkunst",
+    "prerequisite_text": "Ausweichen,  Beweglichkeit,  Boxkampfstil^^ABR^^ ^^VI^^; GAB +9 oder 5.  Mönchs- oder  Raufboldstufe^^ABR^^ ^^VI^^."
+  },
+  {
+    "id": "8b718a45-516f-558e-8831-4f8c0eb085a3",
+    "name": "Boxkampfmeister [Kampf, Kampfstil]",
+    "description": "Erhöhe den Schaden von Boxkampfstil",
+    "type": "kampfkunst",
+    "prerequisite_text": "Ausweichen,  Beweglichkeit,  Boxkampfbeinarbeit^^ABR^^ ^^VI^^,  Boxkampfstil^^ABR^^ ^^VI^^,  Heftiger Angriff; GAB +12 oder 8.  Mönchs- oder  Raufboldstufe."
+  },
+  {
+    "id": "70605bb5-9aba-5363-9302-a4cc015906ca",
+    "name": "Defensive Kampfweise",
+    "description": "Defensive Kampfweise",
+    "type": "combat",
+    "prerequisite_text": "IN 13"
+  },
+  {
+    "id": "e146df59-6eca-5496-b9df-e4226a890a94",
+    "name": "Defensives Kampftraining",
+    "description": "Wandle Angriffsbonus in Rüstungsbonus um",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
+    "name": "Doppelschlag",
+    "description": "Zusatzangriff nach einem erfolgreichem ersten Angriff",
+    "type": "combat",
+    "prerequisite_text": "ST 13,  Heftiger Angriff, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "51bccca6-1d32-58b7-8189-ac94dfa724b5",
+    "name": "Doppelschnitt",
+    "description": "Voller Stärkebonus auf Schaden mit Zweithandwaffe",
+    "type": "combat",
+    "prerequisite_text": "GE 15,  Kampf mit zwei Waffen"
+  },
+  {
+    "id": "b3fe4090-ebfb-5338-816f-959f2e54881b",
+    "name": "Dranbleiben",
+    "description": "1,50 m-Schritt als Augenblickliche Aktion",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "f70f9afd-4245-5975-af06-a315e231f5d1",
+    "name": "Durchschlagende Zauber",
+    "description": "Bonus von +2 auf Zauberstufenwürfe, um Zauberresistenz zu überwinden",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "88f4f4af-da4d-51ff-ac36-e674cbb05d5a",
+    "name": "Durchschlagender Hieb",
+    "description": "Angriffe ignorieren 5 Punkte Schadensreduzierung",
+    "type": "combat",
+    "prerequisite_text": "Waffenfokus, Grund-Angriffsbonus +1, KÄM 12, Umgang mit Waffen"
+  },
+  {
+    "id": "73238862-9538-590c-b498-0d96e1ae9b43",
+    "name": "Einschüchternde Kraft",
+    "description": "ST wird zusätzlich zu CH auf Einschüchtern addiert",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "c78e3163-7b92-5a08-9e2a-a6fb6e0d03a0",
+    "name": "Einschüchternder Auftritt",
+    "description": "Demoralisiere Gegner mittels Auftreten",
+    "type": "general",
+    "prerequisite_text": "Fähigkeit zum Beginnen eines  Bardenauftritts oder  Berserkerliedes^^ABR^^ ^^VI^^ als  Bewegungsaktion; Klassenmerkmal  Bardenauftritt oder  Berserkerlied^^ABR^^ ^^VI^^."
+  },
+  {
+    "id": "c3a55e6c-7548-51ce-bd56-34a34b47eb29",
+    "name": "Einschüchterndes Selbstvertrauen",
+    "description": "Wenn du einen Kritischen Treffer bestätigst, kannst du als Freie Aktion einen Fertigkeitswurf für Einschüchtern ablegen, um eine von dir bedrohte Kreatur zu demoralisieren.",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Furchtlose Neugier,  Einschüchtern 5 Fertigkeitsränge,  Mensch."
+  },
+  {
+    "id": "bddd2053-a03a-5206-83e7-2e6966686c4c",
+    "name": "Eisenhaut",
+    "description": "Natürlicher Rüstungsbonus von +1 auf RK",
+    "type": "general",
+    "prerequisite_text": "KO 13,  Halb-Ork,  Ork oder  Zwerg."
+  },
+  {
+    "id": "a394f87f-1331-585b-90b5-6ad0260b7b4b",
+    "name": "Eiserner Magen",
+    "description": "Bonus von +2 auf Rettungswürfe gegen Übelkeit, kränkelnd und eingenommene Gifte",
+    "type": "general",
+    "prerequisite_text": "KO 13,  Halb-Ork, Ork oder  Zwerg."
+  },
+  {
+    "id": "fb5b6f63-bf77-57d2-974f-201b66144f44",
+    "name": "Eiszauberer",
+    "description": "Alle deine Zauber der Kategorie Kälte werden mit einem Bonus von +1 auf deine effektive Zauberstufe gewirkt.",
+    "type": "general",
+    "prerequisite_text": "Hexenmeister, kann nur mit der 1. Stufe gewählt werden."
+  },
+  {
+    "id": "0ac4a5b0-ac9e-5bee-8662-e6380ee1b2a9",
+    "name": "Element fokussieren",
+    "description": "Energie fokussieren kann Elementarwesen verletzen oder heilen",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Energie fokussieren"
+  },
+  {
+    "id": "13f52302-d007-5e77-980f-fd8e505f2555",
+    "name": "Elfenseele",
+    "description": "Du besitzt das elfische Volksmerkmal Elfenmagie.",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf."
+  },
+  {
+    "id": "3e7ff6eb-71db-5a80-bf4a-e47244c1b7fa",
+    "name": "Elfische Zielgenauigkeit",
+    "description": "Würfle erneut, wenn du mit dem Bogen ein Ziel aufgrund von Tarnung verfehlst.",
+    "type": "combat",
+    "prerequisite_text": "Elf."
+  },
+  {
+    "id": "7d246a74-9577-5470-8295-50fb0239b757",
+    "name": "Elfisches Kampftraining",
+    "description": "Du hast ein besonderes Training an diversen traditionellen, elfischen Waffen erhalten.",
+    "type": "combat",
+    "prerequisite_text": "Elf, GAB +1."
+  },
+  {
+    "id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "name": "Entsatteln",
+    "description": "Hebe Gegner aus dem Sattel",
+    "type": "combat",
+    "prerequisite_text": "ST 13, 1 Rang  Reiten,  Berittener Kampf,  Heftiger Angriff,  Verbesserter Ansturm, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "800a94fa-abf6-5f68-90ca-c606d451420c",
+    "name": "Feenschlag [Kampf]",
+    "description": "Nutze Konzentrierter Schlag, um Gegner zum Leuchten zu bringen",
+    "type": "combat",
+    "prerequisite_text": "Naturmagie oder Fähigkeit zum Wirken von Druiden- oder Waldläuferzaubern;  Konzentrierter Schlag; 5 Fertigkeitsränge in  Wissen (Natur)."
+  },
+  {
+    "id": "79f64df0-d30d-56c0-a926-2b671934fd6b",
+    "name": "Feenzauber erlernen",
+    "description": "Erweitere deine Waldläuferzauberliste um Illusionen, Verzauberungen oder Flüche",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Zauberkunde 1 Fertigkeitsrang, Fähigkeit zum Wirken von Waldläuferzaubern."
+  },
+  {
+    "id": "9bd64628-f69e-5be5-9fa4-4702ef524309",
+    "name": "Feenzauberkunde",
+    "description": "Erweitere deine Druidenzauberliste um Feenzauber",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Zauberkunde 1 Fertigkeitsrang, Fähigkeit zum Wirken von Druidenzaubern."
+  },
+  {
+    "id": "3f0f0a0c-ea26-5798-9385-ec9acb9a7760",
+    "name": "Festung (Quest)",
+    "description": "Du willst eine Bastion errichten, an der sich deine Feinde die Nasen blutig schlagen.",
+    "type": "questtalente",
+    "prerequisite_text": "Du musst das Talent Anführer und wenigstens 10 kampffähige Anhänger (z.B.  Kämpfer oder  Waldläufer) besitzen."
+  },
+  {
+    "id": "83a24fe4-c42d-5576-848c-143f5b89bd11",
+    "name": "Feurige Musik",
+    "description": "Ersetze den Schaden von Bardenzaubern durch Feuerschaden, herbeigezauberte Monster erhalten Feuerangriffe",
+    "type": "general",
+    "prerequisite_text": "Zauberkunde 5 Ränge, Fähigkeit zum Wirken von Bardenzaubern, Fähigkeit zum Wirken eines arkanen Feuerzaubers durch eine andere zauberkundige  Klasse."
+  },
+  {
+    "id": "cecedf3d-1740-5f1e-995e-b6ab00d28f84",
+    "name": "Flexible Zauberei",
+    "description": "Bereite einige Zauber flexibler vor",
+    "type": "general",
+    "prerequisite_text": "Zaubermeisterschaft; 1.  Magierstufe."
+  },
+  {
+    "id": "3ca005e4-a509-5784-93d4-99db1cf1e41a",
+    "name": "Flinke Manöver",
+    "description": "Flinke Manöver",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "30286da0-ff91-5b79-b7aa-fac462fd929f",
+    "name": "Flucht verhindern",
+    "description": "1,50 m-Schritte und Rückzug provozieren Gelegenheitsangriffe durch dich",
+    "type": "combat",
+    "prerequisite_text": "Kampfreflexe,  Kämpfer 11."
+  },
+  {
+    "id": "be2508cb-e85c-5e54-bc46-033fe597ba63",
+    "name": "Fokussiertes Niederstrecken",
+    "description": "Energie durch deinen Angriff fokussieren",
+    "type": "combat",
+    "prerequisite_text": "Klassenfähigkeit  Energie fokussieren"
+  },
+  {
+    "id": "ce77bfa5-b6d0-5490-934e-82555dec0e7d",
+    "name": "Furchtlose Neugier",
+    "description": "Du erhältst einen Bonus von +1 auf Rettungswürfe gegen Effekte der Kategorie Gefühl. und kannst Furchteffekten besser widerstehen.",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Mensch."
+  },
+  {
+    "id": "edb2a505-1698-5dab-a510-3de9959f145e",
+    "name": "Furchtloser Eifer (Quest)",
+    "description": "Du bist bereit, für deinen Glauben zu sterben.",
+    "type": "questtalente",
+    "prerequisite_text": "Du musst ein geweihter heiliger (oder unheiliger) Streiter deines Glaubens sein und diese Weihe muss ein hochrangiger Angehöriger des Klerus ausgeführt haben. Alternativ musst du den Hintergrund Bote des Glaubens, Erbsünde oder Treue besitzen. Eine solche Ehre geht über die normalen Eide hinaus, welche von einem  Kleriker oder  Paladin verlangt werden."
+  },
+  {
+    "id": "d6a3b3f1-d097-54aa-8d68-a064a585b4ef",
+    "name": "Fähiger Zauberkünstler",
+    "description": "Erhalte zusätzliche Anwendungen von zauberähnlichen Fähigkeiten",
+    "type": "general",
+    "prerequisite_text": "Schurkentrick  Höhere Magie,  Niedere Magie."
+  },
+  {
+    "id": "ab7a032c-6dac-5089-9602-818918ce45d3",
+    "name": "Gegenschlag",
+    "description": "Gegner attackieren, während sie mit Reichweite angreifen",
+    "type": "combat",
+    "prerequisite_text": "GAB +11."
+  },
+  {
+    "id": "7d58627c-e105-594a-af8c-2b34fb3b44ed",
+    "name": "Geist der Wildnis",
+    "description": "Deine mystische Verbundenheit mit einer Art von Wildnis wird noch stärker",
+    "type": "general",
+    "prerequisite_text": "Elf,  Wächter der Wildnis,  Wildnisverbunden."
+  },
+  {
+    "id": "0ce67397-2496-5618-87c3-d310d40d02c8",
+    "name": "Geruchssinn",
+    "description": "Erhalte die besondere Fähigkeit Geruchsinn",
+    "type": "general",
+    "prerequisite_text": "WE 13,  Halb-Ork oder Ork."
+  },
+  {
+    "id": "fccf489c-0881-5fc1-9e21-53417428ff38",
+    "name": "Geschickte Hände",
+    "description": "Bonus von +2 auf Würfe für Mechanismus ausschalten und Fingerfertigkeit",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "ce232214-31bf-505e-ac42-d797a43be42c",
+    "name": "Geschmeidige Bewegung",
+    "description": "6 m schwierigen Geländes beim Bewegen ignorieren",
+    "type": "general",
+    "prerequisite_text": "Behände Bewegung, GE 15."
+  },
+  {
+    "id": "33d663f9-39ba-57ea-bb5a-03226ef7d6bc",
+    "name": "Geschosse abwehren",
+    "description": "Einen Fernkampfangriff pro Runde abwehren",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Verbesserter waffenloser Schlag"
+  },
+  {
+    "id": "535c0232-64fa-5a89-81c6-4c5f89ed4392",
+    "name": "Geschosse fangen",
+    "description": "Einmal pro Runde Geschoss eines abgewehrten Fernkampfangriffs fangen",
+    "type": "combat",
+    "prerequisite_text": "GE 15,  Geschosse abwehren,  Verbesserter waffenloser Schlag"
+  },
+  {
+    "id": "3674d6c0-0030-5e40-b1a6-d0eb23d85e09",
+    "name": "Gesellig",
+    "description": "Verleihe freundlichen Kreaturen einen Bonus von +2 bei Würfen auf Diplomatie",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Halb-Elf."
+  },
+  {
+    "id": "5eeb7665-4e00-5328-a03a-fdc235cd1efa",
+    "name": "Gesinnung fokussieren",
+    "description": "Energie fokussieren kann Externare heilen oder verletzen",
+    "type": "general",
+    "prerequisite_text": "Fähigkeit,  Energie zu fokussieren"
+  },
+  {
+    "id": "1561f4ae-4097-54ac-b7cb-97d2c39b4e30",
+    "name": "Gestenlos zaubern",
+    "description": "Zauber ohne Gestenkomponente wirken",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "2b4e40ef-fd2b-5528-9623-f6cf04cb31ac",
+    "name": "Geteilte Einsicht",
+    "description": "Verleihe freundlichen Kreaturen einen Bonus von +2 auf Wahrnehmungswürfe",
+    "type": "general",
+    "prerequisite_text": "WE 13,  Halb-Elf."
+  },
+  {
+    "id": "80cea8a5-7dc2-5063-b221-54d777eebfc9",
+    "name": "Geteilte Manipulation",
+    "description": "Du kannst Verbündeten die dich sehen oder hören können, einen Bonus von +2 auf Fertigkeitswürfe für Bluffen oder Einschüchtern verleihen.",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf, CH 13."
+  },
+  {
+    "id": "0e89e906-3db7-578a-b07e-4247875e2624",
+    "name": "Gezieltes Fokussieren",
+    "description": "Wählen, wen man mit Energie fokussieren betreffen möchte",
+    "type": "general",
+    "prerequisite_text": "CH 13, Fähigkeit  Energie fokussieren"
+  },
+  {
+    "id": "79ec5dd4-6efd-513c-93fa-091c8b91b0ab",
+    "name": "Glück im Unglück",
+    "description": "Einmal am Tag einen Wurf einer natürlichen 1 erneut würfeln.",
+    "type": "general",
+    "prerequisite_text": "Mensch."
+  },
+  {
+    "id": "86ed4757-b5fa-519b-a5bf-48719534c1cc",
+    "name": "Glück verleihen",
+    "description": "Du kannst deine Fähigkeit Unerklärliches Glück einem Verbündeten gewähren, der dich sehen und hören kann.",
+    "type": "general",
+    "prerequisite_text": "Glück im Unglück,  Unerklärliches Glück,  Mensch."
+  },
+  {
+    "id": "2e7dd39d-0019-5b1d-adbd-947090d8227a",
+    "name": "Glücklicher Heiler",
+    "description": "Dein Glück gestattet es dir, mehr Nutzen aus magischer Heilung zu ziehen.",
+    "type": "general",
+    "prerequisite_text": "Volksmerkmal  Vielseitiges Glück,  Halbling."
+  },
+  {
+    "id": "50f9e2dc-32c0-58ab-bec5-31c4da471a36",
+    "name": "Glücklicher Schlag",
+    "description": "Dein Glück verbessert die Kraft deiner Waffenangriffe.",
+    "type": "combat",
+    "prerequisite_text": "GAB +5, Volksmerkmal  Vielseitiges Glück,  Halbling."
+  },
+  {
+    "id": "6c68271f-2fe5-5a1f-a499-eb958fc9127f",
+    "name": "Glücksmagnet",
+    "description": "Dein Glück ist sehr anpassungsfähig.",
+    "type": "general",
+    "prerequisite_text": "Volksmerkmal  Vielseitiges Glück,  Halbling."
+  },
+  {
+    "id": "9f0466e4-3690-5045-b39a-f545367c63eb",
+    "name": "Gorgonenfaust",
+    "description": "Verlangsamten Gegner ins Wanken bringen",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter waffenloser Schlag,  Skorpionstachel, Grund-Angriffsbonus +6"
+  },
+  {
+    "id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "name": "Große Unverwüstbarkeit",
+    "description": "Nicht wankend bei Einsatz von Unverwüstlich; +2 auf Nahkampfschadenswürfe",
+    "type": "combat",
+    "prerequisite_text": "ST 13, KO 13,  Ork oder  Halb-Ork,  Ausdauer,  Unverwüstlich, GAB +6."
+  },
+  {
+    "id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "name": "Große Unverwüstbarkeit (Variante - Wunden und Vitalität)",
+    "description": "In dir ruft der bevorstehende Tod nur Zorn hervor.",
+    "type": "combat",
+    "prerequisite_text": "ST 13, KO 13,  Ausdauer,  Unverwüstlich, GAB +6,  Ork oder  Halb-Ork."
+  },
+  {
+    "id": "829e5260-09e3-5d30-b99a-01d0e3498b56",
+    "name": "Große Zähigkeit",
+    "description": "Bonus von +2 auf Zähigkeitswürfe",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "4eaacc58-d01d-5608-9241-4d2872e84d24",
+    "name": "Halbblut",
+    "description": "Halbblut",
+    "type": "general",
+    "prerequisite_text": "Mensch."
+  },
+  {
+    "id": "79c63b2a-e479-5892-b45e-b00a2a5f25ea",
+    "name": "Halblingglück",
+    "description": "Du kannst einmal am Tag einen Rettungswurf für einen\r\nVerbündeten wiederholen",
+    "type": "general",
+    "prerequisite_text": "Halbling."
+  },
+  {
+    "id": "c817df71-c95b-5b6a-b844-aa7567077107",
+    "name": "Harmonische Zauber",
+    "description": "Du kannst die Effekte von Bardenmusik mit deiner Zauberei derart verknüpfen, sodass man deinen Bardenauftritt und deine Zauber nicht voneinander unterscheiden kann.",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Bardenauftritt."
+  },
+  {
+    "id": "83bfcd07-6b16-5747-a00d-fd504df90985",
+    "name": "Heftiger Angriffsrausch",
+    "description": "Nimm einen Malus auf Angriffswürfe, um im Kampfrausch höheren Schaden zu verursachen",
+    "type": "general",
+    "prerequisite_text": "Heftiger Angriff; Klassenmerkmal  Berserkerlied^^ABR^^ ^^VI^^ oder  Kampfrausch."
+  },
+  {
+    "id": "30717985-8594-5724-89c1-2d323d13e5aa",
+    "name": "Heldenhafter Wille",
+    "description": "Dein unbezwingbarer Wille lässt dich geistige Fesseln brechen.",
+    "type": "general",
+    "prerequisite_text": "Eiserner Wille, WIL +4,  Mensch."
+  },
+  {
+    "id": "f1a615d0-481c-5ef4-b8b2-ea85d30a4b48",
+    "name": "Hexenmeisterschlag",
+    "description": "Nutze eine Blutlinenkraft gegen einen Gegner als Teil eines Nahkampfangriffes",
+    "type": "combat",
+    "prerequisite_text": "Klassenmerkmal  Blutlinie des  Hexenmeisters,  Verbesserter waffenloser Schlag."
+  },
+  {
+    "id": "3228cc82-b7c5-5ba0-9606-5d3021029d85",
+    "name": "Hier und doch nicht da",
+    "description": "Du erhältst einen Bonus von +2 auf alle Rettungswürfe gegen Ausspähung und Erkenntnismagie.",
+    "type": "general",
+    "prerequisite_text": "Charakterstufe 5+,  Halb-Elf,  Pfad des Verstoßenen."
+  },
+  {
+    "id": "85937410-23ad-56db-983c-f437d60fcf57",
+    "name": "Hordensturmangriff",
+    "description": "Wenn du zusammen mit einem Verbündeten einen Sturmangriff ausführst, bist du um einiges gefährlicher.",
+    "type": "teamwork",
+    "prerequisite_text": "GAB +1,  Halb-Ork oder  Ork."
+  },
+  {
+    "id": "39b7ebe1-c594-53d2-8987-f9b5d947a12c",
+    "name": "Im Kampf zaubern",
+    "description": "Bonus von +4 auf Konzentrationswürfe, wenn du defensiv zaubern möchtest",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "3d2e10e8-d66d-5c51-9a0d-5831322e9e6d",
+    "name": "Improvisation",
+    "description": "Du erhältst einen Bonus von +2 auf alle Fertigkeitswürfe für Fertigkeiten, in denen du keine Fertigkeitsränge besitzt.",
+    "type": "general",
+    "prerequisite_text": "IN 13,  Schnelle Auffassungsgabe,  Mensch."
+  },
+  {
+    "id": "067f3644-4829-54e6-b800-05945854c6ed",
+    "name": "Improvisierter Fernkampf",
+    "description": "Keine Abzüge auf improvisierte Fernkampfwaffen",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "1d77dae7-7000-56b9-ac44-e50ad483fa58",
+    "name": "Improvisierter Nahkampf",
+    "description": "Kein Malus im Kampf mit improvisierten Nahkampfwaffen",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "fee82d0c-5af8-5640-a0ad-dea80b997f25",
+    "name": "In Tiergestalt zaubern",
+    "description": "In Tiergestalt Zauber wirken",
+    "type": "general",
+    "prerequisite_text": "WE 13, Klassenfähigkeit  Tiergestalt"
+  },
+  {
+    "id": "a831faee-9347-5af3-a179-5d7c50ee738d",
+    "name": "Inbegriff eines Drow",
+    "description": "Effekte, welche auf Volkszugehörigkeit abzielen, behandeln dich als Drow.",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf, Volksmerkmale  Drowblütig und  Drow-Magie."
+  },
+  {
+    "id": "27339a23-4021-5cdc-ae9e-6eabb3e667a6",
+    "name": "Inspirierender Lehrmeister",
+    "description": "Lied des Erfolges wirkt auf Verbündete innerhalb von 9 m",
+    "type": "general",
+    "prerequisite_text": "CH 13, Bardenauftritt  Lied des Erfolges."
+  },
+  {
+    "id": "38649d91-4195-5a04-b150-531c0725f1a5",
+    "name": "Kampfrausch zurückerlangen",
+    "description": "Erlange Runden an Berserkerlied oder Kampfrausch mit jedem unter 1 TP reduzierten Gegner zurück",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal   Berserkerlied^^ABR^^ ^^VI^^ oder  Kampfrausch."
+  },
+  {
+    "id": "2574df5c-b29b-50ed-944e-888cb9f8bea7",
+    "name": "Kampfstilmeisterschaft",
+    "description": "Kann mit einer Freien Aktion den Kampfstil wechseln",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter waffenloser Schlag, zwei oder mehr Kampf kunsttalente, GAB +6 oder  Mönch 5."
+  },
+  {
+    "id": "607382f5-136e-51c8-a892-45f19f53c42d",
+    "name": "Kein Vorbeikommen",
+    "description": "Hindere Feinde daran, an dir vorbeizukommen",
+    "type": "combat",
+    "prerequisite_text": "Kampfreflexe"
+  },
+  {
+    "id": "d354f4dd-4002-5e8f-89f1-3696f8b402aa",
+    "name": "Kindlich",
+    "description": "Bonus von +2 auf Verkleidenwürfe, um als menschliches Kind durchzugehen, bei Bluffenwürfen 10 nehmen",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Halbling."
+  },
+  {
+    "id": "fb4e8a09-817e-5195-a966-3e3682e312e9",
+    "name": "Klingenhauer",
+    "description": "Du erhältst einen Biss-Angriff",
+    "type": "general",
+    "prerequisite_text": "Halb-Ork."
+  },
+  {
+    "id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e",
+    "name": "Konzentrierter Schlag",
+    "description": "Doppelter Schaden mit einem einzelnen Angriff",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +6"
+  },
+  {
+    "id": "b9d5dc23-9e01-5e1a-bd77-08859d485af3",
+    "name": "Kraftvolle Tiergestalt",
+    "description": "In Tiergestalt wirst du behandelt, als wäre deine Größe um eine Kategorie größer",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Tiergestalt,  Druide 8+."
+  },
+  {
+    "id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "name": "Kranichriposte",
+    "description": "Wenn du einen Angriff ablenkst, kannst du einen Gelegenheitsangriff ausführen",
+    "type": "combat",
+    "prerequisite_text": "Ausweichen,  Kranichschwinge,  Kranichstil,  Verbesserter waffenloser Schlag, GAB +8 oder  Mönch 7."
+  },
+  {
+    "id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0",
+    "name": "Kranichschwinge",
+    "description": "Du kannst einen Angriff pro Runde ablenken, wenn du defensiv kämpfst oder Volle Verteidigung nutzt",
+    "type": "combat",
+    "prerequisite_text": "Ausweichen,  Kranichstil,  Verbesserter waffenloser Schlag, GAB +5 oder  Mönch 5."
+  },
+  {
+    "id": "0d7d316e-c8ca-5934-acc8-c2437f00c781",
+    "name": "Kranichstil",
+    "description": "Dein Malus auf Angriffswürfe beträgt nur -2, wenn du defensiv kämpfst",
+    "type": "kampfkunst",
+    "prerequisite_text": "Ausweichen,  Verbesserter waffenloser Schlag, GAB +2 oder  Mönch 1."
+  },
+  {
+    "id": "1e5690a9-17ed-5cc2-899c-b209ab2ba521",
+    "name": "Kriegssänger",
+    "description": "Du erhältst Boni auf deinen Bardenauftritt auf Schlachtfeldern und gegen Orks",
+    "type": "general",
+    "prerequisite_text": "CH 13, Klassenmerkmal  Bardenauftritt,  Halb-Ork oder Ork."
+  },
+  {
+    "id": "1097d2af-f11e-5e43-93a5-9485dbca2dbe",
+    "name": "Kritischer Treffer (betäubt)",
+    "description": "Ziel ist betäubt bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus,  Kritischer Treffer (wankend), Grund-Angriffsbonus +17"
+  },
+  {
+    "id": "22a1067b-b659-546d-87b3-f007744b57c8",
+    "name": "Kritischer Treffer (blind)",
+    "description": "Ziel ist blind bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffsbonus +15"
+  },
+  {
+    "id": "b59406b5-53ae-5982-8652-68d5d74a8183",
+    "name": "Kritischer Treffer (blutend)",
+    "description": "Ziel erleidet 2W6 Schaden durch Blutung bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "c852126d-2b3d-5a10-b82a-a5e10f6f7ba9",
+    "name": "Kritischer Treffer (entkräftet)",
+    "description": "Ziel ist entkräftet bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus,  Kritischer-Treffer (erschöpft), Grund-Angriffsbonus +15"
+  },
+  {
+    "id": "56cbcf0c-111e-5f46-aa5e-32a9f17955fb",
+    "name": "Kritischer Treffer (erschöpft)",
+    "description": "Ziel ist erschöpft bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffsbonus +13"
+  },
+  {
+    "id": "064ae59c-9034-57ee-b33e-1d99d47a4f62",
+    "name": "Kritischer Treffer (kränkelnd)",
+    "description": "Ziel ist kränkelnd bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "26b3259d-f329-520c-a897-e8b17a00a9c6",
+    "name": "Kritischer Treffer (taub)",
+    "description": "Ziel ist taub bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffsbonus +13"
+  },
+  {
+    "id": "2e30f449-497e-5b3f-8ac3-ecad60cf723c",
+    "name": "Kritischer Treffer (wankend)",
+    "description": "Ziel ist wankend bei kritischem Treffer",
+    "type": "kritischer_treffer",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, Grund-Angriffs bonus +13"
+  },
+  {
+    "id": "7b938552-3931-5e62-8310-f22e4faba5c0",
+    "name": "Kritischer-Treffer-Fokus",
+    "description": "Bonus +4 zur Bestätigung von kritischen Treffern",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +9"
+  },
+  {
+    "id": "f5fb5411-e121-5ca5-9126-b6ff32ba927a",
+    "name": "Kritischer-Treffer-Meisterschaft",
+    "description": "Wende bei kritischem Treffer zwei Effekte an",
+    "type": "combat",
+    "prerequisite_text": "Kritischer-Treffer-Fokus, zwei beliebige Kritischer-Treffer-Talente, KÄM 14"
+  },
+  {
+    "id": "d2799c02-7916-5786-9c96-8179d1fd8fa7",
+    "name": "Kritischer-Treffer-Vielseitigkeit",
+    "description": "Einmal am Tag kannst du 1 Stunde lang Manöver einüben, um ein Kritischer-Treffer-Talent zu erhalten.",
+    "type": "combat",
+    "prerequisite_text": "Kämpferstufe 11,  Mensch."
+  },
+  {
+    "id": "7491e499-18d2-5a47-b25d-e799e94a80b3",
+    "name": "Lautlos zaubern",
+    "description": "Zauber ohne verbale Komponente wirken",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "8d3480d2-80a5-542b-afb4-c82c1e1d9883",
+    "name": "Legendäre Elfische Zielgenauigkeit (Legende)",
+    "description": "Dein elfischer Blick durchdringt jede Tarnung",
+    "type": "general",
+    "prerequisite_text": "Elfische Zielgenauigkeit ^^EXP^^."
+  },
+  {
+    "id": "ae02c710-2a9e-58ba-b678-c2ca085f39c5",
+    "name": "Legendärer Kriegspriester (Legende)",
+    "description": "Dein Glaube treibt dich im Kampf voran und stärkt deinen Geist und dein Selbstvertrauen.",
+    "type": "general",
+    "prerequisite_text": "Kriegspriester ^^ABR^^."
+  },
+  {
+    "id": "2621bb3f-48a2-55b7-83ea-2384d6c2638b",
+    "name": "Legendäres Halblingglück (Legende)",
+    "description": "Du teilst dein legendäres Glück mit anderen.",
+    "type": "general",
+    "prerequisite_text": "Halblingglück ^^EXP^^."
+  },
+  {
+    "id": "f48f0bf7-950b-580c-a3ba-50f18313e173",
+    "name": "Leichtfüßige Bewegung",
+    "description": "Du kannst dich in schwierigem Gelände mit normaler Bewegungsreichweite fortbewegen",
+    "type": "general",
+    "prerequisite_text": "Geschmeidige Bewegung,  Behände Bewegung,  Elf."
+  },
+  {
+    "id": "e3f29b59-d32b-574b-8779-804316413ba4",
+    "name": "Leichtfüßigkeit",
+    "description": "Grundgeschwindigkeit erhöht sich um 1,5 Meter",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "9dc39c28-1bce-5013-a15e-1154d6c95a86",
+    "name": "Magische Waffen und Rüstungen herstellen",
+    "description": "Magische Rüstungen, Schilde und Waffen herstellen herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 5."
+  },
+  {
+    "id": "22c258a9-86a1-5b04-b7f4-d9e3adeea83e",
+    "name": "Materialkomponentenlos zaubern",
+    "description": "Ohne Materialkomponenten zaubern",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "name": "Medusenzorn",
+    "description": "Zwei zusätzliche Angriffe gegen beeinträchtigten Gegner",
+    "type": "combat",
+    "prerequisite_text": "Gorgonenfaust,  Skorpionstachel,  Verbesserter waffenloser Schlag, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "a7822480-1973-55ec-9e21-862210ce7134",
+    "name": "Mehrfachschuss",
+    "description": "Zwei Pfeile gleichzeitig abschießen",
+    "type": "combat",
+    "prerequisite_text": "GE 17,  Kernschuss,  Schnelles Schießen, Grund-Angriffsbonus +6"
+  },
+  {
+    "id": "305865c4-6c59-5987-91f7-d5342c055e45",
+    "name": "Meister der Harmonien",
+    "description": "Erhalte zusätzliche Fähigkeiten bei einem Auftritt in einem Gebäude",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Bardenauftritt,  Wissen (Baukunst) 5 Ränge."
+  },
+  {
+    "id": "22c0be73-d726-5e57-8960-61148277542e",
+    "name": "Meister der Waffenimprovisation",
+    "description": "Improvisierte Waffe in tödliche Waffe verwandeln",
+    "type": "combat",
+    "prerequisite_text": "Improvisierter Nahkampf oder  Improvisierter Fernkampf, Grund-Angriffsbonus +8"
+  },
+  {
+    "id": "dee55855-dc1f-53e5-8b28-93b053c37fe4",
+    "name": "Meisterhafte Waffenvielseitigkeit",
+    "description": "Dein umfangreiches Wissen über Waffen umfasst viele ähnliche Waffenarten.",
+    "type": "combat",
+    "prerequisite_text": "Waffenvielseitigkeit, Kämpferstufe 16,  Mensch."
+  },
+  {
+    "id": "853d68b7-f4b9-5782-ad1c-4161278436ff",
+    "name": "Meisterhandwerker",
+    "description": "Als Nicht-Zauberwirker magische Gegenstände erschaffen",
+    "type": "general",
+    "prerequisite_text": "5 Ränge in einer  Handwerks- oder  Berufsfertigkeit"
+  },
+  {
+    "id": "57e91363-ad61-5f69-843b-242c895e8614",
+    "name": "Menschenseele",
+    "description": "Du erhältst einen zusätzlichen Fertigkeitsrang.",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf."
+  },
+  {
+    "id": "12b5eebb-e325-5a79-b508-bee578e60cbc",
+    "name": "Metzelrausch",
+    "description": "Der Anblick entsetzlicher Wunden bringt dein Blut zum Singen.",
+    "type": "general",
+    "prerequisite_text": "Halb-Ork oder  Ork, Klassenmerkmal  Kampfrausch."
+  },
+  {
+    "id": "65775902-326f-5af3-93ff-0215586b29bf",
+    "name": "Mitreißender Kampfrausch",
+    "description": "Der Anblick eines Verbündeten im Kampfrausch heizt deine eigene Wut an.",
+    "type": "combat",
+    "prerequisite_text": "Halb-Ork oder  Ork, nicht rechtschaffen."
+  },
+  {
+    "id": "86132299-40b0-5e92-8800-e0798767671c",
+    "name": "Mordrausch",
+    "description": "Wenn du tötest, wächst deine Wut.",
+    "type": "general",
+    "prerequisite_text": "Halb-Ork oder  Ork, Klassenmerkmal  Kampfrausch."
+  },
+  {
+    "id": "4c75f7ef-48c7-59ef-9bf4-f69473689f8f",
+    "name": "Multitalentmeisterschaft",
+    "description": "Alle deine Klassen werden als bevorzugte Klassen behandelt.",
+    "type": "general",
+    "prerequisite_text": "Charakterstufe 5+,  Halb-Elf, Volksmerkmal  Multitalent."
+  },
+  {
+    "id": "e5b10fac-1a21-5406-b8fd-2f49d6f6a288",
+    "name": "Mutige Entschlossenheit",
+    "description": "Wenn andere fortrennen, hältst du noch stand.",
+    "type": "general",
+    "prerequisite_text": "Volksmerkmal  Furchtlos oder  Zaghaft,  Halbling."
+  },
+  {
+    "id": "a6f3f44d-ca53-5345-82fc-8ebaa935575b",
+    "name": "Mächtige Berserkerheilung",
+    "description": "Verbündete erhalten ebenfalls Schnelle Heilung",
+    "type": "general",
+    "prerequisite_text": "Berserkerheilung ^^ABR^^ ^^VI^^; 10 Fertigkeitsränge in  Auftreten (Singen)."
+  },
+  {
+    "id": "51c09792-74ee-51f3-9183-2ab4b6386b64",
+    "name": "Mächtige Durchschlagende Zauber",
+    "description": "Weiterer Bonus von +2 auf Zauberstufenwürfe, um Zauberresistenz zu überwinden",
+    "type": "general",
+    "prerequisite_text": "Durchschlagende Zauber"
+  },
+  {
+    "id": "6e592e8b-19f1-5343-9335-aa8b7e6453c3",
+    "name": "Mächtige Finte",
+    "description": "Gegner, bei denen Finte angewandt wird, verlieren ihren GE-Bonus für 1 Runde",
+    "type": "combat",
+    "prerequisite_text": "Defensive Kampfweise,  Verbesserte Finte, Grund-Angriffsbonus +6, IN 13"
+  },
+  {
+    "id": "0167fc82-45f1-50fe-916a-97d679cd66fb",
+    "name": "Mächtige Unverwüstbarkeit",
+    "description": "Verliert keine Trefferpunkte beim Einsatz von Unverwüstlich",
+    "type": "combat",
+    "prerequisite_text": "ST 13, KO 15,  Ork oder  Halb-Ork,  Ausdauer,  Eisenhaut[[#"
+  },
+  {
+    "id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "name": "Mächtige Unverwüstbarkeit (Variante - Wunden und Vitalität)",
+    "description": "Mächtige Unverwüstbarkeit (Variante - Wunden und Vitalität)",
+    "type": "combat",
+    "prerequisite_text": "ST 13, KO 15,  Ausdauer,  Eisenhaut,  Große Unverwüstbarkeit,  Unverwüstlich, GAB +9,  Ork oder  Halb-Ork."
+  },
+  {
+    "id": "487bbca6-a5c8-5f8b-8886-42562394fc62",
+    "name": "Mächtige Waffenspezialisierung",
+    "description": "Weiterer Schadensbonus von +2 für gewählter Waffe",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Mächtiger Waffenfokus mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Waffenspezialisierung mit gewählter Waffe,  Kämpfer Stufe 12."
+  },
+  {
+    "id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
+    "name": "Mächtiger Ansturm",
+    "description": "Ziele eines Sturmangriffs provozieren Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Ansturm,  Heftiger Angriff, Grund-Angriffsbonus +6, ST 13"
+  },
+  {
+    "id": "6d60ee4a-11d2-5b32-bdee-8717b50194d1",
+    "name": "Mächtiger Durchschlagender Hieb",
+    "description": "Angriffe ignorieren 10 Punkte Schadensreduzierung",
+    "type": "combat",
+    "prerequisite_text": "Durchschlagender Hieb,  Waffenfokus, KÄM 16"
+  },
+  {
+    "id": "3de87c91-4e8d-5820-b835-893c9d130372",
+    "name": "Mächtiger Kampf mit zwei Waffen",
+    "description": "Ein dritter Angriff mit Zweithand",
+    "type": "combat",
+    "prerequisite_text": "GE 19,  Kampf mit zwei Waffen,  Verbesserter Kampf mit zwei Waffen, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "4f786cb2-e706-5c7b-a3aa-a07e05ddaf6a",
+    "name": "Mächtiger Konzentrierter Schlag",
+    "description": "Vierfacher Schaden mit einem einzelnen Angriff",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Konzentrierter Schlag,  Konzentrierter Schlag, Grund-Angriffsbonus +16"
+  },
+  {
+    "id": "b9fd2813-4890-5f89-9699-43de25d1e2f6",
+    "name": "Mächtiger Ringkampf",
+    "description": "Halte Ringkampf als Bewegungsaktion aufrecht",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, Grund-Angriffsbonus +6, GE 13"
+  },
+  {
+    "id": "61b57c20-fdfb-541c-bdf5-8962403843df",
+    "name": "Mächtiger Schildfokus",
+    "description": "Weiterer RK-Bonus von +1 bei Verwendung eines Schildes",
+    "type": "combat",
+    "prerequisite_text": "Schildfokus, Umgang mit  Schild, Grund-Angriffsbonus +1, KÄM 8"
+  },
+  {
+    "id": "a4182c24-981e-5db6-a28b-389b50728902",
+    "name": "Mächtiger Waffenfokus",
+    "description": "Weiterer Angriffsbonus von +1 für gewählte Waffe",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Kämpfer Stufe 8."
+  },
+  {
+    "id": "c2491c73-5931-54d1-968e-2dad0c4243d0",
+    "name": "Mächtiger Zauberfokus",
+    "description": "Weiterer Bonus von +1 auf SG der Rettungswürfe gegen eine Zauberschule",
+    "type": "general",
+    "prerequisite_text": "Zauberfokus"
+  },
+  {
+    "id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
+    "name": "Mächtiges Entwaffnen",
+    "description": "Entwaffnete Waffen werden vom Gegner weggeschleudert",
+    "type": "combat",
+    "prerequisite_text": "Defensive Kampfweise,  Verbessertes Entwaffnen, Grund-Angriffsbonus +6, IN 13"
+  },
+  {
+    "id": "6051951f-c272-50be-a06e-d4344a5bbbff",
+    "name": "Mächtiges Gegenstand zerschmettern",
+    "description": "Schaden aus Gegenstand zerschmettern wird auf Gegner übertragen",
+    "type": "combat",
+    "prerequisite_text": "Verbessertes Gegenstand zerschmettern,  Heftiger Angriff, Grund-Angriffsbonus +6, ST 13"
+  },
+  {
+    "id": "ea12668f-80d7-59dc-a182-9d3859649646",
+    "name": "Mächtiges Zu-Fall-bringen",
+    "description": "Von dir zu Fall gebrachte Gegner provozieren Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "Defensive Kampfweise,  Verbessertes Zu-Fall-bringen, Grund-Angriffsbonus +6, IN 13"
+  },
+  {
+    "id": "74271342-2216-51e0-a396-b0f90a2f2caa",
+    "name": "Mächtiges Überrennen",
+    "description": "Überrannte Gegner provozieren Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "Verbessertes Überrennen,  Heftiger Angriff, Grund-Angriffsbonus +6, ST 13"
+  },
+  {
+    "id": "34b8d614-2e92-52ba-ab4a-a3dd318367b8",
+    "name": "Nachwirkende Darbietung",
+    "description": "Der Bardenauftritt wirkt für 2 Runden weiter, nachdem du ihn abgebrochen hast",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Bardenauftritt."
+  },
+  {
+    "id": "2be64107-397d-5adc-ba77-99a6315c23d9",
+    "name": "Neigung zur Magie",
+    "description": "Bonus von +2 auf Würfe für Zauberkunde und Magischen Gegenstand benutzen",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "387bc954-7d54-5ac8-8246-7db0f711b6e2",
+    "name": "Nicht umzubringen",
+    "description": "Dein Geist klammert sich an deinen Körper, wo andere schon längst ins Große Jenseits aufgebrochen wären.",
+    "type": "general",
+    "prerequisite_text": "KO 13,  Ausdauer,  Unverwüstlich,  Halb-Ork oder  Ork."
+  },
+  {
+    "id": "60e1b7f5-be89-50a6-9d02-d7772a6e26ec",
+    "name": "Niederreiten",
+    "description": "Berittenes Überrennen",
+    "type": "combat",
+    "prerequisite_text": "1 Rang in  Reiten,  Berittener Kampf."
+  },
+  {
+    "id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "name": "Niederschlagendes Niederhalten",
+    "description": "Du kannst doppelten nichttödlichen Schaden durch Ringkampfwürfe gegen Gegner im Haltegriff verursachen",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Mächtiger Ringkampf,  Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +9 oder  Mönch 9."
+  },
+  {
+    "id": "65c6649a-33e4-5f8b-8316-7ff51353eb8f",
+    "name": "Perfekte Unverwüstbarkeit",
+    "description": "Gegner müssen Kritische Bestätigungswürfe wiederholen",
+    "type": "combat",
+    "prerequisite_text": "ST 13, KO 17,  Ork oder  Halb-Ork,  Ausdauer,  Eisenhaut[[#"
+  },
+  {
+    "id": "6a0b048a-8d3a-52b5-aff1-24671207e4b5",
+    "name": "Pfad des Verstoßenen",
+    "description": "Wenn dir ein Willenswurf gegen einen Verzauberungszauber oder -effekt misslingt, kannst du ihn einmal am Tag wiederholen.",
+    "type": "general",
+    "prerequisite_text": "Halb-Elf."
+  },
+  {
+    "id": "034ad0fa-e430-5d80-a631-ea63352e351a",
+    "name": "Prügelmanöver [Kampf]",
+    "description": "Surround yourself with an element associated with your bloodline to gain resistance against its energy and deal damage to attackers",
+    "type": "combat",
+    "prerequisite_text": "Prügelkombination^^ABR^^ ^^VI^^,  Verbesserter waffenloser Schlag,  Verbessertes Versetzen^^EXP^^,  Verbessertes Zu-Fall-bringen^^EXP^^; GAB +9 oder 5.  Mönchs- oder  Raufboldstufe."
+  },
+  {
+    "id": "1f4f2057-1dab-5393-b6e9-34f3ec70407a",
+    "name": "Prügelsturmangriff [Kampf]",
+    "description": "Prügel nach einem Sturmangriff los",
+    "type": "combat",
+    "prerequisite_text": "Prügelkombination^^ABR^^ ^^VI^^,  Verbesserter waffenloser Schlag; GAB +12 oder 8.  Mönchs- oder  Raufboldstufe."
+  },
+  {
+    "id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "name": "Punktgenaues Zielen",
+    "description": "Kein Rüstungs- oder Schildbonus gegen einen Fernkampfangriff",
+    "type": "combat",
+    "prerequisite_text": "GE 19,  Verbesserter Präzisionsschuss,  Kernschuss,  Präzisionsschuss, Grund-Angriffsbonus +16."
+  },
+  {
+    "id": "e52abb19-577b-5f83-b5e9-36cf47b91769",
+    "name": "Rennen",
+    "description": "Mit fünffacher Bewegungsrate rennen",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "4b0101d0-e8ce-5ae5-8860-db8b940d9678",
+    "name": "Ring schmieden",
+    "description": "Magische Ringe herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 7."
+  },
+  {
+    "id": "63801d17-636a-5490-9fd9-b5624ed863e9",
+    "name": "Ringkampfexperte [Kampfstil, Kampf]",
+    "description": "Ringe mit zwei Gegnern gleichzeitig",
+    "type": "kampfkunst",
+    "prerequisite_text": "Ringkampfstil^^ABR^^ ^^VI^^, Ringkampfzerren^^ABR^^ ^^VI^^,  Verbesserter Ringkampf; GAB +12 oder 8.  Mönchs oder  Raufboldstufe."
+  },
+  {
+    "id": "5fb8f19b-79d0-558a-9f9e-25255e370897",
+    "name": "Ringkampfzerren [Kampfstil, Kampf]",
+    "description": "Bewege dich weiter, wenn du Gegner zerrst",
+    "type": "kampfkunst",
+    "prerequisite_text": "Ringkampfstil^^ABR^^ ^^VI^^,  Verbesserter Ringkampf; GAB +8 oder 4.  Mönchs- oder  Raufboldstufe."
+  },
+  {
+    "id": "5c25e4bc-adb3-5ad3-9a1d-684d3e3dbec5",
+    "name": "Riskanter Schlag",
+    "description": "Du kannst deine Verteidigung etwas vernachlässigen und dafür bei größeren Kreaturen verheerende Schläge landen.",
+    "type": "combat",
+    "prerequisite_text": "GAB +1,  Halbling."
+  },
+  {
+    "id": "93201016-3b4b-5d27-b763-24f31efe2ba6",
+    "name": "Rundumschlag",
+    "description": "Zusatzangriff nach jedem erfolgreichen Angriff",
+    "type": "combat",
+    "prerequisite_text": "ST 13,  Doppelschlag,  Heftiger Angriff, Grund-Angriffsbonus +4."
+  },
+  {
+    "id": "9ef42fb3-98f3-528e-9abf-5d6bcf936e38",
+    "name": "Scharfsichtiges Auge",
+    "description": "Du erhältst einen Volksbonus von +2 auf Rettungswürfe gegen Illusionszauber und -effekte und einen Bonus von +2 auf Fertigkeitswürfe für Sprachenkunde.",
+    "type": "general",
+    "prerequisite_text": "Elf oder  Halb-Elf, Volksmerkmal  Geschärfte Sinne."
+  },
+  {
+    "id": "8828daca-6640-5271-a170-679b28609068",
+    "name": "Schildfokus",
+    "description": "RK-Bonus von +1 bei Verwendung eines Schildes",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Schilden, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "name": "Schildhieb",
+    "description": "Ansturm bei gleichzeitigem Schildstoß",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Schildstoß,  Umgang mit Schilden,  Kampf mit zwei Waffen, GE 15, Grund-Angriffsbonus +6."
+  },
+  {
+    "id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "name": "Schildmeister",
+    "description": "Kein Abzug für den Kampf mit zwei Waffen beim Einsatz eines Schilds",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Schildstoß,  Umgang mit Schilden,  Schildhieb,  Kampf mit zwei Waffen, GE 15, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "c4642168-2a12-537e-a4d8-7b0929600889",
+    "name": "Schnappschildkrötengriff",
+    "description": "Dein Schildbonus wird auf deine KMV und Berührungs-RK angerechnet",
+    "type": "combat",
+    "prerequisite_text": "Schnappschildkrötenstil,  Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +3 oder  Mönch 3."
+  },
+  {
+    "id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "name": "Schnappschildkrötenpanzer",
+    "description": "RK-Bonus steigt um 2 und Gegner erhalten -4 auf Kritische Bestätigungswürfe",
+    "type": "combat",
+    "prerequisite_text": "Schnappschildkrötengriff,  Schnappschildkrötenstil,  Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +5 oder  Mönch 5."
+  },
+  {
+    "id": "7b205084-67a1-5ae3-bf66-390973b5e069",
+    "name": "Schnappschildkrötenstil",
+    "description": "Erhalte einen Schildbonus auf RK von +1, wenn du mindestens eine Hand frei hast",
+    "type": "kampfkunst",
+    "prerequisite_text": "Verbesserter waffenloser Schlag, GAB +1 oder  Mönch 1."
+  },
+  {
+    "id": "b841215f-d23d-56df-85f1-a9b5a00fb40d",
+    "name": "Schneidende Stimme",
+    "description": "Bei Einsatz von Bardenauftritt verursachen Verbündete 1W6 Punkte zusätzlichen Schallschaden",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Bardenauftritt,  Auftreten (Gesang oder Redekunst) 10 Ränge."
+  },
+  {
+    "id": "979f923c-7fc6-5f75-81e2-a5e06e2bbb6d",
+    "name": "Schnell und sicher",
+    "description": "Du erhältst einen Volksbonus von +2 auf Fertigkeitswürfe für Akrobatik und Klettern.",
+    "type": "general",
+    "prerequisite_text": "Volksmerkmal  Schnell zu Fuß,  Halbling."
+  },
+  {
+    "id": "352f7a22-1f26-5cc2-bc4d-7bee55a0c847",
+    "name": "Schnell wie der Blitz",
+    "description": "50 % Tarnung während einer doppelten Bewegung",
+    "type": "combat",
+    "prerequisite_text": "GE 17,  Ausweichen,  Schnell wie der Wind, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "8456851f-cafc-51fc-a47e-81298f5aeeb7",
+    "name": "Schnell wie der Wind",
+    "description": "20 % Tarnung während einer Bewegung",
+    "type": "combat",
+    "prerequisite_text": "GE 15,  Ausweichen, Grund-Angriffsbonus +6."
+  },
+  {
+    "id": "7c14bd4c-eb9e-5e86-ba56-93fecfac4a74",
+    "name": "Schnell zaubern",
+    "description": "Zauber als Schnelle Aktion wirken",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "cea2a934-bafa-5bc2-9095-58696a8d4c4e",
+    "name": "Schnelle Auffassungsgabe",
+    "description": "Wenn du in deiner bevorzugten Klasse eine Stufe aufsteigst, erhältst du sowohl +1 TP und +1 Fertigkeitsrang.",
+    "type": "general",
+    "prerequisite_text": "IN 13,  Mensch."
+  },
+  {
+    "id": "1f44264b-eafb-56f5-86b1-859c079ddd54",
+    "name": "Schnelle Waffenbereitschaft",
+    "description": "Waffe ziehen als Freie Aktion",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +1."
+  },
+  {
+    "id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "name": "Schneller Ringer",
+    "description": "Kann mit einer Schnellen Aktion einen Kampfmanöverwurf Ringkampf ausführen bei Nutzung von Mächtiger Ringkampf",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Mächtiger Ringkampf,  Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +9 oder  Mönch 9."
+  },
+  {
+    "id": "cec7244b-b756-5424-a872-ea54d4a44d8c",
+    "name": "Schnelles Nachladen",
+    "description": "Armbrust schnell nachladen",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Waffen (gewählte Armbrustart)."
+  },
+  {
+    "id": "81a0d8d6-6fa8-5710-b058-8385e193493a",
+    "name": "Schriftrolle anfertigen",
+    "description": "Magische Schriftrollen herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 1"
+  },
+  {
+    "id": "5d543d30-f572-5592-bc57-38f1c3e59577",
+    "name": "Schulschlag",
+    "description": "Kann einen Effekt seiner Magierschule als Schnelle Aktion nach einem Nahkampfangriff übermitteln",
+    "type": "combat",
+    "prerequisite_text": "Klassenmerkmal  Magierschule,  Verbesserter waffenloser Schlag."
+  },
+  {
+    "id": "732de76b-19dd-5960-90ef-891ee0cc6f84",
+    "name": "Schwächere Blutwut",
+    "description": "Verfalle in eine schwächere Blutwut",
+    "type": "general",
+    "prerequisite_text": "Magisches Erbe^^ABR^^ oder Klassenmerkmal  Hexenmeisterblutlinie."
+  },
+  {
+    "id": "689e66f5-8f55-54d3-a3a2-a778af152253",
+    "name": "Segen des Zerstörers",
+    "description": "Wenn du Dinge zerstörst, gewinnst du an Kraft.",
+    "type": "combat",
+    "prerequisite_text": "Klassenmerkmal  Kampfrausch,  Halb-Ork oder  Ork."
+  },
+  {
+    "id": "1ffc4ef3-d5ac-53ab-b887-59785f752e86",
+    "name": "Selbsterhaltung",
+    "description": "Bonus von +2 auf Heilkunde und Überlebenskunst",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "e1fd8a5a-8fdf-51b6-8db9-5ccf29d9a492",
+    "name": "Siegessicher",
+    "description": "Wenn du einen Kritischen Treffer bestätigst oder bei einem Rettungswurf eine natürliche 20 erzielst, erhältst du einen Situationsbonus von +2 bis zum Ende deines nächsten Zuges.",
+    "type": "general",
+    "prerequisite_text": "Mensch."
+  },
+  {
+    "id": "7e89064a-d477-581e-b03b-88e15f5d2773",
+    "name": "Skorpionstachel",
+    "description": "Geschwindigkeit des Gegners auf 1,5 m verlangsamen",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter waffenloser Schlag"
+  },
+  {
+    "id": "7993f139-c1ff-5e88-a9c1-b50fc89750ca",
+    "name": "Stallmeister",
+    "description": "+2 auf Fertigkeitswürfe für Mit Tieren umgehen und Wissen (Natur). Deine effektive Klassenstufe steigt um +1 hinsichtlich der Fähigkeiten deines Tiergefährten oder Reittiers.",
+    "type": "general",
+    "prerequisite_text": "Mit Tieren umgehen 1 Fertigkeitsrang, Klassenmerkmal  Tiergefährte,  Reittier oder  Göttlicher Bund (Reittier),  Mensch."
+  },
+  {
+    "id": "15e58c81-4954-59bd-913a-558fe9f6d21d",
+    "name": "Standhaftes Herz",
+    "description": "Nutze Berserkerlied, um gescheiterte Rettungswürfe gegen Furchteffekte zu wiederholen",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Berserkerlied^^ABR^^ ^^VI^^."
+  },
+  {
+    "id": "8e41e099-297b-519c-a689-b6aa84555309",
+    "name": "Stechender Pfeil",
+    "description": "Nutze einen Pfeil im Nahkampf, um Gegner zurückzustoßen",
+    "type": "combat",
+    "prerequisite_text": "Schnelles Schießen,  Elf."
+  },
+  {
+    "id": "4272bb4e-e169-527c-9c22-51848e4a4566",
+    "name": "Steinsänger",
+    "description": "Du erhältst Boni auf deinen Bardenauftritt unter der Erde und gegen Erdkreaturen",
+    "type": "general",
+    "prerequisite_text": "CH 13, Klassenmerkmal  Bardenauftritt,  Zwerg."
+  },
+  {
+    "id": "39c6e937-cf14-561b-bee5-e0691612bb55",
+    "name": "Sündenseher",
+    "description": "Erhalte die Fähigkeit Böses entdecken",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Untote entdecken ( Paladin)."
+  },
+  {
+    "id": "6c387bc6-0001-5270-9be2-557b2106ef71",
+    "name": "Taumelnde Verteidigung",
+    "description": "Deine fieberhaften und teilweise erheiternden Verteidigungsversuche lenken derart ab, dass deine Verbündeten daraus Nutzen ziehen können.",
+    "type": "combat",
+    "prerequisite_text": "Umsichtiger Kämpfer,  Halbling."
+  },
+  {
+    "id": "cd1c503c-a0e0-547a-9dd4-193ba560d1e0",
+    "name": "Tigerklauen",
+    "description": "Führe einen einzelnen Angriff mit beiden Händen aus und addiere die Ergebnisse",
+    "type": "combat",
+    "prerequisite_text": "Tigerstil,  Verbesserter waffenloser Schlag, GAB +6 oder  Mönch 5."
+  },
+  {
+    "id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "name": "Tigersprung",
+    "description": "Du kannst den Malus des Heftigen Angriffs auf deine RK Anrechnen",
+    "type": "combat",
+    "prerequisite_text": "Heftiger Angriff,  Tigerklauen,  Tigerstil,  Verbesserter waffenloser Schlag, GAB +9 oder  Mönch 8."
+  },
+  {
+    "id": "0332c7f1-dd00-5288-a703-e55ca8cce387",
+    "name": "Tigerstil",
+    "description": "Erhalte +2 auf KMV gegen Ansturm, Niederrennen und Zu-Fall-bringen und verursache Hiebschaden",
+    "type": "kampfkunst",
+    "prerequisite_text": "Verbesserter waffenloser Schlag, GAB +3 oder  Mönch 3."
+  },
+  {
+    "id": "15519f68-ed58-530c-867e-ff62ce150223",
+    "name": "Totemgeist",
+    "description": "Du bist mystisch mit dem heiligen Totem deines Stammes verbunden.",
+    "type": "general",
+    "prerequisite_text": "Angehöriger eines Barbarenstammes."
+  },
+  {
+    "id": "7e594909-cd3f-53fe-aa9d-73f3a993deaa",
+    "name": "Trank brauen",
+    "description": "Magische Tränke brauen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 3"
+  },
+  {
+    "id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "name": "Tänzelnder Angriff",
+    "description": "Bewegung vor und nach Nahkampfangriff",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Ausweichen,  Beweglichkeit, Grund-Angriffsbonus +4"
+  },
+  {
+    "id": "858e6fa7-a2e2-53be-859d-11f6853477ed",
+    "name": "Täuscher",
+    "description": "Bonus von +2 auf Würfe für Bluffen und Verkleiden",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "name": "Tödlicher Hieb",
+    "description": "Doppelter Schaden + Blutung (1 KO)",
+    "type": "combat",
+    "prerequisite_text": "Bedrohliche Darbietung,  Mächtiger Waffenfokus,  Verteidigung zerschlagen,  Waffenfokus, Grund-Angriffsbonus +11, KÄM 8"
+  },
+  {
+    "id": "d1faad8e-3267-57dd-b963-736fea0528fd",
+    "name": "Umfangreiche Erfahrung",
+    "description": "Bonus von +2 auf Würfe für Berufs- und Wissensfertigkeiten",
+    "type": "general",
+    "prerequisite_text": "Elf,  Gnom oder  Zwerg; 100 oder mehr Jahre alt."
+  },
+  {
+    "id": "1bf92ea9-226c-5975-bad1-d91e46aefdd3",
+    "name": "Umgang mit Kriegswaffen",
+    "description": "Keine Abzüge bei Angriffen mit Kriegswaffen",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6",
+    "name": "Umgang mit Rüstungen (leichte)",
+    "description": "Kein Malus auf Angriffswürfe, wenn du eine leichte Rüstung trägst",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a",
+    "name": "Umgang mit Rüstungen (mittelschwere)",
+    "description": "Kein Malus auf Angriffswürfe, wenn du eine mittelschwere Rüstung trägst",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Rüstungen (leichte)"
+  },
+  {
+    "id": "38cd3d30-27d8-5cdc-a571-da1c2241ea7a",
+    "name": "Umgang mit Rüstungen (schwere)",
+    "description": "Kein Malus auf Angriffswürfe, wenn du eine schwere Rüstung trägst",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Rüstungen (leichte),  Umgang mit Rüstungen (mittelschwere)"
+  },
+  {
+    "id": "45f3215a-abe5-5836-b994-7504b0e1d14d",
+    "name": "Umgang mit Schilden",
+    "description": "Keine Abzüge auf Angriffswürfe, wenn du einen Schild benutzt",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "a9a32b78-df28-51f1-a190-62144f6dee97",
+    "name": "Umgang mit Turmschilden",
+    "description": "Kein Abzug auf Angriffswürfe beim Einsatz eines Turmschilds",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Schilden"
+  },
+  {
+    "id": "9d19039e-78b7-50ea-ab5c-ea65b81b8a06",
+    "name": "Umgang mit einfachen Waffen",
+    "description": "Keine Abzüge auf Angriffe mit einfachen Waffen",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "eef862cb-9a84-5ceb-b97b-7ab3b3f6e838",
+    "name": "Umgang mit exotischen Waffen",
+    "description": "Keine Abzüge bei Angriffen mit exotischen Waffen",
+    "type": "combat",
+    "prerequisite_text": "Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "1cdce090-d233-5ce7-b060-a90c70429446",
+    "name": "Umsichtiger Kämpfer",
+    "description": "Du machst dir mehr Gedanken über dein Überleben als über den Sieg.",
+    "type": "combat",
+    "prerequisite_text": "Halbling."
+  },
+  {
+    "id": "a42c3a56-f0dd-5d0b-80d6-05b42a356c0c",
+    "name": "Unerklärliches Glück",
+    "description": "Einmal am Tag erhältst du als Freie Aktion vor einem Wurf einen Bonus von +8 auf einen Wurf mit einem W20.",
+    "type": "general",
+    "prerequisite_text": "Glück im Unglück,  Mensch."
+  },
+  {
+    "id": "3fd5f5ab-49f8-5e4a-b0ec-7f731df495bc",
+    "name": "Ungebilligtes Wissen",
+    "description": "Füge deiner Liste von Paladinzaubern Zauber hinzu",
+    "type": "general",
+    "prerequisite_text": "IN 13 , Fähigkeit zum Wirken von Paladinzaubern des 1. Grades."
+  },
+  {
+    "id": "349af10e-984d-53f4-ac6b-2d725f2b8b2a",
+    "name": "Untote befehligen",
+    "description": "Energie fokussieren kann zum Kontrollieren Untoter verwendet werden",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit negative  Energie fokussieren"
+  },
+  {
+    "id": "0e891c61-71fe-5a85-8a13-b46c219f8fd1",
+    "name": "Untote vertreiben",
+    "description": "Energie fokussieren kann eingesetzt werden, um Untote zu vertreiben",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit positive  Energie fokussieren"
+  },
+  {
+    "id": "86013c86-d075-581e-ad8a-50179f112001",
+    "name": "Unverwüstlich",
+    "description": "Automatische Stabilisierung und unter 0 TP bei Bewusstsein bleiben",
+    "type": "general",
+    "prerequisite_text": "Ausdauer"
+  },
+  {
+    "id": "def9a591-e0ac-5784-94fd-83cfc1775d3a",
+    "name": "Unverwüstlicher Rohling",
+    "description": "Du scheinst Schaden einfach zu schlucken, der andere umbringen würde.",
+    "type": "general",
+    "prerequisite_text": "Halb-Ork oder  Ork."
+  },
+  {
+    "id": "08f90728-4fc9-5c94-ad34-90c93e1c6d93",
+    "name": "Verbesserte Blitzschnelle Reflexe",
+    "description": "Einmal täglich einen Reflexwurf wiederholen",
+    "type": "general",
+    "prerequisite_text": "Blitzschnelle Reflexe"
+  },
+  {
+    "id": "973f0855-f2be-5465-8d17-de2ee29d738e",
+    "name": "Verbesserte Finte",
+    "description": "Finte als Bewegungs-Aktion",
+    "type": "combat",
+    "prerequisite_text": "IN 13,  Defensive Kampfweise"
+  },
+  {
+    "id": "eef8f8fc-4fdf-569c-a44d-6fbe7228d2ab",
+    "name": "Verbesserte Flexible Zauberei",
+    "description": "Bereite weitere Zauber flexibler vor",
+    "type": "general",
+    "prerequisite_text": "Flexible Zauberei^^ABR^^ ^^VI^^,  Zaubermeisterschaft; 8.  Magierstufe."
+  },
+  {
+    "id": "db3470c9-4437-54a8-b004-4283e144cb43",
+    "name": "Verbesserte Große Zähigkeit",
+    "description": "Einmal täglich einen Zähigkeitswurf wiederholen",
+    "type": "general",
+    "prerequisite_text": "Große Zähigkeit"
+  },
+  {
+    "id": "9eac4bd2-922e-5542-9e41-f704fbd55469",
+    "name": "Verbesserte Improvisation",
+    "description": "Dein Malus beim Umgang mit Waffen, Rüstungen und Schilden, mit denen du nicht geübt bist, wird halbiert.",
+    "type": "general",
+    "prerequisite_text": "IN 13,  Schnelle Auffassungsgabe,  Improvisation,  Mensch."
+  },
+  {
+    "id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+    "name": "Verbesserter Ansturm",
+    "description": "Bonus von +2 auf Ansturm, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "ST 13,  Heftiger Angriff, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "3d4c6329-4776-51d4-bcba-ba174e46ce2b",
+    "name": "Verbesserter Eiserner Wille",
+    "description": "Einmal täglich einen Willenswurf wiederholen",
+    "type": "general",
+    "prerequisite_text": "Eiserner Wille"
+  },
+  {
+    "id": "8cfac8cd-2a8c-52c6-9618-56da4bc7d936",
+    "name": "Verbesserter Gegenzauber",
+    "description": "Jeder Zauber der gleichen Schule der Magie ist als Gegenzauber geeignet",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "1a800871-3ca5-5d9e-af7f-152ab355f439",
+    "name": "Verbesserter Geruchssinn",
+    "description": "Bonus von +4 auf Fertigkeitswürfe für Wahrnehmung, um verängstigte Kreaturen zu entdecken",
+    "type": "general",
+    "prerequisite_text": "Geruchssinn,  Halb-Ork oder  Ork."
+  },
+  {
+    "id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8",
+    "name": "Verbesserter Kampf mit zwei Waffen",
+    "description": "Zusätzlicher Angriff mit Zweithand",
+    "type": "combat",
+    "prerequisite_text": "GE 17,  Kampf mit zwei Waffen, Grund-Angriffsbonus +6"
+  },
+  {
+    "id": "8747937d-fd7d-54ed-8d8e-2918d75ed521",
+    "name": "Verbesserter Kritischer Treffer",
+    "description": "verdoppelt die Bedrohungschance einer Waffe",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Waffe, Grund-Angriffsbonus +8"
+  },
+  {
+    "id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471",
+    "name": "Verbesserter Präzisionsschuss",
+    "description": "Weniger als 100% Deckung/ Tarnung bei Fernkampfangriffen ignorieren",
+    "type": "combat",
+    "prerequisite_text": "GE 19,  Kernschuss,  Präzisionsschuss, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44",
+    "name": "Verbesserter Ringkampf",
+    "description": "Bonus von +2 auf Ringkampf versuche, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Verbesserter waffenloser Schlag"
+  },
+  {
+    "id": "a5d62f58-b393-5df6-abf1-3a578a6d6fc9",
+    "name": "Verbesserter Schildstoß",
+    "description": "Beim Schildstoß den Schildbonus behalten",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit Schilden"
+  },
+  {
+    "id": "79a9b7f6-593f-5cf9-a60b-8386304287db",
+    "name": "Verbesserter Tiefschlag",
+    "description": "Dein Bonus auf Bestätigungswürfe für Kritische Treffer gegenüber größeren Gegnern steigt auf +2",
+    "type": "combat",
+    "prerequisite_text": "GAB +4, Volksmerkmal  Tiefschlag,  Halbling."
+  },
+  {
+    "id": "6bcb3a47-73e3-59fc-a026-fbf76dc20bb3",
+    "name": "Verbesserter Vertrauter",
+    "description": "Einen mächtigeren Vertrauten erhalten",
+    "type": "general",
+    "prerequisite_text": "Fähigkeit, einen neuen  Vertrauten zu erlangen, die passende  Gesinnung, ausreichende Erfahrungsstufe (s.u.)\n\n\n#|"
+  },
+  {
+    "id": "a92ad7c6-96fd-574d-bb55-59d9d18369c1",
+    "name": "Verbesserter konzentrierter Schlag",
+    "description": "Dreifacher Schaden mit einem einzelnen Angriff",
+    "type": "combat",
+    "prerequisite_text": "Konzentrierter Schlag, Grund-Angriffsbonus +11."
+  },
+  {
+    "id": "7636c564-8660-5195-abcd-bcf6f4b01e9c",
+    "name": "Verbesserter waffenloser Schlag",
+    "description": "Immer als bewaffnet gelten",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+    "name": "Verbessertes Entwaffnen",
+    "description": "Bonus von +2 auf Entwaffnen, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "IN 13,  Defensive Kampfweise"
+  },
+  {
+    "id": "4ba813bb-2f5d-53d2-9e5a-65c38169fd2f",
+    "name": "Verbessertes Fokussieren",
+    "description": "Bonus von +2 auf SG für Energie fokussieren",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Energie fokussieren"
+  },
+  {
+    "id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576",
+    "name": "Verbessertes Gegenstand zerschmettern",
+    "description": "Bonus von +2 auf Gegenstand zerschmettern, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "ST 13,  Heftiger Angriff, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "75415676-cc3d-5c52-ac21-4a2bc24682f6",
+    "name": "Verbessertes Zu-Fall-bringen",
+    "description": "Bonus von +2 auf Zu-Fall-bringen, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "IN 13,  Defensive Kampfweise"
+  },
+  {
+    "id": "b384280e-8c3f-52f6-afb2-6fab7c5ee55b",
+    "name": "Verbessertes Überrennen",
+    "description": "Bonus von +2 auf Überrennen, kein Gelegenheitsangriff",
+    "type": "combat",
+    "prerequisite_text": "ST 13,  Heftiger Angriff, Grund-Angriffsbonus +1"
+  },
+  {
+    "id": "99c89934-e22d-54e9-9274-d1394af118e7",
+    "name": "Verblüffende Verteidigung",
+    "description": "Wenn du defensiv kämpfst oder Volle Verteidigung nutzt, erhältst du einen Bonus auf Reflexwürfe und deine KMV.",
+    "type": "combat",
+    "prerequisite_text": "Umsichtiger Kämpfer, GAB +3,  Halbling."
+  },
+  {
+    "id": "9d5c50ae-c86e-5a7e-914a-566c9d9068d7",
+    "name": "Verbundenheit mit Tieren",
+    "description": "Bonus von +2 auf Würfe für Mit Tieren umgehen und Reiten",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "024b7359-35bf-5c55-9c10-f8f6e934b106",
+    "name": "Verstohlenheit",
+    "description": "Bonus von +2 auf Würfe für Entfesselungskunst und Heimlichkeit",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "472b1e44-9b4c-5fec-bb8b-432690a66f88",
+    "name": "Verstrickender Schlag [Kampf]",
+    "description": "Nutze Konzentrierter Schlag, um Gegner zu verstricken",
+    "type": "combat",
+    "prerequisite_text": "Naturmagie oder Fähigkeit zum Wirken von  Druiden- oder  Waldläuferzaubern;  Konzentrierter Schlag; 5 Fertigkeitsränge in  Wissen (Natur)."
+  },
+  {
+    "id": "78b649fb-2b13-52e2-9380-7336f3f842f4",
+    "name": "Verstärkte Herbeizauberung",
+    "description": "Beschworene Kreaturen erhalten Bonus von +4 auf ST und KO",
+    "type": "general",
+    "prerequisite_text": "Zauberfokus ( Beschwörung)"
+  },
+  {
+    "id": "70f9fe70-2dd6-50dc-aa0d-d571c14c7d81",
+    "name": "Verteidigung mit zwei Waffen",
+    "description": "Schildbonus +1 beim Kampf mit zwei Waffen",
+    "type": "combat",
+    "prerequisite_text": "GE 15,  Kampf mit zwei Waffen"
+  },
+  {
+    "id": "530e6f15-816c-5094-a995-8b0722874a64",
+    "name": "Verteidigung zerschlagen",
+    "description": "Eingeschüchterte Feinde stehen auf dem falschen Fuß",
+    "type": "combat",
+    "prerequisite_text": "Waffenfokus,  Bedrohliche Darbietung, GAB +6, Umgang mit Waffen"
+  },
+  {
+    "id": "8ef92717-8843-5d7f-94cc-ee706b9ceddb",
+    "name": "Verwegenes Schicksal",
+    "description": "Du verfügst über beeindruckendes Geschick, Katastrophen abzuwenden.",
+    "type": "general",
+    "prerequisite_text": "CH 13,  Furchtlose Neugier,  Einschüchtern 10 Fertigkeitsränge,  Mensch."
+  },
+  {
+    "id": "f8898f1a-852f-5de2-bdd7-732898b1a6d1",
+    "name": "Verzweiflungsschlag",
+    "description": "Einmal am Tag kannst du einen einzelnen Nahkampfangriff durchführen, während du die Aktion Volle Verteidigung nutzt.",
+    "type": "combat",
+    "prerequisite_text": "Umsichtiger Kämpfer, GAB +1,  Halbling."
+  },
+  {
+    "id": "7777c715-5e78-5678-9740-256a9d81ea55",
+    "name": "Vielseitig",
+    "description": "Eine weitere bevorzugte Klasse",
+    "type": "general",
+    "prerequisite_text": "Mensch."
+  },
+  {
+    "id": "cb2b881a-4264-53c8-8985-3e4b5ad928de",
+    "name": "Vielseitiges Energie fokussieren",
+    "description": "Fokussiere sowohl positive wie negative Energie",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Energie fokussieren,  Nekromant oder  Kleriker neutraler  Gesinnung (siehe unten)."
+  },
+  {
+    "id": "c52a24e5-6beb-507a-9497-1a11437b4786",
+    "name": "Wachsamkeit",
+    "description": "Bonus von +2 auf Würfe für Wahrnehmung und Motiv Erkennen",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+    "name": "Waffenfinesse",
+    "description": "GE-Modifikator anstelle von ST-Modifikator bei Angriffswürfen mit leichter Waffe",
+    "type": "combat",
+    "prerequisite_text": null
+  },
+  {
+    "id": "9c6be6cf-4d0a-527f-8912-a4c6c89008fd",
+    "name": "Waffenspezialisierung",
+    "description": "Schadensbonus von +2 für gewählte Waffe",
+    "type": "combat",
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe, KÄM 4"
+  },
+  {
+    "id": "80a28ad8-7c02-5be7-a8a0-73c3c3a6015c",
+    "name": "Waffenvielseitigkeit",
+    "description": "Wähle ein Kampftalent aus, welches auf eine bestimmte Waffe Anwendung findet. Du kannst dieses Talent mit allen Waffen derselben Waffengruppe verwenden.",
+    "type": "combat",
+    "prerequisite_text": "Kämpferstufe 4,  Mensch."
+  },
+  {
+    "id": "64106cc2-ed44-55e9-8691-5361271f59ce",
+    "name": "Wahre Täuschung",
+    "description": "Täusche Erkenntnismagie mittels Verkleiden",
+    "type": "general",
+    "prerequisite_text": "CH 17,  Verkleiden 17 Fertigkeitsränge, Ninjameistertrick  Meisterverkleidung^^ABR^^ ^^II^^ oder Verbesserter Schurkentrick  Meister der Verkleidung,  NIN 10 oder  SRK 10."
+  },
+  {
+    "id": "13fdbf6e-712e-5c7a-b68a-ae358411e64c",
+    "name": "Weder Elf noch Mensch",
+    "description": "Hinsichtlich schädigender Zauber oder Effekte, welche auf deine Kreaturenart abzielen (z.B. die Waffeneigenschaft Verderben oder das Klassenmerkmal des Waldläufers Erzfeind), wirst du weder als Elf, noch als Mensch behandelt.",
+    "type": "general",
+    "prerequisite_text": "Charakterstufe 11+,  Halb-Elf,   Hier und doch nicht da,  Pfad des Verstoßenen."
+  },
+  {
+    "id": "4c4710f5-af8a-59fd-9b91-c9fd797e0ff9",
+    "name": "Weiterkämpfen",
+    "description": "Erhalte temporäre TP, wenn du auf 0 reduziert wirst",
+    "type": "general",
+    "prerequisite_text": "KO 13,  Halb-Ork, Ork,  Zwerg."
+  },
+  {
+    "id": "7e532616-e7a2-5096-8e8a-92fb292fea40",
+    "name": "Weitschleuderer",
+    "description": "Senke Mali auf Angriffswürfe wegen Entfernung um 2",
+    "type": "combat",
+    "prerequisite_text": "Kernschuss, Geübt im Umgang mit der  Schleuder oder dem  Halblingschleuderstab."
+  },
+  {
+    "id": "8ef75723-a388-5ab9-bcd7-2a883509b8e7",
+    "name": "Wendiges Umlenken",
+    "description": "Wenn du erfolgreich Schaden vermeidest, wende 1 Ki-Punkt auf, um den Angriff auf einen Gegner umzulenken",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Wendiges Ziel,  Defensive Kampfweise,  Verbesserter waffenloser Schlag,  Wendiger Mönch 12."
+  },
+  {
+    "id": "7e0e00ac-e72a-520e-ae53-4b38cba19e6b",
+    "name": "Wilde Entschlossenheit",
+    "description": "Dein orkisches Erbe erlaubt dir weiterzukämpfen, wenn andere längst am Boden liegen.",
+    "type": "general",
+    "prerequisite_text": "KO 13;  Halb-Ork, Volksmerkmal  Orkische Wildheit."
+  },
+  {
+    "id": "550e08e4-f7cc-5ee8-ab13-b159e7a12165",
+    "name": "Wilde Hartnäckigkeit",
+    "description": "Du spuckst dem Tod ins Auge.",
+    "type": "combat",
+    "prerequisite_text": "Volksmerkmal  Orkische Wildheit;  Halb-Ork oder  Ork; Klassenmerkmal  Kampfrausch.\n//Kampfrausch:// Wenn du im  Kampfrausch von einem Angriff getroffen wirst, der genug Schaden verursachen würde, um dich zu töten, kannst du als  Augenblickliche Aktion 1 oder mehr Runden an  Kampfrausch aufwenden, um einen Teil des Schadens aufzuheben und am Leben zu bleiben. Pro Runde  Kampfrausch, welche du so aufwendest, reduziert dies den Schaden des Angriffs um 1 Punkt; der Schaden kann auf diese Weise nicht unter 1 Schadenspunkt reduziert werden.\n\n//Beispiel:// Du befindest dich im  Kampfrausch, deine KO beträgt aktuell 18, du hast noch 2 TP und erleidest durch einen Treffer 20 Schadenspunkte. Dies würde dich töten. Du kannst 1 Runde an  Kampfrausch aufwenden, um den Schaden auf 19 Punkte zu reduzieren (was dich auf gefährliche -17 TP bringen würde). Solltest du 17 Runden an  Kampfrausch aufwenden, senkt du den Schaden auf 1 Punkt (das Minimum) und wärst bei 1 TP.\n\n//Hinweis:// Solltest du aufgrund des Schadens  bewusstlos werden, endet dein  Kampfrausch wie er dies normalerweise täte - deine  Konstitution fällt auf den Normalwert und senkt deine TP entsprechend. Daher ist es möglich, mittels dieses Talents den sofortigen Tod zu verhindern, dann aber dennoch zu  sterben, weil die negativen TP deinen normalen KO-Wert übersteigen - beachte daher deine normale  Konstitution, wenn du bestimmst, wie viele Runden an  Kampfrausch du mit diesem Talent aufwendest."
+  },
+  {
+    "id": "45e5415a-c515-519d-849a-b5ddec008998",
+    "name": "Wildes Herbeizaubern",
+    "description": "Deine herbeigezauberten Kreaturen besitzen deine Wildheit.",
+    "type": "general",
+    "prerequisite_text": "Verstärkte Herbeizauberung,  Zauberfokus ( Beschwörung);  Halb-Ork oder  Ork."
+  },
+  {
+    "id": "8aacddab-c87b-5ab8-b3f9-c1a5c910d5ae",
+    "name": "Wildnisverbunden",
+    "description": "Du besitzt eine starke mystische Verbindung zu einer Art von Gelände.",
+    "type": "general",
+    "prerequisite_text": "Elf."
+  },
+  {
+    "id": "5924349c-7a3c-531f-9639-149a829ed3a1",
+    "name": "Winterschlag [Kampf]",
+    "description": "Dem Ziel deines Konzentrierten Schlages muss ein Rettungswurf gegen Erschöpfung gelingen",
+    "type": "combat",
+    "prerequisite_text": "Naturmagie oder Fähigkeit zum Wirken von Druiden- oder Waldläuferzaubern;  Konzentrierter Schlag; 5 Fertigkeitsränge in  Wissen (Natur)."
+  },
+  {
+    "id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "name": "Wirbelwindangriff",
+    "description": "Ein Nahkampfangriff gegen alle Feinde in Reichweite",
+    "type": "combat",
+    "prerequisite_text": "GE 13, IN 13,  Defensive Kampfweise,  Ausweichen,  Beweglichkeit,  Tänzelnder Angriff, Grund-Angriffsbonus +4"
+  },
+  {
+    "id": "048744e1-18b5-518c-919b-901f8374c68d",
+    "name": "Wohlvorbereitet",
+    "description": "Du hast einen bestimmten normalen Gegenstand stets parat",
+    "type": "general",
+    "prerequisite_text": "Halbling."
+  },
+  {
+    "id": "f736f1d5-2d79-524f-8b33-0056aed21fbc",
+    "name": "Wundersamen Gegenstand herstellen",
+    "description": "Wundersame Gegenstände herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 3"
+  },
+  {
+    "id": "df3d847e-292e-552f-8a14-942bf5a0c51b",
+    "name": "Wächter der Wildnis",
+    "description": "Deine mystische Verbindung mit der Wildnis verbessert deine Gabe, auf Bedrohungen zu reagieren.",
+    "type": "general",
+    "prerequisite_text": "Elf,  Wildnisverbunden."
+  },
+  {
+    "id": "3cc5d1a5-94a0-54fe-b8f1-561299236d11",
+    "name": "Würgegriff",
+    "description": "Kann einen Gegner in den Haltegriff nehmen, der eine Kategorie größer ist",
+    "type": "combat",
+    "prerequisite_text": "Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +6 oder  Mönch 5."
+  },
+  {
+    "id": "c4cc36ed-94e0-51e5-89f2-17c2768fce48",
+    "name": "Zauber ausdehnen",
+    "description": "Verdoppelt Zauberdauer",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "da5f828e-445d-570c-a8ef-5de2e8e05e90",
+    "name": "Zauber verstärken",
+    "description": "Erhöht variable Werte von Zaubern um 50 %",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "5d752250-024e-5bdf-8e9e-07a9e33b26fc",
+    "name": "Zauberbereich erweitern",
+    "description": "Verdoppelt Zauberbereich",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "d77f3862-3e24-5ad4-bc3d-2a5cec4486bd",
+    "name": "Zauberbrecher",
+    "description": "Feinde ermöglichen Gelegenheitsangriffe, wenn ihre Zauber scheitern",
+    "type": "combat",
+    "prerequisite_text": "Zauberstörer, KÄM 10"
+  },
+  {
+    "id": "9a6c18b0-e715-56be-b0a1-abef4d37c4b7",
+    "name": "Zaubereffekt maximieren",
+    "description": "Maximiert variable Werte von Zaubern",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "67de4ff0-46b3-5fc7-851e-161d4de8840c",
+    "name": "Zauberer der Wildnis",
+    "description": "Wenn du dich in einem Gelände aufhältst, das du über Wildnisverbunden ausgewählt hast, erhältst du einen Bonus von +2 auf Würfe auf die Zauberstufe und Fertigkeitswürfe für Wissen (Arkanes) und Zauberkunde.",
+    "type": "general",
+    "prerequisite_text": "Elf,  Wildnisverbunden."
+  },
+  {
+    "id": "070a27c2-0499-540b-864f-f64dd04f2d74",
+    "name": "Zauberfokus",
+    "description": "Bonus von +1 auf SG der Rettungswürfe gegen eine Zauberschule",
+    "type": "general",
+    "prerequisite_text": null
+  },
+  {
+    "id": "2c37ee40-e00c-5a3d-9c69-caa0e9c9ea04",
+    "name": "Zaubergrad erhöhen",
+    "description": "Zauber wird als Zauber höheren Grades behandelt",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "e46e1333-9590-5483-a5ea-b0da90b6869b",
+    "name": "Zauberlied",
+    "description": "Verbinde Zaubern und Bardenauftritt",
+    "type": "general",
+    "prerequisite_text": "CH 13, Klassenmerkmal Bardenauf tritt, Fähigkeit zum Wirken von Zaubern des 1. Grades."
+  },
+  {
+    "id": "f8fa2a6c-11ca-5c24-83ec-ca1766cb1c37",
+    "name": "Zaubermeisterschaft",
+    "description": "Einige Zauber ohne Zauberbuch vorbereiten",
+    "type": "general",
+    "prerequisite_text": "Magier Stufe 1"
+  },
+  {
+    "id": "4d5ce8d1-c871-5455-bec9-6cd5a9e38279",
+    "name": "Zauberreichweite erhöhen",
+    "description": "Verdoppelt Zauberreichweite",
+    "type": "metamagic",
+    "prerequisite_text": null
+  },
+  {
+    "id": "c59a467b-6b0d-5334-a9d4-4075cf8e67cb",
+    "name": "Zauberstab herstellen",
+    "description": "Zauberstäbe herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 5"
+  },
+  {
+    "id": "53931263-c31f-5209-97f3-7e6c152515d0",
+    "name": "Zauberstecken herstellen",
+    "description": "Zauberstecken herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 11"
+  },
+  {
+    "id": "ccdbfe93-9d86-5d79-b90c-f2862440b50f",
+    "name": "Zauberstörer",
+    "description": "Erhöht den SG darauf, in deiner Nähe zu zaubern",
+    "type": "combat",
+    "prerequisite_text": "Kämpfer 6"
+  },
+  {
+    "id": "3c552983-9636-5a41-9496-1782fc280188",
+    "name": "Zauberzepter herstellen",
+    "description": "Zauberzepter herstellen",
+    "type": "item_creation",
+    "prerequisite_text": "Zauberstufe 9"
+  },
+  {
+    "id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "name": "Zerreißen mit zwei Waffen",
+    "description": "Zerreißender Angriff auf Gegner mit zwei Waffen",
+    "type": "combat",
+    "prerequisite_text": "GE 17,  Doppelschnitt,  Verbesserter Kampf mit zwei Waffen,  Kampf mit zwei Waffen, Grund-Angriffsbonus +11"
+  },
+  {
+    "id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "name": "Zerreißendes Niederhalten",
+    "description": "Du kannst durch Ringkampfwürfe bei Gegnern im Haltegriff Blutungsschaden verursachen",
+    "type": "combat",
+    "prerequisite_text": "GE 13,  Mächtiger Ringkampf,  Verbesserter Ringkampf,  Verbesserter waffenloser Schlag, GAB +9 oder  Mönch 9"
+  },
+  {
+    "id": "71e3ce1f-74c7-5b9b-8932-63788544c47f",
+    "name": "Zertrümmern",
+    "description": "Ignoriere 5 Punkte Härte, wenn du einen Gegenstand zerbrechen willst",
+    "type": "combat",
+    "prerequisite_text": "Heftiger Angriff,  Halb-Ork."
+  },
+  {
+    "id": "4deb03ce-bb74-5852-9230-8b1c7be1e81f",
+    "name": "Zusätzliche Ausdauer [Kampf]",
+    "description": "Zusätzliche Ausdauer [Kampf]",
+    "type": "combat",
+    "prerequisite_text": "Kämpferische Ausdauer, GAB +5."
+  },
+  {
+    "id": "436cfd71-5720-518d-9b33-035cea9492e8",
+    "name": "Zusätzliche Gnade",
+    "description": "Handauflegen wird um eine zusätzliche Gnade verstärkt",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Handauflegen, Klassenfähigkeit  Gnade"
+  },
+  {
+    "id": "782f970b-a114-5eec-bf39-fc16f334a5f5",
+    "name": "Zusätzlicher Bardenauftritt",
+    "description": "Bardisches Auftreten für 6 weitere Runden pro Tag verwenden",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Bardenauftritt"
+  },
+  {
+    "id": "b28c4af1-125e-558a-a615-5ef72d41c4c3",
+    "name": "Zusätzlicher Kampfrausch",
+    "description": "Kampfrausch für 6 weitere Runden pro Tag verwenden",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Kampfrausch"
+  },
+  {
+    "id": "f326fac7-9423-527f-ad0f-9c1eb04ee5b7",
+    "name": "Zusätzlicher Schurkentrick",
+    "description": "Ein zusätzlicher Schurkentrick",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Schurkentrick."
+  },
+  {
+    "id": "668a2d3c-2be0-56cb-980c-1844c2482c6c",
+    "name": "Zusätzliches Fokussieren",
+    "description": "Energie fokussieren kann zweimal zusätzlich pro Tag eingesetzt werden",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Energie fokussieren"
+  },
+  {
+    "id": "09fc4b15-5e02-5163-a2f2-d69be46f7b03",
+    "name": "Zusätzliches Handauflegen",
+    "description": "Handauflegen kann zweimal zusätzlich pro Tag eingesetzt werden",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Handauflegen"
+  },
+  {
+    "id": "c00c73d8-0e7f-5c3a-bd74-ea1373da7184",
+    "name": "Zusätzliches Ki",
+    "description": "Erhöhung des Ki-Vorrat um 2 Punkte",
+    "type": "general",
+    "prerequisite_text": "Klassenfähigkeit  Ki-Vorrat"
+  },
+  {
+    "id": "3fe11e9a-d7b0-51f1-90c1-1fc8f0b4c3f9",
+    "name": "Über die Grenzen hinaus [Kampf]",
+    "description": "Du bist in der Lage, dich zusammenzureißen und unglaubliche Widrigkeiten zu überwinden, selbst wenn du unter Erschöpfung leidest.",
+    "type": "combat",
+    "prerequisite_text": "KO 13,  Kämpferische Ausdauer, GAB +1."
+  },
+  {
+    "id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
+    "name": "Überraschungsschlag",
+    "description": "Irgendwie machst du mehr Schaden, wenn du hektisch versuchst, deinen Gegnern aus dem Weg zu gehen.",
+    "type": "combat",
+    "prerequisite_text": "Verzweiflungsschlag,  Umsichtiger Kämpfer, GAB +6,  Halbling."
   }
 ]

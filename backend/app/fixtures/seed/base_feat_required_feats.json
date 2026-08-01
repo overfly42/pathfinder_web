@@ -1,0 +1,1400 @@
+[
+  {
+    "id": "b422f3a0-6945-5847-8612-0eba4a93f214",
+    "feat_id": "af2927b5-d02a-4de1-9d08-984678434824",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "cdb9ec62-0e8b-5b44-93fd-64aabc5b4658",
+    "feat_id": "576e5bd7-c273-469e-b8f9-afbf791e611d",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "406a5db6-dfa0-512a-afe2-020273625cdc",
+    "feat_id": "8e01b6ed-f31d-49a5-9bb7-f223d4bac873",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "2a10d32b-cf2b-5ec3-9c1a-7e5815d95932",
+    "feat_id": "e86f3e3d-e593-517f-985a-de34f254c71f",
+    "group_id": null,
+    "required_feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5"
+  },
+  {
+    "id": "403e1f16-5946-50eb-aa95-b1834170cb40",
+    "feat_id": "3577ec9b-e3d1-50f2-a376-a7499a7623bc",
+    "group_id": null,
+    "required_feat_id": "6c68271f-2fe5-5a1f-a499-eb958fc9127f"
+  },
+  {
+    "id": "65023841-26b7-5f20-8a43-2fda9729bd78",
+    "feat_id": "e01ccc4c-4aaf-5fbd-a3bf-823e9ba195eb",
+    "group_id": null,
+    "required_feat_id": "b0874197-c3bb-5d63-b943-cbb2b2229952"
+  },
+  {
+    "id": "7a2e5862-3e89-5705-a921-1321bdf1c6b4",
+    "feat_id": "e01ccc4c-4aaf-5fbd-a3bf-823e9ba195eb",
+    "group_id": null,
+    "required_feat_id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a"
+  },
+  {
+    "id": "26f2ce8e-9217-545a-b62e-85064c08e70b",
+    "feat_id": "b0874197-c3bb-5d63-b943-cbb2b2229952",
+    "group_id": null,
+    "required_feat_id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6"
+  },
+  {
+    "id": "a5f8ce26-86e9-50f3-bef0-5641dbd6ac9e",
+    "feat_id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "c00fe68c-a083-5c33-bd0f-a9e06fa6e435",
+    "feat_id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "c788ecd3-e302-5b37-b16c-12c1c6b8475f",
+    "feat_id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "c853dbcb-b341-518b-9785-5c011f23857a",
+    "feat_id": "0b30c629-76d3-5280-b63e-a94fc06e30e3",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "05fab1a1-4dac-5ac3-bb4d-ceebc15c462d",
+    "feat_id": "0b30c629-76d3-5280-b63e-a94fc06e30e3",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "26f77ee1-c069-5f7e-a945-a68258f4facf",
+    "feat_id": "300d6b3d-f156-5d73-a954-f6b99be07dd6",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "c6b48ec4-7aad-5354-ac21-4c292950234f",
+    "feat_id": "f240d4a6-b268-51f5-9e56-bd19e2215ad2",
+    "group_id": null,
+    "required_feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5"
+  },
+  {
+    "id": "6075ad3d-f6c3-532e-be43-25d2d73712c9",
+    "feat_id": "f240d4a6-b268-51f5-9e56-bd19e2215ad2",
+    "group_id": null,
+    "required_feat_id": "e86f3e3d-e593-517f-985a-de34f254c71f"
+  },
+  {
+    "id": "6d47fafa-0674-5895-a107-1464a043ccaa",
+    "feat_id": "67b8bad3-0158-585c-adca-36c7493f8651",
+    "group_id": null,
+    "required_feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5"
+  },
+  {
+    "id": "404c7095-b294-53fa-ba0b-cf4179c4e6b9",
+    "feat_id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "b6c34a84-dcf4-5677-afc5-a07fd0cb44c6",
+    "feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "b8bacf96-aedd-5676-9d29-be0af0c263f0",
+    "feat_id": "035036ca-960e-5272-8413-10426a9570b0",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "34a05b70-5966-5c88-97b3-3501c1597498",
+    "feat_id": "035036ca-960e-5272-8413-10426a9570b0",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "4f6ec3b4-8f78-50dd-a84b-f6d8348fa91f",
+    "feat_id": "1e729c98-982b-5679-a793-c4e148d5af52",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "09395cdb-ae98-50e7-b85b-63dc534d33a4",
+    "feat_id": "1e729c98-982b-5679-a793-c4e148d5af52",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "b30619cf-3e94-5305-be42-303bddb81410",
+    "feat_id": "8b718a45-516f-558e-8831-4f8c0eb085a3",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "8b968829-d95e-5c79-9223-cc07868b46d7",
+    "feat_id": "8b718a45-516f-558e-8831-4f8c0eb085a3",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "e428955e-4d2f-5dfb-af3c-bdeb03e9d529",
+    "feat_id": "8b718a45-516f-558e-8831-4f8c0eb085a3",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "da92a8a4-f361-5812-a139-75da5550ed05",
+    "feat_id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "9fd832e4-932c-53a9-b0e0-0055d7d0b11e",
+    "feat_id": "51bccca6-1d32-58b7-8189-ac94dfa724b5",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "37ece22d-4bec-55ee-a954-6117388e48e0",
+    "feat_id": "88f4f4af-da4d-51ff-ac36-e674cbb05d5a",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "9e399949-d52e-5b0e-b306-8622a3167c16",
+    "feat_id": "c3a55e6c-7548-51ce-bd56-34a34b47eb29",
+    "group_id": null,
+    "required_feat_id": "ce77bfa5-b6d0-5490-934e-82555dec0e7d"
+  },
+  {
+    "id": "e07d49f0-b26c-5744-bfe4-d0e3b1ed0d69",
+    "feat_id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "group_id": null,
+    "required_feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5"
+  },
+  {
+    "id": "d121e3bd-2ebe-5c9a-92ac-1b6a87e887df",
+    "feat_id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "9fcd6abb-2d4c-5ed8-95c6-04effaab0957",
+    "feat_id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "group_id": null,
+    "required_feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f"
+  },
+  {
+    "id": "1e5750a0-a936-5087-a31e-abae1efb41ae",
+    "feat_id": "800a94fa-abf6-5f68-90ca-c606d451420c",
+    "group_id": null,
+    "required_feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e"
+  },
+  {
+    "id": "c69d8cee-3a6d-5675-9c64-069c87b1d763",
+    "feat_id": "cecedf3d-1740-5f1e-995e-b6ab00d28f84",
+    "group_id": null,
+    "required_feat_id": "f8fa2a6c-11ca-5c24-83ec-ca1766cb1c37"
+  },
+  {
+    "id": "24c60769-fc79-5d05-a1c2-970e4fe9a6e3",
+    "feat_id": "30286da0-ff91-5b79-b7aa-fac462fd929f",
+    "group_id": null,
+    "required_feat_id": "63c0f761-c63b-4291-b7f7-d3ad8b27a655"
+  },
+  {
+    "id": "b98be4d1-529b-50c7-94a5-1b0de7755d93",
+    "feat_id": "7d58627c-e105-594a-af8c-2b34fb3b44ed",
+    "group_id": null,
+    "required_feat_id": "df3d847e-292e-552f-8a14-942bf5a0c51b"
+  },
+  {
+    "id": "e42b0c3c-c237-56a8-aa1c-69120c797e5e",
+    "feat_id": "7d58627c-e105-594a-af8c-2b34fb3b44ed",
+    "group_id": null,
+    "required_feat_id": "8aacddab-c87b-5ab8-b3f9-c1a5c910d5ae"
+  },
+  {
+    "id": "5e84c430-837d-5331-bcb9-2b171d7cb019",
+    "feat_id": "ce232214-31bf-505e-ac42-d797a43be42c",
+    "group_id": null,
+    "required_feat_id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65"
+  },
+  {
+    "id": "0463580f-db3a-5a9c-a616-59e180c45c38",
+    "feat_id": "33d663f9-39ba-57ea-bb5a-03226ef7d6bc",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "df46f038-f608-5ed3-8be2-27ddc3e3565e",
+    "feat_id": "535c0232-64fa-5a89-81c6-4c5f89ed4392",
+    "group_id": null,
+    "required_feat_id": "33d663f9-39ba-57ea-bb5a-03226ef7d6bc"
+  },
+  {
+    "id": "4be9af65-fde1-5dbd-8473-586558069282",
+    "feat_id": "535c0232-64fa-5a89-81c6-4c5f89ed4392",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "788821c8-548d-5f30-834c-770d0ebc5309",
+    "feat_id": "86ed4757-b5fa-519b-a5bf-48719534c1cc",
+    "group_id": null,
+    "required_feat_id": "79ec5dd4-6efd-513c-93fa-091c8b91b0ab"
+  },
+  {
+    "id": "8c507983-c013-54a6-bd30-121c2c4828c4",
+    "feat_id": "86ed4757-b5fa-519b-a5bf-48719534c1cc",
+    "group_id": null,
+    "required_feat_id": "a42c3a56-f0dd-5d0b-80d6-05b42a356c0c"
+  },
+  {
+    "id": "0ea605bd-afb4-5b30-8567-a7096b80320d",
+    "feat_id": "9f0466e4-3690-5045-b39a-f545367c63eb",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "be587e9e-519a-5ede-9013-aec3c123b3ca",
+    "feat_id": "9f0466e4-3690-5045-b39a-f545367c63eb",
+    "group_id": null,
+    "required_feat_id": "7e89064a-d477-581e-b03b-88e15f5d2773"
+  },
+  {
+    "id": "d8467073-67db-5d5b-941f-b7e5f33f39d5",
+    "feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "94a1d564-0753-58be-b544-13b57b7b2fbf",
+    "feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "group_id": null,
+    "required_feat_id": "86013c86-d075-581e-ad8a-50179f112001"
+  },
+  {
+    "id": "c1c5cd21-abf4-5dd7-a5ad-eb340d2cbd14",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "b48c2c48-8ca7-5549-92f2-cdd811e99097",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "required_feat_id": "86013c86-d075-581e-ad8a-50179f112001"
+  },
+  {
+    "id": "748aabd3-8627-5203-9d3f-e771edd0bf73",
+    "feat_id": "83bfcd07-6b16-5747-a00d-fd504df90985",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "d7c79e83-72e9-5875-bf3b-57e5512c30d9",
+    "feat_id": "30717985-8594-5724-89c1-2d323d13e5aa",
+    "group_id": null,
+    "required_feat_id": "55be997d-0599-493f-b068-d616db9a59fb"
+  },
+  {
+    "id": "db60e418-3c47-5a43-b73d-fb6e64f175e4",
+    "feat_id": "f1a615d0-481c-5ef4-b8b2-ea85d30a4b48",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "ecd3a764-f394-5e53-a6f7-3bc13120dbb4",
+    "feat_id": "3228cc82-b7c5-5ba0-9606-5d3021029d85",
+    "group_id": null,
+    "required_feat_id": "6a0b048a-8d3a-52b5-aff1-24671207e4b5"
+  },
+  {
+    "id": "46eb96e6-59d5-5e1b-acb3-6e069e706102",
+    "feat_id": "3d2e10e8-d66d-5c51-9a0d-5831322e9e6d",
+    "group_id": null,
+    "required_feat_id": "cea2a934-bafa-5bc2-9095-58696a8d4c4e"
+  },
+  {
+    "id": "39b7f5c4-debf-58ae-8d72-a832890ab5e4",
+    "feat_id": "2574df5c-b29b-50ed-944e-888cb9f8bea7",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "35957be1-7d44-58ab-a130-63843f9515b5",
+    "feat_id": "607382f5-136e-51c8-a892-45f19f53c42d",
+    "group_id": null,
+    "required_feat_id": "63c0f761-c63b-4291-b7f7-d3ad8b27a655"
+  },
+  {
+    "id": "d8d1dd19-81d5-53de-905f-96ddc1b735ad",
+    "feat_id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "f65c9a4a-4b9e-51b2-8d63-30848421b694",
+    "feat_id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "group_id": null,
+    "required_feat_id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0"
+  },
+  {
+    "id": "200d10a3-fd06-5601-9a15-9300689ca60c",
+    "feat_id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "group_id": null,
+    "required_feat_id": "0d7d316e-c8ca-5934-acc8-c2437f00c781"
+  },
+  {
+    "id": "16134ee4-b214-51c0-9ea3-1b20cdd8f97b",
+    "feat_id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "827e6f27-63be-574a-a355-c58aeb8fe7b3",
+    "feat_id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "dc208164-3037-5fa7-ac75-d5e9a0c03f61",
+    "feat_id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0",
+    "group_id": null,
+    "required_feat_id": "0d7d316e-c8ca-5934-acc8-c2437f00c781"
+  },
+  {
+    "id": "8cdfdcbe-7327-592a-991c-85be34a7aadc",
+    "feat_id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "66842ec3-ed92-5d48-9f10-526ebb38a3a8",
+    "feat_id": "0d7d316e-c8ca-5934-acc8-c2437f00c781",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "9d8c45e4-7252-5e7c-8508-4ac8929534eb",
+    "feat_id": "0d7d316e-c8ca-5934-acc8-c2437f00c781",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "c2d94d39-36f2-594e-9d77-2b62b34b4db5",
+    "feat_id": "1097d2af-f11e-5e43-93a5-9485dbca2dbe",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "f6a23393-010c-5c6e-ac52-f6234fae5ccb",
+    "feat_id": "1097d2af-f11e-5e43-93a5-9485dbca2dbe",
+    "group_id": null,
+    "required_feat_id": "2e30f449-497e-5b3f-8ac3-ecad60cf723c"
+  },
+  {
+    "id": "9c528d4a-5e24-558e-895b-b8407f2c8d4e",
+    "feat_id": "22a1067b-b659-546d-87b3-f007744b57c8",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "09ea62fa-ddff-57ed-b54f-a9218219fe28",
+    "feat_id": "b59406b5-53ae-5982-8652-68d5d74a8183",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "f164a600-0346-5658-88ac-cf07c444769b",
+    "feat_id": "c852126d-2b3d-5a10-b82a-a5e10f6f7ba9",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "bc39fcde-5d27-5a3d-b7c1-ae2cb58f0747",
+    "feat_id": "56cbcf0c-111e-5f46-aa5e-32a9f17955fb",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "6729f3ca-4d4e-5f0c-9d5c-d6dbffa304b2",
+    "feat_id": "064ae59c-9034-57ee-b33e-1d99d47a4f62",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "fec776a6-83ea-5a04-bee4-605a48113212",
+    "feat_id": "26b3259d-f329-520c-a897-e8b17a00a9c6",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "9df2660a-7725-57ba-acf9-89a705ed5d3d",
+    "feat_id": "2e30f449-497e-5b3f-8ac3-ecad60cf723c",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "1f4f608e-6ae4-5aa2-9e6b-c4d6aa6d5466",
+    "feat_id": "f5fb5411-e121-5ca5-9126-b6ff32ba927a",
+    "group_id": null,
+    "required_feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0"
+  },
+  {
+    "id": "af13355b-0749-5336-84b8-89aa9d0377dd",
+    "feat_id": "8d3480d2-80a5-542b-afb4-c82c1e1d9883",
+    "group_id": null,
+    "required_feat_id": "3e7ff6eb-71db-5a80-bf4a-e47244c1b7fa"
+  },
+  {
+    "id": "856a777f-1d6b-5095-aa10-178fcc3cdf6f",
+    "feat_id": "2621bb3f-48a2-55b7-83ea-2384d6c2638b",
+    "group_id": null,
+    "required_feat_id": "79c63b2a-e479-5892-b45e-b00a2a5f25ea"
+  },
+  {
+    "id": "4022c3b2-2774-557e-9db1-479252e50360",
+    "feat_id": "f48f0bf7-950b-580c-a3ba-50f18313e173",
+    "group_id": null,
+    "required_feat_id": "ce232214-31bf-505e-ac42-d797a43be42c"
+  },
+  {
+    "id": "104b5b5d-41eb-58c4-880d-7b2e5cff19e2",
+    "feat_id": "f48f0bf7-950b-580c-a3ba-50f18313e173",
+    "group_id": null,
+    "required_feat_id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65"
+  },
+  {
+    "id": "7fda9c9e-0a94-5d54-bda5-848e5272678c",
+    "feat_id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "group_id": null,
+    "required_feat_id": "9f0466e4-3690-5045-b39a-f545367c63eb"
+  },
+  {
+    "id": "e8771a6f-1392-5b8b-ad02-332cc62a25e6",
+    "feat_id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "group_id": null,
+    "required_feat_id": "7e89064a-d477-581e-b03b-88e15f5d2773"
+  },
+  {
+    "id": "50fb9a35-d874-5bb5-9738-0d0aefc63a2b",
+    "feat_id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "416bfe29-874e-5136-bb05-27f672dba09f",
+    "feat_id": "a7822480-1973-55ec-9e21-862210ce7134",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "907f5da3-9b94-58b5-989b-73fd560507c7",
+    "feat_id": "a7822480-1973-55ec-9e21-862210ce7134",
+    "group_id": null,
+    "required_feat_id": "576e5bd7-c273-469e-b8f9-afbf791e611d"
+  },
+  {
+    "id": "24d2f89b-9315-5abe-aa4f-8e9376c96144",
+    "feat_id": "dee55855-dc1f-53e5-8b28-93b053c37fe4",
+    "group_id": null,
+    "required_feat_id": "80a28ad8-7c02-5be7-a8a0-73c3c3a6015c"
+  },
+  {
+    "id": "d982824c-a69f-5b8a-a96d-48a95dd5ac22",
+    "feat_id": "a6f3f44d-ca53-5345-82fc-8ebaa935575b",
+    "group_id": null,
+    "required_feat_id": "3df46827-702c-5621-b542-ac5e664e3d29"
+  },
+  {
+    "id": "7260f562-ce61-5f0f-be2b-d4ab377c219e",
+    "feat_id": "51c09792-74ee-51f3-9183-2ab4b6386b64",
+    "group_id": null,
+    "required_feat_id": "f70f9afd-4245-5975-af06-a315e231f5d1"
+  },
+  {
+    "id": "e2541eff-29b5-5698-abd6-4fb5049ffd68",
+    "feat_id": "6e592e8b-19f1-5343-9335-aa8b7e6453c3",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "66268a57-8f24-5f79-8ef6-a0fee67db929",
+    "feat_id": "6e592e8b-19f1-5343-9335-aa8b7e6453c3",
+    "group_id": null,
+    "required_feat_id": "973f0855-f2be-5465-8d17-de2ee29d738e"
+  },
+  {
+    "id": "7be57522-dae0-598e-a240-b7b6a5ba859a",
+    "feat_id": "0167fc82-45f1-50fe-916a-97d679cd66fb",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "c32f2104-97a3-5287-9cc0-d9c721ddc0ee",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "560b57cc-1c77-5d50-a8be-9e91ba304904",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "required_feat_id": "bddd2053-a03a-5206-83e7-2e6966686c4c"
+  },
+  {
+    "id": "629d7efe-518a-5876-b5f8-b7d119a9d5bf",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "required_feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030"
+  },
+  {
+    "id": "d854565e-0fa8-533e-890d-d8a38fd869bb",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "required_feat_id": "86013c86-d075-581e-ad8a-50179f112001"
+  },
+  {
+    "id": "bcc50ec3-0268-50d4-aa91-61b94faa3e85",
+    "feat_id": "487bbca6-a5c8-5f8b-8886-42562394fc62",
+    "group_id": null,
+    "required_feat_id": "a4182c24-981e-5db6-a28b-389b50728902"
+  },
+  {
+    "id": "c5e16623-8e87-5950-be82-ee0bb68b0b10",
+    "feat_id": "487bbca6-a5c8-5f8b-8886-42562394fc62",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "3dfce05d-3e4f-51e9-96f2-ee3853c4fd01",
+    "feat_id": "487bbca6-a5c8-5f8b-8886-42562394fc62",
+    "group_id": null,
+    "required_feat_id": "9c6be6cf-4d0a-527f-8912-a4c6c89008fd"
+  },
+  {
+    "id": "b04c277d-27e7-5f83-9026-43b96732a64b",
+    "feat_id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
+    "group_id": null,
+    "required_feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f"
+  },
+  {
+    "id": "d50018fc-b12f-5dc9-a833-27cfb51c208b",
+    "feat_id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "a4f59b87-c443-5677-8563-bb5e242a7b48",
+    "feat_id": "6d60ee4a-11d2-5b32-bdee-8717b50194d1",
+    "group_id": null,
+    "required_feat_id": "88f4f4af-da4d-51ff-ac36-e674cbb05d5a"
+  },
+  {
+    "id": "627fdec1-3072-5bd1-8d2c-9d8d8dd60b0b",
+    "feat_id": "6d60ee4a-11d2-5b32-bdee-8717b50194d1",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "2db94f11-d532-5e7f-950e-60e134f657c0",
+    "feat_id": "3de87c91-4e8d-5820-b835-893c9d130372",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "9a68989b-efa3-5827-8247-f04e79724345",
+    "feat_id": "3de87c91-4e8d-5820-b835-893c9d130372",
+    "group_id": null,
+    "required_feat_id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8"
+  },
+  {
+    "id": "b5d1206e-32d9-5f5a-b932-a10815d4de07",
+    "feat_id": "4f786cb2-e706-5c7b-a3aa-a07e05ddaf6a",
+    "group_id": null,
+    "required_feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e"
+  },
+  {
+    "id": "217d03f3-7c75-51ff-ae11-c8ae06f9d738",
+    "feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "061b3111-d312-51e4-96de-d1b35c523591",
+    "feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "9d6136ab-ec36-5dd2-9bd2-c9160cf4e725",
+    "feat_id": "61b57c20-fdfb-541c-bdf5-8962403843df",
+    "group_id": null,
+    "required_feat_id": "8828daca-6640-5271-a170-679b28609068"
+  },
+  {
+    "id": "2c20ffc9-2c25-5fff-abfc-dee26982e0a9",
+    "feat_id": "a4182c24-981e-5db6-a28b-389b50728902",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "f0df5a0b-b41a-57fa-9cd6-29b3590c139f",
+    "feat_id": "c2491c73-5931-54d1-968e-2dad0c4243d0",
+    "group_id": null,
+    "required_feat_id": "070a27c2-0499-540b-864f-f64dd04f2d74"
+  },
+  {
+    "id": "6e877642-48d3-5132-b817-932b21045359",
+    "feat_id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "16172057-f60d-53b9-a304-3d8fdf45f38c",
+    "feat_id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
+    "group_id": null,
+    "required_feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa"
+  },
+  {
+    "id": "cd560683-76c0-5e8e-8285-ec827892e58c",
+    "feat_id": "6051951f-c272-50be-a06e-d4344a5bbbff",
+    "group_id": null,
+    "required_feat_id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576"
+  },
+  {
+    "id": "07ed7b9b-ec12-51e6-9864-302f75578b8a",
+    "feat_id": "6051951f-c272-50be-a06e-d4344a5bbbff",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "8d5e9b50-2058-5ffe-876e-c65bd3407cff",
+    "feat_id": "ea12668f-80d7-59dc-a182-9d3859649646",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "763b860c-47b3-5ddd-81be-2491efb22e91",
+    "feat_id": "ea12668f-80d7-59dc-a182-9d3859649646",
+    "group_id": null,
+    "required_feat_id": "75415676-cc3d-5c52-ac21-4a2bc24682f6"
+  },
+  {
+    "id": "7b47d845-ccde-58e8-a68f-4a7a6f4db24c",
+    "feat_id": "74271342-2216-51e0-a396-b0f90a2f2caa",
+    "group_id": null,
+    "required_feat_id": "b384280e-8c3f-52f6-afb2-6fab7c5ee55b"
+  },
+  {
+    "id": "4c7f016e-a648-5906-bc52-9604186be14a",
+    "feat_id": "74271342-2216-51e0-a396-b0f90a2f2caa",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "9b68c0ca-bb7a-5fd9-b22e-d6695a310473",
+    "feat_id": "387bc954-7d54-5ac8-8246-7db0f711b6e2",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "be0008cf-0228-5d4f-94cb-55c34ad84922",
+    "feat_id": "387bc954-7d54-5ac8-8246-7db0f711b6e2",
+    "group_id": null,
+    "required_feat_id": "86013c86-d075-581e-ad8a-50179f112001"
+  },
+  {
+    "id": "50f1974a-27c1-50cd-b928-88b7fb2ac1a8",
+    "feat_id": "60e1b7f5-be89-50a6-9d02-d7772a6e26ec",
+    "group_id": null,
+    "required_feat_id": "9efde199-5675-5e16-9ebd-63932b7411f5"
+  },
+  {
+    "id": "251231ff-7552-5cba-9dc1-81c89cc60b16",
+    "feat_id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "group_id": null,
+    "required_feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6"
+  },
+  {
+    "id": "1b7b6368-a62b-598e-8906-6b78ca828985",
+    "feat_id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "bf01ebee-11c3-52c1-9958-8790268a12a0",
+    "feat_id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "9f350bfc-f427-54d4-9fd1-15c312196283",
+    "feat_id": "65c6649a-33e4-5f8b-8316-7ff51353eb8f",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "057bf811-e334-5ea5-8b31-968ee08bb98c",
+    "feat_id": "034ad0fa-e430-5d80-a631-ea63352e351a",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "18f60ba1-b0af-5709-a973-aed9fc16cce3",
+    "feat_id": "034ad0fa-e430-5d80-a631-ea63352e351a",
+    "group_id": null,
+    "required_feat_id": "75415676-cc3d-5c52-ac21-4a2bc24682f6"
+  },
+  {
+    "id": "930dd398-1fb1-5416-9b93-0427d7ccaa4d",
+    "feat_id": "1f4f2057-1dab-5393-b6e9-34f3ec70407a",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "d2f8d715-09f4-530f-a112-09f8487d0b33",
+    "feat_id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "group_id": null,
+    "required_feat_id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471"
+  },
+  {
+    "id": "3e81ab75-4ab9-5322-b7c4-0c1abf784bab",
+    "feat_id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "145b8eab-22a1-57ad-a5e8-69bf971cbfe0",
+    "feat_id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "group_id": null,
+    "required_feat_id": "af2927b5-d02a-4de1-9d08-984678434824"
+  },
+  {
+    "id": "d5d7b3ae-b4a4-5441-821d-2b9a689b0d55",
+    "feat_id": "63801d17-636a-5490-9fd9-b5624ed863e9",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "298fa538-1a26-533c-803f-2f62003571f2",
+    "feat_id": "5fb8f19b-79d0-558a-9f9e-25255e370897",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "50fb9a3b-5326-5094-bb61-552709ba351a",
+    "feat_id": "93201016-3b4b-5d27-b763-24f31efe2ba6",
+    "group_id": null,
+    "required_feat_id": "d73febef-8ab2-57a9-b004-e3042cb26d29"
+  },
+  {
+    "id": "1d631b93-fbb3-5670-8fc1-bd805e493cb3",
+    "feat_id": "93201016-3b4b-5d27-b763-24f31efe2ba6",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "6028bb31-455c-5f42-8c78-bd5176af1583",
+    "feat_id": "8828daca-6640-5271-a170-679b28609068",
+    "group_id": null,
+    "required_feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "3df36321-8533-534b-8fad-1e3650a44663",
+    "feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "group_id": null,
+    "required_feat_id": "a5d62f58-b393-5df6-abf1-3a578a6d6fc9"
+  },
+  {
+    "id": "c07010e6-7270-5e4f-bbf7-64198dfa5246",
+    "feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "group_id": null,
+    "required_feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "f7723641-72b7-5e29-bac3-30fcf7f0f87e",
+    "feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "fc7cec31-a6f8-5934-852f-354d94c7a5c0",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "required_feat_id": "a5d62f58-b393-5df6-abf1-3a578a6d6fc9"
+  },
+  {
+    "id": "70274c4c-4249-5781-be3e-eb5f23328e3b",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "required_feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "e48d2d84-3710-5149-81db-90a5383a23a6",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "required_feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a"
+  },
+  {
+    "id": "afaee7e9-4ce4-5bd3-afc5-94fd3ae7e27e",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "45b13402-b6aa-519a-ae48-5d8b84ec9be0",
+    "feat_id": "c4642168-2a12-537e-a4d8-7b0929600889",
+    "group_id": null,
+    "required_feat_id": "7b205084-67a1-5ae3-bf66-390973b5e069"
+  },
+  {
+    "id": "966cb83d-4290-5e47-aa82-f43d1b31973a",
+    "feat_id": "c4642168-2a12-537e-a4d8-7b0929600889",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "0e8c24f0-413b-5571-b017-2b7a457a8257",
+    "feat_id": "c4642168-2a12-537e-a4d8-7b0929600889",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "2313333e-ba7e-547b-855f-f8f920e6fce8",
+    "feat_id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "group_id": null,
+    "required_feat_id": "c4642168-2a12-537e-a4d8-7b0929600889"
+  },
+  {
+    "id": "18c7a1e3-ca60-5c57-bc50-0c0e6cd67cf3",
+    "feat_id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "group_id": null,
+    "required_feat_id": "7b205084-67a1-5ae3-bf66-390973b5e069"
+  },
+  {
+    "id": "93174bab-29fc-5fcc-b932-a8cef28c3884",
+    "feat_id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "46b97608-b662-5553-a7a5-bc997f811886",
+    "feat_id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "ce78c565-be88-5798-895c-406dbedd973f",
+    "feat_id": "7b205084-67a1-5ae3-bf66-390973b5e069",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "9d2ca92e-2145-5e11-bf64-da9f9a1921db",
+    "feat_id": "352f7a22-1f26-5cc2-bc4d-7bee55a0c847",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "63ec76ea-0245-5ae3-9efc-5adc6190adf9",
+    "feat_id": "352f7a22-1f26-5cc2-bc4d-7bee55a0c847",
+    "group_id": null,
+    "required_feat_id": "8456851f-cafc-51fc-a47e-81298f5aeeb7"
+  },
+  {
+    "id": "d32aa6b0-2728-5f67-ac8b-e158bc82f6af",
+    "feat_id": "8456851f-cafc-51fc-a47e-81298f5aeeb7",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "afa21daf-c3a5-5f3f-92cc-ef9bd8c64d81",
+    "feat_id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "group_id": null,
+    "required_feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6"
+  },
+  {
+    "id": "161574f3-a819-51b9-8914-338b78014021",
+    "feat_id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "759827ea-4727-591d-ae05-69fce3276cef",
+    "feat_id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "a598dd4f-939b-5618-a568-841761b7dcc0",
+    "feat_id": "5d543d30-f572-5592-bc57-38f1c3e59577",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "5fac12ab-fb55-5d1f-8ca1-27221af1542c",
+    "feat_id": "7e89064a-d477-581e-b03b-88e15f5d2773",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "d6654ca4-55a3-5cd5-ab2b-ca01536a2a2d",
+    "feat_id": "8e41e099-297b-519c-a689-b6aa84555309",
+    "group_id": null,
+    "required_feat_id": "576e5bd7-c273-469e-b8f9-afbf791e611d"
+  },
+  {
+    "id": "a0bcfa13-bc2a-54d7-ba0a-fd62a0b28a8b",
+    "feat_id": "6c387bc6-0001-5270-9be2-557b2106ef71",
+    "group_id": null,
+    "required_feat_id": "1cdce090-d233-5ce7-b060-a90c70429446"
+  },
+  {
+    "id": "892bfe7d-fde5-59b4-aa7a-68479ffcd97c",
+    "feat_id": "cd1c503c-a0e0-547a-9dd4-193ba560d1e0",
+    "group_id": null,
+    "required_feat_id": "0332c7f1-dd00-5288-a703-e55ca8cce387"
+  },
+  {
+    "id": "5828d102-f3a1-534a-8915-8c1fc242eacd",
+    "feat_id": "cd1c503c-a0e0-547a-9dd4-193ba560d1e0",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "87baf06d-6024-5ab2-9787-e61b1c0e4b0d",
+    "feat_id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "e75a3ca1-6604-5283-844c-b61ca295d42a",
+    "feat_id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "group_id": null,
+    "required_feat_id": "cd1c503c-a0e0-547a-9dd4-193ba560d1e0"
+  },
+  {
+    "id": "976c4bb2-0934-577a-a2ca-70c7acc7ddc4",
+    "feat_id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "group_id": null,
+    "required_feat_id": "0332c7f1-dd00-5288-a703-e55ca8cce387"
+  },
+  {
+    "id": "e17b2950-5cb8-5ef1-ad2e-55650cb84db7",
+    "feat_id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "b80c6a6a-cf48-5b54-8343-c6c31bcd1d41",
+    "feat_id": "0332c7f1-dd00-5288-a703-e55ca8cce387",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "5f55e649-aeaf-54d0-a820-42765c8b7e81",
+    "feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "83fb6474-9040-5ca9-8a36-acc8ea639f7c",
+    "feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "6a0df25a-b94c-5679-8486-c67ba2f81e55",
+    "feat_id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "group_id": null,
+    "required_feat_id": "300d6b3d-f156-5d73-a954-f6b99be07dd6"
+  },
+  {
+    "id": "73717981-72c8-55b4-9397-501dfbf555bc",
+    "feat_id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "group_id": null,
+    "required_feat_id": "a4182c24-981e-5db6-a28b-389b50728902"
+  },
+  {
+    "id": "f8017447-6463-5aa1-b051-8fe80a32531c",
+    "feat_id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "group_id": null,
+    "required_feat_id": "530e6f15-816c-5094-a995-8b0722874a64"
+  },
+  {
+    "id": "d21f01e3-ed69-5866-9d23-c712b21a7c04",
+    "feat_id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "577bade4-949b-5cd3-b6e2-169ab4e2a5ff",
+    "feat_id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a",
+    "group_id": null,
+    "required_feat_id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6"
+  },
+  {
+    "id": "36110966-ec57-5104-a710-c616ccb046d9",
+    "feat_id": "38cd3d30-27d8-5cdc-a571-da1c2241ea7a",
+    "group_id": null,
+    "required_feat_id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6"
+  },
+  {
+    "id": "e4a12272-039f-590a-8d26-8ddb09e56076",
+    "feat_id": "38cd3d30-27d8-5cdc-a571-da1c2241ea7a",
+    "group_id": null,
+    "required_feat_id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a"
+  },
+  {
+    "id": "95e90373-a9c8-57ad-a299-de9f98b0542b",
+    "feat_id": "a9a32b78-df28-51f1-a190-62144f6dee97",
+    "group_id": null,
+    "required_feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "c0ba2869-2c6f-51d0-8c0d-1226f015fa55",
+    "feat_id": "a42c3a56-f0dd-5d0b-80d6-05b42a356c0c",
+    "group_id": null,
+    "required_feat_id": "79ec5dd4-6efd-513c-93fa-091c8b91b0ab"
+  },
+  {
+    "id": "f1075f86-da75-58a7-977e-d31ecc1c2ee2",
+    "feat_id": "86013c86-d075-581e-ad8a-50179f112001",
+    "group_id": null,
+    "required_feat_id": "0e73d64e-647f-55ea-912b-9136c8aa3fe2"
+  },
+  {
+    "id": "cae18c6b-3948-5bc2-98a9-c93cc6370e25",
+    "feat_id": "08f90728-4fc9-5c94-ad34-90c93e1c6d93",
+    "group_id": null,
+    "required_feat_id": "04823a20-2479-429e-a754-73df5321eca3"
+  },
+  {
+    "id": "dfcc5854-47c9-5e88-a784-1a1f8c4c6be6",
+    "feat_id": "973f0855-f2be-5465-8d17-de2ee29d738e",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "3edefd55-0e60-56e2-ba47-1cce3176c999",
+    "feat_id": "eef8f8fc-4fdf-569c-a44d-6fbe7228d2ab",
+    "group_id": null,
+    "required_feat_id": "cecedf3d-1740-5f1e-995e-b6ab00d28f84"
+  },
+  {
+    "id": "c31eec35-87c2-54c3-bbe8-9dc36ffb3f7f",
+    "feat_id": "eef8f8fc-4fdf-569c-a44d-6fbe7228d2ab",
+    "group_id": null,
+    "required_feat_id": "f8fa2a6c-11ca-5c24-83ec-ca1766cb1c37"
+  },
+  {
+    "id": "77ed5858-fe04-5736-b57a-b6077ba96749",
+    "feat_id": "db3470c9-4437-54a8-b004-4283e144cb43",
+    "group_id": null,
+    "required_feat_id": "829e5260-09e3-5d30-b99a-01d0e3498b56"
+  },
+  {
+    "id": "dae2716c-9007-52f0-8e3d-4f30d36e5151",
+    "feat_id": "9eac4bd2-922e-5542-9e41-f704fbd55469",
+    "group_id": null,
+    "required_feat_id": "cea2a934-bafa-5bc2-9095-58696a8d4c4e"
+  },
+  {
+    "id": "381c815a-ce25-5d7a-99d1-cfc0efc46c34",
+    "feat_id": "9eac4bd2-922e-5542-9e41-f704fbd55469",
+    "group_id": null,
+    "required_feat_id": "3d2e10e8-d66d-5c51-9a0d-5831322e9e6d"
+  },
+  {
+    "id": "50b98991-2821-5b8c-81b2-bb08470f5f66",
+    "feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "b6a130fe-68a5-5ccc-8069-cd5f767745c5",
+    "feat_id": "3d4c6329-4776-51d4-bcba-ba174e46ce2b",
+    "group_id": null,
+    "required_feat_id": "55be997d-0599-493f-b068-d616db9a59fb"
+  },
+  {
+    "id": "8c5ca82f-6e3f-50e4-b228-005df7daa2bd",
+    "feat_id": "1a800871-3ca5-5d9e-af7f-152ab355f439",
+    "group_id": null,
+    "required_feat_id": "0ce67397-2496-5618-87c3-d310d40d02c8"
+  },
+  {
+    "id": "ec56c885-6526-5e98-96d0-a0276a766b9a",
+    "feat_id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "cd4df81f-4912-522d-a313-43461d4d7063",
+    "feat_id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "b1f569f3-5ac1-5df1-8d02-230247798fd5",
+    "feat_id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471",
+    "group_id": null,
+    "required_feat_id": "af2927b5-d02a-4de1-9d08-984678434824"
+  },
+  {
+    "id": "0a26c579-219e-51b2-9254-d46ce89f6bca",
+    "feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "62033abd-1518-5e4a-9ddd-bda473995cb6",
+    "feat_id": "a5d62f58-b393-5df6-abf1-3a578a6d6fc9",
+    "group_id": null,
+    "required_feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "9460a917-598f-5523-91a0-b003fedc5eb3",
+    "feat_id": "a92ad7c6-96fd-574d-bb55-59d9d18369c1",
+    "group_id": null,
+    "required_feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e"
+  },
+  {
+    "id": "8622db9b-6b07-5b30-a7d5-78b020e31646",
+    "feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "9d0b53fe-d3e6-5ff2-8c86-1656d5ca1b1e",
+    "feat_id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "4e6d04fd-4af4-5fa0-9662-72f80ae9b004",
+    "feat_id": "75415676-cc3d-5c52-ac21-4a2bc24682f6",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "111da911-8ce0-58d5-8b9a-1c390319298d",
+    "feat_id": "b384280e-8c3f-52f6-afb2-6fab7c5ee55b",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "b72871a5-faeb-59b5-ba56-339ccf9658fa",
+    "feat_id": "99c89934-e22d-54e9-9274-d1394af118e7",
+    "group_id": null,
+    "required_feat_id": "1cdce090-d233-5ce7-b060-a90c70429446"
+  },
+  {
+    "id": "630c6783-6c97-5e4b-a322-bac09184ef4b",
+    "feat_id": "472b1e44-9b4c-5fec-bb8b-432690a66f88",
+    "group_id": null,
+    "required_feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e"
+  },
+  {
+    "id": "73908938-81ce-52f0-b33c-c9fb85384467",
+    "feat_id": "70f9fe70-2dd6-50dc-aa0d-d571c14c7d81",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "9ecb77a8-f017-52de-9ed0-334b904aa958",
+    "feat_id": "530e6f15-816c-5094-a995-8b0722874a64",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "8d288ca1-444e-5a8c-8db1-17e70bcefdc4",
+    "feat_id": "530e6f15-816c-5094-a995-8b0722874a64",
+    "group_id": null,
+    "required_feat_id": "300d6b3d-f156-5d73-a954-f6b99be07dd6"
+  },
+  {
+    "id": "39edcbb2-1ac6-5f08-8350-db1ed242c2d6",
+    "feat_id": "8ef92717-8843-5d7f-94cc-ee706b9ceddb",
+    "group_id": null,
+    "required_feat_id": "ce77bfa5-b6d0-5490-934e-82555dec0e7d"
+  },
+  {
+    "id": "80004a62-0887-55fb-9048-e248503eea69",
+    "feat_id": "f8898f1a-852f-5de2-bdd7-732898b1a6d1",
+    "group_id": null,
+    "required_feat_id": "1cdce090-d233-5ce7-b060-a90c70429446"
+  },
+  {
+    "id": "d4737297-cab5-5c2b-825a-1e9d01ef16a0",
+    "feat_id": "9c6be6cf-4d0a-527f-8912-a4c6c89008fd",
+    "group_id": null,
+    "required_feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
+  },
+  {
+    "id": "f59c69cd-fc99-5f99-9d92-a4d9e2740a34",
+    "feat_id": "13fdbf6e-712e-5c7a-b68a-ae358411e64c",
+    "group_id": null,
+    "required_feat_id": "3228cc82-b7c5-5ba0-9606-5d3021029d85"
+  },
+  {
+    "id": "666275cc-5f52-5e5d-81f0-d611c5aeb36a",
+    "feat_id": "13fdbf6e-712e-5c7a-b68a-ae358411e64c",
+    "group_id": null,
+    "required_feat_id": "6a0b048a-8d3a-52b5-aff1-24671207e4b5"
+  },
+  {
+    "id": "fcab0a9d-b05f-5766-9c95-a6a206f8ebd8",
+    "feat_id": "7e532616-e7a2-5096-8e8a-92fb292fea40",
+    "group_id": null,
+    "required_feat_id": "f2922069-181c-4909-ad22-2b6664501c60"
+  },
+  {
+    "id": "762764ff-36af-5ffe-a6ac-4b0aa794b182",
+    "feat_id": "8ef75723-a388-5ab9-bcd7-2a883509b8e7",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "c00c80de-b2da-513a-888f-9fed86ae0e60",
+    "feat_id": "8ef75723-a388-5ab9-bcd7-2a883509b8e7",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "e5027b31-3d40-5610-89c6-32d4a8b4728b",
+    "feat_id": "45e5415a-c515-519d-849a-b5ddec008998",
+    "group_id": null,
+    "required_feat_id": "78b649fb-2b13-52e2-9380-7336f3f842f4"
+  },
+  {
+    "id": "2141644f-4c8d-5524-92ed-446467fd23a8",
+    "feat_id": "5924349c-7a3c-531f-9639-149a829ed3a1",
+    "group_id": null,
+    "required_feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e"
+  },
+  {
+    "id": "c6c1b9ae-920f-5274-ad74-30fa0e9ebaad",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "required_feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca"
+  },
+  {
+    "id": "9d53f045-7f4f-5be9-bbca-c9484d45b6b2",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "required_feat_id": "2249f151-0809-4c55-80cc-76920111782e"
+  },
+  {
+    "id": "c75246ff-9d60-5fd8-8045-af780bd532ad",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "required_feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b"
+  },
+  {
+    "id": "277b9f08-7108-591f-a07b-dc6e3bd89339",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "required_feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074"
+  },
+  {
+    "id": "d5d8af1f-cce4-582f-8f8d-c3ad7641bdf8",
+    "feat_id": "df3d847e-292e-552f-8a14-942bf5a0c51b",
+    "group_id": null,
+    "required_feat_id": "8aacddab-c87b-5ab8-b3f9-c1a5c910d5ae"
+  },
+  {
+    "id": "0285cd05-5eaa-5f9b-a018-fa02ec5357d0",
+    "feat_id": "3cc5d1a5-94a0-54fe-b8f1-561299236d11",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "b2cd0a21-2869-586a-976f-3ed695fabb32",
+    "feat_id": "3cc5d1a5-94a0-54fe-b8f1-561299236d11",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "d9270e8e-6be3-556a-b33c-2b570d207747",
+    "feat_id": "d77f3862-3e24-5ad4-bc3d-2a5cec4486bd",
+    "group_id": null,
+    "required_feat_id": "ccdbfe93-9d86-5d79-b90c-f2862440b50f"
+  },
+  {
+    "id": "8e37143d-425b-51dd-aa9f-c71e68a70f36",
+    "feat_id": "67de4ff0-46b3-5fc7-851e-161d4de8840c",
+    "group_id": null,
+    "required_feat_id": "8aacddab-c87b-5ab8-b3f9-c1a5c910d5ae"
+  },
+  {
+    "id": "ea590e03-ec95-5e27-84ed-11c88e668853",
+    "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "group_id": null,
+    "required_feat_id": "51bccca6-1d32-58b7-8189-ac94dfa724b5"
+  },
+  {
+    "id": "58389009-7a6a-521c-ba65-040aca9fb676",
+    "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "group_id": null,
+    "required_feat_id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8"
+  },
+  {
+    "id": "5390b4b9-b2bb-5d2a-8485-d4be1c8ba633",
+    "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "group_id": null,
+    "required_feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e"
+  },
+  {
+    "id": "2958b347-5ec7-56c3-9f4c-ec01cdc67d4f",
+    "feat_id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "group_id": null,
+    "required_feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6"
+  },
+  {
+    "id": "907a7801-53ae-5524-b85b-f40676de6ca2",
+    "feat_id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "group_id": null,
+    "required_feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44"
+  },
+  {
+    "id": "ef885a13-3ddd-5017-9deb-3b30b83af4a0",
+    "feat_id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "group_id": null,
+    "required_feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
+    "id": "b5ee5135-7e72-5f81-b012-89719556d90d",
+    "feat_id": "71e3ce1f-74c7-5b9b-8932-63788544c47f",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
+  },
+  {
+    "id": "6b5e81f1-e1fd-5e7f-8b57-93f2d5c0d516",
+    "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
+    "group_id": null,
+    "required_feat_id": "f8898f1a-852f-5de2-bdd7-732898b1a6d1"
+  },
+  {
+    "id": "9243e407-3bcd-5078-a14e-7e1417d0615b",
+    "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
+    "group_id": null,
+    "required_feat_id": "1cdce090-d233-5ce7-b060-a90c70429446"
+  }
+]

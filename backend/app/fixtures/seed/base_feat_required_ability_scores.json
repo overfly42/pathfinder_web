@@ -1,0 +1,625 @@
+[
+  {
+    "id": "4e723d60-789d-5230-b062-064ae8ab213b",
+    "feat_id": "576e5bd7-c273-469e-b8f9-afbf791e611d",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "9e11d87f-1073-5404-a4c3-44dfb677ac58",
+    "feat_id": "b052b230-533c-4762-b1ba-a16c47ffb0b2",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "b0609792-9226-517f-85bc-5d3a7683c6d2",
+    "feat_id": "5a54884c-8d29-432f-9bd5-2df6e923175e",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "b584c3fc-17f9-558a-9cf1-188f65235a0c",
+    "feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "5d169d9d-61fe-564d-bac9-ed6bc6892d83",
+    "feat_id": "ca9bec84-cdf4-41f2-a8a6-2ac9b6826d65",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "d3a878d9-c0cf-5e61-9583-7fe9c05955db",
+    "feat_id": "2249f151-0809-4c55-80cc-76920111782e",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "0b8cef9b-4ba4-53f0-8954-f1f773daf057",
+    "feat_id": "44dcfd46-d4ad-590c-88be-f0cd31d6807c",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 17
+  },
+  {
+    "id": "0cde530e-0fe2-5671-ac23-74e401cf31c3",
+    "feat_id": "1eb30217-89ee-57c3-baab-4e9d6ce63517",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 10
+  },
+  {
+    "id": "cb18f977-abf6-5e11-b615-6bec0f01ca63",
+    "feat_id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "d78156ad-8c9e-5fda-a488-a9fe4ee7d332",
+    "feat_id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "8a9dca89-f5a1-5601-959b-f036f76d9efa",
+    "feat_id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
+    "group_id": null,
+    "ability": "WE",
+    "minimum_score": 13
+  },
+  {
+    "id": "669b7f61-ec6d-5f9a-9db8-cd8e1fbaaed4",
+    "feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "8422d99b-c12f-580c-8d9e-ce8a74be3513",
+    "feat_id": "f770acff-c2cb-5cc2-b941-1cc852da1840",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "3790a43a-8746-5965-9af9-1468e985932e",
+    "feat_id": "70605bb5-9aba-5363-9302-a4cc015906ca",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "71c596d2-5d4c-5724-bd34-8329f5f065d0",
+    "feat_id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "6cb0418e-7944-549b-b4e7-88c401bc443b",
+    "feat_id": "51bccca6-1d32-58b7-8189-ac94dfa724b5",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "f34b842f-555a-5ad9-999c-6339feae0d57",
+    "feat_id": "c3a55e6c-7548-51ce-bd56-34a34b47eb29",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "c542d542-d3c6-5d31-be1a-023cc20f89ab",
+    "feat_id": "bddd2053-a03a-5206-83e7-2e6966686c4c",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "63ef724e-9a10-568d-9d64-9e019dd8c642",
+    "feat_id": "a394f87f-1331-585b-90b5-6ad0260b7b4b",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "0ace5edf-32e9-54ec-8920-95f579ac2105",
+    "feat_id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "3f37cfbd-3ba1-52ee-995d-a6607bccbef4",
+    "feat_id": "79f64df0-d30d-56c0-a926-2b671934fd6b",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "a8f98d0f-9b3d-5b8d-92e0-902fcb5a7fa8",
+    "feat_id": "9bd64628-f69e-5be5-9fa4-4702ef524309",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "b8cfd3a9-cd81-5810-bef5-a3ab3108adb3",
+    "feat_id": "ce77bfa5-b6d0-5490-934e-82555dec0e7d",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "bbe0b9e7-b83f-50b4-a6dd-6f9ab37bdc96",
+    "feat_id": "0ce67397-2496-5618-87c3-d310d40d02c8",
+    "group_id": null,
+    "ability": "WE",
+    "minimum_score": 13
+  },
+  {
+    "id": "93260862-e09f-5dd8-a4e9-8b73a2a4552b",
+    "feat_id": "ce232214-31bf-505e-ac42-d797a43be42c",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "e454c35b-c277-5f08-9834-9601d12fc193",
+    "feat_id": "33d663f9-39ba-57ea-bb5a-03226ef7d6bc",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "82a111a4-5218-5d15-a605-c37eacbfb80d",
+    "feat_id": "535c0232-64fa-5a89-81c6-4c5f89ed4392",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "b46c1bcb-cacb-585d-9e22-55b923d4fd44",
+    "feat_id": "3674d6c0-0030-5e40-b1a6-d0eb23d85e09",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "6e92741c-4bcf-521e-ab26-f0c367153aca",
+    "feat_id": "2b4e40ef-fd2b-5528-9623-f6cf04cb31ac",
+    "group_id": null,
+    "ability": "WE",
+    "minimum_score": 13
+  },
+  {
+    "id": "55ab7628-46c8-5bc6-86d7-059a58f4650d",
+    "feat_id": "80cea8a5-7dc2-5063-b221-54d777eebfc9",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "c1a1c7b5-f15f-5d96-825f-01a9bef0147d",
+    "feat_id": "0e89e906-3db7-578a-b07e-4247875e2624",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "d1f4bccd-17b5-5379-a8f8-c1dffd573077",
+    "feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "4f3ac0b7-d933-5ed8-9216-8d4a125dd3c8",
+    "feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "3c64e29e-40ef-5534-8512-a02f62068740",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "160d27e6-0ddb-536c-a37e-dc285e229e20",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "7985f5a9-a816-5b8a-9222-43843b40ba69",
+    "feat_id": "3d2e10e8-d66d-5c51-9a0d-5831322e9e6d",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "758a9c36-f8b3-55d3-8df0-ec81b1537963",
+    "feat_id": "fee82d0c-5af8-5640-a0ad-dea80b997f25",
+    "group_id": null,
+    "ability": "WE",
+    "minimum_score": 13
+  },
+  {
+    "id": "0c3453fb-800b-5cd7-a9fc-d25cca72732a",
+    "feat_id": "27339a23-4021-5cdc-ae9e-6eabb3e667a6",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "b4b58f44-efd6-5f13-b1d9-64802e3a05ba",
+    "feat_id": "d354f4dd-4002-5e8f-89f1-3696f8b402aa",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "574ff497-d01e-5e83-8e58-d1db81a3fe46",
+    "feat_id": "1e5690a9-17ed-5cc2-899c-b209ab2ba521",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "b4f4be4e-43f6-57f2-91d3-9bdc73db7b0c",
+    "feat_id": "a7822480-1973-55ec-9e21-862210ce7134",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 17
+  },
+  {
+    "id": "51f23018-e71c-5e88-9887-60581169fb4b",
+    "feat_id": "6e592e8b-19f1-5343-9335-aa8b7e6453c3",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "297a116b-0828-58ea-a830-2a3dac35e6ae",
+    "feat_id": "0167fc82-45f1-50fe-916a-97d679cd66fb",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "7e7bab23-dbe7-5e80-b220-36c8858de061",
+    "feat_id": "0167fc82-45f1-50fe-916a-97d679cd66fb",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 15
+  },
+  {
+    "id": "52e5a080-8d3c-5f49-9910-f3dfade856bc",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "00ffcd04-4c2e-5590-b6ab-7e05ad9c1dd2",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 15
+  },
+  {
+    "id": "82270c28-4498-5daf-bc43-6f1e1b0a4dd9",
+    "feat_id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "6808cb14-a04f-55c1-a1a2-875bd856ccfa",
+    "feat_id": "3de87c91-4e8d-5820-b835-893c9d130372",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 19
+  },
+  {
+    "id": "1eec8349-e12f-57a9-bdb6-6942e0d4a9c9",
+    "feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "86cf3d88-071c-5bc8-8845-459c452c95a2",
+    "feat_id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "c1178b1a-ef2b-547b-b4fc-4cbd14644ae5",
+    "feat_id": "6051951f-c272-50be-a06e-d4344a5bbbff",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "7bd4b674-c1aa-50ea-9227-d57461799d7d",
+    "feat_id": "ea12668f-80d7-59dc-a182-9d3859649646",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "d664f63c-28ff-52b9-8655-f5c00a7c070e",
+    "feat_id": "74271342-2216-51e0-a396-b0f90a2f2caa",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "e2e23ccf-1854-5048-b39d-13095397e289",
+    "feat_id": "387bc954-7d54-5ac8-8246-7db0f711b6e2",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "6914a73f-889d-5b0b-838b-58662bb8a741",
+    "feat_id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "68d16897-d1e5-57c2-b06d-f01a3336b80a",
+    "feat_id": "65c6649a-33e4-5f8b-8316-7ff51353eb8f",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "5c0d5a3a-b449-5490-b2ad-d43726a4a345",
+    "feat_id": "65c6649a-33e4-5f8b-8316-7ff51353eb8f",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 17
+  },
+  {
+    "id": "163563c0-01ba-57ab-9a1d-9fd885e69751",
+    "feat_id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 19
+  },
+  {
+    "id": "2df7c4e8-f3b3-5654-aa78-22080164b3da",
+    "feat_id": "93201016-3b4b-5d27-b763-24f31efe2ba6",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "a07269b3-c14c-5ecd-96ac-b37684751c98",
+    "feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "9e8cb0b2-732d-5294-a1be-34dab4bc343f",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "1e8b8438-a817-54d2-abca-62cf4516d245",
+    "feat_id": "352f7a22-1f26-5cc2-bc4d-7bee55a0c847",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 17
+  },
+  {
+    "id": "88a74fa3-7acd-5610-b522-b4d0904fca92",
+    "feat_id": "8456851f-cafc-51fc-a47e-81298f5aeeb7",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "51dfb60d-ff3e-5682-8744-b3b518ea2e1a",
+    "feat_id": "cea2a934-bafa-5bc2-9095-58696a8d4c4e",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "2a5f635a-2b07-57d9-873a-a1c1632ea390",
+    "feat_id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "53d67985-cc67-5e6e-bd84-99ba938a6c82",
+    "feat_id": "4272bb4e-e169-527c-9c22-51848e4a4566",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "e9cbbe5f-f2bf-5709-bda5-9758a37aee71",
+    "feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "df874832-b6db-585f-9da9-34d7e582be7f",
+    "feat_id": "3fd5f5ab-49f8-5e4a-b0ec-7f731df495bc",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "f7ec1fae-8b7b-5c7b-bcd9-14dfe0eadfbd",
+    "feat_id": "973f0855-f2be-5465-8d17-de2ee29d738e",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "85645af3-95b8-5b0b-964b-278d7cb2f33b",
+    "feat_id": "9eac4bd2-922e-5542-9e41-f704fbd55469",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "fa9ca8e7-eb30-5a3f-bcec-0ef7c36f9a40",
+    "feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "2dde33ec-c288-5348-a4e4-c264b1327dc9",
+    "feat_id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 17
+  },
+  {
+    "id": "bb18763c-8d6f-5c68-93dd-d1464d66411c",
+    "feat_id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 19
+  },
+  {
+    "id": "318add18-0f26-53dc-94f5-81205a846d40",
+    "feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "e7865694-4625-5840-9dc7-12b329b9236e",
+    "feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "74c8d3b8-95a1-5cf3-8ab9-5b834b587cba",
+    "feat_id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "818a2634-5303-52c9-a815-5b9ccfeb0f76",
+    "feat_id": "75415676-cc3d-5c52-ac21-4a2bc24682f6",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "c6ab502f-4923-52cb-bc49-2b9879fc5f20",
+    "feat_id": "b384280e-8c3f-52f6-afb2-6fab7c5ee55b",
+    "group_id": null,
+    "ability": "ST",
+    "minimum_score": 13
+  },
+  {
+    "id": "21ba08d2-9c20-5152-8468-22992080570a",
+    "feat_id": "70f9fe70-2dd6-50dc-aa0d-d571c14c7d81",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 15
+  },
+  {
+    "id": "a3dbc60d-6d07-556f-bf7f-33dbe62d76df",
+    "feat_id": "8ef92717-8843-5d7f-94cc-ee706b9ceddb",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "8cd9c66e-4cb3-549f-a847-b1d41a2ed353",
+    "feat_id": "64106cc2-ed44-55e9-8691-5361271f59ce",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 17
+  },
+  {
+    "id": "fcf2a89c-bd8b-568c-a502-234f8da2bfcc",
+    "feat_id": "4c4710f5-af8a-59fd-9b91-c9fd797e0ff9",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "8f3a7b07-e9f8-5a61-accc-53caadeae468",
+    "feat_id": "7e0e00ac-e72a-520e-ae53-4b38cba19e6b",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  },
+  {
+    "id": "b65d1f38-1e21-5e1a-8dcd-e6efba07d9d9",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "08fb4d09-7dd7-5bea-a032-b28f4e2fb50f",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "6ed2ffe3-eeae-5e06-b974-e47266964c9a",
+    "feat_id": "e46e1333-9590-5483-a5ea-b0da90b6869b",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
+  },
+  {
+    "id": "d268fe3c-efb1-57e5-8328-78abb8a57c86",
+    "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 17
+  },
+  {
+    "id": "fdec22f4-efb1-5580-a9a5-d0053fa36414",
+    "feat_id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "61e57a9f-ba4e-51f6-9136-aa54cff2a508",
+    "feat_id": "3fe11e9a-d7b0-51f1-90c1-1fc8f0b4c3f9",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
+  }
+]

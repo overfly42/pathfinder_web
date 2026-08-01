@@ -68,10 +68,10 @@ def test_list_classes_exposes_kaempfer_class_skills_from_real_data(client: TestC
         "Einschüchtern",
         "Handwerk",
         "Klettern",
-        "Tierumgang",
+        "Mit Tieren umgehen",
         "Reiten",
         "Schwimmen",
-        "Wildnisleben",
+        "Überlebenskunst",
         "Wissen (Baukunst)",
         "Wissen (Gewölbekunde)",
     }
@@ -89,7 +89,7 @@ def test_list_classes_exposes_waldlaeufer_class_skills_from_real_data(client: Te
     waldlaeufer_skill_names = {skills[skill_id] for skill_id in classes["Waldläufer"]["classSkills"]}
 
     # http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer - the 15
-    # class skills listed in the "Klassenfertigkeiten" section. "Fluchtkunst"
+    # class skills listed in the "Klassenfertigkeiten" section. "Entfesselungskunst"
     # was previously seeded here by mistake and is not part of this list.
     assert waldlaeufer_skill_names == {
         "Beruf",
@@ -98,10 +98,10 @@ def test_list_classes_exposes_waldlaeufer_class_skills_from_real_data(client: Te
         "Heilkunde",
         "Heimlichkeit",
         "Klettern",
-        "Tierumgang",
+        "Mit Tieren umgehen",
         "Reiten",
         "Schwimmen",
-        "Wildnisleben",
+        "Überlebenskunst",
         "Wahrnehmung",
         "Wissen (Geographie)",
         "Wissen (Gewölbekunde)",

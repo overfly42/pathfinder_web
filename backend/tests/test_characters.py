@@ -50,6 +50,12 @@ def _skill_id(client: TestClient, db_session: Session, name: str) -> str:
 
 
 def _feat_id(client: TestClient, db_session: Session, name: str) -> str:
+    # base_feat_required_* FKs into base_races/base_classes/base_class_abilities/base_skills.
+    seed_races(db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)  # base_class_ability_grants.option_choice_id FKs here
+    seed_class_abilities(db_session)
+    seed_skills(db_session)
     seed_feats(db_session)
     feats = client.get("/api/feats").json()
     return next(f["id"] for f in feats if f["name"] == name)
@@ -574,7 +580,7 @@ def test_create_character_human_geschult_adds_one_skill_point_per_level(
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
     skill_names = [
-        "Akrobatik", "Fingerfertigkeit", "Fluchtkunst", "Heimlichkeit", "Reiten", "Falle entschärfen", "Klettern",
+        "Akrobatik", "Fingerfertigkeit", "Entfesselungskunst", "Heimlichkeit", "Reiten", "Mechanismus ausschalten", "Klettern",
     ]
     skill_ranks = {_skill_id(client, db_session, name): 1 for name in skill_names}
 
@@ -599,7 +605,7 @@ def test_create_character_skill_ranks_exceeding_budget_are_rejected(client: Test
     # Human's "Geschult" adds +1/level -> budget 7. 8 skills at 1 rank each
     # (level cap at level 1) overspends it.
     skill_names = [
-        "Akrobatik", "Fingerfertigkeit", "Fluchtkunst", "Heimlichkeit", "Reiten", "Falle entschärfen", "Klettern",
+        "Akrobatik", "Fingerfertigkeit", "Entfesselungskunst", "Heimlichkeit", "Reiten", "Mechanismus ausschalten", "Klettern",
         "Schwimmen",
     ]
     skill_ranks = {_skill_id(client, db_session, name): 1 for name in skill_names}
@@ -777,7 +783,7 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
     assert response.status_code == 201
     assert set(response.json()["feat_ids"]) == set(feat_ids)
 
-    fourth_feat_id = _feat_id(client, db_session, "Punktzielschuss")
+    fourth_feat_id = _feat_id(client, db_session, "Kernschuss")
     response = client.post(
         "/api/characters",
         json=_character_payload(

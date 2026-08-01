@@ -1,0 +1,554 @@
+[
+  {
+    "id": "15e6c392-bb01-5cce-9c5f-8c9f728f8588",
+    "feat_id": "b052b230-533c-4762-b1ba-a16c47ffb0b2",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "db67ab65-37a9-552d-91d0-b5f0cf009511",
+    "feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "a0d084e5-bc13-5c1c-b837-e77cdc7b77b3",
+    "feat_id": "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "7fa4139b-1c2b-578e-be75-2d003044caa8",
+    "feat_id": "3644e94d-966c-53b0-aea5-5c303ddd9046",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "294ecfd4-2a42-5134-9869-297f316ab030",
+    "feat_id": "cdd3f686-ae9a-5ab5-9fe8-38c4e6d379d5",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "7c0e02d3-8c46-50b2-a382-dab138cc5207",
+    "feat_id": "0b30c629-76d3-5280-b63e-a94fc06e30e3",
+    "group_id": null,
+    "minimum_bab": 7
+  },
+  {
+    "id": "0fb22c84-fc17-58b7-a22a-b852b5c63ee7",
+    "feat_id": "300d6b3d-f156-5d73-a954-f6b99be07dd6",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "942bbe99-8df1-5da2-99d8-99f47be7ff93",
+    "feat_id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
+    "group_id": null,
+    "minimum_bab": 8
+  },
+  {
+    "id": "830804a5-c922-5837-8069-4597ad47e8d5",
+    "feat_id": "035036ca-960e-5272-8413-10426a9570b0",
+    "group_id": null,
+    "minimum_bab": 9
+  },
+  {
+    "id": "6d6c285b-14b4-54ae-bbf1-80e0b6dc85d7",
+    "feat_id": "1e729c98-982b-5679-a793-c4e148d5af52",
+    "group_id": null,
+    "minimum_bab": 9
+  },
+  {
+    "id": "307a1736-34a9-5a61-9d26-d24d7323bdd8",
+    "feat_id": "8b718a45-516f-558e-8831-4f8c0eb085a3",
+    "group_id": null,
+    "minimum_bab": 12
+  },
+  {
+    "id": "4cfef223-6a09-5021-b834-9f3b6bd8db3e",
+    "feat_id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "aa749838-bc63-5798-89d8-91988f775344",
+    "feat_id": "b3fe4090-ebfb-5338-816f-959f2e54881b",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "6ae6d452-2813-5e29-8b16-ff6fc3587340",
+    "feat_id": "88f4f4af-da4d-51ff-ac36-e674cbb05d5a",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "f70ca86b-ef7a-5e35-87bd-faeaf3e526b8",
+    "feat_id": "7d246a74-9577-5470-8295-50fb0239b757",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "1db0b9a8-1892-51ea-80bb-7846fa6a89de",
+    "feat_id": "57d16ab9-2bda-5028-ac05-d96648026498",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "99bc4711-79d6-5e0a-87b2-f65de84ff738",
+    "feat_id": "ab7a032c-6dac-5089-9602-818918ce45d3",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "f52ce39b-f23e-5385-97c5-1566663e8292",
+    "feat_id": "50f9e2dc-32c0-58ab-bec5-31c4da471a36",
+    "group_id": null,
+    "minimum_bab": 5
+  },
+  {
+    "id": "4c8c9dcd-b20b-5919-ac40-60d3da9f7ba0",
+    "feat_id": "9f0466e4-3690-5045-b39a-f545367c63eb",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "539331fe-b89c-591f-94fb-32a9c34d056f",
+    "feat_id": "5db03e1e-1dcb-5cc7-88ed-180373bb5030",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "78d3d30b-bc10-51bd-a698-07018a0a8584",
+    "feat_id": "94e1c136-ba66-5a44-b150-ccc9e65224a9",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "81eda827-49b8-528b-9705-1c5f133a03d0",
+    "feat_id": "85937410-23ad-56db-983c-f437d60fcf57",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "31d0fef3-4fae-5161-8729-786f6830efea",
+    "feat_id": "2574df5c-b29b-50ed-944e-888cb9f8bea7",
+    "group_id": "4381a721-ffc3-4875-bcc2-ba6c3ebdcbf2",
+    "minimum_bab": 6
+  },
+  {
+    "id": "31b29d66-baf9-5ce7-a36d-27bd414a73bd",
+    "feat_id": "09ecd2a2-b1fc-5fe8-be9d-62e581ea7e6e",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "f29f7344-54b4-52ca-8b46-ca48682a36f9",
+    "feat_id": "f258dff4-c112-592f-b7de-03be0ec98986",
+    "group_id": "c3127c5b-f6d3-44ae-bd00-ffea8e7fc601",
+    "minimum_bab": 8
+  },
+  {
+    "id": "80905ac4-d730-5d3d-ad84-73784b6cc17b",
+    "feat_id": "fa74e7a4-a719-57d9-a1d4-42f9e6e93ae0",
+    "group_id": "9d0b9bb9-9cf6-488a-8193-26d5b6f616de",
+    "minimum_bab": 5
+  },
+  {
+    "id": "c0c96368-8ed6-58f7-a20d-73addc4ef03d",
+    "feat_id": "0d7d316e-c8ca-5934-acc8-c2437f00c781",
+    "group_id": "7f96699b-437a-4975-af61-d495af8d9f98",
+    "minimum_bab": 2
+  },
+  {
+    "id": "dfa0e6d2-3253-5a12-929e-ff3b8c01cfbf",
+    "feat_id": "1097d2af-f11e-5e43-93a5-9485dbca2dbe",
+    "group_id": null,
+    "minimum_bab": 17
+  },
+  {
+    "id": "845abf82-cd55-5f4a-8a1e-3d0ea446baa6",
+    "feat_id": "22a1067b-b659-546d-87b3-f007744b57c8",
+    "group_id": null,
+    "minimum_bab": 15
+  },
+  {
+    "id": "18a5f8f9-ca0a-5ce8-ac4f-1f46971069c1",
+    "feat_id": "b59406b5-53ae-5982-8652-68d5d74a8183",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "fa9df5cb-d16d-52d0-a98c-8ddf349c1061",
+    "feat_id": "c852126d-2b3d-5a10-b82a-a5e10f6f7ba9",
+    "group_id": null,
+    "minimum_bab": 15
+  },
+  {
+    "id": "3cea1623-f352-59d5-a85d-ba07392ac3dc",
+    "feat_id": "56cbcf0c-111e-5f46-aa5e-32a9f17955fb",
+    "group_id": null,
+    "minimum_bab": 13
+  },
+  {
+    "id": "662a6d3c-5054-5c91-8130-22a9bd6714b0",
+    "feat_id": "064ae59c-9034-57ee-b33e-1d99d47a4f62",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "db1b6887-bdd8-5607-aa65-629b69ad26ad",
+    "feat_id": "26b3259d-f329-520c-a897-e8b17a00a9c6",
+    "group_id": null,
+    "minimum_bab": 13
+  },
+  {
+    "id": "25a3c309-4fe8-59c5-97a8-7af12a65e952",
+    "feat_id": "2e30f449-497e-5b3f-8ac3-ecad60cf723c",
+    "group_id": null,
+    "minimum_bab": 13
+  },
+  {
+    "id": "6bf3f1cd-8669-5a46-87e3-23d301bf6e94",
+    "feat_id": "7b938552-3931-5e62-8310-f22e4faba5c0",
+    "group_id": null,
+    "minimum_bab": 9
+  },
+  {
+    "id": "7e3127f2-cf3a-51db-8f0a-11d7c0f3c17f",
+    "feat_id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "c985b3c9-a7bc-5556-81ef-bbdb84b88dee",
+    "feat_id": "a7822480-1973-55ec-9e21-862210ce7134",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "2d237ec7-adee-5c64-b91c-8bb5af2a2841",
+    "feat_id": "22c0be73-d726-5e57-8960-61148277542e",
+    "group_id": null,
+    "minimum_bab": 8
+  },
+  {
+    "id": "51b73ad9-5a0a-5f60-849a-4eca3d4312fb",
+    "feat_id": "6e592e8b-19f1-5343-9335-aa8b7e6453c3",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "f7dd933d-c183-55d0-a6c6-2c09ea2f8bca",
+    "feat_id": "5b8832cb-238a-53ec-85d3-b27bb4fbdd8b",
+    "group_id": null,
+    "minimum_bab": 9
+  },
+  {
+    "id": "8a6c9b9d-5737-54a7-8c85-6f9cd43e71d7",
+    "feat_id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "f8f1ec91-3c06-58d1-8529-52190c2d41a1",
+    "feat_id": "3de87c91-4e8d-5820-b835-893c9d130372",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "ec4528d0-38d9-5202-bd31-68c2bf95cb7e",
+    "feat_id": "4f786cb2-e706-5c7b-a3aa-a07e05ddaf6a",
+    "group_id": null,
+    "minimum_bab": 16
+  },
+  {
+    "id": "7db5e759-fdca-5c4a-899e-95241b7a039e",
+    "feat_id": "b9fd2813-4890-5f89-9699-43de25d1e2f6",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "e322fdbd-a395-57c6-8693-1c33bd31dc83",
+    "feat_id": "61b57c20-fdfb-541c-bdf5-8962403843df",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "f6cb0fad-e22f-5a33-860f-c5ea50c7f26f",
+    "feat_id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "f8bcacf7-27ae-59c3-a33d-7d42c60bbb32",
+    "feat_id": "6051951f-c272-50be-a06e-d4344a5bbbff",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "771bf0be-5a24-53bc-9ac4-f58a2e02b1e5",
+    "feat_id": "ea12668f-80d7-59dc-a182-9d3859649646",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "125cf0a7-1aa2-5775-97f9-c6b0bd01dc91",
+    "feat_id": "74271342-2216-51e0-a396-b0f90a2f2caa",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "8e58eb4a-4789-5aa2-9ddb-5648637be1c3",
+    "feat_id": "6d8ca0c0-fc7b-5ad1-95db-0e67690181cd",
+    "group_id": "4feea779-5010-447f-a6a6-0aa533084c56",
+    "minimum_bab": 9
+  },
+  {
+    "id": "c4f6c938-0c1f-5563-87b0-92cd5a61eb84",
+    "feat_id": "034ad0fa-e430-5d80-a631-ea63352e351a",
+    "group_id": null,
+    "minimum_bab": 9
+  },
+  {
+    "id": "bdf7c282-6d3c-5150-9acc-5a84e3565480",
+    "feat_id": "1f4f2057-1dab-5393-b6e9-34f3ec70407a",
+    "group_id": null,
+    "minimum_bab": 12
+  },
+  {
+    "id": "3ff67f2b-9c52-547a-85c4-cb31b748a19b",
+    "feat_id": "30da3e36-ea31-5118-a681-80b6a721b2d6",
+    "group_id": null,
+    "minimum_bab": 16
+  },
+  {
+    "id": "c3d9ce0b-22f4-51d7-8ffb-8a46ac2341f2",
+    "feat_id": "63801d17-636a-5490-9fd9-b5624ed863e9",
+    "group_id": null,
+    "minimum_bab": 12
+  },
+  {
+    "id": "ec8c5329-992d-5921-8f69-9effb58104c2",
+    "feat_id": "5fb8f19b-79d0-558a-9f9e-25255e370897",
+    "group_id": null,
+    "minimum_bab": 8
+  },
+  {
+    "id": "b9825bab-7a0e-5bef-80b4-5789c5f8a8c2",
+    "feat_id": "5c25e4bc-adb3-5ad3-9a1d-684d3e3dbec5",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "fc123291-4b82-5601-9a61-3f9aa50b86ee",
+    "feat_id": "93201016-3b4b-5d27-b763-24f31efe2ba6",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "b8a33be3-037d-588c-946e-d1fc7777d0ec",
+    "feat_id": "8828daca-6640-5271-a170-679b28609068",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "31357d14-fec7-510b-8aa1-151a77ab1578",
+    "feat_id": "304ba3a4-b6c1-5441-8075-600889739d8a",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "4d8fd03d-6552-5c2b-b406-e0a1cf33040d",
+    "feat_id": "bb16bdbe-fcd9-532f-b4ee-94cecbec1afa",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "44945a2b-1e73-5db7-904a-3045ceb05875",
+    "feat_id": "c4642168-2a12-537e-a4d8-7b0929600889",
+    "group_id": "04bafb7f-cef1-4c64-ab03-49613351d49a",
+    "minimum_bab": 3
+  },
+  {
+    "id": "28711cff-a61f-5db4-9280-cf73b5ad9512",
+    "feat_id": "a7cb4c03-b984-544f-a427-b8b660570976",
+    "group_id": "ee6ca0f7-c07f-47b7-9ebc-24c436931783",
+    "minimum_bab": 5
+  },
+  {
+    "id": "5ba923e3-02ea-53cc-a93a-412ec1ca0312",
+    "feat_id": "7b205084-67a1-5ae3-bf66-390973b5e069",
+    "group_id": "0060ca37-fe42-4b9e-97d3-116880d705ec",
+    "minimum_bab": 1
+  },
+  {
+    "id": "a614a6f8-99c6-588b-80b0-3e1776db0bf3",
+    "feat_id": "352f7a22-1f26-5cc2-bc4d-7bee55a0c847",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "d957c854-af62-5cbe-99e7-7b5e36026f4e",
+    "feat_id": "8456851f-cafc-51fc-a47e-81298f5aeeb7",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "e6f0b424-0f89-5d69-a48d-49db78e059f0",
+    "feat_id": "1f44264b-eafb-56f5-86b1-859c079ddd54",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "1e91e146-8ff5-53f7-8969-4b75fb884232",
+    "feat_id": "d9414e3f-52b2-5c8c-83f9-08584092f90d",
+    "group_id": "ec290383-fcab-464b-a8b6-fdb0fed86b93",
+    "minimum_bab": 9
+  },
+  {
+    "id": "5ff03afb-f739-5d31-ad32-2b18471ca58f",
+    "feat_id": "cd1c503c-a0e0-547a-9dd4-193ba560d1e0",
+    "group_id": "33978c5a-4f63-40b9-848e-426aeb85abba",
+    "minimum_bab": 6
+  },
+  {
+    "id": "7dff67ec-4116-54db-bd42-8877a5a2295d",
+    "feat_id": "62a0cbf3-2b9f-5329-9248-888cb1ae6f98",
+    "group_id": "9212a605-91ae-48d3-bd2a-c9c2f017e82f",
+    "minimum_bab": 9
+  },
+  {
+    "id": "69f9c4ed-86dc-574c-8666-7fe5ecbc0cfe",
+    "feat_id": "0332c7f1-dd00-5288-a703-e55ca8cce387",
+    "group_id": "c16f9de8-67e8-4289-9de6-99cb74c0725d",
+    "minimum_bab": 3
+  },
+  {
+    "id": "dfb355df-7cc8-5572-8ddd-222afddeb48f",
+    "feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "c80093cd-0e03-5de0-ba11-158dc433c304",
+    "feat_id": "50591408-87de-5266-97b6-e7c0f8d93a28",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "3521739a-bcbe-5dc5-8329-20b42a6202ed",
+    "feat_id": "eef862cb-9a84-5ceb-b97b-7ab3b3f6e838",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "b03d8605-3589-5a2f-8faf-5eea447b6c3f",
+    "feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "eb331e2d-0b0b-5ab5-829d-eeed3938ef26",
+    "feat_id": "61ddb2a5-632c-53f5-a290-636dd9f91ad8",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "8946d26c-71b4-5895-9e78-21187abe09ad",
+    "feat_id": "8747937d-fd7d-54ed-8d8e-2918d75ed521",
+    "group_id": null,
+    "minimum_bab": 8
+  },
+  {
+    "id": "51fd52ad-bfbb-5d59-a01a-f4c91c00a204",
+    "feat_id": "4aa0ecc0-4b8c-5b00-bcb9-f704b0601471",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "d820ca2f-8c0f-5e97-ba7d-d3fd275568ea",
+    "feat_id": "79a9b7f6-593f-5cf9-a60b-8386304287db",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "91db7bf7-53ac-5b95-826a-0c9102e70b50",
+    "feat_id": "a92ad7c6-96fd-574d-bb55-59d9d18369c1",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "6a243e28-770b-5d33-9b87-ca301208acba",
+    "feat_id": "967461fe-7c96-56a0-9b0c-d0b9c32b9576",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "739e6e28-36a9-5344-bb6a-b8945a9a5f30",
+    "feat_id": "b384280e-8c3f-52f6-afb2-6fab7c5ee55b",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "e66d20b0-2ee9-52df-9339-8002e9ba27a4",
+    "feat_id": "99c89934-e22d-54e9-9274-d1394af118e7",
+    "group_id": null,
+    "minimum_bab": 3
+  },
+  {
+    "id": "a2fc0e0d-42c6-58fe-be68-533e82370c3f",
+    "feat_id": "530e6f15-816c-5094-a995-8b0722874a64",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "9baadcc0-25e1-58b3-bff0-03e3a49d08dd",
+    "feat_id": "f8898f1a-852f-5de2-bdd7-732898b1a6d1",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "29902bd5-b5c3-50ea-81d3-81769926e766",
+    "feat_id": "b5c4ab99-f2b3-59fd-9aef-e178d9a7cfe0",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "0ff9bb0a-d8f8-515c-9d45-138f366bec53",
+    "feat_id": "3cc5d1a5-94a0-54fe-b8f1-561299236d11",
+    "group_id": "593e62e5-72dd-45d5-8d87-5e0c0d4f9b15",
+    "minimum_bab": 6
+  },
+  {
+    "id": "da5a0b18-6b97-51bc-8573-08860c4ce94c",
+    "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
+    "group_id": null,
+    "minimum_bab": 11
+  },
+  {
+    "id": "ba4d4ce9-2937-5ce7-895b-7809867b21dc",
+    "feat_id": "90e2084c-6758-5140-aa6c-12c4dd9ab217",
+    "group_id": "d0a44505-2124-49f6-adf3-bf4174fcec8e",
+    "minimum_bab": 9
+  },
+  {
+    "id": "bd947d86-a787-5341-9f2b-c3260a76b0a0",
+    "feat_id": "4deb03ce-bb74-5852-9230-8b1c7be1e81f",
+    "group_id": null,
+    "minimum_bab": 5
+  },
+  {
+    "id": "8b41a23f-79f9-5b80-94c3-21ce88c129ca",
+    "feat_id": "3fe11e9a-d7b0-51f1-90c1-1fc8f0b4c3f9",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "1f5c858f-1ee1-55a4-8333-2d6969ab9a57",
+    "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
+    "group_id": null,
+    "minimum_bab": 6
+  }
+]

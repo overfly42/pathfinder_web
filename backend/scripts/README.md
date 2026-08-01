@@ -100,6 +100,58 @@ Script: `import_hexenmeister_bloodlines.py` → resolves each bloodline's
 bonus feats against `talente_prd_import.json`'s `id`s, output at
 `../app/fixtures/imported/hexenmeister_bloodline_bonus_feats.json`.
 
+## 4. Turning the bulk feat index into DB seed data (`base_feats` + prerequisites)
+
+`build_feats_seed.py` is a different kind of script from §1–3: it doesn't
+fetch anything, it transforms the already-fetched `talente_prd_import.json`
+(§1's output, 1506 feats across every sourcebook) straight into the
+DB-shaped files under `../app/fixtures/seed/` (`base_feats.json` plus the six
+`base_feat_required_*.json` prerequisite tables), scoped down to the
+Grundregelwerk feats plus any other-sourcebook feat whose prerequisite
+mentions a race/class currently in the database.
+
+**Its output ids are deterministic, but one input isn't — restore
+`base_feats.json` before rerunning.** Every id the script writes is derived
+either from the PRD import's own stable id (new feats) or from
+`RECONCILE_BY_NAME` (the 16 hand-seeded feats, matched by name to keep the
+id their existing `character_feats` rows point at) or from a content hash
+(requirement rows, `_stable_id()`/`ID_NAMESPACE` — feat + kind + fields,
+deliberately excluding `group_id` since that's just a same-run correlation
+tag, not part of a row's identity). So two runs against the same *inputs*
+produce byte-identical output, and `app.seed.feat_seed` upserts cleanly
+either way. The catch: the reconciliation step's input **is**
+`app/fixtures/seed/base_feats.json` itself, so if you run the script,
+commit nothing, and run it again, that second run reconciles against its
+own already-merged output instead of the pre-merge 16-feat file. Restore
+that one file from git (`git checkout -- ../app/fixtures/seed/base_feats.json`)
+before rerunning during iteration.
+
+**Prerequisite OR-groups** ("Elf oder Halb-Elf") land in a nullable
+`group_id` column added to all six `BaseFeatRequired*` tables — rows sharing
+a `(feat_id, group_id)` pair are OR-ed together (possibly across different
+tables, e.g. a BAB requirement OR'd with a class-level one — see
+"Kranichstil" test data: "GAB +2 oder Mönch 1"), then AND-ed against
+everything else for that feat (see `BaseFeatRequiredFeat`'s docstring for
+full semantics). Splitting is clause-by-clause (`;` = always AND) and, within
+a clause containing "oder", only the *trailing* comma-run is oder-split into
+the OR-core; earlier comma items in the same clause are walked backward and
+absorbed into the OR-run only while they resolve to the same requirement
+*kind* as the core — otherwise they're independent AND atoms. This matters
+because natural-language enumerations mix kinds, e.g. "KO 13, Halb-Ork, Ork
+oder Zwerg" is "CON 13 AND (half-orc OR orc OR dwarf)", not a 3-way OR that
+swallows the CON requirement — an early version of this script got exactly
+that wrong before the kind-matching backward-walk was added. If a clause's
+OR-run ends up with fewer than two atoms actually resolving against the
+current catalogs (e.g. "Elf oder Halb-Elf" when Halb-Elf isn't a modeled
+race), the lone resolved atom is emitted as a plain ungrouped AND
+requirement instead of a group — safe, since the unresolvable side of the OR
+can never apply to any character that can currently exist in this database.
+Individual atoms that don't resolve at all (referencing a race/class/ability
+not in the DB yet, or free prose with no structured shape) are dropped
+either way: an under-enforced prerequisite is recoverable (the raw text is
+always kept in `base_feats.prerequisite_text`), a wrongly-enforced one
+isn't.
+
 ## Finding a class/section's page path
 
 `/{Book}/Klassen/{ClassSlug}` — book prefix matches the left nav on any PRD
