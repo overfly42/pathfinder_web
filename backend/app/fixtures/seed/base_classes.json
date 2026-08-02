@@ -479,5 +479,18 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "name": "Entfesselter Barbar",
+    "hit_dice": 12,
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": 1.0,
+    "fort_save": true,
+    "ref_save": false,
+    "wil_save": false,
+    "skill_points_base": 4
   }
 ]

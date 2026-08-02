@@ -2093,5 +2093,335 @@
     "id": "571d99fb-cb52-5e79-955a-18645ad1ea19",
     "name": "Tödliche Melodie",
     "description": "Auf der 20. Stufe kann ein Barde diesen Auftritt einsetzen, um einen Gegner vor Freude oder Kummer sterben zu lassen. Um betroffen zu sein, muss das Ziel den Barden sehen und hören können, wie er seinen Auftritt für eine Volle Runde aufrecht erhält, und innerhalb von 9 m sein. Das Opfer kann den Effekt mit einem Willenswurf (SG 10 + ½ Bardenstufe + CH-Modifikator des Barden) abwenden. Gelingt der Rettungswurf, ist das Ziel für 1W4 Runden wankend und kann für die nächsten 24 Stunden nicht mehr Opfer dieser Fähigkeit werden. Misslingt der Rettungswurf, stirbt das Ziel. Tödliche Melodie ist ein geistesbeeinflussender Todeseffekt, der auf hörbare und sichtbare Komponenten angewiesen ist."
+  },
+  {
+    "id": "fee16cd2-85c3-50bb-8ccd-6f5cf36b8729",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Ein Barbar ist im Umgang mit allen einfachen Waffen und allen Kriegswaffen, leichten Rüstungen, mittelschweren Rüstungen und Schilden (außer Turmschilden) geübt."
+  },
+  {
+    "id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec",
+    "name": "Kampfrausch",
+    "description": "Ein Barbar kann auf seine inneren Kraftreserven und seine Wildheit zurückgreifen, um zusätzliche Kampfkraft zu Erlangen. Beginnend mit der 1. Stufe kann ein Barbar pro Tag für eine Anzahl von Runden in Kampfrausch verfallen, welche der Höhe seines KO-Modifikators +4 entspricht. Mit Erreichen jeder weiteren Stufe erhält er 2 weitere Runden an Kampfrausch pro Tag. Kurzfristige Erhöhungen seiner Konstitution (wie z.B. durch den Zauber Ausdauer des Ochsen) erhöhen die Anzahl von Runden jedoch nicht, die der Barbar pro Tag in Kampfrausch verfallen kann. Der Barbar kann als Freie Aktion in Kampfrausch verfallen. Nach 8 Stunden Rast erhält er seine volle Anzahl an Runden zurück, welche er täglich in Kampfrausch verbringen kann; diese Rast muss nicht an einem Stück gehalten werden. Im Kampfrausch erhält ein Barbar einen Bonus von +2 auf Nahkampfangriffs- und -schadenswürfe, Wurfwaffenschadenswürfe und Willenswürfe. Zugleich erhält er einen Malus von -2 auf seine Rüstungsklasse. Er erhält ferner für die Dauer seines Kampfrausches 2 temporäre Trefferpunkte pro Trefferwürfel; diese temporären Trefferpunkte gehen als erste verloren, wenn der Barbar Schaden erleidet und werden nicht erneuert, sollte weniger als eine Minute zwischen dem Ende eines Kampfrausches und dem Beginn des nächsten vergehen. Im Kampfrausch kann ein Barbar keine charisma-, geschicklichkeits- oder intelligenzbasierenden Fertigkeiten mit Ausnahme von Akrobatik, Einschüchtern, Fliegen und Reiten nutzen, sowie keine Fähigkeiten, die Geduld und/oder Konzentration erfordern, wie z.B. das Wirken von Zaubern. Ein Barbar kann seinen Kampfrausch als Freie Aktion beenden und erhält sodann für 1 Minute den Zustand Erschöpft. Während ein Barbar den Zustand Erschöpft oder Entkräftet hat, kann er nicht in einen Kampfrausch verfallen. Ansonsten kann er beliebig oft am Tag in Kampfrausch verfallen, insofern er über Runden an Kampfrausch verfügt. Sollte der Barbar bewusstlos werden, endet sein Kampfrausch augenblicklich."
+  },
+  {
+    "id": "b311443b-a086-52ae-a079-d31880638921",
+    "name": "Schnelle Bewegung",
+    "description": "Die Bewegungsrate an Land ist bei einem Barbaren um 3 m höher als für sein Volk üblich. Dies gilt nur, wenn er gar keine, leichte oder mittelschwere Rüstung trägt und keine schwere Last mit sich führt. Dieser Bonus wird angewandt, noch bevor die Bewegungsrate des Barbaren durch getragene Lasten oder Rüstungen modifiziert wird. Dieser Bonus ist kumulativ mit allen anderen Boni des Barbaren auf seine Bewegungsrate an Land."
+  },
+  {
+    "id": "cd254c1a-052f-5417-b4fa-bce74e727e4e",
+    "name": "Kampfrauschkraft",
+    "description": "Wenn ein Barbar neue Erfahrungsstufen erlangt, lernt er zugleich seinen Kampfrausch auf andere Weise zu nutzen. Beginnend mit der 2. Stufe – und dann mit jeder weiteren geraden Klassenstufe als Barbar – erhält er eine neue Kampfrauschkraft. Ein Barbar kann von Kampfrauschkräften nur dann profitieren, wenn und solange er sich im Kampfrausch befindet. Manche Kräfte sind während eines Kampfrausches immer aktiv, während andere erfordern, dass der Barbar eine Aktion nutzt, um sie zu aktivieren. Sofern nicht anders angegeben, kann er eine bestimmte Kraft nicht mehrmals auswählen. Einige der folgenden Kampfrauschkräfte sind Kampfhaltungen. Zum Aktivieren einer Kampfhaltung ist eine Bewegungsaktion erforderlich. Ein Barbar kann stets nur eine Kampfhaltung aktiviert haben. Sollte er eine Kampfrauschkraft der Kategorie Kampfhaltung aktivieren, während er bereits eine Kampfhaltung aktiv nutzt, endet die aktuelle Kampfhaltung augenblicklich und wird durch die neue ersetzt. Der Barbar kann eine aktive Kampfhaltung absichtlich zu Beginn seines Zuges als Freie Aktion beenden, andernfalls hält sie bis zum Ende des Kampfrausches an."
+  },
+  {
+    "id": "13c373e0-d379-5bd1-be36-e1e9f58f0cfd",
+    "name": "Reflexbewegung",
+    "description": "Beginnend mit der 2. Stufe erlangt der Barbar die Gabe, auf Bedrohungen reagieren, bevor es seine Sinne ihm eigentlich erlauben. Er kann nicht mehr auf dem Falschen Fuß angetroffen werden und verliert auch nicht mehr seinen Geschicklichkeitsbonus auf seine RK, wenn der Angreifer unsichtbar ist. Er verliert noch immer seinen GE-Bonus auf die RK, wenn er bewegungsunfähig ist. Ein Barbar mit dieser Fähigkeit kann allerdings weiterhin seinen Geschicklichkeitsbonus auf die Rüstungsklasse verlieren, wenn der Gegner erfolgreich eine Finte gegen ihn ausführt. Sollte der Barbar die Fähigkeit Reflexbewegung bereits durch eine andere Klasse besitzen, erhält er stattdessen Verbesserte Reflexbewegung. (Diese klassenübergreifende Sonderregel wird aktuell nicht ausgewertet - siehe todos.md.)"
+  },
+  {
+    "id": "56834e1c-5659-543a-a564-f6a66b59f68c",
+    "name": "Gefahreninstinkt",
+    "description": "Ab der 3. Stufe erhält der Barbar einen Bonus von +1 auf seine Reflexwürfe, um Fallen auszuweichen, sowie einen Ausweichbonus von +1 auf seine Rüstungsklasse gegen Angriffe von Fallen. Ferner erhält er einen Bonus von +1 auf Fertigkeitswürfe für Wahrnehmung, um nicht von Gegnern überrascht zu werden. Diese Boni steigen alle weiteren 3 Stufen als Barbar um 1 (maximal +6 mit der 18. Stufe). Diese Fähigkeit zählt als Fallengespür hinsichtlich der Voraussetzungen von Talenten und Klassenvoraussetzungen und kann durch jedes Klassenmerkmal eines Archetypen ersetzt werden, welches Fallengespür ersetzt. Die durch diese Fähigkeit erlangten Boni sind mit den durch Fallengespür erlangten kumulativ, sofern der Barbar durch eine andere Klasse über die Fähigkeit Fallengespür verfügt."
+  },
+  {
+    "id": "2a2a0d80-8753-5c98-bb1b-e8c16a11d66e",
+    "name": "Verbesserte Reflexbewegung",
+    "description": "Ab der 5. Stufe kann der Barbar nicht mehr in die Zange genommen werden. Ein Gegner kann den Barbaren auch nicht mehr mit einem Hinterhältigen Angriff attackieren, den ihm ein in die Zange nehmen ermöglichen würde, es sei denn, der Gegner besitzt vier Klassenstufen mehr in der Klasse, die ihm das Klassenmerkmal Hinterhältiger Angriff verleiht, als der Barbar über Barbarenstufen verfügt. Sollte der Barbar bereits durch eine andere Klasse über die Fähigkeit Reflexbewegung verfügen, werden seine Stufen in dieser anderen Klasse auf seine effektive Barbarenstufe für diesen Vergleich addiert."
+  },
+  {
+    "id": "6794a712-8518-5269-bf34-37789b400a02",
+    "name": "Schadensreduzierung",
+    "description": "Mit Erlangen der 7. Stufe erhält der Barbar Schadensreduzierung. Er zieht jedes Mal, wenn er durch eine Waffe oder einen natürlichen Angriff Schaden nimmt, einen Punkt von diesem Schaden ab. Mit der 10. Stufe – und dann allen weiteren 3 Stufen – steigt seine Schadensreduzierung um 1 Punkt (bis zu 5 Punkten mit der 19. Stufe). Die Schadensreduzierung kann einen Schaden auf 0, aber nicht unter 0 senken."
+  },
+  {
+    "id": "e52cea3a-5894-5a68-a126-5994c7b8ab57",
+    "name": "Starker Kampfrausch",
+    "description": "Beginnend mit der 11. Stufe steigen die Boni eines Barbaren auf Nahkampfangriffs-, Nahkampfschadens-, Wurfwaffenschadens- und Willenswürfe im Kampfrausch auf +3. Ferner steigt die Anzahl der beim Beginn des Kampfrauschs erlangten temporären Trefferpunkte auf 3 TP pro Trefferwürfel."
+  },
+  {
+    "id": "497d9de9-1bb3-52f9-b94f-45af67c537cf",
+    "name": "Unbeugsamer Wille",
+    "description": "Ab der 14. Stufe erhält der Barbar während seines Kampfrauschs einen Bonus von +4 auf Willenswürfe gegen Zauber der Schule der Verzauberungen. Dieser Bonus ist mit anderen Modifikatoren kumulativ, wie etwa dem Moralbonus auf Willenswürfe, den der Barbar im Kampfrausch erhält."
+  },
+  {
+    "id": "694d070f-c208-5a31-9777-5e9816da0bf1",
+    "name": "Unermüdlicher Kampfrausch",
+    "description": "Ab der 17. Stufe erleidet der Barbar am Ende seines Kampfrauschs nicht mehr den Zustand Erschöpft. Sollte er binnen 1 Minute nach Beendigung des letzten Kampfrausches erneut einen Kampfrausch beginnen, erlangt er durch diesen keine temporären Trefferpunkte."
+  },
+  {
+    "id": "e50be2af-dee3-5a46-b1ec-d165d3056467",
+    "name": "Mächtiger Kampfrausch",
+    "description": "Mit der 20. Stufe steigen die Boni eines Barbaren auf Nahkampfangriffs-, Nahkampfschadens-, Wurfwaffenschadens- und Willenswürfe im Kampfrausch auf +4. Ferner steigt die Anzahl der beim Beginn des Kampfrauschs erlangten temporären Trefferpunkte auf 4 TP pro Trefferwürfel."
+  },
+  {
+    "id": "1c227ad4-637e-5a58-b7ea-06c7b962de54",
+    "name": "Aberglaube",
+    "description": "(AF) Der Barbar erhält einen Kompetenzbonus von +2 auf Rettungswürfe, um Zaubern und zauberähnlichen Fähigkeiten zu widerstehen. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Der Barbar kann kein williges Ziel für einen Zauberspruch sein und muss daher Rettungswürfe auch gegen Zauber seiner Verbündeten ablegen."
+  },
+  {
+    "id": "d586341e-7997-54eb-b6f2-48ae181e60f8",
+    "name": "Animalische Wut",
+    "description": "(AF) Der Barbar erhält einen Bissangriff. Dies ist ein natürlicher Primärangriff, welcher 1W4 Schadenspunkte im Falle eines mittelgroßen Barbaren und 1W3 Schadenspunkte im Falle eines kleinen Barbaren verursacht (zuzüglich eines möglichen ST-Modifikators). Sollte der Bissangriff als Teil eines Vollen Angriffes eingesetzt werden, bei dem der Barbar auch hergestellte Waffen nutzt, erfolgt der Bissangriff mit dem vollen GAB des Barbaren -5 und es wird nur der halbe ST-Modifikator zum Schadenswurf addiert. Der Barbar kann im Ringkampf einen Bissangriff als Teil der Aktion zum Weiterführen oder Entkommen aus dem Ringkampf einsetzen. Gelingt der Bissangriff, erhält der Barbar bis zum Ende der Runde einen Bonus von +2 auf seine Kampfmanöver für Ringkampf gegen das Ziel."
+  },
+  {
+    "id": "be982b0f-05b0-5b7b-8baf-f1ef2f81fd4c",
+    "name": "Blutender Schlag",
+    "description": "(AF) Solange der Barbar die Machtvolle Kampfhaltung einnimmt, kann er einen Angriff ausführen, der seine Gegner heftig bluten lässt. Er kann ein Mal pro Runde einen seiner Angriffe Blutungsschaden in Höhe des halben Bonusschadens verursachen lassen, den er durch Machtvolle Kampfhaltung erlangt. Dieser Blutungsschaden umgeht Schadensreduzierung, ist aber nicht mit sich selbst kumulativ."
+  },
+  {
+    "id": "02847941-d5f9-56c7-b311-2349b86732ce",
+    "name": "Bodenbrecher",
+    "description": "(AF) Der Barbar kann als Volle Aktion den Boden um sich herum angreifen. Dieser Angriff trifft automatisch und verursacht normalen Schaden. Sollte der Barbar dabei die Härte des Bodens mit seinem Schaden übertreffen, werden das von ihm belegte und alle daran angrenzenden Felder zu Schwierigem Gelände. Alle anderen Kreaturen auf diesen Feldern müssen einen Reflexwurf gegen SG 15 ablegen, um nicht den Zustand Liegend zu erleiden."
+  },
+  {
+    "id": "3a9dddd6-0539-57a8-9e32-d078e3efcebe",
+    "name": "Bodenbrecher, Mächtiger",
+    "description": "(AF) Wenn der Barbar die Kampfrauschkraft Bodenbrecher nutzt, kann er den Radius des Effektes um 1,50 m erhöhen. Diese Kampfrauschkraft kann bis zu drei Mal gewählt werden, ihre Effekte sind kumulativ."
+  },
+  {
+    "id": "7bf69178-eb7e-572f-b917-4a7db423e830",
+    "name": "Dämmersicht",
+    "description": "(AF) Die Sinne des Barbaren schärfen sich und er erhält Dämmersicht."
+  },
+  {
+    "id": "ab07393b-c9d6-521c-bb37-5841b2b3801d",
+    "name": "Einschüchterndes Niederstarren",
+    "description": "(AF) Der Barbar addiert seinen ST-Modifikator anstelle seines CH-Modifikators auf alle Fertigkeitswürfe für Einschüchtern, um einen Gegner zu demoralisieren. Er kann einen Einschüchterungsversuch gegen einen angrenzenden Gegner als Bewegungsaktion statt als Standard-Aktion ablegen, um diesen zu demoralisieren. Bei Erfolg erleidet der Gegner solange den Zustand Erschüttert, wie der gegenwärtige Kampfrausch des Barbaren anhält."
+  },
+  {
+    "id": "d80a2280-25f5-52e6-add7-7f216989a163",
+    "name": "Elementare Kampfhaltung",
+    "description": "(ÜF) Wenn der Barbar diese Kampfhaltung einnimmt, wählt er eine Energieart (Elektrizität, Feuer, Kälte oder Säure). Seine Nahkampfangriffe verursachen 1 zusätzlichen Schadenspunkt der gewählten Energieart. Mit der 8. Stufe steigt dieser Schaden auf 1W6. Mit der 12. Stufe verursachen die Kritischen Treffer des Barbaren zusätzliche 1W10 Energieschadenspunkte derselben Art (2W10 bei Waffen die bei einem Kritischen Treffer dreifachen Schaden verursachen, bzw. 3W10 bei Waffen die bei einem Kritischen Treffer vierfachen Schaden verursachen). Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "f43179b3-72ff-5d9b-aef0-145c3ecf4fd0",
+    "name": "Energieabsorption",
+    "description": "(ÜF) Der Barbar kann ein Mal am Tag die Energie eines einzelnen Angriffes absorbieren, sofern er der Energieart mittels seiner Kampfrauschkraft Energieresistenz widersteht. Er nimmt keinen Schaden durch den Angriff und legt auch keinen Rettungswurf ab. Stattdessen erhöht er die Anzahl der temporären Trefferpunkte, die er beim Beginn des Kampfrauschs erlangt, um die Hälfte des Schadens, den er ohne die Energieresistenz erlitten hätte. Mit der 16. Stufe kann der Barbar ein Mal vor Ende seines Kampfrausches die gespeicherte Energie als Odemwaffe in einer 18 m-Linie oder einem 9 m-Kegel freisetzen. Diese Odemwaffe verursacht Schaden in Höhe der vollen Schadensmenge, welche der Barbar durch den absorbierten Effekt erlitten hätte (REF, SG 10 + ½ Barbarenstufe + KO-Modifikator des Barbaren, halbiert). Der Barbar behält die durch diese Fähigkeit erlangten temporären Trefferpunkte auch nach Entfesseln der Odemwaffe."
+  },
+  {
+    "id": "4545c807-910a-5310-93bd-c6bdd6e805d8",
+    "name": "Energieresistenz",
+    "description": "(AF) Der Barbar erhält Resistenz gegen eine Energieart (Elektrizität, Feuer, Kälte, Säure oder Schall) in Höhe seiner halben Barbarenstufe (Minimum 1). Beginnend mit der 8. Stufe erhält er eine begrenzte Immunität gegen dieselbe Energieart (wie Schutz vor Energien). Er kann 2 Schadenspunkte pro Stufe absorbieren und wendet zunächst immer seine Energieresistenz zuerst an. Die Energieart wird mit Wahl dieser Kampfrauschkraft ausgewählt und kann später nicht mehr geändert werden. Diese Kampfrauschkraft kann mehrfach gewählt werden, muss aber jedes Mal einer anderen Energieart zugeordnet werden."
+  },
+  {
+    "id": "3ce63d90-e6bc-58f6-a707-3dd6bbe48dae",
+    "name": "Erhöhte Schadensreduzierung",
+    "description": "(AF) Die Schadenreduzierung des Barbaren steigt im Kampfrausch um 2/-. Ein Barbar kann diese Kraft bis zu drei Mal wählen; die Wirkung ist kumulativ."
+  },
+  {
+    "id": "cd42e0e4-abae-52cc-b9dd-6a3fbcc580b5",
+    "name": "Erneuerte Gesundheit",
+    "description": "(AF) Der Barbar ignoriert pro 2 Barbarenstufen den Effekt von 1 Punkt Attributsschaden oder malus (maximal 10). Mit der 6. Stufe kann er ferner 1 negative Stufe pro 4 Barbarenstufen ignorieren. Sobald der Kampfrausch endet, erleidet er jedoch die vollständigen Effekte von Attributsmali, -schäden oder negativen Stufen."
+  },
+  {
+    "id": "a84efac5-b0f6-521f-accb-067a1195a556",
+    "name": "Erneuerte Lebenskraft",
+    "description": "(AF) Der Barbar kann bei sich selbst als Standard-Aktion 1W8 + KO-Modifikator Trefferpunkte heilen. Pro jeweils 4 Stufen, die der Barbar jenseits der 4. Barbarenstufe besitzt, heilt er bei sich weitere 1W8 TP (maximal 5W8 mit der 20. Stufe). Diese Kampfrauschkraft kann nur einmal am Tag eingesetzt werden."
+  },
+  {
+    "id": "c11be660-dfca-52fb-aec0-c5c1daf49724",
+    "name": "Fleischwunde",
+    "description": "(AF) Der Barbar kann es ein Mal am Tag vereiteln, durch einen Angriff schweren Schaden zu erleiden, indem er einen Zähigkeitswurf ablegt, dessen SG dem Schaden entspricht, welchen er durch den Angriff erleiden würde. Bei Erfolg erleidet er keinen Schaden; misslingt der Rettungswurf, erleidet er durch den Angriff halben Schaden und dieser Schaden wird zu Nichttödlichem Schaden konvertiert. Der Barbar muss sich für den Einsatz dieser Fähigkeit entscheiden, nachdem der Angriffswurf erfolgt ist, aber bevor der Schaden ausgewürfelt wurde."
+  },
+  {
+    "id": "082dc631-521a-5495-b563-88278ef81268",
+    "name": "Furchtlose Wut",
+    "description": "(AF) Der Barbar ist gegen die Zustände Erschüttert und Verängstigt (nicht aber gegen Panisch) immun."
+  },
+  {
+    "id": "aa4868fa-71b9-511d-9730-ee4476dddace",
+    "name": "Geruchssinn",
+    "description": "(AF) Der Barbar erhält die Fähigkeit Geruchssinn und kann diese nutzen, um unsichtbare oder anderweitig seiner Sicht entzogene Feinde aufzuspüren."
+  },
+  {
+    "id": "38d0472d-388d-53ef-a2c4-9e8e12c23cca",
+    "name": "Geschärfte Treffsicherheit",
+    "description": "(AF) Während der Barbar seine Zielsichere Kampfhaltung aufrechterhält, ignoriert er die Fehlschlagschance für Tarnung und behandelt Vollständige Tarnung als normale Tarnung. Er ignoriert ferner alle Mali durch Deckung mit Ausnahme von jenen, die aus Vollständiger Deckung resultieren."
+  },
+  {
+    "id": "6dfd7603-8907-539b-9500-4ab1922e56a3",
+    "name": "Geweckte Wut",
+    "description": "(AF) Der Barbar kann sich sogar dann in einen Kampfrausch versetzen, wenn er erschöpft ist. Sollte er den Zustand Erschöpft besitzen, wenn er sich in Kampfrausch versetzt, verliert er diesen Zustand, erhält aber keine temporären Trefferpunkte. Sobald dieser Kampfrausch dann endet, erleidet der Barbar für 10 Minuten den Zustand Entkräftet."
+  },
+  {
+    "id": "60fe6dcd-c946-5efc-8c72-b21520aae7fe",
+    "name": "Hexenjäger",
+    "description": "(AF) Der Barbar erhält einen Bonus von +1 auf Schadenswürfe gegen Kreaturen, welche Zauber wirken können oder über zauberähnliche Fähigkeiten verfügen. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Sollte der Barbar zudem einen Kritischen Treffer gegen eine Kreatur bestätigen, die unter einem anhaltenden, vorteilhaften Effekt steht, wird dieser Effekt für 1 Runde unterdrückt (sollte die Kreatur unter mehreren passenden Effekten stehen, wird einer davon zufällig ausgewählt)."
+  },
+  {
+    "id": "05cde6e1-8fbe-5ed8-9263-3a1cab22124d",
+    "name": "Hindurchstürmen",
+    "description": "(AF) Wenn der Barbar einen Sturmangriff ausführt, kann er einen seiner Verbündeten aus dem Weg schieben. Solange der Verbündete sich nicht angrenzend zum Ziel des Sturmangriffes befindet, zählt er als nicht im Weg befindlich. Dies verändert nicht die Position des Verbündeten, sondern erlaubt dem Barbaren lediglich, an ihm vorbei zu kommen."
+  },
+  {
+    "id": "864ef525-f952-5cdf-8cdf-905cc95dba7f",
+    "name": "Hindurchstürmen, Mächtiges",
+    "description": "(AF) Dies funktioniert wie Hindurchstürmen, gilt aber für eine beliebige Anzahl von Verbündeten, sofern sie sich nicht zum Ziel des Sturmangriffes angrenzend befinden."
+  },
+  {
+    "id": "07df149f-715a-576f-9d34-9b0e09ccf653",
+    "name": "Innere Zähigkeit",
+    "description": "(AF) Der Barbar ist gegen die Zustände Kränkelnd und Übelkeit immun."
+  },
+  {
+    "id": "bea8fd41-3729-554a-821d-40455b88048f",
+    "name": "Kampfschrei",
+    "description": "(AF) Der Barbar kann als Standard-Aktion einen furchteinflößenden Kampfschrei ausstoßen. Alle Feinde innerhalb von 9 m, welche bereits durch den Barbaren den Zustand Erschüttert erhalten haben (dies geschieht meist im Rahmen von Einschüchtern), müssen einen Willenswurf gegen SG 10 + ½ Barbarenstufe + ST-Modifikator ablegen, um nicht für 1W4+1 Runden den Zustand Panisch zu erhalten. Im Anschluss ist ein Gegner unabhängig vom Ausgang seines Willenswurfes gegen diese Fähigkeit für 24 Stunden immun."
+  },
+  {
+    "id": "38d23ddf-7c8e-52d1-9a36-c66fabb37a02",
+    "name": "Kein Entkommen",
+    "description": "(AF) Der Barbar ist in der Lage dazu, sich als Augenblickliche Aktion bis zum Doppelten seiner Bewegungsrate zu bewegen. Der Barbar kann diese Fähigkeit nur dann einsetzen, wenn ein angrenzender Gegner sich mit einer Rückzugsaktion von ihm entfernt. Der Barbar muss die Bewegung zu dem Feind angrenzend beenden, der sich zurückgezogen hat. Die Bewegung des Barbaren verursacht normal Gelegenheitsangriffe."
+  },
+  {
+    "id": "ff421135-0422-5240-a771-5ec646278e80",
+    "name": "Kraftvolle Kampfhaltung",
+    "description": "(AF) Der Barbar kann auf unglaubliche Kraftreserven zurückgreifen. Er erhält einen Kompetenzbonus von +1 auf Kampfmanöverwürfe und seine KMV. Diese Boni steigen um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Ferner erhält er einen Kompetenzbonus von +8 auf Stärkewürfe, um Gegenstände zu stemmen, zu schieben, zu verbiegen, zu zerbrechen oder zu zerschmettern (dieser Bonus kommt nicht bei Kampfmanövern zur Anwendung). Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "d5f3278b-0c6f-56f5-9461-017c73bee2cb",
+    "name": "Kritische Stellen schützen",
+    "description": "(AF) Während der Barbar seine Wachsame Kampfhaltung einnimmt, erhält er gegen Kritische Bestätigungswürfe einen zusätzlichen Ausweichbonus von +4 auf seine RK."
+  },
+  {
+    "id": "5cf2c8c1-8218-5506-b359-b81cfa470537",
+    "name": "Mächtiger Schlag",
+    "description": "(AF) Der Barbar kann einen Kritischen Treffer automatisch bestätigen. Diese Kraft wird als Augenblickliche Aktion genutzt, sobald der Barbar bei einem Angriff eine Kritische Bedrohung erzielt. Sie kann nur ein Mal am Tag eingesetzt werden."
+  },
+  {
+    "id": "6211bce9-8f64-52ff-bd14-7c2cc0ba737d",
+    "name": "Machtvolle Kampfhaltung",
+    "description": "(AF) Der Barbar kann sich auf seine Wildheit konzentrieren. Er erhält einen Bonus von +1 auf Nahkampf- und Wurfwaffenschadenswürfe. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "bf633da7-c522-50c2-9e3e-b077deda917d",
+    "name": "Magiefresser",
+    "description": "(ÜF) Wenn dem Barbar ein Rettungswurf gelingt, um einem Zauber, einer übernatürlichen oder einer zauberähnlichen Fähigkeit zu widerstehen, erhält er temporäre Trefferpunkte in Höhe des Zaubergrades des Effektes (im Falle von Zaubern und zauberähnlichen Fähigkeiten) oder in Höhe des halben HG der Quelle (im Falle von übernatürlichen Fähigkeiten). Diese temporären Trefferpunkte verschwinden mit dem Ende des Kampfrausches; sie sind mit jenen temporären Trefferpunkten kumulativ, welche der Barbar durch seinen Kampfrausch erlangt, nicht aber mit anderen temporären Trefferpunkten, die er durch diese Fähigkeit erhält."
+  },
+  {
+    "id": "410803e3-02d1-54b4-b604-958880202ac1",
+    "name": "Nachtsicht",
+    "description": "(AF) Die Sinne des Barbaren werden außergewöhnlich scharf und er erhält Dunkelsicht 18 m. Sollte er bereits über Dunkelsicht verfügen, steigt deren Reichweite um 18 m. Um diese Kraft wählen zu können, muss der Barbar entweder das Volksmerkmal Dämmersicht oder Dunkelsicht besitzen, oder aber über die Kampfrauschkraft Dämmersicht verfügen. (Diese Voraussetzung ist eine OR-Verknüpfung aus einem Volksmerkmal und einer Kampfrauschkraft und wird aktuell nicht erzwungen - siehe todos.md.)"
+  },
+  {
+    "id": "99d9fd23-df17-5c9e-8452-7bb3288e1362",
+    "name": "Niederschlagen",
+    "description": "(AF) Der Barbar kann ein Mal pro Runde anstelle eines Nahkampfangriffes einen Kampfmanöverwurf für Ansturm mit seinem vollen KMV ausführen, egal welchen Angriff er dadurch ersetzt. Bei Erfolg erleidet das Ziel Schaden in Höhe des ST-Bonus des Barbaren und wird wie normal zurückgestoßen. Der Barbar bewegt sich nicht mit seinem Ziel mit. Dieser Ansturm provoziert keine Gelegenheitsangriffe."
+  },
+  {
+    "id": "53844f12-0061-5919-82bc-4fa6ce82f342",
+    "name": "Perfekte Klarheit",
+    "description": "(AF) Während der Barbar sich in der Ruhigen Kampfhaltung befindet, kann er bei jeder Fehlschlagschance und jedem Willenswurf zum Anzweifeln von Illusionen zwei Mal würfeln und das für ihn bessere Ergebnis wählen."
+  },
+  {
+    "id": "f517d152-429a-51c0-a7a5-6473bcd8c9a1",
+    "name": "Reflexartiges Ausweichen",
+    "description": "(AF) Während der Barbar sich in der Wachsamen Kampfhaltung befindet, kann er seinen Ausweichbonus auf seine RK zusätzlich als Bonus auf Reflexwürfe addieren."
+  },
+  {
+    "id": "83b4775c-86f8-5846-9e3b-a88b5644bf31",
+    "name": "Regenerative Kampfhaltung",
+    "description": "(AF) Der Barbar erlangt beständig Gesundheit zurück. Zu Beginn seines Zuges erhält er 1 temporären Trefferpunkt pro 4 Stufen als Barbar zurück (maximal 5 temporäre TP pro Runde). Er kann auf diese Weise nicht mehr temporäre Trefferpunkte zurückerlangen, als die Anzahl, welche er durch den Kampfrausch erhält. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "8be28661-b90b-54d3-8e89-5a43554ad3a4",
+    "name": "Ruhige Kampfhaltung",
+    "description": "(AF) Der Barbar kann sich in einen Zustand der inneren Ruhe versetzen. Während er diese Kampfhaltung nutzt, erhält er aus seinem Kampfrausch neben den temporären Trefferpunkten keine Vorteile, aber auch keine Nachteile (d.h. auch keinen Malus auf seine RK und keine Einschränkungen hinsichtlich der ihm möglichen Handlungen). Er verbraucht aber weiterhin Runden an Kampfrausch. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "fb66ade9-8820-5218-bb68-91503997339a",
+    "name": "Schmähende Kampfhaltung",
+    "description": "(AF) Der Barbar kann seine Verteidigung vernachlässigen und sich zugleich darauf vorbereiten, verheerende Gegenangriffe zu führen. Gegner erhalten einen Bonus von +4 auf Angriffs- und Schadenswürfe gegen den Barbaren, während er diese Kampfhaltung nutzt. Allerdings provoziert jeder gegen den Barbaren geführte Angriff einen Gelegenheitsangriff durch diesen. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "546e95d7-de10-5e60-8fc8-734c0c509f97",
+    "name": "Schnelle Reflexe",
+    "description": "(AF) Der Barbar kann einen zusätzlichen Gelegenheitsangriff pro Runde ausführen."
+  },
+  {
+    "id": "6f294476-4542-5f4f-9238-de36dfadad60",
+    "name": "Schneller Fuß",
+    "description": "(AF) Der Barbar erhält einen Verbesserungsbonus von 3 m auf seine Bewegungsrate an Land. Ein Barbar kann diese Kampfrauschkraft bis zu drei Mal wählen, die Effekte sind kumulativ."
+  },
+  {
+    "id": "a1a947b9-0f10-51f0-bd54-e4296f08306d",
+    "name": "Sprinten",
+    "description": "(AF) Der Barbar addiert seine halbe Bewegungsrate auf die Entfernung, die er im Rennen oder bei einem Sturmangriff zurücklegen kann."
+  },
+  {
+    "id": "22f0130b-498f-5ead-bcbe-301824420144",
+    "name": "Starker Geist",
+    "description": "(AF) Der Barbar kann einen misslungenen Willenswurf am Ende seines nächsten Zuges gegen denselben SG wiederholen. Sollte dieser zweite Rettungswurf gelingen, wird der Barbar so behandelt, als sei ihm der erste Rettungswurf bereits gelungen, wodurch der Effekt aufgehoben oder reduziert wird, je nachdem wie es der Zauber oder Effekt bestimmt."
+  },
+  {
+    "id": "88c662b7-7905-56fa-bd65-716754236948",
+    "name": "Tödliche Treffsicherheit",
+    "description": "(AF) Sollte der Barbar in seiner Zielsicheren Kampfhaltung eine Kritische Bedrohung erzielen, addiert er den doppelten Bonus, welchen er durch seine Haltung erhält, auf den Bestätigungswurf."
+  },
+  {
+    "id": "e31cabe0-9e0c-5c82-9e78-074526d2e214",
+    "name": "Unerwarteter Schlag",
+    "description": "(AF) Der Barbar kann einen Gelegenheitsangriff gegen einen Gegner ausführen, welcher ein vom Barbaren bedrohtes Feld betritt. Dabei ist es egal, ob die Bewegung normalerweise einen Gelegenheitsangriff provozieren würde. Der Barbar kann diese Fähigkeit nur dann nutzen, wenn sich auf den übrigen von ihm bedrohten Feldern keine Gegner befinden."
+  },
+  {
+    "id": "ba1c9183-44c6-552f-957b-5cabeb0a775b",
+    "name": "Verkrüppelnder Schlag",
+    "description": "(AF) Ein Mal am Tag kann der Barbar, wenn ihm ein Angriff gelingt, dem Ziel 1 Punkt ST- oder GE-Schaden zufügen. Dieser Schaden steigt um 1 Punkt pro 4 Barbarenstufen, über die der Charakter verfügt."
+  },
+  {
+    "id": "83f20987-e407-52c7-ba7d-4ad6d6bc116f",
+    "name": "Vernichtende Treffsicherheit",
+    "description": "(AF) Während der Barbar sich in seiner Zielsicheren Kampfhaltung befindet, steigt der Schadensmultiplikator für Kritische Treffer um 1 (ein Multiplikator von x2 wird zu x3 usw.)."
+  },
+  {
+    "id": "f96ba6b6-ac83-52eb-8bcf-7c795f4e849f",
+    "name": "Wachsame Kampfhaltung",
+    "description": "(AF) Der Barbar kann eine defensive Haltung einnehmen. Diese verleiht ihm für die Dauer seines aktuellen Kampfrausches einen Ausweichbonus von +1 auf seine Rüstungsklasse. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "7f163aa7-c09e-5000-afc0-264bfca2690d",
+    "name": "Waghalsige Kampfhaltung",
+    "description": "(AF) Der Barbar kann schwungvoll angreifen, vernachlässigt dabei aber seine Verteidigung. Er erhält einen Bonus von +1 auf Angriffswürfe und einen Malus von -1 auf seine RK. Dieser Bonus und dieser Malus steigen um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "8fb013de-4d42-5f46-a009-fe1d25665659",
+    "name": "Wildheit inspirieren",
+    "description": "(AF) Während der Barbar seine Waghalsige Kampfhaltung innehat, verleiht er allen willigen Verbündeten innerhalb von 9 m Entfernung den Boni und den Malus dieser Haltung."
+  },
+  {
+    "id": "38c85f01-b00f-5241-876c-479865818d70",
+    "name": "Wuterfüllter Sprung",
+    "description": "(AF) Wenn der Barbar einen Fertigkeitswurf für Akrobatik zum Springen ausführt, wird er stets so behandelt, als hätte er Anlauf genommen. Ferner erhält er einen Bonus von +8 auf Fertigkeitswürfe für Akrobatik zum Springen. Sollte sein Wurf scheitern, halbiert er die gestürzte Entfernung hinsichtlich der Berechnung des anfallenden Sturzschadens."
+  },
+  {
+    "id": "ed53a92d-bf86-571c-8645-9312ea4f9636",
+    "name": "Wuterfülltes Klettern",
+    "description": "(AF) Der Barbar erhält eine Bewegungsrate für Klettern in Höhe seiner halben Bewegungsrate an Land (rechne zuvor den Effekt seines Klassenmerkmales Schnelle Bewegung hinzu). Er kann diese Bewegungsrate für Klettern nicht nutzen, um an Oberflächen zu klettern, deren SG jenseits von 20 liegt. Er erhält ferner einen Verbesserungsbonus von +8 auf Fertigkeitswürfe für Klettern."
+  },
+  {
+    "id": "86e7e21a-d34b-561e-8796-0b5a770e285d",
+    "name": "Wuterfülltes Schwimmen",
+    "description": "(AF) Der Barbar erhält eine Bewegungsrate für Schwimmen in Höhe seiner halben Bewegungsrate an Land (rechne zuvor den Effekt seines Klassenmerkmales Schnelle Bewegung hinzu). Er erhält ferner einen Verbesserungsbonus von +8 auf Fertigkeitswürfe für Schwimmen."
+  },
+  {
+    "id": "75176170-2fbe-51af-8c0d-dbc166f6f7fb",
+    "name": "Zeichen der Geister",
+    "description": "(ÜF) Der Barbar wurde von den Geistern in Form einer beeindruckenden Tätowierung, Narbe oder eines Geburtsmales gezeichnet. Er kann die Gunst der Geister ein Mal am Tag als Schnelle Aktion nutzen, um einen gerade ausgeführten W20-Wurf um +1W6 zu erhöhen. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über die der Charakter verfügt. Er kann diese Fähigkeit nutzen, wenn das Ergebnis des W20-Wurfes schon feststeht."
+  },
+  {
+    "id": "1b83d46f-089a-5de3-87b3-9b605e2af6cd",
+    "name": "Zertrümmerer",
+    "description": "(AF) Wenn der Barbar ein Kampfmanöver für Gegenstand zerschmettern oder einen Angriff gegen einen Gegenstand ausführt, den niemand am Leib oder in Händen trägt, ignoriert er 1 Punkt an Härte des Gegenstandes pro Barbarenstufe, über die er verfügt."
+  },
+  {
+    "id": "d2157a44-2b98-5b9e-bf82-eeeabfe14246",
+    "name": "Zielsichere Kampfhaltung",
+    "description": "(AF) Der Barbar kann genaue Schläge landen. Er erhält einen Kompetenzbonus von +1 auf Nahkampf- und Wurfwaffenangriffswürfe. Dieser Bonus steigt um 1 pro 4 Barbarenstufen, über welche der Charakter verfügt. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+  },
+  {
+    "id": "7a33d83c-dac3-54f3-8e31-dc92a1a35eaa",
+    "name": "Zu-Fall-bringende Kampfhaltung",
+    "description": "(AF) Der Barbar kann sich darauf konzentrieren, seine Gegner niederzuwerfen. Ein Mal pro Runde kann er anstelle eines Nahkampfangriffes ein Kampfmanöver für Zu-Fall-Bringen gegen ein Ziel ausführen, welches keine Gelegenheitsangriffe provoziert, und bei Erfolg dem Ziel den Zustand Liegend verleihen. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
   }
 ]

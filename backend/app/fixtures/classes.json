@@ -20,6 +20,27 @@
     "optionGroups": []
   },
   {
+    "name": "Entfesselter Barbar",
+    "archetypes": [
+      "Keiner"
+    ],
+    "skillPointsBase": 4,
+    "spellType": "none",
+    "classSkills": [
+      "akrobatik",
+      "einschuechtern",
+      "handwerk",
+      "klettern",
+      "mit_tieren_umgehen",
+      "reiten",
+      "schwimmen",
+      "wildnisleben",
+      "wahrnehmung",
+      "wissen_natur"
+    ],
+    "optionGroups": []
+  },
+  {
     "name": "Barde",
     "archetypes": [
       "Keiner",

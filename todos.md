@@ -777,6 +777,91 @@ Slice-Arbeit.
         `main.py`s `get_classes`) und wurden daher nicht angepasst. Die drei
         `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
         (gleiches Vorgehen wie bei jeder vorherigen Klassenkorrektur).
+  - [x] **Entfesselter Barbar** (Quelle: <http://prd.5footstep.de/Alternativregeln/Klassen/Barbar>,
+        Import-Skript `scripts/import_entfesselter_barbar.py`): Die Seite
+        bezeichnet den Entfesselten Barbaren explizit als eigenständige
+        „Alternativklasse" des Grundregelwerk-Barbaren („Ein Charakter kann
+        nicht über Stufen in beiden Klassen verfügen") — modelliert daher wie
+        Mystiker/Kleriker als zweite eigenständige Root-`BaseClass`-Zeile
+        (eigene `id`, `arch_class_of: null`), nicht als Barbar-Archetyp. Der
+        (Grundregelwerk-)Barbar selbst bleibt unangetastet und weiterhin die
+        einzige Klasse ganz ohne `BaseClassAbilityGrant`-Daten (siehe
+        Kleriker-Nachtrag oben) — **dabei nebenbei entdeckt:** seine
+        `base_class_skills`-Zeile hat nur 7 von 10 echten Klassenfertigkeiten
+        (Akrobatik, Mit Tieren umgehen, Wissen (Natur) fehlen), bewusst
+        **nicht** mitkorrigiert, da unrelated work zu diesem Auftrag (siehe
+        `CLAUDE.md`).
+
+        Trefferwürfel (W12)/GAB (voll)/Rettungswürfe (nur Zähigkeit
+        gut)/Fertigkeitspunkte (4 + IN) wie beim regulären Barbaren. 11
+        Klassenmerkmale mit Stufen-Grants (Umgang mit Waffen und Rüstungen,
+        Kampfrausch, Schnelle Bewegung, Kampfrauschkraft-Slot,
+        Reflexbewegung, Gefahreninstinkt, Verbesserte Reflexbewegung,
+        Schadensreduzierung, Starker Kampfrausch, Unbeugsamer Wille,
+        Unermüdlicher Kampfrausch, Mächtiger Kampfrausch — skalierende
+        Fähigkeiten wie Gefahreninstinkt/Schadensreduzierung nutzen wieder
+        eine Katalogzeile mit mehreren Grants, gleiches Muster wie
+        Kleriker/Energie fokussieren). Dazu eine neue `kampfrauschkraft`-
+        Options-Gruppe (`max_choices: 10`, Slot-Grants auf den geraden Stufen
+        2–20) mit allen **54** auf der Seite mit vollem Regeltext
+        beschriebenen Kampfrauschkräften als eigene `BaseClassOptionChoice`/
+        `BaseClassAbility`-Paare, `min_level`/`requires_choice_id` gesetzt wo
+        die Quelle eine einzelne Stufen- bzw. Kampfrauschkraft-Voraussetzung
+        nennt (z. B. Bodenbrecher, Mächtiger → `min_level: 8`,
+        `requires_choice_id` = Bodenbrecher).
+
+        **Nicht (vollständig) modellierbar — echte Grenzen, keine
+        Zeitfrage:**
+        - **~30 „unmodifizierte" Kampfrauschkräfte** (Bestientotem,
+          Chaostotem, Drachentotem, Schwarmtotem, Weltenschlangentotem, …),
+          die die Seite nur namentlich als „aus Expertenregeln/Ausbauregeln
+          II Kampf unverändert übernehmbar" auflistet, ohne eigenen
+          Regeltext auf dieser Seite. Jede liegt auf ihrer eigenen
+          PRD-Seite — nicht importiert, gleiche Grenze wie Mystikers ~90
+          verlinkte Domänenzauber.
+        - **Nachtsichts Voraussetzung** („Volksmerkmal Dämmersicht oder
+          Dunkelsicht, ODER die Kampfrauschkraft Dämmersicht") ist eine
+          3-fache ODER-Verknüpfung über zwei verschiedene Domänen (eine
+          `BaseRaceAbility` und eine `BaseClassOptionChoice`).
+          `BaseClassOptionChoice.requires_choice_id` kann nur auf eine
+          einzelne andere Choice *derselben* Klasse zeigen — der
+          rassische Zweig ist damit strukturell nicht ausdrückbar. Choice
+          bewusst mit `requires_choice_id: null` angelegt statt falsch
+          verknüpft; die volle Voraussetzung steht weiterhin im
+          Beschreibungstext.
+        - **Mehrfach wählbare Kampfrauschkräfte** (Bodenbrecher, Mächtiger/
+          Erhöhte Schadensreduzierung/Schneller Fuß bis zu 3x, Energieresistenz
+          einmal pro Energieart): Es gibt weder im Schema noch in Schurkes
+          Trick (dem nächsten Vergleichsfall) ein Konzept für „diese Choice
+          darf mehrfach gepickt werden" — je eine Choice-Zeile angelegt,
+          Mehrfachauswahl wird nicht durchgesetzt.
+        - **Klassenübergreifende Sonderregeln**: Reflexbewegung/Verbesserte
+          Reflexbewegung verweisen explizit auf bereits durch eine andere
+          Klasse vorhandene gleichnamige Fähigkeit (z. B. Multiclass mit
+          Schurke), Gefahreninstinkt zählt ausdrücklich als (und stapelt
+          mit) Fallengespür einer anderen Klasse — beides reine
+          Berechnungslogik, die erst mit der in `roadmap.md` Slice 3
+          („Class-ability computation") vorgesehenen Auswertung sinnvoll
+          umsetzbar ist; aktuell wie bei jeder anderen Klasse nur
+          Katalogzeile + Beschreibungstext, keine Durchsetzung.
+        - Wie überall sonst: keine Zahlenwerte berechnet (z. B. Gefahreninstinkts
+          Bonus-Wachstum, Schadensreduzierungs-Stufen, Kampfrausch-Boni), nur
+          Fähigkeit + Text vorhanden; Kampfhaltungen-gegenseitiger-Ausschluss
+          zur Laufzeit ebenfalls nicht ausgewertet.
+
+        `/api/classes` (`main.py`) iteriert über `classes.json` und schlägt
+        nur für dort vorhandene Namen in der echten `base_classes`-Tabelle
+        nach — ohne eigenen `classes.json`-Eintrag wäre die neue Klasse für
+        das Frontend unsichtbar geblieben (gleiche Falle wie bei Mystiker
+        seinerzeit). Minimalen Eintrag ergänzt (`archetypes: ["Keiner"]`,
+        `spellType: "none"`); `classSkills`/`optionGroups`/`skillPointsBase`
+        werden vom Endpoint ohnehin zur Laufzeit aus den echten Tabellen
+        überschrieben, der Fixture-Inhalt dort ist nur Platzhalter.
+
+        6 neue Tests (`test_entfesselter_barbar.py`), gleiche Tiefe wie
+        Kleriker/Mystiker. Die drei `pathfinder-*-mock.html`-Dateien wurden
+        **nicht** synchronisiert (gleiches Vorgehen wie bei jeder
+        vorherigen Klassenkorrektur/-ergänzung).
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):

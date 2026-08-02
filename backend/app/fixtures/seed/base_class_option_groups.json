@@ -103,5 +103,12 @@
     "key": "revelation",
     "label": "Offenbarung",
     "max_choices": 6
+  },
+  {
+    "id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "key": "kampfrauschkraft",
+    "label": "Kampfrauschkraft",
+    "max_choices": 10
   }
 ]

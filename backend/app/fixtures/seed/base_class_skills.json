@@ -1197,5 +1197,65 @@
     "base_class_id": "d86ed793-9019-4df6-a004-ded7e21c760b",
     "skill_id": "86843d3f-57ee-4bdf-8ede-f5aed34d818c",
     "option_choice_id": null
+  },
+  {
+    "id": "9b03030d-7f45-5503-8e50-00843f63484e",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "61a2cb21-fcda-4a2d-8fb5-8ed12133c648",
+    "option_choice_id": null
+  },
+  {
+    "id": "c86c38c7-f84f-51b4-a41a-1a8f694fd2b0",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf",
+    "option_choice_id": null
+  },
+  {
+    "id": "2353ea35-d1cd-52f6-8e1e-fc39e2aa26c0",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b",
+    "option_choice_id": null
+  },
+  {
+    "id": "429b1e1a-5b60-5e48-9c15-6f5b4667979a",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7",
+    "option_choice_id": null
+  },
+  {
+    "id": "fb5d3c77-4e9a-52d0-961e-9b678908256b",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "2e44f1b6-401d-4aab-b185-2e06f4e7eba8",
+    "option_choice_id": null
+  },
+  {
+    "id": "ec360c95-8c3e-551b-9420-d1c6ef5d38c6",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "ea28d7f8-2b92-42aa-93c9-89dd78987f09",
+    "option_choice_id": null
+  },
+  {
+    "id": "a6671934-b494-5c79-a468-d26369fae611",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "e5fa3283-96aa-49ee-8836-ba3062bae32d",
+    "option_choice_id": null
+  },
+  {
+    "id": "4f6416be-7b8c-5b82-a900-f01c9390415e",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "1b9fe08d-09e0-46c8-8772-dd573cab6fff",
+    "option_choice_id": null
+  },
+  {
+    "id": "cceb9f4c-8722-528b-8f05-2e42d833c3f7",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb",
+    "option_choice_id": null
+  },
+  {
+    "id": "a8f5a7b7-4fa4-52c1-9071-af27b6b3826f",
+    "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "skill_id": "0f6a271e-7eda-4d06-bdf8-8148a2c947ff",
+    "option_choice_id": null
   }
 ]
