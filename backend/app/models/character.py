@@ -297,12 +297,18 @@ class CharacterClassOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     `grant_id` (FK `base_class_ability_grants`, nullable) is only set for a
     repeated-pick group: which specific recurring grant occurrence (e.g.
-    *the level-12 Trick grant*, not just "a Trick pick") this choice fills —
-    needed because eligibility can depend on which occurrence it is (Rogue's
-    "Verbesserte Tricks" pool only opens up from level 10 onward, checked as
-    a direct `grant.level >= 10` join instead of inferring it from a running
-    count of prior picks). Null for one-time groups, which aren't tied to
-    any single grant occurrence.
+    *the level-12 Trick grant*, not just "a Trick pick") this choice fills.
+    Null for one-time groups, which aren't tied to any single grant
+    occurrence. Eligibility that depends on which occurrence it is (e.g.
+    Rogue's "Verbesserte Tricks" pool only opening up from level 10 onward)
+    is data now, not a hardcoded join: it's `BaseClassOptionChoice.min_level`
+    on the tricks in that pool (`base_class.py`), checked against the
+    occurrence's own `grant.level` — the same field also carries per-choice
+    thresholds that don't line up with a single class-wide cutoff (Mystiker/
+    Oracle's Offenbarung choices each have their own minimum Mystiker level).
+    `BaseClassOptionChoice.requires_choice_id` is the sibling field for
+    eligibility gated by an earlier pick in a *different* group (Oracle's
+    Offenbarung choices being scoped to the chosen Mysterium).
 
     `choice_id` (FK `base_class_option_choices`, nullable) is the real
     reference to the picked option — resolved and stored at write time,

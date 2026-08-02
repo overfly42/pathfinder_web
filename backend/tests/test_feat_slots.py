@@ -1,3 +1,4 @@
+from collections import Counter
 from types import SimpleNamespace
 
 from sqlalchemy.orm import Session
@@ -246,12 +247,15 @@ def test_waldlaeufer_kampfstiltalent_is_seeded_per_combat_style(db_session: Sess
         .filter_by(ability_id=kampfstiltalent.id, option_choice_id=style_choices["Kampf mit zwei Waffen"])
         .all()
     )
-    # 4 base + 2 at 6th + 2 at 10th level per style - level-gating of when a
-    # feat becomes eligible isn't modeled, only the union of both styles'
-    # full eventual lists (see roadmap.md).
+    # 4 base + 2 at 6th + 2 at 10th level per style. min_level tags when each
+    # tier opens up (null = eligible from the 2nd-level slot that first
+    # grants the ability) - see BaseClassAbilityFeatOption.min_level.
     assert len(bogenschiessen_rows) == 8
     assert len(zwei_waffen_rows) == 8
     assert all(r.feat_type is None and r.feat_id is not None for r in bogenschiessen_rows + zwei_waffen_rows)
+    expected_tiers = Counter([None, None, None, None, 6, 6, 10, 10])
+    assert Counter(r.min_level for r in bogenschiessen_rows) == expected_tiers
+    assert Counter(r.min_level for r in zwei_waffen_rows) == expected_tiers
 
 
 def test_waldlaeufer_enemy_and_terrain_allow_all_repeated_picks(db_session: Session) -> None:
@@ -313,3 +317,32 @@ def test_waldlaeufer_bund_des_jaegers_has_two_gated_branches(db_session: Session
     assert companion_grant.option_choice_id == branch_choices["Bund mit Gefährten"]
     assert animal_grant.option_choice_id == branch_choices["Tiergefährte"]
     assert companion_grant.level == animal_grant.level == 4
+
+
+def test_option_choice_min_level_and_requires_choice_id_round_trip(db_session: Session) -> None:
+    """No class uses these two fields yet - they exist ahead of Mystiker
+    (Oracle), whose Offenbarung ("revelation") choices each carry their own
+    minimum Mystiker level and are only legal once the character has already
+    picked the matching Mysterium, and ahead of a data-driven replacement for
+    Schurke's hardcoded "Verbesserte Tricks unlock at 10th level" split (see
+    the conversation this was scoped from). Exercises the mechanism directly
+    against a synthetic choice gated behind Kleriker's "Kriegsdomäne" domain
+    pick, since no real class needs it today - both columns round-trip
+    through the database exactly like any other."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+
+    kriegsdomaene = db_session.query(BaseClassOptionChoice).filter_by(name="Kriegsdomäne").one()
+
+    gated = BaseClassOptionChoice(
+        group_id=kriegsdomaene.group_id,
+        name="Testfähigkeit (nur mit Kriegsdomäne, ab Stufe 11)",
+        min_level=11,
+        requires_choice_id=kriegsdomaene.id,
+    )
+    db_session.add(gated)
+    db_session.commit()
+
+    reloaded = db_session.query(BaseClassOptionChoice).filter_by(id=gated.id).one()
+    assert reloaded.min_level == 11
+    assert reloaded.requires_choice_id == kriegsdomaene.id

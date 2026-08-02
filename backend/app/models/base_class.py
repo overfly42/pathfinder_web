@@ -191,13 +191,40 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     this.id)` pair, same pattern regardless of group shape.
     `CharacterClassOption.choice_id` (`character.py`) is the real FK to this
     table; `CharacterClassOption.choice` (the free string) is kept alongside
-    it as a cheap display/debug mirror, not the source of truth anymore."""
+    it as a cheap display/debug mirror, not the source of truth anymore.
+
+    `min_level` (nullable) is the class level a character must have reached
+    before this choice is legal to pick, independent of which grant
+    occurrence fills the slot — e.g. Mystiker (Oracle)'s Offenbarung
+    ("revelation") choices each carry their own threshold (some need
+    Mystiker 7, others 11 or 15), so a level-1 Offenbarung slot simply can't
+    offer them yet even though later slots can. This generalizes what used
+    to be an ad hoc, class-specific cutoff hardcoded in Python for Rogue's
+    "Verbesserte Tricks" pool (see the old wording in
+    `CharacterClassOption`'s docstring, `character.py`) into data: tag the
+    higher tier's tricks with `min_level=10` instead, and any repeated-pick
+    group gets the same "pool grows with level" behavior for free. Null
+    means no threshold beyond the slot's own grant level.
+
+    `requires_choice_id` (nullable, self-referencing) is the cross-group
+    sibling of `min_level`: this choice is only legal if the character has
+    already picked *that other* `BaseClassOptionChoice`, typically in a
+    different one-time `BaseClassOptionGroup` of the same class. This is
+    what scopes Mystiker's Offenbarung choices to the Mysterium the
+    character picked at 1st level (e.g. "Sternenmantel" requires the
+    "Firmament" mystery choice) — every option group before this one was
+    either fully open or restricted purely by grant-occurrence level, never
+    by a sibling choice, so there was no field to express it."""
 
     __tablename__ = "base_class_option_choices"
     __table_args__ = (UniqueConstraint("group_id", "name"),)
 
     group_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_option_groups.id"))
     name: Mapped[str] = mapped_column(String(255))
+    min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    requires_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )
 
 
 class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -221,6 +248,14 @@ class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     share one `ability_id` across 10 different eligible lists (one per
     bloodline).
 
+    `min_level` (nullable) — same meaning as `BaseClassOptionChoice.min_level`:
+    the class level a character must have reached before this specific
+    eligible feat opens up, on top of whichever level the slot itself is
+    first granted at. Waldläufer's Kampfstiltalent needs this: each combat
+    style's feat pool (already scoped via `option_choice_id`) grows twice
+    more, at 6th and 10th level, with feats that aren't legal picks for the
+    2nd-level slot that first grants the ability.
+
     "Is this ability a feat slot" is `EXISTS(row WHERE ability_id = this
     ability)` — retires the hand-frozen `BONUS_FEAT_SLOT_ABILITY_IDS` set in
     `rules/feat_slots.py` once seeded, so a future class's bonus feat,
@@ -234,6 +269,7 @@ class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     )
     feat_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
     feat_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"), nullable=True)
+    min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -247,7 +283,8 @@ class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
       the existing class spell list as the source of truth instead of
       enumerating every eligible spell by hand).
 
-    `option_choice_id` — same meaning as `BaseClassAbilityFeatOption`."""
+    `option_choice_id` — same meaning as `BaseClassAbilityFeatOption`.
+    `min_level` — same meaning as `BaseClassAbilityFeatOption.min_level`."""
 
     __tablename__ = "base_class_ability_spell_options"
 
@@ -262,3 +299,4 @@ class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
     )
     source_grade: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)

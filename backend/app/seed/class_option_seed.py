@@ -46,7 +46,10 @@ def seed_class_options(db: Session) -> None:
     db.flush()
 
     for row in _load("base_class_option_choices.json"):
-        _upsert(db, BaseClassOptionChoice, {**row, "group_id": UUID(row["group_id"])})
+        fields = {**row, "group_id": UUID(row["group_id"])}
+        if fields.get("requires_choice_id") is not None:
+            fields["requires_choice_id"] = UUID(fields["requires_choice_id"])
+        _upsert(db, BaseClassOptionChoice, fields)
 
     db.commit()
 

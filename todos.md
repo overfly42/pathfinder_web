@@ -510,6 +510,52 @@ Slice-Arbeit.
         der Test um eine `base_class_id`-Prüfung ergänzt (gleiche Ergänzung
         vorsorglich auch bei `enemy`/`hunter_bond`), damit ein ähnlicher
         Fehler künftig auffällt.
+  - [x] **Nachtrag 2026-08-02: Schema-Lücke aus Mystiker(Oracle)-Recherche
+        geschlossen — `min_level`/`requires_choice_id` auf
+        `BaseClassOptionChoice`, `min_level` auf
+        `BaseClassAbilityFeatOption`/`BaseClassAbilitySpellOption`.**
+        Auslöser: Lektüre von
+        <http://prd.5footstep.de/Expertenregeln/Klassen/Basisklassen/Mystiker>
+        (Mysterium/Fluch/Mysteriumszauber passen unverändert in bestehende
+        Tabellen — Mysterium/Fluch als je eigene `BaseClassOptionGroup`,
+        Mysteriumszauber wie Hexenmeisters Zauber des Blutes über
+        `BaseClassSpellGrant`). Zwei echte Lücken gefunden: (1) Offenbarungen
+        sind wie Schurkes Tricks eine wiederholte Wahl, aber die zulässige
+        Auswahl pro Slot muss auf die ~10 Offenbarungen des *bereits
+        gewählten* Mysteriums eingeschränkt werden — bisher konnte keine
+        Options-Gruppe eine Wahl an eine Wahl aus einer *anderen* Gruppe
+        koppeln (Domäne/Blutlinie/Schule sind alle unabhängig, Schurkes
+        „Verbesserte Tricks"-Pool war nur über die Grant-Stufe eingeschränkt,
+        nicht über eine andere Wahl). (2) Offenbarungen haben individuelle
+        Mindeststufen (7/10/11/15/17, uneinheitlich) statt eines einzelnen
+        Cutoffs wie bei Schurke — mit der bisherigen Methode (Cutoff
+        hartkodiert in Python, siehe `rules/feat_slots.py`s Kommentar zu
+        Schurkes Stufe-10-Pool) wären das viele Sonderfälle im Code statt in
+        Daten gewesen.
+
+        Fix: `BaseClassOptionChoice.min_level` (nullable int) und
+        `.requires_choice_id` (nullable, self-referencing FK) — generalisiert
+        beide Fälle als Daten statt Code (Migration `821482a1c701`). Dieselbe
+        `min_level`-Spalte zusätzlich auf `BaseClassAbilityFeatOption`/
+        `BaseClassAbilitySpellOption` ergänzt, weil sich beim Nachfragen
+        herausstellte: Waldläufers Kampfstiltalent hat exakt dasselbe
+        Formproblem (Talent-Pool pro Kampfstil, siehe oben, wächst auf Stufe
+        6/10) — bisher als „nicht modelliert" markiert (Zeile 446–449 in
+        einem früheren Nachtrag). Jetzt konkret angewendet: die 4 Stufe-6- und
+        4 Stufe-10-Talente in `base_class_ability_feat_options.json` (beide
+        Kampfstile) tragen jetzt `min_level: 6`/`min_level: 10`, die anderen 8
+        bleiben `null` (verfügbar ab Stufe 2, wenn die Fähigkeit erstmals
+        gewährt wird).
+
+        **Weiterhin offen:** keine Durchsetzung bei Charaktererstellung/
+        Stufenaufstieg — `_validate_options` (`routers/characters.py`) prüft
+        weiterhin nur, ob der Name in der Gruppe existiert, nicht `min_level`
+        oder `requires_choice_id` (gleiche „Daten vorhanden, aber von keinem
+        Endpunkt ausgewertet"-Lücke wie bei allen Pool-Tabellen hier, siehe
+        `roadmap.md` Phasen 5–6). Mystiker/Orakel selbst ist weiterhin nicht
+        als Klasse angelegt (kein `classes.json`-Eintrag, keine Mysterien/
+        Flüche/Offenbarungen als Daten) — nur das Schema, das sie brauchen
+        wird, existiert jetzt vorab.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
