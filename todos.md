@@ -722,6 +722,61 @@ Slice-Arbeit.
         `optionGroups`/`classSkills`-Objekte für Kleriker führen weiterhin
         die alten 8 erfundenen Domänennamen und die unvollständige
         6-Fertigkeiten-Liste.
+  - [x] **Barde** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Barde>,
+        Import-Skript `scripts/import_barde.py`): `base_classes.json`s Zeile
+        war bereits vollständig korrekt (Trefferwürfel W8, GAB 3/4, gute
+        Reflex-/Willensrettungswürfe, Fertigkeitspunkte 6 + IN, Zauberattribut
+        CH, arkan-spontan). Klassenfertigkeiten waren teilweise falsch: „Mit
+        Tieren umgehen" ist laut Quelle **keine** Barden-Klassenfertigkeit
+        und wurde entfernt; es fehlten Beruf, Einschüchtern,
+        Entfesselungskunst, Handwerk, Klettern, Schätzen sowie „Wissen
+        (Alle)" — die Quelle listet wie beim Magier explizit alle
+        Wissen-Unterfertigkeiten, ergänzt wurden daher auch Wissen
+        (Baukunst/Gewölbekunde/Geographie) (ergänzt, alle neun gab es
+        bereits im gemeinsamen `base_skills.json`-Katalog).
+
+        Größere Lücke: Barde hatte trotz sonst korrekter Klassen-Shell
+        **null** `BaseClassAbility`/`Grant`-Zeilen — jetzt vollständig
+        ergänzt, gleiche Tiefe wie bei jeder anderen Klasse (nur Fähigkeit
+        samt Beschreibungstext, keine Berechnungslogik): 22 Klassenmerkmale
+        (Umgang mit Waffen und Rüstungen, Zauber, Bardenwissen,
+        Bardenauftritt, Bannlied, Ablenkung, Faszinieren, Lied des Mutes,
+        Zaubertricks, Bewandert, Vielseitiger Auftritt, Lied des Erfolgs,
+        Gelehrter, Einflüsterung, Klagelied, Lied der Größe, Tausendsassa,
+        Erfrischender Auftritt, Lied der Furcht, Lied des Heldenmuts,
+        Masseneinflüsterung, Tödliche Melodie), 35 Grants insgesamt. Die vier
+        skalierenden Fähigkeiten (Lied des Mutes: Stufen 1/5/11/17; Lied des
+        Erfolgs: 3/7/11/15/19; Vielseitiger Auftritt: 2/6/10/14/18;
+        Gelehrter: 5/11/17) nutzen je eine Katalogzeile mit mehreren Grants,
+        gleiches Muster wie Kleriker/Energie fokussieren bzw.
+        Schurke/Hinterhältiger Angriff. Bewusst **keine** eigene
+        Options-Gruppe für Vielseitiger Auftritt (die 9 Auftrittsarten wie
+        Blasinstrumente/Gesang/Komik sind reine Fertigkeits-Ersetzungslisten
+        ohne je eigene Kraft, näher an einem Talentpool wie Kämpfers
+        Bonustalent als an Domänen/Blutlinien) — gleiche Scope-Entscheidung
+        wie bei allen bisherigen „Pick from a restricted list"-Fällen vor der
+        Trick-Katalog-Erweiterung.
+
+        Nebenbei `base_class_spells_known.json` („Tabelle: Anzahl Bekannter
+        Zauber") korrigiert: die Zeilen für Stufe 4–6 hatten einen um 1 zu
+        niedrigen Grad-2-Wert (1/2/3 statt 2/3/4) und die Tabelle brach nach
+        Stufe 6 ab — auf die vollständige, gegen die Quelltabelle geprüfte
+        Stufe-1–20-Tabelle ersetzt (analog zur Hexenmeister-Korrektur).
+        `base_class_spells.json` (die 8-Zeilen-Zauberliste des Barden)
+        bewusst **nicht** angefasst — gleiche Begründung wie bei
+        Kleriker/Hexenmeister: die volle arkane Zauberliste über mehrere
+        hundert Zauber ist eine separate, größere Lücke.
+
+        Die beiden Archetypen (`Archivar`, `Sänger der Meere`) in
+        `classes.json`/`base_classes.json` bleiben — auf ausdrücklichen
+        Wunsch, konsistent mit jeder anderen Klasse — ungeprüfte Platzhalter;
+        `classes.json`s `classSkills`/`optionGroups`-Felder für Barde sind
+        ohnehin totes Fixture-Material (der `/api/classes`-Endpunkt
+        überschreibt beide zur Laufzeit mit den echten
+        `base_class_skills`/`base_class_option_groups`-Tabellen, siehe
+        `main.py`s `get_classes`) und wurden daher nicht angepasst. Die drei
+        `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
+        (gleiches Vorgehen wie bei jeder vorherigen Klassenkorrektur).
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -735,7 +790,7 @@ Slice-Arbeit.
         | Schurke | 5 (bereits korrigiert, siehe oben) |
         | Mystiker (vormals Orakel) | 3 (bereits korrigiert, siehe oben) |
         | Kleriker | 3 (bereits korrigiert, siehe oben) |
-        | Barde | 1 |
+        | Barde | 1 (bereits korrigiert, siehe oben) |
         | Barbar, Druide, Mönch, Paladin | 0 |
 
         Zusätzlich schon teilweise real hinterlegt (unabhängig von der
