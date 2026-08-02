@@ -10,7 +10,7 @@ export interface ClassRow {
   level: number;
   /** Zero or more non-conflicting archetypes applied to this class (Requirement 2.1). */
   archetypes: string[];
-  /** classOptionSelections: option group key -> chosen values (e.g. domain -> ['Sonne','Tod']) */
+  /** classOptionSelections: option group key -> chosen values (e.g. domain -> ['Domäne der Sonne','Domäne des Todes']) */
   options: Record<string, string[]>;
 }
 

@@ -357,17 +357,17 @@ def test_option_choice_min_level_and_requires_choice_id_round_trip(db_session: S
     picked the matching Mysterium, and ahead of a data-driven replacement for
     Schurke's hardcoded "Verbesserte Tricks unlock at 10th level" split (see
     the conversation this was scoped from). Exercises the mechanism directly
-    against a synthetic choice gated behind Kleriker's "Kriegsdomäne" domain
-    pick, since no real class needs it today - both columns round-trip
-    through the database exactly like any other."""
+    against a synthetic choice gated behind Kleriker's "Domäne des Krieges"
+    domain pick, since no real class needs it today - both columns
+    round-trip through the database exactly like any other."""
     seed_classes(db_session)
     seed_class_options(db_session)
 
-    kriegsdomaene = db_session.query(BaseClassOptionChoice).filter_by(name="Kriegsdomäne").one()
+    kriegsdomaene = db_session.query(BaseClassOptionChoice).filter_by(name="Domäne des Krieges").one()
 
     gated = BaseClassOptionChoice(
         group_id=kriegsdomaene.group_id,
-        name="Testfähigkeit (nur mit Kriegsdomäne, ab Stufe 11)",
+        name="Testfähigkeit (nur mit Domäne des Krieges, ab Stufe 11)",
         min_level=11,
         requires_choice_id=kriegsdomaene.id,
     )

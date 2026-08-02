@@ -1,0 +1,629 @@
+[
+  {
+    "name": "Domäne des Adels",
+    "granted": "Du bist ein großer Anführer, eine Inspiration für alle, die den Lehren deines Glaubens folgen.",
+    "powers": [
+      {
+        "name": "Wort der Begeisterung",
+        "tag": "ÜF",
+        "text": "Du kannst mit einer Standard-Aktion einer Kreatur, die sich höchstens 9 m von dir entfernt befindet, ein Wort der Begeisterung zurufen. Das Ziel erhält einen Moralbonus von +2 auf seine Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Anzahl von Runden, die deiner halben Klerikerstufe (Minimum 1 Runde) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Anführen",
+        "tag": "AF",
+        "text": "Ab der 8. Stufe erhältst du Anführen als Bonustalent. Außerdem erhältst du einen Bonus von +2 auf deinen Anführerwert, solange du den Grundsätzen deiner Gottheit (oder deines göttlichen Konzepts, falls du keine Gottheit anbetest) folgst.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Göttliche Gunst, 2 – Fesseln, 3 – Magisches Schutzgewand, 4 – Lügen erkennen, 5 – Befehl, 6 – Geas/Auftrag, 7 – Abstoßung, 8 – Aufforderung, 9 – Sturm der Vergeltung."
+  },
+  {
+    "name": "Domäne der Befreiung",
+    "granted": "Du bist ein Freigeist und ein überzeugter Gegner aller, die versklaven oder unterdrücken.",
+    "powers": [
+      {
+        "name": "Freiheit",
+        "tag": "ÜF",
+        "text": "Du hast die Fähigkeit, Beeinträchtigungen deiner Bewegungsmöglichkeiten zu ignorieren. Für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, kannst du dich normale bewegen, unabhängig von magischen Effekten, die die Bewegung einschränken, als stündest du unter dem Effekt des Zaubers Bewegungsfreiheit. Dieser Effekt tritt automatisch ein, sobald er angewandt wird. Diese Runden müssen nicht aufeinander folgen.",
+        "level": 1
+      },
+      {
+        "name": "Ruf der Freiheit",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, eine Aura der Freiheit mit einem Radius von 9 m ausstrahlen. Verbündete innerhalb des Wirkungsbereichs können nicht von den Zuständen ringend, verwirrt, verängstigt, in Panik, gelähmt, im Haltegriff oder erschüttert betroffen werden. Die Aura unterdrückt die Wirkung dieser Zustände jedoch nur. Verlässt die betroffene Kreatur den Wirkungsbereich oder endet die Wirkung, setzt der Zustand wieder ein. Die Runden müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Furcht bannen, 2 – Lähmung aufheben, 3 – Fluch brechen, 4 – Bewegungsfreiheit, 5 – Verzauberung brechen, 6 – Mächtige Magie bannen, 7 – Zuflucht, 8 – Gedankenleere, 9 – Befreiung."
+  },
+  {
+    "name": "Domäne des Bösen",
+    "granted": "Du bist hinterlistig und grausam und hast dich gänzlich, mitsamt deiner Seele dem Bösen verschrieben.",
+    "powers": [
+      {
+        "name": "Hauch des Bösen",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit Hilfe eines Berührungsangriffs im Nahkampf kränkelnd machen. Während die Kreatur kränkelt, gilt sie für die Zwecke des Wirkens eines Zaubers der bösen Kategorie als gut gesinnt. Die Wirkung hält für eine Anzahl von Runden an, die deiner halben Klerikerstufe entspricht (Minimum 1 Runde). Du kannst die Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Sense des Bösen",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Unheilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle weiteren 4 Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schutz vor Gutem, 2 – Waffengesinnung (nur böse), 3 – Schutzkreis gegen Gutes, 4 – Unheilige Plage, 5 – Gutes bannen, 6 – Untote erschaffen, 7 – Blasphemie, 8 – Unheilige Aura, 9 – Monster herbeizaubern IX (nur böse Kreaturen)."
+  },
+  {
+    "name": "Domäne des Chaos",
+    "granted": "Deine Berührung lässt das Chaos in Lebewesen und Waffen fließen. Du schwelgst in Allem, was anarchistisch ist.",
+    "powers": [
+      {
+        "name": "Hauch des Chaos",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit Chaos erfüllen, indem du einen Berührungsangriff im Nahkampf ausführst. Jedes Mal, wenn diese Kreatur in der nächsten Runde dann 1W20 würfelt, muss sie zweimal würfeln und das schlechtere Resultat verwenden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Chaosklinge",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl an Runden in Höhe deiner halben Klerikerstufe zu einer Waffe der Anarchie verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle 4 weiteren Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schutz vor Ordnung, 2 – Waffengesinnung (nur Chaos), 3 – Schutzkreis gegen Ordnung, 4 – Chaoshammer, 5 – Rechtschaffenes bannen, 6 – Gegenstände beleben, 7 – Wort des Chaos, 8 – Schutzmantel des Chaos, 9 – Monster herbeizaubern IX (nur chaotische Kreaturen)."
+  },
+  {
+    "name": "Domäne der Dunkelheit",
+    "granted": "Du kannst die Schatten und die Dunkelheit manipulieren. Außerdem erhältst du Blind kämpfen als Bonustalent.",
+    "powers": [
+      {
+        "name": "Hauch der Dunkelheit",
+        "tag": "ZF",
+        "text": "Mit einem Berührungsangriff kannst du das Sichtfeld einer Kreatur mit Schatten und Dunkelheit erfüllen. Die berührte Kreatur behandelt alle anderen Wesen, als ob sie Tarnung hätten, und erhält eine 20% Fehlschlagchance auf alle Angriffswürfe. Dieser Effekt dauert für eine Anzahl von Runden an, die der Hälfte deiner Klerikerstufe entspricht (Minimum 1 Runde). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Augen der Dunkelheit",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe wird deine Sicht niemals durch Lichtverhältnisse eingeschränkt, selbst in absoluter oder magischer Dunkelheit. Du kannst diese Fähigkeit für eine Anzahl von Runden am Tag einsetzen, die der Hälfte deiner Klerikerstufe entspricht. Diese Runden müssen nicht aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Verhüllender Nebel, 2 – Blind- oder Taubheit verursachen (nur Blindheit), 3 – Tiefere Dunkelheit, 4 – Schattenbeschwörung, 5 – Monster herbeizaubern V (ruft 1W3 Schatten herbei), 6 – Schattenreise, 7 – Wort der Macht: Blindheit, 8 – Mächtige Schattenhervorrufung, 9 – Schatten."
+  },
+  {
+    "name": "Domäne der Erde",
+    "granted": "Du herrscht über Erde, Metall und Stein, kannst Säuregeschosse aussenden und gebietest über Erdkreaturen.",
+    "powers": [
+      {
+        "name": "Säuregeschoss",
+        "tag": "ZF",
+        "text": "Du kannst mit einer Standard-Aktion ein Säuregeschoss auf deine Feinde schleudern, der sich nicht weiter als 9 m von dir entfernt befindet. Dies gilt als Berührungsangriff auf Entfernung. Dieses Säuregeschoss verursacht 1W6 Punkte Säureschaden +1 pro zwei Klerikerstufen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Säureresistenz",
+        "tag": "AF",
+        "text": "Auf der 6. Stufe erhältst du Säureresistenz 10, auf der 12. Stufe Säureresistenz 20 und auf der 20. Stufe wirst du immun gegen Säure.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Magischer Stein, 2 – Erde und Gestein erweichen, 3 – Stein formen, 4 – Steindornen, 5 – Steinwand, 6 – Steinhaut, 7 – Elementargestalt IV (nur Erde), 8 – Erdbeben, 9 – Elementarhorde (nur Erde)."
+  },
+  {
+    "name": "Domäne des Feuers",
+    "granted": "Du kannst das Feuer herbeirufen, gebietest über Kreaturen des Infernos und dein Fleisch kann niemals verbrennen.",
+    "powers": [
+      {
+        "name": "Feuerpfeil",
+        "tag": "ZF",
+        "text": "Mit einer Standard-Aktion kannst du einen versengenden Pfeil heiligen Feuers aus deiner ausgestreckten Hand schießen lassen. Du kannst eine Kreatur als Ziel bestimmen, die sich nicht weiter als 9 m von dir entfernt befindet. Dies gilt als Berührungsangriff auf Entfernung. Dieser Feuerpfeil verursacht 1W6 Punkte Feuerschaden + 1 pro zwei Klerikerstufen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Feuerresistenz",
+        "tag": "AF",
+        "text": "Auf der 6. Stufe erhältst du Feuerresistenz 10, auf der 12. Stufe Feuerresistenz 20 und auf der 20. Stufe wirst du immun gegen Feuer.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Brennende Hände, 2 – Flammen erzeugen, 3 – Feuerball, 4 – Feuerwand, 5 – Feuerschild, 6 – Feuersaat, 7 – Elementargestalt IV (nur Feuer), 8 – Flammende Wolke, 9 – Elementarhorde (nur Feuer)."
+  },
+  {
+    "name": "Domäne der Gemeinschaft",
+    "granted": "Du kannst mit deiner Berührung Wunden heilen und deine Gegenwart stärkt das Gemeinschaftsgefühl und beruhigt die Gemüter.",
+    "powers": [
+      {
+        "name": "Beruhigende Berührung",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit einer Standard-Aktion berühren, um bei ihr 1W6 Punkte + 1 je Klerikerstufe nichttödlichen Schaden zu heilen. Die Berührung entfernt außerdem die Zustände erschöpft, verängstigt und kränkelnd (hat jedoch keinen Einfluss auf ernsthaftere Zustände). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Einheit",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe, wann immer du und einer oder mehrere deiner Verbündeten innerhalb von 9 m Ziel eines Zaubers oder eines Effektes sind, kannst du diese Fähigkeit einsetzen, um damit deinen Verbündeten zu ermöglichen, deinen Rettungswurf anstelle ihres eigenen dagegen einzusetzen. Jeder Verbündete muss dies für sich selbst entscheiden, bevor der Wurf gemacht wird. Der Einsatz dieser Fähigkeit ist eine Augenblickliche Aktion. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Segnen, 2 – Anderen schützen, 3 – Gebet, 4 – Zustand, 5 – Telepathisches Band, 6 – Heldenmahl, 7 – Zuflucht, 8 – Massen-Kritische Wunden heilen, 9 – Wunder."
+  },
+  {
+    "name": "Domäne des Glücks",
+    "granted": "Du bist vom Glück gesegnet und deine schiere Anwesenheit kann günstige Umstände herbeiführen.",
+    "powers": [
+      {
+        "name": "Glückspilz",
+        "tag": "ZF",
+        "text": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren und sie zu einem Glückspilz machen. Jedes Mal, wenn das Ziel in der nächsten Runde 1W20 würfelt, darf es zweimal würfeln und das bessere Ergebnis verwenden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Gunst des Schicksals",
+        "tag": "AF",
+        "text": "Ab der 6. Stufe kannst du einen beliebigen Wurf wiederholen, den du gerade ausgeführt hast, bevor das Ergebnis des Wurfs bekannt gegeben worden ist. Du musst das Ergebnis des Wiederholungswurfes nehmen, auch wenn es schlechter als der ursprüngliche Wurf ist. Du kannst diese Fähigkeit auf der 6. Stufe einmal am Tag einsetzen, und ein weiteres Mal am Tag für alle zusätzlichen sechs Klerikerstufen, die du erreicht hast.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Zielsicherer Schlag, 2 – Beistand, 3 – Schutz vor Energien, 4 – Bewegungsfreiheit, 5 – Verzauberung brechen, 6 – Ablenkung, 7 – Zauber zurückwerfen, 8 – Moment der Eingebung, 9 – Wunder."
+  },
+  {
+    "name": "Domäne des Guten",
+    "granted": "Du hast dein Leben und deine Seele dem Guten und der Reinheit verschrieben.",
+    "powers": [
+      {
+        "name": "Hauch des Guten",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit einer Standard-Aktion berühren, um ihr einen göttlichen Bonus in Höhe deiner halben Klerikerstufe (Minimum 1) auf eine Runde auf ihre Angriffs-, Fertigkeits-, Attributs- oder Rettungswürfe zu verleihen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Heilige Lanze",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du eine deiner Waffen durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Heilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schutz vor Bösem, 2 – Waffengesinnung (nur Gut), 3 – Schutzkreis gegen Böses, 4 – Heiliger Schlag, 5 – Böses bannen, 6 – Klingenbarriere, 7 – Heiliges Wort, 8 – Heilige Aura, 9 – Monster herbeizaubern IX (nur gute Kreaturen)."
+  },
+  {
+    "name": "Domäne des Handwerks",
+    "granted": "Du kannst Gegenstände und auch belebte Gegenstände reparieren, und Objekte aus dem Nichts erschaffen.",
+    "powers": [
+      {
+        "name": "Handwerkertrick",
+        "tag": "ZF",
+        "text": "Du kannst den Zauber Ausbessern nach Belieben wirken, indem du deine Klerikerstufe als Zauberstufe anwendest, um Gegenstände zu reparieren. Außerdem kannst du Gegenstände und Konstrukte mit einem Berührungsangriff im Nahkampf beschädigen. Dieser provoziert keine Gelegenheitsangriffe. Gegenstände und Konstrukte nehmen 1W6 Schadenspunkte +1 pro 2 Klerikerstufen. Dieser Angriff umgeht jegliche Schadensreduzierung oder Härte in Höhe deiner Klerikerstufe. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Tanzende Waffen",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du einer Waffe durch Berührung für 4 Runden die besondere Waffeneigenschaft Tanzend verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Seil beleben, 2 – Holz formen, 3 – Stein formen, 4 – Niedere Erschaffung, 5 – Verarbeitung, 6 – Höhere Erschaffung, 7 – Eisenwand, 8 – Sofortige Herbeizauberung, 9 – Regenbogensphäre."
+  },
+  {
+    "name": "Domäne der Heilung",
+    "granted": "Deine Berührung vertreibt Tod und Pein, deine Heilmagie ist besonders belebend und stark.",
+    "powers": [
+      {
+        "name": "Abwendung des Todes",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und dabei 1W4 Schadenspunkte heilen + 1 pro 2 Klerikerstufen. Du kannst diese Fähigkeit nur bei einer Kreatur anwenden, die weniger als 0 Trefferpunkte hat. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Segen des Heilers",
+        "tag": "ÜF",
+        "text": "Ab der 6. Stufe werden alle Heilzauber behandelt, als wären sie verstärkt, und erhöhen damit den geheilten Schaden um die Hälfte (+50%). Dies wird nicht auf den Schaden angewandt, der mit einem Heilzauber bei Untoten verursacht wird. Dieser Effekt addiert sich nicht mit dem metamagischen Talent Zauber verstärken.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Leichte Wunden heilen, 2 – Mittelschwere Wunden heilen, 3 – Schwere Wunden heilen, 4 – Kritische Wunden heilen, 5 – Lebensatem, 6 – Heilung, 7 – Regeneration, 8 – Massen-Kritische Wunden heilen, 9 – Massenheilung."
+  },
+  {
+    "name": "Domäne der Herrlichkeit",
+    "granted": "Du bist von der Herrlichkeit des Göttlichen durchdrungen und bist ein wahrer Feind der Untoten. Fokussierst du Energien gegen Untote, so erhöht sich der SG um 2, um den Schaden zu halbieren.",
+    "powers": [
+      {
+        "name": "Hauch der Herrlichkeit",
+        "tag": "ZF",
+        "text": "Du kannst deine Hand in göttlichem Glanz erstrahlen lassen, was es dir ermöglicht, eine Kreatur als Standard-Aktion zu berühren, um ihr einen Bonus in Höhe deiner Klerikerstufe auf einen einzelnen Fertigkeits- oder Attributswurf zu verleihen, der auf Charisma basiert. Diese Fähigkeit dauert bis zu einer Stunde an oder solange, bis der Bonus auf einen Wurf angewandt wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Gegenwart des Göttlichen",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der göttlichen Gegenwart mit einem Radius von 9 m ausstrahlen. Alle Verbündeten in dieser Aura werden behandelt, als stünden sie unter der Wirkung des Zaubers Heiligtum mit einem SG von 10 + deiner halben Klerikersufe + dein WE-Modifikator. Die Runden müssen nicht direkt aufeinander folgen. Das aktivieren dieser Fähigkeit ist eine Standard-Aktion. Wenn einer deiner Verbündeten den Bereich verlässt oder einen Angriff macht, endet der Effekt für ihn. Wenn du einen Angriff ausführst, endet der Effekt für dich und deine Verbündeten.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schild des Glaubens, 2 – Waffe weihen, 3 – Gleißendes Licht, 4 – Heiliger Schlag, 5 – Gerechte Macht, 6 – Tod den Untoten, 7 – Heiliges Schwert, 8 – Heilige Aura, 9 – Tor."
+  },
+  {
+    "name": "Domäne des Krieges",
+    "granted": "Du bist ein Kreuzritter deiner Gottheit, immer bereit und willig, zur Verteidigung deines Glaubens zu kämpfen.",
+    "powers": [
+      {
+        "name": "Schlachtenwut",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit für eine Runde einen Bonus auf Schadenswürfe im Nahkampf verleihen, der deiner halben Klerikerstufe (Minimum +1) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Waffenmeister",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, ein Kampftalent erhalten. Das Aktivieren dieser Fähigkeit kostet eine Schnelle Aktion. Diese Runden müssen nicht direkt aufeinander folgen und du darfst dir jedes Mal, wenn du diese Fähigkeit benutzt, ein anderes Talent aussuchen. Du musst aber auch die Voraussetzungen erfüllen, um das Talent einsetzen zu können.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Magische Waffe, 2 – Waffe des Glaubens, 3 – Magisches Schutzgewand, 4 – Göttliche Macht, 5 – Flammenschlag, 6 – Klingenbarriere, 7 – Wort der Macht: Blindheit, 8 – Wort der Macht: Betäubung, 9 – Wort der Macht: Tod."
+  },
+  {
+    "name": "Domäne der Luft",
+    "granted": "Du kannst Nebel, Wind und Blitze manipulieren, mit Luftwesen verkehren und bist widerstandsfähig gegen Elektrizitätsschaden.",
+    "powers": [
+      {
+        "name": "Blitzschlag",
+        "tag": "ZF",
+        "text": "Du kannst mit einer Standard-Aktion einen Bogen elektrischer Energie auf einen Feind schleudern, der sich nicht weiter als 9 m von dir entfernt befindet. Dies gilt als Berührungsangriff auf Entfernung. Der Blitzschlag verursacht 1W6 Punkte elektrischen Schaden +1 pro zwei Klerikerstufen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Elektrizitätsresistenz",
+        "tag": "AF",
+        "text": "Auf der 6. Stufe erhältst du Elekrizitätsresistenz 10, auf der 12. Stufe Elektrizitätsresistenz 20 und auf der 20. Stufe wirst du immun gegen Elektrizität.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Verhüllender Nebel, 2 – Windwall, 3 – Gasförmige Gestalt, 4 – Luftweg, 5 – Windkontrolle, 6 – Kugelblitz, 7 – Elementargestalt IV (nur Luft), 8 – Wirbelwind, 9 – Elementarhorde (nur Luft)."
+  },
+  {
+    "name": "Domäne der Magie",
+    "granted": "Du bist ein wahrer Student aller mystischen Dinge und erblickst die Göttlichkeit in der Reinheit der Magie.",
+    "powers": [
+      {
+        "name": "Hand des Akolythen",
+        "tag": "ÜF",
+        "text": "Du kannst deine Nahkampfwaffe dazu bringen, aus deiner Hand zu fliegen und auf einen Feind einzuschlagen, bevor sie sofort wieder zurückkehrt. Als Standard-Aktion kannst du einen einzelnen Angriff mit einer Nahkampfwaffe in einer Reichweite von 9 m ausführen. Dieser Angriff wird als Fernkampfangriff mit einer geworfenen Waffe behandelt, außer dass du deinen WE-Modifikator anstelle des GE-Modifikators hinzu addierst (Schaden hängt immer noch von Stärke ab). Diese Fähigkeit kann nicht für ein Kampfmanöver eingesetzt werden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Magiebannende Berührung",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du mit einem Berührungsangriff im Nahkampf ein gezieltes Magie bannen wirken. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Klerikerstufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Identifizieren, 2 – Magischer Mund, 3 – Magie bannen, 4 – Zauberkräfte verleihen, 5 – Zauberresistenz, 6 – Antimagisches Feld, 7 – Zauber zurückwerfen, 8 – Schutz vor Zaubern, 9 – Magische Auftrennung."
+  },
+  {
+    "name": "Domäne der Ordnung",
+    "granted": "Du folgst einem strikten und geordneten Kodex an Gesetzen, und erreichst auf diesem Wege Erleuchtung.",
+    "powers": [
+      {
+        "name": "Hauch der Ordnung",
+        "tag": "ZF",
+        "text": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren, um sie mit der Macht göttlicher Ordnung zu erfüllen, die es ihr erlaubt, alle ihre Angriffs-, Fertigkeits-, Attributs-, oder Rettungswürfe für eine Runde zu betrachten, als hätte der zugrunde liegende Würfelwurf von 1W20 als Ergebnis eine 11 gehabt. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Stab der Ordnung",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden in Höhe deiner halben Klerikerstufe zu einer Waffe des Grundsatzes verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen und später ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schutz vor Chaos, 2 – Waffengesinnung (nur Rechtschaffen), 3 – Schutzkreis gegen Chaos, 4 – Zorn der Ordnung, 5 – Chaotisches bannen, 6 – Monster festhalten, 7 – Diktum, 8 – Schild der Ordnung, 9 – Monster herbeizaubern IX (nur rechtschaffene Kreaturen)."
+  },
+  {
+    "name": "Domäne der Pflanzen",
+    "granted": "Du findest Frieden im Grünen, kannst dir abwehrende Dornen wachsen lassen und mit Pflanzen kommunizieren.",
+    "powers": [
+      {
+        "name": "Holzfaust",
+        "tag": "ÜF",
+        "text": "Als eine Freie Aktion können deine Hände so hart wie Holz werden, bedeckt mit winzigen Dornen. Solange Holzfaust wirkt, führen deine waffenlosen Angriffe nicht zu Gelegenheitsangriffen, verursachen tödlichen Schaden und erhalten einen Schadensbonus in Höhe deiner halben Klerikerstufe (Minimum +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Dornenrüstung",
+        "tag": "ÜF",
+        "text": "Ab der 6. Stufe kannst du im Rahmen einer Freien Aktion eine Vielzahl von Holzdornen aus deiner Haut schießen lassen. Solange du die Dornenrüstung trägst, nehmen Gegner, die dich mit einem waffenlosen Schlag oder einer Nahkampfwaffe ohne Reichweite angreifen, 1W6 Schadenspunkte +1 je 2 Klerikerstufen. Du kannst diese Fähigkeit pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Diese Runden müssen nicht direkt aufeinander folgen.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Verstricken, 2 – Rindenhaut, 3 – Pflanzenwachstum, 4 – Pflanzen befehligen, 5 – Dornenwand, 6 – Holz zurücktreiben, 7 – Pflanzen beleben, 8 – Pflanzen kontrollieren, 9 – Modernder Schlurfer."
+  },
+  {
+    "name": "Domäne der Reisen",
+    "granted": "Du bist ein Entdecker und findest Erleuchtung in den simplen Freuden des Reisens, sei es zu Fuß, in einem Gefährt oder mittels Magie. Erhöhe deine normale Bewegungsrate um 3 m.",
+    "powers": [
+      {
+        "name": "Flinkfuß",
+        "tag": "ÜF",
+        "text": "Mit einer Freien Aktion kannst du für eine Runde eine erhöhte Beweglichkeit erlangen. Für die nächste Runde ignorierst du jegliches schwieriges Gelände und erhältst keine Nachteile durch eine Bewegung durch solches. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Dimensionssprung",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du dich pro Tag mit einer Bewegungsaktion bist zu 3 m pro Zauberstufe weit teleportieren. Das Teleportieren muss in Schritten von 1,50 m vorgenommen werden und provoziert keine Gelegenheitsangriffe. Du kannst auch andere bereitwillige Kreaturen mitnehmen, musst dann aber auch die entsprechende Entfernung für jede dieser Kreaturen ausgeben.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Lange Schritte, 2 – Gegenstand aufspüren, 3 – Fliegen, 4 – Dimensionstür, 5 – Teleportieren, 6 – Weg finden, 7 – Mächtiges Teleportieren, 8 – Äthertor, 9 – Astrale Projektion."
+  },
+  {
+    "name": "Domäne der Ruhe",
+    "granted": "Du siehst den Tod als etwas, das man nicht fürchten muss, sondern als letzte Ruhe nach einem Leben, das gut gelebt worden ist. Das Stigma des Untodes ist eine Verhöhnung von allem, was dir wichtig ist.",
+    "powers": [
+      {
+        "name": "Sanfter Schlaf",
+        "tag": "ZF",
+        "text": "Deine Berührung erfüllt eine Kreatur mit Lethargie, was für eine lebendige Kreatur nach einem Berührungsangriff zur Folge hat, dass sie für 1 Runde wankend ist. Wenn du eine wankende, lebende Kreatur berührst, fällt diese Kreatur für eine Runde in Schlaf. Untote Kreaturen, die berührt werden, sind wankend für eine Anzahl von Runden, die deinem WE-Modifikator entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Schutz vor dem Tod",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du eine Aura mit einem Radius von 9 m ausstrahlen, die für eine Anzahl an Runden pro Tag, die deiner Klerikerstufe entspricht, gegen den Tod schützt. Lebende Kreaturen innerhalb des Bereichs sind immun gegen Todeseffekte, Energieentzug und Effekte, die negative Stufen verursachen. Negative Stufen, welche die Kreatur schon vorher hatte, werden zwar nicht durch die Schutzaura entfernt, dafür aber zumindest außer Kraft gesetzt, solange die Kreatur sich innerhalb des Wirkungsbereichs aufhält. Diese Runden müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Totenwache, 2 – Sanfte Ruhe, 3 – Mit Toten sprechen, 4 – Todesschutz, 5 – Schneller Tod, 6 – Tod den Untoten, 7 – Zerstörung, 8 – Wellen der Entkräftung, 9 – Wehgeschrei der Todesfee."
+  },
+  {
+    "name": "Domäne der Runen",
+    "granted": "In fremdartigen und mystischen Runden findest die mächtige Magie. Du erhältst Schriftrollen anfertigen als Bonustalent.",
+    "powers": [
+      {
+        "name": "Rune der Entladung",
+        "tag": "ZF",
+        "text": "Du kannst mit einer Standard-Aktion eine Rune der Entladung in einem angrenzenden Bereich erschaffen. Jede Kreatur, die diesen Bereich betritt, erleidet 1W6 Schadenspunkte +1 pro 2 Klerikerstufen. Die Rune verursacht entweder Säure-, Kälte-, Feuer- oder elektrischen Schaden, je nachdem was du bei Erschaffung der Rune festgelegt hast. Die Rune selbst ist unsichtbar und währt eine Anzahl an Runden, die deiner Klerikerstufe entspricht, oder bis sie sich entladen hat. Du kannst eine Rune nicht in einem Bereich erschaffen, in dem eine Kreatur steht. Diese Rune zählt als ein Zauber der 1. Stufe, wenn es um das bannen von Zaubern geht. Sie kann mit einem Fertigkeitswurf auf Wahrnehmung (SG 26) entdeckt werden, und zum Entschärfen benötigt man einen Fertigkeitswurf auf Mechanismus ausschalten (SG 26). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Zauberrune",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du einen weiteren Zauber, den du wirkst, an eine deiner Runen der Entladung koppeln, was zur Folge hat, dass dieser Zauber die Kreatur betrifft, die die Rune ausgelöst hat, zusätzlich zum Schaden. Dieser Zauber muss mindestens einen Grad geringer sein, als der Zauber des höchsten Klerikergrades, den du wirken kannst, und er muss mindestens eine oder mehrere Kreaturen als Ziel haben. Unabhängig von der Anzahl der Ziele, die dieser Zauber normalerweise betrifft, betrifft er nur die Kreatur, die die Rune ausgelöst hat.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Austilgen, 2 – Verborgene Seite, 3 – Glyphe der Abwehr, 4 – Explosive Runen, 5 – Schwächerer Bindender Ruf, 6 – Mächtige Glyphe der Abwehr, 7 – Sofortige Herbeizauberung, 8 – Symbol des Todes, 9 – Kreis der Teleportation."
+  },
+  {
+    "name": "Domäne des Schutzes",
+    "granted": "Dein Glaube ist die stärkste Quelle deines Schutzes, und du kannst diesen Glauben einsetzen, um andere zu verteidigen. Außerdem erhältst du einen Resistenzbonus von +1 auf Rettungswürfe. Dieser Bonus erhöht sich um weitere +1 für alle fünf Klerikerstufen, die du erreicht hast.",
+    "powers": [
+      {
+        "name": "Hauch der Resistenz",
+        "tag": "ZF",
+        "text": "Als Standard-Aktion kannst du einen Verbündeten berühren und ihm 1 Minute lang deinen Resistenzbonus verleihen. Wenn du dies tust, verlierst du selbst für 1 Minute deinen Resistenzbonus, der dir von der Domäne des Schutzes verliehen wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Aura des Schutzes",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura des Schutzes mit einem Radius von 9 m ausstrahlen. Du und alle deine Verbündeten innerhalb der Aura erhalten einen Ablenkungsbonus von +1 auf die RK und eine Resistenz von 5 gegen alle Elemente (Elektrizität, Feuer, Kälte, Säure und Schall). Der Ablenkungsbonus steigt alle vier Klerikerstufen über der achten um +1. Ab der 14. Stufe steigt die Resistenz gegen alle Elemente auf 10. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Heiligtum, 2 – Anderen schützen, 3 – Schutz vor Energien, 4 – Immunität gegen Zauber, 5 – Zauberresistenz, 6 – Antimagisches Feld, 7 – Abstoßung, 8 – Gedankenleere, 9 – Regenbogensphäre."
+  },
+  {
+    "name": "Domäne der Sonne",
+    "granted": "Du erblickst die Wahrheit in dem reinen und brennenden Licht der Sonne und kannst auf ihren Segen oder ihren Zorn zählen, um große Werke zu vollbringen.",
+    "powers": [
+      {
+        "name": "Segnung der Sonne",
+        "tag": "ZF",
+        "text": "Wenn du positive Energien fokussierst, um untote Kreaturen zu verletzen, addierst du deine Klerikerstufe zum verursachten Schaden. Untote addieren ihre Resistenz gegen Fokussieren nicht zu ihren Rettungswürfen, wenn du positive Energie fokussierst.",
+        "level": 1
+      },
+      {
+        "name": "Nimbus des Lichts",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du einen Nimbus des Lichts mit einem Radius von 9 m für eine Anzahl an Runden ausstrahlen, die deiner Klerikerstufe entspricht. Dies wirkt wie der Zauber Tageslicht. Außerdem erleiden Untote in diesem Radius jede Runde, die sie in diesem Radius bleiben, eine Anzahl von Schadenspunkten, die deiner Klerikerstufe entspricht. Zauber und zauberähnliche Fähigkeiten aus der Kategorie Dunkelheit werden automatisch gebannt, wenn sie in diesen Nimbus gebracht werden. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Elementen trotzen, 2 – Metall erhitzen, 3 – Gleißendes Licht, 4 – Feuerschild, 5 – Flammenschlag, 6 – Feuersaat, 7 – Sonnenstrahl, 8 – Sonnenfeuer, 9 – Regenbogensphäre."
+  },
+  {
+    "name": "Domäne der Stärke",
+    "granted": "In Stärke und Muskelkraft liegt die Wahrheit – dein Glaube verleiht dir unglaubliche Kraft und Macht.",
+    "powers": [
+      {
+        "name": "Kraftschub",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit große Kraft verleihen. Das Ziel kann die nächste Runde auf Würfe für den Nahkampfangriff, auf Kampfmanöverproben, die auf Stärke basieren, auf Stärke basierende Fertigkeitswürfe und auf Stärkewürfe einen Verbesserungsbonus addieren, welcher der Hälfte deiner Klerikerstufe entspricht (mindestens +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Macht der Götter",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, deine Klerikerstufe als Verbesserungsbonus auf deinen Stärkewert addieren. Der Bonus gilt sowohl für Stärkewürfe als auch für Würfe auf Fertigkeiten, die auf Stärke basieren. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Person vergrößern, 2 – Bärenstärke, 3 – Magisches Schutzgewand, 4 – Immunität gegen Zauber, 5 – Gerechte Macht, 6 – Steinhaut, 7 – Zugreifende Hand, 8 – Geballte Faust, 9 – Zerdrückende Hand."
+  },
+  {
+    "name": "Domäne der Tiere",
+    "granted": "Du kannst problemlos mit Tieren sprechen oder dich mit ihnen anfreunden. Außerdem behandelst du die Fertigkeit Wissen (Natur) als Klassenfertigkeit.",
+    "powers": [
+      {
+        "name": "Mit-Tieren-sprechen",
+        "tag": "ZF",
+        "text": "Du kannst mit Tieren sprechen, wie durch den gleichnamigen Zauber. Dies kannst du je Tag für eine Anzahl von Runden machen, die 3 + deine Klerikerstufe entspricht.",
+        "level": 1
+      },
+      {
+        "name": "Tiergefährte",
+        "tag": "AF",
+        "text": "Auf der 4. Stufe tritt ein Tiergefährte in deine Dienste. Die angewandte Druidenstufe für diese Fähigkeit entspricht deiner Klerikerstufe -3. (Druiden, die diese Fähigkeit über ihren Bund der Natur erhalten, rechnen mit ihrer Druidenstufe -3, um die Eigenschaften ihres Tiergefährten zu bestimmen).",
+        "level": 4
+      }
+    ],
+    "domain_spells": "1 – Tiere beruhigen, 2 – Tier festhalten, 3 – Tier beherrschen, 4 – Verbündeten der Natur herbeizaubern IV (nur Tiere), 5 – Bestiengestalt III, 6 – Schutzhülle gegen Lebendes, 7 – Tierform, 8 – Verbündeten der Natur herbeizaubern VIII (nur Tiere), 9 – Gestaltwandel."
+  },
+  {
+    "name": "Domäne des Todes",
+    "granted": "Du kannst mit deiner Berührung blutende Wunden verursachen und fühlst dich in der Gegenwart von Toten heimisch.",
+    "powers": [
+      {
+        "name": "Blutige Hand",
+        "tag": "ZF",
+        "text": "Du kannst bei einer lebenden Kreatur mit Hilfe eines Berührungsangriffs im Nahkampf 1W6 Schadenspunkte pro Runde verursachen. Die Wirkung hält für eine Anzahl von Runden an, die der Hälfte deiner Klerikerstufe entspricht (Minimum 1 Runde), oder bis sie mit einem Wurf auf Heilkunde (SG 15) oder einem Zauber oder Effekt, der Schaden heilt, gestoppt wird. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Umarmung des Todes",
+        "tag": "AF",
+        "text": "Ab der 8. Stufe heilst du Schaden, anstelle Schaden zu nehmen, wenn negative Energie fokussiert wird. Wenn das Fokussieren der negativen Energie Untote zum Ziel hat, erlangst du genauso Trefferpunkte zurück, wie auch Untote in diesem Bereich.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Furcht auslösen, 2 – Totenglocke, 3 – Tote beleben, 4 – Todesschutz, 5 – Schneller Tod, 6 – Untote erschaffen, 7 – Zerstörung, 8 – Mächtigere Untote erschaffen, 9 – Wehgeschrei der Todesfee."
+  },
+  {
+    "name": "Domäne der Tricks",
+    "granted": "Du bist ein Meister der Illusionen und der Täuschung. Bluffen, Heimlichkeit und Verkleiden gelten für dich als Klassenfertigkeiten.",
+    "powers": [
+      {
+        "name": "Nachahmungstäter",
+        "tag": "ZF",
+        "text": "Du kannst mit einer Bewegungsaktion einen illusionären Doppelgänger deiner selbst erschaffen. Dieser funktioniert wie Spiegelbilder mit nur einem Abbild und währt eine Anzahl an Runden, die deiner Klerikerstufe entspricht (oder bis er gebannt oder zerstört wurde). Du kannst nicht mehr als einen Nachahmungstäter zu einem Zeitpunkt haben. Die Fähigkeit ist nicht kumulativ mit Spiegelbilder. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Meisterhafte Illusion",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du eine Illusion erschaffen, die dich und eine beliebige Anzahl an Verbündeten innerhalb eines Radius von 9 m für eine Anzahl an Runden verbirgt, die deiner Klerikerstufe entspricht. Die Fähigkeit funktioniert ansonsten wie der Zauber Schleier. Diese Runden müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Selbstverkleidung, 2 – Unsichtbarkeit, 3 – Unauffindbarkeit, 4 – Verwirrung, 5 – Falsche Erkenntnis, 6 – Ablenkung, 7 – Abschirmung, 8 – Massenunsichtbarkeit, 9 – Zeitstopp."
+  },
+  {
+    "name": "Domäne der Verzauberung",
+    "granted": "Dein Lächeln oder deine Berührung kann deine Gegner täuschen und verwirren. Deine Anmut und Schönheit sind nahezu göttlich.",
+    "powers": [
+      {
+        "name": "Hauch der Benommenheit",
+        "tag": "ZF",
+        "text": "Du kannst eine lebende Kreatur mit einem Berührungsangriff im Nahkampf für eine Runde benommen machen. Diese Fähigkeit hat keinen Einfluss auf Kreaturen, die eine höhere Stufe oder mehr TW haben als du selbst. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Bezauberndes Lächeln",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du Person bezaubern mit einer Schnelle Aktion wirken, mit einem SG für den Rettungswurf von 10 + ½ deiner Klerikerstufe + deinem WE-Modifikator. Dabei kannst du allerdings nur eine Kreatur auf einmal bezaubern. Die Wirkung hält an einem Tag 1 Runde pro Zauberstufe an. Diese Runden müssen nicht direkt aufeinander folgen, und du kannst die Bezauberung jederzeit als Freie Aktion fallen lassen. Das Anwenden der Fähigkeit verbraucht 1 Runde der Gesamtdauer, egal ob der betroffenen Kreatur ihr Rettungswurf gelingt oder nicht.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Person bezaubern, 2 – Gefühle besänftigen, 3 – Einflüsterung, 4 – Heldenmut, 5 – Monster bezaubern, 6 – Geas/Auftrag, 7 – Wahnsinn, 8 – Aufforderung, 9 – Monster beherrschen."
+  },
+  {
+    "name": "Domäne des Wahnsinns",
+    "granted": "Du gehst in dem Wahnsinn auf, der tief in deinem Herzen lauert, und kannst ihn nach außen projizieren, um deine Feinde um den Verstand zu bringen oder um bestimmte Fähigkeiten aufzugeben und so andere zu verbessern.",
+    "powers": [
+      {
+        "name": "Wahnbild",
+        "tag": "ZF",
+        "text": "Du kannst einer Kreatur mit Hilfe eines Berührungsangriffs im Nahkampf ein Wahnbild vermitteln. Such dir einen der folgenden Würfe aus: Angriffs-, Rettungs- oder Fertigkeitswürfe. Das Ziel erhält auf den ausgewählten Wurf einen Bonus, der deiner halben Klerikerstufe (Minimum +1) entspricht. Auf die anderen beiden Würfe erhält das Ziel einen Malus, der ebenfalls deiner halben Klerikerstufe (Minimum -1) entspricht. Die Wirkung verfliegt nach 3 Runden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Aura des Wahnsinns",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, als Standard-Aktion eine Aura des Wahnsinns mit einem Radius von 9 m ausstrahlen. Feinde, die sich innerhalb der Aura aufhalten, werden von Verwirrung betroffen, wenn sie nicht einen erfolgreichen Willenswurf (SG 10 + deine halbe Klerikerstufe + dein WE-Modifikator) ablegen. Die Wirkung von Verwirrung endet sofort, wenn die Kreatur den Wirkungsbereich verlässt oder die Wirkung der Aura verfliegt. Kreaturen, denen ihr Rettungswurf gelingt, sind für 24 Stunden gegen diese Aura immun. Diese Runden müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Schwächere-Verwirrung, 2 – Hauch des Stumpfsinns, 3 – Wut, 4 – Verwirrung, 5 – Albtraum, 6 – Tödliches Phantom, 7 – Wahnsinn, 8 – Schillerndes Muster, 9 – Unheimliches Schicksal."
+  },
+  {
+    "name": "Domäne des Wassers",
+    "granted": "Du kannst Wasser, Nebel und Eis manipulieren, Wasserwesen beschwören und bist widerstandsfähig gegen Kälte.",
+    "powers": [
+      {
+        "name": "Eiszapfen",
+        "tag": "ZF",
+        "text": "Du kannst mit einer Standard-Aktion einen Eiszapfen aus deinen Fingern abfeuern, der einen beliebigen Gegner innerhalb von 9 m mit einem Berührungsangriff auf Entfernung zum Ziel hat. Der Eiszapfen verursacht 1W6 Punkte Kälteschaden +1 pro zwei Klerikerstufen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Kälteresistenz",
+        "tag": "AF",
+        "text": "Auf der 6. Stufe erhältst du Kälteresistenz 10, auf der 12. Stufe Kälteresistenz 20 und auf der 20. Stufe wirst du immun gegen Kälte.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Verhüllender Nebel, 2 – Nebelwolke, 3 – Wasser atmen, 4 – Wasser kontrollieren, 5 – Eissturm, 6 – Kältekegel, 7 – Elementargestalt IV (nur Wasser), 8 – Verdorren, 9 – Elementarhorde (nur Wasser)."
+  },
+  {
+    "name": "Domäne des Wetters",
+    "granted": "Mit Hilfe der Macht über Himmel und Sturm kannst du den Zorn der Götter auf die Welt herab rufen.",
+    "powers": [
+      {
+        "name": "Sturmböe",
+        "tag": "ZF",
+        "text": "Du kannst als Standard-Aktion eine Sturmböe erzeugen, die mit einem Berührungsangriff auf Entfernung einen beliebigen Feind treffen kann, der sich nicht weiter als 9 m entfernt befindet. Die Sturmböe verursacht 1W6 Punkte nichttödlichen Schaden +1 pro 2 Klerikerstufen. Außerdem wird das Ziel von Wind und Regen so behindert, dass es 1 Runde lang einen Malus von -2 auf seine Angriffswürfe erhält. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Herr der Blitze",
+        "tag": "ZF",
+        "text": "Ab der 8. Stufe kannst du pro Tag eine Anzahl an Blitzen herab beschwören, die deiner Klerikerstufe entspricht. Du kannst dabei mit einer Standard-Aktion so viele Blitze beschwören, wie du möchtest, darfst aber nie mit mehr als einem Blitz auf eine Kreatur zielen und keine zwei Ziele dürfen weiter als 9 m weit voneinander entfernt sein. Die Fähigkeit funktioniert ansonsten wie der Zauber Blitze herbeirufen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Verhüllender Nebel, 2 – Nebelwolke, 3 – Blitze herbeirufen, 4 – Schneesturm, 5 – Eissturm, 6 – Windkontrolle, 7 – Wetterkontrolle, 8 – Wirbelwind, 9 – Sturm der Vergeltung."
+  },
+  {
+    "name": "Domäne des Wissens",
+    "granted": "Du bist ein Gelehrter und ein Kundiger der Legenden. Außerdem behandelst du alle Wissensfertigkeiten als Klassenfertigkeiten.",
+    "powers": [
+      {
+        "name": "Hüter des Wissens",
+        "tag": "ZF",
+        "text": "Du kannst eine Kreatur berühren, um ihre Fähigkeiten und Schwächen kennen zu lernen. Mit einem erfolgreichen Berührungsangriff erhältst du Informationen, als hättest du den entsprechenden Wissenswurf mit einem Resultat von 15 + deiner Klerikerstufe + deinem WE-Modifikator abgelegt.",
+        "level": 1
+      },
+      {
+        "name": "Fernwahrnehmung",
+        "tag": "ZF",
+        "text": "Beginnend mit der 6. Stufe kannst du Hellhören/Hellsehen beliebig als zauberähnliche Fähigkeit einsetzen, wobei du deine Klerikerstufe als Zauberstufe verwendest. Diese Fähigkeit kannst du pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Die Runden müssen nicht direkt aufeinander folgen.",
+        "level": 6
+      }
+    ],
+    "domain_spells": "1 – Sprachen verstehen, 2 – Gedanken wahrnehmen, 3 – Mit Toten sprechen, 4 – Weissagung, 5 – Wahrer Blick, 6 – Weg finden, 7 – Sagenkunde, 8 – Aufspüren, 9 – Sechster Sinn."
+  },
+  {
+    "name": "Domäne der Zerstörung",
+    "granted": "Du schwelgst in Zerfall und Verwüstung und kannst besonders zerstörerische Angriffe ausführen.",
+    "powers": [
+      {
+        "name": "Zerstörerischer Schlag",
+        "tag": "ÜF",
+        "text": "Du erhältst die Kraft des Zerstörerischen Schlags: die übernatürliche Fähigkeit, einen einzelnen Nahkampfangriff mit einem Moralbonus in Höhe deiner halben Klerikerstufe (Minimum +1) auf den Schadenswurf auszuführen. Du musst den zerstörerischen Schlag ansagen, bevor du den Angriff durchführst. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+        "level": 1
+      },
+      {
+        "name": "Aura der Zerstörung",
+        "tag": "ÜF",
+        "text": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der Zerstörung mit einem Radius von 9 m ausstrahlen. Allen Angriffen, die innerhalb dieses Radius gegen ein Ziel (also auch dich) durchgeführt werden, wird ein Moralbonus auf den Schaden verliehen, welcher der Hälfte deiner Klerikerstufe entspricht. Außerdem werden alle Bedrohungen automatisch bestätigt. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+        "level": 8
+      }
+    ],
+    "domain_spells": "1 – Zielsicherer Schlag, 2 – Zerbersten, 3 – Wut, 4 – Kritische Wunden verursachen, 5 – Brüllen, 6 – Leid, 7 – Auflösung, 8 – Erdbeben, 9 – Implosion."
+  }
+]

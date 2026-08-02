@@ -103,11 +103,12 @@ class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     how those archetype grants supersede specific root grants.
 
     `option_choice_id` is null for a grant every member of the class gets
-    (e.g. Cleric's Channel Energy) and set for a grant conditional on one
-    specific `BaseClassOptionChoice` (e.g. the Sun domain's Searing Light —
-    only characters who picked "Sonne" in Cleric's `domain` group get it).
-    This is the only place that conditioning lives; `CharacterClassOption`
-    stays a plain record of the pick with no mechanical meaning of its own.
+    (e.g. Cleric's Energie fokussieren) and set for a grant conditional on
+    one specific `BaseClassOptionChoice` (e.g. the "Domäne der Sonne"'s
+    Nimbus des Lichts — only characters who picked that domain in Cleric's
+    `domain` group get it). This is the only place that conditioning lives;
+    `CharacterClassOption` stays a plain record of the pick with no
+    mechanical meaning of its own.
 
     `level` is part of the uniqueness key (not just `base_class_id`/
     `ability_id`/`option_choice_id`) so the same ability can be granted more
@@ -183,7 +184,7 @@ class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """One selectable value within a `BaseClassOptionGroup` (e.g. Cleric's
-    "Kriegsdomäne" within its `domain` group, or — for a repeated-pick group
+    "Domäne des Krieges" within its `domain` group, or — for a repeated-pick group
     like Rogue's `trick` — one individual trick) — identity only, same
     caveat as `BaseClassAbility`: no mechanical effect lives here, this only
     replaces the `choices` string array in `classes.json`. A choice's actual

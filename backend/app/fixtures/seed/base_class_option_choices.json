@@ -40,46 +40,6 @@
     "name": "Dämonische Blutlinie"
   },
   {
-    "id": "b16cd7e4-1714-4301-9b1c-59cdb389da65",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Kriegsdomäne"
-  },
-  {
-    "id": "16438da5-eb97-48af-aca7-50c7542778a9",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Sonne"
-  },
-  {
-    "id": "618b6c88-2a0c-4408-a639-7d6b73a1427a",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Tod"
-  },
-  {
-    "id": "6a1e1944-2c31-4f88-83fe-26bd01cb8b6a",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Leben"
-  },
-  {
-    "id": "392fdb17-eb91-4d46-b38d-17942377df5d",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Wissen"
-  },
-  {
-    "id": "83454b24-baec-4553-b05d-5567eedc9e26",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "List"
-  },
-  {
-    "id": "be60a25f-3922-4913-af91-75211d8e65e4",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Zerstörung"
-  },
-  {
-    "id": "b98c3555-05f4-427e-9a77-2221e5fd34b1",
-    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Erde"
-  },
-  {
     "id": "f8afffd9-1460-40f8-9821-165a95ba1f35",
     "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
     "name": "Hervorrufung"
@@ -1218,5 +1178,170 @@
     "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
     "name": "Volkskundler",
     "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "aa7d0284-2485-5efa-ab77-7860800c7b34",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Adels"
+  },
+  {
+    "id": "4c4220d4-4366-5a28-9091-244f13a0ea4b",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Befreiung"
+  },
+  {
+    "id": "7d22f2de-138d-5ede-bcdf-ffc03ecfc48f",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Bösen"
+  },
+  {
+    "id": "9a53dd8d-3b60-588b-a624-ae31abbaed0b",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Chaos"
+  },
+  {
+    "id": "5eb42a2e-85ba-50d7-b4d4-dd9d18a53e71",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Dunkelheit"
+  },
+  {
+    "id": "96a0548c-aaa7-5941-910b-8520396b4316",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Erde"
+  },
+  {
+    "id": "e991c6c5-3c89-53c0-8899-b7e91c99901c",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Feuers"
+  },
+  {
+    "id": "c279c837-249e-5b53-b818-46c0f918bb43",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Gemeinschaft"
+  },
+  {
+    "id": "4bae140f-b3e9-5477-8d42-264bc5c2870d",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Glücks"
+  },
+  {
+    "id": "dfd5dba8-04e4-5b6f-8479-5f73b345539c",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Guten"
+  },
+  {
+    "id": "df60482b-82e8-5de6-ad17-fcd5cc1839e0",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Handwerks"
+  },
+  {
+    "id": "462ce3ee-781f-5829-92a9-fe584414c789",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Heilung"
+  },
+  {
+    "id": "9676b590-0244-51c7-b792-9a1154a4f0c5",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Herrlichkeit"
+  },
+  {
+    "id": "4df76660-ac78-53f1-a67d-a9a06055321d",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Krieges"
+  },
+  {
+    "id": "adeedd67-430f-5017-a539-dcfdb9b54881",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Luft"
+  },
+  {
+    "id": "c5be91b0-56b1-5cfd-b006-4a0bde101115",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Magie"
+  },
+  {
+    "id": "24516b53-3455-54a1-b000-45fa035e4261",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Ordnung"
+  },
+  {
+    "id": "21fd5b5c-d114-5a8c-8246-23ee65537fef",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Pflanzen"
+  },
+  {
+    "id": "0ad81b82-4ab8-5a86-bb3a-d146952bebc0",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Reisen"
+  },
+  {
+    "id": "1457434f-09ec-5128-b84d-eacb9c7d6a82",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Ruhe"
+  },
+  {
+    "id": "5e53853d-8a98-5196-89d0-7dd50618bc62",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Runen"
+  },
+  {
+    "id": "0012e02f-ef11-5c70-8e28-497b822b6cde",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Schutzes"
+  },
+  {
+    "id": "859c87dd-3881-52d0-9df5-57bd25141b58",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Sonne"
+  },
+  {
+    "id": "d81c8e89-b7bf-57dd-adfa-0fe3d20d3f50",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Stärke"
+  },
+  {
+    "id": "efeb7ca2-cd09-5546-8843-bd528d0cbce7",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Tiere"
+  },
+  {
+    "id": "fb05fbc1-0972-54fb-9f94-cb2772faac7f",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Todes"
+  },
+  {
+    "id": "69a12958-cb5b-52a2-8d15-a11b0ae1d6cb",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Tricks"
+  },
+  {
+    "id": "45a588b1-0199-5110-a76e-3463b1b67423",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Verzauberung"
+  },
+  {
+    "id": "bdbfd542-ef22-59b8-ac2b-3dd74fdee4aa",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Wahnsinns"
+  },
+  {
+    "id": "c4e403bf-b986-566e-ae1b-5f0488c3fafe",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Wassers"
+  },
+  {
+    "id": "490de86f-2024-543c-acd0-a565173c4dbe",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Wetters"
+  },
+  {
+    "id": "91b0f37d-e8d1-5d41-ad7a-68ec81637bd1",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne des Wissens"
+  },
+  {
+    "id": "eb8aa2da-b455-5bed-aee2-24666714edc6",
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "name": "Domäne der Zerstörung"
   }
 ]

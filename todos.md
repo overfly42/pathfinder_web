@@ -659,6 +659,69 @@ Slice-Arbeit.
         großzügigere, aber sichere Überapproximation statt einer nicht
         abbildbaren Mechanik. Test ergänzt (`test_feat_slots.py`), 138 Tests
         grün.
+  - [x] **Kleriker** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Kleriker>,
+        Import-Skript `scripts/import_kleriker.py`): Anders als bei den
+        bisherigen Klassenkorrekturen war `base_classes.json`s Zeile für
+        Kleriker bereits vollständig korrekt (Trefferwürfel W8, GAB 3/4, gute
+        Zähigkeits-/Willensrettungswürfe, Fertigkeitspunkte 2 + IN,
+        Zauberattribut WE, `divine-prepared`) — nur zwei echte Lücken:
+        Klassenfertigkeiten fehlten 4 von 13 (Beruf, Handwerk, Schätzen,
+        Wissen (Arkanes) ergänzt), und die Domänen-Options-Gruppe hatte nur 8
+        LLM-erfundene Kurznamen („Kriegsdomäne", „Leben", „List" — keiner
+        davon eine echte PF1e-Domäne) statt der 33 echten Domänen der Seite —
+        ersetzt durch die vollständige Liste in der exakten Seiten-Schreibweise
+        „Domäne des/der X" (analog zur Hexenmeister-Blutlinien-Korrektur:
+        volle Quellnamen statt Kurzformen). Betraf auch drei bestehende Tests
+        (`test_characters.py`, `test_feat_slots.py`), die die alten
+        Kurznamen („Sonne", „Tod", „Kriegsdomäne") referenzierten — auf die
+        echten Namen umgestellt.
+
+        Größere Lücke: Kleriker hatte trotz vollständig migrierter
+        Klassen-Shell **null** `BaseClassAbility`/`Grant`-Zeilen (kein Energie
+        fokussieren, keine Domänenkräfte, nichts) — jetzt vollständig ergänzt,
+        gleiche Tiefe wie bei jeder anderen Klasse (nur Fähigkeit samt
+        Beschreibungstext, keine Berechnungslogik): die 10 klassenweiten
+        Merkmale (Umgang mit Waffen und Rüstungen, Aura, Zauber, Energie
+        fokussieren, Domänen, Gebet, Spontanes Zaubern, Böse/Chaotische/
+        Gute/Rechtschaffene Zauber, Bonussprachen, Ehemalige Kleriker) plus,
+        pro Domäne, eine ungegatete Übersichtsfähigkeit und die zwei
+        namentlichen Domänenkräfte (Stufe 1 und je nach Domäne Stufe 4/6/8),
+        alle drei `option_choice_id`-gegatet auf die jeweilige Domänenwahl —
+        gleiches Muster wie Hexenmeisters Blutlinien/Mystikers Mysterien. 33
+        Domänen × 3 = 99 neue Katalogzeilen, macht zusammen mit den 10
+        klassenweiten Merkmalen 109 neue `BaseClassAbility`-Zeilen. Energie
+        fokussieren nutzt (wie Schurkes Hinterhältiger Angriff) eine einzige
+        Fähigkeitszeile mit 10 Grants auf jeder ungeraden Stufe 1–19 (Tabelle:
+        Kleriker „Speziell"-Spalte: 1W6 auf Stufe 1, +1W6 alle 2 Stufen bis
+        10W6 auf Stufe 19). Dabei einen echten Tippfehler der Quellseite
+        gefunden (nicht selbst gemacht): „Aura der-Zerstörung" (Domäne der
+        Zerstörung, zweite Domänenkraft) hat einen Bindestrich statt eines
+        Leerzeichens im Seitentext — beim Import auf „Aura der Zerstörung"
+        korrigiert (gleiche Art Fund wie das fehlende „R" bei Hexenmeisters
+        „Zauber zurückwerfen").
+
+        **Bewusst nicht importiert:** keine `BaseClassSpell`/
+        `BaseClassSpellGrant`-Zeilen — weder die allgemeine Klerikerzauberliste
+        (mehrere hundert Zauber über 10 Grade, gegenüber nur ~102 Zaubern im
+        aktuellen Katalog; bereits in der Mystiker-Korrektur als eigenständige,
+        größere Lücke benannt) noch die pro Domäne 9 „Domänenzauber"
+        (im importierten JSON `app/fixtures/imported/kleriker_domains_prd_import.json`
+        pro Domäne als Klartext mitgeführt, für einen späteren Anlauf). Die
+        Gesinnungsdomänen-Einschränkung (Böses/Chaos/Gutes/Ordnung nur bei
+        passender Charaktergesinnung) ist wie jede andere Options-Regel nicht
+        durchgesetzt (`_validate_options` prüft weiterhin nur Namensgültigkeit).
+        6 neue Tests (`test_kleriker.py`, u. a. ein End-to-End-Beleg, dass eine
+        gewählte Domäne ohne `sheet.py`-Änderung ihre Stufe-1-Kraft in
+        `classFeatures` zeigt und die Stufe-8-Kraft/nicht gewählte Domänen
+        nicht), 144 Tests grün. Archetypen („Kriegspriester"/„Heiler des
+        Volkes" in `classes.json`) bleiben wie bei jeder anderen Klasse
+        weiterhin ungeprüfte Platzhalter — separate Archetypen-Quellenseiten,
+        nicht Teil der hier bearbeiteten Basisklassenseite. Die drei
+        `pathfinder-*-mock.html`-Dateien wurden **nicht** synchronisiert
+        (gleiches Vorgehen wie bei Magier/Hexenmeister/Schurke) — deren
+        `optionGroups`/`classSkills`-Objekte für Kleriker führen weiterhin
+        die alten 8 erfundenen Domänennamen und die unvollständige
+        6-Fertigkeiten-Liste.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -671,25 +734,24 @@ Slice-Arbeit.
         | Hexenmeister | 8 (bereits korrigiert, siehe oben) |
         | Schurke | 5 (bereits korrigiert, siehe oben) |
         | Mystiker (vormals Orakel) | 3 (bereits korrigiert, siehe oben) |
-        | Kleriker | 3 |
+        | Kleriker | 3 (bereits korrigiert, siehe oben) |
         | Barde | 1 |
         | Barbar, Druide, Mönch, Paladin | 0 |
 
         Zusätzlich schon teilweise real hinterlegt (unabhängig von der
         Testnutzung): Zauber-Tabellen (`base_class_spells*.json`) für Magier/
         Barde/Mystiker; Options-Gruppen (Domänen/Bindungen) für
-        Druide/Kleriker/Waldläufer.
+        Druide/Waldläufer.
 
         **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer, Magier,
-        Hexenmeister, Schurke und Mystiker sind erledigt (siehe oben) und decken
-        zusammen bereits ~95 % der Testerwähnungen sowie die wichtigsten
-        mechanischen Achsen ab (volles GAB mit Bonustalenten, volles GAB als
-        Teilzeit-Zauberwirker divine-spontan, halbes GAB arkan-vorbereitet,
-        halbes GAB arkan-spontan, 3/4 GAB fertigkeitsbasiert ohne Zauber).
-        Als Nächstes Kleriker (einzige vorbereitete Divine-Klasse mit
-        Domänen), um die Abdeckung abzurunden, ohne eine bereits abgedeckte
-        Mechanik zu duplizieren. Barbar/Druide/Mönch/Paladin haben aktuell
-        keine Testabdeckung und sind — analog zu Zwerg/Gnom/Halbelf bei den
+        Hexenmeister, Schurke, Mystiker und Kleriker sind erledigt (siehe
+        oben) und decken zusammen bereits ~98 % der Testerwähnungen sowie
+        die wichtigsten mechanischen Achsen ab (volles GAB mit Bonustalenten,
+        volles GAB als Teilzeit-Zauberwirker divine-spontan, halbes GAB
+        arkan-vorbereitet, halbes GAB arkan-spontan, 3/4 GAB
+        fertigkeitsbasiert ohne Zauber, 3/4 GAB divine-vorbereitet mit
+        Domänen). Barbar/Barde/Druide/Mönch/Paladin haben aktuell keine oder
+        kaum Testabdeckung und sind — analog zu Zwerg/Gnom/Halbelf bei den
         Rassen — gute Kandidaten, um sie beim nächsten Aufräumdurchgang als
         ungeprüftes Platzhaltermaterial zu entfernen, statt sie einzeln zu
         verifizieren.

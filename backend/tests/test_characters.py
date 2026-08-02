@@ -343,12 +343,18 @@ def test_create_character_with_option_group_choice_persists(client: TestClient, 
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Kleriker", "level": 1, "options": {"domain": ["Sonne", "Tod"]}}],
+            classes=[
+                {
+                    "class_name": "Kleriker",
+                    "level": 1,
+                    "options": {"domain": ["Domäne der Sonne", "Domäne des Todes"]},
+                }
+            ],
         ),
     )
     assert response.status_code == 201
     body = response.json()
-    assert body["classes"][0]["options"] == {"domain": ["Sonne", "Tod"]}
+    assert body["classes"][0]["options"] == {"domain": ["Domäne der Sonne", "Domäne des Todes"]}
 
 
 def test_create_character_with_invalid_option_choice_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -381,7 +387,9 @@ def test_create_character_exceeding_option_group_max_is_rejected(client: TestCli
                 {
                     "class_name": "Kleriker",
                     "level": 1,
-                    "options": {"domain": ["Sonne", "Tod", "Wissen"]},
+                    "options": {
+                        "domain": ["Domäne der Sonne", "Domäne des Todes", "Domäne des Wissens"]
+                    },
                 }
             ],
         ),
