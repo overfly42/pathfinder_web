@@ -251,21 +251,24 @@
     "optionGroups": []
   },
   {
-    "name": "Orakel",
+    "name": "Mystiker",
     "archetypes": [
       "Keiner",
       "Wiedergänger",
       "Lebensbündnis"
     ],
-    "skillPointsBase": 2,
+    "skillPointsBase": 4,
     "spellType": "spontaneous",
     "classSkills": [
+      "beruf",
       "diplomatie",
+      "handwerk",
       "heilkunde",
-      "wissen_religion",
-      "zauberkunde",
       "motiv_erkennen",
-      "linguistik"
+      "wissen_die_ebenen",
+      "wissen_geschichte",
+      "wissen_religion",
+      "zauberkunde"
     ],
     "optionGroups": [
       {
@@ -273,23 +276,38 @@
         "label": "Mysterium",
         "max": 1,
         "choices": [
+          "Firmament",
+          "Flammen",
+          "Gebeine",
           "Leben",
-          "Knochen",
-          "Flamme",
           "Natur",
-          "Zeit",
-          "Wasser"
+          "Schlacht",
+          "Stein",
+          "Wellen",
+          "Wind",
+          "Wissen"
         ]
       },
       {
         "key": "curse",
-        "label": "Verfluchung",
+        "label": "Mystikerfluch",
         "max": 1,
         "choices": [
-          "Blindheit",
-          "Verstummt",
-          "Verflucht mit Schuppen",
-          "Frostgezeichnet"
+          "Getrübte Sicht",
+          "Heimgesucht",
+          "Lahm",
+          "Schwindsüchtig",
+          "Taub",
+          "Zungen"
+        ]
+      },
+      {
+        "key": "heilfokus",
+        "label": "Stoßgebete-Fokus (Wunden heilen/verursachen)",
+        "max": 1,
+        "choices": [
+          "Wunden heilen",
+          "Wunden verursachen"
         ]
       }
     ]

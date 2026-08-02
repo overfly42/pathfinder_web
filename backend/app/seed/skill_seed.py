@@ -7,7 +7,9 @@ DB-shaped, one file per table, explicit `id` on every row, same convention as
 
 Idempotent: each row is upserted by its own `id`, safe to re-run. Requires
 `base_classes` to already be seeded (`class_seed.seed_classes`) since
-`base_class_skills` rows FK into it.
+`base_class_skills` rows FK into it, and `base_class_option_choices`
+(`class_option_seed.seed_class_options`) for any row with a non-null
+`option_choice_id` (Mystiker/Oracle's per-Mysterium bonus class skills).
 
 Run with the project venv active and the database up:
     cd backend && python -m app.seed.skill_seed
@@ -45,11 +47,10 @@ def seed_skills(db: Session) -> None:
     db.flush()
 
     for row in _load("base_class_skills.json"):
-        _upsert(
-            db,
-            BaseClassSkill,
-            {**row, "base_class_id": UUID(row["base_class_id"]), "skill_id": UUID(row["skill_id"])},
-        )
+        fields = {**row, "base_class_id": UUID(row["base_class_id"]), "skill_id": UUID(row["skill_id"])}
+        if fields.get("option_choice_id") is not None:
+            fields["option_choice_id"] = UUID(fields["option_choice_id"])
+        _upsert(db, BaseClassSkill, fields)
 
     db.commit()
 

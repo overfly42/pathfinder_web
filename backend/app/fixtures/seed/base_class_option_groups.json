@@ -89,5 +89,19 @@
     "key": "hunter_bond",
     "label": "Bund des Jägers",
     "max_choices": 1
+  },
+  {
+    "id": "0e71c3d5-3290-5efc-b3e7-1b03965d6294",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "key": "heilfokus",
+    "label": "Stoßgebete-Fokus (Wunden heilen/verursachen)",
+    "max_choices": 1
+  },
+  {
+    "id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "key": "revelation",
+    "label": "Offenbarung",
+    "max_choices": 6
   }
 ]

@@ -138,7 +138,12 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     root_id_by_name = {root.name: root.id for root in roots}
     roots_by_id = {root.id: root for root in roots}
 
-    class_skills = db.scalars(select(BaseClassSkill)).all()
+    # option_choice_id IS NULL only: a class's unconditional base skill list.
+    # Mystery-conditional additions (Mystiker/Oracle - each Mysterium adds its
+    # own extra class skills) live on the same table but are only real once a
+    # character has actually picked that choice, same reasoning as why
+    # optionGroups' choices aren't merged into this field either.
+    class_skills = db.scalars(select(BaseClassSkill).where(BaseClassSkill.option_choice_id.is_(None))).all()
     skill_ids_by_root_id: dict = {}
     for row in class_skills:
         skill_ids_by_root_id.setdefault(row.base_class_id, []).append(str(row.skill_id))

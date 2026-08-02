@@ -552,10 +552,88 @@ Slice-Arbeit.
         weiterhin nur, ob der Name in der Gruppe existiert, nicht `min_level`
         oder `requires_choice_id` (gleiche „Daten vorhanden, aber von keinem
         Endpunkt ausgewertet"-Lücke wie bei allen Pool-Tabellen hier, siehe
-        `roadmap.md` Phasen 5–6). Mystiker/Orakel selbst ist weiterhin nicht
-        als Klasse angelegt (kein `classes.json`-Eintrag, keine Mysterien/
-        Flüche/Offenbarungen als Daten) — nur das Schema, das sie brauchen
-        wird, existiert jetzt vorab.
+        `roadmap.md` Phasen 5–6). Mystiker/Orakel selbst war zu diesem
+        Zeitpunkt noch nicht als Klasse angelegt — siehe direkt folgender
+        Nachtrag, der das nachholt.
+  - [x] **Nachtrag 2026-08-02 (Fortsetzung): Mystiker (Oracle) vollständig
+        importiert, Orakel-Platzhalter ersetzt.** Quelle:
+        <http://prd.5footstep.de/Expertenregeln/Klassen/Basisklassen/Mystiker>,
+        per `scripts/import_mystiker.py` (parst
+        `app/fixtures/imported/mystiker_prd_import.json`, das hand-transkribierte
+        Ergebnis der Seitenlektüre). Die Klasse existierte bereits als
+        Platzhalter unter dem Namen „Orakel" (nicht der PRD-Begriff „Mystiker")
+        mit durchgehend falschen Inhalten: 6 statt 10 Mysterien mit erfundenen
+        Namen (Knochen/Flamme/Wasser/Zeit statt Gebeine/Flammen/Wellen — „Zeit"
+        existiert auf der echten Seite gar nicht), 4 statt 6 Flüche (keiner
+        der Namen stimmte), eine generische 6-Einträge-„Offenbarung"-Liste
+        ohne Mysterium-Bezug, `fort_save: true` (real: falsch — nur guter
+        Willenswurf) und `skill_points_base: 2` (real: 4). Umbenannt und
+        vollständig ersetzt, `base_class_id` unverändert (`949fe615-…`) —
+        betrifft nur `name` und die beiden falschen Boolean-/Int-Felder, alle
+        7 bereits real verlinkten `base_class_spells`-Zeilen (Segnen etc.,
+        über UUID-FK, nicht Name) sowie die schon korrekt begonnene, aber bei
+        Stufe 6 abgebrochene (und dort selbst unvollständige)
+        `base_class_spells_known`-Tabelle blieben unberührt bzw. wurden bis
+        Stufe 20 vervollständigt. `test_spells.py`/`test_characters.py`
+        (String-Literal „Orakel") sowie `class_level_options.json` (Dict-Key,
+        weiterhin Mock-Daten für den Level-up-Wizard, siehe Hinweis unten)
+        und `build_feats_seed.py`s Klassennamen-/Abkürzungslisten (`ORA` →
+        jetzt „Mystiker") mitgezogen; `spells_by_class.json` (altes,
+        laut eigenem Docstring bereits abgelöstes Mock-Fixture) bewusst
+        nicht angefasst.
+
+        Mysterium/Fluch (je eigene `BaseClassOptionGroup`, max_choices 1) und
+        Mysteriumszauber (analog zu Hexenmeisters Zauber des Blutes über
+        `BaseClassSpellGrant`) passten wie in der Recherche erwartet
+        unverändert ins bestehende Schema. Offenbarungen nutzen jetzt genau
+        die beiden im vorigen Nachtrag ergänzten Felder in der Praxis: 100
+        `BaseClassOptionChoice`-Zeilen (10 Mysterien × 10) in einer
+        gemeinsamen wiederholten `revelation`-Gruppe (`max_choices: 6`, für
+        die Slots auf Stufe 1/3/7/11/15/19), jede über `requires_choice_id`
+        an ihr Mysterium gekoppelt und (für ~25 Offenbarungen) mit einem
+        individuellen `min_level` (7/10/11/15 je nach Text — nicht
+        einheitlich, siehe Recherche). „Kampfheiler" kommt identisch in den
+        Mysterien Leben und Schlacht vor (gleicher Name, gleicher Text) —
+        analog zu Waldläufers „Tiergefährte (Bund des Jägers)" als
+        „Kampfheiler (Leben)"/„Kampfheiler (Schlacht)" disambiguiert, da
+        `(group_id, name)` sonst kollidiert hätte. Zusätzlich neues Feld
+        `BaseClassSkill.option_choice_id` (Migration `e083b27d5316`, gleiche
+        Bauart wie `min_level`/`requires_choice_id`): jedes Mysterium erweitert
+        die Klassenfertigkeitenliste um eigene Fertigkeiten (z. B. Firmament ->
+        Fliegen), ein Bedarf, den noch keine andere Klasse hatte (Domänen/
+        Blutlinien/Günstlingsgelände tun das nicht) — `/api/classes`'
+        `classSkills` (main.py) und die Fertigkeiten-Berechnung in `sheet.py`
+        mussten beide auf `option_choice_id IS NULL` gefiltert werden, sonst
+        wären alle 10 Mysterien-Fertigkeitslisten ungefiltert zusammengemischt
+        worden (bzw. bei `sheet.py` in die tatsächliche +3-Bonus-Berechnung
+        eingeflossen, da diese Datei anders als `main.py` einen echten
+        Charakter berechnet statt nur den Options-Katalog anzuzeigen).
+
+        **Bewusst nicht importiert — echte Grenze, keine Zeitfrage:** kein
+        einziger `BaseClassSpell`/`BaseClassSpellGrant` für die ~90 auf der
+        Seite referenzierten Zauber (9 pro Mysterium plus die Wunden-heilen/
+        verursachen-Familie). Nur ~16 dieser ~90 Namen existieren überhaupt im
+        102-Zauber-Katalog; der Rest bräuchte echte Beschreibungen von den
+        jeweiligen eigenen PRD-Zauberseiten (nicht Teil dieser Seite). Größeres
+        Problem dahinter: Mystiker wirkt von der Kleriker-Zauberliste, aber
+        Kleriker selbst hat trotz vollständig migrierter Klassen-Shell bisher
+        exakt null `BaseClassSpell`-Zeilen — niemand hat die Kleriker-
+        Zauberliste je importiert. Das ist keine Mystiker-spezifische Lücke,
+        sondern eine deutlich größere, vorbestehende. Ebenfalls nicht
+        angefasst: die Level-up-Wizard-Mock-Daten in `class_level_options.json`
+        (nur der Dict-Key wurde umbenannt, der Inhalt ist weiterhin die alte
+        erfundene 6-Einträge-Liste) — das wäre „verbleibendes Mock-Verhalten
+        als Nebeneffekt migrieren", ausdrücklich nicht Ziel dieser Änderung
+        (siehe CLAUDE.md). Und wie immer: keine Durchsetzung der neuen Pools
+        bei Charaktererstellung (`_validate_options` prüft weiterhin nur
+        Namensgültigkeit).
+
+        128 (Vorher) + 9 neue Mystiker-Tests (`test_mystiker.py`) = 137 Tests
+        grün. Eine bestehende lokale Dev-Datenbank (nicht die Testsuite, die
+        pro Lauf ein frisches Schema bekommt) behält alte Orakel-Platzhalter-
+        Zeilen unter alten IDs, bis sie neu geseedet wird — bewusst nicht
+        automatisch bereinigt, da lokale Dev-DB-Instanzen unter CLAUDE.mds
+        Vorsichtsprinzip nicht ungefragt zurückgesetzt werden.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -567,18 +645,18 @@ Slice-Arbeit.
         | Magier | 18 (bereits korrigiert, siehe oben) |
         | Hexenmeister | 8 (bereits korrigiert, siehe oben) |
         | Schurke | 5 (bereits korrigiert, siehe oben) |
-        | Orakel | 3 |
+        | Mystiker (vormals Orakel) | 3 (bereits korrigiert, siehe oben) |
         | Kleriker | 3 |
         | Barde | 1 |
         | Barbar, Druide, Mönch, Paladin | 0 |
 
         Zusätzlich schon teilweise real hinterlegt (unabhängig von der
         Testnutzung): Zauber-Tabellen (`base_class_spells*.json`) für Magier/
-        Barde/Orakel; Options-Gruppen (Domänen/Mysterien/Bindungen) für
-        Druide/Kleriker/Orakel/Waldläufer.
+        Barde/Mystiker; Options-Gruppen (Domänen/Bindungen) für
+        Druide/Kleriker/Waldläufer.
 
         **Vorschlag für die Reihenfolge:** Kämpfer, Waldläufer, Magier,
-        Hexenmeister und Schurke sind erledigt (siehe oben) und decken
+        Hexenmeister, Schurke und Mystiker sind erledigt (siehe oben) und decken
         zusammen bereits ~95 % der Testerwähnungen sowie die wichtigsten
         mechanischen Achsen ab (volles GAB mit Bonustalenten, volles GAB als
         Teilzeit-Zauberwirker divine-spontan, halbes GAB arkan-vorbereitet,

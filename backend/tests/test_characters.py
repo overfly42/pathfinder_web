@@ -44,6 +44,7 @@ def _human_race_id(client: TestClient, db_session: Session) -> str:
 
 def _skill_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_classes(db_session)  # base_class_skills FKs into base_classes
+    seed_class_options(db_session)  # base_class_skills.option_choice_id FKs here
     seed_skills(db_session)
     skills = client.get("/api/skills").json()
     return next(s["id"] for s in skills if s["name"] == name)
@@ -1174,7 +1175,7 @@ def test_create_character_rejects_spell_not_on_class_list(client: TestClient, db
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
-    _, orakel_spells = _spells_by_class(client, db_session, "Orakel")
+    _, mystiker_spells = _spells_by_class(client, db_session, "Mystiker")
 
     response = client.post(
         "/api/characters",
@@ -1183,7 +1184,7 @@ def test_create_character_rejects_spell_not_on_class_list(client: TestClient, db
             race_id,
             db_session,
             classes=[{"class_name": "Magier", "level": 1}],
-            spell_ids={base_class_id: [orakel_spells["Segnen"]]},
+            spell_ids={base_class_id: [mystiker_spells["Segnen"]]},
         ),
     )
     assert response.status_code == 422
@@ -1194,7 +1195,7 @@ def test_create_character_rejects_spell_ids_for_divine_prepared_class(
 ) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    _, orakel_spells = _spells_by_class(client, db_session, "Orakel")
+    _, mystiker_spells = _spells_by_class(client, db_session, "Mystiker")
     # Waldläufer (the default payload class) is divine-prepared -- full list,
     # no known-spell picking at all.
     classes = client.get("/api/classes").json()
@@ -1203,7 +1204,7 @@ def test_create_character_rejects_spell_ids_for_divine_prepared_class(
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, spell_ids={waldlaeufer_id: [orakel_spells["Segnen"]]}
+            user_id, race_id, db_session, spell_ids={waldlaeufer_id: [mystiker_spells["Segnen"]]}
         ),
     )
     assert response.status_code == 422

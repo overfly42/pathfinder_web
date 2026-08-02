@@ -46,7 +46,7 @@ IMPORTED_DIR = Path(__file__).resolve().parent.parent / "app" / "fixtures" / "im
 
 ROOT_CLASS_NAMES = [
     "Barbar", "Barde", "Druide", "Hexenmeister", "Kleriker", "Kämpfer",
-    "Magier", "Mönch", "Orakel", "Paladin", "Schurke", "Waldläufer",
+    "Magier", "Mönch", "Mystiker", "Paladin", "Schurke", "Waldläufer",
 ]
 ARCHETYPE_NAMES = [
     "Berserker", "Invulnerable Rager", "Archivar", "Sänger der Meere",
@@ -85,7 +85,7 @@ RECONCILE_BY_NAME = {
 CLASS_ABBREV = {
     "KÄM": "Kämpfer", "MAG": "Magier", "HXM": "Hexenmeister", "WAL": "Waldläufer",
     "DRU": "Druide", "MÖN": "Mönch", "SRK": "Schurke", "BAR": "Barde",
-    "BRB": "Barbar", "KLE": "Kleriker", "PAL": "Paladin", "ORA": "Orakel",
+    "BRB": "Barbar", "KLE": "Kleriker", "PAL": "Paladin", "ORA": "Mystiker",
 }
 
 FOOTNOTE_RE = re.compile(r"\^\^[A-Za-z]*\^\^")

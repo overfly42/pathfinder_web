@@ -152,9 +152,18 @@ def _build_skills(
 
     class_skill_ids: set[UUID] = set()
     if level_counts_by_root_id:
+        # option_choice_id IS NULL only: unconditional class skills. Mystery-
+        # conditional additions (Mystiker/Oracle) exist in the table but
+        # aren't cross-referenced against this character's actual
+        # CharacterClassOption picks yet - composition is real data, this
+        # computation is still open (same "not yet enforced" state as every
+        # other option-gated pool in this codebase, see todos.md).
         class_skill_ids = set(
             db.scalars(
-                select(BaseClassSkill.skill_id).where(BaseClassSkill.base_class_id.in_(level_counts_by_root_id))
+                select(BaseClassSkill.skill_id).where(
+                    BaseClassSkill.base_class_id.in_(level_counts_by_root_id),
+                    BaseClassSkill.option_choice_id.is_(None),
+                )
             ).all()
         )
 

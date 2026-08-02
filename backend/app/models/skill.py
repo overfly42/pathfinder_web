@@ -28,10 +28,22 @@ class BaseClassSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Which skills are class skills for a class — replaces `classes.json`'s
     `classSkills: string[]` arrays. `base_class_id` is always a root class's
     id, matching what `classes.json` covers today (no archetype adds/swaps a
-    class skill yet)."""
+    class skill yet).
+
+    `option_choice_id` (nullable, FK `base_class_option_choices`) is null for
+    a class skill every member gets, and set for one conditional on a
+    specific `BaseClassOptionChoice` — same meaning as
+    `BaseClassAbilityGrant.option_choice_id`. First needed by Mystiker
+    (Oracle): each Mysterium adds its own extra class skills on top of the
+    class's base list (e.g. the Firmament mystery adds Fliegen), a pattern no
+    earlier class needed (domains/bloodlines/favored terrain don't touch
+    class skills) — see the conversation this was scoped from."""
 
     __tablename__ = "base_class_skills"
-    __table_args__ = (UniqueConstraint("base_class_id", "skill_id"),)
+    __table_args__ = (UniqueConstraint("base_class_id", "skill_id", "option_choice_id"),)
 
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     skill_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_skills.id"))
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )

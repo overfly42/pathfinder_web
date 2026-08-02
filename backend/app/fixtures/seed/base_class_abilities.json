@@ -823,5 +823,620 @@
     "id": "a98d91f5-2dff-506e-8bcc-03b3166ae731",
     "name": "Tiergefährte (Bund des Jägers)",
     "description": "Der Waldläufer erhält einen Tiergefährten aus einer festen Liste (Dachs, Hund, Kamel, Pferd, Pony, kleine Raubkatze, Giftschlange, Würgeschlange, Schreckensratte, Vogel, Wolf, in aquatischen Kampagnen auch Hai), der die Boni des Waldläufers für Erzfeinde und bevorzugtes Gelände teilt und wie die Druiden-Fähigkeit Bund mit der Natur funktioniert, außer dass die effektive Druidenstufe der Waldläuferstufe - 3 entspricht."
+  },
+  {
+    "id": "9a978716-ce0e-56a0-b8f9-808441696fe2",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Mystiker sind im Umgang mit einfachen Waffen, Leichter Rüstung, Mittelschwerer Rüstung und Schilden (außer Turmschilden) geübt. Einige Offenbarungen gewähren zusätzliche Umgangsmöglichkeiten."
+  },
+  {
+    "id": "439ae920-6b19-55c7-b138-048236055c44",
+    "name": "Zauber",
+    "description": "Ein Mystiker wirkt göttliche Zauber von der Liste der Klerikerzauber. Er kann diese Zauber wirken, ohne sie vorher vorbereiten zu müssen. Um einen Zauber des entsprechenden Grades lernen oder wirken zu können, muss der Mystiker über ein Charisma von mindestens 10 + Grad des Zaubers verfügen. Der Schwierigkeitsgrad für einen Rettungswurf gegen den Zauber eines Mystikers ist 10 + Grad des Zaubers + CH-Modifikator des Mystikers. Anders als bei anderen göttlichen Zauberkundigen ist die Zauberauswahl eines Mystikers stark eingeschränkt (siehe Tabelle: Dem Mystiker bekannte Zauber) - anders als die täglichen Zauber wird diese Anzahl nicht durch den Charismawert des Mystikers beeinflusst. Mystiker benötigen keinen göttlichen Fokus für Zauber, die einen solchen als Komponente voraussetzen."
+  },
+  {
+    "id": "8f6c5a8c-9339-5d15-aad1-e4258076c78f",
+    "name": "Mysterium",
+    "description": "Jeder Mystiker erhält seine Zauber und Fähigkeiten von einem göttlichen Mysterium. Dieses Mysterium gewährt zudem zusätzliche Klassenfertigkeiten und andere Besondere Fähigkeiten. Der Mystiker muss ein Mysterium auf der 1. Stufe auswählen, diese Entscheidung kann anschließend nicht mehr verändert werden."
+  },
+  {
+    "id": "befcda9d-9163-5094-825d-a98f3b400b68",
+    "name": "Mysteriumszauber",
+    "description": "Auf der 2. Stufe und alle zwei weiteren Stufen danach erlernt der Mystiker einen neuen Zauber abhängig von seinem gewählten Mysterium, zusätzlich zu den auf Tabelle: Dem Mystiker bekannte Zauber angegebenen Zaubern. Diese Zauber können auf späteren Stufen nicht für andere Zauber eingetauscht werden."
+  },
+  {
+    "id": "d66e2c95-9bf5-5713-8aa7-84ffd7b567ff",
+    "name": "Mystikerfluch",
+    "description": "Jeder Mystiker ist mit einem Fluch belegt. Dieser kommt jedoch sowohl mit einem Vorteil, als auch einem Nachteil daher. Auf der 1. Stufe wählt der Mystiker einen Fluch aus, dessen Wahl nicht mehr verändert werden kann. Nur durch die Hilfe einer Gottheit, oder eines ähnlich mächtigen Wesens, kann der Fluch vom Mystiker genommen werden."
+  },
+  {
+    "id": "f382063b-63ee-5d80-9052-ac5cc413263f",
+    "name": "Getrübte Sicht",
+    "description": "Deine Augen sind milchig und es fällt dir schwer zu sehen. Du kannst nichts sehen, was sich weiter als 9 m entfernt befindet, aber du kannst dafür sehen, als hättest du Dunkelsicht. Auf der 5. Stufe erhöht sich die Sichtweite auf 18 m. Auf der 10. Stufe erhältst du Blindgespür mit einer Reichweite von 9 m. Auf der 15. Stufe erhältst du Blindsicht mit einer Reichweite von 4,50 m."
+  },
+  {
+    "id": "4c7117d1-4143-55fb-b4b1-1136aa6e5cab",
+    "name": "Heimgesucht",
+    "description": "Böswillige Geister folgen dir, wo immer du dich hin begibst, und verursachen kleinere Unfälle und seltsame Vorfälle (beispielsweise unerwartete Windstöße, kleine Gegenstände, die sich von selbst bewegen, oder leise Geräusche). Du benötigst eine Standard-Aktion, um einen Gegenstand hervor zu holen, sofern es nicht schon normalerweise länger dauern würde (ausgenommen sind hiervon Komponenten zum Zaubern, diese können wie gewöhnlich genutzt werden). Jeder Gegenstand, den du fallen lässt, landet 3 m von dir entfernt in einer zufälligen Richtung. Füge die Zauber Magierhand und Geisterhaftes Geräusch zur Liste der dir bekannten Zauber hinzu. Auf der 10. Stufe kannst du zusätzlich noch Telekinese hinzufügen und auf der 15. Stufe Schwerkraft umkehren."
+  },
+  {
+    "id": "7a569128-f7d4-5b2f-8a05-9b20d1a1f77a",
+    "name": "Lahm",
+    "description": "Eines deiner Beine weist eine dauerhafte Verletzung auf, welche deine Bewegungsrate um 3 m senkt (bei Mystikern der Größenkategorie Klein sinkt sie um 1,50 m). Deine Bewegungsrate wird jedoch niemals aufgrund von Belastung reduziert. Ab der 5. Stufe bist du immun gegen den Zustand Erschöpfung, aber nicht gegen Entkräftung. Ab der 10. Stufe wird deine Bewegungsrate nicht mehr durch Rüstungen reduziert. Ab der 15. Stufe bist du immun gegen Entkräftung."
+  },
+  {
+    "id": "f7ac468c-fcf8-581c-a232-d60da3bd7de9",
+    "name": "Schwindsüchtig",
+    "description": "Dein Körper verrottet langsam. Du erhältst einen Malus von -4 auf alle Fertigkeitswürfe, die auf Charisma basieren, außer Einschüchtern. Du erhältst einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheiten. Ab der 5. Stufe bist du immun gegen den Zustand Kränkelnd, aber nicht gegen Übelkeit. Ab der 10. Stufe bist du immun gegen Krankheiten. Ab der 15. Stufe bist du immun gegen Übelkeit."
+  },
+  {
+    "id": "7bb008aa-7bfd-50e2-ad21-2642ff5eddd6",
+    "name": "Taub",
+    "description": "Du kannst nicht hören und erleidest alle üblichen Nachteile dafür. Du kannst alle deine Zauber so wirken, als wären sie mit dem Talent Lautlos zaubern modifiziert, ohne dass dies ihren Grad oder ihren Zeitaufwand erhöht. Auf der 5. Stufe erhältst du einen Kompetenzbonus von +3 auf alle Fertigkeitswürfe für Wahrnehmung, die nicht auf Gehör basieren, und der Malus aufgrund deiner Taubheit auf deine Initiative wird auf -2 gesenkt. Auf der 10. Stufe erhältst du die Fähigkeit Geruchssinn und erleidest keine Abzüge mehr auf deine Initiative durch deine Taubheit. Auf der 15. Stufe erhältst du die Fähigkeit Erschütterungssinn mit einer Reichweite von 9 m."
+  },
+  {
+    "id": "4e467073-c9d7-5634-8ce7-87a4ce4fdcb3",
+    "name": "Zungen",
+    "description": "Wenn du angespannt bist, oder dich unwohl fühlst, sprichst du in einer anderen Sprache. Wähle eine dieser Sprachen aus: Abyssisch, Aklo,Aquatisch, Aural, Celestisch, Ignal, Infernalisch oder Terral. Wenn du in einen Kampf verwickelt bist, kannst du nur diese ausgewählte Sprache sprechen und verstehen. Das beeinflusst zwar nicht deine Fähigkeit zu zaubern, doch es beeinträchtigt unter Umständen Zauber, die auf gewissen Sprachen basieren. Du erhältst die ausgewählte Sprache als Bonussprache. Auf der 5. Stufe wählst du eine zusätzliche Sprache, die du im Kampf sprechen kannst, und fügst sie zu deinen bekannten Sprachen hinzu. Ab der 10. Stufe kannst du selbst im Kampf alle Sprachen verstehen als stündest du unter dem Zauber Zungen. Ab der 15. Stufe kannst du jede Sprache sprechen und verstehen, nur ist deine Aussprache im Kampf immer noch eingeschränkt."
+  },
+  {
+    "id": "bb74bc76-1460-52d9-9475-42a268b18fc0",
+    "name": "Stoßgebete",
+    "description": "Der Mystiker erlernt eine Anzahl von Stoßgebeten (Zauber des Grades 0.), wie auf Tabelle: Dem Mystiker bekannte Zauber unter Bekannte Zauber angegeben. Diese Zauber werden normal gewirkt, nur dass sie nicht verbraucht werden und erneut eingesetzt werden können."
+  },
+  {
+    "id": "b910ec15-d98d-5970-be02-dddd7cd8f252",
+    "name": "Offenbarung",
+    "description": "Auf der 1., der 3. und danach alle vier weiteren Stufen (7. Stufe, 11. Stufe, usw.) enthüllt sich dem Mystiker ein neues Geheimnis seines Mysteriums, welches ihm neue Fähigkeiten verleiht. Der Mystiker muss eine Offenbarung von der Liste der verfügbaren Offenbarungen seines Mysteriums auswählen. Sollte eine Offenbarung erst auf einer späteren Stufe ausgewählt werden, erhält der Mystiker alle Fähigkeiten und Boni entsprechend seiner aktuellen Stufe. Wenn nichts anderes angegeben wird, ist das Einsetzen der Fähigkeit einer Offenbarung eine Standard-Aktion."
+  },
+  {
+    "id": "9dc3a77c-d49f-572f-88b7-60aecb75f753",
+    "name": "Beeindruckende Darbietung",
+    "description": "Du formst eine phantastische Darstellung der Mysterien des Nachthimmels, welche alle Betrachter in ihren Bann zieht. Bei jedem Wesen, dass von deinen Illusionszaubern (nur bildliche Darstellungen) betroffen ist, werden die Trefferwürfel, zur Bestimmung des Zaubereffektes, um deinen CH-Modifikator (falls positiv) gesenkt."
+  },
+  {
+    "id": "8a5c3fc7-a607-5848-acff-8c1d6e71860f",
+    "name": "Bewohner der Dunkelheit",
+    "description": "Einmal am Tag kannst du deine Gedanken in die Leere zwischen den Welten aussenden, um die Aufmerksamkeit eines furchtbaren außerweltlichen Wesens zu wecken. Der Bewohner der Dunkelheit verhält sich, als hättest du den Zauber Tödliches Phantom gewirkt. Ab der 17. Stufe kann der Bewohner der Dunkelheit von mehr als einem Wesen wahrgenommen werden, so als hättest du Unheimliches Schicksal gewirkt. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "a5ecbaaf-fe82-5b14-b868-0be6630d768f",
+    "name": "Interstellare Leere",
+    "description": "Du kannst die eisigen Tiefen des äußeren Raumes herbeirufen, um deine Feinde mit furchtbarer Kälte zu erfüllen. Als Standard- Aktion wird ein Ziel innerhalb von 9 m in die Leere gehüllt und nimmt 1W6 Punkte Kälteschaden pro Stufe des Mystikers. Ein erfolgreicher Zähigkeitswurf halbiert den Schaden. Ab der 10. Stufe ist die Leere so extrem, dass Gegner, denen der Rettungswurf misslingt, ermüdet sind. Ab der 15. Stufe sind Wesen, denen ihr Rettungswurf misslingt, für eine Runde erschöpft und betäubt. Du kannst diese Fähigkeit einmal pro Tag einsetzen und ab der 10. Stufe ein weiteres Mal."
+  },
+  {
+    "id": "d199549e-9110-5ef7-8357-1a930f07e2bf",
+    "name": "Lockruf des Firmaments",
+    "description": "Deine Verbindung zum Firmament ist so stark, dass deine Füße kaum noch den Boden berühren. Ab der 1. Stufe hinterlässt du keine Spuren mehr. Ab der 5. Stufe kannst du bis zu 15 cm über dem Boden und sogar der Oberfläche von Flüssigkeiten schweben. Auf der 10. Stufe erhältst du für eine Anzahl von Minuten in Höhe deiner Stufe als Mystiker die Fähigkeit Fliegen (wie der gleichnamige Zauber). Diese Minuten müssen nicht aufeinander folgen, werden jedoch in Einheiten von jeweils einer Minute berechnet."
+  },
+  {
+    "id": "a5e1fa0a-c458-5327-9556-14783e95cd55",
+    "name": "Macht der Sterne",
+    "description": "Wenn du nachts zum offenen Himmel hinaufschaust, bist du imstande, genau deinen Standort zu bestimmen. Solange der Nachthimmel für dich sichtbar ist, kannst du deinen CH-Modifikator zu deinem WE-Modifikator bei allen auf Weisheit basierenden Würfen hinzuaddieren. Zusätzlich kannst du einmal pro Nacht im Freien einen Zauber wirken, als wäre er durch eines der Talente Zauber ausdehnen, Zauberreichweite erhöhen, Lautlos zaubern oder Gestenlos zaubern verändert worden, ohne den Grad des Zaubers oder den Zeitaufwand erhöhen zu müssen."
+  },
+  {
+    "id": "c6a6a6aa-2958-5233-83cf-99784327b40f",
+    "name": "Mondscheinbrücke",
+    "description": "Du zauberst eine Brücke aus schimmerndem Mondlicht herbei. Diese ist 3 m breit, beginnt neben deiner Position und reicht 3 m pro eine deiner Stufen als Mystiker in jede beliebige Richtung. Der Pfad besteht so lange, bis du ihn überquert hast oder 24 Stunden verstrichen sind, je nachdem was zuerst geschieht. Du kannst täglich eine Mondscheinbrücke mit einer Häufigkeit in Höhe deines CH-Modifikators herbeizaubern. Sollte die Brücke angegriffen werden, so behandle sie wie eine Energiewand."
+  },
+  {
+    "id": "ca163c55-3c00-59be-ab2a-f503859e89af",
+    "name": "Mondscheinmantel",
+    "description": "Dein natürliches Verständnis für den Mond macht dich immun gegenüber Lykanthropie. Zudem kannst du mit einem erfolgreichen Berührungsangriff die Verbindung eines Lykanthropen zum Mond unterbrechen, wodurch du den Lykanthropen für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker in seine humanoide Gestalt zurück zwingst. Ab der 5. Stufe kannst du mit dieser Fähigkeit andere zwingen, in Wut zu verfallen, wie durch den gleichnamigen Zauber (ohne Rettungswurf). Diese Fähigkeit wird durch einen Berührungsangriff im Nahkampf eingesetzt. Du kannst sie ab der 5. Stufe einmal am Tag und für alle weiteren fünf Stufen jeweils ein weiteres Mal pro Tag einsetzen. Bei jedem Einsatz dieser Fähigkeit kannst du nur eine Kreatur in Wut verfallen lassen."
+  },
+  {
+    "id": "671f0509-ec34-5ffb-8550-b1c54aa08c14",
+    "name": "Sternenkarte",
+    "description": "Deine umfangreichen Notizen enthalten eine detailgetreue Abbildung des Nachthimmels aus kunstvollem Gekritzel und arkanen mathematischen Formeln. Einmal pro Tag kannst du 10 Minuten lang über deiner Karte meditieren, um in den Genuss des Zaubers Heiliges Gespräch zu gelangen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können"
+  },
+  {
+    "id": "3361a381-2b91-5f0b-9574-ab0dd8ac2496",
+    "name": "Sternenmantel",
+    "description": "Du rufst einen Mantel aus dem Leuchten der Sterne herbei, welcher dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier weiteren Stufen steigt dieser Bonus um +2. Ab der 13. Stufe verleiht die Rüstung dir SR 5/Hieb. Du kannst den Mantel jeden Tag für 1 Stunde pro Stufe als Mystiker tragen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde berechnet."
+  },
+  {
+    "id": "20324cb4-fc15-5a90-802d-eeb5ff9d6500",
+    "name": "Sternschnuppen",
+    "description": "Als Standard-Aktion kannst du eine Energiekugel bis zu 18 m weit verschießen, welche in einem Radius von 1,50 m explodiert und 1W4 Punkte Feuerschaden pro Stufe des Mystikers verursacht. Ein erfolgreicher Reflexwurf halbiert den Schaden. Du kannst pro Tag eine Energiekugel abschießen sowie eine weitere ab der 5. Stufe und für alle fünf Stufen des Mystikers. Du kannst auch mehrere Kugeln gleichzeitig verschießen, allerdings erleiden Wesen, die von mehr als einer Explosion gleichzeitig getroffen werden, nur Schaden durch eine Energiekugel."
+  },
+  {
+    "id": "4ed41760-50cd-5f6f-8cc8-1d23d2799db4",
+    "name": "Aschetanz",
+    "description": "Deine Grundbewegungsrate erhöht sich um +3 m. Auf der 5. Stufe erhältst du Behände Bewegung als Bonustalent, auf der 10. Stufe Geschmeidige Bewegung. Du musst nicht die Voraussetzungen dieser beiden Talente erfüllen. Ein Mystiker mit dem Fluch: Lahm kann diese Offenbarung nicht wählen."
+  },
+  {
+    "id": "5b86669a-72b5-5bd6-820d-5157383d5dd3",
+    "name": "Brennende Magie",
+    "description": "Wenn einem Wesen ein Rettungswurf gegen einen deiner Zauber misslingt und es als Folge Feuerschaden erhält, fängt es an zu brennen. Sobald die brennende Kreatur mit ihrem nächsten Zug beginnt, verursacht das Feuer 1 Punkt Feuerschaden pro Grad des Zaubers. Das Feuer hält 1W4 Runden an, kann aber durch eine Bewegungsaktion gelöscht werden, sofern der brennenden Kreatur ein Reflexwurf gegen den SG des ursprünglichen Zaubers gelingt. Mit einer Standard-Aktion kann man die Kreatur mit Wasser übergießen, wodurch sie einen Bonus von +2 auf diesen Rettungswurf erhält. Wenn man sie komplett in Wasser taucht, wird das Feuer automatisch gelöscht. Zauber, die keinen Rettungswurf erlauben, lassen eine Kreatur nicht Feuer fangen."
+  },
+  {
+    "id": "6dd7e13a-dd5d-5296-965f-f82267f28247",
+    "name": "Feuer widerstehen",
+    "description": "Du erhältst Feuerresistenz 5. Diese Resistenz erhöht sich auf der 5. Stufe auf 10 und auf der 11. Stufe auf 20. Auf der 17. Stufe erhältst du Immunität gegen Feuer."
+  },
+  {
+    "id": "ef188712-72e5-5aea-9ea9-7943b31d0648",
+    "name": "Feuerschwingen",
+    "description": "Als Schnelle Aktion kannst du ein Paar feuriger Schwingen an dir erscheinen lassen, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Du kannst diese Flügel täglich für die Dauer einer Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "6ad28d92-28da-5779-ac5a-89e6e9a772ce",
+    "name": "Feuersturm",
+    "description": "Als Standard-Aktion kannst du Flammen um dich herum hervorbrechen lassen. Pro Stufe als Mystiker kannst du einen Würfel aus Flammen mit einer Seitenlänge von 3 m erschaffen. Diese Würfel kannst du beliebig anordnen, aber jeder Würfel muss mindestens an einen anderen angrenzen und mindestens einer davon muss an dich angrenzen. Jedes Wesen, das von diesen Flammen erfasst wird, erhält 1W6 Punkte Feuerschaden für je eine deiner Stufen als Mystiker. Ein erfolgreicher Reflexwurf halbiert den Schaden. Das Feuer besteht für eine Anzahl von Runden in Höhe deines CH-Modifikators. Du kannst diese Fähigkeit einmal pro Tag anwenden. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "a8862cb0-57f5-518d-85c1-fbc7ec7965d8",
+    "name": "Feuerodem",
+    "description": "Als Standard-Aktion kannst du einen Flammenkegel von 4,50 m aus deinem Mund schießen lassen. Diese Flammen verursachen 1W4 Punkte Feuerschaden pro Stufe des Mystikers. Ein erfolgreicher Reflexwurf halbiert den Schaden. Du kannst diese Fähigkeit einmal täglich anwenden sowie ab der 5. Stufe und danach allen weiteren fünf Stufen jeweils ein weiteres Mal. Der SG des Rettungswurfs basiert auf Charisma."
+  },
+  {
+    "id": "f4ebc5ba-0a88-5830-a4db-1504a91d964b",
+    "name": "Flammengestalt",
+    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Feuerelementars annehmen, wie durch den gleichnamigen Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Feuerelementars annehmen, wie durch den Zauber Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Feuerelementars annehmen, wie durch den Zauber Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Feuerelementars annehmen, wie durch den Zauber Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden, die Wirkungsdauer beträgt1 Stunde pro deiner Stufe als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "b2eefa1d-8491-580d-86c7-bce31f02009d",
+    "name": "Flammenhauch",
+    "description": "Als Standard-Aktion kannst du einen Berührungsangriff im Nahkampf ausführen, der 1W6 Punkte Feuerschaden +1 Punkt Feuerschaden für je zwei deiner Stufen als Mystiker verursacht. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators +3 einsetzen. Ab der 11. Stufe wird jede Waffe, die du benutzt, zu einer Aufflammenden Waffe."
+  },
+  {
+    "id": "02f45727-4b6e-514b-ad25-5fcfcfee7515",
+    "name": "Flammensicht",
+    "description": "Du kannst, solange die Lichtverhältnisse ausreichen, durch Feuer, Nebel und Rauch sehen ohne Abzüge zu erleiden. Ab der 7. Stufe kannst du durch jedes Feuers blicken, das sich nicht mehr als 3 m pro deiner Stufe als Mystiker von dir entfernt befindet, als ob du den Zauber Hellsicht wirken würdest. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "9ec94cd3-e685-5341-9c20-cbfccea6b709",
+    "name": "Hitzeaura",
+    "description": "Als Schnelle Aktion kannst du Hitzewellen von deinem Körper ausgehen lassen. Diese Hitze verursacht bei allen Kreaturen innerhalb von 3 m 1W4 Punkte Feuerschaden für je zwei deiner Stufen als Mystiker (Minimum 1W4). Ein erfolgreicher Reflexwurf halbiert den Schaden. Zusätzlich flimmert und verschwimmt deine Gestalt und erhältst du 20% Tarnung bis du wieder in der nächsten Runde am Zug bist. Du kannst diese Fähigkeit einmal täglich anwenden sowie ab der 5. Stufe und danach allen weiteren fünf Stufen jeweils ein weiteres Mal."
+  },
+  {
+    "id": "70ef7b96-79eb-5c55-8e82-65998908267c",
+    "name": "Geistwandeln",
+    "description": "Als Standard-Aktion kannst du körperlos und unsichtbar werden. In dieser Gestalt kannst du dich in jede Richtung und durch alle Objekte, die nicht aus Energie bestehen, hindurch bewegen. Du kannst in dieser Gestalt keine andere Aktion ausführen als dich zu bewegen. Du kannst diese Gestalt eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten, du kannst diesen Effekt jedoch auch schon vorher als Standard-Aktion beenden. Du kannst diese Fähigkeit auf der 11. Stufe einmal täglich anwenden und zweimal täglich auf der 15. Stufe. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "ab409284-c35f-59d3-9a7f-9bc5274dbcef",
+    "name": "Klaffende Wunden",
+    "description": "Wenn eine Kreatur negativen Energieschaden durch deine Zauber oder Fähigkeiten erhält (beispielsweise durch Leichte Wunden verursachen oder die Offenbarung Todeshauch), beginnt sie auszubluten. Dadurch verliert sie jede weitere Runde 1 Schadenspunkt. Ab der 5. Stufe und dann alle weiteren fünf Stufen erhöht sich dieser Schaden um weitere +1. Das Ausbluten kann durch einen Fertigkeitswurf auf Heilkunde gegen SG 15 oder jeden Effekt, der Schaden heilt, gestoppt werden."
+  },
+  {
+    "id": "6dff525d-9083-5964-a9e0-518cac42d1dd",
+    "name": "Knochenrüstung",
+    "description": "Du kannst eine Rüstung aus Knochen beschwören, die dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier Stufen danach erhöht sich dieser Bonus um weitere +2. Ab der 13. Stufe verleiht dir die Rüstung SR 5/Wucht. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet."
+  },
+  {
+    "id": "882b23fa-c8ef-5d01-912b-12b32a5b9876",
+    "name": "Leben widerstehen",
+    "description": "Du wirst als untote Kreatur behandelt wenn du das Ziel positiver oder negativer Energie wirst. Du wirst von Untote vertreiben oder Untote befehligen oder anderen Effekten, die speziell auf untote Wesen abzielen, nicht betroffen, sofern du nicht wirklich ein Untoter bist. Ab der 7. Stufe erhältst du Resistenz gegen Fokussieren +2. Dieser Bonus erhöht sich um weitere +2 jeweils auf der 11. und der 15. Stufe."
+  },
+  {
+    "id": "6e6c6495-97d2-5b1d-9b41-168984b29d4e",
+    "name": "Seelenzehrer",
+    "description": "Du kannst als Berührungsangriff auf Entfernung einen Strahl entfesseln, welcher bei einem Ziel eine negative Stufe verursacht und dich gleichzeitig um deine Stufe als Mystiker an Trefferpunkten heilt. Der Strahl hat eine Reichweite von 9 m. Diese negative Stufe hält für eine Anzahl von Minuten in Höhe deines CH-Modifikators an. Du kannst diese Fähigkeit einmal am Tag anwenden, ab der 11. Stufe ein weiteres Mal und danach alle vier weiteren Stufen ein zusätzliches Mal. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "f8055ede-c68b-5c14-a22e-449d5ee135f7",
+    "name": "Stimme des Grabes",
+    "description": "Du kannst Mit Toten sprechen (wie der gleichnamige Zauber), für eine Anzahl an Runden am Tag wirken, die deiner Stufe als Mystiker entsprechen. Diese Runden müssen nicht aufeinander folgen. Ab der 5. Stufe und dann alle fünf weiteren Stufen erhält die tote Kreatur einen Malus von -2 auf ihren RW, um dem Effekt zu widerstehen."
+  },
+  {
+    "id": "2ddfe360-2932-50fc-afca-eef2f6970feb",
+    "name": "Todeshauch",
+    "description": "Du kannst mit einem Berührungsangriff fürchterliche Wunden bei Kreaturen erscheinen lassen. Dieser Angriff verursacht 1W6 Punkte negativen Energieschaden +1 Punkt für je zwei Stufen als Mystiker. Wenn du diese Fähigkeit gegen eine untote Kreatur einsetzt, heilt sie Schaden und erhält für 1 Minute einen Bonus von +2 auf Resistenz gegen Fokussieren. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "9a510d9d-d0ea-53ef-ac08-50393d380424",
+    "name": "Todesnähe",
+    "description": "Du erhältst einen Innewohnenden Bonus von +2 auf Rettungswürfe gegen Krankheiten, geistesbeeinflussende Effekte und Gifte. Ab der 7. Stufe zählt dieser Bonus auch gegen Todeseffekte, Schlafeffekte und Betäubung. Auf der 11. Stufe steigt der Bonus auf +4."
+  },
+  {
+    "id": "9624156f-c934-5313-858d-203bbd9ec690",
+    "name": "Untote Diener",
+    "description": "Du erhältst Untote befehligen als Bonustalent. Du kannst täglich Negative Energie in Höhe deines CH-Modifikators +3 fokussieren ( jedoch nur um untote Kreaturen zu befehligen). Du kannst andere Talente wählen, um diese Fähigkeit zu verbessern, wie beispielsweise Verbessertes Fokussieren, aber keine Talente, die diese Fähigkeit verändern würden, wie etwa Gesinnung fokussieren."
+  },
+  {
+    "id": "c76f4aa5-4904-58eb-ba5e-638d986ffcfd",
+    "name": "Untote rufen",
+    "description": "Du kannst als Standard-Aktion ein einzelnes Skelett oder einen Zombie als Diener herbeizaubern. Die Trefferwürfel der untoten Kreatur entsprechen deiner Stufe als Mystiker. Die untote Kreatur bleibt für eine Anzahl von Runden in Höhe deines CH-Modifikators bei dir. Ab der 7. Stufe kannst du ein Blutskelett oder einen Schnellen Zombie herbeizaubern. Ab der 15. Stufe kannst du ein Verbessertes Skelett oder einen Verbesserten Zombie herbeizaubern. Du kannst diese Fähigkeit einmal am Tag und ab der 10. Stufe ein weiteres Mal am Tag einsetzen."
+  },
+  {
+    "id": "4346e1e8-1a99-5f73-b07e-e98aa589dbd0",
+    "name": "Energiegestalt",
+    "description": "Als Standard-Aktion kann du deinen Körper in reine Energie verwandeln, so dass du einem gold-weißen Feuerelementar ähnelst. In dieser Gestalt erhältst du die Unterart Elementar und gibst ein warmes, freundliches Licht ab, welches die Lichtverhältnisse innerhalb von 3 m um eine Kategorie verbessert, bis hin zu normalem Licht. Jede untote Kreatur, die dich mit einer Nahkampfwaffe oder ihren eigenen körperlichen Angriffen trifft, verursacht den normalen Schaden, erleidet selbst aber 1W6 Schadenspunkte durch positive Energie + 1 Punkt für je eine deiner Stufen als Mystiker. Kreaturen mit Nahkampfwaffen, die Reichweite besitzen (Stangenwaffen u.a.) sind nicht betroffen. Falls du dich mit einer untoten Kreatur im Ringkampf befindest oder sie mit waffenlosen Schlägen oder natürlichen Waffen angreifst, kannst du diesen Schaden statt des normalen Angriffsschadens Angriffsschadens verursachen. Einmal pro Runde, wenn du in dieser Gestalt das Feld eines lebenden Verbündeten durchquerst, oder ein lebender Verbündeter dein Feld durchquert, heilt er 1W6 Trefferpunkte + 1 Punkt für je eine deiner Stufen als Mystiker, sofern dies deinem Wunsch entspricht. Du kannst diese Fähigkeit auch als Bewegungsaktion nutzen, um dich selbst zu heilen. Du kannst jeder Zeit mit einer Freien Aktion deine normale Gestalt wieder annehmen. Du kannst die Energiegestalt täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten."
+  },
+  {
+    "id": "7026b46f-d845-55f1-8620-2201256284bb",
+    "name": "Fokussieren",
+    "description": "Wie ein Kleriker bist du imstande, positive Energie zu fokussieren. Deine Stufe als Mystiker gilt dabei als effektive Stufe des Klerikers, um zu bestimmen, wie viel Schaden du heilst, bzw. untoten Kreaturen zufügen kannst sowie zur Bestimmung des SG. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators +1 einsetzen."
+  },
+  {
+    "id": "aaf54396-4f2d-56af-9133-47a6d5c7db91",
+    "name": "Gebrechen lindern",
+    "description": "Einmal am Tag kannst du, falls dir der Rettungswurf misslingt, als Augenblickliche Aktion die Effekte einer Krankheit oder eines Giftes für 1 Stunde pro eine deiner Stufen als Mystiker ignorieren. Ab der 7. und der 15. Stufe kannst du diese Fähigkeit jeweils ein weiteres Mal pro Tag nutzen."
+  },
+  {
+    "id": "940840bd-3c06-5143-ac22-a7c23b38a277",
+    "name": "Geteiltes Leid",
+    "description": "Du kannst als Standard-Aktion eine Verbindung zwischen dir und einem anderen Wesen erschaffen. In jeder Runde wird zu Beginn deines Zuges das andere Wesen um 5 Trefferpunkte geheilt, sofern das andere Wesen 5 oder mehr Trefferpunkte unter seinem Maximum liegt, während du 5 Schadenspunkte nimmst. Für je eine deiner Stufen als Mystiker kannst du ein solches Band unterhalten. Dieses besteht solange, bis einer der Beteiligten stirbt, sie sich mehr als mittlere Reichweite (30 m + 3 m pro Stufe als Mystiker) voneinander entfernen oder du es als Augenblickliche Aktion beendest. Solltest du mehrere solcher Verbindungen unterhalten, kannst du beliebig viele mit einer Augenblicklichen Aktion beenden."
+  },
+  {
+    "id": "5998899c-0869-5341-a80d-85c8ab1bb599",
+    "name": "Heilende Hände",
+    "description": "Du erhältst einen Bonus von +4 auf deine Fertigkeitswürfe für Heilkunde. Du kannst als Standard-Aktion zwei Wesen gleichzeitig erste Hilfe leisten oder bei Vergiftungen behandeln, musst aber für jedes Wesen einen eigenen Wurf durchführen. Wenn du auf Heilkunde zurückgreifst, um Wunden von Krähenfüßen (u.a.), tödliche Wunden, Vergiftungen oder Krankheiten zu behandeln, oder um eine Langzeitbehandlung zu gewährleisten, kannst du jeweils die doppelte Menge an Patienten versorgen. Du kannst auch dir selbst eine Langzeitbehandlung zukommen lassen."
+  },
+  {
+    "id": "c16cdea8-471a-5f11-9728-50efc7b905b8",
+    "name": "Kampfheiler (Leben)",
+    "description": "Du kannst Heilzauber (alle Zauber mit Heilen im Namen) wie unter dem Talent Schnell zaubern als Schnelle Aktion wirken (ein so gewirkter Zauber verbraucht zwei Zauberplätze, statt normalerweise einem). Dies erhöht jedoch nicht den Grad des Zaubers an sich (der Zauber wirkt wie auf seinem regulären Grad gewirkt). Du kannst diese Fähigkeit einmal täglich anwenden wenn du die 7. Stufe erreicht hast und ein zusätzliches Mal für alle vier weiteren Stufen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "f94e1241-ffda-5e7b-b557-bedc34e1d7dc",
+    "name": "Lebensgespür",
+    "description": "Du kannst lebende Wesen innerhalb von 9 m wahrnehmen und aufspüren, als hättest du die Fähigkeit Blindgespür. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "e05a4af8-0cb5-5cbe-8a4d-68ff88e6dce5",
+    "name": "Seelenstärkung",
+    "description": "Wann immer deine Heilzauber bei einer Kreatur mehr als ihre maximalen Trefferpunkte heilen würden, verbleiben diese überzähligen Trefferpunkte für eine Runde pro eine deiner Stufen als Mystiker als temporäre Trefferpunkte erhalten. Die Höchstzahl der temporären Trefferpunkte entspricht deiner Stufe als Mystiker."
+  },
+  {
+    "id": "24284af7-41a9-546d-befd-a511a837a13e",
+    "name": "Sicheres heilen",
+    "description": "Wenn du einen Zauber wirkst, welcher beim Ziel Schadenspunkte heilt, provozierst du beim Zaubern keine Gelegenheitsangriffe."
+  },
+  {
+    "id": "11ca6444-302a-5f2f-96b1-4ba0a7d1e7ec",
+    "name": "Verbesserte Heilzauber",
+    "description": "Wenn du einen Heilzauber wirkst, richtet sich die maximal geheilte Anzahl an Trefferpunkten nach deiner Stufe als Mystiker anstatt an den Beschränkungen des Zaubers. Ein Mystiker der 11. Stufe würde beispielsweise mit Leichte Wunden heilen 1W8+11 Trefferpunkte statt der üblichen 1W8+5 heilen."
+  },
+  {
+    "id": "92027a60-f053-54ba-889f-bed9fe39cf43",
+    "name": "Auflösende Berührung",
+    "description": "Mit einem Berührungsangriff im Nahkampf kannst du Gegenständen und Konstrukten 1W6 Schadenspunkte pro eine deiner Stufen als Mystiker zufügen. Solltest du diese Fähigkeit gegen einen Gegenstand richten, der sich im Besitz eines anderen Wesens befindet, dann behandle den Angriff wie das Kampfmanöver Zerschmettern. Du kannst diese Fähigkeit einmal pro Tag nutzen sowie ein weiteres Mal für jeweils drei weitere Stufen als Mystiker."
+  },
+  {
+    "id": "7ca13bae-db5a-58ff-8888-a190042b6819",
+    "name": "Flüstern der Natur",
+    "description": "Du hast dich so an die Geräusche der natürlichen Welt gewöhnt – vom Quaken der Frösche bis zum Ächzen großer Steine – dass deine Umgebung dich auf übernatürliche Weise vor Gefahren warnt. Du kannst statt deines GE-Modifikators deinen CH-Modifikator zu deiner Rüstungsklasse und KMV addieren. Sollte ein Umstand eintreten, der dich deinen GE-Modifikator auf die Rüstungsklasse verlieren lassen würde, verlierst du stattdessen den CH- Modifikator auf deine Rüstungsklasse."
+  },
+  {
+    "id": "31673ce8-c1b1-5083-aee6-0d12580f02f3",
+    "name": "Form widerrufen",
+    "description": "Du kannst einen nichtlebenden Gegenstand in seine einzelnen Bestandteile zerlegen. Dadurch werden alle Spuren von Be- und Verarbeitung entfernt und du hinterlässt nur die Materialien aus denen er einst bestand. Dies funktioniert wie der Zauber Beliebiges verwandeln und wirkt bei magischen und nichtmagischen nichtlebenden Gegenständen. Die Wirkungsdauer ist stets permanent. Anders als der Zauber Beliebiges verwandeln kann die Fähigkeit jedoch nicht angewandt werden, um die Effekte anderer Zauber nachzuahmen. Gegenstände, die zum Ziel dieser Fähigkeit werden, erhalten einen Zähigkeitswurf, um der Wirkung widerstehen zu können. Magische Gegenstände erhalten darüber hinaus einen Situationsbonus von +1 pro 5.000 GM Wert des Gegenstandes. Du kannst diese Fähigkeit täglich in Höhe deines CH- Modifikators einsetzen. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "b1e5f3ee-f3c0-5e19-b4cc-90c78758e2b3",
+    "name": "Freund der Tiere",
+    "description": "Füge alle Zauber mit der Bezeichnung Verbündeten der Natur herbeizaubern deiner Zauberliste hinzu. Du beherrschst sie jedoch nicht automatisch, sondern musst sie aus deinen dir zur Verfügung stehenden Zaubern auswählen, um sie erlernen zu können. Darüber hinaus erhalten alle Tiere innerhalb von 9 m einen Bonus auf ihre Rettungswürfe in Höhe deines CH- Modifikators."
+  },
+  {
+    "id": "399600a9-0ff4-5988-a3dd-f94d88427bb7",
+    "name": "Gebundenes Reittier",
+    "description": "Du erhältst die Dienste eines ungewöhnlich intelligenten, starken und loyalen Reittieres. Dieses Wesen muss als Reittier geeignet sein und du musst in der Lage sein, auf ihm reiten zu können. Ein mittelgroßer Mystiker kann ein Kamel oder Pferd wählen, ein kleiner Mystiker ein Pony oder einen Wolf, bzw. ab der 4. Stufe einen Eber oder einen Hund. Dieses Reittier funktioniert wie der Tiergefährte eines Druiden. Deine Stufe als Mystiker funktioniert dabei als Stufe des Druiden. So gebundene Reittiere haben einen Intelligenzwert von mindestens 6."
+  },
+  {
+    "id": "090b856a-c4cf-5cac-a920-b0a964921491",
+    "name": "Lebenshauch der Natur",
+    "description": "Wenn du dich in der Natur befindest und in den negativen Bereich deiner Trefferpunkte gelangst, stabilisierst du dich automatisch. Ab der 5. Stufe erhältst du Schnelle Heilung 1 für 1W4 Runden, sobald du in den negativen Bereich kommst. Ab der 10. Stufe funktioniert diese Fähigkeit in jeder Umgebung, seien es besiedelte oder gänzlich außerweltliche Reiche. Ab der 15. Stufe erhältst du Schnelle Heilung 3."
+  },
+  {
+    "id": "93e04cf3-a1dd-5dbc-aeaa-202aac55c97e",
+    "name": "Lebensraub",
+    "description": "Du kannst den Körpern deiner Feinde das Leben entziehen und auf dich selbst übertragen. Als Standard-Aktion kannst du einem Lebewesen innerhalb von 9 m die Lebenskraft entziehen. Das Ziel erleidet dabei 1W6 Schadenspunkte für je zwei deiner Stufen als Mystiker (Maximum 10W6). Außerdem erhältst du eine Anzahl von temporären Trefferpunkten in Höhe des von dir verursachten Schadens. Du kannst jedoch nicht mehr temporäre Trefferpunkte erlangen als die aktuellen Trefferpunkte des Zieles + seinem Konstitutionswert betragen (was jedoch ausreichen sollte um es zu töten). Die temporären Trefferpunkte verbleiben für eine Anzahl von Stunden in Höhe deines CH- Modifikators. Dem Ziel steht ein Zähigkeitswurf zu, um den Schaden zu halbieren (dies würde auch die temporären Trefferpunkte halbieren). Du kannst diese Fähigkeit auf der 7. Stufe einmal am Tag einsetzen und ein weiteres Mal für je vier deiner Stufen als Mystiker, die du darüber hinaus besitzt. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "4b61d001-2abd-5dd7-ae99-f09cff07e8e1",
+    "name": "Mit Tieren sprechen",
+    "description": "Wähle eine Tierart (Adler, Fuchs, Hund, usw.). Du kannst fortan mit Tieren dieser Art kommunizieren, als würdest du unter der Wirkung des Zaubers Mit Tieren sprechen stehen. Für je drei deiner Stufen als Mystiker kannst du mit einer weiteren Tierart sprechen."
+  },
+  {
+    "id": "815effbb-8b97-5cf6-b766-e5ff7f452555",
+    "name": "Natürliche Erkenntniszauber",
+    "description": "Du kannst in den Eingeweiden eines frisch getöteten Tieres oder Humanoiden lesen, um einen Innewohnenden Bonus in Höhe deines CH-Modifikators auf einen Rettungswurf zu erhalten. Alternativ kannst du auch einen Vogelflug beobachten und aus ihm lesen, um einen Kompetenzbonus von +10 auf einen Fertigkeitswurf zu erhalten. Schließlich vermagst du auch Zeichen in Steinen und dem Erdboden zu deuten und kannst das Verhalten des Sandes im Wind lesen, um einen Innewohnenden Bonus von +4 auf einen Initiativewurf zu erhalten. Diese Boni müssen innerhalb von 24 Stunden genutzt werden, und du musst ihren Einsatz ankündigen, ehe du den Wurf ausführst. Es dauert 10 Minuten, um zu solch einer natürlichen Erkenntniszauber zu gelangen. Du kannst einmal am Tag nach einer natürlichen Erkenntniszauber (beliebige Kombination) suchen sowie ein weiteres Mal am Tag für jeweils vier deiner Stufen als Mystiker."
+  },
+  {
+    "id": "626e2d8e-01f7-54ac-bd7e-10fcacf777aa",
+    "name": "Übernatürliches Band",
+    "description": "Du bist derartig auf das Band, das alles Leben durchdringt, eingestellt, dass du es nutzen kannst, um mit deinen Verbündeten zu kommunizieren. Du kannst mit deinen Verbündeten am Tag für einen Anzahl von Runden in Höhe deines CH-Modifikators wie durch den gleichnamigen Zauber Telepathisches Band kommunizieren. Du kannst eine Anzahl von Wesen in Höhe deines CH-Modifikators als Verbündete bestimmen, was jedoch für jedes Wesen eine Standard-Aktion und eine Berührung erfordert. Ab der 10. Stufe kannst du dieses Band nutzen, um einmal pro Tag einen Zauber auf einen Verbündeten mit der Reichweite Berührung zu wirken."
+  },
+  {
+    "id": "c4cca964-bb45-5019-bfdc-cd756b58a2d1",
+    "name": "Eisenhaut",
+    "description": "Einmal täglich kannst du deine Haut verhärten und ihr das Aussehen von Eisen geben. Dies gewährt dir SR 10/Adamant, wie der Zauber Steinhaut mit deiner Stufe als Mystiker als Zauberstufe. Auf der 15. Stufe kannst du diese Fähigkeit zweimal täglich anwenden. Du musst mindestens die 11. Stufe erreicht haben um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "128e0c89-bbee-5b41-acf4-5d19118f2018",
+    "name": "Kampfheiler (Schlacht)",
+    "description": "Du kannst Heilzauber (alle Zauber mit Heilen im Namen) wie unter dem Talent Schnell zaubern als Schnelle Aktion wirken (ein so gewirkter Zauber verbraucht zwei Zauberplätze, statt normalerweise einem). Dies erhöht jedoch nicht den Grad des Zaubers an sich (der Zauber wirkt wie auf seinem regulären Grad gewirkt). Du kannst diese Fähigkeit einmal täglich anwenden wenn du die 7. Stufe erreicht hast und ein zusätzliches Mal für alle vier weiteren Stufen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "fa2a5708-a9f1-5562-93d0-8367e58d08f5",
+    "name": "Klarheit des Schlachtfeldes",
+    "description": "Einmal am Tag kannst du einen nicht bestandenen Rettungswurf, als dessen Folge du blind, taub, verängstigt, panisch, gelähmt, erschüttert oder betäubt bist, als Augenblickliche Aktion mit einem Innewohnenden Bonus von +4 wiederholen. Du musst das zweite Würfelergebnis verwenden, selbst wenn es schlechter als der erste Wurf sein sollte. Auf der 7. und 15. Stufe kannst du diese Fähigkeit ein zusätzliches Mal pro Tag nutzen."
+  },
+  {
+    "id": "986958f3-c26c-5986-a863-3e24e1ff3f9e",
+    "name": "Meisterliche Manöver",
+    "description": "Wähle ein Kampfmanöver (siehe Kampfmanöver (Expertenregeln) und Kampfmanöver (Grundregelwerk)). Wenn du dieses Kampfmanöver durchführst, kannst du deine Stufe als Mystiker als Grund- Angriffsbonus (in Zusammenhang mit dem Grund-Angriffsbonus aus anderen Klassen) benutzen, um deinen KMB zu bestimmen. Auf der 7. Stufe erhältst du das Verbessernde Talent zu deinem Kampfmanöver (beispielsweise Verbessertes Zu- Fall-bringen). Auf der 11. Stufe erhältst du die Mächtigere Version des Talents (beispielsweise Mächtiges Zu-Fall-bringen). Du musst nicht die Voraussetzungen dieser Talente erfüllen, um sie auswählen zu können."
+  },
+  {
+    "id": "6d85238f-584d-50f9-be18-5aa3af968c22",
+    "name": "Schlachtruf",
+    "description": "Du kannst als Standard-Aktion einen inspirierenden Schlachtruf von dir geben. Alle Verbündeten innerhalb von 30 m, die ihn hören, erhalten einen Moralbonus von +1 auf ihre Angriffs-, Fertigkeits- und Rettungswürfe für eine Anzahl von Runden in Höhe deines CH-Modifikators. Auf der 10. Stufe steigt dieser Bonus auf +2. Du kannst diese Fähigkeit einmal täglich und ein weiteres Mal am Tag auf der 5. Stufe sowie alle weiteren fünf Stufen anwenden."
+  },
+  {
+    "id": "ff8c3a36-f552-52d0-9b68-114418fea1ee",
+    "name": "Überraschender Sturmangriff",
+    "description": "Du kannst dich einmal täglich als Augenblickliche Aktion mit deiner Bewegungsrate fortbewegen. Du kannst diese Fähigkeit auf der 7. Stufe sowie ein weiteres Mal auf der 15. Stufe pro Tag anwenden."
+  },
+  {
+    "id": "e69c125b-c743-5b82-b0e2-1e99d6640496",
+    "name": "Unverwüstlichkeit",
+    "description": "Solltest du auf 0 Trefferpunkte reduziert werden, bist du weder kampfunfähig noch wankend. Auf der 7. Stufe erhältst du Unverwüstlich als Bonustalent. Ab der 11. Stufe verlierst du keinen Trefferpunkt, wenn du eine Standard-Aktion ausführst, während du kampfunfähig bist. Du musst nicht die Voraussetzungen für Unverwüstlich erfüllen, um das Talent zu erhalten."
+  },
+  {
+    "id": "58139756-2cae-5b1b-87fd-7639ee182c21",
+    "name": "Wachsamer Krieger",
+    "description": "Wenn du deine Initiative würfelst, kannst du zwei Würfe ausführen und dich für einen entscheiden. Ebenfalls kannst du ab der 7. Stufe immer in einer Überraschungsrunde handeln. Solltest du jedoch einen Hinterhalt nicht bemerken, handelst du als Letzter, egal wie hoch deine Initiative ist (in den nachfolgenden Runden handelst du entsprechend deines Initiativeergebnisses). Ab der 11. Stufe kannst du dreimal für die Initiative würfeln und eines dieser drei Ergebnisse auswählen."
+  },
+  {
+    "id": "2dbc42bc-f249-5c1e-ab58-8c3b1c51fb4e",
+    "name": "Waffenbeherrschung",
+    "description": "Du bist mit allen Kriegswaffen und Schweren Rüstungen geübt."
+  },
+  {
+    "id": "855e2cee-8ff6-53bd-97c2-f385041469b4",
+    "name": "Waffenmeisterschaft",
+    "description": "Wähle eine Waffe in deren Umgang du geübt bist. Du erhältst das Talent Waffenfokus für diese Waffe. Auf der 8. Stufe erhältst du das Talent Verbesserter Kritischer Treffer für diese Waffe. Auf der 12. Stufe erhältst du das Talent Mächtiger Waffenfokus für diese Waffe. Du musst nicht die Voraussetzungen für diese Talente zu erfüllen um sie zu erhalten."
+  },
+  {
+    "id": "d5c3647d-ba42-55ac-961f-944a914feb79",
+    "name": "Durch Erde gleiten",
+    "description": "Du kannst durch Stein und nahezu jede Art von Erde gleiten, wie ein Fische durchs Wasser, jedoch nicht durch bearbeiteten Stein sowie bearbeitetes Metall. Sofern du gegen Feuerschaden geschützt bist, kannst du auch durch Lava gleiten. Deine Geschwindigkeit entspricht deiner normalen Bewegungsrate. Du atmest im Stein als wäre er Luft (du musst nicht den Atem anhalten). Du hinterlässt keinen Tunnel, kein Loch und auch keine Wellenbewegungen oder sonstige Spuren deiner Anwesenheit. Ein Erde bewegen- Zauber, der auf den Bereich gewirkt wird, in dem du dich befindest, schleudert dich 9 m zurück und betäubt dich für 1 Runde, sofern dir kein Zähigkeitswurf gegen SG 15 gelingt. Diese Fähigkeit lässt sich als Freie Aktion aktivieren. Du kannst täglich für eine Minute für je eine deiner Stufen als Mystiker durch Erde gleiten. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute berechnet. Du kannst auch andere Kreaturen mit dir nehmen, allerdings kostet dich jeder Passagier 1 Minute Reisezeit. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "c67b9a3c-208b-5606-9002-0c23b86257ee",
+    "name": "Felsen werfen",
+    "description": "Du bist ein fähiger Felsenwerfer und besitzt einen Volksbonus von +1 auf Angriffswürfe mit geworfenen Felsen. Du kannst Felsen werfen, die zwei Größenkategorien kleiner sind als du. Die Grundreichweite eines Felsen beträgt 6 m, und du kannst einen Felsen das Fünffache dieser Reichweite weit schleudern. Der Schaden eines geworfenen Felsen beträgt bei einer mittelgroßen Kreatur 2W4 Schadenspunkte oder 2W3 bei einer kleinen Kreatur. Addiere zusätzlich das Anderthalbfache deines Stärkebonus zu dem entsprechenden Schaden."
+  },
+  {
+    "id": "560cb7cc-e711-5f37-99fb-a923d5d4297c",
+    "name": "Kristallblick",
+    "description": "Du kannst durch Stein, Erde oder Sand sehen, als wäre es durchsichtiger Kristall. Dein Blick reicht 30 cm für je eine deiner Stufen als Mystiker. Solltest du versuchen durch Metall zu blicken, sinkt die Reichweite auf ein Zehntel. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "fd06b172-d9f0-597e-9aa6-33264af6b16f",
+    "name": "Mächtiger Kiesel",
+    "description": "Als Standard-Aktion kannst du einen Kiesel oder anderen Stein ähnlicher Größe aufladen und werfen. Sollte dir ein Fernkampfangriff gelingen, explodiert der Stein und verursacht 1W6 Punkte Wuchtschaden für je zwei deiner Stufen als Mystiker (Minimum 1W6). Der Kiesel hat eine Reichweite von 6 m und erhält einen Verbesserungsbonus auf Angriff und Schaden in Höhe von +1 für je vier deiner Stufen als Mystiker. Wesen auf benachbarten Feldern nehmen halben Schaden oder keinen Schaden, falls ihnen ein Reflexwurf gelingt. Sollte der Angriffswurf misslingen, dann behandle den Kiesel wie eine Waffe mit Flächenwirkung, um zu bestimmen, wo er landet. Du kannst diese Fähigkeit einmal am Tag einsetzen und eine weiteres Mal ab der 5. Stufe sowie alle weiteren fünf Stufen als Mystiker."
+  },
+  {
+    "id": "6f016db3-d076-5c23-a090-1fbb27a433bf",
+    "name": "Niederprügelnder Schlag",
+    "description": "Wenn du mit einem Zauber, der einen Angriffswurf erfordert, bei einem Gegner einen kritischen Treffer erzielst, kannst du als Schnelle Aktion versuchen, ihn zu Fall zu bringen. Du provozierst dabei keinen Gelegenheitsangriff und kannst auch nicht im Gegenzug selbst zu Fall gebracht werden."
+  },
+  {
+    "id": "be168736-8011-59eb-bc1a-ebe9a476d562",
+    "name": "Säureberührung",
+    "description": "Als Standard-Aktion kannst du einen Berührungsangriff im Nahkampf ausführen, der 1W6 Punkte Säureschaden +1 Punkt Säureschaden für je zwei deiner Stufen als Mystiker verursacht. Du kannst diese Fähigkeit am Tag in Höhe deines CH-Modifikators +3 einsetzen. Ab der 11. Stufe verursacht jede Waffe, die du benutzt, +1W6 Punkte Säureschaden, ähnlich der Wirkungsweise einer Aufflammenden Waffe."
+  },
+  {
+    "id": "ffa6f70c-8aac-57c0-9f6e-bb61ce8735e1",
+    "name": "Säurehaut",
+    "description": "Du erhältst Säureresistenz 5. Diese Resistenz steigt auf der 5. Stufe auf 10 und auf der 11. Stufe auf 20. Ab der 17. Stufe bist du immun gegen Säure."
+  },
+  {
+    "id": "53c6c870-7509-5faf-b532-430e1f1a349a",
+    "name": "Splitterhagel",
+    "description": "Als Schnelle Aktion kannst du scharfkantige Steinsplitter aus deinem Körper hervorschießen lassen. Diese verursachen bei allen Wesen innerhalb von 3 m 1W6 Punkte Stichschaden für je zwei deiner Stufen als Mystiker (Minimum 1W6). Ein Reflexwurf halbiert den Schaden. Außerdem verwandeln die Splitter den Bereich bis zu deinem nächsten Zug in schwieriges Gelände. Du kannst diese Fähigkeit einmal am Tag einsetzen und eine weiteres Mal ab der 5. Stufe sowie alle weiteren fünf Stufen als Mystiker."
+  },
+  {
+    "id": "861104d2-d59f-5b7a-a415-7c81f8e2082a",
+    "name": "Stahlharte Haut",
+    "description": "Als Standard-Aktion kann du dein Fleisch derart verhärten, dass Waffen, die dich treffen, beschädigt oder zerstört werden. Jedes Mal, wenn dich eine Nah- oder Fernkampfwaffe trifft, nimmt diese Schaden in Höhe deiner Stufe als Mystiker. Dies verhindert nicht, dass du verletzt wirst, außer die Waffe wird durch den Effekt zerstört. Du kannst diese Fähigkeit täglich für 1 Minute für je eine deiner Stufen als Mystiker einsetzen. Ab der 15. Stufe ignoriert der von dir verursachte Schaden dieser Fähigkeit eine Härte von 10. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "cfbc1296-a768-5d9e-bf30-3df75842868a",
+    "name": "Standhaftigkeit des Steines",
+    "description": "Während du auf dem Erdboden stehst, erhältst du einen Bonus von +4 auf deine Kampfmanöververteidigung, um einem Ansturm oder einem Versuch, dich zu Fall zu bringen, zu widerstehen. Auf der 5. Stufe erhältst du das Bonustalent Verbessertes Zu-Fall-bringen. Auf der 10. Stufe erhältst du Mächtiges Zu-Fall-bringen als Bonustalent. Du musst die Voraussetzungen dieser Talente nicht erfüllt, um sie erhalten zu können."
+  },
+  {
+    "id": "8b0a0c19-5e3c-56cf-bcf4-1c2715d50342",
+    "name": "Auf Flüssigkeit wandeln",
+    "description": "Du kannst auf Flüssigkeiten gehen wie auf festem Boden. Du nimmst dabei keinerlei Schaden, was es dir ermöglicht, auch über Säure und Lava zu gehen (im letzteren Fall nimmst du jedoch immer noch Feuerschaden durch die Nähe der Lava). Du kannst dich mit deiner normalen Bewegungsrate bewegen. Ab der 7. Stufe kannst du auch unter Wasser gehen, du erhältst eine Schwimmbewegungsrate von 18 m und die Fähigkeit, Wasser zu atmen. Du kannst diese Fähigkeit täglich für 1 Stunde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten zu jeweils einer Stunde abgerechnet."
+  },
+  {
+    "id": "44e384b3-b038-52bd-8e04-7283851be29f",
+    "name": "Einfrierende Zauber",
+    "description": "Wenn ein Wesen Kälteschaden durch einen deiner Zauber erleidet, nachdem ihm ein Rettungswurf misslungen ist, wird es für 1 Runde verlangsamt wie durch den Zauber Verlangsamen. Zauber, welche keinen Rettungswurf erlauben, verlangsamen nicht. Ab der 11. Stufe hält die Wirkung für 1W4 Runden an."
+  },
+  {
+    "id": "f808b896-ec7a-58c7-9807-5d75537f8c7f",
+    "name": "Eiskalte Haut",
+    "description": "Du erhältst Kälteresistenz 5. Auf der 5. Stufe steigt die Resistenz auf 10 und auf der 11. Stufe auf 20. Ab der 17. Stufe bist du immun gegen Kälte."
+  },
+  {
+    "id": "f890b332-61d1-5792-be21-5d1906716a21",
+    "name": "Eisrüstung",
+    "description": "Du kannst eine Rüstung aus Eis beschwören, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Auf der 13. Stufe verleiht dir die Rüstung SR 5/Stich. In einer kalten Umgebung erhältst du zusätzlich einen Bonus von +2 auf deine RK und SR, in einer heißen Umgebung erleidest du dahingegen einen Malus von -2. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet."
+  },
+  {
+    "id": "df7f9d6e-789b-532b-a05e-1e6db6bba24b",
+    "name": "Fließende Natur",
+    "description": "Du erhältst einen Bonus von +4 auf deine Kampfmanöververteidigung gegen Ansturm, Ringkampf, Versetzen, Zerren und Zu- Fall-bringen. Ein Wesen, das einen Kritischen Treffer gegen dich bestätigen will, hat einen Malus von -4 auf seinen Bestätigungswurf hinnehmen. Auf der 5. Stufe erhältst du Ausweichen als Bonustalent, ohne dass du die Voraussetzungen erfüllen musst."
+  },
+  {
+    "id": "291e46c9-a9eb-584c-8d2d-83ad0d093058",
+    "name": "Schneesturm",
+    "description": "Als Standard-Aktion kannst du einen Sturm aus Eis und Schnee erschaffen. Der Sturm füllt für je eine deiner Stufen als Mystiker einen Würfel mit 3 m Kantenlänge. Diese Würfel müssen aneinander angrenzen und mindestens einer davon muss an dich angrenzen. Jedes Wesen innerhalb des Schneesturmes nimmt 1W4 Punkte Kälteschaden für je eine deiner Stufen als Mystiker. Ein erfolgreicher Reflexwurf halbiert den Schaden. Der Sturm hält für eine Anzahl von Runden in Höhe deines CH-Modifikators an. Solange es die vorhandenen Umstände erlauben, bleibt der Boden vereist (Schwierigkeitsgrad für Fertigkeitswürfe auf Akrobatik +5). Der Schneesturm verringert die Sichtweite auf 1,50 m und gewährt vollständige Tarnung. Wesen innerhalb von 1,50 m haben einfache Tarnung. Du kannst diese Fähigkeit einmal am Tag einsetzen. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "eede57dc-5fc8-5b2c-9216-c2a6656388fb",
+    "name": "Strafende Verwandlung",
+    "description": "Du kannst einen Gegner in ein harmloses Tier verwandeln, als würdest du Böswillige Verwandlung wirken. Diese Verwandlung hält für 1 Runde für je eine deiner Stufen als Mystiker an. Wenn du eine andere Kreatur vor Ablauf dieser Zeit verwandelst, erlangt die vorherige ihre ursprüngliche Gestalt zurück. Du kannst die Fähigkeit täglich in Höhe deines CH-Modifikators einsetzen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "527deb95-4c2a-5070-a179-ecbacb2fee02",
+    "name": "Wasserblick",
+    "description": "Du kannst ohne Mali durch neblige Verhältnisse blicken, sofern die Lichtverhältnisse ausreichen, um normal sehen zu können. Ab der 7. Stufe kannst du jedes stehende Gewässer von wenigstens 30 cm Durchmesser zum Ausspähen verwenden, als würdest du Ausspähung wirken. Ab der 15. Stufe funktioniert dies wie Mächtiges Ausspähung. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "5d5e1d0b-09b1-5b47-9c4d-adec92072863",
+    "name": "Wassergestalt",
+    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Wasserelementars annehmen, wie durch den Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Wasserelementars annehmen, wie durch Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Wasserelementars annehmen, wie mit Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Wasserelementars annehmen, wie mit Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden. Die Wirkungsdauer beträgt 1 Stunde für je eine deiner Stufen als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "c42dfec3-3478-528a-aaf8-f7ec57dbdc8e",
+    "name": "Winterliche Berührung",
+    "description": "Als Standard-Aktion kannst du einen Berührungsangriff im Nahkampf ausführen, der 1W6 Punkte Kälteschaden +1 Punkt Kälteschaden für je zwei deiner Stufen als Mystiker verursacht. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators +3 einsetzen. Ab der 11. Stufe gilt jede Waffe, die du benutzt, als Eis-Waffe."
+  },
+  {
+    "id": "05ae4917-d7c8-5f88-beb7-1144c617fb0d",
+    "name": "Blitzodem",
+    "description": "Als Standard-Aktion kannst du einen 9 m langen Blitz ausatmen. Dieser Blitz verursacht 1W4 Punkte Elektrizitätsschaden für je eine deiner Stufen als Mystiker. Ein erfolgreicher Reflexwurf halbiert den Schaden. Du kannst diese Fähigkeit einmal täglich und eine weiteres Mal ab der 5. Stufe und alle weiteren fünf Stufen anwenden."
+  },
+  {
+    "id": "1f5f2fbc-cd18-5198-831b-e3c8f8fd90ad",
+    "name": "Donnerschlag",
+    "description": "Als Standard-Aktion kannst du einen Luftstoß erschaffen, der von lautem Donner begleitet wird. Der Stoß hat eine Reichweite von 30 m und betrifft einen Radius von 6 m, wobei der Radius um 1,50 m für je eine deiner Stufen als Mystiker über der 7. Stufe anwächst. Kreaturen im Zielbereich erleiden 1W6 Punkte Wuchtschaden für je eine deiner Stufen als Mystiker und sind für 1 Stunde taub. Sollte ihnen ein Zähigkeitswurf gelingen, nehmen sie nur halben Schaden und sind nicht taub. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können. Du kannst diese Fähigkeit einmal täglich einsetzen und ein weiteres Mal ab der 11. Stufe sowie alle vier weiteren Stufen danach."
+  },
+  {
+    "id": "9d1c6536-1914-5fe6-91ce-d47e5479f783",
+    "name": "Elektrische Berührung",
+    "description": "Als Standard-Aktion kannst du einen Berührungsangriff im Nahkampf ausführen, der 1W6 Punkte Elektrizitätsschaden +1 Punkt für je zwei deiner Stufen als Mystiker verursacht. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators +3 einsetzen. Ab der 11. Stufe gilt jede Waffe, die du benutzt, als Blitz-Waffe."
+  },
+  {
+    "id": "8d669595-f828-5616-806d-d2dd5ab5e2ee",
+    "name": "Funkenhaut",
+    "description": "Du erhältst Elektrizitätsresistenz 5. Auf der 5. Stufe steigt die Resistenz auf 10 und auf der 11. Stufe auf 20. Ab der 17. Stufe bist du immun gegen Elektrizität."
+  },
+  {
+    "id": "7936f2ea-fb50-5183-9495-d744b7a8a52b",
+    "name": "Gasförmige Gestalt",
+    "description": "Als Standard-Aktion kannst du eine Gasförmige Gestalt annehmen, wie der gleichnamige Zauber. Du kannst täglich für 1 Minute für je eine deiner Stufen als Mystiker gasförmig bleiben, diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von 1 Minute berechnet. Du kannst auch andere Kreaturen in gasförmiger Gestalt mit dir nehmen, allerdings kostet dich jeder Mitreisende 1 Minute deiner verfügbaren Zeit. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst."
+  },
+  {
+    "id": "71b3df2b-2528-5c08-b734-ceec9643538b",
+    "name": "Luftbarriere",
+    "description": "Du kannst eine unsichtbare Hülle aus Luft erschaffen, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Ab der 13. Stufe sorgt diese Barriere dafür, dass Pfeile, Strahlen und andere Fernkampfangriffe, die einen Angriffswurf erfordern, zu 50% fehlschlagen. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Stunde abgerechnet."
+  },
+  {
+    "id": "fface2cd-971d-5f26-958d-e62743f07000",
+    "name": "Luftschwingen",
+    "description": "Als Schnelle Aktion kannst du ein Paar durchsichtiger, wolkenartiger Schwingen ausbilden, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Auf der 10. Stufe steigt die Bewegungsrate auf 27 Meter und die Manövrierfähigkeit auf Perfekt. Du kannst diese Flügel täglich für 1 Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst."
+  },
+  {
+    "id": "f186dc51-4400-5f14-855a-515dcdba4846",
+    "name": "Unsichtbarkeit",
+    "description": "Als Standard-Aktion kann du dich unsichtbar machen, wie der gleichnamige Zauber Unsichtbarkeit. Du kannst täglich 1 Minute für je eine deiner Stufen als Mystiker unsichtbar bleiben. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute berechnet. Ab der 9. Stufe wirst du behandelt, als stündest du unter dem Zauber Mächtige Unsichtbarkeit. Hierbei kostet dich jedoch jede Runde eine Minute deiner täglich zur Verfügung stehenden Zeit. Du musst mindestens die 3. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "bb012af1-7a14-5e96-b16c-27f38179d925",
+    "name": "Windblick",
+    "description": "Bei Wind kannst du Mali auf deine Fertigkeitswürfe für Wahrnehmung bis zu einer Entfernung von 30 m ignorieren. Ab der 7. Stufe kannst du in jeden Bereich innerhalb der Reichweite wie mit dem gleichnamigen Zauber Hellhören/Hellsehen hineinblicken und -horchen, sofern die Luft zwischen dir und dem Zielgebiet nicht blockiert wird (dies erfordert keine Sichtlinie, d.h. der Weg zum Ziel kann um Ecken oder durch Löcher von mindestens 3 cm Durchmesser führen). Du kannst diese Fähigkeit täglich für 1 Runde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Runde abgerechnet."
+  },
+  {
+    "id": "507cc482-0ac7-53ec-90aa-4c2a98f2864b",
+    "name": "Wirbelzauber",
+    "description": "Wenn du mit einem Angriffszauber einen Kritischen Treffer erzielst, gilt das Ziel eine Runde lang als wankend. Ab der 11. Stufe steigt die Dauer auf 1W4 Runden."
+  },
+  {
+    "id": "b6398fab-a652-52ec-87f4-35684a9c8204",
+    "name": "Arkaner Archivar",
+    "description": "Deine sachkundige Erfahrung mit von Wissen gefüllten Folianten verleiht dir die Fähigkeit, arkane Zauber so zu wirken, als wären sie auf deiner Zauberliste. Einmal pro Tag kannst du deshalb einen Zauber von der Liste der Hexenmeister/Magier Zauber wirken, als wäre er dir bekannt. Der Zauber verbraucht einen Zauberplatz, der um einen Grad höher ist, als der des eigentlichen Zaubers. Um ihn auf diese Weise wirken zu können musst du ein Zauberbuch besitzen, welches diesen Zauber enthält. Anschließend verschwindet dieser Zauber aus dem Buch. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "44d0c32e-8c57-5763-be5c-d6c72a632405",
+    "name": "Gedankenraub",
+    "description": "Du kannst mit einer Standard-Aktion den Verstand eines einzelnen intelligenten Gegners innerhalb von 30 m erforschen. Dem Ziel steht ein Willenswurf zu, um dem Effekt zu widerstehen. Es kennt sofort die Quelle dieses schmerzhaften mentalen Suchens. Wem der Rettungswurf nicht gelingt, der wird von Schmerzen geschüttelt und erleidet 1W4 Schadenspunkte pro Stufe des Mystikers. Nach einem erfolgreichen Angriff mit dieser Fähigkeit kann der Mystiker eine Volle Aktion aufwenden um die gestohlenen Gedanken und Erinnerungen zu ordnen und einen einzelnen Wurf auf eine Wissensfertigkeit mit dem Fertigkeitsbonus des Opfers ablegen. Die zufällig gestohlenen Gedanken verbleiben für eine Anzahl von Runden in Höhe deines CH-Modifikators in deinem Geist, als hättest du Gedanken wahrnehmen genutzt. Dies ist ein geistesbeeinflussender Effekt. Du kannst diese Fähigkeit auf der 1. Stufe einmal pro Tag nutzen. Ab der 5. Stufe und dann alle weiteren fünf Stufen erhältst du jeweils eine zusätzliche Anwendung dieser Fähigkeit."
+  },
+  {
+    "id": "8979a02c-4e9f-50c4-8c87-b8649e93ad82",
+    "name": "Geistesschärfe",
+    "description": "Deine Forschungen in den Geheimnissen der Welt gewähren dir ein übernatürliches Verständnis von allen Dingen. Dabei wirst du beständig klüger und erhältst einen Innewohnenden Bonus von +1 auf deine Intelligenz, und einen weiteren Bonus von +1 für alle weiteren drei Stufen als Mystiker die du danach erreichst. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "5bc252c8-0944-5e50-b7f1-884142be5977",
+    "name": "Schnellstudium",
+    "description": "Du kannst eilig durch einen magischen Leitfaden oder Handbuch blättern und gewinnst seine Vorzüge nach 8 stündigem Lesen statt der üblichen, über sechs Tage verteilten 48 Stunden. Ab der 7. Stufe kannst du einem anderen Charakter erlauben, sich deinen Studien anzuschließen, und ihr erhaltet beide die vollen Vorzüge aus dem Studium des Buches. Ab der 15. Stufe kannst du dein Schnellstudium mit einer Anzahl von Charakteren in Höhe deiner Stufe als Mystiker teilen. Die Vorzüge sind für dich dauerhaft, während deine Schüler die Vorzüge lediglich für eine Anzahl von Tagen in Höhe deines CH- Modifikators erhalten und anschließend das Gelernte wieder vergessen."
+  },
+  {
+    "id": "b9232f30-8f17-5a35-b4d6-49d9e7117837",
+    "name": "Spontaner Einfall",
+    "description": "Einmal pro Tag kann ein Mystiker des Wissens einen misslungenen Wissenswurf wiederholen. Auf diesen Wurf erhältst du einen Kompetenzbonus von +10."
+  },
+  {
+    "id": "ce4657c1-b6f7-55e2-873a-523c6e0bc929",
+    "name": "Spontane Symbolzauber",
+    "description": "Dein Wissen um die geheime Geschichte der Welt hat dir die mysteriösen Zeichen offenbart, welche die Realität beherrschen. Du kannst spontan jeden Symbolzauber wirken, indem du einen Zauberplatz des entsprechenden Grades aufwendest, selbst wenn der Zauber sich nicht auf deiner Liste bekannter Zauber befindet. Ein Symbolzauber ist jeder Zauber mit dem Wort Symbol in seinem Namen. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+  },
+  {
+    "id": "b1a6cfb2-3154-5957-a961-59be65e15445",
+    "name": "Tiefe Meditation",
+    "description": "Du kannst in tiefe Meditation versinken, in der du alle visuellen und akustischen Sinneseindrücke ausblendest. Anschließend kannst du dich auf ein einzelnes Problem konzentrieren, auf eine philosophische Auseinandersetzung oder eine Erinnerung. Diese Meditation hält für 1W6 Runden an. Während dieser Zeit kannst du nur Bewegungsaktionen durchführen, und erhältst einen Bonus in Höhe deiner Stufe als Mystiker auf alle Rettungswürfe gegen Schalleffekte und Blickangriffe. Wenn du aus deiner Meditation erwachst, kannst du einen einzelnen auf Intelligenz basierenden Fertigkeitswurf mit einem Situationsbonus von +20 ablegen. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators einsetzen."
+  },
+  {
+    "id": "ad6e75d3-45dd-527a-ab06-831ab19dff2d",
+    "name": "Tranceschrift",
+    "description": "Einmal pro Tag kannst du eine volle Stunde in ununterbrochener Trance verbringen. Während dieser Zeit erschaffen deine Hände ein geheimnisvolles Schriftstück welches in die Zukunft blickt. Auf der 1. Stufe funktioniert diese Offenbarung wie der Zauber Vorahnung mit einer Wirkung von 90%. Auf der 5. Stufe funktioniert diese Offenbarung wie der Zauber Weissagung mit einer Wirkung von 90%. Auf der 8. Stufe funktioniert diese Offenbarung wie der Zauber Heiliges Gespräch (keine Materialkomponenten erforderlich)."
+  },
+  {
+    "id": "0640d13a-b6cc-583e-ac4e-13c0b8363ffa",
+    "name": "Überirdische Reflexe",
+    "description": "Dein dir eigenes Verständnis für das Universum gewährt dir überirdische Reflexe und die verblüffende Fähigkeit, Gefahren in der letzten Sekunde einfach aus dem Weg gehen zu können. Du addierst deinen CH-Modifikator anstelle deines GE-Modifikators zu deiner Rüstungsklasse und allen Reflexwürfen. Sollte ein Umstand eintreten, der dich deinen GE- Modifikator auf die Rüstungsklasse verlieren lassen würde, verlierst du stattdessen den CH-Modifikator auf deine Rüstungsklasse."
+  },
+  {
+    "id": "eaa80e7a-e759-5f4d-85cc-d6e4d1ee4629",
+    "name": "Volkskundler",
+    "description": "Statt über enzyklopädisches Wissen zu verfügen, beziehst du deine Informationen überwiegend aus Erzählungen, Liedern und Gedichten. Du kannst deinen CH-Modifikator statt deines IN-Modifikators bei allen Wissenswürfen benutzen."
+  },
+  {
+    "id": "e5ec9ff8-f280-5e3e-b00a-8b19c6a7db16",
+    "name": "Letzte Offenbarung (Firmament)",
+    "description": "Wenn du die 20. Stufe erreichst, erlangst du durch deine Verbindung zum Nachthimmel eine perfekte Harmonie mit dem Universum. Du erhältst einen Bonus auf alle Rettungswürfe in Höhe deines CH-Modifikators. Du stabilisierst dich automatisch, solltest du unter 0 Trefferpunkte fallen, bist immun gegen Furchteffekte und bestätigst automatisch alle kritischen Treffer. Solltest du sterben, wirst du 3 Tage später als Sternenkind wiedergeboren, das innerhalb von 7 Tagen zu einem Erwachsenen wird (behandle dies wie den Zauber Wiedergeburt)."
+  },
+  {
+    "id": "ac946ff9-af2b-55bd-9f54-e3b5b959981c",
+    "name": "Letzte Offenbarung (Flammen)",
+    "description": "Wenn du die 20. Stufe erreichst, wirst du zu einem wahren Meister der Flammen. Du kannst jedes der folgenden Talente auf jeden Feuerzauber anwenden, ohne den Grad des Zauber oder den Zeitaufwand erhöhen zu müssen: Zauber ausdehnen, Zauberreichweite erhöhen, Lautlos zaubern oder Gestenlos zaubern. Du musst diese Talente nicht besitzen, um diese Fähigkeit einsetzen zu können."
+  },
+  {
+    "id": "827dee17-27d4-5447-b040-1202c4d777be",
+    "name": "Letzte Offenbarung (Gebeine)",
+    "description": "Ab der 20. Stufe wirst du zu einem Meister des Todes. Einmal pro Runde kannst du Ausbluten oder Stabilisieren als Freie Aktion wirken. Wenn du unter 0 Trefferpunkte fällst, stabilisierst du dich automatisch. Du kannst beliebig oft Tote beleben wirken. Ebenfalls musst du dafür keine Materialkomponenten aufwenden, bist aber immer noch an die Begrenzung der Trefferwürfel, die du kontrollieren kannst, gebunden. Einmal am Tag kannst du Wort der Macht: Tod wirken, wobei der Zauber nur ein Wesen mit 150 oder weniger Trefferpunkten betreffen kann."
+  },
+  {
+    "id": "ce7e7bd7-8806-5b85-a9b8-71ea694109ab",
+    "name": "Letzte Offenbarung (Leben)",
+    "description": "Auf der 20. Stufe wirst du zu einem vollendeten Träger der Lebenskraft. Du wirst immun gegen Todesangriffe, Erschöpfung, Entkräftung, Übelkeit, negative Stufen sowie Blutungseffekte und solche, die dich kränkeln lassen. Attributsschaden und -entzug kann keinen deiner Attributswerte unter 1 senken. Rettungswürfe gegen massiven Schaden gelingen automatisch. Solltest du unter 0 Trefferpunkte fallen, stirbst du erst, wenn deine negativen Trefferpunkte mehr als dem zweifachen deines Konstitutionswertes entsprechen."
+  },
+  {
+    "id": "2ec15ddd-5911-585a-99bd-f6804a827e44",
+    "name": "Letzte Offenbarung (Natur)",
+    "description": "Auf der 20. Stufe entdeckst du das Geheimnis des Lebens selbst und gewinnst unvorstellbare Kontrolle über deinen Körper. Einmal am Tag kannst du dich mit einer Vollen Aktion mit einem organischen Kokon umgeben. Während du dich in dem Kokon befindest, giltst du als hilflos. Nach 8 Stunden verlässt du ihn wieder. Deine Art hat sich zu Pflanze, Tier oder Humanoider geändert, was dir die damit einhergehenden körperlichen Eigenschaften verleiht (siehe Monsterhandbuch). Diese Verwandlung ändert jedoch weder deine Trefferwürfel, Trefferpunkte, Rettungswürfe, Fertigkeitspunkte, Klassenfertigkeiten, noch deine Fähigkeit im Umgang mit Waffen oder Rüstungen. Jedes Mal, wenn du dich der Verwandlung unterziehst, wirst du von allen Giften und Krankheiten gereinigt, erlangst deine volle Trefferpunktzahl und heilst sämtlichen Attributsschaden. Bei jeder Verwandlung musst du eine andere Art wählen."
+  },
+  {
+    "id": "4eb7ed7b-7357-5e19-9f13-c7b89eeceed3",
+    "name": "Letzte Offenbarung (Schlacht)",
+    "description": "Wenn du die 20. Stufe erreichst, wirst du zu einer Inkarnation der Schlacht. Du kannst einen Vollen Angriff sowie gleichzeitig eine Bewegungsaktion als Volle Aktion ausführen, wobei du dich jedoch nur vor oder nach deinen Angriffen bewegen kannst. Wenn du einen Kritischen Treffer erzielst, ignorierst du jegliche Schadensreduzierung des Zieles. Du erhältst einen Innewohnenden Bonus von +4 auf deine RK gegen Bestätigungswürfe für Kritische Treffer gegen dich. Wenn du unter 0 Trefferpunkte fällst, stirbst du nicht, bis deine negativen Trefferpunkte einem mehr als dem zweifachen deines Konstitutionswertes entsprechen."
+  },
+  {
+    "id": "f0009f77-2749-57e1-863e-c46ed118d289",
+    "name": "Letzte Offenbarung (Stein)",
+    "description": "Mit Erreichen der 20. Stufe wirst du zu einem Meister der Säure und der Erde. Du kannst jedes der folgenden Talente auf jeden Säure- oder Erdzauber anwenden, ohne den Grad des Zaubers oder den Zeitaufwand erhöhen zu müssen: Zauber ausdehnen, Zauberreichweite erhöhen, Lautlos zaubern oder Gestenlos zaubern. Du musst diese Talente nicht besitzen, um diese Fähigkeit benutzen zu können."
+  },
+  {
+    "id": "7084e91b-8f63-5e14-95c4-1523c6abe421",
+    "name": "Letzte Offenbarung (Wellen)",
+    "description": "Mit Erreichen der 20. Stufe wirst du zu einem Meister der Kälte und des Wassers. Du kannst jedes der folgenden Talente auf jeden Kälte- oder Wasserzauber anwenden, ohne den Grad des Zaubers oder den Zeitaufwand erhöhen zu müssen: Zauber ausdehnen, Zauberreichweite erhöhen, Lautlos zaubern oder Gestenlos zaubern. Du musst diese Talente nicht besitzen, um diese Fähigkeit benutzen zu können."
+  },
+  {
+    "id": "efc447d7-e1d1-5c07-9d5b-54e505f2e182",
+    "name": "Letzte Offenbarung (Wind)",
+    "description": "Mit Erreichen der 20. Stufe wirst du zu einem Meister der Luft und der Elektrizität. Du kannst jedes der folgenden Talente auf jeden Zauber der Kategorie Luft oder Elektrizität anwenden, ohne den Grad des Zaubers oder den Zeitaufwand erhöhen zu müssen: Zauber ausdehnen, Zauberreichweite erhöhen, Lautlos zaubern oder Gestenlos zaubern. Du musst diese Talente nicht besitzen, um diese Fähigkeit benutzen zu können."
+  },
+  {
+    "id": "d7d3b386-b464-5caa-b9f4-9cbe1a369b3c",
+    "name": "Letzte Offenbarung (Wissen)",
+    "description": "Du kannst bei allen Wissenswürfen 20 nehmen. Dein Verständnis für die fundamentalen Grundsätze der Realität ist derart fortgeschritten, dass du einmal am Tag den Zauber Wunsch wirken kannst (diese Fähigkeit benötigt keine Materialkomponenten). Der Wunsch kann nicht benutzt werden, um Boni auf Attributswerte zu verleihen, oder um Zauber mit teuren Materialkomponenten zu duplizieren. * Drucken * Changes * Comments * Index * Open Game License * Community Use Policy"
   }
 ]

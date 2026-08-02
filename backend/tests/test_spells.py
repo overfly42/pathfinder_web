@@ -31,7 +31,7 @@ def test_spells_by_class_groups_by_root_class_with_grades(client: TestClient, db
     assert response.status_code == 200
     by_class = response.json()
 
-    assert set(by_class) == {"Magier", "Hexenmeister", "Barde", "Orakel"}
+    assert set(by_class) == {"Magier", "Hexenmeister", "Barde", "Mystiker"}
     magier = by_class["Magier"]
     assert all({"id", "name", "grade"} <= set(s) for s in magier)
     schild = next(s for s in magier if s["name"] == "Schild")

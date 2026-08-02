@@ -105,16 +105,16 @@
   },
   {
     "id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
-    "name": "Orakel",
+    "name": "Mystiker",
     "hit_dice": 8,
     "arch_class_of": null,
     "casting_ability": "CH",
     "spell_tradition": "divine",
     "bab_progression": 0.75,
-    "fort_save": true,
+    "fort_save": false,
     "ref_save": false,
     "wil_save": true,
-    "skill_points_base": 2
+    "skill_points_base": 4
   },
   {
     "id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",

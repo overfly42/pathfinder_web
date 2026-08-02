@@ -52,6 +52,7 @@ def test_list_classes_exposes_skill_points_base_from_real_data(client: TestClien
 
 def test_list_classes_exposes_kaempfer_class_skills_from_real_data(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)  # base_class_skills.option_choice_id FKs here
     seed_skills(db_session)
 
     response = client.get("/api/classes")
@@ -79,6 +80,7 @@ def test_list_classes_exposes_kaempfer_class_skills_from_real_data(client: TestC
 
 def test_list_classes_exposes_waldlaeufer_class_skills_from_real_data(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)
+    seed_class_options(db_session)  # base_class_skills.option_choice_id FKs here
     seed_skills(db_session)
 
     response = client.get("/api/classes")

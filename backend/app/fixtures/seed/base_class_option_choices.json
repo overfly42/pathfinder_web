@@ -125,56 +125,6 @@
     "name": "Universalist"
   },
   {
-    "id": "858fadf9-03eb-4c47-a83a-9adb4277f3ca",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Leben"
-  },
-  {
-    "id": "3de67bf0-77a0-43a4-94c6-1ad1fba8fb9a",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Knochen"
-  },
-  {
-    "id": "b15bdd74-a1bc-412d-b620-9fad1373d820",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Flamme"
-  },
-  {
-    "id": "41ca55cb-9e93-42c8-92f6-3c3e3f16de56",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Natur"
-  },
-  {
-    "id": "9b560125-bd15-44ab-990e-0c8abe4dc64c",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Zeit"
-  },
-  {
-    "id": "49411e03-5306-4ee5-af66-77006c591c8d",
-    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
-    "name": "Wasser"
-  },
-  {
-    "id": "8da95019-831e-4336-a346-2741096340f4",
-    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
-    "name": "Blindheit"
-  },
-  {
-    "id": "b32e5d82-97f3-45f4-8aa4-0dbdaf452c30",
-    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
-    "name": "Verstummt"
-  },
-  {
-    "id": "37a42372-564b-44a8-8b0f-32b135bbafd3",
-    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
-    "name": "Verflucht mit Schuppen"
-  },
-  {
-    "id": "272b16a8-ac17-4bb1-a6d4-022907743c2e",
-    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
-    "name": "Frostgezeichnet"
-  },
-  {
     "id": "0a805c7c-8da8-46e4-a321-3c58b20e8385",
     "group_id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
     "name": "Aberration"
@@ -553,5 +503,720 @@
     "id": "4ca3bde6-5cf2-5344-8c73-6b7e502f095c",
     "group_id": "5f96a832-3c62-56a1-8e04-1efc2ab6d47f",
     "name": "Tiergefährte"
+  },
+  {
+    "id": "874f7c09-a6d8-5f6b-b106-7b546953f946",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Firmament"
+  },
+  {
+    "id": "955e4778-53e3-56b4-9002-38ce09677af2",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Flammen"
+  },
+  {
+    "id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Gebeine"
+  },
+  {
+    "id": "ce6c0625-3c61-5368-960b-6287ce495047",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Leben"
+  },
+  {
+    "id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Natur"
+  },
+  {
+    "id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Schlacht"
+  },
+  {
+    "id": "c311477e-38db-595c-97ea-4f5a01f878f4",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Stein"
+  },
+  {
+    "id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Wellen"
+  },
+  {
+    "id": "17022c73-49dd-51c2-8e66-f240c36b037a",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Wind"
+  },
+  {
+    "id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e",
+    "group_id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
+    "name": "Wissen"
+  },
+  {
+    "id": "f9372160-501b-58ec-9f27-78e632dbac79",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Getrübte Sicht"
+  },
+  {
+    "id": "79f4709e-6c99-555b-9dc5-5b4be17c7e46",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Heimgesucht"
+  },
+  {
+    "id": "bd7723eb-a9d8-572b-8f36-1bbc1ad1c593",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Lahm"
+  },
+  {
+    "id": "007efd98-2a82-5088-8547-0d22056380f6",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Schwindsüchtig"
+  },
+  {
+    "id": "5652deca-4141-5844-aaa7-47e3520b580b",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Taub"
+  },
+  {
+    "id": "75a2dd7b-328b-50f6-af7f-8c3d77f3ce6e",
+    "group_id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
+    "name": "Zungen"
+  },
+  {
+    "id": "c14dc045-ba95-5d1b-b413-aac7c93bd05f",
+    "group_id": "0e71c3d5-3290-5efc-b3e7-1b03965d6294",
+    "name": "Wunden heilen"
+  },
+  {
+    "id": "5b4d0fc5-21cb-5888-8046-69151010c780",
+    "group_id": "0e71c3d5-3290-5efc-b3e7-1b03965d6294",
+    "name": "Wunden verursachen"
+  },
+  {
+    "id": "4f4b64bb-2898-5896-a279-1ea611e239ac",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Beeindruckende Darbietung",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "77f14b48-661e-5927-8263-e5f5c7651d3f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Bewohner der Dunkelheit",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946",
+    "min_level": 11
+  },
+  {
+    "id": "c38dd647-abd7-5e4c-8464-361a073c29c8",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Interstellare Leere",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "0871436f-678a-5569-9478-36e49c265c22",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Lockruf des Firmaments",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "e5022090-aff2-501b-b970-1a2cbd7f1b23",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Macht der Sterne",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "3843656c-f28f-5508-80e5-835daadf8d21",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Mondscheinbrücke",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "d26c7c20-d3d0-5ae4-8e9f-4835e18ce601",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Mondscheinmantel",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "d024ffd3-0e5d-5f38-bc7b-5ffcdf823eae",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Sternenkarte",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946",
+    "min_level": 7
+  },
+  {
+    "id": "15b56a9a-754a-591c-9e26-cd908beee306",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Sternenmantel",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "182f5442-4f50-5d74-a258-637e2dbaab11",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Sternschnuppen",
+    "requires_choice_id": "874f7c09-a6d8-5f6b-b106-7b546953f946"
+  },
+  {
+    "id": "9f4147a0-e73b-5242-a1c4-f6b9fa41f08f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Aschetanz",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "76a4aca6-8b7d-5e69-86a0-204c7401ea9a",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Brennende Magie",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "04656c05-a3f1-5f2d-ad85-a02108ddaed6",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Feuer widerstehen",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "5f2d7683-d4e5-52dd-8184-e482c4d7b1d0",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Feuerschwingen",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2",
+    "min_level": 7
+  },
+  {
+    "id": "e844ae0b-f933-5f3a-803c-3f9d74d8a86f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Feuersturm",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2",
+    "min_level": 11
+  },
+  {
+    "id": "bd73bc64-cfd1-53ab-9ad1-6e33182d7e05",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Feuerodem",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "3fd3b898-e1fb-5f43-aad7-a31e76e59c89",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Flammengestalt",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2",
+    "min_level": 7
+  },
+  {
+    "id": "3daf3941-d695-5620-ad5e-2db699d34ba7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Flammenhauch",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "6ae68185-f148-5f69-a3e6-b462e6270400",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Flammensicht",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "f5c7da24-9ec4-512a-9fe7-dd1a1ebe5733",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Hitzeaura",
+    "requires_choice_id": "955e4778-53e3-56b4-9002-38ce09677af2"
+  },
+  {
+    "id": "3a2ba042-9bb4-553c-95bc-1967cb5f877d",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Geistwandeln",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5",
+    "min_level": 11
+  },
+  {
+    "id": "406cf897-fcce-5bac-9f02-8f02becc9329",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Klaffende Wunden",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "08bd08b6-cdc8-5dab-8a49-f17060e4d30f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Knochenrüstung",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "db2d0617-0f74-5ada-bbcc-8cac3bc907ce",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Leben widerstehen",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "aba5191e-2c7f-5340-8f07-c8415f192d61",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Seelenzehrer",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5",
+    "min_level": 7
+  },
+  {
+    "id": "2c659abf-f6b7-57e8-83d6-e2c7dd24a089",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Stimme des Grabes",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "8580c814-1881-5031-a2b0-8d1b24633e31",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Todeshauch",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "7f35998e-2286-58a5-8407-35dd8c615676",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Todesnähe",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "c463ee7b-0fd7-59b2-8387-b11c30690024",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Untote Diener",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "8fa69683-9941-5094-8fee-9c88885a8fed",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Untote rufen",
+    "requires_choice_id": "ab7a6bb1-c2ab-5aef-b701-52a59a32eaf5"
+  },
+  {
+    "id": "5b8b2642-dbc7-583b-ae5c-dadbfa212dab",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Energiegestalt",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "5fad74f5-5390-5b32-9708-4d9144282e90",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Fokussieren",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "649e3870-f3f8-5fc6-b316-8c7ae9176649",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Gebrechen lindern",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "79ae082f-bd18-5afd-af0b-041c726f4b0f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Geteiltes Leid",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "96ad0f29-6b07-5a81-95ca-1b27680b3e54",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Heilende Hände",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "98026ac0-e1e8-5900-a8d9-bebd809a57d8",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Kampfheiler (Leben)",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047",
+    "min_level": 7
+  },
+  {
+    "id": "ef061064-b512-5084-b67f-25d3f9950724",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Lebensgespür",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047",
+    "min_level": 11
+  },
+  {
+    "id": "c8b43c79-7a92-5561-94cc-a456e874b29b",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Seelenstärkung",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "6717cefd-77ff-5249-93ca-82537020ba31",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Sicheres heilen",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "2415bdb2-473a-563b-ad60-7549f1449a3f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Verbesserte Heilzauber",
+    "requires_choice_id": "ce6c0625-3c61-5368-960b-6287ce495047"
+  },
+  {
+    "id": "3a1b0965-1f82-5afb-acf2-823deae358e0",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Auflösende Berührung",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "44ac88ce-6a16-568d-828e-3ab234fb2159",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Flüstern der Natur",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "dbf1a034-7ee0-560b-b7a5-acd0513d308d",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Form widerrufen",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12",
+    "min_level": 11
+  },
+  {
+    "id": "c524b8de-c3a2-5820-bab3-853d9d8dcdde",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Freund der Tiere",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "13981b20-2eff-5ca0-a610-65c83cec62ac",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Gebundenes Reittier",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "f4ace21f-bc2b-54c8-846b-77feafa962d2",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Lebenshauch der Natur",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "cb8636f1-02d6-5562-9a79-632d8bca0b96",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Lebensraub",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12",
+    "min_level": 7
+  },
+  {
+    "id": "ab7fda54-eeab-5bb0-8781-1dc6b94ae299",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Mit Tieren sprechen",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "6e278445-8755-58f0-a921-6549da1c0af4",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Natürliche Erkenntniszauber",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "49c443a3-eb51-5654-a345-22cef736385a",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Übernatürliches Band",
+    "requires_choice_id": "063f44d7-9bb4-59fc-9f3d-aaa3b5eb6f12"
+  },
+  {
+    "id": "18aa210a-4f6b-5833-b058-1f01e165b2de",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Eisenhaut",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7",
+    "min_level": 11
+  },
+  {
+    "id": "6843eed8-0899-5a57-b1c0-39d6500502b4",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Kampfheiler (Schlacht)",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7",
+    "min_level": 7
+  },
+  {
+    "id": "e972c838-a52b-5dee-8489-ec581447b0af",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Klarheit des Schlachtfeldes",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "30a1d6ea-283c-5748-bebc-b4226fed9ec0",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Meisterliche Manöver",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "0c6269a8-8e05-547a-9830-26f0a27b13da",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Schlachtruf",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "ca495233-3452-53c6-8217-7b61645496e7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Überraschender Sturmangriff",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "effad541-9889-53d2-99b0-9b7a1b6350a5",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Unverwüstlichkeit",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "5b767e09-c475-52df-9e8d-a4613ebb9034",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Wachsamer Krieger",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "96743cd9-145c-5826-9ac7-359c63e010d6",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Waffenbeherrschung",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "84e2e1d3-0bdb-5fca-8676-74a04b599d29",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Waffenmeisterschaft",
+    "requires_choice_id": "4b3fab0f-3780-5e29-abc9-c016dda88ba7"
+  },
+  {
+    "id": "1c9de39d-e874-58ba-8d80-ad3fd9a01afe",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Durch Erde gleiten",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4",
+    "min_level": 7
+  },
+  {
+    "id": "9cdff360-4f43-5c2d-b70b-05b7044604a7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Felsen werfen",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "ddf11b69-952a-56fb-9009-bc8b281b030e",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Kristallblick",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "a02da103-116e-53fa-9c99-de7195a02a0c",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Mächtiger Kiesel",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "5ce0cce6-4f4c-59ad-95c9-8a861c5e05e1",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Niederprügelnder Schlag",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "f339e1c3-d609-5c48-bff5-f79a29a9071b",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Säureberührung",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "b616874a-5be2-58c2-ac8d-f9307e27e628",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Säurehaut",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "6d54982b-14dc-5a35-acdc-d467a530db50",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Splitterhagel",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "75aa163d-2882-5bd1-bac9-232c803a4a4d",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Stahlharte Haut",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4",
+    "min_level": 7
+  },
+  {
+    "id": "e71dab73-3317-5b99-803a-b3923554ab64",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Standhaftigkeit des Steines",
+    "requires_choice_id": "c311477e-38db-595c-97ea-4f5a01f878f4"
+  },
+  {
+    "id": "a6f8cf73-dc79-5b15-a585-c64bda5387b5",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Auf Flüssigkeit wandeln",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "0a2346e1-b150-5a05-8516-7d00689f895f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Einfrierende Zauber",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "c86cf992-4c5e-57cd-9565-fb1635d30cb2",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Eiskalte Haut",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "77a532c0-f08b-5e1a-aef1-da3ab24fc022",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Eisrüstung",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "0c42787b-1ea7-5bf0-a668-af5ee6f6e24f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Fließende Natur",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "6e3131e9-b3d5-50f6-964a-3f447675f715",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Schneesturm",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7",
+    "min_level": 11
+  },
+  {
+    "id": "799b33d7-3e32-5d76-975d-e92215f781be",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Strafende Verwandlung",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7",
+    "min_level": 7
+  },
+  {
+    "id": "4a11b028-3283-5d9a-93c4-cafc72ea3d69",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Wasserblick",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "f791e118-1e7c-566e-877a-96e360e2a1e3",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Wassergestalt",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7",
+    "min_level": 7
+  },
+  {
+    "id": "4695151d-4b46-59ee-a52b-d464df9c4fce",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Winterliche Berührung",
+    "requires_choice_id": "f8cca849-b07f-58c7-b3e1-d7bc42fa8ad7"
+  },
+  {
+    "id": "f4584342-9c26-52a3-8613-914ba9e97097",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Blitzodem",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "48dcbb09-065b-55c5-ad11-9d53d7636c12",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Donnerschlag",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a",
+    "min_level": 7
+  },
+  {
+    "id": "f7cb2017-aea5-578e-a90e-e67c7108e43f",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Elektrische Berührung",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "8c6e48b3-9ab0-5f0c-9afe-d6ed3b4066ad",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Funkenhaut",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "5389acd2-f339-5008-ad99-006fe87d52cf",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Gasförmige Gestalt",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a",
+    "min_level": 7
+  },
+  {
+    "id": "bc677135-dbd6-5aae-aa87-074d88df89de",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Luftbarriere",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "716a7193-919c-5654-910f-e17d9c78d3a6",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Luftschwingen",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a",
+    "min_level": 7
+  },
+  {
+    "id": "b649f887-090c-54d1-a42a-f21ddd8380cd",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Unsichtbarkeit",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a",
+    "min_level": 3
+  },
+  {
+    "id": "f018b5a7-0970-52c7-bc74-c551884cf5da",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Windblick",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "1edf0357-3c5d-5b70-af5c-d6fe53bcf1c7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Wirbelzauber",
+    "requires_choice_id": "17022c73-49dd-51c2-8e66-f240c36b037a"
+  },
+  {
+    "id": "1c75080c-5611-5f9d-83b5-8d2deb59e4b7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Arkaner Archivar",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e",
+    "min_level": 11
+  },
+  {
+    "id": "5db647b0-0204-539d-86fc-db41a731b92d",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Gedankenraub",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "0d5a16c3-e755-5be2-a157-a5ef33ac0724",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Geistesschärfe",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e",
+    "min_level": 7
+  },
+  {
+    "id": "5d5bb0ed-a5da-5dc8-8df7-2d64b405bf31",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Schnellstudium",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "c8583d14-02df-5321-b70c-f613058731ec",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Spontaner Einfall",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "5316d2f4-f4d4-51b8-b9fa-5f90b2c696b7",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Spontane Symbolzauber",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e",
+    "min_level": 11
+  },
+  {
+    "id": "e2dc1c27-04c0-5657-a1fb-314278fb7af9",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Tiefe Meditation",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "4a8ffc26-0bfd-5038-8f25-3ca184b5e340",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Tranceschrift",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "385a9f63-6684-558e-afdd-daa1da27dc56",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Überirdische Reflexe",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
+  },
+  {
+    "id": "2ce95dd7-36a7-5fc7-ba4a-2accdb61dc7b",
+    "group_id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
+    "name": "Volkskundler",
+    "requires_choice_id": "a762d106-3d94-5e7c-8012-6fb65c9bbf3e"
   }
 ]
