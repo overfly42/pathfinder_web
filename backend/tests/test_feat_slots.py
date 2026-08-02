@@ -11,7 +11,9 @@ from app.models import (
     BaseClassAbilitySpellOption,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
+    BaseClassSkill,
     BaseRace,
+    BaseSkill,
 )
 from app.rules.feat_slots import RACE_BONUS_FEAT_ABILITY_ID, class_bonus_feat_slot_count, race_grants_bonus_feat
 from app.seed.class_ability_option_seed import seed_class_ability_options
@@ -147,6 +149,35 @@ def test_hexenmeister_talent_des_blutes_is_seeded_per_bloodline(db_session: Sess
     )
     assert len(rows) > 0
     assert all(r.feat_id is not None and r.feat_type is None for r in rows)
+
+
+def test_hexenmeister_bloodlines_each_grant_a_bonus_class_skill(db_session: Session) -> None:
+    """http://prd.5footstep.de/Grundregelwerk/Klassen/Hexenmeister - every
+    bloodline section has its own "Klassenfertigkeit: X" line (missed by the
+    original bloodline import, which only extracted the "Bonustalente:"
+    paragraph) - same `BaseClassSkill.option_choice_id` mechanism as
+    Mystiker's per-mystery bonus skills, found the same way (see the
+    conversation this was scoped from)."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_skills(db_session)
+
+    hexenmeister = db_session.query(BaseClass).filter_by(name="Hexenmeister").one()
+    skills_by_id = {s.id: s.name for s in db_session.query(BaseSkill).all()}
+
+    def bonus_skills(bloodline_name: str) -> set[str]:
+        choice = db_session.query(BaseClassOptionChoice).filter_by(name=bloodline_name).one()
+        rows = db_session.query(BaseClassSkill).filter_by(base_class_id=hexenmeister.id, option_choice_id=choice.id)
+        return {skills_by_id[r.skill_id] for r in rows}
+
+    assert bonus_skills("Drachenblutlinie") == {"Wahrnehmung"}
+    assert bonus_skills("Teuflische Blutlinie") == {"Diplomatie"}
+    assert bonus_skills("Himmlische Blutlinie") == {"Heilkunde"}
+    # "Wissen (freie Wahl)" - modeled as all 10 Wissen sub-skills, see
+    # add_hexenmeister_bloodline_skills.py's docstring for why.
+    arkane_skills = bonus_skills("Arkane Blutlinie")
+    assert len(arkane_skills) == 10
+    assert all(name.startswith("Wissen (") for name in arkane_skills)
 
 
 def test_schurke_trick_and_advanced_trick_option_groups_are_seeded(db_session: Session) -> None:

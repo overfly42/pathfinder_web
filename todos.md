@@ -634,6 +634,31 @@ Slice-Arbeit.
         Zeilen unter alten IDs, bis sie neu geseedet wird — bewusst nicht
         automatisch bereinigt, da lokale Dev-DB-Instanzen unter CLAUDE.mds
         Vorsichtsprinzip nicht ungefragt zurückgesetzt werden.
+  - [x] **Nachtrag 2026-08-02 (Fortsetzung 2): Hexenmeisters fehlende
+        Blutlinien-Klassenfertigkeiten nachgetragen.** Auf Nachfrage erneut
+        gegen <http://prd.5footstep.de/Grundregelwerk/Klassen/Hexenmeister>
+        geprüft: die Seite sagt in der „Blutlinien:"-Einleitung explizit,
+        dass jede Blutlinie „Zauber, Bonustalente, eine zusätzliche
+        Klassenfertigkeit und andere besondere Fähigkeiten" verleiht — jede
+        der 10 Blutlinien-Sektionen hat eine eigene „Klassenfertigkeit: X"-
+        Zeile. Beim ursprünglichen Blutlinien-Import (`import_hexenmeister_
+        bloodlines.py`) wurde nur der „Bonustalente:"-Absatz extrahiert, die
+        Klassenfertigkeit blieb unbemerkt fehlend — genau dieselbe Lückenform
+        wie bei Mystikers Mysterien, mit demselben `BaseClassSkill.
+        option_choice_id`-Feld behoben (`add_hexenmeister_bloodline_skills.py`):
+        Abnormale Blutlinie -> Wissen (Gewölbekunde), Blutlinie des Grabes ->
+        Wissen (Religion), Dämonische/Elementare Blutlinie -> Wissen (Die
+        Ebenen), Drachenblutlinie -> Wahrnehmung, Feenblutlinie -> Wissen
+        (Natur), Himmlische Blutlinie -> Heilkunde, Schicksalhafte Blutlinie
+        -> Wissen (Geschichte), Teuflische Blutlinie -> Diplomatie. Eine
+        bewusste Näherung: Arkane Blutlinie gewährt laut Seite „Wissen (freie
+        Wahl)" — eine freie Wahl EINER Wissensfertigkeit, wofür es (wie bei
+        Mystikers „Schätzen und alle Wissensfertigkeiten" derselbe Kompromiss)
+        keine Modellierung als „wähle eine aus Kategorie X" gibt — stattdessen
+        gewähren alle 10 Wissensfertigkeiten Klassenfertigkeit-Status, eine
+        großzügigere, aber sichere Überapproximation statt einer nicht
+        abbildbaren Mechanik. Test ergänzt (`test_feat_slots.py`), 138 Tests
+        grün.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
