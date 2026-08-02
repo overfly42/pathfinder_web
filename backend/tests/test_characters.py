@@ -251,13 +251,19 @@ def test_create_character_with_archetype_persists_and_round_trips(client: TestCl
             user_id,
             race_id,
             db_session,
-            classes=[{"class_name": "Kämpfer", "level": 2, "archetypes": ["Waffenmeister"]}],
+            classes=[{"class_name": "Kämpfer", "level": 2, "archetypes": ["Zwei-Waffen-Kämpfer"]}],
         ),
     )
     assert response.status_code == 201
     body = response.json()
     assert body["classes"] == [
-        {"class_name": "Kämpfer", "level": 2, "archetypes": ["Waffenmeister"], "is_favored": True, "options": {}}
+        {
+            "class_name": "Kämpfer",
+            "level": 2,
+            "archetypes": ["Zwei-Waffen-Kämpfer"],
+            "is_favored": True,
+            "options": {},
+        }
     ]
 
     # GET /api/characters/{id} now returns the sheet's display shape
@@ -274,7 +280,10 @@ def test_create_character_with_unknown_archetype_is_rejected(client: TestClient,
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, classes=[{"class_name": "Kämpfer", "level": 1, "archetypes": ["Berserker"]}]
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Kämpfer", "level": 1, "archetypes": ["Nichtexistenter Archetyp"]}],
         ),
     )
     assert response.status_code == 422
@@ -296,14 +305,14 @@ def test_create_character_with_multiple_archetypes_on_one_class_succeeds(
                 {
                     "class_name": "Kämpfer",
                     "level": 1,
-                    "archetypes": ["Waffenmeister", "Söldnerkommandant"],
+                    "archetypes": ["Zwei-Waffen-Kämpfer", "Schildkämpfer"],
                 }
             ],
         ),
     )
     assert response.status_code == 201
     body = response.json()
-    assert set(body["classes"][0]["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
+    assert set(body["classes"][0]["archetypes"]) == {"Zwei-Waffen-Kämpfer", "Schildkämpfer"}
 
 
 def test_create_character_with_same_class_across_rows_merges_archetypes(
@@ -319,9 +328,9 @@ def test_create_character_with_same_class_across_rows_merges_archetypes(
             race_id,
             db_session,
             classes=[
-                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Waffenmeister"]},
+                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Zwei-Waffen-Kämpfer"]},
                 {"class_name": "Schurke", "level": 1},
-                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Söldnerkommandant"]},
+                {"class_name": "Kämpfer", "level": 1, "archetypes": ["Schildkämpfer"]},
             ],
         ),
     )
@@ -330,7 +339,7 @@ def test_create_character_with_same_class_across_rows_merges_archetypes(
     assert len(body["classes"]) == 2
     kaempfer = next(c for c in body["classes"] if c["class_name"] == "Kämpfer")
     assert kaempfer["level"] == 2
-    assert set(kaempfer["archetypes"]) == {"Waffenmeister", "Söldnerkommandant"}
+    assert set(kaempfer["archetypes"]) == {"Zwei-Waffen-Kämpfer", "Schildkämpfer"}
 
 
 def test_create_character_with_option_group_choice_persists(client: TestClient, db_session: Session) -> None:

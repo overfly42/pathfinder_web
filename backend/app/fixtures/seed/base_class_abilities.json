@@ -75,6 +75,36 @@
     "description": "Ab der 19. Stufe provoziert jede Kreatur, die den Zwei-Waffen-Kämpfer bis zum Beginn seines nächsten Zuges trifft, nachdem er einen Vollen Angriff mit beiden Waffen geführt hat, einen Gelegenheitsangriff des Kämpfers. Ersetzt Waffenmeisterschaft (Zwei-Waffen-Kämpfer-Archetyp)."
   },
   {
+    "id": "842009e5-6919-44be-ad21-289eb1b3641a",
+    "name": "Aktive Verteidigung",
+    "description": "Die Vorteile des Schildkämpfers gelten nur, solange er gleichzeitig eine Waffe und einen Schild führt. Ab der 3. Stufe erhält der Schildkämpfer einen Ausweichbonus von +1 auf seine Rüstungsklasse, wenn er einen Schild führt und defensiv kämpft, das Talent Defensive Kampfweise nutzt oder Volle Verteidigung verwendet. Dieser Bonus steigt um weitere +1 alle vier Stufen nach der 3. Stufe. Als Schnelle Aktion kann er bis zum Beginn seines nächsten Zuges seinen Bonus mit einem benachbarten Verbündeten teilen oder seinen halben Bonus (Minimum +0) mit allen Verbündeten auf benachbarten Feldern. Ersetzt Rüstungstraining 1, 2, 3 und 4 (Schildkämpfer-Archetyp)."
+  },
+  {
+    "id": "d32b80f8-f3c6-48bb-bb39-a2e77a6117a1",
+    "name": "Schildkämpfer",
+    "description": "Ab der 5. Stufe erhält der Schildkämpfer einen Bonus von +1 auf seine Angriffs- und Schadenswürfe bei einem Schildstoß. Dieser Bonus steigt um weitere +1 alle vier Stufen nach der 5. Stufe. Bei einem Vollen Angriff kann der Schildkämpfer abwechselnd seine Waffe und seinen Schild bei seinen Angriffen verwenden, er erhält keine zusätzlichen Angriffe, aber auch keine Mali für den Kampf mit zwei Waffen. Ersetzt Waffentraining 1 (Schildkämpfer-Archetyp)."
+  },
+  {
+    "id": "a9ddfec2-0750-40ca-b58b-e5f66e53735b",
+    "name": "Schildschlag",
+    "description": "Ab der 9. Stufe kann der Schildkämpfer als Bewegungsaktion einen Kampfmanöverwurf machen, um einen angrenzenden Gegner mit seinem Schild zu behindern. Bei einem Erfolg erleidet das Ziel einen Malus von -2 auf seine Angriffswürfe gegen den Schildkämpfer sowie einen Malus von -2 auf seine Rüstungsklasse gegen Angriffe des Schildkämpfers bis zum Anfang seines nächsten Zuges. Ab der 13. Stufe kann der Schildkämpfer diese Fähigkeit als Schnelle Aktion nutzen. Ersetzt Waffentraining 2 und 3 (Schildkämpfer-Archetyp)."
+  },
+  {
+    "id": "6789bc0c-ced2-4326-981e-6cb631fb1b71",
+    "name": "Schildwacht",
+    "description": "Ab der 17. Stufe kann der Schildkämpfer ein benachbartes Feld auswählen (zwei Felder mit einem Schweren Schild, drei Felder mit einem Turmschild; die Felder müssen aneinander angrenzen). Feinde auf diesen Feldern können den Schildkämpfer nicht mehr in die Zange nehmen und zählen auch nicht, um zu bestimmen, ob der Schildkämpfer in die Zange genommen wird. Dieser Effekt wirkt, bis der Schildkämpfer seine Position verlässt oder mit einer weiteren Schnellen Aktion andere Felder auswählt. Ersetzt Waffentraining 4 (Schildkämpfer-Archetyp)."
+  },
+  {
+    "id": "0339f81c-4500-4f75-a6d4-659bfc1976a3",
+    "name": "Schildmeisterschaft",
+    "description": "Ab der 19. Stufe erhält der Schildkämpfer Schadensreduzierung 5/-, wenn er einen Schild benutzt. Ersetzt Rüstungsmeisterschaft (Schildkämpfer-Archetyp)."
+  },
+  {
+    "id": "f64bdb1f-991c-4dba-bb9c-bc5b920f91b3",
+    "name": "Schildschutz",
+    "description": "Ab der 20. Stufe erhält der Schildkämpfer Entrinnen (wie ein Schurke), wenn er einen Schild verwendet. Er addiert seinen Schildbonus (ohne Verbesserungsbonus) zu seinen Reflexwürfen und seiner Rüstungsklasse gegen Berührungsangriffe. Sein Schild kann nicht entwaffnet oder zerschmettert werden. Ersetzt Waffenmeisterschaft (Schildkämpfer-Archetyp)."
+  },
+  {
     "id": "38befc85-98b1-46ff-bd63-8c31b3498a4f",
     "name": "Umgang mit Waffen und Rüstungen (Waldläufer)",
     "description": "Der Waldläufer ist geübt im Umgang mit allen einfachen Waffen und allen Kriegswaffen. Er ist geübt im Umgang mit leichten und mittelschweren Rüstungen und Schilden, außer Turmschilden."

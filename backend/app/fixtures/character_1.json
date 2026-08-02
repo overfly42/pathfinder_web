@@ -3,7 +3,6 @@
   "name": "Elyra Silberauge",
   "race": "Elfe",
   "className": "Waldläuferin",
-  "archetype": "Bogenschütze",
   "level": 7,
   "hp": { "current": 54, "max": 62 },
   "armorClass": 19,

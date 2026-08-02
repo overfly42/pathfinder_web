@@ -6,9 +6,7 @@
       "id": "existing1",
       "className": "Waldläufer",
       "level": 7,
-      "archetypes": [
-        "Bogenschütze"
-      ],
+      "archetypes": [],
       "options": {
         "enemy": [
           "Untote"

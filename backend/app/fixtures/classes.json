@@ -2,9 +2,7 @@
   {
     "name": "Barbar",
     "archetypes": [
-      "Keiner",
-      "Berserker",
-      "Invulnerable Rager"
+      "Keiner"
     ],
     "skillPointsBase": 4,
     "spellType": "none",
@@ -43,9 +41,7 @@
   {
     "name": "Barde",
     "archetypes": [
-      "Keiner",
-      "Archivar",
-      "Sänger der Meere"
+      "Keiner"
     ],
     "skillPointsBase": 6,
     "spellType": "spontaneous",
@@ -73,9 +69,7 @@
   {
     "name": "Druide",
     "archetypes": [
-      "Keiner",
-      "Tierfreund",
-      "Weltenwandler"
+      "Keiner"
     ],
     "skillPointsBase": 4,
     "spellType": "divine-prepared",
@@ -105,9 +99,7 @@
   {
     "name": "Hexenmeister",
     "archetypes": [
-      "Keiner",
-      "Fluchbringer",
-      "Blutlinie: Drache"
+      "Keiner"
     ],
     "skillPointsBase": 2,
     "spellType": "spontaneous",
@@ -145,9 +137,7 @@
   {
     "name": "Kleriker",
     "archetypes": [
-      "Keiner",
-      "Kriegspriester",
-      "Heiler des Volkes"
+      "Keiner"
     ],
     "skillPointsBase": 2,
     "spellType": "divine-prepared",
@@ -213,9 +203,8 @@
     "name": "Kämpfer",
     "archetypes": [
       "Keiner",
-      "Waffenmeister",
-      "Söldnerkommandant",
-      "Zwei-Waffen-Kämpfer"
+      "Zwei-Waffen-Kämpfer",
+      "Schildkämpfer"
     ],
     "skillPointsBase": 2,
     "spellType": "none",
@@ -231,9 +220,7 @@
   {
     "name": "Magier",
     "archetypes": [
-      "Keiner",
-      "Beschwörer",
-      "Kriegsmagier"
+      "Keiner"
     ],
     "skillPointsBase": 2,
     "spellType": "arcane-prepared",
@@ -283,9 +270,7 @@
   {
     "name": "Mönch",
     "archetypes": [
-      "Keiner",
-      "Zen-Archer",
-      "Fäuste des Windes"
+      "Keiner"
     ],
     "skillPointsBase": 4,
     "spellType": "none",
@@ -306,9 +291,7 @@
   {
     "name": "Mystiker",
     "archetypes": [
-      "Keiner",
-      "Wiedergänger",
-      "Lebensbündnis"
+      "Keiner"
     ],
     "skillPointsBase": 4,
     "spellType": "spontaneous",
@@ -368,9 +351,7 @@
   {
     "name": "Paladin",
     "archetypes": [
-      "Keiner",
-      "Rächer",
-      "Hüter des Glaubens"
+      "Keiner"
     ],
     "skillPointsBase": 2,
     "spellType": "none",
@@ -387,9 +368,7 @@
   {
     "name": "Schurke",
     "archetypes": [
-      "Keiner",
-      "Meucheldieb",
-      "Klingentänzer"
+      "Keiner"
     ],
     "skillPointsBase": 8,
     "spellType": "none",
@@ -421,9 +400,7 @@
   {
     "name": "Waldläufer",
     "archetypes": [
-      "Keiner",
-      "Bogenschütze",
-      "Gefährtenbinder"
+      "Keiner"
     ],
     "skillPointsBase": 6,
     "spellType": "divine-prepared",

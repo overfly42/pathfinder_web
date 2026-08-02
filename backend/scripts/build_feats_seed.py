@@ -48,15 +48,7 @@ ROOT_CLASS_NAMES = [
     "Barbar", "Barde", "Druide", "Hexenmeister", "Kleriker", "Kämpfer",
     "Magier", "Mönch", "Mystiker", "Paladin", "Schurke", "Waldläufer",
 ]
-ARCHETYPE_NAMES = [
-    "Berserker", "Invulnerable Rager", "Archivar", "Sänger der Meere",
-    "Tierfreund", "Weltenwandler", "Fluchbringer", "Blutlinie: Drache",
-    "Kriegspriester", "Heiler des Volkes", "Waffenmeister", "Söldnerkommandant",
-    "Zwei-Waffen-Kämpfer", "Beschwörer", "Kriegsmagier", "Zen-Archer",
-    "Fäuste des Windes", "Wiedergänger", "Lebensbündnis", "Rächer",
-    "Hüter des Glaubens", "Meucheldieb", "Klingentänzer", "Bogenschütze",
-    "Gefährtenbinder",
-]
+ARCHETYPE_NAMES = ["Zwei-Waffen-Kämpfer", "Schildkämpfer"]
 RACE_NAMES = ["Mensch", "Halbling", "Halb-Ork", "Elf"]
 
 # name in the existing hand-seeded base_feats.json -> canonical PRD name.

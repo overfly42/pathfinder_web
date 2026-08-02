@@ -3,7 +3,6 @@
   "name": "Bram Eisenfaust",
   "race": "Halbork",
   "className": "Kämpfer",
-  "archetype": "Waffenmeister",
   "level": 3,
   "hp": { "current": 34, "max": 34 },
   "armorClass": 18,
@@ -42,8 +41,7 @@
     { "key": "kampfrausch", "name": "Kampfrausch", "description": "+1 auf Initiative in der ersten Kampfrunde." }
   ],
   "classFeatures": [
-    { "key": "bonustalent", "name": "Bonustalent", "description": "Erhält auf jeder geraden Stufe zusätzlich zum normalen Talent ein Bonus-Kampftalent." },
-    { "key": "waffenmeister-training", "name": "Waffenmeister-Training", "description": "Steigender Bonus auf Angriffs- und Schadenswürfe mit der gewählten Waffenkategorie." }
+    { "key": "bonustalent", "name": "Bonustalent", "description": "Erhält auf jeder geraden Stufe zusätzlich zum normalen Talent ein Bonus-Kampftalent." }
   ],
   "raceAbilities": [
     { "key": "orkblut", "name": "Orkblut", "description": "Gilt sowohl als Ork als auch als Mensch." },

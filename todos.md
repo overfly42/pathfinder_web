@@ -895,6 +895,58 @@ Slice-Arbeit.
         Rassen — gute Kandidaten, um sie beim nächsten Aufräumdurchgang als
         ungeprüftes Platzhaltermaterial zu entfernen, statt sie einzeln zu
         verifizieren.
+  - [x] **Nachtrag 2026-08-03: ungeprüfte Platzhalter-Archetypen entfernt,
+        Kämpfer-Archetyp Schildkämpfer ergänzt.** Alle 24 verbliebenen
+        Archetyp-Zeilen ohne eigene, gegen `prd.5footstep.de` geprüfte
+        Klassenmerkmale wurden aus `classes.json` und
+        `base_classes.json` entfernt (Berserker/Invulnerable Rager,
+        Archivar/Sänger der Meere, Tierfreund/Weltenwandler,
+        Fluchbringer/Blutlinie: Drache, Kriegspriester/Heiler des Volkes,
+        Waffenmeister/Söldnerkommandant, Beschwörer/Kriegsmagier,
+        Zen-Archer/Fäuste des Windes, Wiedergänger/Lebensbündnis,
+        Rächer/Hüter des Glaubens, Meucheldieb/Klingentänzer,
+        Bogenschütze/Gefährtenbinder) — sämtliche oben verstreuten
+        Hinweise „bleibt ungeprüfter Platzhalter" zu diesen Namen sind damit
+        überholt: die Archetypen existieren nicht mehr, nicht nur ungeprüft.
+        Jede Klasse bietet aktuell nur noch `Keiner` plus echte,
+        quellenbelegte Archetypen an. Als erster zweiter sourced
+        Kämpfer-Archetyp neu ergänzt: **Schildkämpfer** (Quelle:
+        <http://prd.5footstep.de/Expertenregeln/Klassen/Grundklassen/Kaempfer/Schildkaempfer>),
+        analog zu Zwei-Waffen-Kämpfer als eigene `BaseClass`-Zeile
+        (`arch_class_of` = Kämpfer) mit 6 eigenen Klassenmerkmalen (Aktive
+        Verteidigung, Schildkämpfer, Schildschlag, Schildwacht,
+        Schildmeisterschaft, Schildschutz) als
+        `BaseClassAbility`/`BaseClassAbilityGrant`/
+        `BaseClassAbilityReplacement`-Zeilen (ersetzt Rüstungstraining
+        1–4, Waffentraining 1–4, Rüstungsmeisterschaft und
+        Waffenmeisterschaft der Wurzelklasse, je nach Stufe). Grund für die
+        Reihenfolge (erst Schildkämpfer ergänzen, dann erst die
+        Platzhalter löschen): `test_characters.py`s
+        Mehrfach-Archetyp-Tests (`test_create_character_with_multiple_
+        archetypes_on_one_class_succeeds`,
+        `test_create_character_with_same_class_across_rows_merges_
+        archetypes`) brauchten zwei verschiedene Archetypen auf derselben
+        Klasse — mit nur einem sourced Archetyp (Zwei-Waffen-Kämpfer) wäre
+        das nicht mehr abbildbar gewesen; die Tests wurden auf
+        Zwei-Waffen-Kämpfer + Schildkämpfer umgestellt (statt
+        Waffenmeister/Söldnerkommandant). `test_create_character_with_
+        unknown_archetype_is_rejected` nutzt jetzt einen frei erfundenen
+        Namen statt `Berserker` (das als reale, nur unter falscher Klasse
+        verwendete Barbar-Archetyp-Zeile inzwischen selbst entfernt wäre).
+        Die beiden Alt-Fixtures `character_1.json`/`character_2.json` und
+        `progression_1.json`/`progression_2.json` (statische
+        Mock-Charaktere für `/api/characters/1`/`2`) referenzierten
+        ebenfalls entfernte Platzhalter (`Bogenschütze`, `Waffenmeister`)
+        als reinen Flavor-Text ohne Katalogbindung — Archetyp-Feld jeweils
+        entfernt/geleert statt durch einen thematisch unpassenden sourced
+        Archetyp ersetzt. Alle drei `pathfinder-*-mock.html`-Dateien
+        (deren `ARCHETYPES`-Objekte ohnehin schon den alten
+        Kämpfer→Krieger-Rename nicht mitgemacht hatten) auf dieselbe
+        bereinigte Archetypenliste gebracht;
+        `backend/scripts/build_feats_seed.py`s `ARCHETYPE_NAMES`
+        (Prerequisite-Scoping für den Talente-Import) ebenfalls auf die
+        beiden verbliebenen sourced Archetypen reduziert. 72 betroffene
+        Tests (`test_characters.py`, `test_character_sheet.py`) grün.
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
     - Volksboni auf Rettungswürfe (z. B. Halblingsglück +1 auf alle RW,

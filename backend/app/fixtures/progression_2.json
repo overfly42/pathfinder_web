@@ -6,9 +6,7 @@
       "id": "existing1",
       "className": "Kämpfer",
       "level": 3,
-      "archetypes": [
-        "Waffenmeister"
-      ],
+      "archetypes": [],
       "options": {}
     }
   ],
