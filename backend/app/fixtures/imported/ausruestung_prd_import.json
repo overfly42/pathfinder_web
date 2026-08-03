@@ -1,0 +1,2630 @@
+[
+  {
+    "id": "c2d0fcbb-3cc1-549b-b8ff-c558622ad972",
+    "name": "Abdeckbare Laterne",
+    "category": "gear",
+    "price_gp": 7.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/AbdeckbareLaterne"
+  },
+  {
+    "id": "dcb36b2d-4c2b-5b89-810e-3737e0911ecc",
+    "name": "Ahnenverzeichnis",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Ahnenverzeichnis"
+  },
+  {
+    "id": "7b9280f2-95fc-5a15-9cbe-2171065c42a3",
+    "name": "Alchemistenausrüstung (Ausrüstungskompendium)",
+    "category": "gear",
+    "price_gp": 40.0,
+    "price_raw": null,
+    "weight_lb": "24 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Alchemistenausruestung"
+  },
+  {
+    "id": "3f4b10fa-e60c-5911-9c0f-e448ee3c1d55",
+    "name": "Alchemistenausrüstung (Grundregelwerk)",
+    "category": "gear",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Alchemistenausruestung"
+  },
+  {
+    "id": "76250c4b-642a-5e56-9334-3c011fbb4a72",
+    "name": "Angelhaken",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Angelhaken"
+  },
+  {
+    "id": "e9de8610-3869-50cc-80d0-bddb029c61a0",
+    "name": "Angelzeug",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Angelzeug"
+  },
+  {
+    "id": "26e7cf7f-43e5-5a3a-bc4e-b258d5669f9b",
+    "name": "Astrolabium",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "6 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Astrolabium"
+  },
+  {
+    "id": "13e441c0-e426-54ee-a180-c280cdc40bcd",
+    "name": "Atemmaske",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Atemmaske"
+  },
+  {
+    "id": "12e15a62-c6c9-56be-9f7b-da3bbff54ab5",
+    "name": "Bandelier",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Bandelier"
+  },
+  {
+    "id": "c9b4a35a-214f-5d84-ad29-b10830253cb9",
+    "name": "Banner",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1-20 GM",
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Banner"
+  },
+  {
+    "id": "228d505d-0ad6-5f6c-a475-a5e17b1f87cf",
+    "name": "Barbarenausrüstung",
+    "category": "gear",
+    "price_gp": 9.0,
+    "price_raw": null,
+    "weight_lb": "26 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Barbarenausruestung"
+  },
+  {
+    "id": "c2a7faa8-8ab5-5b33-90ae-3057a7c1e2f8",
+    "name": "Bardenausrüstung",
+    "category": "gear",
+    "price_gp": 41.0,
+    "price_raw": null,
+    "weight_lb": "33 ½ Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Bardenausruestung"
+  },
+  {
+    "id": "b1d6b35a-7302-5111-aba5-1bf99fb72d63",
+    "name": "Becher / Seidel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 KM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/BecherSeidel"
+  },
+  {
+    "id": "78fbb1c0-2e06-5ce6-aa6c-5d670b29bd1a",
+    "name": "Blaues Buch",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/BlauesBuch"
+  },
+  {
+    "id": "71f6e03b-0174-5fcd-bdef-c60d548ca684",
+    "name": "Blendlaterne",
+    "category": "gear",
+    "price_gp": 12.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Blendlaterne"
+  },
+  {
+    "id": "ff28b5de-ce77-5535-b238-b6000ea2c8cb",
+    "name": "Bohrer",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Bohrer"
+  },
+  {
+    "id": "95f07bfa-c203-53e9-b8bf-7d4dafd5fa84",
+    "name": "Boje, gewöhnliche",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "16 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Bojegewoehnliche"
+  },
+  {
+    "id": "6bf5caf7-0edb-5101-936a-46807227d41f",
+    "name": "Boje, höherwertige",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Bojehoeherwertige"
+  },
+  {
+    "id": "f22345b9-c2c9-5349-a9bb-714c95d24801",
+    "name": "Bratpfanne, Mithral-",
+    "category": "gear",
+    "price_gp": 1001.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Bratpfanne"
+  },
+  {
+    "id": "7a98d6f7-6908-53dc-8c17-63acc15aeda0",
+    "name": "Bratpfanne, gewöhnlich",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "8 SM",
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Bratpfanne"
+  },
+  {
+    "id": "3b22977c-6cb3-5e1b-80e8-b305ff07a81f",
+    "name": "Brecheisen",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Brecheisen"
+  },
+  {
+    "id": "e928fa0e-80c5-5764-82ec-84c3467381b6",
+    "name": "Bruchketten",
+    "category": "gear",
+    "price_gp": 65.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Bruchketten"
+  },
+  {
+    "id": "4fde9043-c02e-5087-897b-75cbb9b2c30a",
+    "name": "Büchsenmacherausrüstung",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/AusbauregelnIIKampf/Ausruestung/Buechsenmacherausruestung"
+  },
+  {
+    "id": "3347606f-3197-5b61-a37f-416662ab7281",
+    "name": "Büttenpapier",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Buettenpapier"
+  },
+  {
+    "id": "0959449c-3171-57e4-8410-dff591f0a287",
+    "name": "Chirurgenausrüstung",
+    "category": "gear",
+    "price_gp": 400.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Chirurgenausruestung"
+  },
+  {
+    "id": "a732e576-a58a-5be6-9fb5-20361e756b81",
+    "name": "Chronistenausrüstung",
+    "category": "gear",
+    "price_gp": 40.0,
+    "price_raw": null,
+    "weight_lb": "4 ½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Chronistenausruestung"
+  },
+  {
+    "id": "c2107366-6261-5e54-9e64-4237cbe9bb13",
+    "name": "Decke (Ausrüstungskompendium)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "3 Pfd1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Decke"
+  },
+  {
+    "id": "1f9625b4-31cf-5ffd-802f-5331cf6844bb",
+    "name": "Decke (Expertenregeln)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": "1 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Decke"
+  },
+  {
+    "id": "f06d8fff-380d-5c6e-be2d-86b07e379438",
+    "name": "Drachentöterausrüstung",
+    "category": "gear",
+    "price_gp": 485.0,
+    "price_raw": null,
+    "weight_lb": "64 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Drachentoeterausruestung"
+  },
+  {
+    "id": "36b95190-467f-54dd-ab4f-789bfa964a44",
+    "name": "Draht",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Draht"
+  },
+  {
+    "id": "566c8c94-886f-5432-8710-3bf4f00fd2e6",
+    "name": "Drahtsäge, Adamant-",
+    "category": "gear",
+    "price_gp": 150.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Drahtsaege"
+  },
+  {
+    "id": "566c8c94-886f-5432-8710-3bf4f00fd2e6",
+    "name": "Drahtsäge, Adamant-",
+    "category": "gear",
+    "price_gp": 150.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Drahtsaege"
+  },
+  {
+    "id": "b1df13da-9376-594b-8fb5-6336db16dfd4",
+    "name": "Drahtsäge, gewöhnlich",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Drahtsaege"
+  },
+  {
+    "id": "b1df13da-9376-594b-8fb5-6336db16dfd4",
+    "name": "Drahtsäge, gewöhnlich",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Drahtsaege"
+  },
+  {
+    "id": "05aef080-a996-5a7c-a064-b64d65ff0b8c",
+    "name": "Druidenausrüstung",
+    "category": "gear",
+    "price_gp": 14.0,
+    "price_raw": null,
+    "weight_lb": "44 Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Druidenausruestung"
+  },
+  {
+    "id": "36e9a18d-c4d5-56c0-be3c-21d8c90d463a",
+    "name": "Durchschnittlich",
+    "category": "gear",
+    "price_gp": 40.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schloss"
+  },
+  {
+    "id": "aeb3aa58-40dd-5039-8a14-2e79f19d5e68",
+    "name": "Eimer (leer)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Eimer"
+  },
+  {
+    "id": "33cd1174-54d1-5133-8498-b6740ef236d7",
+    "name": "Einfach",
+    "category": "gear",
+    "price_gp": 20.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schloss"
+  },
+  {
+    "id": "866238e3-5560-5614-83a9-241e41dc3d09",
+    "name": "Eisennagel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 KM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Eisennagel"
+  },
+  {
+    "id": "d30101d0-5668-5615-b5c4-58e8204190ec",
+    "name": "Eisenphiole",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Eisenphiole"
+  },
+  {
+    "id": "725362b4-b49d-50e2-8ae3-221477ad24be",
+    "name": "Ewige Fackel",
+    "category": "gear",
+    "price_gp": 110.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/EwigeFackel"
+  },
+  {
+    "id": "0fde3934-fafe-5975-8ec6-7e71a6f64281",
+    "name": "Fackel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Fackel"
+  },
+  {
+    "id": "ba4359d5-87f1-5770-883c-0150aac97533",
+    "name": "Faden oder Zwirn (15 m)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/FadenoderZwirn"
+  },
+  {
+    "id": "fed87d14-d219-5979-a1d6-eb852b717093",
+    "name": "Falsche-Fährte-Schuhe",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/FalscheFaehrteSchuhe"
+  },
+  {
+    "id": "53feb8a1-6090-531d-a031-ad3b72ddc62e",
+    "name": "Faltbadewanne",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "20 Pfd1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Faltbadewanne"
+  },
+  {
+    "id": "793b112f-aa85-5bb2-a7b6-94fc7a9ce3be",
+    "name": "Faltleiter",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "16 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Faltleiter"
+  },
+  {
+    "id": "aeccb9e1-4f95-5c0d-88f9-b7782875fb61",
+    "name": "Faltplanke",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "4 SM",
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Faltplanke"
+  },
+  {
+    "id": "57291361-f566-54bd-8594-db78f9fc2bf2",
+    "name": "Fass (leer)",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Fass"
+  },
+  {
+    "id": "5c6aca72-6c61-59fa-9357-e206a27d3548",
+    "name": "Federmappe",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Federmappe"
+  },
+  {
+    "id": "2fa07989-7929-524f-9f59-9a2c2b844825",
+    "name": "Feldbett",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Feldbett"
+  },
+  {
+    "id": "444a37d4-1926-596e-ade3-777e156b509d",
+    "name": "Feldflasche",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Feldflasche"
+  },
+  {
+    "id": "9b0174b7-8cb8-50e2-abf3-0434269310e8",
+    "name": "Fernglas",
+    "category": "gear",
+    "price_gp": 1000.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Fernglas"
+  },
+  {
+    "id": "1ac933f3-af5d-52e0-aadc-7b59e5b5d608",
+    "name": "Feuerholz (pro Tag)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": "20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Feuerholz"
+  },
+  {
+    "id": "05b5c259-3286-5e10-af1d-bb0a6ee00a22",
+    "name": "Feuerstein und Stahl",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/FeuersteinundStahl"
+  },
+  {
+    "id": "e1b18845-6cd3-5dab-a7d3-365668d400b6",
+    "name": "Fischernetz 1,50m x 1,50m)",
+    "category": "gear",
+    "price_gp": 4.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Fischernetz"
+  },
+  {
+    "id": "cf99df09-940f-5a12-b69b-62e84708a086",
+    "name": "Flachmann",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Flachmann"
+  },
+  {
+    "id": "b667da39-49dc-546a-8d9b-650476934c44",
+    "name": "Flaschenzug",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Flaschenzug"
+  },
+  {
+    "id": "2d329277-619b-53c0-9525-5b7032ab8625",
+    "name": "Gebietskarte",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gebietskarte"
+  },
+  {
+    "id": "605eac31-90e5-50fd-b9da-d796f15aba71",
+    "name": "Generalschlüssel",
+    "category": "gear",
+    "price_gp": 85.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Generalschluessel"
+  },
+  {
+    "id": "464f8202-a18d-5ea3-a9d0-59f26aacfb14",
+    "name": "Gewölbeforscherausrüstung, Luxus-",
+    "category": "gear",
+    "price_gp": 130.0,
+    "price_raw": null,
+    "weight_lb": "15 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gewoelbeforscherausruestung"
+  },
+  {
+    "id": "464f8202-a18d-5ea3-a9d0-59f26aacfb14",
+    "name": "Gewölbeforscherausrüstung, Luxus-",
+    "category": "gear",
+    "price_gp": 130.0,
+    "price_raw": null,
+    "weight_lb": "15 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gewoelbeforscherausruestung"
+  },
+  {
+    "id": "f826e474-1ef4-5115-9128-4c05a2512e23",
+    "name": "Gewölbeforscherausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gewoelbeforscherausruestung"
+  },
+  {
+    "id": "f826e474-1ef4-5115-9128-4c05a2512e23",
+    "name": "Gewölbeforscherausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gewoelbeforscherausruestung"
+  },
+  {
+    "id": "208da5a8-a274-5f53-8134-e5683060f236",
+    "name": "Gezinkter Becher",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/GezinkterBecher"
+  },
+  {
+    "id": "69c98f19-5d58-5d14-a2fe-9308c7297338",
+    "name": "Giftring",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "+20 GM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Giftring"
+  },
+  {
+    "id": "4017dcdd-a010-5d35-89c5-5dc4ebf3e141",
+    "name": "Giftscheide",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Giftscheide"
+  },
+  {
+    "id": "f0627fb1-2a19-5d12-bde7-2d6bcf8ed889",
+    "name": "Glasflasche",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Glasflasche"
+  },
+  {
+    "id": "31cce10a-0a60-56b7-80c7-4badaad7eead",
+    "name": "Glasschneider",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Glasschneider"
+  },
+  {
+    "id": "7e27ff2c-5e2c-57e4-a18d-617cb117f952",
+    "name": "Glocke",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Glocke"
+  },
+  {
+    "id": "deb50676-afa9-5dea-bdef-a278d10eac00",
+    "name": "Glockennetz",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Glockennetz"
+  },
+  {
+    "id": "ab804636-c4be-5078-b13a-b000025c8f95",
+    "name": "Glücksspielerausrüstung, Betrug",
+    "category": "gear",
+    "price_gp": 300.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gluecksspielerausruestung"
+  },
+  {
+    "id": "ab804636-c4be-5078-b13a-b000025c8f95",
+    "name": "Glücksspielerausrüstung, Betrug",
+    "category": "gear",
+    "price_gp": 300.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gluecksspielerausruestung"
+  },
+  {
+    "id": "2d933f89-1876-51f5-b721-80fe6677cfc7",
+    "name": "Glücksspielerausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 75.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gluecksspielerausruestung"
+  },
+  {
+    "id": "2d933f89-1876-51f5-b721-80fe6677cfc7",
+    "name": "Glücksspielerausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 75.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gluecksspielerausruestung"
+  },
+  {
+    "id": "8ee6d7b2-65ac-5a4a-a43b-431db9135aba",
+    "name": "Gut",
+    "category": "gear",
+    "price_gp": 80.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schloss"
+  },
+  {
+    "id": "9f3e4836-1644-5326-8c9d-46813d35c00a",
+    "name": "Gürteltasche (leer)",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.1",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Guerteltasche"
+  },
+  {
+    "id": "920ab7a3-d7ce-58eb-a450-ffddacfabd5d",
+    "name": "Hakenpfeil",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hakenpfeil"
+  },
+  {
+    "id": "db8653d9-4db9-5ba6-ac9d-b0c86eb783fe",
+    "name": "Hammer",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Hammer"
+  },
+  {
+    "id": "a80b8c02-dfa7-5e6e-ab4e-79a38ed2a559",
+    "name": "Handschellen",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Handschellen"
+  },
+  {
+    "id": "b2767ad4-c73d-57a1-bcc5-890e82ddc34c",
+    "name": "Handschellen [Meisterarbeit]",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Handschellen"
+  },
+  {
+    "id": "49d96a02-0944-5a6a-895f-31a150699bc0",
+    "name": "Handschellen, Mithral-",
+    "category": "gear",
+    "price_gp": 1000.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Handschellen"
+  },
+  {
+    "id": "221061f9-b998-5e0a-aaf0-cdc9adc10230",
+    "name": "Hanfseil (15 m)",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Hanfseil"
+  },
+  {
+    "id": "6f54e8be-f6e4-5f28-9fc3-8cbecaec1779",
+    "name": "Heiliger Text",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1-100 GM",
+    "weight_lb": "1-20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/HeiligerText"
+  },
+  {
+    "id": "1a32573f-bb64-5592-b977-ffe24c8062b9",
+    "name": "Heiliges Symbol aus Holz",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "43529d15-6c24-59b0-aa7e-4745c75e6c79",
+    "name": "Heiliges Symbol aus Silber",
+    "category": "gear",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "fb7c104a-4e5d-5468-a600-4811e927740d",
+    "name": "Heiliges Symbol mit Flasche",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "+10 GM",
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "7e11d838-c59c-5e03-bdb2-63c8649a7f2b",
+    "name": "Heiliges Symbol mit Geheimfach",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "+5 GM",
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "f12bae97-2053-5235-b05c-59fcefbb422b",
+    "name": "Heiliges Symbol, Eisen",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "3b20f7df-7cfc-50f4-a7da-eddfe7229ba5",
+    "name": "Heiliges Symbol, Gold",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "286d47b2-c99c-5f59-939b-2b6b25effe2c",
+    "name": "Heiliges Symbol, Platin",
+    "category": "gear",
+    "price_gp": 500.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "7c841ba4-cf83-5706-be33-40b62196fb99",
+    "name": "Heiliges Symbol, Tätowierung",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/HeiligesSymbol"
+  },
+  {
+    "id": "19137519-5792-5c1a-93f3-662bce28d3dc",
+    "name": "Helmkerze",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Helmkerze"
+  },
+  {
+    "id": "84b10e4a-895c-5de4-81d8-b225085d3a10",
+    "name": "Henkelmann",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Henkelmann"
+  },
+  {
+    "id": "dfed704e-34ff-5737-85fb-8e92cb24f923",
+    "name": "Hervorragend",
+    "category": "gear",
+    "price_gp": 150.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schloss"
+  },
+  {
+    "id": "9dc5a97f-4a2a-5bad-8e29-1b889cd60bb0",
+    "name": "Hexenausrüstung",
+    "category": "gear",
+    "price_gp": 21.0,
+    "price_raw": null,
+    "weight_lb": "21 Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hexenausruestung"
+  },
+  {
+    "id": "22969a54-02ec-53ea-af13-1c122c46f884",
+    "name": "Hexenmeisterausrüstung",
+    "category": "gear",
+    "price_gp": 8.0,
+    "price_raw": null,
+    "weight_lb": "19 Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hexenmeisterausruestung"
+  },
+  {
+    "id": "c3530f35-a742-57bf-ac6c-fbf7270cdc58",
+    "name": "Hohlknauf",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "–",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hohlknauf"
+  },
+  {
+    "id": "c11977bf-9206-5856-803c-ab2969e41f02",
+    "name": "Hängematte",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "3 Pfd1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Haengematte"
+  },
+  {
+    "id": "a54aa1c5-3c89-5476-82f4-a384d2555ed9",
+    "name": "Höhlenforscherausrüstung",
+    "category": "gear",
+    "price_gp": 174.0,
+    "price_raw": null,
+    "weight_lb": "32 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hoehlenforscherausruestung"
+  },
+  {
+    "id": "4a8a6f33-b92d-52b1-b64a-2d810aa10a75",
+    "name": "Hörrohr",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hoerrohr"
+  },
+  {
+    "id": "0e6795cf-f65d-5ba0-9d2f-011626af3e7f",
+    "name": "Inquisitorenausrüstung",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "34 Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Inquisitorenausruestung"
+  },
+  {
+    "id": "db390366-c163-5c1f-82de-976e9e83f739",
+    "name": "Kaffeekocher",
+    "category": "gear",
+    "price_gp": 3.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kaffeekocher"
+  },
+  {
+    "id": "9e11cc69-0bf3-5043-9630-e2783b20e2e6",
+    "name": "Kampfmagusausrüstung",
+    "category": "gear",
+    "price_gp": 22.0,
+    "price_raw": null,
+    "weight_lb": "31 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kampfmagusausruestung"
+  },
+  {
+    "id": "377f134c-295b-5c50-a6af-1cd455393961",
+    "name": "Kanne",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 KM",
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kanne"
+  },
+  {
+    "id": "bb35e2eb-5cd5-5359-b50c-3175b36fed27",
+    "name": "Karten- und Schriftrollenbehälter",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Schriftrollenbehaelter"
+  },
+  {
+    "id": "3ad9ad34-7fde-5828-92a4-ce6b051c8a79",
+    "name": "Kerze",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kerze"
+  },
+  {
+    "id": "6c002058-de24-5209-af54-f25660124f9e",
+    "name": "Kerzenhalter",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kerzenhalter"
+  },
+  {
+    "id": "5c4915d3-cbbb-555c-b719-8332a76fd547",
+    "name": "Kessel, Mithral-",
+    "category": "gear",
+    "price_gp": 1251.0,
+    "price_raw": null,
+    "weight_lb": "2 ½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Kessel"
+  },
+  {
+    "id": "7b43161d-2566-5e4e-84b1-f941ee3a5a78",
+    "name": "Kessel, gewöhnlich",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Kessel"
+  },
+  {
+    "id": "17caee1f-20b6-5377-ab52-6feb8eda5e9e",
+    "name": "Kette (3 m)",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kette"
+  },
+  {
+    "id": "bb41ddce-c96c-549c-93f0-b95560bb11bb",
+    "name": "Klappschaufel",
+    "category": "gear",
+    "price_gp": 12.0,
+    "price_raw": null,
+    "weight_lb": "12 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klappschaufel"
+  },
+  {
+    "id": "df0805be-d587-5abf-b417-5975b685f9d3",
+    "name": "Klappstab",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klappstab"
+  },
+  {
+    "id": "f5797419-6bb6-5111-8b80-8d8f312ea95b",
+    "name": "Klappstuhl",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klappstuhl"
+  },
+  {
+    "id": "3f01d0a3-695a-505c-9917-84d52e6f63e0",
+    "name": "Klapptisch",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klapptisch"
+  },
+  {
+    "id": "9a1fddf1-d081-5600-a2a7-4bf7fd7c29fc",
+    "name": "Klebepapier",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klebepapier"
+  },
+  {
+    "id": "c80b6d1e-1ae8-5059-a020-a843aad15a57",
+    "name": "Klerikerausrüstung",
+    "category": "gear",
+    "price_gp": 16.0,
+    "price_raw": null,
+    "weight_lb": "32 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Klerikerausruestung"
+  },
+  {
+    "id": "e0a3a4d9-5be4-50e5-931b-c710a8e52bbf",
+    "name": "Kletterhaken",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kletterhaken"
+  },
+  {
+    "id": "92f5b0e0-510d-5ba5-ac1e-eb6cfdce27d4",
+    "name": "Kochausrüstung",
+    "category": "gear",
+    "price_gp": 3.0,
+    "price_raw": null,
+    "weight_lb": "16 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kochausruestung"
+  },
+  {
+    "id": "d49673ba-6d59-5bcc-9ab7-9195e2de9308",
+    "name": "Kochtopf, Mithral-",
+    "category": "gear",
+    "price_gp": 1001.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kochtopf"
+  },
+  {
+    "id": "9cc644fe-679c-54bb-8f65-80ba03617752",
+    "name": "Kochtopf, gewöhnlich",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "8 SM",
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kochtopf"
+  },
+  {
+    "id": "295d0c18-a133-5540-a109-3514349d6659",
+    "name": "Kompass",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Kompass"
+  },
+  {
+    "id": "2fbf90c4-66bb-545a-b9d4-f03982259435",
+    "name": "Korb (leer)",
+    "category": "gear",
+    "price_gp": 4.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Korb"
+  },
+  {
+    "id": "d2e35761-21b0-5d0d-bb5e-22ff3c2f352a",
+    "name": "Korrespondenzbuch",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Korrespondenzbuch"
+  },
+  {
+    "id": "1d101c9e-4b28-5a6e-8e79-48b5e2a58533",
+    "name": "Kreide, 1 Stück",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kreide"
+  },
+  {
+    "id": "21ec1dfa-4ef8-55ce-b857-feed6953090f",
+    "name": "Kristallflasche",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "3 KM",
+    "weight_lb": "1 ½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kristallflasche"
+  },
+  {
+    "id": "8c6f87f6-d494-5195-b456-8e92b5719fd3",
+    "name": "Kryptografiebücher",
+    "category": "gear",
+    "price_gp": 150.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kryptografiebuecher"
+  },
+  {
+    "id": "6a81d2b4-e7e6-541c-a670-3bc572f3790e",
+    "name": "Krähenfüße",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kraehenfuesse"
+  },
+  {
+    "id": "d9397d69-a1e8-574e-89b8-494f445bd9d6",
+    "name": "Kundschafterausrüstung",
+    "category": "gear",
+    "price_gp": 12.0,
+    "price_raw": null,
+    "weight_lb": "22 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kundschafterausruestung"
+  },
+  {
+    "id": "e6c9f376-fa6d-5808-ae73-8af76fb52ac7",
+    "name": "Kämpferausrüstung",
+    "category": "gear",
+    "price_gp": 9.0,
+    "price_raw": null,
+    "weight_lb": "29 Pfd2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Kaempferausruestung"
+  },
+  {
+    "id": "348d2d0a-0c3a-5119-8c44-fca004177690",
+    "name": "Körperpflegezeug",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Koerperpflegezeug"
+  },
+  {
+    "id": "db83b6fb-5f2e-52e2-95b1-495db9554b8c",
+    "name": "Lagerausrüstung",
+    "category": "gear",
+    "price_gp": 12.0,
+    "price_raw": null,
+    "weight_lb": "80 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Lagerausruestung"
+  },
+  {
+    "id": "34444069-f977-5914-a3e4-a701fccc8cfb",
+    "name": "Lampe, gewöhnliche",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Lampegewoehnliche"
+  },
+  {
+    "id": "e75ba45e-bfd7-58f7-89dd-e93e57356e60",
+    "name": "Lehm",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Lehm"
+  },
+  {
+    "id": "ab8605c2-1a4d-5478-876b-ba6bd589d77d",
+    "name": "Leinwand (ca. 1 m²)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Leinwand"
+  },
+  {
+    "id": "112b2eaa-fa74-592b-b4f6-932211ad35c2",
+    "name": "Leiter, 3 m",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": "20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Leiter"
+  },
+  {
+    "id": "cbeebd8c-e713-5a9a-bd94-33aa04c5fb46",
+    "name": "Luftbalg",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Luftbalg"
+  },
+  {
+    "id": "cc58e1d4-70ec-5671-ab6d-70fe96adc6bd",
+    "name": "Lupe",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Lupe"
+  },
+  {
+    "id": "fae73cdd-9675-5169-8968-f0d9d36a0e2d",
+    "name": "Magierausrüstung",
+    "category": "gear",
+    "price_gp": 21.0,
+    "price_raw": null,
+    "weight_lb": "21 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Magierausruestung"
+  },
+  {
+    "id": "0c2dada0-a165-541c-960e-a5846cd7b877",
+    "name": "Magnet",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Magnet"
+  },
+  {
+    "id": "fe26518b-aa07-51bc-bf15-22804820da44",
+    "name": "Murmeln",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Murmeln"
+  },
+  {
+    "id": "85213075-9e06-5833-8ac4-f1e99bfc7b88",
+    "name": "Mystikerausrüstung",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "29 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Mystikerausruestung"
+  },
+  {
+    "id": "b36e402b-2377-5cd5-bb09-dad18bc9c4c4",
+    "name": "Mönchausrüstung",
+    "category": "gear",
+    "price_gp": 8.0,
+    "price_raw": null,
+    "weight_lb": "22 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Moenchausruestung"
+  },
+  {
+    "id": "1d4502a1-fe54-5818-ae41-7f058013f943",
+    "name": "Nähnadel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Naehnadel"
+  },
+  {
+    "id": "0410af39-39a0-5e25-9d7e-8aa7104f51ba",
+    "name": "Ohrstöpsel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "3 KM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Ohrstoepsel"
+  },
+  {
+    "id": "3912d370-0a6a-542e-a313-8b6f7a1c7f3c",
+    "name": "Paktmagierausrüstung",
+    "category": "gear",
+    "price_gp": 8.0,
+    "price_raw": null,
+    "weight_lb": "19 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Paktmagierausruestung"
+  },
+  {
+    "id": "ed5e5fd3-7739-5d6b-8646-e35aac81e56a",
+    "name": "Paladinausrüstung",
+    "category": "gear",
+    "price_gp": 11.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Paladinausruestung"
+  },
+  {
+    "id": "0a49d744-98d3-5b3f-a4d2-473a5be47e99",
+    "name": "Papier (Blatt)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "4 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Papier"
+  },
+  {
+    "id": "545bc466-e0aa-545a-804f-ca3ba0025278",
+    "name": "Parfüm/Duftwasser",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/ParfuemDuftwasser"
+  },
+  {
+    "id": "200819c9-8e39-5294-86a8-285a5702201e",
+    "name": "Pergament (Blatt)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Pergament"
+  },
+  {
+    "id": "437ef51b-0ac1-52f0-a4af-3413aef3f570",
+    "name": "Periskop",
+    "category": "gear",
+    "price_gp": 20.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Periskop"
+  },
+  {
+    "id": "9e92b8de-8504-5ad3-a6ee-a61501e88da8",
+    "name": "Pflegeausrüstung",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Pflegeausruestung"
+  },
+  {
+    "id": "7f9ab10b-efe4-5509-a542-807f78655cdf",
+    "name": "Phiole für Tinte oder Trank",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Phiole"
+  },
+  {
+    "id": "f0b7cc5f-70ba-5b8c-a825-80938f4bb408",
+    "name": "Prothese (Arm)",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Prothese"
+  },
+  {
+    "id": "4c15b6e5-d69a-57a4-90d4-34990f5287b4",
+    "name": "Prothese (Bein)",
+    "category": "gear",
+    "price_gp": 20.0,
+    "price_raw": null,
+    "weight_lb": "6 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Prothese"
+  },
+  {
+    "id": "03849cb3-df76-5859-b2fb-1177120cb040",
+    "name": "Prothese (Fuß)",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Prothese"
+  },
+  {
+    "id": "45d24a34-8f19-5b8a-adb2-43df12314480",
+    "name": "Prothese (Hand)",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Prothese"
+  },
+  {
+    "id": "13ddeb94-ca35-50d5-b9d4-f10e14dc76ea",
+    "name": "Pulver",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Pulver"
+  },
+  {
+    "id": "483f79c1-3132-5cc9-9be6-1ee8bc6fb3d2",
+    "name": "Pulverhorn",
+    "category": "gear",
+    "price_gp": 3.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/AusbauregelnIIKampf/Ausruestung/Pulverhorn"
+  },
+  {
+    "id": "64d22260-8cbd-5539-82c8-52c0ff17c937",
+    "name": "Pyrographieausrüstung",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Pyrographieausruestung"
+  },
+  {
+    "id": "db7f16c5-10bd-5e7e-9706-02853ce06618",
+    "name": "Rasierzeug",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "15 SM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Rasierzeug"
+  },
+  {
+    "id": "a723fafe-7e6c-5d93-a473-49248aabbc20",
+    "name": "Rauchglasbrille",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Rauchglasbrille"
+  },
+  {
+    "id": "bbcb7888-adc0-527b-8910-611d8a5cfe9b",
+    "name": "Reisekocher",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reisekocher"
+  },
+  {
+    "id": "4043b753-6791-541e-97d2-5a135bd3c907",
+    "name": "Reisewörterbuch",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reisewoerterbuch"
+  },
+  {
+    "id": "108fced0-fe23-5e35-b08f-7f757eac38a7",
+    "name": "Reispapier (Blatt, Ausrüstungskompendium)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 KM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Reispapier"
+  },
+  {
+    "id": "a46521e7-a9ec-55c9-921c-24ee67e4a909",
+    "name": "Reispapier (Blatt, Expertenregeln)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "6 KM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Reispapier"
+  },
+  {
+    "id": "ffd40cc9-ac10-53af-a462-de41a148f5cd",
+    "name": "Reitausrüstung für exotische Reittiere",
+    "category": "gear",
+    "price_gp": 36.0,
+    "price_raw": null,
+    "weight_lb": "59 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reitausruestung"
+  },
+  {
+    "id": "c727143c-d2aa-5817-854c-33cde14cb913",
+    "name": "Reitausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 16.0,
+    "price_raw": null,
+    "weight_lb": "54 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reitausruestung"
+  },
+  {
+    "id": "8eaf9da1-e6f6-51fc-a912-e92312e0e69e",
+    "name": "Ritterausrüstung",
+    "category": "gear",
+    "price_gp": 23.0,
+    "price_raw": null,
+    "weight_lb": "112 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Ritterausruestung"
+  },
+  {
+    "id": "e314086f-aa45-5c0c-8415-340d1b7a0d53",
+    "name": "Rucksack (leer)",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Rucksack"
+  },
+  {
+    "id": "9f714e41-44d2-50b4-b566-046f80a8b2c8",
+    "name": "Rucksack, Meisterarbeit",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/RucksackMeisterarbeit"
+  },
+  {
+    "id": "1d088870-a527-5c7f-8e2f-b711a8896852",
+    "name": "Sack (leer)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "½ Pfd.1",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Sack"
+  },
+  {
+    "id": "7618ed1f-57d6-5ca1-bf61-4bb957f6d9b0",
+    "name": "Sanduhr (1 Minute)",
+    "category": "gear",
+    "price_gp": 20.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Sanduhr"
+  },
+  {
+    "id": "890e378e-9c4f-532b-929a-2adf47f1e28d",
+    "name": "Sanduhr (1 Stunde)",
+    "category": "gear",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Sanduhr"
+  },
+  {
+    "id": "e53c810d-c4b4-5c40-a0bf-ea53681eda16",
+    "name": "Sanduhr (6 Sekunden)",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Sanduhr"
+  },
+  {
+    "id": "d6707a5a-e93a-5ed9-92cf-add0f4858cd3",
+    "name": "Sarg, gewöhnlich",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Sarg"
+  },
+  {
+    "id": "665f6a7a-4b80-534f-ba4b-6848e28085c2",
+    "name": "Sarg, verziert",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "50 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Sarg"
+  },
+  {
+    "id": "01732d8f-75cb-58a7-8105-9ff4ec56162a",
+    "name": "Scheinrüstung",
+    "category": "gear",
+    "price_gp": 90.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Scheinruestung"
+  },
+  {
+    "id": "a487526f-0040-55d5-80d9-38d259a93c91",
+    "name": "Schiefertafel",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Schiefertafel"
+  },
+  {
+    "id": "028c0e7a-fc83-54f8-a207-150a596a9a89",
+    "name": "Schildleuchter",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schildleuchter"
+  },
+  {
+    "id": "ac524cfe-c49e-567b-8449-5a38cb1a7d7b",
+    "name": "Schlafsack",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "5 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schlafsack"
+  },
+  {
+    "id": "1047b1e2-9e34-56da-90c6-9683d88f44a3",
+    "name": "Schleifstein",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 KM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schleifstein"
+  },
+  {
+    "id": "476865a1-c680-5846-952c-c0212bb9d2f7",
+    "name": "Schloss",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schloss"
+  },
+  {
+    "id": "90744bb6-444a-57f5-b180-9d679a2f0181",
+    "name": "Schlüsselabdruckform",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schluesselabdruckform"
+  },
+  {
+    "id": "ace99872-843b-59b6-bb26-a9c9a35ec478",
+    "name": "Schlüsselkopie",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schluesselkopie"
+  },
+  {
+    "id": "40f5b9eb-9fe1-514c-8e66-1dd3a08c17f6",
+    "name": "Schmetterlingsnetz",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Schmetterlingsnetz"
+  },
+  {
+    "id": "a1823767-d0fd-5c5c-bd21-91d63243fd3f",
+    "name": "Schnorchel, Meisterarbeit",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schnorchel"
+  },
+  {
+    "id": "0c3c1496-2f9e-5461-9f26-a85f073c7637",
+    "name": "Schnorchel, gewöhnlich",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schnorchel"
+  },
+  {
+    "id": "5f50e1a2-cec3-5715-ab37-936a28848bfc",
+    "name": "Schriftrollenkasten",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schriftrollenkasten"
+  },
+  {
+    "id": "f61ce349-586e-5d88-9b7d-92da1b0a2b92",
+    "name": "Schurkenausrüstung",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "37 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schurkenausruestung"
+  },
+  {
+    "id": "f85c6fc5-4b44-586d-94c4-59ae27734f4f",
+    "name": "Schwertscheide mit Geheimfach",
+    "category": "gear",
+    "price_gp": 45.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/SchwertscheidemitGeheimfach"
+  },
+  {
+    "id": "5dbff44b-6871-5451-a2c6-71a9c0e38e95",
+    "name": "Schützenausrüstung",
+    "category": "gear",
+    "price_gp": 26.0,
+    "price_raw": null,
+    "weight_lb": "31 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schuetzenausruestung"
+  },
+  {
+    "id": "8ee80cca-146f-50c6-8a8a-d13c0d7cca33",
+    "name": "Seidenseil (15 m)",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Seidenseil"
+  },
+  {
+    "id": "c6e270a7-c71e-5203-b15e-988c79e10797",
+    "name": "Seife (pro Pfund)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Seife"
+  },
+  {
+    "id": "7cf98da7-f77f-522d-b4b9-e74b6aab2786",
+    "name": "Seil, -Spinnenseide (15m)",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/SeilSpinnenseide"
+  },
+  {
+    "id": "384e5ea7-7ce5-545d-86a2-0da6879ee70b",
+    "name": "Sextant",
+    "category": "gear",
+    "price_gp": 500.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Sextant"
+  },
+  {
+    "id": "5a8e9f38-0403-5dc4-a71f-9cf1daebc93d",
+    "name": "Siegelring",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Siegelring"
+  },
+  {
+    "id": "23cd34a6-db2b-5264-9b3e-053fdd17354a",
+    "name": "Siegelwachs",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Siegelwachs"
+  },
+  {
+    "id": "8a23fdba-8184-5548-b38b-d7b467dc2cf2",
+    "name": "Signalhorn",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Signalhorn"
+  },
+  {
+    "id": "58979293-de64-5525-8582-3b2ab3584d12",
+    "name": "Signalpfeife",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "8 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Signalpfeife"
+  },
+  {
+    "id": "bf5bc15c-acf6-5934-b02d-204504dd9627",
+    "name": "Spaten oder Schaufel",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "8 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schaufel"
+  },
+  {
+    "id": "4659366f-3697-5963-8167-4fe8484993ff",
+    "name": "Spiegel",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Spiegel"
+  },
+  {
+    "id": "a4bdae8d-0ead-53c2-85fe-82cd1dc94359",
+    "name": "Spitzhacke",
+    "category": "gear",
+    "price_gp": 3.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Spitzhacke"
+  },
+  {
+    "id": "4548ed4b-7a09-5aa1-9949-25b2fad44ec5",
+    "name": "Stab, 3 M",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 KM",
+    "weight_lb": "8 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Stab"
+  },
+  {
+    "id": "8a252b71-8681-5e5d-9823-1fa22fe4f406",
+    "name": "Stachelweste",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Stachelweste"
+  },
+  {
+    "id": "ffc62b9f-7a58-52e9-87ee-9d28561713b7",
+    "name": "Stelzen, Meisterarbeit",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Stelzen"
+  },
+  {
+    "id": "ba2e849f-e35c-5021-a114-790b94edfcdd",
+    "name": "Stelzen, gewöhnlich",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "2 SM",
+    "weight_lb": "10 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Stelzen"
+  },
+  {
+    "id": "bc26accf-d542-50d8-8eb3-1915bf2a29c9",
+    "name": "Stille Pfeife",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "9 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/StillePfeife"
+  },
+  {
+    "id": "faf29f1b-e1c3-5247-8cc9-043972e3a8fa",
+    "name": "Säge",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "4 KM",
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Saege"
+  },
+  {
+    "id": "9a4197b2-13fb-5ddc-b4ac-89fac9940640",
+    "name": "Sägeschwert",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "+5 GM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Saegeschwert"
+  },
+  {
+    "id": "f5c4b4c0-7b3b-5f29-b7c5-56efb3204175",
+    "name": "Tagebuch",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Tagebuch"
+  },
+  {
+    "id": "d9ba969a-3125-55c3-8bc7-f3516c2fb7e4",
+    "name": "Tarnnetz",
+    "category": "gear",
+    "price_gp": 20.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Tarnnetz"
+  },
+  {
+    "id": "fc15bf09-5020-5bf5-8a3e-32c23a6a9dd2",
+    "name": "Teekessel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Teekessel"
+  },
+  {
+    "id": "1e0ba66e-5beb-516a-82ef-0f874afd2db9",
+    "name": "Thuribel",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Thuribel"
+  },
+  {
+    "id": "12f21e0f-e35e-596e-b200-40b00219f628",
+    "name": "Tierleim",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Tierleim"
+  },
+  {
+    "id": "f5793b26-2535-5c18-8e39-094a725184aa",
+    "name": "Tinte (Fläschchen mit ca. 30 ml)",
+    "category": "gear",
+    "price_gp": 8.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Tinte"
+  },
+  {
+    "id": "5569cd8e-b992-52ed-af36-f7a6d7fc9db3",
+    "name": "Tintenschreiber",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Tintenschreiber"
+  },
+  {
+    "id": "d0008bf9-d85e-51d1-a78c-29feff47874a",
+    "name": "Tonkrug",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "3 KM",
+    "weight_lb": "9 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Tonkrug"
+  },
+  {
+    "id": "7fcd5b72-7a14-571f-b89e-f7d099c877c0",
+    "name": "Tragbare Brücke",
+    "category": "gear",
+    "price_gp": 200.0,
+    "price_raw": null,
+    "weight_lb": "60 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/TragbareBruecke"
+  },
+  {
+    "id": "34367aa8-3eb3-592a-86fd-89e04f9379fd",
+    "name": "Tragbarer Rammbock",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/TragbarerRammbock"
+  },
+  {
+    "id": "2199eb97-9f7a-5a83-ab3c-a648708cfa05",
+    "name": "Trickhandschellen",
+    "category": "gear",
+    "price_gp": 65.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Trickhandschellen"
+  },
+  {
+    "id": "4494c22f-58cf-5cfe-83d1-fc4a61de3b70",
+    "name": "Trolltöterausrüstung",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "17 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Trolltoeterausruestung"
+  },
+  {
+    "id": "e1e553f9-e988-57fb-ba9c-6d870e260f90",
+    "name": "Truhe, groß",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Truhe"
+  },
+  {
+    "id": "6e592247-5ef8-5070-8c37-5209ccdf083c",
+    "name": "Truhe, klein",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Truhe"
+  },
+  {
+    "id": "6e6414bf-181b-5edd-88b6-1d5af47ede3d",
+    "name": "Truhe, mittelgroß",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Truhe"
+  },
+  {
+    "id": "168222c3-cc25-51b5-931d-d28d7192ba19",
+    "name": "Truhe, riesig",
+    "category": "gear",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "25 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Truhe"
+  },
+  {
+    "id": "d23cecfd-5de6-5583-a282-3fda7c80f9b7",
+    "name": "Turmkartenspiel",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Turmkartenspiel"
+  },
+  {
+    "id": "a66868f9-b67d-5d13-850b-d7d48ce0fe64",
+    "name": "Tätowierung",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 KM-20 GM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Taetowierung"
+  },
+  {
+    "id": "089a47be-2971-5487-8ae0-4c74bbf2be7b",
+    "name": "Unterarmscheide",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Unterarmscheide"
+  },
+  {
+    "id": "17bea9ec-2151-5524-b2a6-ebdf15c2c6fd",
+    "name": "Unterhalterausrüstung",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "5 SM",
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Unterhalterausruestung"
+  },
+  {
+    "id": "fa6ae883-b557-561d-9b9d-6b104eeea831",
+    "name": "Untotenjägerausrüstung",
+    "category": "gear",
+    "price_gp": 402.0,
+    "price_raw": null,
+    "weight_lb": "7 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Untotenjaegerausruestung"
+  },
+  {
+    "id": "478fc747-b8a6-5b81-b386-2e09d6ed0e46",
+    "name": "Vertrautentasche",
+    "category": "gear",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "6 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Vertrautentasche"
+  },
+  {
+    "id": "ef2ee947-24ba-5ced-ba74-0c27d2c59c2f",
+    "name": "Vorschlaghammer",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Vorschlaghammer"
+  },
+  {
+    "id": "6b82afa9-5fd4-508c-88d9-5c872702add3",
+    "name": "Waffeleisen, Mithral-",
+    "category": "gear",
+    "price_gp": 1260.0,
+    "price_raw": null,
+    "weight_lb": "2 ½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Waffeleisen"
+  },
+  {
+    "id": "aca039cf-4ec4-5bae-a4b9-ec807d8bd6c0",
+    "name": "Waffeleisen, gewöhnlich",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Waffeleisen"
+  },
+  {
+    "id": "0c378253-75bd-5c1d-8f5d-0dc8f10135fb",
+    "name": "Waffenkordel",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Waffenkordel"
+  },
+  {
+    "id": "a308bcb7-4b39-576d-96e8-d77c2fee36b4",
+    "name": "Waldläuferausrüstung",
+    "category": "gear",
+    "price_gp": 9.0,
+    "price_raw": null,
+    "weight_lb": "28 Pfd.2",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Waldlaeuferausruestung"
+  },
+  {
+    "id": "b9b3c1a1-769d-55a4-a8dd-377b046b243a",
+    "name": "Wasserdichte Laterne",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "+5 GM",
+    "weight_lb": null,
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/WasserdichteLaterne"
+  },
+  {
+    "id": "3ca110c5-a0dd-5cb9-b426-a753d834f5f5",
+    "name": "Wasserdichte Tasche",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/WasserdichteTasche"
+  },
+  {
+    "id": "38bb33fe-e8b8-5712-aebb-254e0fa8f54e",
+    "name": "Wasserschlauch",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Wasserschlauch"
+  },
+  {
+    "id": "9dfaf49a-f091-5906-908f-aa59b85771b2",
+    "name": "Wasseruhr",
+    "category": "gear",
+    "price_gp": 1000.0,
+    "price_raw": null,
+    "weight_lb": "200 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Wasseruhr"
+  },
+  {
+    "id": "ca923a64-7765-51be-828e-7880c7eaddab",
+    "name": "Windlicht",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Windlicht"
+  },
+  {
+    "id": "b21a64a3-7dfc-5f30-abc1-9cd36582c09f",
+    "name": "Wurfhaken",
+    "category": "gear",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Wurfhaken"
+  },
+  {
+    "id": "3fdcf3a1-cd2e-5898-8dbe-d17a50338370",
+    "name": "Wächterpuppe",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "35 Pfd.1",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Waechterpuppe"
+  },
+  {
+    "id": "a422bd47-0a48-52c1-9a1a-042e586fdd6b",
+    "name": "Zelt, Pavillon",
+    "category": "gear",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "50 Pfd. 1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Zelt"
+  },
+  {
+    "id": "3aec160d-d120-56cb-9abd-953315de3376",
+    "name": "Zelt, groß",
+    "category": "gear",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "40 Pfd. 1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Zelt"
+  },
+  {
+    "id": "53ad160e-87b6-5069-b20c-4324b984107d",
+    "name": "Zelt, klein",
+    "category": "gear",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "20 Pfd. 1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Zelt"
+  },
+  {
+    "id": "6b369e8b-605b-5baa-8755-7a7e0359a35f",
+    "name": "Zelt, mittelgroß",
+    "category": "gear",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "30 Pfd. 1",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Zelt"
+  },
+  {
+    "id": "e40e475d-d880-5f71-a761-c0c1075171f5",
+    "name": "Öl (Fläschchen mit ca. ½ Liter)",
+    "category": "gear",
+    "price_gp": null,
+    "price_raw": "1 SM",
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Oel"
+  },
+  {
+    "id": "1a8d92e3-4582-50d8-9896-23a61089e691",
+    "name": "Überlebensausrüstung, Meisterarbeit",
+    "category": "gear",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Ueberlebensausruestung"
+  },
+  {
+    "id": "1d3a5a3a-e49b-5af9-8ad9-411011f40cf9",
+    "name": "Überlebensausrüstung, gewöhnlich",
+    "category": "gear",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "4 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Ueberlebensausruestung"
+  },
+  {
+    "id": "286b9b81-2c35-50f7-99f0-b74c283b281e",
+    "name": "Abakus",
+    "category": "tool",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Abakus"
+  },
+  {
+    "id": "c7fa78fe-dcfe-55ce-ba66-059ebd5f54d6",
+    "name": "Aderlassausrüstung",
+    "category": "tool",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Aderlassausruestung"
+  },
+  {
+    "id": "ce49030c-3f33-50f5-b686-72b2f6b4a988",
+    "name": "Alchemistenlabor",
+    "category": "tool",
+    "price_gp": 200.0,
+    "price_raw": null,
+    "weight_lb": "40 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Alchemistenlabor"
+  },
+  {
+    "id": "a7c73d01-4365-5210-b0d7-70395a0bf17a",
+    "name": "Amboss",
+    "category": "tool",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "10-100 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Amboss"
+  },
+  {
+    "id": "d49818fd-3089-56e4-b5a5-f265ae8dacc6",
+    "name": "Balancierstange",
+    "category": "tool",
+    "price_gp": null,
+    "price_raw": "8 SM",
+    "weight_lb": "12 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Balancierstange"
+  },
+  {
+    "id": "5cc5635c-79de-5682-b15a-a806c4efc0f9",
+    "name": "Beutel für Materialkomponenten",
+    "category": "tool",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/BeutelfuerMaterialkomponenten"
+  },
+  {
+    "id": "962a7b5a-1bb3-511c-98c0-9697e0468223",
+    "name": "Blasebalg",
+    "category": "tool",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Blasebalg"
+  },
+  {
+    "id": "33d00d11-0a07-5a29-90e7-dd7f8d5891cb",
+    "name": "Bärenfalle",
+    "category": "tool",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Baerenfalle"
+  },
+  {
+    "id": "f0ea502e-e10a-532f-85d1-969f8023aca4",
+    "name": "Chirurgenbesteck",
+    "category": "tool",
+    "price_gp": null,
+    "price_raw": "20 M",
+    "weight_lb": "5 Pfd. *",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Chirurgenbesteck"
+  },
+  {
+    "id": "a413de5c-392e-5030-b593-db63a6766fb1",
+    "name": "Diebeswerkzeug",
+    "category": "tool",
+    "price_gp": 30.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Diebeswerkzeug"
+  },
+  {
+    "id": "03eaf970-6f90-578e-aff7-0b6707f7617d",
+    "name": "Diebeswerkzeug [Meisterarbeit]",
+    "category": "tool",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Diebeswerkzeug"
+  },
+  {
+    "id": "a4080af8-3ae9-522a-ac38-40544fdb3d01",
+    "name": "Formelbuch",
+    "category": "tool",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Formelbuch"
+  },
+  {
+    "id": "b6fe4f85-4274-5dda-8b39-845705956c14",
+    "name": "Fußabdruckbuch",
+    "category": "tool",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Fussabdruckbuch"
+  },
+  {
+    "id": "e057e6b8-a393-541e-9b98-9b3794f75139",
+    "name": "Fälscherausrüstung",
+    "category": "tool",
+    "price_gp": 200.0,
+    "price_raw": null,
+    "weight_lb": "6 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Faelscherausruestung"
+  },
+  {
+    "id": "3aa1fb56-9a2f-554c-8574-9c25b6c410fb",
+    "name": "Gegengiftset",
+    "category": "tool",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Gegengiftset"
+  },
+  {
+    "id": "d76aa2bf-baa7-5f44-b745-9948091714e2",
+    "name": "Hebammentasche",
+    "category": "tool",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Hebammentasche"
+  },
+  {
+    "id": "f45ee2f2-d641-5ceb-8008-b66d49c7e3d6",
+    "name": "Heilertasche",
+    "category": "tool",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Heilertasche"
+  },
+  {
+    "id": "9e4d1aad-164b-56af-a022-286ca611063b",
+    "name": "Jongleursausrüstung",
+    "category": "tool",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd. *",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Jongleursausruestung"
+  },
+  {
+    "id": "9f16cc90-a59f-5c16-b6fe-63f86a5cc202",
+    "name": "Kartografenausrüstung",
+    "category": "tool",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Kartografenausruestung"
+  },
+  {
+    "id": "13c670b9-8908-5f92-8d38-e691d0984e54",
+    "name": "Kaufmannswaage",
+    "category": "tool",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kaufmannswaage"
+  },
+  {
+    "id": "f5a17bfd-77d1-5022-8789-31db5bb90b01",
+    "name": "Kletterzeug",
+    "category": "tool",
+    "price_gp": 80.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.*",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Kletterzeug"
+  },
+  {
+    "id": "2a9921f6-0136-561b-b84d-5a28dfdc705f",
+    "name": "Meisterarbeitswerkzeug",
+    "category": "tool",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Meisterarbeitswerkzeug"
+  },
+  {
+    "id": "a4c3cf1d-6bca-58f4-9b4c-c5545394b472",
+    "name": "Musikinstrument, Meisterarbeit",
+    "category": "tool",
+    "price_gp": 100.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.*",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Musikinstrument"
+  },
+  {
+    "id": "9a96760c-de07-550d-a614-f56417eb3bb9",
+    "name": "Musikinstrument, gewöhnlich",
+    "category": "tool",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.*",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Musikinstrument"
+  },
+  {
+    "id": "12daf441-274d-53b6-826d-2292a801a12b",
+    "name": "Porträtbuch",
+    "category": "tool",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Portraetbuch"
+  },
+  {
+    "id": "7e8afd3c-8733-5a47-a8f0-7cec1e55d082",
+    "name": "Reagenzientasche",
+    "category": "tool",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reagenzientasche"
+  },
+  {
+    "id": "1acfa12e-377a-5cf3-8097-c14c69429709",
+    "name": "Regenschirm",
+    "category": "tool",
+    "price_gp": 2.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schirme"
+  },
+  {
+    "id": "c53470e0-4fc8-566f-8009-2fee85a5ed4f",
+    "name": "Reiseformelbuch",
+    "category": "tool",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Reiseformelbuch"
+  },
+  {
+    "id": "9a3f369a-c9a9-56e2-a17a-36b8cadc362b",
+    "name": "Reisezauberbuch",
+    "category": "tool",
+    "price_gp": 10.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Reisezauberbuch"
+  },
+  {
+    "id": "1e94ec2d-c3d5-5c4f-8a8e-a65d0281c655",
+    "name": "Schminkzeug",
+    "category": "tool",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "8 Pfd.*",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Schminkzeug"
+  },
+  {
+    "id": "4b64eb7e-3534-52ba-b70e-d76ad50b0c63",
+    "name": "Simulantentasche",
+    "category": "tool",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Simulantentasche"
+  },
+  {
+    "id": "856b2b42-72e8-51ec-be9d-3102aa15756d",
+    "name": "Sonnenschirm",
+    "category": "tool",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "2 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Schirme"
+  },
+  {
+    "id": "3b575608-1714-5b2c-a1de-38fc492be156",
+    "name": "Tierarzttasche",
+    "category": "tool",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Tierarzttasche"
+  },
+  {
+    "id": "5fb7322a-104e-5c16-9036-a1a7c595646a",
+    "name": "Tragbahre",
+    "category": "tool",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "10 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/Tragbahre"
+  },
+  {
+    "id": "63321ad3-5023-5567-b5a4-9ec4149b8c50",
+    "name": "Tragbarer Altar",
+    "category": "tool",
+    "price_gp": 250.0,
+    "price_raw": null,
+    "weight_lb": "40 Pfd.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/Ausruestung/TragbarerAltar"
+  },
+  {
+    "id": "90e6942c-5256-55b5-bf1a-774aab2611d6",
+    "name": "Tragbares Alchemistenlabor",
+    "category": "tool",
+    "price_gp": 75.0,
+    "price_raw": null,
+    "weight_lb": "20 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/TragbaresAlchemistenlabor"
+  },
+  {
+    "id": "4e8a194c-b13d-5288-b5c5-b0f6df263de5",
+    "name": "Wahrsagekarten, Meisterarbeit",
+    "category": "tool",
+    "price_gp": 50.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Wahrsagekarten"
+  },
+  {
+    "id": "eceb292b-ae7d-5c13-98f4-a25af0711b08",
+    "name": "Wahrsagekarten, gewöhnlich",
+    "category": "tool",
+    "price_gp": 1.0,
+    "price_raw": null,
+    "weight_lb": "½ Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Wahrsagekarten"
+  },
+  {
+    "id": "f1f36099-b2a5-5469-bdf1-db1f416104c1",
+    "name": "Wahrsagekarten, hochwertig",
+    "category": "tool",
+    "price_gp": 25.0,
+    "price_raw": null,
+    "weight_lb": "1 Pfd.",
+    "source_url": "http://prd.5footstep.de/Expertenregeln/Ausruestung/Wahrsagekarten"
+  },
+  {
+    "id": "1eaf0b7c-422d-5771-b073-a2fc34b8e798",
+    "name": "Werkzeug eines Handwerkers, Meisterarbeit",
+    "category": "tool",
+    "price_gp": 55.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Werkzeug"
+  },
+  {
+    "id": "1bba9661-fb1f-58fa-a3cb-ed6c69aa9f65",
+    "name": "Werkzeug eines Handwerkers, gewöhnlich",
+    "category": "tool",
+    "price_gp": 5.0,
+    "price_raw": null,
+    "weight_lb": "5 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Werkzeug"
+  },
+  {
+    "id": "57e2e15c-7571-5351-8cdf-cdb75d6089d5",
+    "name": "Zauberbuch",
+    "category": "tool",
+    "price_gp": 15.0,
+    "price_raw": null,
+    "weight_lb": "3 Pfd.",
+    "source_url": "http://prd.5footstep.de/Grundregelwerk/Ausruestung/Zauberbuch"
+  }
+]

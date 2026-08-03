@@ -152,6 +152,57 @@ either way: an under-enforced prerequisite is recoverable (the raw text is
 always kept in `base_feats.prerequisite_text`), a wrongly-enforced one
 isn't.
 
+## 5. Weapon and gear/tool tables → flat catalog staging files
+
+The `Ausruestungskompendium` (equipment compendium) pages are a third shape,
+different from both §1's DataTables JSON and §2/§3's free prose: hand-authored
+wiki tables (`<div class="table_wrapper"><table class="usertable"><tr
+class="userrow"><td class="usercell">...`), one row per item, no client-side
+JS involved. Useful trick specific to the weapons page: it uniquely bundles
+full prose descriptions for every simple/martial/exotic weapon on the *same*
+page, under a `<h4>Waffenbeschreibungen</h4>` section (ending at the next
+`<h4>`, "Meisterarbeiten von Waffen") - `<strong>{Name}:</strong> {text}`
+entries, one per weapon, matched back to table rows by name. Before assuming
+a full description needs a per-item page fetch (as in §2), check whether the
+index/table page has an analogous `<h4>{X}beschreibungen</h4>` section first;
+it's cheaper when it exists. It doesn't always: the adventuring-gear and
+tools tables have no such section anywhere on their pages, so per those
+scripts' docstrings, full per-item text is left unfetched for now (only the
+row's own permalink URL is kept as `source_url`) - same "only worth it when
+actually needed" reasoning as §2's bulk-feat-text call.
+
+**Known quirks:**
+- The weapon tables use `<td class="usercell" colspan="9">` (11 for the
+  firearms table, which adds Fehlzündung/misfire and Kapazität/capacity
+  columns) for two different things that need telling apart: a
+  `<em>{subheading}</em>`-only cell (a subgroup marker like "Leichte Waffen",
+  applying to subsequent rows until the next one) vs. a footnote row (starts
+  with `<sup>`, no `<em>`) that isn't a weapon row at all and is skipped.
+- The `Waffenbeschreibungen` entries are inconsistently punctuated: usually
+  `<strong>Name:</strong> text`, but occasionally the colon sits *outside*
+  the bold (`<strong>Name</strong>: text`) or there's stray whitespace
+  *inside* it before the colon (`<strong>Name:  </strong>`). A regex
+  requiring the literal sequence `:</strong>` silently mis-parses these -
+  it keeps extending its non-greedy match past the malformed entry looking
+  for the next place that literal sequence occurs, silently merging two (or
+  more) unrelated weapons' worth of text into one entry. Fix: match every
+  `<strong>...</strong>` span first, then resolve the colon's position (in
+  bold, or just after) relative to that match, instead of anchoring the
+  whole pattern on where the colon has to be.
+- Not every table name matches a `Waffenbeschreibungen` entry
+  case/whitespace-normalized (~80% hit rate) - remaining misses are genuine
+  site inconsistencies (a table name carrying a quantity suffix like
+  "Schuriken (5)" vs. the prose's plain "Schuriken"; singular/plural drift
+  like "Bolas" vs. "Bola"; a literal hyphen in one heading,
+  "Zweihändige-Axt", vs. the table's "Zweihändige Axt"). Left `null` rather
+  than fuzzy-matched, same policy as unresolved feat prerequisites in §4.
+
+Scripts: `import_waffen_prd.py` → `../app/fixtures/imported/waffen_prd_import.json`
+(198 weapons: simple/martial/exotic/firearm, with description where matched);
+`import_ausruestung_prd.py` → `../app/fixtures/imported/ausruestung_prd_import.json`
+(292 rows: adventuring gear + tools, summary columns only, `source_url` kept
+per row for on-demand full-text fetch later).
+
 ## Finding a class/section's page path
 
 `/{Book}/Klassen/{ClassSlug}` — book prefix matches the left nav on any PRD
