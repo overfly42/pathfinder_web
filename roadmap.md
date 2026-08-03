@@ -185,6 +185,93 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       ließe sich zwar eintippen, hätte aber keine Auswirkung auf
       Angriffs-/Schadensbonus. Baut auf der Waffenkatalog-Erweiterung oben
       auf (keine Berechnung ohne Basis-Kampfwerte).
+
+      Gegen <http://prd.5footstep.de/Ausruestungskompendium/MagischeWaffenundRuestungen/BesondereEigenschaftenvonWaffen>
+      geprüft (2026-08-03), um zu sehen, was fürs Verdrahten fehlt: die ~80
+      benannten besonderen Waffeneigenschaften (Nahkampf/Fernkampf/Munition,
+      Bonusäquivalent +1 bis +5, Gesamtbonus-Deckel +10 aus Verbesserung +
+      Eigenschaften) sind mechanisch keine homogene Gruppe, sondern mehrere
+      grundverschiedene Effekt-Formen: flacher Elementarschaden on-hit,
+      togglebar per Befehlswort (Aufflammen/Blitz/Eis); nur-bei-Krit-Zusatz-
+      effekte, die mit dem Kritmultiplikator skalieren (Blitz-/Eis-/
+      Flammeninferno, Donner mit permanenter Taubheit bei Rettungswurf-
+      Fehlschlag); gesinnungsbedingter Bonusschaden + Fluch für den „falsch"
+      gesinnten Träger, inkl. SR-Durchbruch (Heilig/Unheilig/Grundsatz/
+      Anarchie); Bevorzugter-Feind-Muster gegen einen gewürfelten Kreaturen-
+      typ (Verderben); Krit-Modifikatoren (Schärfe verdoppelt den Bedrohungs-
+      bereich, Hinrichtung enthauptet bei bestätigtem Nat-20-Krit); zusätz-
+      liche volle Angriffe (Schnelligkeit); Kampfmanöver-Boni (Duell,
+      Entgegenwirkend, Bedrohlich als Verbündeten-Aura); SR-/DR-Unterlaufen
+      on-hit (Beseitigend, Ausschaltend); Reichweiten-/Utility-Effekte
+      (Distanz, Rückkehr, Suchen, Gerufen); eigenständig handelnde Waffen
+      (Tanzen); Zauber speichern/stehlen (Zauberspeicher, Zauberraubend,
+      Bannend/Bannexplosion); sowie zahlreiche Waffentyp-Restriktionen (nur
+      Nahkampf/nur Fernkampf/nur Bögen/nur Feuerwaffen).
+
+      Zwei getrennte, konkrete Lücken (nicht eine) folgen daraus: (a)
+      `properties` als Freitext-Liste kann die Eigenschaften nicht
+      strukturiert abbilden (Bonusäquivalent/Preis, Waffentyp-Beschränkung,
+      gegenseitige Ausschlüsse wie Verlässlich vs. Mächtige Verlässlichkeit);
+      (b) es existiert serverseitig noch gar kein Angriffs-/Schadenswurf-
+      Endpunkt, an den sich eine Berechnung anschließen ließe —
+      `rules/modifiers.py`s `Modifier`/`stack()` ist rein statisch/additiv,
+      einmal pro Sheet-Aufbau berechnet, aktuell nur für die Rüstungsklasse
+      aufgerufen, und kennt kein „ausgelöst bei Treffer"/„nur bei Krit"/
+      „bedingt auf Gesinnung/Kreaturentyp" (deckt sich mit dem Kämpfer-
+      Waffentraining-Punkt oben).
+
+      **Entscheidung (2026-08-03, präzisiert): keine Berechnung, aber
+      trotzdem durch ein `HANDLERS`-Registry.** Waffeneigenschaften laufen
+      der Konsistenz halber durch dasselbe `dict[UUID, Callable]`-Muster wie
+      `rules/race_abilities.py` (neues `rules/weapon_abilities.py` o. ä.) —
+      jede Fähigkeit/jedes Item am Charakter soll über denselben Mechanismus
+      aufgelöst werden, nicht nur die, die tatsächlich etwas berechnen, damit
+      `sheet.py` nicht zwischen "Items mit Handler" und "Items ohne Handler"
+      unterscheiden muss. Für die ganz überwiegende Mehrheit ist der Handler
+      aber trivial: eine generische Factory, die nur den Katalogtext (Name +
+      Beschreibung) fürs Sheet zurückgibt, ohne selbst zu rechnen — kein
+      Anschluss an `rules/modifiers.py`, kein Angriffs-/Schadenswurf-Pfad
+      nötig, exakt wie bei den unten unverdrahteten Rasseneigenschaften.
+      Begründung fürs Nicht-Berechnen: die App ist ein Tischhilfsmittel für
+      einen Spieler, kein Kampfsimulator. Von den ~35 Angriffs-/Schaden-
+      relevanten Eigenschaften hängen ~19 von Gegnerdaten ab, die hier nie
+      modelliert werden sollen (Gesinnung/Kreaturentyp/Zustand/
+      Verfolgungshistorie des Ziels — Verderben, Heilig/Unheilig/Grundsatz/
+      Anarchie, Auftauend/Erdend/Löschend/Neutralisierend, Zerschlagend,
+      Planar, Grausam, Jagd/Lauernd/Tapfer, Listig) und weitere ~10 nur an
+      den eigenen Krit-Wurf gekoppelt (Blitz-/Eis-/Flammeninferno, Donner,
+      Säureexplosion, Hinrichtung, Glorreich, Unheilvoll, Versetzend,
+      Zauberraubend) — der Spieler liest die Eigenschaft von der Waffe ab und
+      rechnet sie am Tisch selbst dazu. Einzige Ausnahme mit eigenem,
+      dünnerem Handler statt der generischen Text-Factory: Zornig/Kräftigend
+      (siehe unten), sobald deren Zustands-Hinweis an slice 5 andockt — auch
+      der rechnet aber nur einen Aktiv-Status ab, keinen Bonuswert.
+
+      Datenmodell dafür so schlank wie möglich: `BaseWeaponSpecialAbility`
+      (Katalog, composition-only wie `BaseFeat`) mit `name`,
+      `bonus_equivalent` (1–5 — einzig strukturiert nötig, für Preis- und
+      +10-Gesamtbonus-Deckel-Berechnung), `applicable_categories`
+      (Nahkampf/Fernkampf/Munition — welche der drei PRD-Tabellen), einem
+      kurzen `restriction_note`-Tag für die engeren Fußnoten-Einschränkungen
+      (z. B. „nur Hiebwaffen", „nur Kompositbögen", „nur Feuerwaffen" —
+      informativ für den Auswahl-Dialog, keine harte DB-Constraint, gleiches
+      Muster wie die serverseitige statt DB-Constraint-Prüfung beim
+      Talent-Sub-Wahl-Schema oben), und `description` (voller Regeltext, nie
+      ausgewertet). Dazu eine Zuordnungstabelle `CharacterGearSpecialAbility`
+      (gear_id, ability_id, unique pair — mehrere Eigenschaften pro
+      Gegenstand). Keine Gegner-/Encounter-Daten, keine Berechnungs-Engine.
+
+      Die einzigen zwei Eigenschaften, die vom **eigenen** Zustand des
+      Trägers abhängen statt von Gegnerdaten (Zornig: nur im Kampfrausch;
+      Kräftigend: nur nach Niederstrecken eines Gegners, solange nicht
+      erschöpft/entkräftet) sind auch die einzigen, für die ein Zustands-/
+      Rundenzähler wie für Kampfrausch überhaupt etwas bringen würde — das
+      ist kein neues Konzept, sondern deckt sich mit dem „Aktive Effekte"-
+      Punkt unten (slice 5, `ActiveEffect`-Tabelle mit Dauer-Tracking): sobald
+      die existiert, könnte die Anzeige z. B. „Zornig: Kampfrausch aktiv,
+      noch 4 Runden" neben der Waffe highlighten, dass die Eigenschaft gerade
+      greift — weiterhin nur als Hinweis, nicht als eingerechneter Bonus.
+      Kein Vorgriff auf slice 5 nötig, um Katalog/Anzeige oben zu bauen.
 - [ ] **Wondrous-Item-Katalog mit echter Attributsboni-Wirkung.** Die 12
       kosmetischen Ausrüstungsplätze (roadmap slice 4) haben keine
       Katalogzeilen und keine Verdrahtung in `sheet.py`s
