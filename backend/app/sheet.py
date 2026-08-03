@@ -44,6 +44,7 @@ from .models import (
     BaseSkill,
     BaseSpell,
     BaseTrait,
+    BaseWeaponSpecialAbility,
     Character,
     RaceAbilityGrant,
 )
@@ -53,6 +54,7 @@ from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS
 from .rules.modifiers import Modifier, stack
 from .rules.speed import race_speed
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
+from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
 SAVE_LABELS = {"fort": "Zähigkeit", "ref": "Reflex", "will": "Willen"}
@@ -332,6 +334,17 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
     items = {item.id: item for item in db.scalars(select(BaseItem).where(BaseItem.id.in_(
         [g.item_id for g in character.gear]
     ))).all()}
+    ability_ids = {link.ability_id for gear_row in character.gear for link in gear_row.special_abilities}
+    abilities = (
+        {
+            ability.id: ability
+            for ability in db.scalars(
+                select(BaseWeaponSpecialAbility).where(BaseWeaponSpecialAbility.id.in_(ability_ids))
+            ).all()
+        }
+        if ability_ids
+        else {}
+    )
     result = []
     for gear_row in character.gear:
         item = items.get(gear_row.item_id)
@@ -346,6 +359,18 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
             entry["enhancement"] = f"+{gear_row.enhancement}"
         if gear_row.properties:
             entry["properties"] = gear_row.properties
+        # Structured abilities (roadmap.md's "Magische Verzauberung/Material
+        # als Berechnung statt Freitext") — resolved through the same
+        # HANDLERS mechanism as every other ability/effect (CLAUDE.md),
+        # distinct from `properties` above, which stays freetext for
+        # anything not (yet) in the `BaseWeaponSpecialAbility` catalog.
+        special_abilities = [
+            resolve_weapon_ability(abilities[link.ability_id])
+            for link in gear_row.special_abilities
+            if link.ability_id in abilities
+        ]
+        if special_abilities:
+            entry["specialAbilities"] = special_abilities
         result.append(entry)
     return result
 

@@ -233,17 +233,29 @@ class CharacterCreate(BaseModel):
 
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
-    quantity/enhancement/properties may be omitted (unchanged)."""
+    quantity/enhancement/properties/special_ability_ids may be omitted
+    (unchanged). `special_ability_ids`, when present, replaces the item's
+    entire `BaseWeaponSpecialAbility` set (not a delta/append) — same
+    replace-whole-list semantics as `properties`, just structured instead of
+    freetext (see `models.character.CharacterGear`'s docstring)."""
 
     quantity: int | None = None
     enhancement: int | None = None
     properties: list[str] | None = None
+    special_ability_ids: list[UUID] | None = None
 
     @field_validator("quantity")
     @classmethod
     def quantity_must_be_positive(cls, value: int | None) -> int | None:
         if value is not None and value < 1:
             raise ValueError("quantity must be at least 1")
+        return value
+
+    @field_validator("special_ability_ids")
+    @classmethod
+    def special_ability_ids_must_not_have_duplicates(cls, value: list[UUID] | None) -> list[UUID] | None:
+        if value is not None and len(set(value)) != len(value):
+            raise ValueError("special_ability_ids must not contain duplicates")
         return value
 
 

@@ -8,6 +8,7 @@ from ..rules.progression import class_bab, class_save_bonus
 from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
+from .item import CharacterGearSpecialAbility
 from .race import BaseRaceAbility
 
 
@@ -400,8 +401,12 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     directly into `BaseItem.ac_bonus` for armor/shield at AC-computation time
     rather than tracked as a separate stacking type — PF1e combines armor/
     shield enhancement into the one armor/shield bonus, it isn't distinct.
-    `properties` (e.g. "Flammend") is descriptive only, same "not evaluated
-    by rule logic yet" convention as `BaseItem.category`."""
+    `properties` (e.g. "Flammend") is descriptive freetext for anything not
+    (yet) in the `BaseWeaponSpecialAbility` catalog; a named ability that
+    *is* cataloged should go in `special_abilities` instead (structured,
+    resolved via `app.rules.weapon_abilities`) rather than typed here too —
+    same "not evaluated by rule logic yet" convention as `BaseItem.category`
+    for whatever stays freetext."""
 
     __tablename__ = "character_gear"
     __table_args__ = (UniqueConstraint("character_id", "item_id"),)
@@ -412,3 +417,5 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     equipped_slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
     enhancement: Mapped[int] = mapped_column(Integer, default=0)
     properties: Mapped[list[str]] = mapped_column(JSON, default=list)
+
+    special_abilities: Mapped[list["CharacterGearSpecialAbility"]] = relationship(cascade="all, delete-orphan")

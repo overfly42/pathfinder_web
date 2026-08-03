@@ -1,0 +1,990 @@
+[
+  {
+    "id": "654119de-735d-5ef4-ab45-65581de6673b",
+    "name": "Anarchie",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe der Anarchie ist mit der Macht des Chaos erfüllt und besitzt somit die Gesinnung chaotisch. Die chaotische Gesinnung ermöglicht der Waffe, entsprechende Schadensreduzierungen zu umgehen. Sie verursacht bei Kreaturen mit einer rechtschaffenen Gesinnung 2W6 zusätzliche Schadenspunkte und jeder rechtschaffen gesinnte Träger erhält durch sie eine permanente negative Stufe. Diese negative Stufe bleibt so lange bestehen, wie die Waffe in der Hand gehalten wird und verschwindet, sobald der Träger die Waffe ablegt. Wenn ein rechtschaffener Charakter die Waffe führt, gibt es für ihn keine Möglichkeit, diese negative Stufe zu überwinden (auch nicht durch irgendeine Version von Genesung). Durchschnittliche Beschwörung [Chaos]; ZS 7; Magische Waffen und Gegenstände herstellen, Chaoshammer; Erschaffer muss selbst chaotisch sein; Marktpreis Bonus +2."
+  },
+  {
+    "id": "8d31332c-f9e4-5c46-812d-74e332f9280d",
+    "name": "Anpassungsfähig",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": "Nur Bögen können diese Eigenschaft erhalten (nur Kompositbögen können Anpassungsfähig erhalten).",
+    "description": "Diese besondere Eigenschaft kann nur auf Kompositbögen gezaubert werden. Ein anpassungsfähiger Bogen bringt sich selbst mit der Stärke seines Anwenders in Einklang und verhält sich aus diesem Grund wie ein Bogen, der eine Stärkeauslegung gemäß dem Stärkebonus seines Trägers besitzt. Der Träger kann mit einem derartigen Kompositbogen sogar Schüsse mit einem schwächeren Stärkebonus abfeuern (und dadurch weniger Schaden verursachen), sofern er dies wünscht. Schwache Verwandlung; ZS 1; Magische Waffen und Rüstungen herstellen, Holz krümmen; Marktpreis +1.000 GM."
+  },
+  {
+    "id": "74002e40-27c1-53dc-b8d1-73177d351ff2",
+    "name": "Aufflammen",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Auf Befehl hüllt sich eine aufflammende Waffe in Feuer, so dass sie bei einem erfolgreichen Treffer zusätzliche 1W6 Punkte Feuerschaden verursacht. Das hierdurch erzeugte Feuer schadet dem Träger nicht. Der Effekt bleibt bestehen, bis ein anderer Befehl gegeben wird. Durchschnittliche Hervorrufung; ZS 10; Magische Waffen und Rüstungen herstellen, Flammenklinge, Flammenschlag oder Feuerball; Marktpreis Bonus +1."
+  },
+  {
+    "id": "b51e57ac-501a-5e0a-9d28-db2b36646dfd",
+    "name": "Auftauend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Stößt man eine auftauende Waffe in ein nicht-magisches, gefrorenes mittelgroßes oder kleineres Objekt, dann schmilzt das Eis des Objekts. Wenn sie gegen eine Kreatur der Kälte genutzt wird, verursacht sie zusätzliche 1W6 Schadenspunkte. Der Träger einer auftauenden Waffe erhält einen Kompetenzbonus von +2 auf Rettungswürfe gegen eisbasierte Effekte. Die Waffe selbst ist immun gegen Kälteschaden. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Metall erhitzen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "5dbdf271-242f-5023-860e-dcb679e65ead",
+    "name": "Ausschaltend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine ausschaltende Waffe negiert kurzzeitig einige Formen von Schadensreduktion, wenn sie einer Kreatur Schaden zufügt. Sobald eine ausschaltende Waffe einem Gegner mit SR/chaotisch, SR/böse, SR/gut, SR/rechtschaffen oder SR/Magie Schaden zufügt, reduziert sich für 1 Runde der Wert der Schadensreduktion um 5 Punkte. Sollte also z.B. eine ausschaltende Lanze +1 eine Kreatur mit SR 10/gut und rechtschaffen erfolgreich treffen, so reduziert sie die SR der Kreatur auf 5/gut und rechtschaffen. Wenn sich die Schadensreduktion auf eine andere Komponente als die oben aufgelisteten Gesinnungen bezieht, so ist diese Komponente nicht betroffen. Das bedeutet, sollte eine ausschaltende Lanze +1 einen Dämon mit SR 10/gut und Kaltes Eisen erfolgreich treffen, würde der Dämon seine Schadensreduktion SR 10/Kaltes Eisen behalten und für 1 Rundenur SR 5/gut erhalten. Die Effekte mehrfacher ausschaltender Waffen (oder von mehrfachen Treffern einer Waffe) sind nicht kumulativ. Diese Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Durchschnittlicher Bannzauber; ZS 5; Magische Waffen und Rüstungen herstellen, Böses, Chaotisches, Gutes oder Rechtschaffenes bannen; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "40e1c259-069e-54dc-ac24-d0d2ae1c6e24",
+    "name": "Bannend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine bannende Waffe funktioniert wie eine zauberspeichernde Waffe, allerdings kann sie lediglich Magie bannen speichern. Bei einem Zauberstufenwurf zum Bannen von Magie erhält man einen zusätzlichen Bonus in der Höhe des Verbesserungsbonus der Waffe. Dieser Bonus findet auch bei dem Bannenden Schlag eines Kampfmagus oder bei dem Kampfmanöverwurf eines Barbaren für Zauber zerschmettern oder Verzauberung zerschmettern Anwendung. Starker Bannzauber; ZS 10; Magische Waffen und Rüstungen herstellen, Magie bannen, Erschaffer muss mindestens die 10. Stufe erreicht haben; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "5b092df0-6094-5d29-aa66-a617d85e69f5",
+    "name": "Bannexplosion",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine Waffe der Bannexplosion funktioniert wie ein bannende Waffe, allerdings kann sie Magie bannen oder Mächtiges Magie bannen speichern. Zudem können diese Zauber mit Hilfe einer freien Aktion entladen werden, sobald der Träger einer Waffe der Bannexplosion einen kritischen Treffer bestätigt. Wenn der Träger so handelt, steigt der Bonus auf den Bannwurf (Bannender Schlag, Verzauberung zerschmettern oder Zauber zerschmettern eingeschlossen) um eine Zahl in Höhe des Verbesserungsbonus der Waffe oder des Multiplikators der Waffe (der höhere von beiden zählt). Wenn mit einer Waffe der Bannexplosion ein kritischen Treffer bestätigt wird, während diese derzeit kein Magie Bannen oder Mächtiges Magie bannen gespeichert hat, so kann der Träger mit Hilfe einer schnellen Aktion, sollte er beide Zauber vorbereitet haben (oder wenn er ein Zauberkundiger ist, der beide Zauber ohne Vorbereitung wirken kann), einen dieser Zauber in die Waffe einspeichern und diesen dann sofort im Zuge einer freien Aktion auf das Ziel entladen. Starker Bannzauber; ZS 12; Magische Waffen und Rüstungen herstellen, Mächtiges Magie bannen, Erschaffer muss mindestens die 12. Stufe erreicht haben; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "55c9c5a5-220a-56c9-a07b-ac9f5e464e81",
+    "name": "Bedrohlich",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Nur Nahkampfwaffen können diese Fähigkeit besitzen. Diese Waffeneigenschaft hilft Verbündeten im Umgang mit in die Zange genommenen Gegnern. Wenn der Träger benachbart zu einer von einem Verbündeten in die Zange genommenen Kreatur ist, steigt der Angriffsbonus aller in die Zange nehmenden Verbündeten um +2, selbst wenn der Träger selbst die Kreatur nicht in die Zange nimmt. Durchschnittliche Illusion; ZS 10; Magische Waffen und Rüstungen herstellen, Tödliches Phantom; Marktpreis Bonus +1."
+  },
+  {
+    "id": "071396e4-cf96-594a-8571-0c10561a8fd0",
+    "name": "Beseitigend",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine beseitigende Waffe unterdrückt kurzzeitig die Zauberresistenz einer Kreatur. Jedes Mal, wenn die Waffe eine Kreatur mit Zauberresistenz erfolgreich trifft und dabei Schaden verursacht, wird die Zauberresistenz des Ziels für 1 Minute um 1 Punkt gesenkt. Bei einem bestätigten kritischen Treffer hingegen wird die Zauberresistenz um die Höhe des Multiplikators der Waffe gesenkt. Mehrfache Treffer von einer beseitigenden Waffe sind kumulativ. Starker Bannzauber; ZS 12; Magische Waffen und Rüstungen herstellen, Antimagisches Feld; Marktpreis +3 Bonus."
+  },
+  {
+    "id": "ffb6d455-b583-5785-8e8f-369198af28f3",
+    "name": "Blitz",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Auf Befehl kann sich eine Blitzwaffe in Elektrizität hüllen, die bei einem erfolgreichen Treffer zusätzliche 1W6 Punkte Elektrizitätsschaden verursacht. Die hierdurch erzeugte Elektrizität schadet dem Träger nicht. Der Effekt bleibt bestehen, bis ein anderer Befehl gegeben wird. Durchschnittliche Hervorrufung; ZS 8; Magische Waffen und Rüstungen herstellen, Blitze herbeirufen oder Blitz; Marktpreis Bonus +1."
+  },
+  {
+    "id": "745664b9-a48a-5c97-8fe7-0a5b3a0350da",
+    "name": "Blitzinferno",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Blitzinfernos funktioniert wie eine Blitzwaffe. Erzielt der Träger aber einen kritischen Treffer, entfesselt sie zusätzlich eine knisternde Elektrizitätsexplosion. Die hierdurch erzeugte Elektrizität schadet dem Träger nicht. Abgesehen von dem zusätzlichen Elektrizitätsschaden durch die Eigenschaft Blitz verursacht eine Waffe des Blitzinfernos zusätzliche 1W10 Punkte Elektrizitätsschaden bei einem erfolgreichen kritischen Treffer. Wenn eine Waffe bei einem kritischen Treffer dreifachen Schaden verursacht, richtet sie 2W10 zusätzliche Punkte Elektrizitätsschaden an. Verursacht eine Waffe bei einem kritischen Treffer vierfachen Schaden, so richtet sie bei einem erfolgreichen kritischen Treffer sogar 3W10 Punkte zusätzlichen Elektrizitätsschaden an. Selbst wenn die Eigenschaft Blitz nicht aktiviert ist, verursacht die Waffe bei einem erfolgreichen kritischen Treffer immer noch den zusätzlichen Elektrizitätsschaden. Durchschnittliche Hervorrufung: ZS 10; Magische Waffen und Rüstungen, Blitze herbeirufen oder Blitz; Marktpreis Bonus +2."
+  },
+  {
+    "id": "8bdf3030-ab21-50af-bcb2-49f526f1abca",
+    "name": "Blutung",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine Waffe der Blutung verursacht 1 Punkt Blutungsschaden, wenn sie eine Kreatur trifft. Blutende Kreaturen erhalten den Blutungsschaden zu Beginn ihres Zuges. Die Blutung kann durch einen erfolgreichen Fertigkeitswurf für Heilkunde gegen SG 15 oder durch die Anwendung eines Zaubers gestoppt werden, der Schaden an Trefferpunkten heilt. Ein kritischer Treffer vervielfacht den Blutungsschaden nicht. Kreaturen, die immun gegen Blutungsschaden sind, sind auch gegen den Blutungsschaden dieser Waffe immun. Durchschnittliche Hervorrufung; ZS 10; Magische Waffen und Rüstungen herstellen, Ausbluten; Marktpreis Bonus +2."
+  },
+  {
+    "id": "a3b0bf51-dcd3-5577-a2ac-16c6431b7726",
+    "name": "Distanz",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Fernkampfwaffen gezaubert werden. Die Grundreichweite einer derartigen Waffe ist doppelt so hoch. Durchschnittlicher Erkenntniszauber; ZS 6; Magische Waffen und Rüstungen herstellen, Hellhören/Hellsehen; Marktpreis Bonus +1."
+  },
+  {
+    "id": "84fe17af-4d7e-513f-9eb7-66aaffe6441a",
+    "name": "Donner",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Donners erschafft ein entsetzliches, mit Donner vergleichbares Geräusch, wann immer sie ein Ziel mit einem erfolgreichen kritischen Treffer trifft. Die hierdurch erzeugte Schallenergie schadet dem Träger nicht. Eine Waffe des Donners verursacht zusätzliche 1W8 Punkte Schallschaden bei einem erfolgreichen kritischen Treffer. Sollte der Multiplikator der Waffe 3 betragen, verursacht sie stattdessen zusätzliche 2W8 Schadenspunkte und wenn der Multiplikator bei 4 liegt, verursacht sie 3W8 Punkte Schallschaden zusätzlich. Subjekte, die von einem kritischen Treffer durch eine Waffe des Donners getroffen wurden, müssen einen Rettungswurf gegen SG 14 bestehen oder sie sind permanent taub. Schwache Nekromantie; ZS 5, Magische Waffen und Rüstungen herstellen, Blind- oder Taubheit verursachen, Marktpreis Bonus +1."
+  },
+  {
+    "id": "a14fa16c-ad97-53bd-affb-204e609ea733",
+    "name": "Duell",
+    "bonus_equivalent": null,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Nur Nahkampfwaffen, die für eine Nutzung mit dem Talent Waffenfinesse in Frage kommen, können diese Eigenschaft besitzen. Eine Duellwaffe verleiht ihrem Träger einen Verbesserungsbonus von +4 auf Initiativewürfe, sofern die Waffe gezogen wurde und sich in seiner Hand befindet, wenn die Initiativereihenfolge bestimmt wird. Sie verleiht ihm ferner einen Bonus von +2 auf die KMV, um Entwaffnen zu widerstehen, und von +2 auf jeden SG, um gegen ihn eine Finte durchzuführen. Leichte Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Katzenhafte Anmut; Marktpreis +14.000 GM."
+  },
+  {
+    "id": "454146b1-912b-555f-8f96-34ba6bfecbdc",
+    "name": "Einschlagend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": "Diese besondere Eigenschaft kann nicht auf leichte Nahkampfwaffen gezaubert werden.",
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden, die keine leichte Waffen sind. Eine einschlagende Waffe löst einen starken kinetischen Schock aus, sobald sie trifft. Dabei verursacht sie Schaden, als ob die Waffe eine Größenkategorie größer wäre. Außerdem erhält der Träger der Waffe, solange er sie führt, einen Bonus gleich dem Verbesserungsbonus der Waffe auf seine Kampfmanöverwürfe für Ansturm. Dieser Bonus gilt für alle Ansturm versuche, nicht nur für die, bei denen eine Waffe genutzt wird, wie es z.B. bei Ansturm schlag, Entsatteln oder Schildhieb der Fall ist. Durchschnittliche Verwandlung ZS 9; Magische Waffen und Rüstungen herstellen, Bärenstärke, BleiklingenEXP, Gerechte Macht oder Riesengestalt I; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "3d8c421c-d0eb-5b97-98c5-c53e4024cc82",
+    "name": "Eis",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Auf Befehl ist eine Eiswaffe in eine schreckliche Eiseskälte gehüllt, die bei einem erfolgreichen Treffer zusätzliche 1W6 Punkte Kälteschaden verursacht. Die hierdurch erzeugte Kälte schadet dem Träger nicht. Der Effekt bleibt, bis ein anderer Befehl gegeben wird. Durchschnittliche Hervorrufung; ZS 8; Magische Waffen und Rüstungen herstellen, Metall kühlen oder Eissturm; Marktpreis Bonus +1."
+  },
+  {
+    "id": "a781f8f5-43d6-511c-a68a-6ae9b344b924",
+    "name": "Eisinferno",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Eisinfernos funktioniert wie eine Eiswaffe. Erzielt der Träger aber einen kritischen Treffer, entfesselt sie zusätzlich einen Eissturm. Das hierdurch erzeugte Eis schadet dem Träger nicht. Abgesehen von dem zusätzlichen Schaden durch die Eigenschaft Eis verursacht eine Waffe des Eisinfernos zusätzliche 1W10 Punkte Kälteschaden bei einem erfolgreichen kritischen Treffer. Wenn eine Waffe bei einem kritischen Treffer dreifachen Schaden verursacht, richtet sie 2W10 zusätzliche Punkte Kälteschaden an. Verursacht eine Waffe bei einem kritischen Treffer vierfachen Schaden, so richtet sie bei einem erfolgreichen kritischen Treffer sogar 3W10 Punkte zusätzlichen Kälteschaden an. Selbst wenn die Eigenschaft Eis nicht aktiviert ist, verursacht die Waffe bei einem erfolgreichen kritischen Treffer immer noch den zusätzlichen Kälteschaden. Durchschnittliche Hervorrufung: ZS 10; Magische Waffen und Rüstungen, Metall kühlen oder Eissturm; Marktpreis Bonus +2."
+  },
+  {
+    "id": "dfa96816-1e30-5c64-92c6-56ffa95c0029",
+    "name": "Entgegenwirkend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine entgegenwirkende Waffe verleiht ihrem Träger einen Bonus von +2 auf seine Kampfmanöververteidigung gegen die KampfmanöverEntwaffnen oder Zerschmettern, sofern sie gegen seine Waffe gerichtet sind. Sollte eines dieser Kampfmanöver gegen den Träger fehlschlagen, kann er sofort versuchen, dasselbe Manöver gegen den Gegner auszuführen, ohne dabei Gelegenheitsangriffe zu provozieren. Der Träger riskiert bei einem fehlgeschlagenen Kampfmanöver für Entwaffnen niemals den Verlust seiner Waffe, wenn er auf diese Weise zum Gegenangriff übergeht. Diese besondere Eigenschaft kann sogar dann genutzt werden, wenn sich der Angreifer nicht in der Reichweite des Trägers befindet. Entgegenwirkend kann nur auf Nahkampfwaffen gezaubert werden. Schwache Verwandlung; ZS 5; Kampfreflexe, Magische Waffen und Rüstungen herstellen, Katzenhafte Anmut; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "c9306f1b-f513-5b6c-9261-f518771730ea",
+    "name": "Enttarnend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Sobald eine enttarnende Waffe geführt wird, scheint sie von einem hellen Leuchten umgeben zu sein. Bei einem erfolgreichen Angriff gegen eine Kreatur, die von Effekten magischer Tarnung betroffen ist, kennzeichnet die Waffe diese Kreatur für 1 Runde mit Feenfeuer (wie der Zauber). Diese magischen Tarneffekte umfassen Standort vortäuschen, Unsichtbarkeit, Verschwimmen und ähnliche Effekte, egal, ob sie einem Zauber, einer zauberähnlichen oder übernatürlichen Fähigkeit entstammen. Tarneffekte, die durch außergewöhnliche Fähigkeiten herbeigeführt werden, entfalten nach wie vor ihre Wirkung. Eine enttarnende Waffe hat keinen besonderen Effekt gegen Kreaturen, die lediglich durch nicht-magische Hilfsmittel versteckt oder getarnt sind, oder solche, die durch Umweltbedingungen (sogar magische) wie Dunkelheit oder Nebel verborgen sind. Schwache Hervorrufung; ZS 5; Magische Waffen und Rüstungen herstellen, Feenfeuer; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "29a55a4c-c1b3-5a70-8456-492017d71205",
+    "name": "Entzündend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Entzündete Waffe funktioniert wie eine Aufflammende Waffe. Erzielt der Träger aber einen kritischen Treffer, wird das Ziel in Brand gesteckt. Das Ziel erhält keinen Rettungswurf, um das Feuerfangen zu vermeiden, aber es kann in jeder Runde einen Rettungswurf ablegen, um das Feuer zu löschen. Die Eigenschaft Aufflammen muss aktiv sein, damit die Waffe Feinde entzünden kann. Starke Hervorrufung; ZS 12; Magische Waffen und Rüstungen herstellen, Feuerball, Flammenklinge oder Flammenschlag; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "311bd1cf-0569-5f3f-a551-ba5693898aa8",
+    "name": "Erdend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine erdende Waffe kann sicher elektrisch geladene Oberflächen berühren, ohne dass ihr Träger dadurch Schaden davonträgt. Wenn sie gegen eine Kreatur der Luft geführt wird, verursacht sie zusätzliche 1W6 Schadenspunkte. Der Träger einer erdenden Waffe erhält einen Kompetenzbonus von +2 auf Rettungswürfe gegen Elektrizitäts- und luftbasierte Effekte. Die Waffe selbst ist immun gegen Elektrizitätsschaden. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Schockgriff; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "08dc0efa-aac1-5e96-96e5-40d8c4d85f7b",
+    "name": "Erhaltend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": "Feuerwaffen können diese besondere Eigenschaft nicht erhalten. 5 Nur Feuerwaffen können diese besondere Eigenschaft erhalten.",
+    "description": "Diese besondere Eigenschaft kann nicht auf Feuerwaffen gezaubert werden. Nur Schusswaffen können mit der Eigenschaft erhaltend modifiziert werden. Wenn der Träger bei einem Fernkampfangriff sein Ziel verfehlt, wird die verschossene Munition un beschädigt in seinen Köcher, Behälter oder Beutel zurückteleportiert. Sollte die Munition nicht durch bloßes Abschießen zerstört werden, sondern z.B. dadurch, dass der Pfeil im Flug zerbricht, dann funktioniert dieses besondere Eigenschaft nicht. Die Munition wird dann wie gewöhnlich zerstört. Effekte, die Teleportation unterdrücken, verhindern auch das Benutzen dieser besonderen Eigenschaft. Durchschnittliche Beschwörung; ZS 7; Magische Waffen und Rüstungen herstellen, Dimensionstür, Reichlich Munition; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "ef67df64-ce42-5982-b86d-2376729136c1",
+    "name": "Festsetzend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Nur Fernkampfwurfwaffen können diese besondere Eigenschaft erhalten.",
+    "description": "Diese besondere Eigenschaft kann nur auf eine Nahkampf- oder Wurfwaffe gezaubert werden. Eine festsetzende Waffe heftet ein Ziel an seinem Standort fest und hindert es daran, sich zu bewegen. Die Waffe kann mit Hilfe einer schnellen Aktion an einem bestimmten Punkt eines Bereiches fixiert werden, so dass sie wie ein Unbewegliches Zepter funktioniert. Diese Eigenschaft kann zudem genutzt werden, sobald der Träger eine Kreatur mit einer festsetzenden Waffe im Nahkampf trifft. Dadurch wird das Ziel am Ort der Waffe verankert und daran gehindert, sich von der Waffe fortzubewegen. Das Ziel unterliegt dadurch nicht den Zuständen Verstrickt oder Gelähmt; es kann sich lediglich nicht von seinem Aufenthaltsort fortbewegen, ohne zuerst die Waffe zu zerstören oder einen erfolgreichen Stärkewurf gegen SG 30 abzulegen. Sollte dem Ziel der Stärkewurf gelingen, kann es sich unter Einsatz einer vollen Aktion mit der Waffe bis zu 3 m bewegen. Eine festsetzende Waffe verharrt bewegungslos und kann nicht für einen Angriff genutzt werden, solange sie an einer Kreatur verankert ist. Eine festsetzende Waffe hat keine Wirkung auf formlose Gestalten, Elementare, Schlicke und Kreaturen mit einer gasförmigen oder flüssigen Form. Zudem hat sie keine Wirkung auf körperlose Kreaturen, außer die Waffe besitzt die besondere Eigenschaft Geisterhafte Berührung. Durchschnittliche Verwandlung; ZS 10; Magische Waffen und Rüstungen herstellen, Schweben; Marktpreis+2 Bonus."
+  },
+  {
+    "id": "fad02d75-ceb9-5587-95da-62f6e1c603ef",
+    "name": "Flammeninferno",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Flammeninfernos funktioniert wie eine Aufflammende Waffe. Erzielt der Träger aber einen kritischen Treffer, entfesselt sie zusätzlich ein tosendes Flammeninferno. Das hierdurch erzeugte Feuer schadet dem Träger nicht. Abgesehen von dem zusätzlichen Feuerschaden durch die Eigenschaft Aufflammen (siehe oben), verursacht eine Waffe des Flammeninfernos zusätzliche 1W10 Punkte Feuerschaden bei einem erfolgreichen kritischen Treffer. Wenn eine Waffe bei einem kritischen Treffer dreifachen Schaden verursacht, richtet sie 2W10 zusätzliche Punkte Feuerschaden an. Verursacht eine Waffe bei einem kritischen Treffer vierfachen Schaden, so richtet sie bei einem erfolgreichen kritischen Treffer sogar 3W10 Punkte zusätzlichen Feuerschaden an. Selbst wenn die Eigenschaft Aufflammen nicht aktiviert ist, verursacht die Waffe bei einem erfolgreichen kritischen Treffer immer noch den zusätzlichen Feuerschaden. Starke Hervorrufung: ZS 12; Magische Waffen und Rüstungen, Flammenklinge, Flammenschlag oder Feuerball; Marktpreis Bonus +2."
+  },
+  {
+    "id": "a679b1ee-e1e3-5836-b059-e16de25eec98",
+    "name": "Geisterhafte Berührung",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine Waffe der geisterhaften Berührung verursacht bei körperlosen Kreaturen normalen Schaden, egal wie hoch ihr Verbesserungsbonus ist. Die 50%-Reduktion von Schaden durch körperliche Mittel einer körperlosen Kreatur gilt nicht gegen Angriffe mit einer Waffe der geisterhaften Berührung. Die Waffe kann zu jeder Zeit von einer körperlosen Kreatur aufgehoben und geführt werden. Zudem kann ein manifestierter Geist die Waffe gegen körperliche Gegner führen. Im Wesentlichen zählt eine Waffe der Geisterhaften Berührung als körperlich und körperlos gleichzeitig. Diese besondere Eigenschaft kann nur auf Nahkampfwaffen oder Munition gezaubert werden. Durchschnittliche Beschwörung; ZS 9; Magische Waffen und Rüstungen herstellen, Ebenenwechsel; Marktpreis Bonus +1."
+  },
+  {
+    "id": "367b13af-aafa-5709-8115-76e85e80b249",
+    "name": "Gerufen",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine gerufene Waffe kann mit Hilfe einer schnellen Aktion in die Hand des Trägers teleportiert werden, ohne dass dies Gelegenheitsangriffe provoziert. Man kann diese Funktion selbst dann benutzen, wenn sich die Waffe im Besitz einer anderen Kreatur befindet. Diese Eigenschaft hat eine Höchstreichweite von 30 m. Effekte, die eine Teleportation unterdrücken, verhindern das Erscheinen einer gerufenen Waffe. Eine gerufene Waffe muss wenigstens für 24 Stunden im Besitz einer Kreatur gewesen sein, damit diese besondere Eigenschaft eingesetzt werden kann. Durchschnittliche Beschwörung; ZS 9; Magische Waffen und Rüstungen herstellen, Teleportieren; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "10a34645-0cb6-5c9a-a075-3ea3ee07d921",
+    "name": "Glorreich",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine glorreiche Waffe glüht in einem flackernden Licht, vergleichbar mit Tageslicht, wenn sie gezogen wird. Der Träger kann dieses Licht nicht abstellen, allerdings kann er das Licht zeitweise mit jedem Effekt unterdrücken, der Tageslicht aufheben kann. Eine glorreiche Waffe strahlt mit gleißendem Licht, daher unterliegt jede Kreatur, die der Träger im Nahkampf angreift, automatisch den Auswirkungen des Zustandes Geblendet, bis der Träger seinen nächsten Zug beginnt. Wenn mit einer glorreichen Waffe ein kritischer Treffer bestätigt wird, erhält das Ziel bis zum Beginn des nächsten Zuges des Trägers den Zustand Blind (SG 14, Willen, keine Wirkung). Wenn der Multiplikator der Waffe größer als 2 ist, dauert diese Blindheit eine zusätzliche Runde pro darüber liegendem Multiplikator an. Nur eine Nahkampfwaffe kann diese Eigenschaft besitzen. Durchschnittliche Hervorrufung; ZS 5; Magische Waffen und Rüstungen herstellen, Aufblitzen, Blind oder Taubheit verursachen, Tageslicht; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "29b9e911-de33-57af-b50c-8d3cfad20920",
+    "name": "Glück",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf einhändig oder zweihändig geführte Feuerwaffen gezaubert werden. Eine Glücksfeuerwaffe verfügt über einen eigenen magischen Vorrat an Schneidpunkten (siehe ABR II). Für gewöhnlich wird dieser Schneid in einer Gravur oder in einem an der Waffe befestigtem Schmuckstück gespeichert. Oft haben diese Zeichen die Form von heiligen Symbolen oder Fetischen, aber im Prinzip kann der magische Vorrat jede Form annehmen. Unabhängig davon, ob der Träger einer Glücksfeuerwaffe in der Lage ist Schützentricks einzusetzen, kann er stets 1 Schneidpunkt aus dem Vorrat der Waffe aufwenden, um einen Angriff neu auszuwürfeln, der sonst zu einer Fehlzündung führen würde. In diesem Fall muss der Benutzer das zweite Ergebnis nehmen, selbst wenn dieses ebenfalls zu einer Fehlzündung führen würde. Durchschnittliche Verwandlung; ZS 8 Magische Waffen und Rüstungen herstellen, Heldenmut, Erschaffer muss über Schneidpunkte verfügen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "519e1493-3f5a-50fb-9642-8b141bfb1520",
+    "name": "Gnade",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe der Gnade verursacht zusätzliche 1W6 Schadenspunke und jeglicher Schaden, den sie anrichtet, ist nicht-tödlicher Schaden. Diese Eigenschaft kann auf Befehl unterdrückt werden (die Waffe verursacht dann tödlichen Schaden, nicht aber den zusätzlichen Schaden der besonderen Eigenschaft). Schwache Beschwörung; ZS 5; Magische Waffen und Rüstungen herstellen, Leichte Wunden heilen; Marktpreis Bonus +1."
+  },
+  {
+    "id": "b4fe7726-3148-577e-a85f-24df7e19e76d",
+    "name": "Grauflamme",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese Waffe reagiert auf fokussierte positive oder negative Energie. Wenn der Träger eine Schnelle Aktion aufwendet, um Energie durch die Waffe zu fokussieren, entflammt sie in einem merkwürdigem grauen Feuer, das wie eine Fackel Licht abgibt. Der Verbesserungsbonus der Waffe steigt um +1, der Schaden um +1W6 (wie die göttliche Kraft aus Flammenschlag). Diese Flamme brennt für 1 Runde pro 1W6 an Heilung oder Schaden durch die positive oder negative Energie. Wenn sie mit positiver Energie geladen ist, brennt die Flamme in silbergrauem Licht, gute Kreaturen sind gegen den zusätzlichen Schaden immun und die Waffe gilt als gute und silberne Waffe hinsichtlich Schadensreduzierung. Wenn sie mit negativer Energie geladen ist, hat die Flamme eine aschegraue Farbe, böse Kreaturen sind gegen den zusätzlichen Schaden immun und die Waffe gilt als böse Waffe aus kaltem Eisen hinsichtlich Schadensreduzierung. Durchschnittliche Verwandlung; ZS 6; Magische Waffen und Rüstungen herstellen, Energie fokussieren, Waffengesinnung; Marktpreis Bonus +1."
+  },
+  {
+    "id": "fd29fe1d-3379-5d8e-9bb3-512b010228fd",
+    "name": "Grausam",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Wenn der Träger einer grausamen Waffe eine Kreatur trifft, die den Zuständen Verängstigt, Erschüttert oder In Panik unterliegt, wird diese für 1 Runde Kränkelnd. Sollte der Träger die Waffen nutzen, um eine Kreatur bewusstlos zu schlagen oder zu töten, erhält er für eine Dauer von 10 Minuten 5 temporäre Trefferpunkte. Schwache Nekromantie; ZS 7; Magische Waffen und Rüstungen herstellen, Furcht auslösen, Totenglocke; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "1dee6410-cc4d-59ab-a960-a2fcf97fc427",
+    "name": "Grundsatz",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Grundsatzes ist mit der Macht der Rechtschaffenheit erfüllt und besitzt somit die Gesinnung rechtschaffen. Die rechtschaffene Gesinnung ermöglicht der Waffe, entsprechende Schadensreduzierungen zu umgehen. Sie verursacht bei Kreaturen mit einer chaotischen Gesinnung 2W6 zusätzliche Schadenspunkte und jeder chaotisch gesinnte Träger erhält durch sie eine permanente negative Stufe. Diese negative Stufe bleibt so lange bestehen, wie die Waffe in der Hand gehalten wird und verschwindet, sobald der Träger die Waffe ablegt. Wenn ein chaotischer Charakter die Waffe führt, gibt es für ihn keine Möglichkeit, diese negative Stufe zu überwinden (auch nicht durch irgendeine Version von Genesung). Durchschnittliche Beschwörung [Ordnung]; ZS 7; Magische Waffen und Gegenstände herstellen, Zorn der Ordnung; Erschaffer muss selbst rechtschaffen sein; Marktpreis Bonus +2."
+  },
+  {
+    "id": "5b450d83-b237-54f6-b852-2d7fc99ecae2",
+    "name": "Heilig",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine heilige Waffe ist mit heiliger Macht erfüllt, wodurch sie die Gesinnung gut erhält und entsprechende Schadensreduzierungen umgehen kann. Sie verursacht zusätzliche 2W6 Schadenspunkte gegen alle böse gesinnten Kreaturen. Eine heilige Waffe verleiht jeder bösen Kreatur eine permanente negative Stufe, sollte sie diese zu führen versuchen. Die negative Stufe bleibt bestehen, solange die Waffe getragen wird, und verschwindet, sobald sie abgelegt wird. Diese negative Stufe kann nicht überwunden werden (auch nicht durch irgendeine Version von Genesung), solange die Waffe getragen wird. Durchschnittliche Beschwörung [Gutes]; ZS 7; Magische Waffen und Gegenstände herstellen, Heiliger Schlag; Erschaffer muss selbst gut sein; Marktpreis Bonus +2."
+  },
+  {
+    "id": "77aa0df7-aa94-5cb1-9d3e-93f4667359a6",
+    "name": "Herzsuchend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine herzsuchende Waffe wird zielsicher von schlagenden Herzen angezogen. Eine herzsuchende Waffe ignoriert Fehlschlagchancen durch Tarnung gegen die meisten lebenden Ziele. Allerdings muss der Angriff zumindest auf das richtige Feld zielen. Diese besondere Eigenschaft findet keine Anwendung gegen Aberrationen, Externare der Unterart Elementar, Pflanzen, Schlicke oder Kreaturen, denen bekanntermaßen ein Herz fehlt. Durchschnittliche Nekromantie; ZS 7 Magische Waffen und Rüstungen herstellen, Totenglocke; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "e89322c4-788d-52f3-a035-05011ab05a81",
+    "name": "Hinrichtung",
+    "bonus_equivalent": 5,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese mächtige und gefürchtete Eigenschaft erlaubt der Waffe die Köpfe jener abzutrennen, die sie trifft. Erzielst du bei einem Angriffswurf eine natürliche 20 (und bestätigst den kritischen Treffer), schlägt die Waffe dem Gegner den Kopf ab (sofern er denn einen besitzt). Manche Kreaturen, wie etwa viele Aberrationen und alle Schlicke, haben keinen Kopf, während andere, wie Golems oder Untote (aber keine Vampire), keineswegs durch den Verlust ihres Kopfes beeinträchtigt werden. Die meisten anderen Kreaturen jedoch sterben, wenn sie ihre Köpfe verlieren. Eine Waffe der Hinrichtung muss eine Hiebnahkampfwaffe sein. Wenn du diese besondere Eigenschaft zufällig für eine ungeeignete Waffe auswürfelst, wiederhole den Wurf. Starke Nekromantie und Verwandlung; ZS 18, Magische Waffen und Rüstungen herstellen, Todeskreis, Schärfen, Marktpreis Bonus +5."
+  },
+  {
+    "id": "ff80f853-73a9-5fc5-96b7-e1f20e07426e",
+    "name": "Jagd",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine Jagdwaffe hilft ihrem Träger dabei, Beute aufzuspüren und zu fangen. Wenn der Träger die Waffe in Händen hält, erhält er ihren Verbesserungsbonus als Verbesserungsbonus bei Überlebenskunstwürfen, um die Spuren eines Wesen zu finden und zu verfolgen, das die Waffe während des letzten Tages verletzt hat. Die Waffe fügt einem Wesen, welches der Träger mittels Überlebenskunst im Laufe des letzten Tages verfolgt hat, +1W6 zusätzliche Schadenspunkte zu. Durchschnittliche Erkenntnismagie; ZS 7; Magische Waffen und Rüstungen herstellen, Tiere oder Pflanzen entdecken; Marktpreis Bonus +1."
+  },
+  {
+    "id": "f6663d59-f35b-586c-bc99-4e6dbe2f5b6b",
+    "name": "Ki-Fokus",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Die magische Waffe dient als Fokus für das Ki des Trägers. Er kann seine Ki-Angriffe mit dieser Waffe einsetzen, als handele es sich um waffenlose Angriffe. Zu diesen besonderen Ki-Angriffen zählen Ki-Schlag, Vibrierende Handfläche und Betäubender Schlag des Mönchs (einschließlich aller Zustände, die ein Mönch mit Hilfe dieses Talents verursachen kann). Durchschnittliche Verwandlung; ZS 8; Magische Waffen und Rüstungen herstellen, Erschaffer muss ein Mönch sein; Marktpreis Bonus +1."
+  },
+  {
+    "id": "21985cee-33dd-54cb-a676-dd9d49ee2865",
+    "name": "Ki-steigernd",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Die Waffe fokussiert und vergrößert das Ki des Trägers. Er kann seine Ki-Angriffe mit dieser Waffe einsetzen, als handele es sich um waffenlose Angriffe. Zu diesen besonderen Ki-Angriffen zählen Ki-Schlag, Vibrierende Handfläche und Betäubender Schlag des Mönchs. Der Schwierigkeitsgrad für Rettungswürfe gegen Ki-Fähigkeiten, die durch diese Waffe genutzt werden, steigt um die Hälfte des Verbesserungsbonus der Waffe an (Minimum 1). Nach einem erfolgreichen Angriff mit einer ki-steigernden Waffe kann der Träger mit Hilfe einer schnellen Aktion einen Ki-Punkt ausgeben, um die KampfmanöverAnsturm,Entwaffnen,Versetzen oder Zu-Fall-bringen als freie Aktion durchführen zu können, ohne dabei Gelegenheitsangriffe zu provozieren. Alle Boni oder Mali, die auf den Angriff der Waffe normalerweise ihre Wirkung entfalten, finden auch bei diesem Kampfmanöverwurf Anwendung. Der Träger kann sich als Teil des gewählten Manövers nicht aus seinem Feld bewegen. Nur Nahkampfwaffen können die Eigenschaft ki-steigernd erhalten. Sie kann nicht auf ein Amulett der Mächtigen Fäuste oder ähnliche Gegenstände gezaubert werden, die keine Waffen sind. Waffen mit der Eigenschaft Ki-Fokus können aufgewertet werden und die Eigenschaft ki-steigernd erhalten. Starke Verwandlung; ZS 12; Magische Waffen und Rüstungen herstellen, Erschaffer muss ein Mönch sein; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "3d56138b-6c17-5e30-86be-a4cc9c6434b4",
+    "name": "Kräftigend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Sobald ein lebender Gegner durch einen Angriff mit dieser Waffe niedergestreckt wurde (entweder er wurde getötet oder in den negativen Trefferpunktebereich gebracht), erfüllt diese Waffe ihren Träger mit Kraft. Sollte der Träger den Zustand Erschöpft haben, entfernt die Waffe die Erschöpfung. Wenn er den Auswirkungen des Zustandes Entkräftet unterliegt, erhält der Träger stattdessen den Zustand Erschöpft. Wenn er weder den Zustand Entkräftet noch den Zustand Erschöpft besitzt, erhält der Träger einen Moralbonus von +2 auf Angriffswürfe und einen Verbesserungsbonus von +3 m auf alle ihm möglichen Bewegungsformen bis zum Ende seines nächsten Zuges. Schwache Verzauberung, ZS 5 Magische Waffen und Rüstungen herstellen, Feste Hoffnung; Marktplatz +2 Bonus."
+  },
+  {
+    "id": "ff52c51e-bd21-5ae0-bc1e-b18c18986caa",
+    "name": "Lauernd",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Je länger der Träger einer lauernden Waffe ein Ziel studiert, desto effektiver wird sein Schlag. Mit Hilfe einer Standard-Aktion kann der Träger der lauernden Waffe befehlen, eine Kreatur in einem Radius von 18 m zu studieren. Der Träger muss eine Schuss- und Sichtlinie zum Ziel herstellen können. Wenn der Träger die beobachtete Kreatur angreift, verursacht die lauernde Waffe zusätzlich 1W6 Schadenspunkte pro aufeinanderfolgender Runde, die mit der Beobachtung des Ziels verbracht wurde, bis zu einer Anzahl an Bonuswürfen in Höhe des Verbesserungsbonus der lauernden Waffe. Dieser Bonusschaden gilt als Präzisionsschaden und findet nur auf den ersten erfolgreichen Treffer gegen die Kreatur Anwendung. Sollte der Träger eine andere Kreatur angreifen, als die, die er studiert hatte, bzw. wenn er der Waffe befielt, eine andere Kreatur zu studieren oder wenn sein Zug weiter als 18 m von der belauerten Kreatur endet, verliert die Waffe alle Bonusschadenswürfel gegen die bisher beobachtete Kreatur. Durchschnittlicher Erkenntniszauber; ZS 10 Magische Waffen und Rüstungen herstellen, Auge des Jägers, Zielsicherer Schlag; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "21b59f16-5020-5716-830e-0c363afb18da",
+    "name": "Lebensbewahrend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine lebensbewahrende Waffe verstärkt und stützt die Lebensenergie des Trägers, sobald dieser mit todbringenden Situationen konfrontiert wird. Der Träger erhält einen Bonus auf Rettungswürfe gegen nekromantische Effekte – einschließlich Attributsentzug, Attributsschaden und Lebenskraftentzug von Untoten – in Höhe des Verbesserungsbonus der Waffe. Zudem erhält der Träger, wann immer er temporäre Trefferpunkte aus einer Quelle bezieht, den zusätzliche temporäre Trefferpunkte gleich dem Verbesserungsbonus seiner Waffe. Dieser Effekt ist nicht kumulativ mit temporären Trefferpunkten aus mehreren Quellen gleichzeitig und diese Trefferpunkte gehen verloren, sobald die lebensbewahrende Waffe nicht mehr geführt wird. Im Kampf gilt der kritische Bedrohungsbereich der Waffe gegen Untote als doppelt so hoch. Dies ist nicht kumulativ mit der besonderen Eigenschaft Schärfe oder mit Verbesserter Kritischer Treffer. Wann immer mit einer lebensbewahrenden Waffe einen kritischen Treffer gegen eine untote Kreatur bestätigt wird, verströmt sie 1W8 Punkte positive Energie (2W8 bei Waffen mit einem Multiplikator von x3; 3W8, wenn dieser x4 beträgt). Der Träger kann sich entscheiden, diese Energie zu nutzen, um einem untoten Ziel Schaden zuzufügen oder er kann die Hälfe davon als Heilung absorbieren. Die übrige positive Energie verschwindet. Durchschnittliche Beschwörung; ZS 8; Fokussiertes Niederstrecken, Magische Waffen und Rüstungen herstellen, Schwere Wunden heilen, Todesschutz, Untote schwächen; Marktpreis +2 Bonus."
+  },
+  {
+    "id": "9150f5d7-4960-51c7-98d1-eb17a1eb647a",
+    "name": "Leitend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine Leitende Waffe kann die Energie einer zauberähnlichen oder übernatürlichen Fähigkeit fokussieren, welche einen Nahkampftreffer oder einen Berührungsangriff im Fernkampf erfordert (wie die Domänenkräfte eines Klerikers, die Blutlinienkräfte eines Hexenmeisters, die Offenbarungen eines Mystikers oder die Kräfte der arkanen Schule eines Magiers). Bei einem erfolgreichen Treffer kann der Träger zwei Anwendungen seiner magischen Fähigkeit aufwenden, um sie durch die Waffe auf den getroffenen Gegner zu leiten, welcher die Auswirkungen des Angriffes und der besonderen Fähigkeit hinnehmen muss (sollte der Träger eine besondere Fähigkeit unbegrenzt einsetzen können, kann er sie jede Runde durch die Waffe leiten). Z.B. kann ein Paladin, der einen untoten Gegner mit seinem Leitenden Zweihänder trifft, zwei Anwendungen seiner Fähigkeit Handauflegen aufwenden (ein übernatürlicher Berührungsangriff im Nahkampf ), um dem Ziel den Schaden des Zweihänders und einer Anwendung von Handauflegen zuzufügen. Diese Waffeneigenschaft kann nur einmal in der Runde eingesetzt werden und funktioniert nur mit Fähigkeiten, deren Art (Nah- oder Fernkampf ) mit der Art der Waffe korrespondiert. Durchschnittliche Nekromantie; ZS 8; Magische Waffen und Rüstungen herstellen, Geisterhand; Marktpreis Bonus +1."
+  },
+  {
+    "id": "8945bb97-b063-5773-ba2a-563c8e46a416",
+    "name": "Listig",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft erlaubt der Waffe, auf das Wissen ihres Trägers zurückzugreifen, um Lücken in der Verteidigung eines Gegners zu finden. Der Träger erhält einen Bonus von +2 zur Bestätigung eines Kritischen Treffers mit dieser Waffe, sofern er über 5 oder mehr Ränge in einer Wissensfertigkeit mit Bezug zur Kreaturenart des Zieles besitzt (z.B. Wissen [Die Ebenen] bei Externaren).ZS 6; Magische Waffen und Rüstungen herstellen, Zielsicherer Schlag; Marktpreis Bonus +1."
+  },
+  {
+    "id": "584ffe89-6cb4-55ab-bca7-472fd6f30b3e",
+    "name": "Löschend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine löschende Waffe, die in ein nicht-magisches Feuer mittlerer Größe oder kleiner gehalten wird, löscht dieses sofort. Wenn sie gegen Kreaturen der Unterart Feuer geführt wird, verursacht sie zusätzliche 1W6 Schadenspunkte. Der Träger einer löschenden Waffe erhält einen Kompetenzbonus von +2 auf Rettungswürfe gegen feuerbasierte Effekte. Die Waffe selbst ist immun gegen Feuerschaden. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Metall kühlen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "68b794f8-2109-547f-a2bd-1de5c6b325ca",
+    "name": "Mächtig markierend",
+    "bonus_equivalent": 4,
+    "applicable_categories": [
+      "ammunition",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Diese besondere Eigenschaft kann nur auf Fernkampfwaffen oder Munition gezaubert werden. Jedes Mal, wenn eine Fernkampfwaffe oder Munition mit dieser Eigenschaft eine Kreatur trifft, markiert ihre Magie das Ziel. Verbündete erhalten für 1 Runde einen Moralbonus von +4 auf Angriffswürfe im Nahkampf und einen Moralbonus von +6 auf Nahkampfschadenswürfe gegen das gekennzeichnete Ziel. Wenn mehrere erfolgreiche Schüsse auf dieses Ziel abgegeben wurden, steigen die Boni oder deren Dauer trotzdem nicht an. Durchschnittliche Verzauberung; ZS 12; Magische Waffen und Rüstungen herstellen, Zum Feind erklären; Marktpreis +4 Bonus."
+  },
+  {
+    "id": "80431395-b0de-5591-b6ed-3af22a3d74fb",
+    "name": "Mächtige Verlässlichkeit",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Feuerwaffen gezaubert werden. Eine Feuerwaffe der mächtigen Verlässlichkeit wurde derart verzaubert, dass sie weniger häufig blockiert als andere Feuerwaffen. Die besondere Eigenschaft mächtige Verlässlichkeit reduziert den Fehlzündungswert einer betroffenen Feuerwaffe um 4 (Minimum 0). Diese Reduzierung erfolgt, nachdem alle Steigerungen für das Abfeuern mit dem Zustand Beschädigt eingerechnet wurden (oder alle anderen Effekte, die den Fehlzündungswert einer Feuerwaffe ansteigen lassen können). Eine Feuerwaffe mit der besonderen Eigenschaft mächtige Verlässlichkeit kann nicht gleichzeitig die besondere Eigenschaft verlässlich besitzen. Starke Verwandlung; ZS 12; Magische Waffen und Rüstungen herstellen, Reparieren; Marktpreis +3 Bonus."
+  },
+  {
+    "id": "a3c728ad-d19d-5244-a422-1c51249ab907",
+    "name": "Mächtiger Doppelschlag",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine Waffe des mächtigen Doppelschlags erlaubt ihrem Träger das Talent Doppelschlag zu nutzen, um einen zusätzlichen Angriff auszuführen, sobald der erste Angriff getroffen hat. Dies funktioniert nur, wenn der nächste Gegner angrenzend zu dem ersten Gegner steht und sich ebenso innerhalb der Reichweite befindet. Dieser zusätzliche Angriff kann nicht gegen den ersten Gegner ausgeführt werden. Durchschnittliche Hervorrufung; ZS 8; Magische Waffen und Rüstungen herstellen, Göttliche Macht; Marktpreis Bonus +1."
+  },
+  {
+    "id": "55e57c09-74d2-515d-87a5-c30e21eba277",
+    "name": "Mächtiges Glück",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf einhändig oder zweihändig geführte Feuerwaffen gezaubert werden. Eine Mächtige Glücksfeuerwaffe ist nahezu identisch mit einer Glücksfeuerwaffe, ihr Schneidvorrat enthält aber 3 Schneidpunkte statt nur 1 Punkt. Eine Feuerwaffe kann nicht gleichzeitig eine Glücksfeuerwaffe und eine Mächtige Glücksfeuerwaffe sein. Starke Verwandlung; ZS 12; Magische Waffen und Rüstungen, Großer Heldenmut, Erschaffer muss über Schneidpunkte verfügen; Marktpreis +3 Bonus."
+  },
+  {
+    "id": "6588d049-3223-52fe-a417-84499ddd2d62",
+    "name": "Nachahmend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Jedes Mal, wenn der Träger einer nachahmenden Waffe einer Kreatur Schaden zufügt, erhält er für 1 Runde Resistenz 10 gegen eine Energieart, gegen welche die Kreatur resistent oder immun ist (sollte die Kreatur mehrere Resistenz-Arten aufweisen, wählt der Träger eine von diesen aus). Diese Resistenz ist kumulativ und kann bis zu einem Maximum von 30 Resistenzpunkten gegen eine vorhandene Energieart angesammelt werden. Jedoch ist diese Energieresistenz nicht kumulativ mit anderen Quellen von Energieresistenz. Die ursprünglichen Resistenzen und Immunitäten der Kreatur sind von dieser Einschränkung nicht betroffen. Schwacher Bannzauber; ZS 5; Magische Waffen und Rüstungen herstellen, Energien widerstehen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "2be40446-276e-5d64-9aa5-d217cc5ef1b6",
+    "name": "Neutralisierend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Wenn eine neutralisierende Waffe in 1 Gallone säurehaltige Flüssigkeit getaucht wird, verwandelt sich die Säure in harmloses Wasser. Sollte sie gegen eine Kreatur der Unterart Erde geführt werden, verursacht sie zusätzliche 1W6 Schadenspunkte. Der Träger einer neutralisierenden Waffe erhält einen Kompetenzbonus von +2 auf Rettungswürfe gegen Erd- und säurebasierte Effekte. Die Waffe selbst ist immun gegen Säureschaden. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Nahrung und Wasser reinigen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "c2724acf-0d6a-5c55-a7e5-4d512e99e8c7",
+    "name": "Planar",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine planare Waffe wirkt gegen alle Arten von extraplanaren Wesen. Sie ist in der Lage deren Resistenz zu durchbrechen, um physischen Schaden zu verursachen. Wenn sie zum Angriff von Externaren genutzt wird, ignoriert eine planare Waffe 5 Punkte von deren Schadensreduktion. Durchschnittliche Beschwörung; ZS 9; Magische Waffen und Rüstungen herstellen, Ebenenwechsel; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "22c742ae-9c90-5852-8d7c-0166b5f6b823",
+    "name": "Richtend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Wenn ein Inquisitor von einem Richtspruch Gebrauch macht, verleiht ihm diese Waffe einen Verbesserungsbonus auf seine Wahrnehmungswürfe und seine KMV. Der Bonus liegt bei +1 in der ersten Runde und erhöht sich um +1 jede weitere Runde bis auf ein Maximum von +3 in der dritten und allen weiteren Runden. Durchschnittliche Verwandlung; ZS 4; Magische Waffen und Rüstungen herstellen, Weisheit der Eule; Marktpreis Bonus +1"
+  },
+  {
+    "id": "d7153333-e70a-5ca4-9f83-20728ad98e84",
+    "name": "Rückkehr",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": "Nur Fernkampfwurfwaffen können diese besondere Eigenschaft erhalten.",
+    "description": "Diese besondere Eigenschaft kann nur auf eine Wurfwaffe gezaubert werden. Eine Waffe der Rückkehr fliegt zurück zu demjenigen, der sie geworfen hat, und zwar noch bevor dessen nächster Zug beginnt (so kann sie in diesem Zug auch wieder eingesetzt werden). Das Einfangen einer Waffe der Rückkehr gilt als freie Aktion. Kann der Charakter sie nicht fangen oder hat er sich seit dem Wurf der Waffe bewegt, so fällt sie in dem Feld zu Boden, von dem aus sie geworfen wurde. Durchschnittliche Verwandlung; ZS 7; Magische Waffen und Rüstungen herstellen, Telekinese; Marktpreis Bonus +1."
+  },
+  {
+    "id": "71259ba7-5234-5a46-b56c-b167115db7ed",
+    "name": "Rückschlag",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Wenn eine Waffe des Rückschlages einen Gegner trifft, erzeugt sie zerstörerische Energien, die zwischen ihrem Träger und dessen Gegner hin- und herschwingen. Diese Energien verursachen zusätzliche 2W6 Schadenspunkte bei dem Gegner und 1W6 Schadenspunkte bei dem Träger. Durchschnittliche Nekromantie; ZS 9, Magische Waffen und Rüstungen herstellen, Entkräftung, Marktpreis Bonus +1."
+  },
+  {
+    "id": "1747be12-6cf4-5840-b803-cf303c9db13b",
+    "name": "Schnelligkeit",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Der Benutzer einer Waffe der Schnelligkeit darf bei einem vollen Angriff noch einen weiteren Angriff ausführen. Er darf hierbei seinen vollen Grund-Angriffsbonus verwenden und alle Modifikatoren, die der Situation angemessen sind (diese Eigenschaft ist nicht kumulativ mit ähnlichen Effekten, wie etwa dem Zauber Hast). Durchschnittliche Verwandlung; ZS 7; Magische Waffen und Rüstungen herstellen, Hast; Marktpreis Bonus +3."
+  },
+  {
+    "id": "e02d28be-70fa-5121-8932-418f2946af8d",
+    "name": "Schnellschießend",
+    "bonus_equivalent": 4,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Fernkampfwaffen gezaubert werden. Eine schnellschießende Waffe provoziert keine Gelegenheitsangriffe, wenn sie abgefeuert wird. Durchschnittlicher Bannzauber; ZS 11; Magische Waffen und Rüstungen herstellen, Geist des Schützen; Marktpreis +4 Bonus."
+  },
+  {
+    "id": "e57d2614-b913-57c2-9b13-90cae3bf7400",
+    "name": "Schock",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": null
+  },
+  {
+    "id": "6ef6e778-8afb-55d8-96ca-da25300f772c",
+    "name": "Schutz",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine Waffe des Schutzes erlaubt ihrem Träger einen Teil des oder den gesamten Verbesserungsbonus der Waffe auf seine RK zu übertragen. Dieser Bonus ist kumulativ mit allen anderen Boni. Der Träger kann mit Hilfe einer freien Aktion zu Beginn seines Zuges entscheiden, wie der Verbesserungsbonus der Waffe umverteilt wird. Dies muss geschehen, ehe er die Waffe nutzt. Der Bonus auf die RK bleibt bis zu Beginn seines nächsten Zuges bestehen. Diese Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Durchschnittlicher Bannzauber; ZS 8; Magische Waffen und Rüstungen herstellen, Schild oder Schild des Glaubens; Marktpreis Bonus +1."
+  },
+  {
+    "id": "f3c60f36-672e-51ac-805b-6cf35d9962c8",
+    "name": "Schwach markierend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Diese besondere Eigenschaft kann nur auf Fernkampfwaffen oder Munition gezaubert werden. Jedes Mal, wenn eine Fernkampfwaffe oder Munition mit dieser Eigenschaft eine Kreatur trifft, markiert ihre Magie das Ziel. Verbündete erhalten für 1 Runde einen Moralbonus von +2 auf Angriffswürfe im Nahkampf und Nahkampfschadenswürfe gegen das gekennzeichnete Ziel. Wenn mehrere erfolgreiche Schüsse auf dieses Ziel abgegeben wurden, steigen die Boni oder deren Dauer trotzdem nicht an. Durchschnittliche Verzauberung; ZS 7; Magische Waffen und Rüstungen herstellen, Zum Feind erklären; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "6946dc80-c701-5a02-85c7-c9582e000fe3",
+    "name": "Schärfe",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": "Nur Hieb- oder Stichwaffen (nur Hiebwaffen für Hinrichtung).",
+    "description": "Diese besondere Eigenschaft verdoppelt den Bedrohungsbereich einer Waffe. Nur Hieb-und Stichwaffen können diese Eigenschaft erhalten. Wenn du diese besondere Eigenschaft zufällig für eine ungeeignete Waffe erwürfelst, wiederhole den Wurf. Schärfe ist nicht kumulativ mit anderen Effekten, die den Bedrohungsbereich einer Waffe vergrößern (wie etwa Schärfen oder das Talent Verbesserter Kritischer Treffer). Durchschnittliche Verwandlung; ZS 10; Magische Waffen und Rüstungen herstellen, Schärfen; Marktpreis Bonus +1."
+  },
+  {
+    "id": "e4318ea1-d888-5b60-a20c-b7b0eaee072d",
+    "name": "Seeheimisch",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine seeheimische Waffe wurde für wässrige Umgebungen geschaffen. Mit der Waffe in der Hand erhält ihr Träger einen Bonus in der doppelten Höhe des Verbesserungsbonus der Waffe für Fertigkeitswürfe für Schwimmen. Zudem erleidet der Träger nicht die normalen Mali für Angriffs- und Schadenswürfe, die normalerweise unter Wasser auferlegt werden. Der Träger kann sich unter Wasser bewegen als stünde er unter den Auswirkungen von Bewegungsfreiheit. Durchschnittliche Verwandlung; ZS 7; Magische Waffen und Rüstungen herstellen, Bewegungsfreiheit, Hauch der See; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "d5c4b4f2-a053-5a8f-971a-cc1780a3e39b",
+    "name": "Selbstverwandelnd",
+    "bonus_equivalent": null,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese Fähigkeit kann nur von Nahkampfwaffen besessen werden. Eine Selbstverwandelnde Waffe verwandelt sich auf Befehl ihres Trägers in eine andere Waffe derselben Form und Händigkeit (d.h. eine Einhandwaffe bleibt immer eine Einhandwaffe). Die Kategorie Einfache Waffe, Kriegswaffe oder Exotische Waffe ist irrelevant. So kann z.B. ein mittelgroßes Selbstverwandelndes Langschwert die Form jeder anderen einhändig zu führenden Nahkampfwaffe annehmen wie Krummschwert, Flegel oder Dreizack, nicht aber die Form einer mittelgroßen leichten oder Zweihandwaffe wie eines mittelgroßen Kurzschwertes oder eines mittelgroßen Zweihänders. Es kann sogar die Form einer vergleichbaren Waffe einer anderen Größenkategorie annehmen, z.B. kann ein kleiner Selbstverwandelnder Zweihänder (für eine kleine Kreatur eine zweihändige Hiebwaffe, für eine mittelgroße Kreatur aber eine einhändige Hiebwaffe mit großer Ähnlichkeit zu einem mittelgroßen Langschwert) zu einem mittelgroßen Langschwert werden, so dass eine mittelgroße Kreatur es ohne den Malus von -2 für das Führen einer Waffe der falschen Größenkategorie verwenden kann. Die Waffe behält alle Fähigkeiten, Verbesserungsboni und Eigenschaften, außer denen, welche ihre gegenwärtige Form nicht erlaubt. So verliert eine Selbstverwandelnde Scharfe Waffe die Eigenschaft Schärfe, solange sie die Form einer Wucht- oder Stichwaffe hat. Wenn sie nicht in der Hand oder am Körper getragen wird, nimmt eine Selbstverwandelnde Waffe ihre wahre Form an. Durchschnittliche Verwandlung; ZS 10; Magische Waffen und Rüstungen herstellen, Höhere Erschaffung; Marktpreis +10.000 GM."
+  },
+  {
+    "id": "35b1825b-354a-561f-9ac5-f0d987fcc57b",
+    "name": "Strahlendes Licht",
+    "bonus_equivalent": 4,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine Waffe des Strahlenden Lichts besteht zu einem Großteil aus Licht, jedoch beeinflusst dies nicht das Gewicht des Gegenstandes. Sie gibt dauerhaft Licht wie eine Fackel ab (Radius von 6 m) und ignoriert tote Materie. Rüstungs- und Schildboni auf die RK (die Verbesserungsboni der Rüstung eingeschlossen) gelten nicht gegen eine Waffe des Strahlenden Lichts, da sie diese einfach durchdringt (Geschicklichkeits-, Ablenkungs-, Ausweich-, natürliche Rüstungsboni und andere vergleichbare Boni finden unverändert Anwendung). Eine Waffe des Strahlenden Lichts kann Untoten, Konstrukten oder Objekten keinen Schaden zufügen. Starke Verwandlung; ZS 16; Magische Rüstungen und Waffen herstellen, Gasförmige Gestalt, Dauerhafte Flamme; Marktpreis Bonus +4."
+  },
+  {
+    "id": "667b1877-5496-5480-8c02-e98fe5d8130f",
+    "name": "Suchen",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Fernkampfwaffen gezaubert werden. Eine Waffe des Suchens fliegt auf ihr Ziel zu und ignoriert jegliche Fehlschlagschance – also auch Tarnung. Der Träger muss die Waffe aber immer noch auf das entsprechende Feld ausrichten. Pfeile etwa, die aus Versehen auf ein leeres Feld abgeschossen wurden, steuern nicht auf einen unsichtbaren Gegner zu, selbst wenn sich ein solcher ganz in der Nähe befindet. Starke Erkenntnismagie; ZS 12; Magische Waffen und Rüstungen herstellen, Wahrer Blick; Marktpreis Bonus +1."
+  },
+  {
+    "id": "5f692f01-7a24-5659-a624-2d8a37901e86",
+    "name": "Säure",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Auf Befehl überzieht sich eine Säurewaffe mit einer Säureschicht, die bei einem erfolgreichen Treffer dem Ziel zusätzliche +1W6 Punkte Säureschaden zufügt. Die Säure schadet dem Träger der Waffe nicht. Der Effekt bleibt bestehen, bis der Träger das Befehlswort wieder nutzt. Durchschnittliche Hervorrufung; ZS 8; Magische Waffen und Rüstungen herstellen, Säurepfeil; Marktpreis Bonus +1."
+  },
+  {
+    "id": "61190d42-1ad7-51dc-a2bd-4439c94f66b3",
+    "name": "Säureexplosion",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Säureexplosions-Waffe wirkt wie eine Säure-Waffe, von der bei einem Kritischen Treffer eine Säureexplosion ausgeht. Die Säure verletzt den Träger nicht. Neben dem zusätzlichen Waffenschaden durch die Säure-Eigenschaft verursacht eine Säureexplosions-Waffe zusätzliche +1W10 Punkte Säureschaden bei einem Kritischen Treffer. Sollte der Kritische Treffermodifikator der Waffe x3 betragen, steigt der zusätzliche Säureschaden auf +2W10, sollte er x4 betragen, auf +3W10. Selbst wenn die Säure-Eigenschaft nicht aktiv ist, verursacht die Waffe ihren zusätzlichen Säureschaden bei Kritischen Treffern. Durchschnittliche Hervorrufung; ZS 12; Magische Waffen und Rüstungen herstellen, Säurepfeil; Marktpreis Bonus +2."
+  },
+  {
+    "id": "094f273f-eb1c-5bc6-a255-d2ec6d13707d",
+    "name": "Tanzen",
+    "bonus_equivalent": 4,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine tanzende Waffe kann mit Hilfe einer Standard-Aktion für einen eigenständigen Angriff losgelassen werden. Sie kämpft für eine Dauer von 4 Runden mit dem Grund-Angriffsbonus desjenigen, der sie losgelassen hat – anschließend fällt sie zu Boden. Während sie tanzt, kann sie keine Gelegenheitsangriffe ausführen. Zudem gilt der Charakter, der sie aktiviert hat, nicht als mit dieser Waffe bewaffnet. Hinsichtlich aller Manöver und Effekte, die auf Gegenstände zielen, gilt die Waffe als getragen bzw. benutzt (von demjenigen, der sie benutzt). Die Waffe nimmt während des Tanzes den Bereich ein, den auch der Charakter einnimmt, der sie aktiviert hat, und sie kann angrenzende Gegner angreifen (Waffen mit Reichweite können Gegner in bis zu 3 m Entfernung angreifen). Die tanzende Waffe begleitet den Charakter, der sie aktiviert hat, überall hin, egal ob sie sich dafür auf physische oder magische Weise bewegen muss. Hat derjenige, der die Waffe losgelassen hat, eine Hand frei, kann er die Waffe mit einer freien Aktion ergreifen, während sie noch tanzt. Wenn sie so zurückgewonnen wurde, kann die Waffe für eine Dauer von 4 Runden nicht mehr tanzen (eigenständig angreifen). Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Starke Verwandlung; ZS 15; Magische Waffen und Rüstungen herstellen, Gegenstände beleben; Marktpreis Bonus +4."
+  },
+  {
+    "id": "9c8cbe43-6826-5dcb-bb71-12458a8d50ba",
+    "name": "Tapfer",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Wenn ein Ritter, der eine tapfere Waffe führt, einen Gegner mit seiner Fähigkeit Herausforderung trifft, verursacht die tapfere Waffe zusätzliche 1W6 Schadenspunkte gegen diesen Gegner. Der Träger erhält einen Bonus von + 2 auf Kampfmanöverwürfe, um den herausgeforderten Gegner zu entwaffnen oder seine Waffe zu zerschmettern. Zudem erhält er einen Bonus von + 4 auf seine KMVgegen Entwaffnen- und Schmetternversuche von diesem Gegner. Schwacher Erkenntniszauber; ZS 5; Magische Waffen und Rüstungen herstellen, Zielsicherer Schlag; Marktplatz +1 Bonus."
+  },
+  {
+    "id": "f716f3f3-1073-5e13-aa54-f99b9530f7bf",
+    "name": "Trockenladung",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition"
+    ],
+    "restriction_note": "Diese besondere Eigenschaft kann nur auf alchemistische oder metallische Feuerwaffenkartuschen gezaubert werden.",
+    "description": "Diese besondere Waffeneigenschaft kann nur auf alchemistische oder metallische Feuerwaffenkartuschen angewendet werden. Kartuschen der Trockenladung können genutzt werden, um Feuerwaffen unter Wasser oder in luftleeren Umgebungen zu laden (z.B. im Vakuum). Diese besondere Eigenschaft schützt den Inhalt der Kartuschen, wenn sie in eine Feuerwaffe geladen werden. Sie erschafft eine Luftblase, welche die Feuerwaffe umgibt. Zudem schützt sie die Munition und erlaubt der Feuerwaffe, die mit dieser Munition geladen wurde, in einer luftleeren Umgebung abgefeuert zu werden. Nachdem die Kartusche geladen wurde, bleibt die Luftblase für 3 Minuten bestehen oder bis die Feuerwaffe abgefeuert wird (je nachdem was zuerst eintritt). Eine Feuerwaffe, die mit dieser Munition geladen wurde, erleidet noch immer einen Malus von -2 auf Angriffswürfe, wenn sie unter Wasser abgefeuert wird. Dieser Malus gilt pro 1,5 m, die die Kugel an Wasser durchqueren muss, zusätzlich zu den normalen Mali durch die Reichweite. Wenn eine Kartusche der Trockenladung unter Wasser oder in einer luftleeren Umgebung abgefeuert wird, führt eine Fehlzündung nach wie vor zu einer normalen Explosion. Der gelistete Preis gilt für 50 Kartuschen der Trockenladung. Schwacher Bannzauber; ZS 3; Magische Waffen und Rüstungen herstellen, Luftblase; Marktpreis 1.500 GM."
+  },
+  {
+    "id": "7cfcd276-fd19-5247-8277-7573e55c5d66",
+    "name": "Trutzig",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Durch eine trutzige Waffeüberlebt ihr Träger selbst die aussichtslosesten Situationen. Sie verbleibt in der Hand des Trägers, sogar wenn dieser den Auswirkungen des Zustandes In Panik, Betäubt oder Bewusstlos unterliegt. Der Träger erhält den Verbesserungsbonus der Waffe als Bonus auf seine Würfe zum Stabilisieren, wenn er im Sterben liegt, und auf seine Rettungswürfe gegen andauernde Zustände wie Gift, Krankheit oder Person festhalten. Sollte der Träger die Talente Heldenhafte Erholung, Heldenhafter Trotz, Verbesserte Blitzschnelle Reflexe, Verbesserte Große Zähigkeit oder Verbesserter Eiserner Wille besitzen, erhält er eine Anzahl zusätzlicher täglicher Anwendungen in Höhe des Verbesserungsbonus der Waffe, die er bei jedem dieser Talente nutzen kann. Starker Bannzauber ZS 10; Magische Waffen und Rüstungen herstellen, Heldenhafter Trotz, Stabilisieren, Verzauberung brechen; Marktpreis +2 Bonus"
+  },
+  {
+    "id": "660eea62-78c6-54e6-a7c2-b3765ba3534e",
+    "name": "Tödlich",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden, die normalerweise nicht-tödlichen Schaden verursachen – so wie Peitschen und Totschläger. Der gesamte Schaden einer tödlichen Waffe wird wie normaler (tödlicher) Schaden behandelt. Eine Peitsche (oder eine andere gleichartige Waffe, die normalerweise Kreaturen mit einer Rüstung oder mit natürlichen Rüstungsboninicht zu verletzen vermag) mit dieser besonderen Eigenschaft verursacht sogar bei Kreaturen mit einer Rüstung oder natürlicher Rüstung Schaden. Diese besondere Eigenschaft kann durch den Träger mit Hilfe eines Befehlswortes jederzeit unterdrückt werden – bis er sie wieder nutzen will. Schwache Nekromantie; ZS 5; Magische Waffen und Rüstungen herstellen, Leichte Wunden verursachen; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "e70e6c4d-4099-5431-ac5c-43735e629d24",
+    "name": "Undurchdringbar",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine undurchdringbare Waffe ist vor Schaden und Verfall geschützt. Eine metallische Waffe kann durch diese besondere Eigenschaft nicht rosten und eine hölzerne Waffe kann nicht verrotten oder sich verziehen, auch nicht durch magische oder übernatürliche Einflüsse. Für jeden Punkt ihres Verbesserungsbonus erhält eine undurchdrinbare Waffe das Doppelte des normalen Bonus auf ihre Härte und Trefferpunkte. Der Zerbrechen-SG einer undurchdringbaren Waffe und die Kampfmanöververteidigung des Trägers gegen Zerschmetternmanöver, die gegen die undurchdringbare Waffe gerichtet sind, erhalten jeweils einen Bonus in der doppelten Höhe des Verbesserungsbonus der Waffe. Durchschnittliche Verwandlung; ZS 7; Magische Waffen und Rüstungen herstellen, Reparieren, Verarbeitung; Marktpreis +3.000 GM."
+  },
+  {
+    "id": "2a7f258f-da6e-522e-90b2-701c8bcd23d3",
+    "name": "Unerschöpflich",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": "Nur Bögen und Armbrüste können diese besondere Eigenschaft erhalten.",
+    "description": "Nur Bögen und Armbrüste können diese besondere Eigenschaft erhalten – d.h. Feuerwaffen und andere Schusswaffen können diese Eigenschaft nicht erhalten. Sobald eine unerschöpfliche Waffe zum Schießen angelegt wird, erschafft sie durch die ihr innewohnende Magie spontan einen einzelnen nicht-magischer Pfeil oder Bolzen, so dass der Träger der Waffe niemals mit Munition laden muss. Wenn der Träger versucht, die Waffe mit anderer Munition zu laden, verschwindet der magisch erschaffene Pfeil oder Bolzen sofort. Der Träger kann die Waffe also noch ganz normal laden. Diese Eigenschaft reduziert nicht die Zeit, die zum Laden oder Abfeuern der Waffe nötig ist. Der erschaffene Pfeil oder Bolzen verschwindet, wenn er aus der Waffe entfernt wird; er bleibt nur bestehen, wenn er sofort abgefeuert wird. Anders als normale Bogen- oder Armbrustmunition werden die so erschaffenen Pfeile und Bolzen immer zerstört, wenn sie abgefeuert wurden. Durchschnittliche Beschwörung; ZS 9; Magische Waffen und Rüstungen herstellen, Niedere Erschaffung; Marktpreis +2 Bonus"
+  },
+  {
+    "id": "7505c7a2-4715-51d5-bca5-0c97599d050f",
+    "name": "Unheilig",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine unheilige Waffe ist mit unheiliger Macht erfüllt, wodurch sie die Gesinnung böse erhält und entsprechende Schadensreduzierungen umgehen kann. Sie verursacht zusätzliche 2W6 Schadenspunkte gegen alle gut gesinnten Kreaturen. Eine unheilige Waffe verleiht jeder guten Kreatur eine permanente negative Stufe, sollte sie diese zu führen versuchen. Die negative Stufe bleibt bestehen, solange die Waffe getragen wird, und verschwindet, sobald sie abgelegt wird. Diese negative Stufe kann nicht überwunden werden (auch nicht durch irgendeine Version von Genesung), solange die Waffe getragen wird. Durchschnittliche Hervorrufung [Böses], ZS 7, Magische Waffen und Rüstungen herstellen, Unheilige Plage, Erschaffer muss böse sein, Marktpreis Bonus +2."
+  },
+  {
+    "id": "ed5a6d71-24b4-5da9-8993-4fc1e770f131",
+    "name": "Unheilvoll",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine unheilvolle Waffe zieht bei jedem Schlag einen schattigen Nebel hinter sich her und singt während des Kampfes ein bedrohliches Klagelied. Eine unheilvolle Waffe verleiht ihrem Träger einen Verbesserungsbonus auf Fertigkeitswürfe für Einschüchtern. Wenn der Träger einer unheilvollen Waffe einen kritischen Treffer bestätigt, unterliegt das Ziel zudem für 1 Minute den Auswirkungen des Zustandes Erschüttert (Willen SG 13, keine Wirkung). Sollte der Multiplikator einer Waffe mehr als 2 betragen, dauert dieser Zustand 1 zusätzliche Minute mehr pro Multiplikator über x2 an. Eine Kreatur, die den Zustand Erschüttert durch eine Unheilvolle Waffe erhalten hat, kann diesen Zustand in den nächsten 24 Stunden nicht erneut durch diese Waffe erhalten. Schwache Hervorrufung; ZS 5; Magische Waffen und Rüstungen herstellen, Erschrecken oder Unheil; Marktpreis+1 Bonus."
+  },
+  {
+    "id": "04e011d4-80bc-5b93-98c5-93cdb65a0582",
+    "name": "Unscheinbarkeit",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Einer Waffe der Unscheinbarkeit kann befohlen werden, ihr Aussehen und ihre Form an die Form eines anderen Objektes der gleichen Größe anzupassen. Die Waffe behält ihre Eigenschaften (Gewicht eingeschlossen), wenn sie so verkleidet ist, allerdings strahlt sie keine Magie aus. Nur Wahrer Blick oder ähnliche Magie enthüllen die wahre Natur einer Waffe der Unscheinbarkeit. Nachdem eine Waffe der Unscheinbarkeit für einen Angriff genutzt wurde, wird diese besondere Eigenschaft für 1 Minute unterdrückt. Durchschnittliche Illusion; ZS 10; Magische Waffen und Rüstungen herstellen, Magische Aura, Selbstverkleidung; Marktpreis +4.000 GM."
+  },
+  {
+    "id": "974af9d7-deba-55d6-885b-88b0bac34b87",
+    "name": "Verankernd",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine verankernde Waffe stört Dimensionsreisen. Eine Kreatur, die Schaden durch eine verankernde Waffe erlitten hat, ist für 1 Runde beeinträchtigt, als ob sie unter dem Effekt von Dimensionsanker stünde. Durchschnittlicher Bannzauber ZS 7; Magische Waffen und Rüstungen herstellen, Dimensionsanker; Marktplatz +2.000 GM."
+  },
+  {
+    "id": "0d478c29-21a8-5551-b064-7e8604b5255e",
+    "name": "Verbündet",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Eine Verbündete Waffe ermöglicht ihrem Träger, einen Teil oder den gesamten Verbesserungsbonus auf die Waffe eines Verbündeten zu übertragen, zu dem er eine freie Sichtlinie hat. Als Freie Aktion kann der Träger am Anfang seines Zuges, ehe er seine Waffe benutzt, entscheiden, wie er den Verbesserungsbonus verteilen will. Der Bonus auf der Waffe seines Verbündeten hält bis zum Beginn des nächsten Zuges des Trägers an. Der Verbesserungsbonus einer Verbündeten Waffe ist nicht kumulativ mit einem Verbesserungsbonus auf der Waffe des Verbündeten. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Magische Waffe; Marktpreis Bonus +1."
+  },
+  {
+    "id": "d82a9b6c-5bf8-5f49-a58d-64855dbbe0ca",
+    "name": "Verderben",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ammunition",
+      "melee",
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Eine Waffe des Verderbens erweist sich im Kampf gegen eine bestimmte Art von Gegner als außerordentlich effektiv. Der nominale Verbesserungsbonus der Waffe steigt gegen den ausgewählten Feind um +2 und die Waffe fügt diesem Feind 2W6 zusätzliche Schadenspunkte zu. Um den ausgewählten Feind per Zufall zu ermitteln, würfle auf der folgenden Tabelle. W% Ausgewiesener Gegner 1-5 Aberrationen 6-9 Tiere 10-16 Konstrukte 17-22 Drachen 23-27 Feenwesen 28-60 Humanoide (suche dir eine Unterart aus) 61-65 Magische Bestien 66-70 Monströse Humanoide 71-72 Schlicken 73-88 Externare (suche dir eine Unterart aus) 89-90 Pflanzen 91-98 Untote 99-100 Ungeziefer Durchschnittliche Beschwörung; ZS 8; Magische Waffen und Rüstungen herstellen; Monster herbeizaubern I; Marktpreis Bonus +1."
+  },
+  {
+    "id": "c6dd3572-930f-5c35-903c-0b699fcf8288",
+    "name": "Verlässlich",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Feuerwaffen gezaubert werden. Eine verlässliche Feuerwaffe wurde derart verzaubert, dass sie weniger häufig blockiert als andere Feuerwaffen. Diese Verzauberung reduziert den Fehlzündungswert der betroffenen Feuerwaffe um 1 (Minimum 0). Diese Reduzierung erfolgt, nachdem alle Steigerungen für das Abfeuern mit dem Zustand Beschädigt eingerechnet wurden (oder alle anderen Effekte, die den Fehlzündungswert einer Feuerwaffe ansteigen lassen können). Durchschnittliche Verwandlung; ZS 8; Magische Waffen und Rüstungen herstellen, Ausbessern; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "64f86304-71aa-579d-94d6-d851ac7c3785",
+    "name": "Versetzend",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine versetzende Waffe verleiht ihrem Träger einen Verbesserungsbonus von + 2 auf Kampfmanöverwürfe für Versetzen. Wenn der Träger mit dieser Waffe einen kritischen Treffer bestätigt, kann er versuchen, seinen Gegner mit Hilfe einer freien Aktion zu versetzen. Dieser Versetzungsversuch provoziert noch immer ganz normal Gelegenheitsangriffe. Eine Waffe kann nur die besondere Eigenschaft festsetzend oder versetzend besitzen, nicht beide. Durchschnittliche Verzauberung; ZS 10; Magische Waffen und Rüstungen herstellen, Telekinese; Marktpreis +3 Bonus."
+  },
+  {
+    "id": "39f66388-7a19-5129-84d0-f1e64b0bfb8a",
+    "name": "Vorrückend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Einmal pro Runde, wenn der Träger im Nahkampf mit einer vorrückenden Waffe bei einer Kreatur Schaden verursacht hat, kann er nach der Attacke als schnelle Aktion einen 1,5 m-Schritt machen, jedoch noch vor Ende seines Zuges. Der Träger kann sich trotz dieses zusätzlichen 1,5 m-Schrittes normal bewegen und vor oder nach dieser Zusatzbewegung einen 1,5 m-Schritt ausführen (er erleidet also keine Nachteile hinsichtlich seiner Bewegungsrate). Allerdings erleidet er durch die Nutzung dieser Eigenschaft bis zum Beginn seines nächsten Zuges einen Malus von -2 auf alle Angriffswürfe. Diese Eigenschaft kann nicht in Verbindung mit einer anderen Eigenschaft oder einem anderen Effekt genutzt werden, der Bewegungen als Teil des Angriffes erlaubt. Schwache Verwandlung; ZS 5; Magische Waffen und Rüstungen herstellen, Federleicht; Markltpreis +2 Bonus."
+  },
+  {
+    "id": "b236b040-3a4a-54f7-9444-4800260256c9",
+    "name": "Wachend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine wachende Waffe erlaubt dem Träger einen Teil des oder den gesamten Verbesserungsbonus der Waffe als Bonus auf seine Rettungswürfe zu übertragen, der mit allen anderen Boni kumulativ ist. Im Zuge einer freien Aktion wählt der Träger zu Beginn seines Zuges und ehe er die Waffe nutzt, wie er den Verbesserungsbonus der Waffe aufteilt. Der Bonus auf seine Rettungswürfe bleibt bis zu seinem nächsten Zug bestehen. Nur der Verbesserungsbonus der Waffe selbst kann umverteilt werden, keineswegs andere Verbesserungsboni, die durch Effekte wie z.B. durch Mächtige Magische Waffe verliehen werden. Trotzdem wirken sich die Punkte, die zur Verbesserung der Rettungswürfe umverteilt wurden, auf all diese Effekte aus. Wenn eine Waffe sowohl die Eigenschaften Schutz als auch Wachend besitzt, kann der Verbesserungsbonus entweder auf die RK angerechnet werden oder auf die Rettungswürfe, jedoch nicht auf beide. Durchschnittlicher Bannzauber; ZS 8; Magische Waffen und Rüstungen, Resistenz; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "367ca099-2986-52c5-957e-911e6e075a0f",
+    "name": "Wagemutig",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf eine Nahkampfwaffe gezaubert werden. Eine wagemutige Waffe stärkt den Mut und die Kampfmoral des Trägers. Der Träger erhält einen Moralbonus auf Rettungswürfe gegen Furcht entsprechend dem Verbesserungsbonus der Waffe. Außerdem steigt jeder Moralbonus, den der Träger von einer anderen Quelle erhält, um die Hälfte des Verbesserungsbonus der Waffe an (Minimum 1). Schwache Verzauberung; ZS 3; Magische Waffen und Rüstungen herstellen, Furcht bannen, Heldenmut; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "5b07cd38-33b3-5241-acef-d1749f88a721",
+    "name": "Werfen",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine Nahkampfwaffe, die mit dieser Eigenschaft versehen wurde, erhält eine Grundreichweite von 3 m und kann von einem Träger geworfen werden, sofern er normalerweise im Umgang mit ihr geübt ist. Schwache Verwandlung; ZS 5, Magische Waffen und Rüstungen herstellen, Magischer Stein, Marktpreis Bonus +1."
+  },
+  {
+    "id": "0f8ace8b-d9dd-5584-9a0c-47b72b589567",
+    "name": "Wohlwollend",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese Rüstung ist am besten für einen Träger geeignet, der sich darauf konzentriert, seine Verbündeten zu unterstützen und zu schützen. Eine Wohlwollende Rüstung ist für gewöhnlich mit Motiven des Wohlstandes, des Überflusses und der Großzügigkeit geschmückt (z.B. helfende Hände, Füllhörner oder erblühende Pflanzen). Wenn der Träger einer Wohlwollenden Rüstung die Aktion Jemand anderem helfen nutzt, um einem Verbündeten einen Bonus auf die RK gegen den nächsten Angriff eines Gegners zu verleihen, addiert er ebenso den Verbesserungsbonus der Wohlwollenden Rüstung auf die RK des Verbündeten. Schwache Verzauberung; ZS 5; Magische Waffen und Rüstungen herstellen, Beistand; Marktpreis + 2.000 GM."
+  },
+  {
+    "id": "fc7b369f-7e3b-5079-b097-9f28f632772d",
+    "name": "Zauberraubend",
+    "bonus_equivalent": 3,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese besondere Eigenschaft kann nur auf Nahkampfwaffen gezaubert werden. Eine zauberraubende Waffe erlaubt ihrem Träger, bei einem Ziel schützende Magie abzusaugen und auf sich selbst zu übertragen. Wenn der Träger eine kritische Bedrohung gegen das Ziel erzielt, kann er darauf verzichten, den Kritischen Treffer zu bestätigen und stattdessen automatisch erfahren, welche Zauber oder magischen Effekte gerade bei dem Ziel aktiv wirken. Der Träger kann dann einen Zauberstufenwurf ablegen, um einen dieser Effekte seiner Wahl zu stehlen. Dabeinutzt er die Zauberstufe der zauberraubenden Waffe plus ihren Verbesserungsbonus. Der SG für diesen Wurf beträgt 11 + die Zauberstufe des Effektes. Sobald der Wurf erfolgreich ist, verliert das Ziel sofort alle Vorteile dieses Effektes und der Träger erhält den Effekt für 1 Minute (oder bis der Effekt erlischt, was auch immer zuerst eintritt). Wenn die zauberraubende Waffe einen Multiplikator besitzt, der größer als 2 ist, kann der Träger versuchen einen zusätzlichen Zaubereffekt pro zusätzlichen Multiplikator jenseits x2 zu stehlen (zwei Effekte bei x3, usw.). Starker Erkenntniszauber; ZS 13; Magische Waffen und Rüstungen herstellen, Begrenzter Wunsch, Mächtiger Arkaner Blick; Marktpreis +3 Bonus."
+  },
+  {
+    "id": "3e0f7b63-cc41-554a-9c27-0fa937cafc17",
+    "name": "Zauberspeicher",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Eine zauberspeichernde Waffe erlaubt einem Zauberkundigen einen gezielten Zauber des maximal 3. Grades in der Waffe zu speichern (der Zeitaufwand des Zaubers muss bei 1 Standard-Aktion liegen). Jedes Mal, wenn die Waffe eine Kreatur trifft und diese durch den Angriff Schaden nimmt, kann die Waffe sofort mit Hilfe einer freien Aktion den gespeicherten Zauber auf die Kreatur wirken, wenn der Träger dies wünscht (diese besondere Eigenschaft stellt eine Ausnahme zu der Regel dar, die besagt, dass es mindestens genauso lange dauert, einen Zauber mit einem Gegenstand zu wirken, wie das normale Wirken des Zaubers dauert). Wurde der gespeicherte Zauber gewirkt, kann ein Zauberkundiger einen weiteren Zauber des maximal 3. Grades in der Waffe speichern. Die Waffe teilt ihrem Träger auf magischem Wege den Namen des Zaubers mit, der gerade in ihr gespeichert ist. Bei einer zufällig ermittelten zauberspeichernden Waffe besteht eine Chance von 50%, dass noch ein Zauber in ihr gespeichert ist. Eine zauberspeichernde Waffe gibt eine starke Hervorrufungsaura ab, sowie die Aura des derzeit in ihr gespeicherten Zaubers. Starke Hervorrufung; ZS 12; Magische Waffen und Rüstungen herstellen, Erschaffer muss ein Zauberkundiger der 12. Stufe sein; Marktpreis +1 Bonus."
+  },
+  {
+    "id": "ce91d339-26e5-5cbf-bbfe-bcba367c0d6e",
+    "name": "Zerschlagend",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": "Nur Wuchtwaffen.",
+    "description": null
+  },
+  {
+    "id": "a80e3bbd-6658-5b3d-9902-75112f205e4e",
+    "name": "Zorngeboren",
+    "bonus_equivalent": 2,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": null
+  },
+  {
+    "id": "9e3edbdd-dabb-5e8f-a504-ad2d9d64421b",
+    "name": "Zornig",
+    "bonus_equivalent": 1,
+    "applicable_categories": [
+      "melee"
+    ],
+    "restriction_note": null,
+    "description": "Diese Fähigkeit dient als Fokus für die Wut des Trägers und kann nur einer Nahkampfwaffe verliehen werden. Wenn sich der Träger im Kampfrausch oder unter der Wirkung von Wut befindet, steigt der Verbesserungsbonus der Waffe um +2. Sollte der Träger über eine Kampfrauschkraft verfügen, welche ihm im Kampfrausch einen Fertigkeitsbonus verleiht (z.B. Wuterfüllter Sprung, Wuterfülltes Klettern oder Wuterfülltes Schwimmen), erhält der Träger diesen Bonus, sofern er die Waffe verwendet oder in der Hand hält, auch wenn er sich nicht im Kampfrausch befindet – der Bonus entspricht dem Verbesserungsbonus der Waffe, den Bonus von +2 im Kampfrausch eingeschlossen. Durchschnittliche Verzauberung (Zwang); ZS 8; Magische Waffen und Rüstungen herstellen, Kampfrausch; Marktpreis Bonus +1."
+  },
+  {
+    "id": "dcb1d10f-21eb-556a-8d65-141320d32b64",
+    "name": "Zweite Chance",
+    "bonus_equivalent": 4,
+    "applicable_categories": [
+      "ranged"
+    ],
+    "restriction_note": "Schusswafffen mit dieser Eigenschaft verleihen ihrer Munition diese Eigenschaft.",
+    "description": "Diese besondere Fähigkeit kann nur auf Bögen gezaubert werden. Einmal pro Runde, wenn ein von dieser Waffe abgegebener Schuss sein Ziel verfehlt, kann der Träger der Waffe den Pfeil mit Hilfe einer freien Aktion dazu bringen auszuscheren und versuchen, das Ziel erneut zu treffen. Der Pfeil bekommt dadurch die Möglichkeit, mit demselben Angriffsbonus anzugreifen, mit welchem er schon den ersten Angriff ausgeführt hat. Durchschnittlicher Bannzauber; ZS 11; Magische Waffen und Rüstungen herstellen, Querschläger; Marktpreis +4 Bonus. var dbclick = \"page\"; Drucken Index Übersicht Regelbegriff-Index FAQ Open Game License Community Use Policy --> -->"
+  }
+]

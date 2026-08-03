@@ -45,14 +45,21 @@ export interface PreparableSpellGrade {
   spells: (SpellRef & { prepared: boolean })[];
 }
 
+export interface GearSpecialAbility {
+  name: string;
+  description: string | null;
+}
+
 export interface GearItem {
   id: string;
   name: string;
   qty: number;
   /** Weapon/armor enhancement bonus, e.g. "+1". Only meaningful for magic gear. */
   enhancement?: string;
-  /** Special weapon/armor properties chosen for this specific item. */
+  /** Freetext properties not (yet) in the BaseWeaponSpecialAbility catalog. */
   properties?: string[];
+  /** Named catalog abilities (e.g. "Flammend") resolved from BaseWeaponSpecialAbility. */
+  specialAbilities?: GearSpecialAbility[];
 }
 
 export interface EquipmentSlotOption {

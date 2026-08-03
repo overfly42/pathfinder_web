@@ -19,11 +19,13 @@ from ..models import (
     BaseSkill,
     BaseSpell,
     BaseTrait,
+    BaseWeaponSpecialAbility,
     Character,
     CharacterClass,
     CharacterClassOption,
     CharacterFeat,
     CharacterGear,
+    CharacterGearSpecialAbility,
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
@@ -586,6 +588,16 @@ def update_gear(
         gear_row.enhancement = body.enhancement
     if body.properties is not None:
         gear_row.properties = body.properties
+    if body.special_ability_ids is not None:
+        known_ids = set(
+            db.scalars(
+                select(BaseWeaponSpecialAbility.id).where(BaseWeaponSpecialAbility.id.in_(body.special_ability_ids))
+            ).all()
+        )
+        unknown_ids = set(body.special_ability_ids) - known_ids
+        if unknown_ids:
+            raise HTTPException(status_code=422, detail=f"Unknown special_ability_ids: {sorted(map(str, unknown_ids))}")
+        gear_row.special_abilities = [CharacterGearSpecialAbility(ability_id=ability_id) for ability_id in body.special_ability_ids]
     db.commit()
     db.refresh(character)
     return character

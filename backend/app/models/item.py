@@ -1,4 +1,7 @@
-from sqlalchemy import Float, Integer, String, Text
+import uuid
+
+from sqlalchemy import JSON, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -65,3 +68,63 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     special: Mapped[str | None] = mapped_column(String(255), nullable=True)
     weight_lb: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+class BaseWeaponSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Catalog of named magic weapon special abilities (roadmap.md's
+    "Magische Verzauberung/Material als Berechnung statt Freitext"),
+    replacing `CharacterGear.properties`' freetext for the ~90 abilities the
+    German PRD defines — composition-only, same convention as
+    `BaseRaceAbility`/`BaseFeat`: what an ability *is* lives here as data,
+    what it actually *does* (mostly nothing computed — see
+    `app.rules.weapon_abilities`'s module docstring for why) is resolved by
+    id, not by a schema column.
+
+    `bonus_equivalent` (1-5) is the PF1e "enchantment slot" cost used for the
+    +10 total-bonus cap and the price table — not always the same number as
+    the ability's actual gold price (a few, e.g. "Undurchdringbar", cost a
+    flat gp amount instead of a bonus-equivalent formula; that flat price
+    itself isn't modeled, this app doesn't compute market prices, see
+    `import_waffeneigenschaften_prd.py`). Nullable: two abilities
+    ("Duell", "Selbstverwandelnd") sit under a table section spanning two
+    tiers with a flat price that doesn't disambiguate which — left unset
+    rather than guessed, same "don't guess" policy as everywhere else in
+    this catalog's import.
+
+    `applicable_categories` (subset of "melee"/"ranged"/"ammunition" — which
+    of the PRD's three price tables list the ability) is informative for a
+    future selection dialog, not a DB constraint, same pattern as
+    `restriction_note` below.
+
+    `restriction_note` is a short PRD footnote tag for narrower restrictions
+    that don't fit `applicable_categories` (e.g. "Nur Wuchtwaffen.") or
+    mutual exclusions (e.g. Verlässlich vs. Mächtige Verlässlichkeit) —
+    informative only, never enforced server-side, same non-DB-constraint
+    pattern `BaseClassOptionChoice`'s docstring describes for the Talent-Sub-
+    Wahl-Schema. `description` is the full PRD rule text, never evaluated by
+    rule logic; null for the handful of abilities the source page names in
+    a table but never gives their own prose entry to (see the import
+    script's docstring)."""
+
+    __tablename__ = "base_weapon_special_abilities"
+
+    name: Mapped[str] = mapped_column(String(255))
+    bonus_equivalent: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    applicable_categories: Mapped[list[str]] = mapped_column(JSON, default=list)
+    restriction_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+class CharacterGearSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Which special abilities (`BaseWeaponSpecialAbility`) a specific
+    `CharacterGear` row has — a gear item can carry more than one (up to the
+    PF1e +10 cap, not enforced here, see `BaseWeaponSpecialAbility`'s
+    docstring), each ability at most once per item."""
+
+    __tablename__ = "character_gear_special_abilities"
+    __table_args__ = (UniqueConstraint("gear_id", "ability_id"),)
+
+    gear_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("character_gear.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_weapon_special_abilities.id")
+    )

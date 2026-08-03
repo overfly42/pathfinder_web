@@ -179,10 +179,11 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
         bewusst *nicht* mit übernommen worden (nur Waffen + Werkzeuge waren
         angefragt) — liegen weiterhin nur als Staging-Datei
         (`fixtures/imported/ausruestung_prd_import.json`) vor.
-- [ ] **Magische Verzauberung/Material als Berechnung statt Freitext.**
-      `CharacterGear.enhancement`/`properties` sind rein deskriptiv (roadmap
+- [x] **Magische Verzauberung/Material als Berechnung statt Freitext —
+      strukturierter Katalog umgesetzt, Berechnung bewusst weiterhin nicht.**
+      `CharacterGear.enhancement`/`properties` waren rein deskriptiv (roadmap
       slice 4) — ein „+1, aufflammend, einschlagend, Adamant"-Zweihänder
-      ließe sich zwar eintippen, hätte aber keine Auswirkung auf
+      ließ sich zwar eintippen, hatte aber keine Auswirkung auf
       Angriffs-/Schadensbonus. Baut auf der Waffenkatalog-Erweiterung oben
       auf (keine Berechnung ohne Basis-Kampfwerte).
 
@@ -272,6 +273,31 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       noch 4 Runden" neben der Waffe highlighten, dass die Eigenschaft gerade
       greift — weiterhin nur als Hinweis, nicht als eingerechneter Bonus.
       Kein Vorgriff auf slice 5 nötig, um Katalog/Anzeige oben zu bauen.
+
+      **Umgesetzt (2026-08-03):** `BaseWeaponSpecialAbility`
+      (`models/item.py`) + Zuordnungstabelle `CharacterGearSpecialAbility`
+      genau wie oben entschieden, Migration `8dd1fbfa0f90` angewendet.
+      Katalogdaten per neuem `scripts/import_waffeneigenschaften_prd.py`
+      gegen die oben verlinkte PRD-Seite gezogen (93 Eigenschaften — die
+      ~80er-Schätzung oben war grob; 3 davon ohne eigenen Fließtext auf der
+      Quellseite, `description: null`, 2 mit mehrdeutigem `bonus_equivalent`
+      aus einer Zwei-Stufen-Tabellensektion, ebenfalls `null` statt geraten
+      — Details im Skript-Docstring) und per `build_weapon_abilities_seed.py`
+      in die DB-Form transformiert; `app.seed.weapon_ability_seed` lädt sie
+      idempotent. `rules/weapon_abilities.py`s `resolve()` löst jede
+      Eigenschaft über dieselbe `HANDLERS`-Registry auf wie entschieden
+      (aktuell leer, jede Eigenschaft fällt auf die generische Text-Factory
+      zurück — kein Bedarf an konkreten Handlern, da noch keine einzige
+      Eigenschaft eigenes Rechenverhalten hat). `GET /api/weapon-abilities`
+      (Katalog-Listing) und `PATCH .../gear/{item_id}`s neues
+      `special_ability_ids` (ersetzt die gesamte Zuordnungsliste, gleiche
+      Semantik wie `properties`) verdrahten das bis zum Sheet durch
+      (`sheet.py`s `_build_gear`, neues `specialAbilities`-Feld pro
+      `GearItem`, Frontend-Typ in `types/character.ts` ergänzt). `properties`
+      bleibt parallel bestehen für alles, was (noch) nicht im Katalog steht.
+      Zornig/Kräftigend bekommen weiterhin keinen eigenen Handler (siehe
+      oben, wartet auf slice 5); Preisberechnung/Angriffs-Endpunkt bleiben
+      wie entschieden draußen.
 - [ ] **Wondrous-Item-Katalog mit echter Attributsboni-Wirkung.** Die 12
       kosmetischen Ausrüstungsplätze (roadmap slice 4) haben keine
       Katalogzeilen und keine Verdrahtung in `sheet.py`s
