@@ -13,7 +13,7 @@ def test_list_items_is_database_backed(client: TestClient, db_session: Session) 
     assert response.status_code == 200
     items = response.json()
 
-    assert len(items) == 55
+    assert len(items) == 286
     assert all({"id", "name", "category", "price", "acBonus", "maxDexBonus"} <= set(item) for item in items)
 
     dolch = next(i for i in items if i["name"] == "Dolch")

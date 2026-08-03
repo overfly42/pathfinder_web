@@ -21,6 +21,15 @@ def list_items(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             "price": item.price,
             "acBonus": item.ac_bonus,
             "maxDexBonus": item.max_dex_bonus,
+            "damageSmall": item.damage_small,
+            "damageMedium": item.damage_medium,
+            "critical": item.critical,
+            "weaponRange": item.weapon_range,
+            "damageType": item.damage_type,
+            "weaponType": item.weapon_type,
+            "special": item.special,
+            "weightLb": item.weight_lb,
+            "description": item.description,
         }
         for item in items
     ]

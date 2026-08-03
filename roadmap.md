@@ -135,18 +135,50 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       `FeatsStep.tsx` now shows a weapon/skill/school dropdown for a tagged
       feat, and the character sheet/summary append the choice to the feat's
       display name (e.g. "Waffenfokus (Langschwert)").
-- [ ] **Waffenkatalog ohne Kampfwerte.** `BaseItem` hat 16 Waffen-Zeilen
-      (Name/Kategorie/Preis) seit slice 3/4, aber **kein** Schema-Feld für
-      Schaden/kritischen Bereich/Waffentyp überhaupt (korrigiert eine
-      veraltete Annahme in der bisherigen Fassung dieses Dokuments — "no
-      weapon rows are seeded yet" stimmte zum Zeitpunkt der ursprünglichen
-      Slice-4-Notiz, nicht mehr heute). Zweihänder, Krummschwert, Streitaxt
-      fehlen zusätzlich komplett als Katalogzeilen (nur 16 meist leichte/
-      einhändige Standardwaffen vorhanden). Erweitert Kämpfers
-      Waffentraining/Waffenmeisterschaft-Blocker oben (§5 der "Pick from a
-      restricted list"-Historie) um einen zweiten, unabhängigen Grund: auch
-      wenn `weapon_group` gesetzt würde, gäbe es noch keine
-      Angriffsbonus-/Schadensberechnung, die es lesen könnte.
+- [x] **Waffenkatalog ohne Kampfwerte — Schema und Katalogzeilen ergänzt.**
+      `BaseItem` hat jetzt reale Felder für `damage_small`/`damage_medium`
+      (Schaden Klein/Mittel), `critical`, `weapon_range`, `damage_type`
+      und `weapon_type` (Waffenproficiency einfach/Kriegswaffe/exotisch/
+      Feuerwaffe — eigene Taxonomie, nicht zu verwechseln mit `weapon_group`,
+      das weiterhin die Kämpfer-Waffengruppen Äxte/Bögen/Hämmer/… meint und
+      unbefüllt bleibt), plus generisches `weight_lb`/`description`
+      (Migration `alembic/versions/fd9e4b803833_...`, angewendet). Katalog
+      per PRD-Import (`backend/scripts/import_waffen_prd.py`/
+      `import_ausruestung_prd.py`, README §5) von 16 auf 205 Waffen- und von
+      3 auf 45 Werkzeug-Zeilen erweitert — Zweihänder, Krummschwert,
+      Streitaxt sind jetzt vorhanden. Bekannte Einschränkungen:
+      - **Noch keine Angriffsbonus-/Schadensberechnung, die diese Felder
+        liest** — reine Daten, keine Logik. Der Kämpfer-Waffentraining/
+        Waffenmeisterschaft-Blocker (§5 der "Pick from a restricted list"-
+        Historie) bleibt deshalb unverändert bestehen.
+      - Von den 16 alten Platzhalter-Zeilen matchen 9 (Dolch, Kriegshammer,
+        Kurzbogen, Kurzschwert, Langbogen, Langschwert, Rapier, Schleuder,
+        Speer) exakt einen PRD-Namen und wurden um die neuen Felder
+        angereichert (ID/Preis unverändert); 7 (Streitkolben, Handaxt,
+        Kompositlangbogen, „Armbrust, leicht"/„Armbrust, schwer",
+        Wurfmesser, Wurfnetz) matchen keinen PRD-Namen exakt (z. B.
+        „Streitkolben" vs. PRDs „Leichter Streitkolben") und stehen
+        unangetastet neben der neuen, korrekt benannten PRD-Zeile — noch ein
+        Beleg für die in `todos.md` vermerkte Platzhalter-Namensproblematik,
+        bewusst nicht automatisch zusammengeführt/umbenannt.
+      - Gleiches gilt für alle 3 alten `tool`-Zeilen (Dietrich,
+        Zauberkomponentenbeutel, Schreibfeder und Tinte) — keine matcht
+        einen PRD-Namen (Dietrich z. B. heißt dort „Diebeswerkzeug").
+      - Ein Preis-Widerspruch: Speer kostet in der alten Platzhalter-Zeile
+        5 GM, laut PRD 2 GM — Platzhalterwert bewusst nicht überschrieben.
+      - 16 neue Zeilen (14 Waffen, 2 Werkzeuge — u. a. Waffenloser Schlag,
+        improvisierte Waffen wie Keule/Holzpflock, Schild-Einträge, deren
+        Preis eigentlich in der Rüstungstabelle steht) hatten in der
+        PRD-Quelltabelle keinen Preis (Zelle „-"); da `price` nicht
+        nullable ist, wurde 0 als markierter Fallback statt einer Schätzung
+        eingetragen — vor produktivem Einsatz zu prüfen.
+      - Feuerwaffen (21 Zeilen) verlieren `misfire`/`capacity` beim
+        Seed-Merge — keine Schema-Spalte dafür, bewusst außerhalb des Scopes
+        dieser Erweiterung.
+      - Die 250 Abenteuerausrüstungs-Zeilen aus demselben Import sind
+        bewusst *nicht* mit übernommen worden (nur Waffen + Werkzeuge waren
+        angefragt) — liegen weiterhin nur als Staging-Datei
+        (`fixtures/imported/ausruestung_prd_import.json`) vor.
 - [ ] **Magische Verzauberung/Material als Berechnung statt Freitext.**
       `CharacterGear.enhancement`/`properties` sind rein deskriptiv (roadmap
       slice 4) — ein „+1, aufflammend, einschlagend, Adamant"-Zweihänder

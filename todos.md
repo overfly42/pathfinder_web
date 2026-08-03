@@ -29,9 +29,16 @@ Kurzfassung als Einstiegspunkt:
 
 - [x] Talent-Sub-Wahl-Schema (welche Waffe/Fertigkeit ein Talent betrifft,
       z. B. Waffenfokus → Langschwert) — done, see `roadmap.md`.
-- [ ] Waffenkatalog ohne Kampfwerte (kein Schema-Feld für Schaden/kritischen
-      Bereich/Waffentyp; mehrere Standardwaffen fehlen zusätzlich als
-      Katalogzeile) — `roadmap.md`.
+- [x] Waffenkatalog ohne Kampfwerte — Schema-Felder (Schaden/kritischer
+      Bereich/Reichweite/Waffentyp) ergänzt und Katalog von 16 auf 205
+      Waffen-Zeilen (plus 3→45 Werkzeuge) aus `prd.5footstep.de` erweitert,
+      siehe `roadmap.md`. Die eigentliche Angriffsbonus-/Schadensberechnung,
+      die diese Felder liest, bleibt offen (neuer Punkt unten).
+- [ ] Item→Skill-Check-Bonus nicht verdrahtet (z. B. Diebeswerkzeug sollte
+      einen Bonus auf Mechanismus ausschalten geben statt nur den
+      Improvisations-Malus zu vermeiden) — `CharacterGear` ist bisher nur an
+      die AC-Berechnung angebunden, keine Verbindung zu Fertigkeitswürfen
+      existiert. `roadmap.md`.
 - [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
       `roadmap.md`.
 - [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.
