@@ -98,15 +98,16 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
-    # Barbar has no `BaseClassAbilityGrant` data yet (unlike Kämpfer/
-    # Waldläufer/Magier) — the default Waldläufer payload now has real
-    # level-1 class features (Erzfeind, Spuren lesen, ...) and Magier now has
-    # its own (Arkane Schule, Arkane Verbindung, ...), so neither can stand
-    # in for "no class features" anymore.
+    # Druide has no `BaseClassAbilityGrant` data yet (unlike Kämpfer/
+    # Waldläufer/Magier/Barbar) — the default Waldläufer payload now has real
+    # level-1 class features (Erzfeind, Spuren lesen, ...), Magier now has
+    # its own (Arkane Schule, Arkane Verbindung, ...), and Barbar now has its
+    # own too (Kampfrausch, Schnelle Bewegung, ...), so none of those three
+    # can stand in for "no class features" anymore.
     create_response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, classes=[{"class_name": "Barbar", "level": 1}]
+            user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}]
         ),
     )
     assert create_response.status_code == 201

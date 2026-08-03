@@ -47,6 +47,128 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
   rather than building two separate systems.
 
+## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
+
+Tracking section, added 2026-08-03 after trying to model a concrete
+level-12 Mensch/Barbar through the app (Talente: Heftiger Angriff,
+Waffenfokus [Zweihänder], Abhärtung, Meisterhandwerker, Magische Waffen und
+Rüstungen herstellen, Ausdauer; Kampfrauschkräfte: Erneuerte Lebenskraft,
+Kraftvoller Schlag, Einschüchterndes Niederstarren; Ausrüstung: Celestische
+Brustplatte, ein benannter magischer Zweihänder, Krummschwert, Streitaxt,
+Kompositbogen, drei stat-boostende Wondrous Items; frei eingegebene
+Attributswerte; zwei permanente aktive Effekte). No slice reordering turned
+out to be structurally necessary — every dependency below already sits in
+slice 2–5, in the right relative order — but the gaps found are consolidated
+here as the concrete near-term priority within those slices, rather than
+left scattered across conversation history. Doubles as the acceptance test
+for "can a real, complex character actually be built end-to-end," per the
+Guiding decisions' end-to-end-scenario idea above.
+
+Concrete gaps found, each pointing at the slice/bullet that owns it:
+
+- [x] **Barbar — vollständig gegen `prd.5footstep.de` importiert.**
+      2026-08-03 in zwei Schritten: zuerst 28 Kampfrauschkräfte
+      (`backend/scripts/import_barbar_rage_powers.py`, Text vom
+      Projektinhaber bereitgestellt, danach wortgleich gegen
+      <http://prd.5footstep.de/Grundregelwerk/Klassen/Barbar> gegengeprüft —
+      keine Abweichung), dann die restliche Klassenschale + der
+      Klassenfertigkeiten-Fix
+      (`backend/scripts/import_barbar.py`, direkt von der Quellseite
+      gefetcht). Eigene `BaseClassAbility`/`BaseClassOptionChoice`-Zeilen für
+      jede Kraft/Fähigkeit (bewusst *nicht* mit Entfesselter Barbars
+      gleichnamigen Zeilen geteilt — Textvergleich vor dem Import zeigte
+      echte mechanische Unterschiede, z. B. Kampfrausch +4 ST/KO + 2
+      Willensbonus hier vs. Entfesselter Barbars pauschale +2
+      Angriff/Schaden + temporäre TP; Fallengespür hier vs. Entfesselter
+      Barbars anders benanntes Gefahreninstinkt; Erhöhte Schadensreduzierung
+      +1/- vs. +2/-; Mächtiger Schlag einmal pro Kampfrausch vs. einmal pro
+      Tag; Wachsame Kampfhaltung/Verteidigungshaltung als zwei getrennte
+      Kräfte vs. eine kombinierte). Die generische „Kampfrauschkraft"-Slot-
+      Fähigkeit (Level 2, 4, ... 20) wird von Entfesselter Barbar per id
+      wiederverwendet, da dieser Text klassenunabhängig ist.
+
+      Klassenschale (`import_barbar.py`): Umgang mit Waffen und Rüstungen,
+      Schnelle Bewegung, Kampfrausch (alle Stufe 1), Reflexbewegung (2),
+      Fallengespür (3/6/9/12/15/18, eine Katalogzeile mit sechs Grants,
+      gleiches Muster wie Schurkes Hinterhältiger Angriff), Verbesserte
+      Reflexbewegung (5), Schadensreduzierung (7/10/13/16/19, fünf Grants),
+      Stärkerer Kampfrausch (11), Unbeugsamer Wille (14), Unermüdlicher
+      Kampfrausch (17), Mächtiger Kampfrausch (20) — 11 neue
+      Katalogzeilen, 20 neue Grants. `base_class_skills.json` um die drei
+      fehlenden echten Klassenfertigkeiten ergänzt (Akrobatik, Mit Tieren
+      umgehen, Wissen (Natur) — bereits in der Entfesselter-Barbar-Runde als
+      Lücke notiert, aber bewusst nicht mitkorrigiert, siehe `todos.md`).
+      `hit_dice`/`bab_progression`/Rettungswürfe/`skill_points_base` waren
+      bereits korrekt (gegen "Tabelle: Barbar" verifiziert, nicht erneut
+      geschrieben).
+
+      **Bewusst nicht importiert:** „Ehemaliger Barbar" (Konsequenz bei
+      rechtschaffener Gesinnung — reiner Fließtext, keine stufengebundene
+      Fähigkeit, kein Gesinnungsfeld im Datenmodell, das es prüfen könnte).
+      Keine Berechnungslogik für die Zahlenwerte (Kampfrausch-Boni,
+      Schadensreduzierung-Stufen, Fallengespür-Skalierung) — nur
+      Katalogzeile + Beschreibungstext, gleiche Tiefe wie jede andere
+      Klasse. Archetypen über die bereits vorhandenen Kämpfer-Archetypen
+      hinaus nicht angefasst (Barbar hat ohnehin keine archetype-Zeilen).
+- [ ] **Talent-Sub-Wahl-Schema** (welche Waffe/Fertigkeit ein Talent
+      betrifft, z. B. Waffenfokus → Zweihänder). `CharacterFeat` ist heute
+      nur `(level_id, feat_id)` — kein Platz für eine Sub-Wahl, anders als
+      Klassenfähigkeiten mit `option_choice_id`. Braucht ein neues,
+      Talent-eigenes Schema (nicht `BaseClassAbilityFeatOption`, das ist für
+      "welche Talente sind in einem Slot wählbar", nicht "welche Waffe
+      gehört zu diesem einen gewählten Talent"). Betrifft nicht nur
+      Waffenfokus — jedes Talent mit "wähle eine Waffe/Fertigkeit/Schule"
+      (Waffenspezialisierung, Fertigkeitsfokus, ...) hat dieselbe Lücke.
+- [ ] **Waffenkatalog ohne Kampfwerte.** `BaseItem` hat 16 Waffen-Zeilen
+      (Name/Kategorie/Preis) seit slice 3/4, aber **kein** Schema-Feld für
+      Schaden/kritischen Bereich/Waffentyp überhaupt (korrigiert eine
+      veraltete Annahme in der bisherigen Fassung dieses Dokuments — "no
+      weapon rows are seeded yet" stimmte zum Zeitpunkt der ursprünglichen
+      Slice-4-Notiz, nicht mehr heute). Zweihänder, Krummschwert, Streitaxt
+      fehlen zusätzlich komplett als Katalogzeilen (nur 16 meist leichte/
+      einhändige Standardwaffen vorhanden). Erweitert Kämpfers
+      Waffentraining/Waffenmeisterschaft-Blocker oben (§5 der "Pick from a
+      restricted list"-Historie) um einen zweiten, unabhängigen Grund: auch
+      wenn `weapon_group` gesetzt würde, gäbe es noch keine
+      Angriffsbonus-/Schadensberechnung, die es lesen könnte.
+- [ ] **Magische Verzauberung/Material als Berechnung statt Freitext.**
+      `CharacterGear.enhancement`/`properties` sind rein deskriptiv (roadmap
+      slice 4) — ein „+1, aufflammend, einschlagend, Adamant"-Zweihänder
+      ließe sich zwar eintippen, hätte aber keine Auswirkung auf
+      Angriffs-/Schadensbonus. Baut auf der Waffenkatalog-Erweiterung oben
+      auf (keine Berechnung ohne Basis-Kampfwerte).
+- [ ] **Wondrous-Item-Katalog mit echter Attributsboni-Wirkung.** Die 12
+      kosmetischen Ausrüstungsplätze (roadmap slice 4) haben keine
+      Katalogzeilen und keine Verdrahtung in `sheet.py`s
+      Attributsberechnung — ein „Gürtel der großen Konstitution +2" oder
+      „Stirnreif der enormen Intelligenz +2" hätte aktuell keine Wirkung.
+      Bewusst nicht einfach durch Erfinden generischer Werte lösbar (gleiches
+      Rateinhalt-Problem wie in `todos.md` an anderer Stelle beschrieben) —
+      braucht echte, gegen eine Quelle geprüfte Item-Daten.
+- [ ] **Freie Attributseingabe / höheres Punktekauf-Budget.** `point_budget`
+      ist serverseitig auf `Literal[10, 15, 20, 25]` fixiert
+      (`schemas/character.py`), die Kostentabelle deckt nur 7–18 ab (Werte
+      außerhalb kosten laut aktuellem Code fälschlich 0 Punkte statt
+      abgelehnt zu werden — ein Bug, kein Feature). Für einen vorgefertigten/
+      hochstufigen Charakter braucht es entweder einen expliziten
+      "freie Eingabe"-Modus (kein Budget-Limit) oder zumindest einen
+      höheren Budget-Wert plus eine korrekte Fehlerbehandlung außerhalb der
+      7–18-Tabelle.
+- [ ] **Startgold/Vermögen nach Stufe (Wealth by Level).** Keine
+      `characters.gold`-Spalte, keine Wealth-by-Level-Tabelle — bei Stufe
+      12 wäre nach PF1e deutlich mehr Ausrüstung/Gold vorgesehen als das
+      Datenmodell heute überhaupt kennt. Gehört strukturell zu
+      Charaktererstellung (slice 2/3), nicht zu Ausrüstung (slice 4) selbst.
+- [ ] **Aktive Effekte für permanente Boni außerhalb von Ausrüstung**
+      (z. B. permanente Dunkelsicht, ein inhärenter +2-Attributsbonus).
+      Deckt sich mit slice 5 (Effects/Conditions/Time), das komplett
+      unbebaut ist — keine `ActiveEffect`-Tabelle existiert. Ein
+      Beispielcharakter mit nur zwei *permanenten* (nicht rundenbasierten)
+      Effekten bräuchte nicht zwingend die volle Zeit-/Dauer-Verfolgung
+      dieser Slice, nur ein minimales "dieser Charakter hat dauerhaft
+      Fähigkeit X" — eine mögliche thin-first-Reduktion von slice 5,
+      genauer zu entscheiden, wenn diese Slice angegangen wird.
+
 ## Foundation (one-time, not a lifecycle stage)
 
 Done — DB/ORM/migrations/test harness. Full detail: `roadmap_history.md`.
@@ -121,11 +243,12 @@ save progression), minimal starting gear. Full detail for all of these:
          5; optionally surface a hint in `FeatsStep.tsx` at creation ("must
          include N combat feats").
       Also still open, out of scope for this effort: Kämpfer's
-      Waffentraining/Waffenmeisterschaft (needs a populated weapon catalog),
-      Magier's familiar-type choice under Arkane Verbindung, and the
-      animal-companion branch of Waldläufer's Bund des Jägers — all three
-      need a new catalog concept (weapons/familiars/animal companions), not
-      just another `BaseClassOptionGroup`.
+      Waffentraining/Waffenmeisterschaft (16 weapon rows exist by now, but
+      with no combat-stat fields at all — see "Beispielcharakter" above for
+      the fuller writeup), Magier's familiar-type choice under Arkane
+      Verbindung, and the animal-companion branch of Waldläufer's Bund des
+      Jägers — all three need a new catalog concept (weapon combat stats/
+      familiars/animal companions), not just another `BaseClassOptionGroup`.
 - [ ] **Class source-page fetch/preprocess tooling.** Every class data pass
       so far (Kämpfer, Waldläufer, Magier, Hexenmeister — see `todos.md`)
       manually curled the class's page from

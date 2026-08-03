@@ -22,8 +22,11 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     category "weapon" — same plain-tag convention as `category`, not
     evaluated by any rule logic yet. Exists so a class feature that grants a
     bonus per weapon *group* rather than per weapon (Kämpfer's
-    Waffentraining) has something to pick from; no weapon rows are seeded
-    yet (only armor/shield exist today), so this is currently unpopulated."""
+    Waffentraining) has something to pick from; 16 weapon rows exist
+    (roadmap.md's "Beispielcharakter" section), but none has `weapon_group`
+    set yet, and none has damage/critical/weapon-type fields either — no
+    schema for those exists at all, so no attack-bonus computation is
+    possible yet regardless of this field."""
 
     __tablename__ = "base_items"
 

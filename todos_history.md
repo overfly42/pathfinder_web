@@ -890,3 +890,71 @@ each item was checked off), in original order.
         (Prerequisite-Scoping für den Talente-Import) ebenfalls auf die
         beiden verbliebenen sourced Archetypen reduziert. 72 betroffene
         Tests (`test_characters.py`, `test_character_sheet.py`) grün.
+  - [x] **Barbar** (Quelle: <http://prd.5footstep.de/Grundregelwerk/Klassen/Barbar>,
+        zwei Import-Skripte, beide 2026-08-03): ausgelöst durch den Versuch,
+        einen konkreten Beispielcharakter (Level-12-Mensch/Barbar) über die
+        App zu erstellen, siehe `roadmap.md`s „Beispielcharakter"-Abschnitt.
+
+        Schritt 1 (`backend/scripts/import_barbar_rage_powers.py`): 28
+        Kampfrauschkräfte des Kern-Barbaren, Text vom Projektinhaber im
+        Gespräch bereitgestellt (nicht zuerst von der Quelle gefetcht) —
+        anschließend wortgleich gegen die tatsächliche Klassenseite
+        gegengeprüft, keine Abweichung gefunden. Eigene
+        `BaseClassAbility`/`BaseClassOptionChoice`-Zeilen pro Kraft, *nicht*
+        mit Entfesselter Barbars gleichnamigen Kräften geteilt: ein
+        Textvergleich vor dem Import zeigte echte mechanische Abweichungen
+        zwischen Kern- und Entfesseltem Barbar bei mehreren gleichnamigen
+        Kräften (Erhöhte Schadensreduzierung +1/- vs. +2/-, Mächtiger Schlag
+        einmal pro Kampfrausch vs. einmal pro Tag, Wachsame Kampfhaltung/
+        Verteidigungshaltung als zwei getrennte Kräfte vs. eine kombinierte
+        ohne Fernkampf-Gegenstück) — Pathfinder Unchained hat mehrere
+        Kampfrauschkräfte unter gleichem Namen neu balanciert, daher wäre
+        Wiederverwendung von Entfesselter Barbars Zeilen faktisch falsch
+        gewesen, nicht nur redundant. Die generische „Kampfrauschkraft"-Slot-
+        Fähigkeit (Grants auf Stufe 2, 4, ... 20) wird von Entfesselter
+        Barbar per id wiederverwendet, da ihr Text klassenunabhängig ist
+        ("jeder weiteren geraden Klassenstufe als Barbar"). Kampfschrei ist
+        an Einschüchterndes Niederstarren gekoppelt (`requires_choice_id`,
+        Kern-Barbars eigene Zeile, nicht Entfesselter Barbars); Nachtsicht an
+        Dämmersicht, mit derselben bereits bekannten Einschränkung wie bei
+        Entfesselter Barbar (die Volksmerkmal-ODER-Verknüpfung ist nicht
+        ausdrückbar, nur der Kampfrauschkraft-Zweig wird erzwungen). Erhöhte
+        Schadensreduzierung/Schneller Schritt (bis zu 3× wählbar) haben
+        weiterhin nur je eine Choice-Zeile — Mehrfachauswahl bleibt
+        unmodelliert, gleiche Lücke wie bei Entfesselter Barbar. Sieben
+        Kräfte (Klarer Augenblick, Kraftrausch, Kraftvoller Schlag, Schneller
+        Schritt, Spontane Treffsicherheit, Verteidigungshaltung,
+        Zurücktreiben) existierten vorher unter keinem Namen im Katalog und
+        wurden neu angelegt; die übrigen 21 überschneiden sich nur namentlich
+        mit Entfesselter Barbars Liste (bewusst nicht geteilt, s. o.).
+
+        Schritt 2 (`backend/scripts/import_barbar.py`, direkt von der
+        Quellseite gefetcht): die restliche Klassenschale plus ein
+        Klassenfertigkeiten-Fix. `hit_dice`/`bab_progression`/
+        Rettungswürfe/`skill_points_base` waren bereits korrekt (gegen
+        „Tabelle: Barbar" verifiziert). `base_class_skills.json` fehlten 3
+        von 10 echten Klassenfertigkeiten (Akrobatik, Mit Tieren umgehen,
+        Wissen (Natur)) — bereits während der Entfesselter-Barbar-Runde als
+        Lücke notiert, aber damals bewusst nicht mitkorrigiert (unrelated
+        work); jetzt ergänzt. 11 neue `BaseClassAbility`-Zeilen mit
+        insgesamt 20 Grants: Umgang mit Waffen und Rüstungen, Schnelle
+        Bewegung, Kampfrausch (alle Stufe 1), Reflexbewegung (2),
+        Fallengespür (3/6/9/12/15/18, eine Katalogzeile mit sechs Grants,
+        gleiches Muster wie Schurkes Hinterhältiger Angriff), Verbesserte
+        Reflexbewegung (5), Schadensreduzierung (7/10/13/16/19, fünf
+        Grants), Stärkerer Kampfrausch (11), Unbeugsamer Wille (14),
+        Unermüdlicher Kampfrausch (17), Mächtiger Kampfrausch (20). Keine
+        dieser Zeilen teilt eine id mit Entfesselter Barbars gleichnamigen
+        Fähigkeiten (z. B. Kampfrausch: hier +4 ST/KO + 2 Willensbonus,
+        dort pauschal +2 Angriff/Schaden + temporäre TP pro TW — ein
+        fundamental anderer Mechanismus, keine Umformulierung; Fallengespür
+        heißt bei Entfesselter Barbar sogar anders, „Gefahreninstinkt").
+
+        **Bewusst nicht importiert:** „Ehemaliger Barbar" (Konsequenz bei
+        rechtschaffener Gesinnung — reiner Fließtext, keine stufengebundene
+        Fähigkeit, kein Gesinnungsfeld im Datenmodell, das es prüfen
+        könnte). Keine Berechnungslogik für die Zahlenwerte (Kampfrausch-
+        Boni, Schadensreduzierung-Stufen, Fallengespür-Skalierung), gleiche
+        Tiefe wie jede andere Klasse. Beide Skripte idempotent geprüft (Diff
+        stabil nach zweitem Lauf); alle 150 Backend-Tests grün nach dem
+        Import.

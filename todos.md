@@ -16,6 +16,34 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
 - [ ] **Lokalisierungs-/Übersetzungsansatz**: Noch nicht definiert (nur Anforderung: Deutsch Standard, Englisch zusätzlich).
 - [ ] **Qualitätskriterien** (Sicherheit, Zuverlässigkeit, Performance): Noch nicht festgelegt.
 
+## Beispielcharakter — Vollständigkeitslücken
+
+Beim Versuch, einen konkreten Level-12-Mensch/Barbar (Talente, Kampfrausch-
+kräfte, benannte Magie-Ausrüstung, frei eingegebene Attributswerte, zwei
+permanente aktive Effekte) über die App zu erstellen, wurden mehrere echte
+Lücken gefunden, die keiner bestehenden Slice-Zeile zugeordnet waren.
+Vollständige Analyse, jede Zeile mit Verweis auf die zuständige Slice bzw.
+den zuständigen Code, in `roadmap.md`s Abschnitt „Beispielcharakter
+(Referenz-Charakter für Vollständigkeitsprüfung)" — hier nur die
+Kurzfassung als Einstiegspunkt:
+
+- [ ] Talent-Sub-Wahl-Schema (welche Waffe/Fertigkeit ein Talent betrifft,
+      z. B. Waffenfokus → Zweihänder) — `roadmap.md`.
+- [ ] Waffenkatalog ohne Kampfwerte (kein Schema-Feld für Schaden/kritischen
+      Bereich/Waffentyp; mehrere Standardwaffen fehlen zusätzlich als
+      Katalogzeile) — `roadmap.md`.
+- [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
+      `roadmap.md`.
+- [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.
+- [ ] Freie Attributseingabe / höheres Punktekauf-Budget (aktuell fest auf
+      `{10, 15, 20, 25}` Punkte begrenzt) — `roadmap.md`.
+- [ ] Startgold/Vermögen nach Stufe (Wealth by Level) — `roadmap.md`.
+- [ ] Aktive Effekte für permanente Boni außerhalb von Ausrüstung — deckt
+      sich mit roadmap Slice 5 (Effects/Conditions/Time), komplett offen.
+- [x] Barbar — vollständig gegen `prd.5footstep.de` importiert (Kampfrausch,
+      Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
+      `todos_history.md`.
+
 ## Referenzdaten-Inhalte sind Platzhalter, keine geprüften Regeln
 
 Die konkreten Inhalte der Referenzdaten — Fertigkeitsnamen (`base_skills.json`),
@@ -39,8 +67,9 @@ Slice-Arbeit.
   Alle bisher gegen die Quelle geprüften und korrigierten Rassen/Klassen
   (Mensch, Halbling, Halb-Ork, Elf; Kämpfer inkl. Zwei-Waffen-Kämpfer/
   Schildkämpfer, Waldläufer, Magier, Hexenmeister, Schurke, Mystiker,
-  Kleriker, Barde, Entfesselter Barbar; diverse Nachträge zu Options-Gruppen/
-  Talentpools) sind archiviert in `todos_history.md`. Noch offen:
+  Kleriker, Barde, Entfesselter Barbar, Barbar; diverse Nachträge zu
+  Options-Gruppen/Talentpools) sind archiviert in `todos_history.md`. Noch
+  offen:
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):
@@ -55,7 +84,8 @@ Slice-Arbeit.
         | Mystiker (vormals Orakel) | 3 (bereits korrigiert, siehe oben) |
         | Kleriker | 3 (bereits korrigiert, siehe oben) |
         | Barde | 1 (bereits korrigiert, siehe oben) |
-        | Barbar, Druide, Mönch, Paladin | 0 |
+        | Barbar | 0, aber seit 2026-08-03 vollständig korrigiert (siehe oben) |
+        | Druide, Mönch, Paladin | 0 |
 
         Zusätzlich schon teilweise real hinterlegt (unabhängig von der
         Testnutzung): Zauber-Tabellen (`base_class_spells*.json`) für Magier/
@@ -69,11 +99,13 @@ Slice-Arbeit.
         volles GAB als Teilzeit-Zauberwirker divine-spontan, halbes GAB
         arkan-vorbereitet, halbes GAB arkan-spontan, 3/4 GAB
         fertigkeitsbasiert ohne Zauber, 3/4 GAB divine-vorbereitet mit
-        Domänen). Barbar/Barde/Druide/Mönch/Paladin haben aktuell keine oder
-        kaum Testabdeckung und sind — analog zu Zwerg/Gnom/Halbelf bei den
+        Domänen). Barde/Druide/Mönch/Paladin haben aktuell keine oder kaum
+        Testabdeckung und sind — analog zu Zwerg/Gnom/Halbelf bei den
         Rassen — gute Kandidaten, um sie beim nächsten Aufräumdurchgang als
         ungeprüftes Platzhaltermaterial zu entfernen, statt sie einzeln zu
-        verifizieren.
+        verifizieren. Barbar ist davon ausgenommen und inzwischen vollständig
+        korrigiert (siehe `todos_history.md`) — ein Löschen hätte jetzt echte,
+        sourced Daten verworfen statt geratenes Platzhaltermaterial.
 
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):
