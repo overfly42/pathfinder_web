@@ -19,6 +19,17 @@ def list_spells(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
     ]
 
 
+@router.get("/spell-schools")
+def list_spell_schools(db: Annotated[Session, Depends(get_db)]) -> list[str]:
+    """Distinct `BaseSpell.school` values, sorted — feeds the picker for
+    feats whose `BaseFeat.sub_choice_type` is "spell_school" (Zauberfokus,
+    Mächtiger Zauberfokus). School isn't its own catalog table (see
+    `BaseSpell.school`'s docstring), so this is the only place a "what
+    schools exist" list can come from."""
+    schools = db.scalars(select(BaseSpell.school).distinct()).all()
+    return sorted(schools)
+
+
 @router.get("/spells-by-class")
 def get_spells_by_class(db: Annotated[Session, Depends(get_db)]) -> dict[str, list[dict]]:
     """Replaces the old frontend-shaped `spells_by_class.json` (bare name

@@ -120,7 +120,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
         "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods),
-        "feats": _described(db, BaseFeat, character.feat_ids),
+        "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, character, level_counts_by_root_id),
         "raceAbilities": _build_race_abilities(db, character.race_id),
@@ -138,6 +138,55 @@ def _described(db: Session, model: type, ids: list[UUID]) -> list[dict]:
         return []
     rows = db.scalars(select(model).where(model.id.in_(ids))).all()
     return [{"key": str(row.id), "name": row.name, "description": row.description} for row in rows]
+
+
+def _build_feats(db: Session, character: Character) -> list[dict]:
+    """Like `_described`, but one row per `CharacterFeat` pick rather than
+    per distinct feat id — an open-choice feat (Waffenfokus, Fertigkeitsfokus,
+    Zauberfokus, ...; see `BaseFeat.sub_choice_type`) can legitimately be
+    taken more than once for different weapons/skills/schools, so `_described`'s
+    dedup-by-id would otherwise collapse those into a single row and drop the
+    sub-choice display entirely. The chosen weapon/skill/school is appended
+    to the feat's name for display (e.g. "Waffenfokus (Langschwert)") — there's
+    no separate structured field for it in the frontend's `Character` type."""
+    entries = [entry for level in character.levels for entry in level.feats]
+    if not entries:
+        return []
+
+    feats_by_id = {
+        feat.id: feat
+        for feat in db.scalars(select(BaseFeat).where(BaseFeat.id.in_({e.feat_id for e in entries}))).all()
+    }
+    weapon_ids = {e.chosen_weapon_id for e in entries if e.chosen_weapon_id is not None}
+    weapons_by_id = (
+        {item.id: item for item in db.scalars(select(BaseItem).where(BaseItem.id.in_(weapon_ids))).all()}
+        if weapon_ids
+        else {}
+    )
+    skill_ids = {e.chosen_skill_id for e in entries if e.chosen_skill_id is not None}
+    skills_by_id = (
+        {skill.id: skill for skill in db.scalars(select(BaseSkill).where(BaseSkill.id.in_(skill_ids))).all()}
+        if skill_ids
+        else {}
+    )
+
+    result = []
+    for entry in entries:
+        feat = feats_by_id.get(entry.feat_id)
+        if feat is None:
+            continue
+        sub_choice_label = None
+        if entry.chosen_weapon_id is not None:
+            weapon = weapons_by_id.get(entry.chosen_weapon_id)
+            sub_choice_label = weapon.name if weapon is not None else None
+        elif entry.chosen_skill_id is not None:
+            skill = skills_by_id.get(entry.chosen_skill_id)
+            sub_choice_label = skill.name if skill is not None else None
+        elif entry.chosen_spell_school is not None:
+            sub_choice_label = entry.chosen_spell_school
+        name = f"{feat.name} ({sub_choice_label})" if sub_choice_label else feat.name
+        result.append({"key": str(entry.id), "name": name, "description": feat.description})
+    return result
 
 
 def _build_skills(

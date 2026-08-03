@@ -32,10 +32,11 @@ export function useCreationOptions(): UseCreationOptionsResult {
       apiGet<Record<string, SpellDef[]>>('/api/spells-by-class'),
       apiGet<Record<number, number>>('/api/point-buy-costs'),
       apiGet<ItemCatalogEntry[]>('/api/items'),
+      apiGet<string[]>('/api/spell-schools'),
     ])
-      .then(([races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items]) => {
+      .then(([races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items, spellSchools]) => {
         if (!cancelled) {
-          setOptions({ races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items });
+          setOptions({ races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items, spellSchools });
         }
       })
       .catch((err: Error) => {

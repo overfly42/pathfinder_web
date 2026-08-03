@@ -27,8 +27,8 @@ den zuständigen Code, in `roadmap.md`s Abschnitt „Beispielcharakter
 (Referenz-Charakter für Vollständigkeitsprüfung)" — hier nur die
 Kurzfassung als Einstiegspunkt:
 
-- [ ] Talent-Sub-Wahl-Schema (welche Waffe/Fertigkeit ein Talent betrifft,
-      z. B. Waffenfokus → Zweihänder) — `roadmap.md`.
+- [x] Talent-Sub-Wahl-Schema (welche Waffe/Fertigkeit ein Talent betrifft,
+      z. B. Waffenfokus → Langschwert) — done, see `roadmap.md`.
 - [ ] Waffenkatalog ohne Kampfwerte (kein Schema-Feld für Schaden/kritischen
       Bereich/Waffentyp; mehrere Standardwaffen fehlen zusätzlich als
       Katalogzeile) — `roadmap.md`.

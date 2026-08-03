@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
-import { selectedRace, spellIdsForSubmission } from '../lib/creationCalculations';
+import { featSelectionsForSubmission, selectedRace, spellIdsForSubmission } from '../lib/creationCalculations';
 import { useCreationOptions } from '../hooks/useCreationOptions';
 import { useAppState } from '../state/AppStateContext';
 import { createInitialDraft } from '../lib/initialDraft';
@@ -87,6 +87,16 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte im Schritt „Attribute" ein Attribut für den freien Rassenbonus wählen.');
         return;
       }
+      const featById = new Map(opts.feats.map((f) => [f.id, f]));
+      const missingFeatSubChoice = draft.feats.some((id) => {
+        const feat = featById.get(id);
+        return feat?.subChoiceType && !draft.featSubChoices[id];
+      });
+      if (missingFeatSubChoice) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Talente" für jedes markierte Talent eine Wahl treffen (Waffe/Fertigkeit/Schule).');
+        return;
+      }
 
       setSubmitState('submitting');
       try {
@@ -105,7 +115,7 @@ export function CreationWizardPage() {
           flex_ability: draft.flexAbility,
           alt_traits: draft.altTraits,
           skill_ranks: draft.skillRanks,
-          feat_ids: draft.feats,
+          feats: featSelectionsForSubmission(draft, opts),
           trait_ids: draft.traits,
           spell_ids: spellIdsForSubmission(draft, opts),
           gear: draft.gear.map((item) => ({ item_id: item.itemId, quantity: item.qty })),

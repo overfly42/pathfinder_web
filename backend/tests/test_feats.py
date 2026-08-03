@@ -27,6 +27,14 @@ def test_list_feats_is_database_backed(client: TestClient, db_session: Session) 
 
     waffenfokus = next(f for f in feats if f["name"] == "Waffenfokus")
     assert waffenfokus["type"] == "combat"
+    assert waffenfokus["subChoiceType"] == "weapon"
 
     fertigkeitsfokus = next(f for f in feats if f["name"] == "Fertigkeitsfokus")
     assert fertigkeitsfokus["type"] == "general"
+    assert fertigkeitsfokus["subChoiceType"] == "skill"
+
+    zauberfokus = next(f for f in feats if f["name"] == "Zauberfokus")
+    assert zauberfokus["subChoiceType"] == "spell_school"
+
+    ausweichen = next(f for f in feats if f["name"] == "Ausweichen")
+    assert ausweichen["subChoiceType"] is None

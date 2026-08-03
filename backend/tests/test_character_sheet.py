@@ -15,6 +15,7 @@ from test_characters import (
     _create_user,
     _elf_race_id,
     _feat_id,
+    _feat_selection,
     _item_id,
     _skill_id,
     _trait_id,
@@ -37,7 +38,7 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
             race_id,
             db_session,
             skill_ranks={heimlichkeit_id: 1},
-            feat_ids=[ausweichen_id],
+            feats=[_feat_selection(ausweichen_id)],
             trait_ids=[reaktionsschnell_id],
             gear=[{"item_id": dolch_id, "quantity": 1}],
         ),
@@ -70,7 +71,7 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
     skill = next(s for s in body["skills"] if s["key"] == heimlichkeit_id)
     assert skill["label"] == "Heimlichkeit"
 
-    assert {f["key"] for f in body["feats"]} == {ausweichen_id}
+    assert {f["name"] for f in body["feats"]} == {"Ausweichen"}
     assert {t["key"] for t in body["traits"]} == {reaktionsschnell_id}
     assert any(r["name"] for r in body["raceAbilities"])
 

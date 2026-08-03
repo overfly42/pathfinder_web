@@ -29,6 +29,20 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     description: Mapped[str] = mapped_column(Text)
     type: Mapped[str] = mapped_column(String(64))
     prerequisite_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Declares which kind of one-off sub-choice this feat needs beyond just
+    # taking it (roadmap.md's "Talent-Sub-Wahl-Schema") — "weapon" (Waffenfokus,
+    # Mächtiger Waffenfokus, Waffenspezialisierung, Mächtige
+    # Waffenspezialisierung), "skill" (Fertigkeitsfokus), or "spell_school"
+    # (Zauberfokus, Mächtiger Zauberfokus). Same plain-string-tag convention as
+    # `type` — not an FK, since the choice's *target* table differs per value
+    # (base_items/base_skills/a bare BaseSpell.school string) rather than
+    # pointing at one shared catalog. Null means the feat is taken as-is, no
+    # further choice needed (the common case). The actual pick lives on
+    # `CharacterFeat`, one column per possible target; which one is populated
+    # is validated server-side (`routers/characters.py`) against this field,
+    # not enforced by the schema itself — same split as
+    # `BaseClassAbilityFeatOption.feat_type`/`feat_id`.
+    sub_choice_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
 
 
 class BaseFeatRequiredFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -129,15 +143,40 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """A feat granted at one specific `CharacterLevel` — same per-level audit
     shape as `CharacterSkillRank`, not a flat list on `Character` directly, so
     a future level-up (roadmap slice 7) can add new rows the same way it adds
-    new skill-rank rows. `(level_id, feat_id)` is unique to stop the same feat
-    being recorded twice at the same level by accident; a feat legitimately
-    taken more than once across a career (e.g. explicitly repeatable feats)
-    is still two rows, just at different levels."""
+    new skill-rank rows. `(level_id, feat_id, chosen_*)` is unique to stop the
+    same feat+sub-choice being recorded twice at the same level by accident,
+    while still allowing an open-choice feat (e.g. Waffenfokus) to be taken
+    more than once at the same level for two different targets (e.g.
+    Waffenfokus: Zweihänder and Waffenfokus: Langbogen both picked at 1st
+    level) — the plain `(level_id, feat_id)` shape this replaces couldn't
+    represent that at all. A feat legitimately taken more than once across a
+    career the old-fashioned way (different levels) is still two rows too,
+    just at different levels, same as before.
+
+    Exactly one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`
+    is set when `feat.sub_choice_type` is not null (matching that value), and
+    all three are null otherwise — see `BaseFeat.sub_choice_type`'s docstring
+    for why this isn't itself an FK to one shared table. Validated
+    server-side (`routers/characters.py`), not by a DB constraint: a CHECK
+    can't reach across to `base_feats` to compare against `sub_choice_type`."""
 
     __tablename__ = "character_feats"
-    __table_args__ = (UniqueConstraint("level_id", "feat_id"),)
+    __table_args__ = (
+        UniqueConstraint(
+            "level_id", "feat_id", "chosen_weapon_id", "chosen_skill_id", "chosen_spell_school"
+        ),
+    )
 
     level_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("character_levels.id"))
     feat_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"))
+    chosen_weapon_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_items.id"), nullable=True
+    )
+    chosen_skill_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_skills.id"), nullable=True
+    )
+    # Same plain-string convention as `BaseSpell.school` (not an FK — school
+    # isn't its own catalog table, see that column's docstring).
+    chosen_spell_school: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
     feat: Mapped["BaseFeat"] = relationship()

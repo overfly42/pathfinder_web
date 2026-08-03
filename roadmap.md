@@ -110,15 +110,31 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       Katalogzeile + Beschreibungstext, gleiche Tiefe wie jede andere
       Klasse. Archetypen über die bereits vorhandenen Kämpfer-Archetypen
       hinaus nicht angefasst (Barbar hat ohnehin keine archetype-Zeilen).
-- [ ] **Talent-Sub-Wahl-Schema** (welche Waffe/Fertigkeit ein Talent
-      betrifft, z. B. Waffenfokus → Zweihänder). `CharacterFeat` ist heute
-      nur `(level_id, feat_id)` — kein Platz für eine Sub-Wahl, anders als
-      Klassenfähigkeiten mit `option_choice_id`. Braucht ein neues,
-      Talent-eigenes Schema (nicht `BaseClassAbilityFeatOption`, das ist für
-      "welche Talente sind in einem Slot wählbar", nicht "welche Waffe
-      gehört zu diesem einen gewählten Talent"). Betrifft nicht nur
-      Waffenfokus — jedes Talent mit "wähle eine Waffe/Fertigkeit/Schule"
-      (Waffenspezialisierung, Fertigkeitsfokus, ...) hat dieselbe Lücke.
+- [x] **Talent-Sub-Wahl-Schema** — `BaseFeat.sub_choice_type` ("weapon"/
+      "skill"/"spell_school", same plain-tag convention as `BaseFeat.type`)
+      declares which kind of pick a feat needs; `CharacterFeat` gained
+      `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` (exactly one
+      set, validated server-side against the feat's own `sub_choice_type` in
+      `routers/characters.py`, not by a DB constraint — a CHECK can't reach
+      into `base_feats`). The unique constraint now covers the sub-choice
+      columns too, so an open-choice feat (Waffenfokus) can legitimately be
+      taken twice at the same level for two different weapons — the old
+      `(level_id, feat_id)` shape couldn't represent that at all. Tagged the
+      7 feats whose own description already names a choice: Waffenfokus,
+      Mächtiger Waffenfokus, Waffenspezialisierung, Mächtige
+      Waffenspezialisierung ("weapon"), Fertigkeitsfokus ("skill"),
+      Zauberfokus, Mächtiger Zauberfokus ("spell_school") — feats like
+      Verbesserter Kritischer Treffer/Umgang mit exotischen Waffen that
+      really do need a weapon pick per the real rules but whose seeded
+      description text doesn't say so were deliberately left untagged (see
+      todos.md's placeholder-content caveat) rather than guessed at. Added
+      `GET /api/spell-schools` (distinct `BaseSpell.school` values — school
+      still isn't its own catalog table) since Zauberfokus needed something
+      to pick from. `CharacterCreate`/`CharacterRead`'s `feat_ids: list[UUID]`
+      became `feats: list[FeatSelection]`; the creation wizard's
+      `FeatsStep.tsx` now shows a weapon/skill/school dropdown for a tagged
+      feat, and the character sheet/summary append the choice to the feat's
+      display name (e.g. "Waffenfokus (Langschwert)").
 - [ ] **Waffenkatalog ohne Kampfwerte.** `BaseItem` hat 16 Waffen-Zeilen
       (Name/Kategorie/Preis) seit slice 3/4, aber **kein** Schema-Feld für
       Schaden/kritischen Bereich/Waffentyp überhaupt (korrigiert eine

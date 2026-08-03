@@ -62,11 +62,17 @@ export interface SkillDef {
   ability: AbilityKey;
 }
 
+export type FeatSubChoiceType = 'weapon' | 'skill' | 'spell_school' | null;
+
 export interface FeatDef {
   id: string;
   name: string;
   description: string;
   type: string;
+  /** Which kind of one-off sub-choice this feat needs beyond just taking it
+   *  (e.g. Waffenfokus -> "weapon") — see `BaseFeat.sub_choice_type` on the
+   *  backend. `null` for the common case of a feat with no further choice. */
+  subChoiceType: FeatSubChoiceType;
 }
 
 export interface TraitDef {
@@ -114,4 +120,9 @@ export interface CreationOptions {
   spellsByClass: Record<string, SpellDef[]>;
   pointBuyCosts: Record<number, number>;
   items: ItemCatalogEntry[];
+  /** Distinct spell schools (`BaseSpell.school` values), sorted — feeds the
+   *  picker for feats whose `subChoiceType` is "spell_school" (Zauberfokus,
+   *  Mächtiger Zauberfokus). Not its own catalog table on the backend, see
+   *  `GET /api/spell-schools`. */
+  spellSchools: string[];
 }

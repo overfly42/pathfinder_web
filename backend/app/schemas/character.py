@@ -1,7 +1,7 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 from ..rules.point_buy import ABILITY_KEYS
 
@@ -37,6 +37,41 @@ class ClassSelection(BaseModel):
         if value < 1:
             raise ValueError("level must be at least 1")
         return value
+
+
+class FeatSelection(BaseModel):
+    """One feat pick, plus its sub-choice if `BaseFeat.sub_choice_type` calls
+    for one (roadmap.md's "Talent-Sub-Wahl-Schema") — a list rather than a
+    dict keyed by `feat_id` (contrast `skill_ranks`/`spell_ids`) so an
+    open-choice feat like Waffenfokus can legitimately appear more than once
+    in the same submission, once per distinct weapon/skill/school. Exactly
+    one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` may be
+    set; whether one is *required*, and which, depends on the referenced
+    feat's own `sub_choice_type` — that's catalog data, so it's checked
+    server-side (`routers/characters.py`), not here."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    feat_id: UUID
+    chosen_weapon_id: UUID | None = None
+    chosen_skill_id: UUID | None = None
+    chosen_spell_school: str | None = None
+
+    @field_validator("chosen_spell_school")
+    @classmethod
+    def chosen_spell_school_must_not_be_blank(cls, value: str | None) -> str | None:
+        if value is not None and not value.strip():
+            raise ValueError("chosen_spell_school must not be blank")
+        return value
+
+    @model_validator(mode="after")
+    def at_most_one_sub_choice(self) -> "FeatSelection":
+        chosen = [self.chosen_weapon_id, self.chosen_skill_id, self.chosen_spell_school]
+        if sum(1 for value in chosen if value is not None) > 1:
+            raise ValueError(
+                "a feat selection may set at most one of chosen_weapon_id/chosen_skill_id/chosen_spell_school"
+            )
+        return self
 
 
 class GearSelection(BaseModel):
@@ -80,25 +115,26 @@ class CharacterCreate(BaseModel):
     # see CharacterSkillRank's docstring for why creation doesn't split this
     # per level the way a later level-up will.
     skill_ranks: dict[str, int] = {}
-    # Chosen feat ids, capped server-side by the base progression plus any
-    # race/class bonus feat slots (see rules/feat_slots.py; mirrors the
-    # wizard's featMax in creationCalculations.ts). Collapsed onto the
-    # highest CharacterLevel row being created, same reasoning as skill_ranks.
-    feat_ids: list[UUID] = []
+    # Chosen feats (+ sub-choice, see FeatSelection), capped server-side by
+    # the base progression plus any race/class bonus feat slots (see
+    # rules/feat_slots.py; mirrors the wizard's featMax in
+    # creationCalculations.ts). Collapsed onto the highest CharacterLevel row
+    # being created, same reasoning as skill_ranks.
+    feats: list[FeatSelection] = []
     # Chosen trait ids (max 2, a flat PF1e-standard cap unrelated to
-    # race/class, unlike feat_ids) — collapsed onto the highest CharacterLevel
-    # row being created, same reasoning as feat_ids.
+    # race/class, unlike feats) — collapsed onto the highest CharacterLevel
+    # row being created, same reasoning as feats.
     trait_ids: list[UUID] = []
     # base_class_id (string, since UUID keys aren't valid JSON object keys) ->
     # chosen spell ids, for spontaneous/arcane-prepared classes only (see
     # rules/spells.py) — grade-0 spells are mandatory-but-implicit for
     # arcane-prepared classes (validated as present, not counted against the
     # budget). Collapsed onto the highest CharacterLevel row being created,
-    # same reasoning as skill_ranks/feat_ids.
+    # same reasoning as skill_ranks/feats.
     spell_ids: dict[str, list[UUID]] = {}
     # Starting gear picked from the real `base_items` catalog (roadmap slice
     # 3's "minimal starting gear" — descriptive only, no equip slots or AC
-    # computation yet, see CharacterGear). Unlike feat_ids/trait_ids/
+    # computation yet, see CharacterGear). Unlike feats/trait_ids/
     # spell_ids, not collapsed onto a CharacterLevel row: gear isn't gained
     # at a level, it's the character's current inventory (CharacterGear is
     # keyed by character_id directly), matching how slice 4's in-play
@@ -150,11 +186,23 @@ class CharacterCreate(BaseModel):
             raise ValueError("skill_ranks must not be negative")
         return value
 
-    @field_validator("feat_ids")
+    @field_validator("feats")
     @classmethod
-    def feat_ids_must_not_have_duplicates(cls, value: list[UUID]) -> list[UUID]:
-        if len(set(value)) != len(value):
-            raise ValueError("feat_ids must not contain duplicates")
+    def feats_must_not_have_duplicate_selections(cls, value: list[FeatSelection]) -> list[FeatSelection]:
+        """Rejects the exact same feat+sub-choice twice — not just the same
+        `feat_id` twice, since an open-choice feat (e.g. Waffenfokus) may
+        legitimately be picked more than once for different weapons."""
+        seen = set()
+        for selection in value:
+            key = (
+                selection.feat_id,
+                selection.chosen_weapon_id,
+                selection.chosen_skill_id,
+                selection.chosen_spell_school,
+            )
+            if key in seen:
+                raise ValueError("feats must not contain the same feat with the same sub-choice more than once")
+            seen.add(key)
         return value
 
     @field_validator("trait_ids")
@@ -250,7 +298,7 @@ class CharacterRead(BaseModel):
     flex_ability: str | None
     alt_traits: list[str]
     skill_ranks: dict[str, int]
-    feat_ids: list[UUID]
+    feats: list[FeatSelection]
     trait_ids: list[UUID]
     spell_ids: dict[str, list[UUID]]
     gear: list[GearSelection]

@@ -165,8 +165,29 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def feat_ids(self) -> list[uuid.UUID]:
         """Every feat granted across all levels, flattened — never stored as
-        its own list (CLAUDE.md), same reasoning as `skill_ranks`."""
+        its own list (CLAUDE.md), same reasoning as `skill_ranks`. Bare ids
+        only, for callers that don't care about a feat's sub-choice (e.g.
+        `sheet.py`'s catalog join) — see `feats` for the full pick including
+        `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`."""
         return [entry.feat_id for level in self.levels for entry in level.feats]
+
+    @property
+    def feats(self) -> list[dict]:
+        """Every feat pick across all levels, flattened, each paired with its
+        sub-choice if any (roadmap.md's "Talent-Sub-Wahl-Schema") — same
+        never-stored-as-its-own-list reasoning as `feat_ids`, just the richer
+        shape `CharacterRead`/`CharacterCreate.feats` (schemas/character.py)
+        need."""
+        return [
+            {
+                "feat_id": entry.feat_id,
+                "chosen_weapon_id": entry.chosen_weapon_id,
+                "chosen_skill_id": entry.chosen_skill_id,
+                "chosen_spell_school": entry.chosen_spell_school,
+            }
+            for level in self.levels
+            for entry in level.feats
+        ]
 
     @property
     def trait_ids(self) -> list[uuid.UUID]:

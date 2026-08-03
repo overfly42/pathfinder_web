@@ -62,6 +62,27 @@ export function featMax(draft: CreationDraft, options: CreationOptions): number 
   return base + raceBonus + classBonus;
 }
 
+/** Builds `CharacterCreate.feats` (backend's `FeatSelection` list) from
+ *  `draft.feats`/`draft.featSubChoices` — pairs each chosen feat with its
+ *  sub-choice (roadmap.md's "Talent-Sub-Wahl-Schema"), keyed by the feat's
+ *  own `subChoiceType` so the right field gets populated. A feat needing a
+ *  sub-choice that hasn't been picked yet (`FeatsStep.tsx`'s dropdown still
+ *  empty) is submitted with none set — the backend rejects that with a 422,
+ *  same as any other incomplete required field. */
+export function featSelectionsForSubmission(draft: CreationDraft, options: CreationOptions) {
+  const featById = new Map(options.feats.map((f) => [f.id, f]));
+  return draft.feats.map((featId) => {
+    const feat = featById.get(featId);
+    const subChoice = draft.featSubChoices[featId];
+    return {
+      feat_id: featId,
+      chosen_weapon_id: feat?.subChoiceType === 'weapon' ? subChoice ?? null : null,
+      chosen_skill_id: feat?.subChoiceType === 'skill' ? subChoice ?? null : null,
+      chosen_spell_school: feat?.subChoiceType === 'spell_school' ? subChoice ?? null : null,
+    };
+  });
+}
+
 export function classDef(options: CreationOptions, className: string) {
   return options.classes.find((c) => c.name === className);
 }

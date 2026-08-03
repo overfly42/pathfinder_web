@@ -88,7 +88,8 @@
     "name": "Waffenfokus",
     "description": "Du bist besonders geübt im Umgang mit einer bestimmten Waffe. Du erhältst +1 auf Angriffswürfe mit der gewählten Waffe.",
     "type": "combat",
-    "prerequisite_text": "Umgang mit gewählter Waffe, GAB +1"
+    "prerequisite_text": "Umgang mit gewählter Waffe, GAB +1",
+    "sub_choice_type": "weapon"
   },
   {
     "id": "2249f151-0809-4c55-80cc-76920111782e",
@@ -109,7 +110,8 @@
     "name": "Fertigkeitsfokus",
     "description": "Du bist auf eine bestimmte Fertigkeit spezialisiert. Du erhältst +3 auf Proben mit der gewählten Fertigkeit; hast du bereits 10 oder mehr Ränge in dieser Fertigkeit, erhöht sich der Bonus auf +6.",
     "type": "general",
-    "prerequisite_text": null
+    "prerequisite_text": null,
+    "sub_choice_type": "skill"
   },
   {
     "id": "c6d6dddb-6d0f-52cc-b4bb-beac30ea5809",
@@ -1138,7 +1140,8 @@
     "name": "Mächtige Waffenspezialisierung",
     "description": "Weiterer Schadensbonus von +2 für gewählter Waffe",
     "type": "combat",
-    "prerequisite_text": "Umgang mit gewählter Waffe,  Mächtiger Waffenfokus mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Waffenspezialisierung mit gewählter Waffe,  Kämpfer Stufe 12."
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Mächtiger Waffenfokus mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Waffenspezialisierung mit gewählter Waffe,  Kämpfer Stufe 12.",
+    "sub_choice_type": "weapon"
   },
   {
     "id": "5255ce72-ff2a-5afe-8665-aa4ecee5c62c",
@@ -1187,14 +1190,16 @@
     "name": "Mächtiger Waffenfokus",
     "description": "Weiterer Angriffsbonus von +1 für gewählte Waffe",
     "type": "combat",
-    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Kämpfer Stufe 8."
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe,  Kämpfer Stufe 8.",
+    "sub_choice_type": "weapon"
   },
   {
     "id": "c2491c73-5931-54d1-968e-2dad0c4243d0",
     "name": "Mächtiger Zauberfokus",
     "description": "Weiterer Bonus von +1 auf SG der Rettungswürfe gegen eine Zauberschule",
     "type": "general",
-    "prerequisite_text": "Zauberfokus"
+    "prerequisite_text": "Zauberfokus",
+    "sub_choice_type": "spell_school"
   },
   {
     "id": "5172a54a-b97d-5912-a96d-ba9c02417f63",
@@ -1964,7 +1969,8 @@
     "name": "Waffenspezialisierung",
     "description": "Schadensbonus von +2 für gewählte Waffe",
     "type": "combat",
-    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe, KÄM 4"
+    "prerequisite_text": "Umgang mit gewählter Waffe,  Waffenfokus mit gewählter Waffe, KÄM 4",
+    "sub_choice_type": "weapon"
   },
   {
     "id": "80a28ad8-7c02-5be7-a8a0-73c3c3a6015c",
@@ -2125,7 +2131,8 @@
     "name": "Zauberfokus",
     "description": "Bonus von +1 auf SG der Rettungswürfe gegen eine Zauberschule",
     "type": "general",
-    "prerequisite_text": null
+    "prerequisite_text": null,
+    "sub_choice_type": "spell_school"
   },
   {
     "id": "2c37ee40-e00c-5a3d-9c69-caa0e9c9ea04",

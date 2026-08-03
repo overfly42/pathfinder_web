@@ -62,6 +62,13 @@ def _feat_id(client: TestClient, db_session: Session, name: str) -> str:
     return next(f["id"] for f in feats if f["name"] == name)
 
 
+def _feat_selection(feat_id: str, **sub_choice) -> dict:
+    """Builds one `CharacterCreate.feats` entry (`FeatSelection`) — `sub_choice`
+    is `chosen_weapon_id=...`/`chosen_skill_id=...`/`chosen_spell_school=...`
+    for feats whose `BaseFeat.sub_choice_type` requires one, omitted otherwise."""
+    return {"feat_id": feat_id, **sub_choice}
+
+
 def _trait_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_traits(db_session)
     traits = client.get("/api/traits").json()
@@ -674,12 +681,12 @@ def test_create_character_persists_feats_on_highest_level(client: TestClient, db
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 3}],
-            feat_ids=[ausweichen_id, kampfreflexe_id],
+            feats=[_feat_selection(ausweichen_id), _feat_selection(kampfreflexe_id)],
         ),
     )
     assert response.status_code == 201
     body = response.json()
-    assert set(body["feat_ids"]) == {ausweichen_id, kampfreflexe_id}
+    assert {f["feat_id"] for f in body["feats"]} == {ausweichen_id, kampfreflexe_id}
 
     character = db_session.get(Character, body["id"])
     highest_level = max(character.levels, key=lambda level: level.level)
@@ -690,10 +697,11 @@ def test_create_character_persists_feats_on_highest_level(client: TestClient, db
 def test_create_character_feats_exceeding_level_cap_are_rejected(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    feat_ids = [
-        _feat_id(client, db_session, name)
-        for name in ["Ausweichen", "Kampfreflexe", "Waffenfokus"]
-    ]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    feats = [
+        _feat_selection(_feat_id(client, db_session, name))
+        for name in ["Ausweichen", "Kampfreflexe"]
+    ] + [_feat_selection(_feat_id(client, db_session, "Waffenfokus"), chosen_weapon_id=langschwert_id)]
 
     # Elf (no race bonus feat) Waldläufer (no class bonus feats) at level 1 ->
     # featMax = base_feat_count(1) = 1, so three feats is over budget.
@@ -704,7 +712,7 @@ def test_create_character_feats_exceeding_level_cap_are_rejected(client: TestCli
             race_id,
             db_session,
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            feat_ids=feat_ids,
+            feats=feats,
         ),
     )
     assert response.status_code == 422
@@ -713,7 +721,8 @@ def test_create_character_feats_exceeding_level_cap_are_rejected(client: TestCli
 def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
-    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    feats = [_feat_selection(_feat_id(client, db_session, name)) for name in ["Ausweichen", "Kampfreflexe"]]
 
     # Human grants a bonus feat at 1st level ("Bonustalent"): base_feat_count(1)
     # + 1 = 2, so two feats fit even though the base progression alone is 1.
@@ -725,7 +734,7 @@ def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient,
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            feat_ids=feat_ids,
+            feats=feats,
         ),
     )
     assert response.status_code == 201
@@ -739,7 +748,7 @@ def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient,
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            feat_ids=feat_ids + [third_feat_id],
+            feats=feats + [_feat_selection(third_feat_id, chosen_weapon_id=langschwert_id)],
         ),
     )
     assert response.status_code == 422
@@ -748,7 +757,8 @@ def test_create_character_feat_max_includes_human_bonus_feat(client: TestClient,
 def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    feat_ids = [_feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe"]]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    feats = [_feat_selection(_feat_id(client, db_session, name)) for name in ["Ausweichen", "Kampfreflexe"]]
 
     # Elf (no race bonus) Kämpfer at level 1: base_feat_count(1) = 1 +
     # class_bonus_feat_slot_count (Kämpfer's 1st-level bonus combat feat
@@ -760,7 +770,7 @@ def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClie
             race_id,
             db_session,
             classes=[{"class_name": "Kämpfer", "level": 1}],
-            feat_ids=feat_ids,
+            feats=feats,
         ),
     )
     assert response.status_code == 201
@@ -773,7 +783,7 @@ def test_create_character_feat_max_includes_fighter_bonus_feats(client: TestClie
             race_id,
             db_session,
             classes=[{"class_name": "Kämpfer", "level": 1}],
-            feat_ids=feat_ids + [third_feat_id],
+            feats=feats + [_feat_selection(third_feat_id, chosen_weapon_id=langschwert_id)],
         ),
     )
     assert response.status_code == 422
@@ -784,9 +794,10 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
 ) -> None:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
-    feat_ids = [
-        _feat_id(client, db_session, name) for name in ["Ausweichen", "Kampfreflexe", "Waffenfokus"]
-    ]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    feats = [
+        _feat_selection(_feat_id(client, db_session, name)) for name in ["Ausweichen", "Kampfreflexe"]
+    ] + [_feat_selection(_feat_id(client, db_session, "Waffenfokus"), chosen_weapon_id=langschwert_id)]
 
     response = client.post(
         "/api/characters",
@@ -796,11 +807,11 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Kämpfer", "level": 1}],
-            feat_ids=feat_ids,
+            feats=feats,
         ),
     )
     assert response.status_code == 201
-    assert set(response.json()["feat_ids"]) == set(feat_ids)
+    assert {f["feat_id"] for f in response.json()["feats"]} == {selection["feat_id"] for selection in feats}
 
     fourth_feat_id = _feat_id(client, db_session, "Kernschuss")
     response = client.post(
@@ -811,7 +822,7 @@ def test_create_character_feat_max_for_human_fighter_at_level_1_is_three(
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Kämpfer", "level": 1}],
-            feat_ids=feat_ids + [fourth_feat_id],
+            feats=feats + [_feat_selection(fourth_feat_id)],
         ),
     )
     assert response.status_code == 422
@@ -828,7 +839,7 @@ def test_create_character_with_unknown_feat_id_is_rejected(client: TestClient, d
             race_id,
             db_session,
             flex_ability="ST",
-            feat_ids=["00000000-0000-0000-0000-000000000000"],
+            feats=[_feat_selection("00000000-0000-0000-0000-000000000000")],
         ),
     )
     assert response.status_code == 422
@@ -846,10 +857,130 @@ def test_create_character_with_duplicate_feat_ids_is_rejected(client: TestClient
             race_id,
             db_session,
             flex_ability="ST",
-            feat_ids=[ausweichen_id, ausweichen_id],
+            feats=[_feat_selection(ausweichen_id), _feat_selection(ausweichen_id)],
         ),
     )
     assert response.status_code == 422
+
+
+def test_create_character_allows_the_same_open_choice_feat_twice_with_different_weapons(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    waffenfokus_id = _feat_id(client, db_session, "Waffenfokus")
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    kurzschwert_id = _item_id(client, db_session, "Kurzschwert")
+
+    # Human at level 1 gets base_feat_count(1)=1 + bonus feat = 2 slots, so
+    # both Waffenfokus picks fit even though it's the same feat both times.
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[
+                _feat_selection(waffenfokus_id, chosen_weapon_id=langschwert_id),
+                _feat_selection(waffenfokus_id, chosen_weapon_id=kurzschwert_id),
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert {f["chosen_weapon_id"] for f in body["feats"]} == {langschwert_id, kurzschwert_id}
+
+
+def test_create_character_rejects_weapon_focus_without_a_weapon(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    waffenfokus_id = _feat_id(client, db_session, "Waffenfokus")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(waffenfokus_id)],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_weapon_focus_with_a_non_weapon_item(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    waffenfokus_id = _feat_id(client, db_session, "Waffenfokus")
+    non_weapon_id = _item_id(client, db_session, "Fackel")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(waffenfokus_id, chosen_weapon_id=non_weapon_id)],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_a_sub_choice_on_a_feat_that_does_not_take_one(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    ausweichen_id = _feat_id(client, db_session, "Ausweichen")
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(ausweichen_id, chosen_weapon_id=langschwert_id)],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_skill_focus_and_spell_focus_sub_choices(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    fertigkeitsfokus_id = _feat_id(client, db_session, "Fertigkeitsfokus")
+    zauberfokus_id = _feat_id(client, db_session, "Zauberfokus")
+    heimlichkeit_id = _skill_id(client, db_session, "Heimlichkeit")
+    seed_spells(db_session)
+    schools = client.get("/api/spell-schools").json()
+    school = schools[0]
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 3}],
+            feats=[
+                _feat_selection(fertigkeitsfokus_id, chosen_skill_id=heimlichkeit_id),
+                _feat_selection(zauberfokus_id, chosen_spell_school=school),
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    by_feat_id = {f["feat_id"]: f for f in body["feats"]}
+    assert by_feat_id[fertigkeitsfokus_id]["chosen_skill_id"] == heimlichkeit_id
+    assert by_feat_id[zauberfokus_id]["chosen_spell_school"] == school
 
 
 def test_create_character_persists_traits_on_highest_level(client: TestClient, db_session: Session) -> None:

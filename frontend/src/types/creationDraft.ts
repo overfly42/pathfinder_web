@@ -38,6 +38,12 @@ export interface CreationDraft {
   skillRanks: Record<string, number>;
   /** Chosen feat ids (BaseFeat.id), not names. */
   feats: string[];
+  /** feat_id -> the chosen weapon/skill id or spell school string, for feats
+   *  whose `FeatDef.subChoiceType` isn't null (Waffenfokus -> a weapon id,
+   *  Fertigkeitsfokus -> a skill id, Zauberfokus -> a spell school string) —
+   *  see `FeatsStep.tsx`. Only ever holds entries for feats currently in
+   *  `feats` that need one. */
+  featSubChoices: Record<string, string>;
   traits: string[];
   /** spellSelections: base_class_id -> chosen spell ids (grade-0 spells for
    *  arcane-prepared classes are mandatory-but-implicit, not stored here —

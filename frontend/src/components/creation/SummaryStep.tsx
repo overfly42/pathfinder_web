@@ -29,8 +29,29 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
   const gearValue = gearTotalValue(draft.gear);
 
   const skillLines = options.skills.filter((s) => (draft.skillRanks[s.id] || 0) > 0);
-  const featNameById = new Map(options.feats.map((f) => [f.id, f.name]));
+  const featById = new Map(options.feats.map((f) => [f.id, f]));
   const traitNameById = new Map(options.traits.map((t) => [t.id, t.name]));
+  const itemNameById = new Map(options.items.map((i) => [i.id, i.name]));
+  const skillNameById = new Map(options.skills.map((s) => [s.id, s.name]));
+
+  // Appends the chosen weapon/skill/school to a feat's display name (e.g.
+  // "Waffenfokus (Langschwert)") — same formatting as the real character
+  // sheet's build_character_sheet (backend/app/sheet.py).
+  function featLabel(featId: string): string {
+    const feat = featById.get(featId);
+    if (!feat) return featId;
+    const subChoice = draft.featSubChoices[featId];
+    if (!subChoice) return feat.name;
+    const label =
+      feat.subChoiceType === 'weapon'
+        ? itemNameById.get(subChoice)
+        : feat.subChoiceType === 'skill'
+          ? skillNameById.get(subChoice)
+          : feat.subChoiceType === 'spell_school'
+            ? subChoice
+            : undefined;
+    return label ? `${feat.name} (${label})` : feat.name;
+  }
 
   const optionLines: { label: string; value: string }[] = [];
   for (const row of draft.classRows) {
@@ -134,7 +155,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
             {draft.feats.length === 0 ? (
               <span className="selected-empty">Keine Talente gewählt.</span>
             ) : (
-              draft.feats.map((id) => <span className="chip active" key={id}>{featNameById.get(id) ?? id}</span>)
+              draft.feats.map((id) => <span className="chip active" key={id}>{featLabel(id)}</span>)
             )}
           </div>
         </div>

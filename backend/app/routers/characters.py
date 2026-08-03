@@ -17,6 +17,7 @@ from ..models import (
     BaseItem,
     BaseRace,
     BaseSkill,
+    BaseSpell,
     BaseTrait,
     Character,
     CharacterClass,
@@ -41,6 +42,7 @@ from ..schemas.character import (
     CharacterRead,
     CharacterUpdate,
     ClassSelection,
+    FeatSelection,
     GearSelection,
     GearUpdate,
     SlotUpdate,
@@ -118,6 +120,41 @@ def _feat_max(
     max_feats += class_bonus_feat_slot_count(db, classes)
 
     return max_feats
+
+
+def _validate_feat_sub_choice(
+    db: Session, feat: BaseFeat, selection: FeatSelection, known_spell_schools: set[str]
+) -> None:
+    """Enforces `BaseFeat.sub_choice_type` against one submitted
+    `FeatSelection` (roadmap.md's "Talent-Sub-Wahl-Schema") — which of
+    `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` must be set,
+    and what it must resolve against, depends on the feat itself, so this
+    can't live in the schema layer (`FeatSelection.at_most_one_sub_choice`
+    only checks that at most one is set at all, not which one is required)."""
+    sub_choice_type = feat.sub_choice_type
+    if sub_choice_type is None:
+        if selection.chosen_weapon_id or selection.chosen_skill_id or selection.chosen_spell_school:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' does not take a sub-choice")
+        return
+
+    if sub_choice_type == "weapon":
+        if selection.chosen_weapon_id is None:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_weapon_id")
+        weapon = db.get(BaseItem, selection.chosen_weapon_id)
+        if weapon is None or weapon.category != "weapon":
+            raise HTTPException(status_code=422, detail=f"chosen_weapon_id for '{feat.name}' is not a known weapon")
+    elif sub_choice_type == "skill":
+        if selection.chosen_skill_id is None:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_skill_id")
+        if db.get(BaseSkill, selection.chosen_skill_id) is None:
+            raise HTTPException(status_code=422, detail=f"chosen_skill_id for '{feat.name}' is not a known skill")
+    elif sub_choice_type == "spell_school":
+        if selection.chosen_spell_school is None:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_spell_school")
+        if selection.chosen_spell_school not in known_spell_schools:
+            raise HTTPException(
+                status_code=422, detail=f"chosen_spell_school for '{feat.name}' is not a known spell school"
+            )
 
 
 def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]]) -> None:
@@ -243,14 +280,20 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
-    if body.feat_ids:
+    if body.feats:
         max_feats = _feat_max(db, body.race_id, body.classes, seen_replaced_ability_ids)
-        if len(body.feat_ids) > max_feats:
+        if len(body.feats) > max_feats:
             raise HTTPException(status_code=422, detail="Too many feats chosen for character level")
-        valid_feat_ids = set(db.scalars(select(BaseFeat.id)).all())
-        for feat_id in body.feat_ids:
-            if feat_id not in valid_feat_ids:
-                raise HTTPException(status_code=422, detail=f"Unknown feat id '{feat_id}'")
+        selected_feat_ids = {selection.feat_id for selection in body.feats}
+        feats_by_id = {
+            feat.id: feat for feat in db.scalars(select(BaseFeat).where(BaseFeat.id.in_(selected_feat_ids))).all()
+        }
+        known_spell_schools = set(db.scalars(select(BaseSpell.school).distinct()).all())
+        for selection in body.feats:
+            feat = feats_by_id.get(selection.feat_id)
+            if feat is None:
+                raise HTTPException(status_code=422, detail=f"Unknown feat id '{selection.feat_id}'")
+            _validate_feat_sub_choice(db, feat, selection, known_spell_schools)
 
     if body.trait_ids:
         traits_by_id = {
@@ -406,8 +449,15 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         for skill_id_str, ranks in body.skill_ranks.items():
             if ranks > 0:
                 last_level_row.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=ranks))
-        for feat_id in body.feat_ids:
-            last_level_row.feats.append(CharacterFeat(feat_id=feat_id))
+        for selection in body.feats:
+            last_level_row.feats.append(
+                CharacterFeat(
+                    feat_id=selection.feat_id,
+                    chosen_weapon_id=selection.chosen_weapon_id,
+                    chosen_skill_id=selection.chosen_skill_id,
+                    chosen_spell_school=selection.chosen_spell_school,
+                )
+            )
         for trait_id in body.trait_ids:
             last_level_row.traits.append(CharacterTrait(trait_id=trait_id))
         for base_class_id_str, spell_ids in body.spell_ids.items():
