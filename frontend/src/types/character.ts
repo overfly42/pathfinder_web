@@ -60,6 +60,18 @@ export interface GearItem {
   properties?: string[];
   /** Named catalog abilities (e.g. "Flammend") resolved from BaseWeaponSpecialAbility. */
   specialAbilities?: GearSpecialAbility[];
+  /** "permanent" | "activatable" — only set for wondrous/ring/wand items. */
+  activation?: string;
+  /** Wand-style depleting charge counter; never resets. Present only when the item has BaseItem.maxCharges. */
+  chargesRemaining?: number | null;
+  maxCharges?: number;
+  /** "N-mal pro Tag" counter; reset by POST .../rest. Present only when the item has BaseItem.usesPerDay. */
+  usesRemainingToday?: number | null;
+  usesPerDay?: number;
+  /** On/off state for unlimited-use "activatable" items whose effect is toggled, not consumed. */
+  isActive?: boolean;
+  /** Spell stored in a wand instance (PATCH .../gear/{item_id} with stored_spell_id). */
+  storedSpell?: string;
 }
 
 export interface EquipmentSlotOption {

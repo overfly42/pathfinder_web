@@ -50,7 +50,7 @@ from .models import (
 )
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
-from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS
+from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.modifiers import Modifier, stack
 from .rules.speed import race_speed
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
@@ -58,6 +58,44 @@ from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
 SAVE_LABELS = {"fort": "Zähigkeit", "ref": "Reflex", "will": "Willen"}
+
+# BaseItem.granted_ability's English code -> the sheet/Character's own
+# German ability-score key (roadmap.md's "Wondrous-Item-Katalog mit echter
+# Attributsboni-Wirkung", decided 2026-08-04).
+ABILITY_CODE_TO_KEY = {
+    "strength": "ST",
+    "dexterity": "GE",
+    "constitution": "KO",
+    "intelligence": "IN",
+    "wisdom": "WE",
+    "charisma": "CH",
+}
+
+
+def _gear_ability_bonuses(db: Session, character: Character) -> dict[str, int]:
+    """Enhancement bonuses to ability scores from equipped wondrous items
+    (e.g. a "Gürtel der großen Konstitution +2" adds 2 to KO while
+    equipped) — only the `BaseItem.granted_ability`/`ability_bonus` subset
+    is structured this way, see that catalog's docstring for why the rest
+    stays freetext. Only *equipped* gear counts (`equipped_slot` set), same
+    as `_build_equipment`'s AC logic; `stack()` applied per ability in case
+    two equipped items ever grant the same one (same-type bonuses don't
+    stack in PF1e)."""
+    equipped_item_ids = [g.item_id for g in character.gear if g.equipped_slot]
+    if not equipped_item_ids:
+        return {}
+    items = db.scalars(
+        select(BaseItem).where(BaseItem.id.in_(equipped_item_ids), BaseItem.granted_ability.is_not(None))
+    ).all()
+    modifiers_by_key: dict[str, list[Modifier]] = {}
+    for item in items:
+        key = ABILITY_CODE_TO_KEY.get(item.granted_ability)
+        if key is None:
+            continue
+        modifiers_by_key.setdefault(key, []).append(
+            Modifier(source=item.name, type="enhancement", value=item.ability_bonus or 0)
+        )
+    return {key: stack(mods) for key, mods in modifiers_by_key.items()}
 
 
 def _fmt(mod: int) -> str:
@@ -73,6 +111,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
 
     race_mods = race_ability_score_mods(db, character.race_id)
     effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
+    for key, bonus in _gear_ability_bonuses(db, character).items():
+        effective_scores[key] = effective_scores.get(key, 0) + bonus
     ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
 
     total_level = character.level
@@ -345,6 +385,12 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
         if ability_ids
         else {}
     )
+    spell_ids = {g.stored_spell_id for g in character.gear if g.stored_spell_id}
+    spells = (
+        {spell.id: spell for spell in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(spell_ids))).all()}
+        if spell_ids
+        else {}
+    )
     result = []
     for gear_row in character.gear:
         item = items.get(gear_row.item_id)
@@ -371,6 +417,24 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
         ]
         if special_abilities:
             entry["specialAbilities"] = special_abilities
+        # Usage/charge state (roadmap.md's "Wondrous-Item-Katalog mit echter
+        # Attributsboni-Wirkung", decided 2026-08-04) — `chargesRemaining`/
+        # `usesRemainingToday` only appear when the catalog item actually has
+        # that kind of counter; `isActive` only for "aktivierbar" items.
+        if item.activation is not None:
+            entry["activation"] = item.activation
+        if item.max_charges is not None:
+            entry["chargesRemaining"] = gear_row.charges_remaining
+            entry["maxCharges"] = item.max_charges
+        if item.uses_per_day is not None:
+            entry["usesRemainingToday"] = gear_row.uses_remaining_today
+            entry["usesPerDay"] = item.uses_per_day
+        if item.activation == "activatable":
+            entry["isActive"] = gear_row.is_active
+        if gear_row.stored_spell_id is not None:
+            spell = spells.get(gear_row.stored_spell_id)
+            if spell is not None:
+                entry["storedSpell"] = spell.name
         result.append(entry)
     return result
 
@@ -403,22 +467,30 @@ def _build_equipment(db: Session, character: Character, dex_mod: int) -> tuple[i
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
     armor_class = 10 + capped_dex_mod + stack(modifiers)
 
-    owned_by_category: dict[str, list[BaseItem]] = {}
+    # Keyed by (category, BaseItem.slot) rather than category alone — several
+    # paperdoll slots share category "wondrous"/"ring" (roadmap.md's
+    # "Wondrous-Item-Katalog mit echter Attributsboni-Wirkung", decided
+    # 2026-08-04), so a Gürtel-item must not show up as an option for the
+    # Hals slot too.
+    owned_by_category_slot: dict[tuple[str, str | None], list[BaseItem]] = {}
     for gear_row in character.gear:
         item = items.get(gear_row.item_id)
         if item is not None:
-            owned_by_category.setdefault(item.category, []).append(item)
+            owned_by_category_slot.setdefault((item.category, item.slot), []).append(item)
 
     equipment_slots = []
     for slot_def in SLOT_DEFINITIONS:
         required_category = SLOT_CATEGORY.get(slot_def["key"])
+        required_item_slot = SLOT_TO_ITEM_SLOT.get(slot_def["key"])
         options: list[dict] = []
         selected = ""
         if required_category is not None:
-            options = [
-                {"value": str(candidate.id), "label": candidate.name}
-                for candidate in owned_by_category.get(required_category, [])
-            ]
+            candidates = (
+                owned_by_category_slot.get((required_category, required_item_slot), [])
+                if required_item_slot is not None
+                else [item for (cat, _), items_ in owned_by_category_slot.items() if cat == required_category for item in items_]
+            )
+            options = [{"value": str(candidate.id), "label": candidate.name} for candidate in candidates]
             equipped = gear_by_slot.get(slot_def["key"])
             if equipped is not None:
                 selected = str(equipped.item_id)

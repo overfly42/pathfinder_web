@@ -33,7 +33,7 @@ from ..models import (
     CharacterTrait,
     User,
 )
-from ..rules.equipment_slots import SLOT_CATEGORY
+from ..rules.equipment_slots import SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
@@ -565,7 +565,17 @@ def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Dep
     if existing is not None:
         existing.quantity += body.quantity
     else:
-        character.gear.append(CharacterGear(item_id=body.item_id, quantity=body.quantity))
+        # New instance starts "full" — matches roadmap.md's "Wondrous-Item-
+        # Katalog" decision that the catalog only declares the maximum,
+        # per-instance counters are `CharacterGear` state.
+        character.gear.append(
+            CharacterGear(
+                item_id=body.item_id,
+                quantity=body.quantity,
+                charges_remaining=item.max_charges,
+                uses_remaining_today=item.uses_per_day,
+            )
+        )
     db.commit()
     db.refresh(character)
     return character
@@ -598,6 +608,97 @@ def update_gear(
         if unknown_ids:
             raise HTTPException(status_code=422, detail=f"Unknown special_ability_ids: {sorted(map(str, unknown_ids))}")
         gear_row.special_abilities = [CharacterGearSpecialAbility(ability_id=ability_id) for ability_id in body.special_ability_ids]
+    if body.stored_spell_id is not None:
+        item = db.get(BaseItem, item_id)
+        if item is None or item.category != "wand":
+            raise HTTPException(status_code=422, detail="stored_spell_id is only valid for a wand")
+        if db.get(BaseSpell, body.stored_spell_id) is None:
+            raise HTTPException(status_code=422, detail="Unknown stored_spell_id")
+        gear_row.stored_spell_id = body.stored_spell_id
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/gear/{item_id}/use", response_model=CharacterRead)
+def use_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Consume one use of an item's trackable counter (roadmap.md's
+    "Wondrous-Item-Katalog mit echter Attributsboni-Wirkung", decided
+    2026-08-04) — a wand's `charges_remaining` if it has one (never resets on
+    its own), else an "N-mal pro Tag" item's `uses_remaining_today` (reset by
+    `POST /{character_id}/rest`). Items with neither (permanent, or
+    unlimited-use "aktivierbar" items — see `toggle_gear` for those) have
+    nothing to consume."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    gear_row = next((g for g in character.gear if g.item_id == item_id), None)
+    if gear_row is None:
+        raise HTTPException(status_code=404, detail="Item not found in inventory")
+
+    if gear_row.charges_remaining is not None:
+        if gear_row.charges_remaining <= 0:
+            raise HTTPException(status_code=422, detail="No charges remaining")
+        gear_row.charges_remaining -= 1
+    elif gear_row.uses_remaining_today is not None:
+        if gear_row.uses_remaining_today <= 0:
+            raise HTTPException(status_code=422, detail="No uses remaining today")
+        gear_row.uses_remaining_today -= 1
+    else:
+        raise HTTPException(status_code=422, detail="This item has no trackable charges/uses")
+
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/gear/{item_id}/toggle", response_model=CharacterRead)
+def toggle_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Flip `is_active` for an unlimited-use "aktivierbar" item whose effect
+    is toggled rather than consumed (e.g. Energieschildring: +2 RK only
+    while active) — see roadmap.md's "Wondrous-Item-Katalog mit echter
+    Attributsboni-Wirkung", decided 2026-08-04."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    gear_row = next((g for g in character.gear if g.item_id == item_id), None)
+    if gear_row is None:
+        raise HTTPException(status_code=404, detail="Item not found in inventory")
+    item = db.get(BaseItem, item_id)
+    if item is None or item.activation != "activatable":
+        raise HTTPException(status_code=422, detail="This item cannot be toggled active/inactive")
+
+    gear_row.is_active = not gear_row.is_active
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.post("/{character_id}/rest", response_model=CharacterRead)
+def rest(character_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Deliberately narrow pull-forward of roadmap slice 5's "rest" concept
+    (decided 2026-08-04, see roadmap.md's "Wondrous-Item-Katalog mit echter
+    Attributsboni-Wirkung") — resets every equipped-or-owned item's
+    `uses_remaining_today` back to its catalog `uses_per_day`. Does not touch
+    `charges_remaining` (wand charges never auto-reset) or `is_active`
+    (toggled items keep their state across a rest)."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    if not character.gear:
+        return character
+
+    items = {
+        item.id: item
+        for item in db.scalars(
+            select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))
+        ).all()
+    }
+    for gear_row in character.gear:
+        item = items.get(gear_row.item_id)
+        if item is not None and item.uses_per_day is not None:
+            gear_row.uses_remaining_today = item.uses_per_day
+
     db.commit()
     db.refresh(character)
     return character
@@ -619,17 +720,18 @@ def remove_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
 def update_slot(
     character_id: UUID, slot_key: str, body: SlotUpdate, db: Annotated[Session, Depends(get_db)]
 ) -> Character:
-    """Equip/unequip into one of the two mechanically-real paperdoll slots
-    (`rules/equipment_slots.py`'s `SLOT_CATEGORY` — armor/shield are the
-    only categories with `BaseItem.ac_bonus` data; the other 12 wondrous-item
-    slots have no real catalog content yet, see that module's docstring, and
-    aren't reachable through this endpoint)."""
+    """Equip/unequip into one of the paperdoll slots. `rules/equipment_slots.py`'s
+    `SLOT_CATEGORY` gives the required `BaseItem.category`; for the 12
+    wondrous/ring slots, which share a category between several slots,
+    `SLOT_TO_ITEM_SLOT` additionally checks `BaseItem.slot` against the
+    requested slot key (both ring slots accept `BaseItem.slot == "ring"`)."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
     required_category = SLOT_CATEGORY.get(slot_key)
     if required_category is None:
         raise HTTPException(status_code=422, detail=f"Unknown or unsupported slot '{slot_key}'")
+    required_item_slot = SLOT_TO_ITEM_SLOT.get(slot_key)
 
     # Unequip whatever currently holds this slot (only one item per slot).
     for gear_row in character.gear:
@@ -641,7 +743,11 @@ def update_slot(
         if gear_row is None:
             raise HTTPException(status_code=422, detail="Item is not in this character's inventory")
         item = db.get(BaseItem, body.item_id)
-        if item is None or item.category != required_category:
+        if (
+            item is None
+            or item.category != required_category
+            or (required_item_slot is not None and item.slot != required_item_slot)
+        ):
             raise HTTPException(status_code=422, detail=f"Item does not fit slot '{slot_key}'")
         gear_row.equipped_slot = slot_key
 

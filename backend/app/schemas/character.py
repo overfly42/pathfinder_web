@@ -233,16 +233,20 @@ class CharacterCreate(BaseModel):
 
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
-    quantity/enhancement/properties/special_ability_ids may be omitted
-    (unchanged). `special_ability_ids`, when present, replaces the item's
-    entire `BaseWeaponSpecialAbility` set (not a delta/append) — same
+    quantity/enhancement/properties/special_ability_ids/stored_spell_id may
+    be omitted (unchanged). `special_ability_ids`, when present, replaces the
+    item's entire `BaseWeaponSpecialAbility` set (not a delta/append) — same
     replace-whole-list semantics as `properties`, just structured instead of
-    freetext (see `models.character.CharacterGear`'s docstring)."""
+    freetext (see `models.character.CharacterGear`'s docstring).
+    `stored_spell_id` sets which spell a wand instance stores (only valid for
+    category "wand" — checked server-side in `routers/characters.py`, see
+    roadmap.md's "Wondrous-Item-Katalog mit echter Attributsboni-Wirkung")."""
 
     quantity: int | None = None
     enhancement: int | None = None
     properties: list[str] | None = None
     special_ability_ids: list[UUID] | None = None
+    stored_spell_id: UUID | None = None
 
     @field_validator("quantity")
     @classmethod

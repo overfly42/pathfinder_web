@@ -30,6 +30,12 @@ def list_items(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             "special": item.special,
             "weightLb": item.weight_lb,
             "description": item.description,
+            "slot": item.slot,
+            "activation": item.activation,
+            "usesPerDay": item.uses_per_day,
+            "maxCharges": item.max_charges,
+            "grantedAbility": item.granted_ability,
+            "abilityBonus": item.ability_bonus,
         }
         for item in items
     ]

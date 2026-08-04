@@ -49,7 +49,27 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `weight_lb` (raw string, e.g. "4 Pfd.") and `description` (prose text)
     are generic across every category but only populated for "weapon" and
     "tool" rows so far (import scope so far); armor/gear/consumable rows
-    stay null until a later pass backfills them."""
+    stay null until a later pass backfills them.
+
+    `slot`/`activation`/`uses_per_day`/`max_charges`/`granted_ability`/
+    `ability_bonus` (roadmap.md's "Wondrous-Item-Katalog mit echter
+    Attributsboni-Wirkung", decided 2026-08-04) are only set for category
+    "wondrous"/"ring"/"wand" — composition-only catalog *maximums*, the
+    changeable per-character counters live on `CharacterGear` instead (same
+    reasoning as `CharacterGear.enhancement`: state that moves during play
+    doesn't belong in the catalog). `slot` is one of `rules.equipment_slots`'s
+    paperdoll slot keys, except rings use the generic value "ring" (valid for
+    either of the two ring slots) rather than a fixed key. `activation` is
+    "permanent" or "activatable" (plain tag, same convention as `category`).
+    `uses_per_day` is the N in "N-mal pro Tag" (1 covers "once per day" too,
+    no separate flag for that); null means either permanent or unlimited-use
+    activatable. `max_charges` is a wand's charge ceiling (50 by default) but
+    generic enough to reuse for the rare non-wand charge item. `granted_ability`
+    (e.g. "constitution") + `ability_bonus` (e.g. 2) are only set for the
+    attribute-boosting item family (belts/headbands/gloves/amulets); each
+    bonus tier (+2/+4/+6) is its own catalog row with its own price, same
+    "one row per tier" pattern as `BaseWeaponSpecialAbility.bonus_equivalent`
+    rather than a price list crammed into one field."""
 
     __tablename__ = "base_items"
 
@@ -68,6 +88,12 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     special: Mapped[str | None] = mapped_column(String(255), nullable=True)
     weight_lb: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    activation: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    uses_per_day: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    max_charges: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    granted_ability: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    ability_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseWeaponSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

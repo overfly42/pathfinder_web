@@ -298,7 +298,7 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       Zornig/Kräftigend bekommen weiterhin keinen eigenen Handler (siehe
       oben, wartet auf slice 5); Preisberechnung/Angriffs-Endpunkt bleiben
       wie entschieden draußen.
-- [ ] **Wondrous-Item-Katalog mit echter Attributsboni-Wirkung.** Die 12
+- [x] **Wondrous-Item-Katalog mit echter Attributsboni-Wirkung.** Die 12
       kosmetischen Ausrüstungsplätze (roadmap slice 4) haben keine
       Katalogzeilen und keine Verdrahtung in `sheet.py`s
       Attributsberechnung — ein „Gürtel der großen Konstitution +2" oder
@@ -306,15 +306,119 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
       Bewusst nicht einfach durch Erfinden generischer Werte lösbar (gleiches
       Rateinhalt-Problem wie in `todos.md` an anderer Stelle beschrieben) —
       braucht echte, gegen eine Quelle geprüfte Item-Daten.
-- [ ] **Freie Attributseingabe / höheres Punktekauf-Budget.** `point_budget`
-      ist serverseitig auf `Literal[10, 15, 20, 25]` fixiert
-      (`schemas/character.py`), die Kostentabelle deckt nur 7–18 ab (Werte
-      außerhalb kosten laut aktuellem Code fälschlich 0 Punkte statt
-      abgelehnt zu werden — ein Bug, kein Feature). Für einen vorgefertigten/
-      hochstufigen Charakter braucht es entweder einen expliziten
-      "freie Eingabe"-Modus (kein Budget-Limit) oder zumindest einen
-      höheren Budget-Wert plus eine korrekte Fehlerbehandlung außerhalb der
-      7–18-Tabelle.
+
+      Gegen <http://prd.5footstep.de/Grundregelwerk/MagischeGegenstaende/WundersameGegenstaende>,
+      <http://prd.5footstep.de/Grundregelwerk/MagischeGegenstaende/MagischeRinge>
+      und <http://prd.5footstep.de/Grundregelwerk/MagischeGegenstaende/Zauberstaebe>
+      geprüft (2026-08-04). Alle drei folgen demselben Stat-Block-Muster
+      (`Aura`/`ZS`, `Ausrüstungsplatz`, `Preis`, `Gewicht`, Fließtext
+      `BESCHREIBUNG`, `ERSCHAFFUNG` mit Voraussetzungen/Kosten fürs
+      Herstellen — Letzteres bleibt außen vor, kein Herstellungs-Feature
+      geplant). Ringe haben eine Sonderregel (nur 2 gleichzeitig wirksam
+      tragbar), die aber schon strukturell durch die zwei separaten
+      `ring-links`/`ring-rechts`-Paperdoll-Slots in `equipment_slots.py`
+      abgedeckt ist. Zauberstäbe sind strukturell anders: keine benannten
+      Einzel-Katalogzeilen, sondern ein Item, dessen gespeicherter Zauber
+      und Preis (Zaubergrad × Erschafferstufe × 750 GM) erst pro
+      Charakter-Instanz feststehen.
+
+      **Entscheidung (2026-08-04):** Ausrüstungsplatz/Preis/Beschreibung
+      genügen als Katalogfelder nicht — Aktivierungsart und Nutzungs-/
+      Ladungslogik sollen als echter Zustand pro Charakter mitgezählt
+      werden können (Spieler will N-mal-pro-Tag-Nutzungen und
+      Zauberstab-Ladungen tracken, nicht nur nachlesen). Composition/
+      Computation-Trennung wie überall: Katalog beschreibt nur das Maximum,
+      der veränderliche Zählerstand ist Instanzstatus auf `CharacterGear`
+      (gleiche Begründung wie `enhancement` dort: ändert sich im Spiel,
+      gehört nicht ins Katalog).
+
+      `BaseItem`, neue nullable Spalten (nur für category
+      `wondrous`/`ring`/`wand` befüllt):
+      - `slot` — Paperdoll-Slot-Schlüssel aus `equipment_slots.py`
+        (`guertel`, `hals`, `ring`, ... — Ringe bekommen den generischen
+        Wert `ring`, gültig für beide Ring-Slots, statt zweier fixer
+        Katalogzeilen pro Ring).
+      - `activation` — `permanent` / `activatable`.
+      - `uses_per_day` — die N in „N-mal pro Tag"; 1 deckt „einmal pro Tag"
+        mit ab (keine separate Logik dafür, wie entschieden), `null` heißt
+        entweder permanent oder unbegrenzt aktivierbar.
+      - `max_charges` — Ladungs-Obergrenze (Zauberstab: 50), generisch
+        gehalten für die seltenen Nicht-Zauberstab-Ladungsgegenstände
+        (z. B. Edelstein des Hellen Scheins), falls die je aufgenommen
+        werden.
+      - `granted_ability`/`ability_bonus` — nur für die Attributsboni-
+        Familie (Gürtel/Stirnreif/Handschuhe/Amulett der/des
+        Stärke/Geschicklichkeit/Konstitution/Intelligenz/Weisheit/
+        Charisma); jede Bonusstufe (+2/+4/+6) wird eine eigene Katalogzeile
+        mit eigenem Preis, statt einer Preis-Tier-Liste in einem Feld —
+        gleiches Muster wie `BaseWeaponSpecialAbility.bonus_equivalent` pro
+        Zeile statt Tabelle-im-Feld.
+
+      `CharacterGear`, neue nullable Spalten (Instanzstatus):
+      - `stored_spell_id` — FK `BaseSpell`, nur bei Zauberstäben; ein
+        einziger generischer `BaseItem`-Katalogeintrag „Zauberstab"
+        (category `wand`) reicht, der gespeicherte Zauber ist reine
+        Instanzsache.
+      - `charges_remaining` — Zauberstab-Ladungszähler, zählt runter, wird
+        nie automatisch zurückgesetzt.
+      - `uses_remaining_today` — N-mal-pro-Tag-Zähler, zählt runter, wird
+        nur durch die Rest-Aktion unten zurückgesetzt.
+      - `is_active` — Toggle-Zustand für unbegrenzt aktivierbare, aber
+        wertverändernde Items (z. B. Energieschildring: +2 RK nur solange
+        aktiv) — auch wenn kein Nutzungslimit existiert, muss der
+        Aktiv-Zustand gespeichert werden, damit er in eine Berechnung
+        einfließen kann. Wird wie Zornig/Kräftigend bei den
+        Waffeneigenschaften über `HANDLERS` aufgelöst, sobald ein Item
+        tatsächlich etwas berechnet — die große Mehrheit bleibt generische
+        Text-Factory ohne Anschluss an `rules/modifiers.py`.
+
+      Neue Endpoints, bewusst schlank: `PATCH .../gear/{item_id}/use`
+      (Ladung/Tagesnutzung verbrauchen, oder `is_active` umschalten) und
+      ein minimaler Tagesabschluss-Endpoint, der nur
+      `uses_remaining_today` auf `uses_per_day` zurücksetzt — **bewusster
+      Teil-Vorgriff auf slice 5** (das dort geplante „Rest"-Konzept),
+      gleiches Muster wie Rassen/Klassen/Skills, die aus FK-/Nutzungsgründen
+      schon früher als geplant reale Tabellen bekamen. Kein Vorgriff auf
+      slice 5s volle Dauer-/Effekt-Verfolgung — nur der eine schmale
+      Ausschnitt, den dieser Slice selbst braucht.
+
+      Slot-Validierung in `routers/characters.py`s `update_slot` muss dafür
+      generalisiert werden: `SLOT_CATEGORY` bildet aktuell slot_key 1:1 auf
+      `BaseItem.category` ab (reicht für `ruestung`/`schild`), für die 12
+      Wondrous-Slots reicht das nicht (mehrere Slots teilen sich category
+      `wondrous`) — zusätzlicher Abgleich gegen `BaseItem.slot` nötig.
+
+      **Umgesetzt (2026-08-04):** Migration + Modellfelder wie oben
+      entschieden (`item.py`, `character.py`). `rules/equipment_slots.py`s
+      `SLOT_CATEGORY` deckt jetzt alle 14 Slots ab, neues `SLOT_TO_ITEM_SLOT`
+      löst das Mehrere-Slots-teilen-sich-eine-category-Problem, in
+      `update_slot` und `sheet.py`s Options-Aufbau gleichermaßen verdrahtet.
+      `scripts/import_wondrous_items_prd.py` (UTF-8, nicht ISO-8859-1 wie
+      die Waffeneigenschaften-Seite — dieselbe Site ist pro Seite
+      uneinheitlich kodiert) zieht 176 Wundersame Gegenstände + 32 Ringe;
+      `scripts/build_wondrous_items_seed.py` löst Slot-Text und Preis auf
+      und mergt in `base_items.json` (286 → 507 Zeilen). Die 6 eindeutigen
+      Einzelattribut-Items (Gürtel/Stirnreif für ST/GE/KO/IN/WE/CH) wurden
+      in je 3 Zeilen (+2/+4/+6) mit `granted_ability`/`ability_bonus`
+      gesplittet; mehrdeutige/mehrfach-attributige Varianten (Körperkraft,
+      geistige Stärke/Überlegenheit, perfekter Körper) bewusst nicht
+      geraten. Ein einzelner generischer `Zauberstab`-Katalogeintrag
+      (category `wand`) deckt alle Zauberstäbe ab. `sheet.py`s neues
+      `_gear_ability_bonuses()` addiert die Boni ausgerüsteter Items auf die
+      effektiven Attributswerte. Neue Endpoints: `PATCH .../gear/{id}/use`
+      (Ladung/Tagesnutzung verbrauchen), `PATCH .../gear/{id}/toggle`
+      (`is_active`), `POST .../rest` (setzt `uses_remaining_today` zurück),
+      `stored_spell_id` auf `PATCH .../gear/{id}` (nur für category `wand`).
+      10 neue Tests in `tests/test_wondrous_items.py`.
+
+      **Bewusste Lücke:** `activation`/`uses_per_day` bleiben beim
+      Bulk-Import leer — die Fließtext-Varianz ("einmal pro Tag", "3 Mal pro
+      Tag", "immer aktiv", togglebar per Befehlswort, ...) ist zu groß für
+      eine zuverlässige Regex-Ableitung ohne falsch-positive Treffer;
+      braucht einen manuellen Tagging-Pass wie beim Talent-Sub-Wahl-Schema
+      (dort wurden auch nur die 7 eindeutigen Feats getaggt, nicht geraten).
+      Bis dahin zeigt das Sheet für diese Items weder Ladungszähler noch
+      Aktiv-Toggle an — rein deskriptiv wie zuvor, keine Regression.
 - [ ] **Startgold/Vermögen nach Stufe (Wealth by Level).** Keine
       `characters.gold`-Spalte, keine Wealth-by-Level-Tabelle — bei Stufe
       12 wäre nach PF1e deutlich mehr Ausrüstung/Gold vorgesehen als das

@@ -406,7 +406,25 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     *is* cataloged should go in `special_abilities` instead (structured,
     resolved via `app.rules.weapon_abilities`) rather than typed here too —
     same "not evaluated by rule logic yet" convention as `BaseItem.category`
-    for whatever stays freetext."""
+    for whatever stays freetext.
+
+    `stored_spell_id`/`charges_remaining`/`uses_remaining_today`/`is_active`
+    (roadmap.md's "Wondrous-Item-Katalog mit echter Attributsboni-Wirkung",
+    decided 2026-08-04) are the per-instance usage state for wondrous/ring/
+    wand items — the catalog (`BaseItem.uses_per_day`/`max_charges`) only
+    declares the maximum, these columns are the moving counters, same
+    reasoning as `enhancement` above. `stored_spell_id` is only set for a
+    wand instance (one generic `BaseItem` category "wand" catalog row covers
+    every wand — which spell is stored is purely a per-instance fact).
+    `charges_remaining` counts down for wands and never resets on its own.
+    `uses_remaining_today` counts down for "N-mal pro Tag" items and is only
+    reset by the character's rest endpoint (`routers/characters.py`) back to
+    `BaseItem.uses_per_day` — a deliberate, narrow pull-forward of roadmap
+    slice 5's "rest" concept, not its full duration/effect tracking.
+    `is_active` is the on/off state for unlimited-use "aktivierbar" items
+    whose effect is toggled rather than consumed (e.g. Energieschildring:
+    +2 RK only while active) — needed even without a use limit, since a
+    computed bonus still has to know whether the item is currently on."""
 
     __tablename__ = "character_gear"
     __table_args__ = (UniqueConstraint("character_id", "item_id"),)
@@ -417,5 +435,11 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     equipped_slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
     enhancement: Mapped[int] = mapped_column(Integer, default=0)
     properties: Mapped[list[str]] = mapped_column(JSON, default=list)
+    stored_spell_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_spells.id"), nullable=True
+    )
+    charges_remaining: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    uses_remaining_today: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=False)
 
     special_abilities: Mapped[list["CharacterGearSpecialAbility"]] = relationship(cascade="all, delete-orphan")
