@@ -14,7 +14,8 @@
         "terrain": [
           "Wald"
         ]
-      }
+      },
+      "isFavored": true
     }
   ],
   "abilityScores": {
@@ -35,6 +36,7 @@
     "Scharfsinnige Beobachterin",
     "Kind des Waldes"
   ],
+  "altTraits": [],
   "skillRanks": {
     "432bdbaa-0286-4203-a117-1dbc4d68056b": 7,
     "3d5d4e5f-c749-4346-a53b-2006bca05abb": 7,

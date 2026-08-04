@@ -161,10 +161,17 @@ def _validate_feat_sub_choice(
             )
 
 
-def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]]) -> None:
+def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]], character_level: int) -> None:
     """Validates submitted option-group choices (e.g. Kleriker's `domain`)
     against `base_class_option_groups`/`base_class_option_choices` — real
-    tables now (see `app/seed/class_option_seed.py`), not `classes.json`."""
+    tables now (see `app/seed/class_option_seed.py`), not `classes.json`.
+    `character_level` is the character's level *in this root class*
+    (summed across every `ClassSelection` row for it, for creation; the
+    receiving class's own new level, for a level-up) — checked against each
+    submitted choice's `BaseClassOptionChoice.min_level` (e.g. Mystiker's
+    Offenbarung choices each carry their own threshold; Kampfrauschkraft's
+    "Innere Zähigkeit" needs Barbar 8). `None` means no threshold beyond the
+    group's own grant level, so nothing to check."""
     groups = db.scalars(select(BaseClassOptionGroup).where(BaseClassOptionGroup.base_class_id == root.id)).all()
     groups_by_key = {group.key: group for group in groups}
     for group_key, choices in options.items():
@@ -173,16 +180,22 @@ def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]
             raise HTTPException(status_code=422, detail=f"Unknown option group '{group_key}' for {root.name}")
         if len(choices) > group.max_choices:
             raise HTTPException(status_code=422, detail=f"Too many choices for option group '{group_key}'")
-        valid_choice_names = {
-            choice.name
+        choices_by_name = {
+            choice.name: choice
             for choice in db.scalars(
                 select(BaseClassOptionChoice).where(BaseClassOptionChoice.group_id == group.id)
             ).all()
         }
         for choice in choices:
-            if choice not in valid_choice_names:
+            choice_row = choices_by_name.get(choice)
+            if choice_row is None:
                 raise HTTPException(
                     status_code=422, detail=f"Invalid choice '{choice}' for option group '{group_key}'"
+                )
+            if choice_row.min_level is not None and character_level < choice_row.min_level:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"'{choice}' requires {root.name} level {choice_row.min_level} (currently {character_level})",
                 )
 
 
@@ -199,8 +212,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         for selection, root in zip(body.classes, roots)
     ]
 
+    level_by_root_id: dict[UUID, int] = {}
     for selection, root in zip(body.classes, roots):
-        _validate_options(db, root, selection.options)
+        level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
+
+    for selection, root in zip(body.classes, roots):
+        _validate_options(db, root, selection.options, level_by_root_id[root.id])
 
     if spent_points(body.ability_scores) > body.point_budget:
         raise HTTPException(status_code=422, detail="Ability scores exceed the chosen point-buy budget")
@@ -311,10 +328,6 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             raise HTTPException(status_code=422, detail="trait_ids must not include two traits from the same area")
 
     if body.spell_ids:
-        level_by_root_id: dict[UUID, int] = {}
-        for selection, root in zip(body.classes, roots):
-            level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
-
         for base_class_id_str, spell_ids in body.spell_ids.items():
             try:
                 base_class_id = UUID(base_class_id_str)
@@ -886,8 +899,28 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 detail=f"Character already has the class '{receiving_root.name}' — use target.mode 'existing'",
             )
         new_archetypes = [resolve_archetype(db, receiving_root, name) for name in body.target.archetypes]
-        _validate_options(db, receiving_root, body.target.options)
         is_new_class = True
+
+    classes_after, roots_after = _apply_target_to_selections(classes_before, roots_before, receiving_root, is_new_class)
+    receiving_class_level = next(
+        selection.level for selection, root in zip(classes_after, roots_after) if root.id == receiving_root.id
+    )
+
+    is_favored_level = not is_new_class and any(
+        membership.base_class_id == receiving_root.id and membership.is_favored
+        for membership in character.class_memberships
+    )
+    if body.favored_class_bonus is not None and not is_favored_level:
+        raise HTTPException(
+            status_code=422, detail="favored_class_bonus only applies when leveling up in the favored class"
+        )
+    if body.favored_class_bonus is None and is_favored_level:
+        raise HTTPException(
+            status_code=422, detail="This level is in the favored class — favored_class_bonus is required"
+        )
+
+    if is_new_class:
+        _validate_options(db, receiving_root, body.target.options, receiving_class_level)
 
     if not is_valid_rolled_hit_points(receiving_root.hit_dice, body.hit_points):
         raise HTTPException(status_code=422, detail=f"hit_points must be between 1 and {receiving_root.hit_dice}")
@@ -904,12 +937,12 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         setattr(character, column, getattr(character, column) + 1)
 
     if body.target.mode == "existing" and body.existing_level_options:
-        _validate_options(db, receiving_root, body.existing_level_options)
-
-    classes_after, roots_after = _apply_target_to_selections(classes_before, roots_before, receiving_root, is_new_class)
-    receiving_class_level = next(
-        selection.level for selection, root in zip(classes_after, roots_after) if root.id == receiving_root.id
-    )
+        if any(len(choices) > 1 for choices in body.existing_level_options.values()):
+            raise HTTPException(
+                status_code=422,
+                detail="Only one pick is allowed per recurring option group at a single level-up",
+            )
+        _validate_options(db, receiving_root, body.existing_level_options, receiving_class_level)
 
     seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)
     race_mods = race_ability_score_mods(db, character.race_id)
@@ -921,19 +954,30 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     race_skill_bonus = (
         1 if race_grants_bonus_skill_point_per_level(db, character.race_id, seen_replaced_ability_ids) else 0
     )
-    skill_budget_delta = _skill_points_total(
-        classes_after, roots_after, _effective_ability_mod("IN"), race_skill_bonus
-    ) - _skill_points_total(classes_before, roots_before, _effective_ability_mod("IN"), race_skill_bonus)
-    if len(body.skill_ranks) > skill_budget_delta:
+    favored_skill_bonus = 1 if body.favored_class_bonus == "skill" else 0
+    skill_budget_delta = (
+        _skill_points_total(classes_after, roots_after, _effective_ability_mod("IN"), race_skill_bonus)
+        - _skill_points_total(classes_before, roots_before, _effective_ability_mod("IN"), race_skill_bonus)
+        + favored_skill_bonus
+    )
+    if sum(body.skill_ranks.values()) > skill_budget_delta:
         raise HTTPException(status_code=422, detail="skill_ranks exceed the skill points gained at this level")
 
     valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
     existing_skill_ranks = character.skill_ranks
-    for skill_id in body.skill_ranks:
+    for skill_id_str, new_ranks in body.skill_ranks.items():
+        try:
+            skill_id = UUID(skill_id_str)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid skill id '{skill_id_str}'") from exc
         if skill_id not in valid_skill_ids:
-            raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id}'")
-        if existing_skill_ranks.get(str(skill_id), 0) + 1 > new_total_level:
-            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id}' would exceed character level")
+            raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id_str}'")
+        # Per PF1e (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben):
+        # the only cap on a single skill is total ranks <= character level -
+        # a previously-untrained skill may legally gain more than 1 new rank
+        # in one level-up, not just +1.
+        if existing_skill_ranks.get(skill_id_str, 0) + new_ranks > new_total_level:
+            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' would exceed character level")
 
     feat_budget_delta = _feat_max(db, character.race_id, classes_after, seen_replaced_ability_ids) - _feat_max(
         db, character.race_id, classes_before, seen_replaced_ability_ids
@@ -1020,8 +1064,11 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             if known_non_grade0 >= budget:
                 raise HTTPException(status_code=422, detail="No spellbook slots available at this level")
 
+    favored_hp_bonus = 1 if body.favored_class_bonus == "hp" else 0
     new_level = CharacterLevel(
-        level=new_total_level, base_class_id=receiving_root.id, hit_points=body.hit_points,
+        level=new_total_level,
+        base_class_id=receiving_root.id,
+        hit_points=body.hit_points + favored_hp_bonus,
         ability_increase=body.ability_increase,
     )
     character.levels.append(new_level)
@@ -1072,8 +1119,8 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                     )
                 )
 
-    for skill_id in body.skill_ranks:
-        new_level.skill_ranks.append(CharacterSkillRank(skill_id=skill_id, ranks=1))
+    for skill_id_str, new_ranks in body.skill_ranks.items():
+        new_level.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=new_ranks))
     for selection in body.feats:
         new_level.feats.append(
             CharacterFeat(

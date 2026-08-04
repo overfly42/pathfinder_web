@@ -1187,6 +1187,25 @@ def test_delete_character(client: TestClient, db_session: Session) -> None:
     assert response.status_code == 404
 
 
+def test_delete_character_with_a_racial_choice_does_not_crash(client: TestClient, db_session: Session) -> None:
+    """Regression test: `Character.racial_choices` used to have no cascade,
+    so deleting any character with a `CharacterRacialChoice` row (a flex
+    ability bonus, e.g. Human's, or an alt trait) 500'd instead of deleting -
+    SQLAlchemy tried to null out CharacterRacialChoice.character_id, which
+    isn't nullable, rather than deleting the row."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    created = client.post(
+        "/api/characters", json=_character_payload(user_id, race_id, db_session, flex_ability="ST")
+    ).json()
+
+    response = client.delete(f"/api/characters/{created['id']}")
+    assert response.status_code == 204
+
+    response = client.get(f"/api/characters/{created['id']}")
+    assert response.status_code == 404
+
+
 def test_adjust_hp_damage_and_heal(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)

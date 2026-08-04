@@ -1,7 +1,7 @@
 import type { AbilityKey } from '../types/abilities';
 import type { CharacterProgression } from '../types/characterProgression';
 import type { LevelUpTarget } from '../types/levelUpDraft';
-import type { ClassDef } from '../types/creationOptions';
+import type { ClassDef, RaceOption } from '../types/creationOptions';
 
 export function getOldTotalLevel(progression: CharacterProgression): number {
   return progression.classes.reduce((sum, c) => sum + c.level, 0);
@@ -89,4 +89,20 @@ export function skillPointsForThisLevel(
   const cls = receivingClassName ? classes.find((c) => c.name === receivingClassName) : undefined;
   const base = cls?.skillPointsBase ?? 2;
   return Math.max(1, base + effectiveIntMod);
+}
+
+/** Whether this character's race grants a flat +1 skill rank per character
+ *  level (Human's "Geschult"), accounting for it having been traded away
+ *  via an alternate trait — mirrors creation's `skillPointsTotal`
+ *  (`creationCalculations.ts`); keep both in sync. Mirrors the backend's
+ *  `rules/skill_points.py::race_grants_bonus_skill_point_per_level`. */
+export function raceGrantsSkillBonusPerLevel(progression: CharacterProgression, races: RaceOption[]): boolean {
+  const race = races.find((r) => r.name === progression.race);
+  if (!race) return false;
+  const replaced = new Set<string>();
+  for (const altName of progression.altTraits) {
+    const alt = race.alt.find((a) => a.name === altName);
+    alt?.replaces.forEach((t) => replaced.add(t));
+  }
+  return race.traits.some((t) => t.name === 'Geschult') && !replaced.has('Geschult');
 }

@@ -78,6 +78,57 @@ def test_list_classes_exposes_kaempfer_class_skills_from_real_data(client: TestC
     }
 
 
+def test_class_level_options_exposes_barbar_kampfrauschkraft_from_real_data(
+    client: TestClient, db_session: Session
+) -> None:
+    """Regression test for the level-up wizard offering no rage powers at
+    all - `/api/class-level-options` used to read a stale fixture (wrong
+    group key, 6 leftover placeholder choices) instead of the real,
+    ~54-choice Kampfrauschkraft catalog and its per-level grants."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    response = client.get("/api/class-level-options")
+    assert response.status_code == 200
+    body = response.json()
+
+    barbar_groups = {g["key"]: g for g in body["Barbar"]}
+    kampfrauschkraft = barbar_groups["kampfrauschkraft"]
+    assert kampfrauschkraft["levels"] == [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+    # 28 real rage powers imported for Barbar specifically (roadmap.md) - far
+    # more than the 6 stale placeholder choices the old fixture served. All
+    # of them have min_level <= 20, so by the last occurrence every one is
+    # unlocked.
+    assert len(kampfrauschkraft["choicesByLevel"]["20"]) == 28
+    # "Erneuerte Lebenskraft" needs Barbar 4 - not yet legal at the very
+    # first occurrence (level 2), but present from its own min_level on.
+    assert "Erneuerte Lebenskraft" not in kampfrauschkraft["choicesByLevel"]["2"]
+    assert "Erneuerte Lebenskraft" in kampfrauschkraft["choicesByLevel"]["4"]
+    # This wizard is not a player-facing rules reference: a choice gated
+    # behind a later level (here "Innere Zähigkeit", Barbar 8) must not be
+    # offered at an earlier occurrence at all.
+    assert "Innere Zähigkeit" not in kampfrauschkraft["choicesByLevel"]["2"]
+    assert "Innere Zähigkeit" in kampfrauschkraft["choicesByLevel"]["8"]
+
+
+def test_class_level_options_omits_one_time_picks(client: TestClient, db_session: Session) -> None:
+    """Kleriker's `domain` and Waldläufer's `hunter_bond` are each granted at
+    exactly one level (or, for domain, not via a level-gated ability grant
+    at all) - neither is a recurring level-up pick, so neither should appear
+    here (they're already covered by /api/classes' one-time optionGroups)."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    response = client.get("/api/class-level-options")
+    assert response.status_code == 200
+    body = response.json()
+
+    assert "domain" not in {g["key"] for g in body.get("Kleriker", [])}
+    assert "hunter_bond" not in {g["key"] for g in body.get("Waldläufer", [])}
+
+
 def test_list_classes_exposes_waldlaeufer_class_skills_from_real_data(client: TestClient, db_session: Session) -> None:
     seed_classes(db_session)
     seed_class_options(db_session)  # base_class_skills.option_choice_id FKs here

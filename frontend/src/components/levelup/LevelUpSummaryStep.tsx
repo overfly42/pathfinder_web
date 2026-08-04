@@ -65,7 +65,17 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   const bonusFeatGranted = classBonusFeatGrantedThisLevel(className, info?.level ?? null, options.classes);
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
-  const skillLines = options.skills.filter((s) => draft.skillIncreases[s.id]);
+  const skillLines = options.skills.filter((s) => (draft.skillIncreases[s.id] || 0) > 0);
+
+  const isFavored =
+    target.mode === 'existing' && (progression.classes.find((c) => c.id === target.classId)?.isFavored ?? false);
+  const sumFavoredBonus = isFavored
+    ? draft.favoredClassBonus === 'hp'
+      ? '+1 Trefferpunkt'
+      : draft.favoredClassBonus === 'skill'
+        ? '+1 Fertigkeitsrang'
+        : '— noch nicht gewählt —'
+    : null;
 
   const classDef = className ? options.classes.find((c) => c.name === className) : undefined;
   const spellType = classDef?.spellType ?? 'none';
@@ -99,13 +109,23 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
           </div>
         )}
 
+        {isFavored && (
+          <div className="summary-block">
+            <div className="sb-title">Bevorzugte Klasse</div>
+            <div className="sb-line"><span>{sumFavoredBonus}</span></div>
+          </div>
+        )}
+
         <div className="summary-block summary-full">
           <div className="sb-title">Neue Fertigkeitsränge</div>
           {skillLines.length === 0 ? (
             <div className="sb-line"><span>Keine neuen Ränge vergeben.</span></div>
           ) : (
             skillLines.map((s) => (
-              <div className="sb-line" key={s.id}><span>{s.name}</span><span className="val">+1 Rang</span></div>
+              <div className="sb-line" key={s.id}>
+                <span>{s.name}</span>
+                <span className="val">+{draft.skillIncreases[s.id]} Rang{draft.skillIncreases[s.id] > 1 ? 'e' : ''}</span>
+              </div>
             ))
           )}
         </div>

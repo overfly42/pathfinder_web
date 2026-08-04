@@ -51,6 +51,7 @@ export function LevelUpWizardPage() {
       setDraft({
         target: { mode: 'existing', classId: progression.classes[0].id },
         hitPoints: null,
+        favoredClassBonus: null,
         existingLevelOptionSelections: {},
         abilityIncrease: null,
         skillIncreases: {},
@@ -102,6 +103,14 @@ export function LevelUpWizardPage() {
       if (currentDraft.hitPoints === null) {
         setSubmitState('error');
         setSubmitErrorMessage('Bitte im Schritt „Trefferpunkte" einen Wert eintragen.');
+        return;
+      }
+      const target = currentDraft.target;
+      const targetIsFavored =
+        target.mode === 'existing' && (prog.classes.find((c) => c.id === target.classId)?.isFavored ?? false);
+      if (targetIsFavored && currentDraft.favoredClassBonus === null) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Trefferpunkte" den Bonus der bevorzugten Klasse wählen.');
         return;
       }
       setSubmitState('submitting');

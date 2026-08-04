@@ -277,14 +277,29 @@ class LevelUp(BaseModel):
     # Player-entered HP roll for this one new level — never auto-maxed like a
     # character's very first level, since level-up is by definition not that.
     hit_points: int
+    # Required exactly when this level is in the character's favored class
+    # (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben: "Charaktere,
+    # die eine Stufe in ihrer bevorzugten Klasse aufsteigen, erhalten die
+    # Möglichkeit, 1 zusätzlichen Fertigkeitsrang oder 1 zusätzlichen
+    # Trefferpunkt zu bekommen") — must be None otherwise. "hp" adds 1 to
+    # hit_points above; "skill" adds 1 to this level's skill-point budget.
+    favored_class_bonus: Literal["hp", "skill"] | None = None
     # Recurring per-class picks gated by the receiving class's own new level
     # (e.g. a ranger's 2nd favored enemy at level 5) — only meaningful for
     # mode "existing"; a "new" class's level-1 picks go in target.options
     # instead, same as CharacterCreate.classes[].options.
     existing_level_options: dict[str, list[str]] = {}
     ability_increase: str | None = None
-    # Skill ids getting their one new rank this level (each at most once).
-    skill_ranks: list[UUID] = []
+    # skill_id (string, since UUID keys aren't valid JSON object keys) ->
+    # *new* ranks gained this level for that skill — same shape/semantics as
+    # CharacterCreate.skill_ranks, just a delta instead of a total. Per PF1e
+    # (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben: "Du
+    # kannst nie mehr Ränge in einer Fertigkeit besitzen, als es deinen
+    # gesamten Trefferwürfeln entspricht"), the only cap on a single skill is
+    # total ranks <= character level — a skill with 0 prior ranks can
+    # legally receive more than 1 new rank in one level-up (e.g. catching up
+    # a long-neglected skill), not just +1.
+    skill_ranks: dict[str, int] = {}
     # 0–2 entries: a regular new feat slot (odd levels) and/or a class bonus
     # feat slot (e.g. Kämpfer), both validated/stored identically — the
     # backend never distinguishes "regular" vs "bonus", only the frontend UI
@@ -301,9 +316,9 @@ class LevelUp(BaseModel):
 
     @field_validator("skill_ranks")
     @classmethod
-    def skill_ranks_must_not_have_duplicates(cls, value: list[UUID]) -> list[UUID]:
-        if len(set(value)) != len(value):
-            raise ValueError("skill_ranks must not contain duplicates")
+    def skill_ranks_must_be_positive(cls, value: dict[str, int]) -> dict[str, int]:
+        if any(ranks <= 0 for ranks in value.values()):
+            raise ValueError("skill_ranks must be positive (omit a skill rather than sending 0)")
         return value
 
     @field_validator("feats")

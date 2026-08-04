@@ -12,6 +12,7 @@ from test_characters import (
     _feat_selection,
     _human_race_id,
     _item_id,
+    _race_id,
     _skill_id,
     _spells_by_class,
 )
@@ -24,9 +25,15 @@ def _class_id(client: TestClient, db_session: Session, name: str) -> str:
 
 
 def _level_up_payload(base_class_id: str, hit_points: int, **overrides) -> dict:
+    """`favored_class_bonus` defaults to "hp" since every single-class test
+    character in this file levels up in its one (and therefore favored)
+    class — override to `None` only for a genuinely non-favored target
+    (e.g. a fresh multiclass pick, which builds its own payload dict
+    instead of using this helper)."""
     payload = {
         "target": {"mode": "existing", "base_class_id": base_class_id},
         "hit_points": hit_points,
+        "favored_class_bonus": "hp",
     }
     payload.update(overrides)
     return payload
@@ -63,8 +70,9 @@ def test_level_up_persists_new_level_on_existing_class(client: TestClient, db_se
     assert body["classes"] == [{"class_name": "Waldläufer", "level": 2, "archetypes": [], "is_favored": True, "options": {}}]
 
     sheet = client.get(f"/api/characters/{character_id}").json()
-    # Level 1 (auto-maxed d10) + rolled 6, no CON mod (KO 13 -> +1, elf -2 KO -> 11 -> +0).
-    assert sheet["hp"]["max"] == 16
+    # Level 1 (auto-maxed d10) + rolled 6 + 1 favored-class HP bonus, no CON
+    # mod (KO 13 -> +1, elf -2 KO -> 11 -> +0).
+    assert sheet["hp"]["max"] == 17
 
 
 def test_level_up_rejects_hit_points_out_of_range(client: TestClient, db_session: Session) -> None:
@@ -209,7 +217,7 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
 
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks=[skill_id]),
+        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 1}),
     )
     assert response.status_code == 201
     assert response.json()["skill_ranks"][skill_id] == 1
@@ -233,7 +241,48 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
     ]
     response = client.post(
         f"/api/characters/{character_id_2}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks=other_skill_ids),
+        json=_level_up_payload(base_class_id, 5, skill_ranks={sid: 1 for sid in other_skill_ids}),
+    )
+    assert response.status_code == 422
+
+
+def test_level_up_allows_investing_more_than_one_rank_in_a_previously_untrained_skill(
+    client: TestClient, db_session: Session
+) -> None:
+    """Per http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben, the
+    only cap on a single skill is total ranks <= character level - a skill
+    with 0 prior ranks may legally gain more than 1 new rank in one
+    level-up, not just +1 (this was bug 2 - see the conversation)."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Waldläufer")
+    # Level 1 -> 5: Waldläufer's skill_points_base (6) + IN mod (0) per level
+    # * 4 new levels = 24 budget, comfortably more than the 3 ranks below.
+    character_id = _create_level_n_character(
+        client, db_session, race_id, "Waldläufer", 4, hit_points={"2": 5, "3": 5, "4": 5}
+    )
+    skill_id = _skill_id(client, db_session, "Akrobatik")
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 3}),
+    )
+    assert response.status_code == 201
+    assert response.json()["skill_ranks"][skill_id] == 3
+
+
+def test_level_up_rejects_skill_ranks_exceeding_the_new_character_level(
+    client: TestClient, db_session: Session
+) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Waldläufer")
+    character_id = _create_level_n_character(client, db_session, race_id, "Waldläufer", 1)
+    skill_id = _skill_id(client, db_session, "Akrobatik")
+
+    # Level 1 -> 2: even though the skill-point budget could cover 3 ranks,
+    # total ranks in one skill can never exceed the new character level (2).
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 3}),
     )
     assert response.status_code == 422
 
@@ -383,3 +432,149 @@ def test_progression_and_history_reflect_a_real_level_up(client: TestClient, db_
 def test_mock_progression_and_history_fixtures_still_served(client: TestClient) -> None:
     assert client.get("/api/characters/1/progression").status_code == 200
     assert client.get("/api/characters/1/history").json() == []
+
+
+def test_level_up_rejects_option_choice_below_min_level(client: TestClient, db_session: Session) -> None:
+    """"Innere Zähigkeit" (Kampfrauschkraft) needs Barbar level 8 -
+    shouldn't be offered/accepted at level 2."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Barbar", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id, 5, existing_level_options={"kampfrauschkraft": ["Innere Zähigkeit"]}
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_level_up_accepts_option_choice_meeting_min_level(client: TestClient, db_session: Session) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(
+        client, db_session, race_id, "Barbar", 7, hit_points={str(lvl): 5 for lvl in range(2, 8)}
+    )
+
+    # Level 7 -> 8 is also a 4th-level ability-increase level.
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id,
+            5,
+            existing_level_options={"kampfrauschkraft": ["Innere Zähigkeit"]},
+            ability_increase="ST",
+        ),
+    )
+    assert response.status_code == 201
+
+
+def test_level_up_rejects_more_than_one_recurring_option_pick_per_level_up(
+    client: TestClient, db_session: Session
+) -> None:
+    """The group's own max_choices (10, a lifetime career total) must not be
+    mistaken for "picks allowed at this one occurrence" (always 1) - this
+    was a real regression, not just a gap."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Barbar", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id, 5, existing_level_options={"kampfrauschkraft": ["Aberglaube", "Animalische Wut"]}
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_level_up_accepts_one_recurring_option_pick(client: TestClient, db_session: Session) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Barbar", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, existing_level_options={"kampfrauschkraft": ["Aberglaube"]}),
+    )
+    assert response.status_code == 201
+    barbar = next(c for c in response.json()["classes"] if c["class_name"] == "Barbar")
+    assert "Aberglaube" in barbar["options"].get("kampfrauschkraft", [])
+
+
+def test_level_up_requires_favored_class_bonus_for_the_favored_class(
+    client: TestClient, db_session: Session
+) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Waldläufer")
+    character_id = _create_level_n_character(client, db_session, race_id, "Waldläufer", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 6, favored_class_bonus=None),
+    )
+    assert response.status_code == 422
+
+
+def test_level_up_rejects_favored_class_bonus_for_a_non_favored_class(
+    client: TestClient, db_session: Session
+) -> None:
+    race_id = _elf_race_id(client, db_session)
+    character_id = _create_level_n_character(client, db_session, race_id, "Waldläufer", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json={"target": {"mode": "new", "class_name": "Kämpfer"}, "hit_points": 6, "favored_class_bonus": "hp"},
+    )
+    assert response.status_code == 422
+
+
+def test_level_up_favored_class_bonus_skill_adds_one_extra_skill_point(
+    client: TestClient, db_session: Session
+) -> None:
+    """Barbar's base skill budget (4 + IN mod 0 = 4) can only fit 5 different
+    skill picks if the favored-class bonus is spent on a skill rank. Uses
+    Half-Ork (no fixed ability mods, unlike Elf's +2 IN) with the flex bonus
+    on ST so the IN modifier - and therefore the base budget of exactly 4 -
+    stays unambiguous."""
+    race_id = _race_id(client, db_session, "Halb-Ork")
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(
+        client, db_session, race_id, "Barbar", 1, flex_ability="ST"
+    )
+    skill_ids = [
+        _skill_id(client, db_session, name)
+        for name in ["Akrobatik", "Klettern", "Schwimmen", "Einschüchtern", "Wahrnehmung"]
+    ]
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id, 5, favored_class_bonus="skill", skill_ranks={sid: 1 for sid in skill_ids}
+        ),
+    )
+    assert response.status_code == 201
+    assert len(response.json()["skill_ranks"]) == 5
+
+
+def test_level_up_favored_class_bonus_hp_does_not_grant_the_extra_skill_point(
+    client: TestClient, db_session: Session
+) -> None:
+    race_id = _race_id(client, db_session, "Halb-Ork")
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(
+        client, db_session, race_id, "Barbar", 1, flex_ability="ST"
+    )
+    skill_ids = [
+        _skill_id(client, db_session, name)
+        for name in ["Akrobatik", "Klettern", "Schwimmen", "Einschüchtern", "Wahrnehmung"]
+    ]
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id, 5, favored_class_bonus="hp", skill_ranks={sid: 1 for sid in skill_ids}
+        ),
+    )
+    assert response.status_code == 422

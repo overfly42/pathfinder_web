@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, FeatDef, ItemCatalogEntry, SkillDef, SpellDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SpellDef } from '../types/creationOptions';
 import type { ClassLevelOptions } from '../types/classLevelOptions';
 import type { LevelUpOptions } from '../types/levelUpOptions';
 
@@ -11,7 +11,7 @@ interface UseLevelUpOptionsResult {
 }
 
 /** Fetches only the reference-data resources the level-up wizard needs, in parallel
- *  (not races/items/pointBuyCosts — those are creation-only). Mirrors useCreationOptions.ts. */
+ *  (not pointBuyCosts — creation-only). Mirrors useCreationOptions.ts. */
 export function useLevelUpOptions(): UseLevelUpOptionsResult {
   const [options, setOptions] = useState<LevelUpOptions | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,10 +31,11 @@ export function useLevelUpOptions(): UseLevelUpOptionsResult {
       apiGet<ClassLevelOptions>('/api/class-level-options'),
       apiGet<ItemCatalogEntry[]>('/api/items'),
       apiGet<string[]>('/api/spell-schools'),
+      apiGet<RaceOption[]>('/api/races'),
     ])
-      .then(([classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools]) => {
+      .then(([classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools, races]) => {
         if (!cancelled) {
-          setOptions({ classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools });
+          setOptions({ classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools, races });
         }
       })
       .catch((err: Error) => {

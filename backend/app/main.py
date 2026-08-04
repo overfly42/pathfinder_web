@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from .db import get_db
 from .models import (
     BaseClass,
+    BaseClassAbility,
     BaseClassAbilityGrant,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
@@ -246,9 +247,99 @@ def get_effects() -> list:
     return load_fixture("effects.json")
 
 
-# Recurring per-class choices gated by level (e.g. a ranger's 2nd favored
-# enemy at level 5), distinct from /api/classes' optionGroups which are
-# one-time level-1 picks. Used by the level-up wizard only.
+# Recurring per-class choices gated by level (e.g. a barbarian's new
+# Kampfrauschkraft at every even level), distinct from /api/classes'
+# optionGroups which are one-time level-1 picks. Used by the level-up
+# wizard's ClassChoiceStep only.
 @app.get("/api/class-level-options")
-def get_class_level_options() -> dict:
-    return load_fixture("class_level_options.json")
+def get_class_level_options(db: Annotated[Session, Depends(get_db)]) -> dict:
+    """Computed from the real `base_class_option_groups`/
+    `base_class_option_choices`/`base_class_ability_grants` tables — this
+    used to read a static `class_level_options.json` fixture, which had gone
+    stale against those tables (wrong group keys, a handful of leftover
+    placeholder choices instead of e.g. Barbar's real ~54-choice
+    Kampfrauschkraft catalog) and so silently under-offered or omitted
+    picks in the level-up wizard.
+
+    A `BaseClassOptionGroup` counts as "recurring" here if some
+    `BaseClassAbility` whose *name* matches the group's own `label` has more
+    than one unconditional (`option_choice_id IS NULL`) `BaseClassAbilityGrant`
+    for this root class at different levels — the same "one shared slot
+    ability, several per-level grant rows" pattern `BaseClassAbilityGrant`'s
+    own docstring describes (Kämpfer's bonus feat, Schurke's Trick, Barbar's
+    Kampfrauschkraft, ...). A group with only a single such grant (e.g.
+    Waldläufer's one-time Bund des Jägers at level 4) is a one-time pick, not
+    a recurring one, and is left out — same for a group with no matching
+    ability at all (e.g. Kleriker's `domain`, Waldläufer's `enemy`/`terrain`,
+    whose recurrence isn't backed by real grant data yet, see todos.md).
+    Omitted rather than guessed at, the same "honest empty default, not
+    fabricated content" convention `sheet.py` uses throughout.
+
+    `"max"` is always 1 here, not the group's own `max_choices` — that field
+    is the *lifetime* total across every occurrence in a character's whole
+    career (e.g. Kampfrauschkraft's 10, one per even level 2-20), whereas
+    each recurring *occurrence* (what this endpoint's `"levels"` enumerates)
+    only ever grants exactly one pick in every class this heuristic has
+    found so far (Kampfrauschkraft, Trick, Offenbarung) — conflating the two
+    used to let the level-up wizard offer picking up to `max_choices` (10)
+    choices in a single level-up instead of 1. `routers/characters.py`'s
+    level-up endpoint enforces the same "at most 1 per group per level-up"
+    rule server-side, and also checks each choice's
+    `BaseClassOptionChoice.min_level` (e.g. Kampfrauschkraft's "Innere
+    Zähigkeit" needs Barbar 8) — both were the not-yet-enforced "phase 5" in
+    roadmap.md's "Pick from a restricted list" section, now done for the
+    level-up path specifically (creation's own `_validate_options` call
+    gained the same `min_level` check too). This is not a player-facing rules
+    reference, so a choice gated behind a higher `min_level` (e.g.
+    Kampfrauschkraft's "Innere Zähigkeit" needing Barbar 8) must not appear
+    at all at an occurrence below that level — `"choices"` is keyed per
+    occurrence level (`"choicesByLevel"`) rather than returned as one flat
+    list, so `ClassChoiceStep` only ever renders what's actually legal to
+    pick and has nothing left to filter itself."""
+    choices_by_group_id: dict[UUID, list[BaseClassOptionChoice]] = {}
+    for choice in db.scalars(select(BaseClassOptionChoice)).all():
+        choices_by_group_id.setdefault(choice.group_id, []).append(choice)
+
+    ability_ids_by_name: dict[str, list[UUID]] = {}
+    for ability in db.scalars(select(BaseClassAbility)).all():
+        ability_ids_by_name.setdefault(ability.name, []).append(ability.id)
+
+    class_names_by_root_id = {root.id: root.name for root in db.scalars(select(BaseClass)).all()}
+
+    result: dict[str, list[dict]] = {}
+    for group in db.scalars(select(BaseClassOptionGroup)).all():
+        ability_ids = ability_ids_by_name.get(group.label, [])
+        class_name = class_names_by_root_id.get(group.base_class_id)
+        if not ability_ids or class_name is None:
+            continue
+        levels = sorted(
+            {
+                grant.level
+                for grant in db.scalars(
+                    select(BaseClassAbilityGrant).where(
+                        BaseClassAbilityGrant.base_class_id == group.base_class_id,
+                        BaseClassAbilityGrant.ability_id.in_(ability_ids),
+                        BaseClassAbilityGrant.option_choice_id.is_(None),
+                    )
+                ).all()
+            }
+        )
+        if len(levels) < 2:
+            continue
+        group_choices = choices_by_group_id.get(group.id, [])
+        choices_by_level = {
+            level: [choice.name for choice in group_choices if choice.min_level is None or choice.min_level <= level]
+            for level in levels
+        }
+        result.setdefault(class_name, []).append(
+            {
+                "key": group.key,
+                "label": group.label,
+                # This occurrence's own pick count, not the group's lifetime
+                # max_choices - see the docstring above.
+                "max": 1,
+                "choicesByLevel": choices_by_level,
+                "levels": levels,
+            }
+        )
+    return result

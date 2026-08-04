@@ -49,7 +49,7 @@ export function ClassChoiceStep({ progression, options, draft, setDraft }: Class
           key={g.key}
           label={g.label}
           max={g.max}
-          choices={g.choices}
+          choices={g.choicesByLevel[info.level] ?? []}
           selected={draft.existingLevelOptionSelections[g.key] ?? []}
           onToggle={(choice) => toggle(g.key, choice, g.max)}
         />

@@ -507,6 +507,22 @@ save progression), minimal starting gear. Full detail for all of these:
          'combat'` with a lookup against the resolved eligibility from step
          5; optionally surface a hint in `FeatsStep.tsx` at creation ("must
          include N combat feats").
+      **Update (2026-08-04):** fixed a level-up bug found via manual play-
+      testing (a Barbar's Kampfrauschkraft picks weren't offered at all) —
+      `GET /api/class-level-options` (the level-up wizard's `ClassChoiceStep`
+      data source) used to read a static `class_level_options.json` fixture
+      that had gone stale against the real seeded tables (wrong group key —
+      `"ragepower"` vs the real `"kampfrauschkraft"` — and 6 leftover
+      placeholder choices instead of the real 28 imported rage powers). Now
+      computed directly from `base_class_option_groups`/`_choices`/
+      `_ability_grants` (matching a group's `label` to a `BaseClassAbility`
+      name with 2+ distinct per-level grants to tell "recurring" apart from
+      a one-time pick) — fixes this for Barbar/Entfesselter Barbar's
+      Kampfrauschkraft and, as a side effect, Schurke's Trick and Mystiker's
+      Offenbarung, which had the same staleness. The deleted fixture is
+      gone; nothing else read it. Doesn't add `min_level` enforcement (a
+      level-2 pick can still list a choice meant for level 8+) — still
+      phase 5 above, not newly introduced by this fix.
       Also still open, out of scope for this effort: Kämpfer's
       Waffentraining/Waffenmeisterschaft (16 weapon rows exist by now, but
       with no combat-stat fields at all — see "Beispielcharakter" above for
@@ -620,10 +636,88 @@ create → play → level-up loop end to end.
   recurring per-level picks, e.g. Waldläufer's 2nd favored enemy at level 5)
   validates against `base_class_option_groups`, same as creation's own
   option groups — for classes whose recurring picks were never seeded there
-  (still only in the `class_level_options.json` fixture), a level-up
-  submitting one will 422. Pre-existing DB-completeness gap, not introduced
-  by this slice; same category as the "Pick from a restricted list" open
-  phases above.
+  at all (Waldläufer's `enemy`/`terrain`), a level-up submitting one will
+  still 422. Pre-existing DB-completeness gap, not introduced by this slice;
+  same category as the "Pick from a restricted list" open phases above.
+  (The *other* half of this gap — classes that *do* have real seeded data
+  but weren't being offered it, e.g. Barbar's Kampfrauschkraft — was a real
+  bug, not just a gap, and is fixed; see that section's 2026-08-04 update.)
+
+  **Bugs found via manual play-testing, fixed 2026-08-04:** two issues
+  surfaced leveling up a Barbar in the running app (not caught by the tests
+  above, which never happened to exercise either path):
+  1. Kampfrauschkraft picks weren't offered at all — see the "Pick from a
+     restricted list unification" section's update above (stale
+     `class_level_options.json` fixture, wrong group key).
+  2. `skill_ranks` only ever let a given skill gain +1 rank per level-up,
+     even one with 0 prior ranks — checked against
+     <http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben>, whose
+     only stated cap is "never more ranks in a skill than character level,"
+     not "+1 per level-up." Changed `LevelUp.skill_ranks` from `list[UUID]`
+     (implicitly "+1 each") to `dict[str, int]` (this level's own rank
+     *delta* per skill, mirroring `CharacterCreate.skill_ranks`'s shape
+     exactly) — a previously-untrained skill can now legally take several
+     new ranks in one level-up, capped only by the level-up's skill-point
+     budget and `existing_ranks + new_ranks <= new_total_level`.
+     `LevelSkillsStep.tsx`'s one-shot toggle became a +/- stepper (mirrors
+     creation's own `SkillsStep.tsx`); `LevelUpSummaryStep.tsx` shows the
+     actual rank count instead of a hardcoded "+1 Rang". 2 new backend
+     tests; live-verified in the browser (3 ranks into a fresh skill in one
+     level-up).
+
+  **More bugs found via manual play-testing, fixed 2026-08-04 (same
+  session):** four more issues, all on the same Barbar:
+  3. A regression from fix 1 above: `/api/class-level-options`'s `"max"`
+     was set to the option group's own `max_choices` (10 for
+     Kampfrauschkraft — a *lifetime* total across the whole career), not
+     "picks allowed at this one occurrence" (always 1 for every recurring
+     group found so far) — let the wizard offer selecting 10 rage powers in
+     a single level-up. Fixed in the endpoint (`"max": 1`, hardcoded with an
+     explanatory comment) *and* independently enforced server-side in the
+     level-up endpoint itself (`len(choices) > 1` per group is rejected
+     regardless of what the client sends).
+  4. `BaseClassOptionChoice.min_level` was never checked (roadmap's own
+     "Pick from a restricted list" phase 5) — a level-2 Barbar could pick
+     "Innere Zähigkeit" (needs level 8). `_validate_options`
+     (`routers/characters.py`) now takes the character's level *in that
+     class* and rejects a choice whose `min_level` isn't met yet — wired
+     through both level-up call sites and creation's (computing the
+     per-class total level across every `ClassSelection` row for creation,
+     the receiving class's own new level for level-up).
+  5. The favored-class bonus (+1 HP or +1 skill rank on a level in the
+     favored class — same source page as fix 2: "Charaktere, die eine Stufe
+     in ihrer bevorzugten Klasse aufsteigen, erhalten die Möglichkeit, 1
+     zusätzlichen Fertigkeitsrang oder 1 zusätzlichen Trefferpunkt zu
+     bekommen") wasn't implemented at all. New `LevelUp.favored_class_bonus`
+     (`"hp" | "skill" | None`), required exactly when the receiving class is
+     the character's favored one (checked via `CharacterClass.is_favored`);
+     "hp" adds 1 to the stored `CharacterLevel.hit_points`, "skill" adds 1
+     to that level's skill-point budget. New `HitPointsStep.tsx` section
+     (chip picker) asks for it when applicable; `CharacterProgression`
+     gained `classes[].isFavored` to know when to ask. Race-specific favored
+     class bonus options (Advanced Race Guide/APG) are a known follow-up —
+     `hp`/`skill` should become two universal entries in the same
+     "pick 1 of N legal options" mechanism already used for Kampfrauschkraft
+     etc., not stay a hardcoded pair; see `todos.md`'s "Volksspezifische
+     Optionen zur Bevorzugten Klasse" item for the planned shape.
+  6. The level-up wizard's skill-point budget display
+     (`skillPointsForThisLevel`, `levelUpCalculations.ts`) never included a
+     race's flat skill-point-per-level bonus (Human's "Geschult") — a
+     backend-only bug this was not: `_skill_points_total`
+     (`routers/characters.py`) already included it correctly, so a Human
+     Barbar's level-up would *accept* 5 skill picks server-side while the UI
+     showed and enforced only 4, silently blocking the 5th pick through the
+     UI. Added `raceGrantsSkillBonusPerLevel` (mirrors creation's
+     `skillPointsTotal` exactly, including the alt-trait-trades-it-away
+     check) — needed threading `CharacterProgression.altTraits` and
+     `LevelUpOptions.races` through, both new.
+
+  10 new backend tests across `test_level_up.py`; all four fixes
+  live-verified in the browser (Playwright) against the running dev
+  servers — the Kampfrauschkraft picker now shows "(0/1)" with the real 28
+  choices, the favored-class chip picker renders and is required, and a
+  Human Barbar's skill-point display now reads 6/6 (4 base + 1 Geschult + 1
+  favored) instead of 4/4.
 - [ ] Deliberately deferred further: a per-level-up "confirm and go back to
       the character sheet" navigation nicety, wealth/gold gained per level
       (depends on the still-open Wealth-by-Level item above), and any

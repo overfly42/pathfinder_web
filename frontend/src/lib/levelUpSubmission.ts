@@ -43,9 +43,9 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
     featSelection(draft.newBonusFeat, options, draft.featSubChoices),
   ].filter((selection): selection is FeatSelectionBody => selection !== null);
 
-  const skill_ranks = Object.entries(draft.skillIncreases)
-    .filter(([, granted]) => granted)
-    .map(([skillId]) => skillId);
+  const skill_ranks = Object.fromEntries(
+    Object.entries(draft.skillIncreases).filter(([, newRanks]) => newRanks > 0),
+  );
 
   const spell = receivingClassName && draft.newSpell
     ? (options.spellsByClass[receivingClassName] ?? []).find((s) => s.name === draft.newSpell)
@@ -62,6 +62,7 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
             options: target.options,
           },
     hit_points: draft.hitPoints,
+    favored_class_bonus: draft.favoredClassBonus,
     existing_level_options: target.mode === 'existing' ? draft.existingLevelOptionSelections : {},
     ability_increase: draft.abilityIncrease,
     skill_ranks,

@@ -224,12 +224,18 @@ def build_character_progression(character: Character, db: Session) -> dict:
                 "level": entry["level"],
                 "archetypes": entry["archetypes"],
                 "options": entry["options"],
+                "isFavored": entry["is_favored"],
             }
             for entry in character.classes
         ],
         "abilityScores": character.ability_scores,
         "feats": [entry["name"] for entry in _build_feats(db, character)],
         "traits": [row["name"] for row in _described(db, BaseTrait, character.trait_ids)],
+        # Alternate-trait names (not the flex ability-score pick) - needed by
+        # the level-up wizard to tell whether a race's skill-point-per-level
+        # bonus (e.g. Human's Geschult) was traded away, same "replaces"
+        # check creation's own skillPointsTotal does.
+        "altTraits": character.alt_traits,
         "skillRanks": character.skill_ranks,
         "spellsKnown": spells_known,
         "history": build_character_history(character, db),

@@ -30,9 +30,11 @@
    rather than relying on stylesheet import order. */
 .class-row.class-row--compact { grid-template-columns: 1.4fr 1.4fr; }
 
-/* Whole-row-clickable skill list with an "existing ranks" column — renamed
-   from the mock's .skill-row-edit since creation already uses that class
-   name for a differently-shaped (+/- stepper) row. */
+/* Skill list with an "existing ranks" column plus a +/- stepper for this
+   level's new ranks (per PF1e, a previously-untrained skill can take more
+   than 1 new rank in one level-up, not just +1 — see the conversation) —
+   renamed from the mock's .skill-row-edit since creation already uses that
+   class name for its own (differently-columned) +/- stepper row. */
 .skill-row-pick {
   display: grid; grid-template-columns: 1fr auto auto 46px;
   gap: 10px; align-items: center;
@@ -40,19 +42,15 @@
   border-bottom: 1px dashed var(--parchment-shadow);
   font-size: 13px;
   border-radius: 6px;
-  cursor: pointer;
-  transition: background .15s;
 }
-.skill-row-pick:hover { background: rgba(179,137,63,0.08); }
 .skill-row-pick.active { background: linear-gradient(160deg, rgba(224,189,117,0.3), rgba(179,137,63,0.12)); }
-.skill-row-pick.disabled { opacity: 0.4; cursor: not-allowed; }
-.skill-row-pick.disabled:hover { background: none; }
 .skill-row-pick:last-child { border-bottom: none; }
 .skill-row-pick .sr-existing {
   font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-faint); text-align: right; white-space: nowrap;
 }
+.skill-row-pick .sr-pick-ctrl { display: flex; align-items: center; gap: 6px; }
 .skill-row-pick .sr-pick {
-  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--brass-dark); text-align: center; white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--brass-dark); text-align: center; white-space: nowrap; min-width: 16px;
 }
 .skill-row-pick.active .sr-pick { color: var(--forest); font-weight: 700; }
 

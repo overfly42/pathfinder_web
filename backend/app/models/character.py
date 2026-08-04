@@ -58,7 +58,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # kept alongside the scores for display/audit, not re-validated on read.
     point_budget: Mapped[int] = mapped_column(Integer)
 
-    racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship()
+    racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
     levels: Mapped[list["CharacterLevel"]] = relationship(
         order_by="CharacterLevel.level", cascade="all, delete-orphan"
     )

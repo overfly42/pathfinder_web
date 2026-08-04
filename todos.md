@@ -47,6 +47,22 @@ Kurzfassung als Einstiegspunkt:
 - [ ] Startgold/Vermögen nach Stufe (Wealth by Level) — `roadmap.md`.
 - [ ] Aktive Effekte für permanente Boni außerhalb von Ausrüstung — deckt
       sich mit roadmap Slice 5 (Effects/Conditions/Time), komplett offen.
+- [ ] Volksspezifische Optionen zur Bevorzugten Klasse (Advanced Race Guide/
+      APG) — `favored_class_bonus` ist aktuell ein hartcodiertes
+      `Literal["hp", "skill"]` (`schemas/character.py`), als sofortiges +1 an
+      zwei fixen Stellen in `routers/characters.py` angewendet. Geplanter
+      Ansatz (siehe `roadmap.md` Slice 7 Punkt 5 für den Ist-Stand): HP und
+      Fertigkeitsrang werden zu zwei *universellen* Katalogeinträgen (kein
+      `race_id`/`base_class_id`) in einem gemeinsamen Options-Mechanismus,
+      rassenspezifische ARG-Boni sind zusätzliche, auf (Volk, Klasse)
+      gescopte Einträge daneben — gleiche „genau 1 von N gültigen
+      Optionen"-Validierung wie bei Kampfrauschkraft & Co. (`_validate_options`),
+      da beim Stufenaufstieg ohnehin nur eine bevorzugte-Klasse-Option pro
+      Stufe wählbar ist. Die Wirkungsberechnung bleibt pro Eintrag ein
+      eigener Handler (HP/Skill sofort wirksames flaches +1; viele ARG-Boni
+      sind fraktioniert, z. B. +1/4 oder +1/6, und brauchen zusätzlich
+      persistenten Akkumulations-Zustand pro Charakter über mehrere Stufen
+      hinweg).
 - [x] Barbar — vollständig gegen `prd.5footstep.de` importiert (Kampfrausch,
       Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
       `todos_history.md`.
@@ -185,7 +201,7 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [x] `POST /api/characters`
 - [x] `GET /api/characters/{character_id}` (zusammengeführt mit dem bestehenden Mock-Fixture-Endpunkt)
 - [x] `PATCH /api/characters/{character_id}`
-- [x] `DELETE /api/characters/{character_id}`
+- [x] `DELETE /api/characters/{character_id}` — Fix 2026-08-04: `Character.racial_choices` hatte keine `cascade="all, delete-orphan"` (im Gegensatz zu `levels`/`class_options`/`class_memberships`/`gear`), dadurch 500 beim Löschen jedes Charakters mit einer Rasse-Wahl (freier Attributsbonus wie beim Menschen, oder ein Alt-Trait) — SQLAlchemy versuchte `character_racial_choices.character_id` auf NULL zu setzen statt die Zeile zu löschen, aber die Spalte ist nicht nullable. Beim Aufräumen von Testdaten entdeckt, nicht vom Nutzer gemeldet. Regressionstest ergänzt.
 - [ ] `PUT /api/characters/{character_id}/draft` (optional, Auto-Save)
 
 **Stufenaufstieg** — alle ❌ nicht implementiert:

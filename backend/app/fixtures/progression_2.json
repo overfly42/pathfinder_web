@@ -7,7 +7,8 @@
       "className": "Kämpfer",
       "level": 3,
       "archetypes": [],
-      "options": {}
+      "options": {},
+      "isFavored": true
     }
   ],
   "abilityScores": {
@@ -26,6 +27,7 @@
   "traits": [
     "Kampfrausch"
   ],
+  "altTraits": [],
   "skillRanks": {
     "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf": 3,
     "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7": 3,
