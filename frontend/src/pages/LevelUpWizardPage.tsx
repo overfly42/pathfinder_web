@@ -1,15 +1,17 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useAppState } from '../state/AppStateContext';
+import { apiGet, apiPost } from '../api/client';
 import { useCharacterProgression } from '../hooks/useCharacterProgression';
 import { useLevelUpOptions } from '../hooks/useLevelUpOptions';
-import { applyLevelUp } from '../lib/applyLevelUp';
+import { levelUpRequestBody } from '../lib/levelUpSubmission';
+import type { CharacterProgression } from '../types/characterProgression';
 import type { LevelUpDraft } from '../types/levelUpDraft';
 import { Panel } from '../components/primitives/Panel';
 import { Stepper, type StepDef } from '../components/primitives/Stepper';
 import { CharContextBanner } from '../components/levelup/CharContextBanner';
 import { ClassLevelStep } from '../components/levelup/ClassLevelStep';
 import { ClassChoiceStep } from '../components/levelup/ClassChoiceStep';
+import { HitPointsStep } from '../components/levelup/HitPointsStep';
 import { AbilityIncreaseStep } from '../components/levelup/AbilityIncreaseStep';
 import { LevelSkillsStep } from '../components/levelup/LevelSkillsStep';
 import { LevelFeatStep } from '../components/levelup/LevelFeatStep';
@@ -20,6 +22,7 @@ import './LevelUpWizardPage.css';
 const STEPS: StepDef[] = [
   { key: 'classLevel', label: 'Klassenstufe' },
   { key: 'classChoice', label: 'Klassenwahl' },
+  { key: 'hitPoints', label: 'Trefferpunkte' },
   { key: 'ability', label: 'Attribut' },
   { key: 'skills', label: 'Fertigkeiten' },
   { key: 'feat', label: 'Talente' },
@@ -27,28 +30,33 @@ const STEPS: StepDef[] = [
   { key: 'summary', label: 'Zusammenfassung' },
 ];
 
+type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
+
 export function LevelUpWizardPage() {
   const { characterId = '1' } = useParams();
-  const { getProgressionOverride, setProgressionOverride } = useAppState();
   const { progression: fetchedProgression, loading: progressionLoading, error: progressionError } =
     useCharacterProgression(characterId);
-  // A prior confirm in this session (or a fresh level-up on top of an already-leveled-up
-  // character) takes precedence over the freshly fetched fixture baseline.
-  const progression = getProgressionOverride(characterId) ?? fetchedProgression;
   const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions();
   const [draft, setDraft] = useState<LevelUpDraft | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
-  const [showConfirmBanner, setShowConfirmBanner] = useState(false);
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [submitErrorMessage, setSubmitErrorMessage] = useState('');
+  // Re-fetched after a successful POST .../level-up so the summary step shows
+  // the real, server-computed level/history instead of the pre-submit draft.
+  const [confirmedProgression, setConfirmedProgression] = useState<CharacterProgression | null>(null);
+  const progression = confirmedProgression ?? fetchedProgression;
 
   useEffect(() => {
     if (progression && !draft) {
       setDraft({
         target: { mode: 'existing', classId: progression.classes[0].id },
+        hitPoints: null,
         existingLevelOptionSelections: {},
         abilityIncrease: null,
         skillIncreases: {},
         newFeat: null,
         newBonusFeat: null,
+        featSubChoices: {},
         newSpell: null,
       });
     }
@@ -88,10 +96,24 @@ export function LevelUpWizardPage() {
     setStepIndex(n);
   }
 
-  function nextStep() {
+  async function nextStep() {
     if (stepIndex === STEPS.length - 1) {
-      if (!showConfirmBanner) setProgressionOverride(characterId, applyLevelUp(prog, currentDraft));
-      setShowConfirmBanner(true);
+      if (submitState === 'success' || submitState === 'submitting') return;
+      if (currentDraft.hitPoints === null) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Trefferpunkte" einen Wert eintragen.');
+        return;
+      }
+      setSubmitState('submitting');
+      try {
+        await apiPost(`/api/characters/${characterId}/level-up`, levelUpRequestBody(prog, opts, currentDraft));
+        const refreshed = await apiGet<CharacterProgression>(`/api/characters/${characterId}/progression`);
+        setConfirmedProgression(refreshed);
+        setSubmitState('success');
+      } catch {
+        setSubmitState('error');
+        setSubmitErrorMessage('Stufenaufstieg konnte nicht gespeichert werden.');
+      }
       return;
     }
     goToStep(stepIndex + 1);
@@ -103,6 +125,8 @@ export function LevelUpWizardPage() {
         return <ClassLevelStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
       case 'classChoice':
         return <ClassChoiceStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
+      case 'hitPoints':
+        return <HitPointsStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
       case 'ability':
         return <AbilityIncreaseStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
       case 'skills':
@@ -112,7 +136,14 @@ export function LevelUpWizardPage() {
       case 'spell':
         return <LevelSpellStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
       case 'summary':
-        return <LevelUpSummaryStep progression={prog} options={opts} draft={currentDraft} showConfirmBanner={showConfirmBanner} />;
+        return (
+          <LevelUpSummaryStep
+            progression={prog}
+            options={opts}
+            draft={currentDraft}
+            showConfirmBanner={submitState === 'success'}
+          />
+        );
       default:
         return null;
     }
@@ -142,12 +173,23 @@ export function LevelUpWizardPage() {
             {renderStep()}
           </Panel>
 
+          {submitState === 'error' && <p className="warning-note">{submitErrorMessage}</p>}
+
           <div className="wizard-nav">
             <button type="button" className="btn-nav prev" disabled={stepIndex === 0} onClick={() => goToStep(stepIndex - 1)}>
               ← Zurück
             </button>
-            <button type="button" className="btn-nav next" onClick={nextStep}>
-              {stepIndex === STEPS.length - 1 ? 'Stufenaufstieg übernehmen ✦' : 'Weiter →'}
+            <button
+              type="button"
+              className="btn-nav next"
+              onClick={nextStep}
+              disabled={stepIndex === STEPS.length - 1 && submitState === 'submitting'}
+            >
+              {stepIndex === STEPS.length - 1
+                ? submitState === 'submitting'
+                  ? 'Speichert …'
+                  : 'Stufenaufstieg übernehmen ✦'
+                : 'Weiter →'}
             </button>
           </div>
         </div>

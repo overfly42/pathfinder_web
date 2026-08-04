@@ -47,6 +47,7 @@ from ..schemas.character import (
     FeatSelection,
     GearSelection,
     GearUpdate,
+    LevelUp,
     SlotUpdate,
     SpellbookAdd,
 )
@@ -763,3 +764,291 @@ def delete_character(character_id: UUID, db: Annotated[Session, Depends(get_db)]
         raise HTTPException(status_code=404, detail="Character not found")
     db.delete(character)
     db.commit()
+
+
+def _class_selections_and_roots(db: Session, character: Character) -> tuple[list[ClassSelection], list[BaseClass]]:
+    """Reconstructs the character's current classes-taken as `ClassSelection`s
+    plus their resolved root `BaseClass` rows — the exact shape
+    `_skill_points_total`/`_feat_max` accept — so `level_up_character` can
+    call those creation-time budget functions unchanged, once for the
+    character's classes before this level and once after, and diff the two
+    for this level's own delta rather than writing new budget arithmetic."""
+    selections = [ClassSelection.model_validate(entry) for entry in character.classes]
+    roots = [resolve_root_class(db, selection.class_name) for selection in selections]
+    return selections, roots
+
+
+def _apply_target_to_selections(
+    classes_before: list[ClassSelection],
+    roots_before: list[BaseClass],
+    receiving_root: BaseClass,
+    is_new_class: bool,
+) -> tuple[list[ClassSelection], list[BaseClass]]:
+    """The character's classes-taken *after* this level-up: either the
+    receiving class's level bumped by one, or (multiclassing) a brand-new
+    level-1 entry appended."""
+    if is_new_class:
+        new_selection = ClassSelection(class_name=receiving_root.name, level=1)
+        return classes_before + [new_selection], roots_before + [receiving_root]
+
+    classes_after = [
+        ClassSelection(
+            class_name=selection.class_name,
+            level=selection.level + 1 if root.id == receiving_root.id else selection.level,
+            archetypes=selection.archetypes,
+            options=selection.options,
+        )
+        for selection, root in zip(classes_before, roots_before)
+    ]
+    return classes_after, roots_before
+
+
+def _character_replaced_ability_ids(db: Session, character: Character) -> set[UUID]:
+    """Reconstructs `create_character`'s `seen_replaced_ability_ids` for an
+    already-existing character, from its stored alt-trait *names*
+    (`Character.alt_traits`) rather than a fresh request body — re-resolves
+    each name via the same `resolve_alt_trait` creation uses, since the
+    'replaces' ability-id set is derived from the trait name at lookup time,
+    not itself persisted anywhere."""
+    replaced: set[UUID] = set()
+    for trait_name in character.alt_traits:
+        resolved = resolve_alt_trait(db, character.race_id, trait_name)
+        if resolved is not None:
+            _, replaces = resolved
+            replaced |= replaces
+    return replaced
+
+
+@router.post("/{character_id}/level-up", response_model=CharacterRead, status_code=201)
+def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Adds exactly one new `CharacterLevel` to an existing character
+    (roadmap slice 7, thin). Reuses creation's own validation/budget
+    functions wherever possible (see module docstrings on
+    `_class_selections_and_roots`/`_apply_target_to_selections`) rather than
+    re-deriving PF1e's level-up math a second time."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    classes_before, roots_before = _class_selections_and_roots(db, character)
+    new_total_level = character.level + 1
+
+    if body.target.mode == "existing":
+        receiving_root = next((root for root in roots_before if root.id == body.target.base_class_id), None)
+        if receiving_root is None:
+            raise HTTPException(
+                status_code=422, detail="target.base_class_id is not one of this character's classes"
+            )
+        is_new_class = False
+        new_archetypes: list[BaseClass] = []
+    else:
+        receiving_root = resolve_root_class(db, body.target.class_name)
+        if any(root.id == receiving_root.id for root in roots_before):
+            raise HTTPException(
+                status_code=422,
+                detail=f"Character already has the class '{receiving_root.name}' — use target.mode 'existing'",
+            )
+        new_archetypes = [resolve_archetype(db, receiving_root, name) for name in body.target.archetypes]
+        _validate_options(db, receiving_root, body.target.options)
+        is_new_class = True
+
+    if not is_valid_rolled_hit_points(receiving_root.hit_dice, body.hit_points):
+        raise HTTPException(status_code=422, detail=f"hit_points must be between 1 and {receiving_root.hit_dice}")
+
+    ability_increase_eligible = new_total_level % 4 == 0
+    if body.ability_increase is not None and not ability_increase_eligible:
+        raise HTTPException(status_code=422, detail="ability_increase is only granted every 4th character level")
+    if body.ability_increase is None and ability_increase_eligible:
+        raise HTTPException(
+            status_code=422, detail="This level grants an ability score increase — ability_increase is required"
+        )
+    if body.ability_increase is not None:
+        column = f"ability_score_{body.ability_increase.lower()}"
+        setattr(character, column, getattr(character, column) + 1)
+
+    if body.target.mode == "existing" and body.existing_level_options:
+        _validate_options(db, receiving_root, body.existing_level_options)
+
+    classes_after, roots_after = _apply_target_to_selections(classes_before, roots_before, receiving_root, is_new_class)
+    receiving_class_level = next(
+        selection.level for selection, root in zip(classes_after, roots_after) if root.id == receiving_root.id
+    )
+
+    seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)
+    race_mods = race_ability_score_mods(db, character.race_id)
+    effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
+
+    def _effective_ability_mod(ability: str) -> int:
+        return ability_mod(effective_scores[ability])
+
+    race_skill_bonus = (
+        1 if race_grants_bonus_skill_point_per_level(db, character.race_id, seen_replaced_ability_ids) else 0
+    )
+    skill_budget_delta = _skill_points_total(
+        classes_after, roots_after, _effective_ability_mod("IN"), race_skill_bonus
+    ) - _skill_points_total(classes_before, roots_before, _effective_ability_mod("IN"), race_skill_bonus)
+    if len(body.skill_ranks) > skill_budget_delta:
+        raise HTTPException(status_code=422, detail="skill_ranks exceed the skill points gained at this level")
+
+    valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
+    existing_skill_ranks = character.skill_ranks
+    for skill_id in body.skill_ranks:
+        if skill_id not in valid_skill_ids:
+            raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id}'")
+        if existing_skill_ranks.get(str(skill_id), 0) + 1 > new_total_level:
+            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id}' would exceed character level")
+
+    feat_budget_delta = _feat_max(db, character.race_id, classes_after, seen_replaced_ability_ids) - _feat_max(
+        db, character.race_id, classes_before, seen_replaced_ability_ids
+    )
+    if len(body.feats) > feat_budget_delta:
+        raise HTTPException(status_code=422, detail="Too many feats chosen for this level")
+    feats_by_id: dict[UUID, BaseFeat] = {}
+    if body.feats:
+        selected_feat_ids = {selection.feat_id for selection in body.feats}
+        feats_by_id = {
+            feat.id: feat for feat in db.scalars(select(BaseFeat).where(BaseFeat.id.in_(selected_feat_ids))).all()
+        }
+        known_spell_schools = set(db.scalars(select(BaseSpell.school).distinct()).all())
+        already_known = {
+            (entry["feat_id"], entry["chosen_weapon_id"], entry["chosen_skill_id"], entry["chosen_spell_school"])
+            for entry in character.feats
+        }
+        for selection in body.feats:
+            feat = feats_by_id.get(selection.feat_id)
+            if feat is None:
+                raise HTTPException(status_code=422, detail=f"Unknown feat id '{selection.feat_id}'")
+            _validate_feat_sub_choice(db, feat, selection, known_spell_schools)
+            key = (
+                selection.feat_id,
+                selection.chosen_weapon_id,
+                selection.chosen_skill_id,
+                selection.chosen_spell_school,
+            )
+            if key in already_known:
+                raise HTTPException(status_code=422, detail=f"'{feat.name}' with this sub-choice is already known")
+
+    class_spell: BaseClassSpell | None = None
+    if body.spell_id is not None:
+        class_def = _class_def(receiving_root.name) or {}
+        spell_type = class_def.get("spellType", "none")
+        if spell_type not in ("spontaneous", "arcane-prepared"):
+            raise HTTPException(status_code=422, detail=f"{receiving_root.name} has no known-spell list to choose from")
+        class_spell = db.scalar(
+            select(BaseClassSpell).where(
+                BaseClassSpell.base_class_id == receiving_root.id, BaseClassSpell.spell_id == body.spell_id
+            )
+        )
+        if class_spell is None:
+            raise HTTPException(status_code=422, detail=f"Spell not on {receiving_root.name}'s spell list")
+        already_known_spells = set(character.spell_ids.get(str(receiving_root.id), []))
+        if body.spell_id in already_known_spells:
+            raise HTTPException(status_code=422, detail="Spell is already known")
+
+        if spell_type == "spontaneous":
+            budget = spontaneous_known_budget(db, receiving_root.id, receiving_class_level)
+            known_at_grade = db.scalars(
+                select(BaseClassSpell.spell_id).where(
+                    BaseClassSpell.base_class_id == receiving_root.id,
+                    BaseClassSpell.grade == class_spell.grade,
+                    BaseClassSpell.spell_id.in_(already_known_spells),
+                )
+            ).all()
+            if len(known_at_grade) >= budget.get(class_spell.grade, 0):
+                raise HTTPException(
+                    status_code=422, detail=f"No grade {class_spell.grade} spell slots available at this level"
+                )
+        else:  # arcane-prepared
+            if class_spell.grade == 0:
+                raise HTTPException(status_code=422, detail="Grade-0 spells are already known automatically")
+            accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
+            if class_spell.grade not in accessible_grades:
+                raise HTTPException(
+                    status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {receiving_root.name}"
+                )
+            casting_ability_mod = (
+                _effective_ability_mod(receiving_root.casting_ability) if receiving_root.casting_ability else 0
+            )
+            budget = arcane_prepared_budget(receiving_class_level, casting_ability_mod)
+            known_non_grade0 = sum(
+                1
+                for row in db.scalars(
+                    select(BaseClassSpell.grade).where(
+                        BaseClassSpell.base_class_id == receiving_root.id,
+                        BaseClassSpell.spell_id.in_(already_known_spells),
+                    )
+                ).all()
+                if row != 0
+            )
+            if known_non_grade0 >= budget:
+                raise HTTPException(status_code=422, detail="No spellbook slots available at this level")
+
+    new_level = CharacterLevel(
+        level=new_total_level, base_class_id=receiving_root.id, hit_points=body.hit_points,
+        ability_increase=body.ability_increase,
+    )
+    character.levels.append(new_level)
+
+    if is_new_class:
+        character.class_memberships.append(CharacterClass(base_class_id=receiving_root.id, is_favored=False))
+        for archetype in new_archetypes:
+            character.class_memberships.append(CharacterClass(base_class_id=archetype.id))
+        for group_key, choices in body.target.options.items():
+            for choice in choices:
+                choice_row = db.scalar(
+                    select(BaseClassOptionChoice)
+                    .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+                    .where(
+                        BaseClassOptionGroup.base_class_id == receiving_root.id,
+                        BaseClassOptionGroup.key == group_key,
+                        BaseClassOptionChoice.name == choice,
+                    )
+                )
+                character.class_options.append(
+                    CharacterClassOption(
+                        base_class_id=receiving_root.id,
+                        group_key=group_key,
+                        choice=choice,
+                        choice_id=choice_row.id if choice_row is not None else None,
+                        level=new_level,
+                    )
+                )
+    elif body.existing_level_options:
+        for group_key, choices in body.existing_level_options.items():
+            for choice in choices:
+                choice_row = db.scalar(
+                    select(BaseClassOptionChoice)
+                    .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+                    .where(
+                        BaseClassOptionGroup.base_class_id == receiving_root.id,
+                        BaseClassOptionGroup.key == group_key,
+                        BaseClassOptionChoice.name == choice,
+                    )
+                )
+                character.class_options.append(
+                    CharacterClassOption(
+                        base_class_id=receiving_root.id,
+                        group_key=group_key,
+                        choice=choice,
+                        choice_id=choice_row.id if choice_row is not None else None,
+                        level=new_level,
+                    )
+                )
+
+    for skill_id in body.skill_ranks:
+        new_level.skill_ranks.append(CharacterSkillRank(skill_id=skill_id, ranks=1))
+    for selection in body.feats:
+        new_level.feats.append(
+            CharacterFeat(
+                feat_id=selection.feat_id,
+                chosen_weapon_id=selection.chosen_weapon_id,
+                chosen_skill_id=selection.chosen_skill_id,
+                chosen_spell_school=selection.chosen_spell_school,
+            )
+        )
+    if body.spell_id is not None:
+        new_level.spells.append(CharacterSpell(base_class_id=receiving_root.id, spell_id=body.spell_id))
+
+    db.commit()
+    db.refresh(character)
+    return character

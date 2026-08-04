@@ -20,7 +20,7 @@ from .models import (
 )
 from .routers import characters, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
-from .sheet import build_character_sheet
+from .sheet import build_character_history, build_character_progression, build_character_sheet
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -92,11 +92,43 @@ def get_character(character_id: str, db: Annotated[Session, Depends(get_db)]) ->
 
 
 @app.get("/api/characters/{character_id}/progression")
-def get_character_progression(character_id: str) -> dict:
+def get_character_progression(character_id: str, db: Annotated[Session, Depends(get_db)]) -> dict:
     filename = PROGRESSION_FIXTURES.get(character_id)
-    if filename is None:
+    if filename is not None:
+        return load_fixture(filename)
+
+    # Not one of the two mock progression fixtures — try a real character,
+    # same dual-path pattern as get_character above.
+    try:
+        parsed_id = UUID(character_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail="Character not found") from exc
+
+    character = db.get(Character, parsed_id)
+    if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
-    return load_fixture(filename)
+    return build_character_progression(character, db)
+
+
+@app.get("/api/characters/{character_id}/history")
+def get_character_history(character_id: str, db: Annotated[Session, Depends(get_db)]) -> list:
+    """Standalone level-up history log (roadmap.md slice 7, thin) — the level-
+    up wizard itself reads history off `.../progression`'s `history` field,
+    but this exposes the same reconstruction on its own. The two mock
+    fixture ids have no real `CharacterLevel` rows to reconstruct from, so
+    they just return an empty log rather than 404ing."""
+    if character_id in PROGRESSION_FIXTURES:
+        return []
+
+    try:
+        parsed_id = UUID(character_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail="Character not found") from exc
+
+    character = db.get(Character, parsed_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    return build_character_history(character, db)
 
 
 # Reference data for the character-creation and level-up wizards.
@@ -190,6 +222,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["spellTradition"] = root.spell_tradition if root else None
         class_def["spellsKnownByLevel"] = known_by_root_id.get(root_id, {}) if root_id else {}
         class_def["babProgression"] = root.bab_progression if root else None
+        class_def["hitDice"] = root.hit_dice if root else None
         class_def["fortSave"] = root.fort_save if root else None
         class_def["refSave"] = root.ref_save if root else None
         class_def["willSave"] = root.wil_save if root else None

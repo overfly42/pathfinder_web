@@ -231,6 +231,98 @@ class CharacterCreate(BaseModel):
         return value
 
 
+class LevelUpTarget(BaseModel):
+    """Which class this level-up's new `CharacterLevel` belongs to — either
+    another level in a class the character already has ("existing", by that
+    class's root `base_class_id`, matching `Character.classes[].id`), or the
+    character's first level in a brand-new class ("new", a multiclass pick,
+    same archetypes/options shape as `ClassSelection` since it's a level-1
+    class-taken exactly like one row of `CharacterCreate.classes`)."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    mode: Literal["existing", "new"]
+    base_class_id: UUID | None = None
+    class_name: str | None = None
+    archetypes: list[str] = []
+    options: dict[str, list[str]] = {}
+
+    @model_validator(mode="after")
+    def mode_matches_fields(self) -> "LevelUpTarget":
+        if self.mode == "existing":
+            if self.base_class_id is None:
+                raise ValueError("target.base_class_id is required when mode is 'existing'")
+            if self.archetypes or self.options:
+                raise ValueError("target.archetypes/options only apply to mode 'new'")
+        else:
+            if not (self.class_name and self.class_name.strip()):
+                raise ValueError("target.class_name is required when mode is 'new'")
+            if self.base_class_id is not None:
+                raise ValueError("target.base_class_id does not apply to mode 'new'")
+        return self
+
+
+class LevelUp(BaseModel):
+    """Body for `POST /api/characters/{id}/level-up` — adds exactly one new
+    `CharacterLevel` to an existing character. Deliberately mirrors
+    `CharacterCreate`'s field shapes (`FeatSelection`, per-group `options`)
+    rather than inventing new ones, since the same validation/persistence
+    code is reused for both. Unlike creation, every quantity here is this
+    *level's own delta* (new skill ranks, new feats, one new spell), not a
+    cumulative total — `routers/characters.py`'s level-up endpoint derives
+    each delta's cap by calling the same budget functions creation uses
+    twice (character's classes before/after this level) and subtracting."""
+
+    target: LevelUpTarget
+    # Player-entered HP roll for this one new level — never auto-maxed like a
+    # character's very first level, since level-up is by definition not that.
+    hit_points: int
+    # Recurring per-class picks gated by the receiving class's own new level
+    # (e.g. a ranger's 2nd favored enemy at level 5) — only meaningful for
+    # mode "existing"; a "new" class's level-1 picks go in target.options
+    # instead, same as CharacterCreate.classes[].options.
+    existing_level_options: dict[str, list[str]] = {}
+    ability_increase: str | None = None
+    # Skill ids getting their one new rank this level (each at most once).
+    skill_ranks: list[UUID] = []
+    # 0–2 entries: a regular new feat slot (odd levels) and/or a class bonus
+    # feat slot (e.g. Kämpfer), both validated/stored identically — the
+    # backend never distinguishes "regular" vs "bonus", only the frontend UI
+    # explains the two as separate fields.
+    feats: list[FeatSelection] = []
+    spell_id: UUID | None = None
+
+    @field_validator("ability_increase")
+    @classmethod
+    def ability_increase_must_be_a_known_key(cls, value: str | None) -> str | None:
+        if value is not None and value not in ABILITY_KEYS:
+            raise ValueError(f"ability_increase must be one of {ABILITY_KEYS}")
+        return value
+
+    @field_validator("skill_ranks")
+    @classmethod
+    def skill_ranks_must_not_have_duplicates(cls, value: list[UUID]) -> list[UUID]:
+        if len(set(value)) != len(value):
+            raise ValueError("skill_ranks must not contain duplicates")
+        return value
+
+    @field_validator("feats")
+    @classmethod
+    def feats_must_not_have_duplicate_selections(cls, value: list[FeatSelection]) -> list[FeatSelection]:
+        seen = set()
+        for selection in value:
+            key = (
+                selection.feat_id,
+                selection.chosen_weapon_id,
+                selection.chosen_skill_id,
+                selection.chosen_spell_school,
+            )
+            if key in seen:
+                raise ValueError("feats must not contain the same feat with the same sub-choice more than once")
+            seen.add(key)
+        return value
+
+
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
     quantity/enhancement/properties/special_ability_ids/stored_spell_id may

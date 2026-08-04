@@ -570,16 +570,66 @@ modifier/bonus-stacking design, real computed AC. Full detail:
 - [ ] Depends on slices 3 (feats/spells data) and 5 (effects) being at least
       thin-complete.
 
-### 7. Level-up — thin then thick
-- [ ] Thin: single-class new-level choices (feat/skill/spell as applicable)
-      plus extending slice 3's HP/BAB/save computation by one level — not
-      building that computation fresh here (moved to slice 3: a level-1
-      character needs it too, not just a leveled-up one).
-- [ ] Thick: feat/skill/spell choices, multiclassing, archetypes, fighter
-      bonus feat, history log (`character_levels`, `history` tables).
-- [ ] `POST /api/characters/{id}/level-up`, `GET /api/characters/{id}/history`.
-- [ ] Wire `LevelUpWizardPage` to the real endpoint instead of only writing
-      to `AppStateContext`.
+### 7. Level-up — thin (done 2026-08-04, pulled forward ahead of slices 5/6)
+Pulled forward ahead of Effects/Actions per the "Beispielcharakter" gaps
+above — no hard dependency on either (only slice 6 declares one on slice 5;
+slice 7 only ever depended on slice 3, already done), and it completes the
+create → play → level-up loop end to end.
+
+- [x] `POST /api/characters/{id}/level-up`: adds one new `CharacterLevel`,
+      reusing creation's own validation/budget functions (`resolve_root_class`,
+      `_validate_options`, `_validate_feat_sub_choice`, `_skill_points_total`,
+      `_feat_max`, `spontaneous_known_budget`/`arcane_prepared_budget`/
+      `known_grades`, `is_valid_rolled_hit_points`) called once for the
+      character's classes before this level and once after, diffing the two
+      for this level's own delta rather than re-deriving PF1e's level-up math
+      separately. Covers single-class leveling, multiclassing into a
+      brand-new class (archetype + level-1 option-group picks, same shape as
+      one `CharacterCreate.classes` row), feat slots (a regular odd-level
+      slot and/or a class bonus slot, both the same `feats` list — the
+      backend never distinguishes the two, only the frontend UI explains
+      them separately), one rank per skill, one ability-score increase every
+      4th level, and one new known/prepared spell.
+- [x] New `CharacterLevel.ability_increase` column (nullable `String(2)`) —
+      the one new schema piece, needed so a history log can say *which*
+      level got its ability increase; the score itself still only lives on
+      `Character.ability_score_*`.
+- [x] `GET /api/characters/{id}/history` + `.../progression`'s `history`
+      field, both backed by one shared `sheet.py` helper
+      (`build_character_history`) reconstructed purely from `CharacterLevel`
+      audit rows — no separate `history` table turned out to be needed after
+      all, since every level-up fact already has a per-level home.
+- [x] `LevelUpWizardPage` now posts to the real endpoint and re-fetches
+      `.../progression` for its summary/history display, instead of writing
+      to `AppStateContext` (`progressionOverrides`/`getProgressionOverride`/
+      `setProgressionOverride` removed entirely, along with
+      `lib/applyLevelUp.ts`). Added the missing HP-roll step
+      (`HitPointsStep.tsx` — creation never needed one, it only ever creates
+      level-1 characters, always auto-maxed) and the feat sub-choice dropdown
+      in `LevelFeatStep.tsx` (ported from creation's `FeatsStep.tsx`,
+      `LevelUpOptions` extended with `items`/`spellSchools`).
+- [x] `backend/tests/test_level_up.py` (20 tests): odd/even-level feat
+      gating, the fighter bonus feat slot, the 4th-level ability increase,
+      skill-point delta, spontaneous/arcane-prepared spell budgets,
+      multiclassing with archetype/option-group picks, and the progression/
+      history endpoints reflecting a real level-up. Full backend suite green
+      (211 tests). Manually driven end-to-end in the browser (Playwright)
+      against the running dev servers.
+
+  **Known gap, not fixed here:** `existing_level_options` (a class's
+  recurring per-level picks, e.g. Waldläufer's 2nd favored enemy at level 5)
+  validates against `base_class_option_groups`, same as creation's own
+  option groups — for classes whose recurring picks were never seeded there
+  (still only in the `class_level_options.json` fixture), a level-up
+  submitting one will 422. Pre-existing DB-completeness gap, not introduced
+  by this slice; same category as the "Pick from a restricted list" open
+  phases above.
+- [ ] Deliberately deferred further: a per-level-up "confirm and go back to
+      the character sheet" navigation nicety, wealth/gold gained per level
+      (depends on the still-open Wealth-by-Level item above), and any
+      class-ability *computation* a new level might newly enable (deferred
+      to slice 3's own "Class-ability computation" item, which already
+      waits on slice 5).
 
 ### 8. Reference-data migration (later, not upfront)
 - [ ] Move classes/feats/spells/items/effects from JSON fixtures into

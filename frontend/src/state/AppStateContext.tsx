@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { apiGet, apiPost } from '../api/client';
-import type { CharacterProgression } from '../types/characterProgression';
 import type { User } from '../types/user';
 
 interface AppStateValue {
@@ -18,9 +17,6 @@ interface AppStateValue {
   nameOverrides: Record<string, string>;
   renameCharacter: (id: string, name: string) => void;
   removeCharacter: (id: string) => void;
-
-  getProgressionOverride: (id: string) => CharacterProgression | undefined;
-  setProgressionOverride: (id: string, progression: CharacterProgression) => void;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -43,7 +39,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dbCharacterIds, setDbCharacterIds] = useState<string[]>([]);
   const [currentCharacterId, setCurrentCharacterId] = useState('');
   const [nameOverrides, setNameOverrides] = useState<Record<string, string>>({});
-  const [progressionOverrides, setProgressionOverrides] = useState<Record<string, CharacterProgression>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -113,15 +108,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setDbCharacterIds((prev) => prev.filter((existing) => existing !== id));
   }, []);
 
-  const getProgressionOverride = useCallback(
-    (id: string) => progressionOverrides[id],
-    [progressionOverrides],
-  );
-
-  const setProgressionOverride = useCallback((id: string, progression: CharacterProgression) => {
-    setProgressionOverrides((prev) => ({ ...prev, [id]: progression }));
-  }, []);
-
   const value = useMemo<AppStateValue>(
     () => ({
       users,
@@ -134,8 +120,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       nameOverrides,
       renameCharacter,
       removeCharacter,
-      getProgressionOverride,
-      setProgressionOverride,
     }),
     [
       users,
@@ -147,8 +131,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       nameOverrides,
       renameCharacter,
       removeCharacter,
-      getProgressionOverride,
-      setProgressionOverride,
     ],
   );
 

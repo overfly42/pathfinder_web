@@ -54,6 +54,10 @@ export interface ClassDef {
    *  `BaseClassSpellsKnown`; keep the frontend budget math in
    *  `creationCalculations.ts` in sync with the backend's `rules/spells.py`. */
   spellsKnownByLevel: Record<string, Record<string, number | null>>;
+  /** The class's hit die size (e.g. 10 for a d10) — used by the level-up
+   *  wizard's HP-roll step to bound the input; creation never needed this
+   *  since it only ever creates level-1 characters (always auto-maxed). */
+  hitDice: number | null;
 }
 
 export interface SkillDef {

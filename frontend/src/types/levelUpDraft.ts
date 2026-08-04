@@ -6,6 +6,9 @@ export type LevelUpTarget =
 
 export interface LevelUpDraft {
   target: LevelUpTarget;
+  /** Player-entered HP roll for this new level — never auto-maxed (a level-up
+   *  is by definition not the character's very first level). */
+  hitPoints: number | null;
   /** Recurring per-class level-gated choices (CLASS_LEVEL_OPTIONS), keyed by group key. */
   existingLevelOptionSelections: Record<string, string[]>;
   abilityIncrease: AbilityKey | null;
@@ -14,5 +17,10 @@ export interface LevelUpDraft {
   newFeat: string | null;
   /** Fighter-only bonus combat feat granted on even levels, independent of newFeat. */
   newBonusFeat: string | null;
+  /** feat *name* (newFeat/newBonusFeat) -> chosen weapon/skill id or spell
+   *  school, for a feat whose `subChoiceType` requires one — same shape as
+   *  `CreationDraft.featSubChoices`, but keyed by name since newFeat/
+   *  newBonusFeat are names here, not ids. */
+  featSubChoices: Record<string, string>;
   newSpell: string | null;
 }

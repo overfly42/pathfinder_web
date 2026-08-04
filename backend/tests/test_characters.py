@@ -285,9 +285,11 @@ def test_create_character_with_archetype_persists_and_round_trips(client: TestCl
 
     # GET /api/characters/{id} now returns the sheet's display shape
     # (app/sheet.py), not a composition echo — verify persistence directly
-    # against the ORM instead.
+    # against the ORM instead. The ORM property also carries an "id" (root
+    # BaseClass id, for the level-up wizard's target picker) that
+    # CharacterRead's ClassSelection schema doesn't declare and so drops.
     db_character = db_session.get(Character, body["id"])
-    assert db_character.classes == body["classes"]
+    assert [{k: v for k, v in c.items() if k != "id"} for c in db_character.classes] == body["classes"]
 
 
 def test_create_character_with_unknown_archetype_is_rejected(client: TestClient, db_session: Session) -> None:

@@ -108,6 +108,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
         return [
             {
+                "id": str(root.id),
                 "class_name": root.name,
                 "level": level_counts[root.id],
                 "archetypes": archetypes_by_root_id.get(root.id, []),
@@ -280,6 +281,13 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     level: Mapped[int] = mapped_column(Integer)
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Which ability key ("ST"/"GE"/...) got its +1 at this level, if any (PF1e
+    # grants one every 4th character level). The score itself only ever lives
+    # on Character.ability_score_* (bumped once, in place, at level-up) — this
+    # column is purely the audit fact a level-up history log needs to say
+    # *which* level an increase happened at, same per-level-audit convention
+    # as skill_ranks/feats/traits/spells below.
+    ability_increase: Mapped[str | None] = mapped_column(String(2), nullable=True)
 
     base_class: Mapped[BaseClass] = relationship()
     skill_ranks: Mapped[list["CharacterSkillRank"]] = relationship(cascade="all, delete-orphan")

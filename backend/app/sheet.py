@@ -198,6 +198,88 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     }
 
 
+def build_character_progression(character: Character, db: Session) -> dict:
+    """The level-up wizard's baseline view of a character
+    (`frontend/src/types/characterProgression.ts`'s `CharacterProgression`) —
+    plain names/keys the wizard steps already expect (the same shape the mock
+    `progression_1.json`/`progression_2.json` fixtures used before a real
+    character could be leveled), not the sheet's fuller computed/display
+    shape (`build_character_sheet`)."""
+    race = db.get(BaseRace, character.race_id)
+
+    spells_known: dict[str, list[str]] = {}
+    for base_class_id_str, spell_ids in character.spell_ids.items():
+        root = db.get(BaseClass, UUID(base_class_id_str))
+        if root is None or not spell_ids:
+            continue
+        spells_known[root.name] = list(db.scalars(select(BaseSpell.name).where(BaseSpell.id.in_(spell_ids))).all())
+
+    return {
+        "name": character.name,
+        "race": race.name if race is not None else "",
+        "classes": [
+            {
+                "id": entry["id"],
+                "className": entry["class_name"],
+                "level": entry["level"],
+                "archetypes": entry["archetypes"],
+                "options": entry["options"],
+            }
+            for entry in character.classes
+        ],
+        "abilityScores": character.ability_scores,
+        "feats": [entry["name"] for entry in _build_feats(db, character)],
+        "traits": [row["name"] for row in _described(db, BaseTrait, character.trait_ids)],
+        "skillRanks": character.skill_ranks,
+        "spellsKnown": spells_known,
+        "history": build_character_history(character, db),
+    }
+
+
+def build_character_history(character: Character, db: Session) -> list[dict]:
+    """Reconstructs a level-up history log purely from `CharacterLevel` audit
+    rows (level 1 is character creation, not a level-up event, so it's
+    skipped) — no separate `history` table (roadmap.md slice 7's "thick"
+    item); everything here was already written by `routers/characters.py`'s
+    level-up endpoint, this just formats it. Shared by
+    `build_character_progression`'s `history` field and the standalone
+    `GET /api/characters/{id}/history` endpoint (`main.py`)."""
+    level_ids = {level.base_class_id for level in character.levels}
+    roots_by_id = {root.id: root for root in db.scalars(select(BaseClass).where(BaseClass.id.in_(level_ids))).all()}
+
+    entries = []
+    for level in character.levels:
+        if level.level == 1:
+            continue
+        root = roots_by_id.get(level.base_class_id)
+        parts = [f"{root.name if root is not None else '?'} Stufe {level.level}"]
+
+        for feat_entry in level.feats:
+            feat = db.get(BaseFeat, feat_entry.feat_id)
+            if feat is not None:
+                parts.append(f"Talent: {feat.name}")
+        if level.ability_increase:
+            parts.append(f"Attribut +1: {level.ability_increase}")
+        skill_names = [
+            skill.name for skill in (db.get(BaseSkill, entry.skill_id) for entry in level.skill_ranks) if skill
+        ]
+        if skill_names:
+            parts.append(f"Fertigkeiten: {', '.join(skill_names)}")
+        for spell_entry in level.spells:
+            spell = db.get(BaseSpell, spell_entry.spell_id)
+            if spell is not None:
+                parts.append(f"Neuer Zauber: {spell.name}")
+
+        entries.append(
+            {
+                "id": str(level.id),
+                "date": level.created_at.date().isoformat() if level.created_at else "",
+                "description": f"Stufe {level.level - 1} → {level.level}: {' · '.join(parts)}",
+            }
+        )
+    return entries
+
+
 def _described(db: Session, model: type, ids: list[UUID]) -> list[dict]:
     if not ids:
         return []
