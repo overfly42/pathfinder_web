@@ -1187,6 +1187,55 @@ def test_delete_character(client: TestClient, db_session: Session) -> None:
     assert response.status_code == 404
 
 
+def test_adjust_hp_damage_and_heal(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    # Waldläufer (d10) at level 1 is always auto-maxed; Elf's -2 KO (13 -> 11) is a +0
+    # modifier, so hp_max == 10.
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
+
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -4})
+    assert response.status_code == 200
+    assert response.json()["damage_taken"] == 4
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 6, "max": 10}
+
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 2})
+    assert response.status_code == 200
+    assert response.json()["damage_taken"] == 2
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 8, "max": 10}
+
+
+def test_adjust_hp_damage_is_capped_so_current_hp_never_goes_negative(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
+
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -100})
+    assert response.status_code == 200
+    assert response.json()["damage_taken"] == 10
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"]["current"] == 0
+
+
+def test_adjust_hp_healing_past_max_shows_as_negative_damage(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
+
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 5})
+    assert response.status_code == 200
+    assert response.json()["damage_taken"] == -5
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 15, "max": 10}
+
+
+def test_adjust_hp_unknown_character_is_404(client: TestClient) -> None:
+    response = client.patch(
+        "/api/characters/00000000-0000-0000-0000-000000000000/hp", json={"delta": -1}
+    )
+    assert response.status_code == 404
+
+
 def test_mock_character_fixtures_still_served(client: TestClient) -> None:
     response = client.get("/api/characters/1")
     assert response.status_code == 200

@@ -36,7 +36,7 @@ from ..models import (
 from ..rules.equipment_slots import SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
-from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points
+from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import (
@@ -47,6 +47,7 @@ from ..schemas.character import (
     FeatSelection,
     GearSelection,
     GearUpdate,
+    HpAdjust,
     LevelUp,
     SlotUpdate,
     SpellbookAdd,
@@ -482,6 +483,42 @@ def rename_character(
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
     character.name = body.name
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/hp", response_model=CharacterRead)
+def adjust_hp(character_id: UUID, body: HpAdjust, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Applies damage (negative `delta`) or healing (positive `delta`) to a
+    character's current HP. Only `Character.damage_taken` is ever
+    persisted — remaining HP is always derived (`hp_max - damage_taken`,
+    same formula as `sheet.py`'s display), so this endpoint just moves that
+    one column. No lower bound on `damage_taken`: healing past full HP is
+    allowed and shows up as "negative damage" (a temporary-HP stand-in,
+    same convention as the sheet's `VitalsBar`), but damage can't push
+    current HP below 0 - `damage_taken` is capped at `hp_max` instead of
+    overshooting.
+
+    `hp_max` here mirrors `sheet.py`'s `build_character_sheet` formula but
+    without `_gear_ability_bonuses`' CON-boosting wondrous items (that
+    helper is private to `sheet.py`, and importing it back here would be a
+    circular import - `sheet.py` already imports from this module). A
+    character actively wearing a CON-boosting item could in principle see
+    this clamp come out one CON-mod-per-level too low; a narrow,
+    deliberately accepted gap given how rare that combination is."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    race_mods = race_ability_score_mods(db, character.race_id)
+    effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
+    con_mod = ability_mod(effective_scores["KO"])
+    hp_max = max_hit_points([level.hit_points for level in character.levels], con_mod, character.level)
+
+    new_damage_taken = (character.damage_taken or 0) - body.delta
+    character.damage_taken = min(new_damage_taken, hp_max)
+
     db.commit()
     db.refresh(character)
     return character

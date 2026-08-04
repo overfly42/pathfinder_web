@@ -383,12 +383,18 @@ def _build_skills(
         if skill.id == AKROBATIK_SKILL_ID:
             # Springen-specific Volksbonus (rules/speed.py's jump_skill_bonus)
             # — doesn't apply to Akrobatik's other uses (Balancieren,
-            # Abrollen, ...), so it's surfaced as a note rather than folded
-            # into the displayed value above.
+            # Abrollen, ...), so it's never folded into the displayed value
+            # above. The note itself, though, shows the full ready-to-roll
+            # jump total (this character's Akrobatik total + that Volksbonus/
+            # -malus), not just the isolated racial component — a player
+            # making a jump check wants one usable number, not a formula
+            # piece to add up themselves.
+            base_value = ranks + ab_mod + class_bonus
             jump_bonus = jump_skill_bonus(total_speed)
             entry["note"] = (
-                f"Sprung (Hoch-/Weitsprung): {_fmt(jump_bonus)} bei {total_speed} m Bewegungsrate "
-                "(Volksbonus/-malus von 4 pro volle 3 m über/unter 9 m, gilt nur für Sprünge)"
+                f"Sprung (Hoch-/Weitsprung): {_fmt(base_value + jump_bonus)} gesamt "
+                f"(Akrobatik {_fmt(base_value)} + Volksbonus/-malus {_fmt(jump_bonus)} "
+                f"bei {total_speed} m Bewegungsrate, 4 pro volle 3 m über/unter 9 m)"
             )
         result.append(entry)
     return result

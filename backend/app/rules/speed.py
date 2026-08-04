@@ -110,9 +110,11 @@ def jump_skill_bonus(total_land_speed: int) -> int:
     ability/feat/trait catalog row (no UUID) to key a handler off of — a
     fixed formula belongs in the derivation phase alongside
     `rules/progression.py`'s `ability_mod`, not the composition-driven
-    registry. Only applies to jump checks, not the general Akrobatik total
-    shown in `sheet.py`'s skill list — not wired into `_build_skills` (see
-    that decision's discussion in conversation)."""
+    registry. Only applies to jump checks, not Akrobatik's other uses
+    (Balancieren, Abrollen, ...), so `sheet.py`'s `_build_skills` never folds
+    it into the general Akrobatik `value` shown on the skill row — it only
+    appears combined with that value in the row's info-note (a ready-to-roll
+    jump total), computed there, not here."""
     diff = total_land_speed - 9
     increments = abs(diff) // 3
     return 4 * increments if diff >= 0 else -4 * increments

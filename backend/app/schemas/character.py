@@ -323,6 +323,17 @@ class LevelUp(BaseModel):
         return value
 
 
+class HpAdjust(BaseModel):
+    """Body for `PATCH /api/characters/{id}/hp` — `delta` is the signed
+    change to *current* HP: positive heals, negative damages (matches the
+    character sheet's `VitalsBar`/`onApplyHp` convention on the frontend).
+    Persisted as the inverse onto `Character.damage_taken` — remaining HP is
+    always derived at read time, never stored directly (see that column's
+    docstring)."""
+
+    delta: int
+
+
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
     quantity/enhancement/properties/special_ability_ids/stored_spell_id may

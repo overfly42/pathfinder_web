@@ -192,8 +192,17 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 - [ ] `POST /api/characters/{character_id}/level-up`
 - [ ] `GET /api/characters/{character_id}/history`
 
-**Vitalwerte/Kampf** — ❌ nicht implementiert:
-- [ ] `PATCH /api/characters/{character_id}/hp`
+**Vitalwerte/Kampf**:
+- [x] `PATCH /api/characters/{character_id}/hp` (2026-08-04) — signed `delta`
+      auf aktuelle TP (positiv heilt, negativ Schaden), persistiert invers
+      als `Character.damage_taken` (weiterhin nie die verbleibenden TP
+      selbst). Schaden wird bei `hp_max` gekappt (keine negativen aktuellen
+      TP), Heilung über `hp_max` hinaus bewusst nicht gekappt (zeigt sich als
+      negatives `damage_taken`, gleiche Konvention wie das Sheet-`VitalsBar`
+      bisher schon lokal simuliert hat). `CharacterSheetPage.tsx`s
+      `handleApplyHp` ruft das jetzt für echte (Datenbank-)Charaktere auf
+      statt nur lokalen State zu mutieren; die beiden Mock-Fixture-Charaktere
+      bleiben rein lokal (kein Backing-Row).
 
 **Zustände/Effekte/Zeit** — alle ❌ nicht implementiert:
 - [ ] `POST /api/characters/{character_id}/effects/{effect_id}/activate`

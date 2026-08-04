@@ -17,6 +17,7 @@ from test_characters import (
     _feat_id,
     _feat_selection,
     _item_id,
+    _race_id,
     _skill_id,
     _trait_id,
 )
@@ -91,6 +92,38 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
     assert all(slot["options"] == [] and slot["selected"] == "" for slot in body["equipmentSlots"])
     assert body["actions"] == []
     assert body["effectsActive"] == []
+
+
+def test_akrobatik_note_shows_the_full_ready_to_roll_jump_total(client: TestClient, db_session: Session) -> None:
+    """The info-note on Akrobatik's skill row should surface a single usable
+    jump-check number (this character's Akrobatik total + the Springen
+    Volksbonus/-malus), not just the isolated racial component — see
+    rules/speed.py's jump_skill_bonus and sheet.py's _build_skills."""
+    user_id = _create_user(client)
+    akrobatik_id = _skill_id(client, db_session, "Akrobatik")
+
+    # Elf: normal 9 m speed -> Volksbonus/-malus is +0. Default GE 12 +2
+    # (Elf) -> mod +2, no ranks, not a Waldläufer class skill -> Akrobatik
+    # total is just the +2 ability mod.
+    elf_id = _elf_race_id(client, db_session)
+    elf_character = client.post(
+        "/api/characters", json=_character_payload(user_id, elf_id, db_session)
+    ).json()
+    elf_akrobatik = next(s for s in client.get(f"/api/characters/{elf_character['id']}").json()["skills"] if s["key"] == akrobatik_id)
+    assert elf_akrobatik["value"] == "+2"
+    assert "gesamt" in elf_akrobatik["note"]
+    assert elf_akrobatik["note"].startswith("Sprung (Hoch-/Weitsprung): +2 gesamt (Akrobatik +2 + Volksbonus/-malus +0")
+
+    # Halbling: slower speed -> a negative Volksbonus/-malus, so the jump
+    # total should be lower than the plain Akrobatik value shown on the row.
+    halbling_id = _race_id(client, db_session, "Halbling")
+    halbling_character = client.post(
+        "/api/characters", json=_character_payload(user_id, halbling_id, db_session)
+    ).json()
+    halbling_akrobatik = next(
+        s for s in client.get(f"/api/characters/{halbling_character['id']}").json()["skills"] if s["key"] == akrobatik_id
+    )
+    assert "Volksbonus/-malus -" in halbling_akrobatik["note"]
 
 
 def test_character_sheet_for_character_without_extras_has_empty_lists(

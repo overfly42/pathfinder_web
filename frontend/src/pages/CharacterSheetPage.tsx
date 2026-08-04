@@ -46,6 +46,7 @@ export function CharacterSheetPage() {
   const [itemDetailId, setItemDetailId] = useState<string | null>(null);
   const [pendingReveal, setPendingReveal] = useState<string | null>(null);
   const [gearError, setGearError] = useState<string | null>(null);
+  const [hpError, setHpError] = useState<string | null>(null);
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -126,15 +127,25 @@ export function CharacterSheetPage() {
     setPendingReveal(entry.id);
   }
 
-  function handleApplyHp(signedAmount: number) {
-    setCharacter((prev) => {
-      if (!prev) return prev;
-      // No upper clamp at max: healing past it stays visible as negative
-      // damage (VitalsBar), the stand-in for temporary hit points until
-      // those are modeled as their own pool.
-      const current = Math.max(0, prev.hp.current + signedAmount);
-      return { ...prev, hp: { ...prev.hp, current } };
-    });
+  async function handleApplyHp(signedAmount: number) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        // No upper clamp at max: healing past it stays visible as negative
+        // damage (VitalsBar), the stand-in for temporary hit points until
+        // those are modeled as their own pool.
+        const current = Math.max(0, prev.hp.current + signedAmount);
+        return { ...prev, hp: { ...prev.hp, current } };
+      });
+      return;
+    }
+    setHpError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/hp`, { delta: signedAmount });
+      refetch();
+    } catch {
+      setHpError('Trefferpunkte konnten nicht aktualisiert werden.');
+    }
   }
 
   async function handleAddGear(itemId: string, qty: number) {
@@ -356,6 +367,7 @@ export function CharacterSheetPage() {
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
           <CharacterHeader character={character} />
           <VitalsBar character={character} onApplyHp={handleApplyHp} />
+          {hpError && <p style={{ color: '#e29a9a' }}>{hpError}</p>}
 
           <div className="section-label">Attribute</div>
           <AbilityScores abilities={character.abilities} />
