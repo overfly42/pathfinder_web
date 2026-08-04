@@ -102,10 +102,10 @@ def test_race_speed_and_size_are_grants_not_a_column(client: TestClient, db_sess
     seed_races(db_session)
     races = {r["name"]: r["id"] for r in client.get("/api/races").json()}
 
-    assert race_speed(db_session, races["Halbling"]) == "6 m"
-    assert race_speed(db_session, races["Mensch"]) == "9 m"
-    assert race_speed(db_session, races["Elf"]) == "9 m"
-    assert race_speed(db_session, races["Halb-Ork"]) == "9 m"
+    assert race_speed(db_session, races["Halbling"]) == 6
+    assert race_speed(db_session, races["Mensch"]) == 9
+    assert race_speed(db_session, races["Elf"]) == 9
+    assert race_speed(db_session, races["Halb-Ork"]) == 9
 
     response = client.get("/api/races")
     races_by_name = {r["name"]: r for r in response.json()}

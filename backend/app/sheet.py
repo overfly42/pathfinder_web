@@ -23,6 +23,7 @@ creature: `BaseRace` has no size field yet, so no size modifier is applied
 (a Small race like Halfling/Gnome should get +1 AC/attack, -1 CMB/CMD in
 real PF1e — not modeled here)."""
 
+from collections import Counter
 from uuid import UUID
 
 from sqlalchemy import select
@@ -52,12 +53,18 @@ from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.modifiers import Modifier, stack
-from .rules.speed import race_speed
+from .rules.speed import class_speed_bonus, race_speed
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
 SAVE_LABELS = {"fort": "Zähigkeit", "ref": "Reflex", "will": "Willen"}
+# Which ability modifier each save adds on top of Character.saves' base
+# class-progression bonus (`rules/progression.py`'s `class_save_bonus`) —
+# that property has no DB access for race/flex-adjusted scores, so the
+# ability-mod addition happens here, alongside this module's other
+# `effective_ability_scores`-dependent display math.
+SAVE_ABILITY = {"fort": "KO", "ref": "GE", "will": "WE"}
 
 # BaseItem.granted_ability's English code -> the sheet/Character's own
 # German ability-score key (roadmap.md's "Wondrous-Item-Katalog mit echter
@@ -132,6 +139,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
 
+    granted_ability_ids = _granted_class_ability_ids(db, character, level_counts_by_root_id)
+    base_speed = race_speed(db, character.race_id) or 9
+
     return {
         "id": str(character.id),
         "name": character.name,
@@ -142,7 +152,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "hp": {"current": hp_current, "max": hp_max},
         "armorClass": armor_class,
         "initiative": _fmt(dex_mod),
-        "speed": race_speed(db, character.race_id) or "9 m",
+        "speed": f"{base_speed + class_speed_bonus(granted_ability_ids)} m",
         "roundLabel": "Runde 1",
         "abilities": [
             {
@@ -154,7 +164,12 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             for ability in ("ST", "GE", "KO", "IN", "WE", "CH")
         ],
         "saves": [
-            {"key": key, "label": label, "value": _fmt(character.saves[key])} for key, label in SAVE_LABELS.items()
+            {
+                "key": key,
+                "label": label,
+                "value": _fmt(character.saves[key] + ability_mods[SAVE_ABILITY[key]]),
+            }
+            for key, label in SAVE_LABELS.items()
         ],
         "combat": [
             {"key": "bab", "label": "Grundangriffsbonus (GAB)", "value": _fmt(bab)},
@@ -164,7 +179,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
-        "classFeatures": _build_class_features(db, character, level_counts_by_root_id),
+        "classFeatures": _build_class_features(db, granted_ability_ids),
         "raceAbilities": _build_race_abilities(db, character.race_id),
         "spellsKnown": _build_spell_grades(db, character, "used"),
         "gear": _build_gear(db, character),
@@ -238,8 +253,6 @@ def _build_skills(
     ability_mods: dict[str, int],
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
-    if not skill_ranks:
-        return []
 
     class_skill_ids: set[UUID] = set()
     if level_counts_by_root_id:
@@ -258,24 +271,47 @@ def _build_skills(
             ).all()
         )
 
-    skills = {skill.id: skill for skill in db.scalars(select(BaseSkill).where(BaseSkill.id.in_(skill_ranks))).all()}
+    # Every skill usable untrained belongs on the sheet even at 0 ranks
+    # (PF1e core's "Trained Only" column, `BaseSkill.trained_only`) — a
+    # trained-only skill only shows up once ranks are actually invested.
+    skills = db.scalars(
+        select(BaseSkill).where(
+            (BaseSkill.trained_only.is_(False)) | (BaseSkill.id.in_(skill_ranks))
+        )
+    ).all()
 
     result = []
-    for skill_id, ranks in skill_ranks.items():
-        skill = skills.get(skill_id)
-        if skill is None:
-            continue
+    for skill in skills:
+        ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
-        class_bonus = 3 if skill_id in class_skill_ids else 0
-        result.append({"key": str(skill_id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus)})
+        class_bonus = 3 if skill.id in class_skill_ids else 0
+        result.append({"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus)})
     return result
 
 
-def _build_class_features(
+def _granted_class_ability_ids(
     db: Session, character: Character, level_counts_by_root_id: dict[UUID, int]
-) -> list[dict]:
+) -> Counter[UUID]:
+    """Which `BaseClassAbility` ids this character actually has, resolved
+    against their level count/archetype/option picks — shared by
+    `_build_class_features` (display, only cares which ids are present) and
+    `rules/speed.py`'s class-granted speed bonus (computation), so the two
+    can never drift on what counts as "granted".
+
+    A `Counter`, not a `set`: some abilities are one `BaseClassAbility` row
+    with several level-gated `BaseClassAbilityGrant`s — a single feature
+    whose description covers its own scaling in prose (e.g. Barbar's
+    Schadensreduzierung, granted again at 10./13./16./19. Stufe to say "+1
+    each time"), but occasionally a genuinely repeating flat bonus instead
+    (e.g. Mönch's Schnelligkeit, +3 m at 3./6./9./12./15./18. Stufe, each
+    repetition really is another +3 m). A plain set can't tell those apart;
+    the count can — `_build_class_features` still just needs presence
+    (`list(counter)`), but a speed-bonus handler keyed by ability id can
+    multiply its per-grant value by how many of that ability's grants are
+    currently met, so a repeating class feature is only computed once
+    (here) rather than every consumer re-deriving it."""
     if not level_counts_by_root_id:
-        return []
+        return Counter()
 
     # Archetypes don't have independent levels — an archetype's own grants
     # (`BaseClassAbilityGrant.base_class_id` = the archetype's id, see that
@@ -317,7 +353,7 @@ def _build_class_features(
             ).all()
         )
 
-    ability_ids: set[UUID] = set()
+    ability_counts: Counter[UUID] = Counter()
     for grant in grants:
         if grant.id in replaced_grant_ids:
             continue
@@ -325,9 +361,13 @@ def _build_class_features(
             continue
         if grant.option_choice_id is not None and grant.option_choice_id not in chosen_option_ids:
             continue
-        ability_ids.add(grant.ability_id)
+        ability_counts[grant.ability_id] += 1
 
-    return _described(db, BaseClassAbility, list(ability_ids))
+    return ability_counts
+
+
+def _build_class_features(db: Session, granted_ability_ids: Counter[UUID]) -> list[dict]:
+    return _described(db, BaseClassAbility, list(granted_ability_ids))
 
 
 def _build_race_abilities(db: Session, race_id: UUID) -> list[dict]:

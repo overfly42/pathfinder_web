@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, String, UniqueConstraint
+from sqlalchemy import Boolean, ForeignKey, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -22,6 +22,12 @@ class BaseSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # used everywhere else in this codebase (Character.ability_score_*,
     # rules/race_abilities.py), not a BaseAttribute FK.
     ability: Mapped[str] = mapped_column(String(2))
+    # PF1e core's "Trained Only" column (Handle Animal, Knowledge (all),
+    # Linguistics, Profession, Sleight of Hand, Spellcraft, Use Magic
+    # Device, Disable Device): usable only with ranks > 0. Everything else
+    # is usable untrained and belongs on the sheet even at 0 ranks — see
+    # `sheet.py`'s `_build_skills`.
+    trained_only: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class BaseClassSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):

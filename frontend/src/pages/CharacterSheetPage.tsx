@@ -129,7 +129,10 @@ export function CharacterSheetPage() {
   function handleApplyHp(signedAmount: number) {
     setCharacter((prev) => {
       if (!prev) return prev;
-      const current = Math.min(prev.hp.max, Math.max(0, prev.hp.current + signedAmount));
+      // No upper clamp at max: healing past it stays visible as negative
+      // damage (VitalsBar), the stand-in for temporary hit points until
+      // those are modeled as their own pool.
+      const current = Math.max(0, prev.hp.current + signedAmount);
       return { ...prev, hp: { ...prev.hp, current } };
     });
   }
