@@ -24,7 +24,7 @@ def race_has_flex(db: Session, race_id: UUID) -> bool:
     for grant in grants:
         ability = db.get(BaseRaceAbility, grant.ability_id)
         handler = HANDLERS.get(ability.id)
-        if handler is not None and handler()[0] is None:
+        if handler is not None and handler()[0].target_id is None:
             return True
     return False
 
@@ -44,9 +44,9 @@ def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
         handler = HANDLERS.get(ability.id)
         if handler is None:
             continue
-        attribute, value = handler()
-        if attribute is not None:
-            mods[attribute] = mods.get(attribute, 0) + value
+        modifier = handler()[0]
+        if modifier.target_id is not None:
+            mods[modifier.target_id] = mods.get(modifier.target_id, 0) + modifier.value
     return mods
 
 
@@ -65,7 +65,7 @@ def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID 
     ).all()
     for replacement in replacements:
         handler = HANDLERS.get(replacement.ability_id)
-        if handler is not None and handler()[0] == attribute:
+        if handler is not None and handler()[0].target_id == attribute:
             return replacement.ability_id
     return None
 
@@ -114,8 +114,8 @@ def _race_option(db: Session, race: BaseRace) -> dict:
     """Reconstructs the frontend's `RaceOption` shape (id, name, short, flex,
     mods, traits, alt) from the normalized composition tables. Ability-score
     bonuses are recognized by looking their ability id up in the handler
-    registry (`HANDLERS`) — select by UUID, call the function, get
-    (attribute, value) back — rather than a stored column, and are
+    registry (`HANDLERS`) — select by UUID, call the function, get a
+    `Modifier` back — rather than a stored column, and are
     represented only via `flex`/`mods`, never duplicated as a `traits` entry
     too, unlike the old fixture data."""
     grants = db.scalars(select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race.id)).all()
@@ -136,11 +136,11 @@ def _race_option(db: Session, race: BaseRace) -> dict:
 
         base_ability_names[ability.id] = ability.name
         if handler is not None:
-            attribute, value = handler()
-            if attribute is None:
+            modifier = handler()[0]
+            if modifier.target_id is None:
                 flex = True
             else:
-                mods[attribute] = value
+                mods[modifier.target_id] = modifier.value
         else:
             traits.append({"name": ability.name, "desc": ability.description})
 

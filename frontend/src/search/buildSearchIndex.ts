@@ -5,7 +5,7 @@ export function buildSearchIndex(character: Character, effects: EffectsView): Se
   const index: SearchEntry[] = [];
 
   index.push(
-    { id: 'vital-hp', label: 'Schaden', value: `${character.hp.max - character.hp.current} / ${character.hp.max}`, category: 'Wert' },
+    { id: 'vital-hp', label: 'Trefferpunkte', value: `${character.hp.current} / ${character.hp.max}`, category: 'Wert' },
     { id: 'vital-ac', label: 'Rüstungsklasse', value: String(character.armorClass), category: 'Wert' },
     { id: 'vital-initiative', label: 'Initiative', value: character.initiative, category: 'Wert' },
     { id: 'vital-speed', label: 'Bewegung', value: character.speed, category: 'Wert' },

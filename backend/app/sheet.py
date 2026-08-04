@@ -52,8 +52,8 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
-from .rules.modifiers import Modifier, stack
-from .rules.speed import class_speed_bonus, race_speed
+from .rules.modifiers import Modifier, ModifierTarget, stack
+from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
 from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
@@ -100,7 +100,13 @@ def _gear_ability_bonuses(db: Session, character: Character) -> dict[str, int]:
         if key is None:
             continue
         modifiers_by_key.setdefault(key, []).append(
-            Modifier(source=item.name, type="enhancement", value=item.ability_bonus or 0)
+            Modifier(
+                source=item.name,
+                type="enhancement",
+                value=item.ability_bonus or 0,
+                target=ModifierTarget.SCORE,
+                target_id=key,
+            )
         )
     return {key: stack(mods) for key, mods in modifiers_by_key.items()}
 
@@ -125,10 +131,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     total_level = character.level
     hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level)
     # Legacy characters created before HP was computed at all may still have
-    # a null current_hit_points (see Character.current_hit_points's
-    # docstring) — fall back to full health rather than send `null` for a
-    # field the frontend types as a plain number.
-    hp_current = character.current_hit_points if character.current_hit_points is not None else hp_max
+    # a null damage_taken (see Character.damage_taken's docstring) — treated
+    # as undamaged. `hp.current` (remaining HP) is derived here, not stored;
+    # only damage is persisted.
+    damage_taken = character.damage_taken if character.damage_taken is not None else 0
+    hp_current = hp_max - damage_taken
 
     str_mod = ability_mods["ST"]
     dex_mod = ability_mods["GE"]
@@ -141,6 +148,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
 
     granted_ability_ids = _granted_class_ability_ids(db, character, level_counts_by_root_id)
     base_speed = race_speed(db, character.race_id) or 9
+    total_speed = base_speed + class_speed_bonus(granted_ability_ids)
 
     return {
         "id": str(character.id),
@@ -152,7 +160,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "hp": {"current": hp_current, "max": hp_max},
         "armorClass": armor_class,
         "initiative": _fmt(dex_mod),
-        "speed": f"{base_speed + class_speed_bonus(granted_ability_ids)} m",
+        "speed": f"{total_speed} m",
         "roundLabel": "Runde 1",
         "abilities": [
             {
@@ -176,7 +184,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {"key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": _fmt(bab + str_mod)},
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
-        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods),
+        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
@@ -246,11 +254,15 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
     return result
 
 
+AKROBATIK_SKILL_ID = UUID("61a2cb21-fcda-4a2d-8fb5-8ed12133c648")
+
+
 def _build_skills(
     db: Session,
     character: Character,
     level_counts_by_root_id: dict[UUID, int],
     ability_mods: dict[str, int],
+    total_speed: int,
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
 
@@ -285,7 +297,18 @@ def _build_skills(
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
         class_bonus = 3 if skill.id in class_skill_ids else 0
-        result.append({"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus)})
+        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus)}
+        if skill.id == AKROBATIK_SKILL_ID:
+            # Springen-specific Volksbonus (rules/speed.py's jump_skill_bonus)
+            # — doesn't apply to Akrobatik's other uses (Balancieren,
+            # Abrollen, ...), so it's surfaced as a note rather than folded
+            # into the displayed value above.
+            jump_bonus = jump_skill_bonus(total_speed)
+            entry["note"] = (
+                f"Sprung (Hoch-/Weitsprung): {_fmt(jump_bonus)} bei {total_speed} m Bewegungsrate "
+                "(Volksbonus/-malus von 4 pro volle 3 m über/unter 9 m, gilt nur für Sprünge)"
+            )
+        result.append(entry)
     return result
 
 
@@ -500,7 +523,14 @@ def _build_equipment(db: Session, character: Character, dex_mod: int) -> tuple[i
         item = items.get(gear_row.item_id) if gear_row else None
         if item is None:
             continue
-        modifiers.append(Modifier(source=item.name, type=category, value=(item.ac_bonus or 0) + gear_row.enhancement))
+        modifiers.append(
+            Modifier(
+                source=item.name,
+                type=category,
+                value=(item.ac_bonus or 0) + gear_row.enhancement,
+                target=ModifierTarget.AC,
+            )
+        )
         if category == "armor":
             max_dex_bonus = item.max_dex_bonus
 

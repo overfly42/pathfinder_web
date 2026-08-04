@@ -133,6 +133,10 @@
 }
 .skill-row:last-child { border-bottom: none; }
 .skill-row .val { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--forest); }
+.skill-note {
+  display: inline-block; margin-left: 5px;
+  color: var(--ink-soft); cursor: help; font-size: 11px;
+}
 
 /* ---------- Spellcasting overview ---------- */
 .spell-tab-block { margin-bottom: 16px; }

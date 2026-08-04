@@ -15,6 +15,10 @@ export interface SkillEntry {
   key: string;
   label: string;
   value: string;
+  /** Situational note that doesn't apply to `value` itself (e.g. Akrobatik's
+   * jump-only speed bonus) — shown as an info affordance, not folded into
+   * the displayed skill total. */
+  note?: string;
 }
 
 export interface DescribedEntry {

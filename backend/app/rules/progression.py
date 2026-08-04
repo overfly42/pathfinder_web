@@ -57,12 +57,12 @@ def max_hit_points(hit_points_by_level: list[int | None], effective_con_mod: int
     """Total max HP: sum of hit points gained/rolled at each level (the
     first level's die is always maxed, see `is_valid_rolled_hit_points`'s
     docstring) plus the effective CON modifier per level
-    (`requirements_v2.md` §2). A freshly created character's starting
-    current HP equals this too (see `create_character`) — damage tracking is
-    a later `PATCH .../hp` concern (todos.md).
+    (`requirements_v2.md` §2). Computed at read time, not stored — only
+    damage taken is persisted (`Character.damage_taken`), so this is called
+    fresh on every sheet build to derive remaining HP.
 
     Entries may be `None` for characters created before hit-die data existed
-    (`Character.current_hit_points`'s docstring documents this as an
-    expected historical state, not an error) — those contribute 0 rather
-    than raising, so old characters can still be displayed."""
+    (`Character.damage_taken`'s docstring documents this as an expected
+    historical state, not an error) — those contribute 0 rather than
+    raising, so old characters can still be displayed."""
     return sum(hp or 0 for hp in hit_points_by_level) + effective_con_mod * total_level

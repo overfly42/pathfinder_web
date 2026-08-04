@@ -129,14 +129,20 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     assert body["classes"] == [
         {"class_name": "Waldläufer", "level": 1, "archetypes": [], "is_favored": True, "options": {}}
     ]
-    # Waldläufer (d10, full BAB, good fort/ref, poor will) at char level 1,
-    # max HP for the character's first level, Elf's -2 KO (13 -> 11, mod 0).
-    assert body["current_hit_points"] == 10
+    # A freshly created character is undamaged - max HP itself isn't
+    # returned by this endpoint (see Character.damage_taken's docstring),
+    # only checked below via the sheet endpoint.
+    assert body["damage_taken"] == 0
     assert body["bab"] == 1
     assert body["saves"] == {"fort": 2, "ref": 2, "will": 0}
     assert body["ability_scores"] == DEFAULT_ABILITY_SCORES
     assert body["point_budget"] == 20
     assert body["flex_ability"] is None
+
+    # Waldläufer (d10, full BAB, good fort/ref, poor will) at char level 1,
+    # max HP for the character's first level, Elf's -2 KO (13 -> 11, mod 0).
+    sheet = client.get(f"/api/characters/{body['id']}").json()
+    assert sheet["hp"] == {"current": 10, "max": 10}
 
 
 def test_create_character_with_unknown_race_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -184,19 +190,23 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
         {"class_name": "Kämpfer", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
         {"class_name": "Schurke", "level": 1, "archetypes": [], "is_favored": False, "options": {}},
     ]
-    # HP/BAB/saves are each class's own contribution against its own level
-    # count, summed - not the total level against one averaged progression
-    # (requirements_v2.md §2). Char level 1 (Kämpfer's 1st) auto-maxes its
-    # d10 (10); the other two rolls are the player-entered values above (6,
-    # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
-    # level sum: 10+6+5=21.
-    assert body["current_hit_points"] == 21
+    # A freshly created character is undamaged, regardless of computed max.
+    assert body["damage_taken"] == 0
     # BAB: Kämpfer floor(2*1.0)=2, Schurke floor(1*0.75)=0.
     assert body["bab"] == 2
     # Fort: Kämpfer good (2+1)=3, Schurke poor (0)=0 -> 3.
     # Ref: Kämpfer poor (0), Schurke good (2+0)=2 -> 2.
     # Will: Kämpfer poor (0), Schurke poor (0) -> 0.
     assert body["saves"] == {"fort": 3, "ref": 2, "will": 0}
+
+    # HP/BAB/saves are each class's own contribution against its own level
+    # count, summed - not the total level against one averaged progression
+    # (requirements_v2.md §2). Char level 1 (Kämpfer's 1st) auto-maxes its
+    # d10 (10); the other two rolls are the player-entered values above (6,
+    # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
+    # level sum: 10+6+5=21.
+    sheet = client.get(f"/api/characters/{body['id']}").json()
+    assert sheet["hp"] == {"current": 21, "max": 21}
 
 
 def test_create_character_missing_hit_points_for_a_higher_level_is_rejected(
@@ -472,8 +482,8 @@ def test_create_character_for_flex_race_persists_choice_via_replacement_system(
     # The stored row is an ability_id resolved through RaceAbilityReplacement,
     # not a raw "ST" string — resolving it back through HANDLERS must agree
     # with what was requested.
-    attribute, value = HANDLERS[choices[0].ability_id]()
-    assert (attribute, value) == ("ST", 2)
+    modifier = HANDLERS[choices[0].ability_id]()[0]
+    assert (modifier.target_id, modifier.value) == ("ST", 2)
 
 
 def test_create_character_for_non_flex_race_rejects_flex_ability(client: TestClient, db_session: Session) -> None:

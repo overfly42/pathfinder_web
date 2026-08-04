@@ -131,9 +131,9 @@ def test_character_sheet_for_legacy_character_without_hit_points_does_not_crash(
     client: TestClient, db_session: Session
 ) -> None:
     """Characters created before hit-die data existed may have a `None`
-    `current_hit_points`/`CharacterLevel.hit_points` (see
-    `Character.current_hit_points`'s docstring) — the sheet must still
-    render (HP falls back to 0) rather than 500."""
+    `damage_taken`/`CharacterLevel.hit_points` (see `Character.damage_taken`'s
+    docstring) — the sheet must still render (HP falls back to 0) rather
+    than 500."""
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
@@ -142,7 +142,7 @@ def test_character_sheet_for_legacy_character_without_hit_points_does_not_crash(
     character_id = create_response.json()["id"]
 
     character = db_session.get(Character, character_id)
-    character.current_hit_points = None
+    character.damage_taken = None
     for level in character.levels:
         level.hit_points = None
     db_session.commit()

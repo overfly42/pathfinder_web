@@ -34,12 +34,19 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     name: Mapped[str] = mapped_column(String(255))
     user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id"))
     race_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"))
-    # Current (not max) HP — see readme.md's ER diagram, where max HP is derived
-    # from per-level CharacterLevel.hit_points rows, not stored here. Nullable:
-    # HP calculation needs a class hit-die value that doesn't exist anywhere yet
-    # (classes.json has no hit-die field) — a later slice 3 concern, not
-    # something to fake here with a placeholder number.
-    current_hit_points: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Damage taken so far, not remaining HP — see readme.md's ER diagram,
+    # where max HP is derived from per-level CharacterLevel.hit_points rows,
+    # not stored here either. Remaining HP is computed at read time
+    # (`sheet.py`'s `hp_current = hp_max - damage_taken`), the same
+    # composition-vs-computation split as everywhere else: storing damage
+    # rather than remaining stays correct across max HP changing (level-up,
+    # a Constitution-boosting effect) without this column needing to be
+    # rewritten, and lets a future temporary-HP buffer be represented as a
+    # negative value here without a separate column. Nullable: a legacy
+    # character created before HP was computed at all (this column's former
+    # name/meaning, "current_hit_points") may still be null — treated as
+    # undamaged (0), not an error, same as before.
+    damage_taken: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     ability_score_st: Mapped[int] = mapped_column(Integer)
     ability_score_ge: Mapped[int] = mapped_column(Integer)
@@ -223,9 +230,9 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             handler = HANDLERS.get(choice.ability_id)
             if handler is None:
                 continue
-            attribute, _ = handler()
-            if attribute is not None:
-                return attribute
+            modifier = handler()[0]
+            if modifier.target_id is not None:
+                return modifier.target_id
         return None
 
     @property

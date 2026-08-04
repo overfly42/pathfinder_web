@@ -36,7 +36,7 @@ from ..models import (
 from ..rules.equipment_slots import SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
-from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
+from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points
 from ..rules.skill_points import race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import (
@@ -439,13 +439,13 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             seen_archetype_ids.add(archetype.id)
             character.class_memberships.append(CharacterClass(base_class_id=archetype.id))
 
-    # requirements_v2.md §2: HP = sum of Hit Dice from all classes + CON mod
-    # x character level. A freshly created character starts at full health,
-    # so this is also the initial `current_hit_points` (damage tracking is a
-    # later `PATCH .../hp` concern, see todos.md).
-    character.current_hit_points = max_hit_points(
-        [level.hit_points for level in character.levels], _effective_ability_mod("KO"), total_level
-    )
+    # A freshly created character starts undamaged — max HP itself
+    # (requirements_v2.md §2: sum of Hit Dice from all classes + CON mod x
+    # character level) is derived at read time (`sheet.py`), not stored;
+    # `damage_taken` is the only HP-related state persisted here (damage
+    # tracking beyond creation is a later `PATCH .../hp` concern, see
+    # todos.md).
+    character.damage_taken = 0
 
     if last_level_row is not None:
         for skill_id_str, ranks in body.skill_ranks.items():

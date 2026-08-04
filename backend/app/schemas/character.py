@@ -302,7 +302,10 @@ class CharacterRead(BaseModel):
     race_id: UUID
     classes: list[ClassSelection]
     level: int
-    current_hit_points: int | None
+    # Persisted state, not remaining HP — see `Character.damage_taken`'s
+    # docstring; remaining HP is only derived in `sheet.py`'s fuller display
+    # shape, not exposed here.
+    damage_taken: int | None
     # Computed (not stored) from each class's own `bab_progression`/
     # `fort_save`/`ref_save`/`wil_save` and level count, summed across
     # classes — see `Character.bab`/`Character.saves` (models/character.py)

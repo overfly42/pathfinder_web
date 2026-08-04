@@ -40,7 +40,14 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
         <TabPanel active={activeTab} tabKey="skills">
           {character.skills.map((skill) => (
             <div className="skill-row" id={`skill-${skill.key}`} key={skill.key}>
-              <span>{skill.label}</span>
+              <span>
+                {skill.label}
+                {skill.note && (
+                  <span className="skill-note" title={skill.note} aria-label={skill.note}>
+                    ⓘ
+                  </span>
+                )}
+              </span>
               <span className="val">{skill.value}</span>
             </div>
           ))}

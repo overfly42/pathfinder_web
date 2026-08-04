@@ -12,7 +12,6 @@ export function VitalsBar({ character, onApplyHp }: VitalsBarProps) {
   const [delta, setDelta] = useState('');
   const popoverRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
-  const damage = character.hp.max - character.hp.current;
   const percent = Math.max(0, Math.min(100, Math.round((character.hp.current / character.hp.max) * 100)));
 
   function apply(sign: 1 | -1) {
@@ -26,9 +25,9 @@ export function VitalsBar({ character, onApplyHp }: VitalsBarProps) {
   return (
     <div className="vitals">
       <div className="vital hp" ref={popoverRef}>
-        <div className="k">Schaden</div>
+        <div className="k">Trefferpunkte</div>
         <div className="v" role="button" tabIndex={0} onClick={() => setOpen((o) => !o)}>
-          {damage} / {character.hp.max}
+          {character.hp.current} / {character.hp.max}
         </div>
         {open && (
           <div className="hp-popover-body">
