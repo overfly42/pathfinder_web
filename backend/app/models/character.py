@@ -8,6 +8,7 @@ from ..rules.progression import class_bab, class_save_bonus
 from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
+from .effect import CharacterEffect
 from .item import CharacterGearSpecialAbility
 from .race import BaseRaceAbility
 
@@ -65,6 +66,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     class_options: Mapped[list["CharacterClassOption"]] = relationship(cascade="all, delete-orphan")
     class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
     gear: Mapped[list["CharacterGear"]] = relationship(cascade="all, delete-orphan")
+    effects: Mapped[list["CharacterEffect"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:

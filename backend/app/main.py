@@ -19,7 +19,7 @@ from .models import (
     BaseClassSpellsKnown,
     Character,
 )
-from .routers import characters, feats, items, races, skills, spells, traits, users, weapon_abilities
+from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .sheet import build_character_history, build_character_progression, build_character_sheet
 
@@ -58,6 +58,7 @@ app.include_router(traits.router)
 app.include_router(spells.router)
 app.include_router(items.router)
 app.include_router(weapon_abilities.router)
+app.include_router(conditions.router)
 app.include_router(characters.router)
 
 

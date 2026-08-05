@@ -574,10 +574,86 @@ modifier/bonus-stacking design, real computed AC. Full detail:
 `roadmap_history.md`.
 
 ### 5. Effects / Conditions / Time
-- [ ] Active-effects table with duration tracking.
-- [ ] Activate/deactivate/custom-effect/advance-time/rest endpoints.
-- [ ] Reuse the modifier design from slice 4 rather than inventing a second
-      one.
+Data model decided 2026-08-05. This app is play support, not a simulation:
+it never tries to detect a real-world trigger itself (an ally being in
+range, a poison's onset ticking on its own) — every influence on a
+character, including ones the rulebook calls "passive" (a Paladin's aura),
+is either applied from outside (a `BaseCondition` the player picks and
+applies — poison, disease, curse, a GM-inflicted condition) or activated by
+the character (a persistent spell/class ability, which also shows up under
+"verfügbare Aktionen"). A wand/potion/scroll doesn't need a third source:
+using one is "cast this known spell from a charge," reusing the spell path
+— charge bookkeeping already lives in slice 4's `CharacterGear`. Animal
+companions/familiars/eidolons don't exist in this app and are out of scope
+entirely, not a category here.
+
+- [ ] `BaseCondition` catalog (`id`, `name`, `description`) — identity only,
+      for conditions/poisons/diseases/curses that aren't already a
+      `BaseSpell`/`BaseClassAbility` row. No content seeded yet (same
+      "identity only for now" state `BaseClassAbility` started in) — only
+      built once an actual poison/disease/condition needs it.
+- [ ] `BaseSpell`/`BaseClassAbility` each get an `is_persistent_effect`
+      boolean — which ones create a tracked `CharacterEffect` row when
+      activated (most spells/abilities are instantaneous and don't).
+- [ ] `CharacterEffect` — one row per *applied instance*, not one row per
+      character+effect: the same effect can be active on a character from
+      two independent sources with two independent countdowns, and the
+      schema must not block that even though most effects in practice won't
+      stack this way (the stacking decision itself belongs to the handler,
+      see below, not the schema).
+  - `source_type` (`spell`/`class_ability`/`condition`) + `source_id` — a
+      discriminated reference instead of three nullable FK columns, the same
+      "plain-tag" convention as `BaseFeat.type`/`spell_school`.
+  - `level` — the effect's potency/Stufe (e.g. caster level for an
+      X/level spell); asked of the player at activation time since nothing
+      else in the data model can derive it. Fixed once set — a failed save
+      does not escalate it (confirmed 2026-08-05).
+  - `incubation_remaining` / `duration_remaining` — plain round-based
+      countdowns, both nullable (a buff spell only uses `duration_remaining`;
+      a poison/disease uses `incubation_remaining` then switches to the
+      frequency fields below).
+  - `frequency_rounds` / `next_check_in` / `successes_current` /
+      `successes_required` — for effects resolved via repeated saves
+      (poison/disease) rather than a flat duration: `next_check_in` counts
+      down to the next due save and resets to `frequency_rounds` after
+      every save regardless of outcome; `successes_current` resets to 0 on a
+      failed save; the row is deleted once `successes_current` reaches
+      `successes_required`.
+- [ ] Endpoints: activate (`POST .../effects`, picks a known spell/ability
+      or a `BaseCondition`, only asks the player for values nothing else can
+      supply — level, initial duration/incubation/frequency), remove
+      (`DELETE .../effects/{id}`, manual cure/early end), record a save
+      result (`POST .../effects/{id}/save-result`, `{success}` — only
+      advances the counters above; the resulting stat impact stays
+      computed at sheet-read time via `EFFECT_HANDLERS` off the row's
+      current state, same composition-vs-computation split as everywhere
+      else, not a separate mutation triggered here), and advance time (`POST .../advance-time`, `{unit}`, reusing the mock's
+      existing round conversion: round=1, minute=10, hour=600, day=full
+      rest). A day clears plain-duration effects (matches the old mock's
+      "+1 Tag includes a rest") but *not* frequency-tracked ones — an
+      ongoing poison/disease surviving a rest is correct PF1e behavior, so
+      blanket-clearing it the way the old mock does would be a regression
+      now that real duration tracking exists.
+- [ ] Mechanical effect resolved via a new own-module registry,
+      `rules/effects.py`'s `EFFECT_HANDLERS: dict[UUID, Callable[[list[
+      CharacterEffect]], list[Modifier]]]` — kept separate from
+      `rules/handlers.py`'s unified `HANDLERS` rather than merged into it,
+      same as `weapon_abilities.py`'s own `HANDLERS` stays separate: the
+      call signature differs (needs every one of the character's active
+      rows for that `source_id`, not zero args), so it can't share the dict.
+      Called once per distinct `source_id` with all of that character's rows
+      for it, so the handler itself decides stacking (ability damage from
+      two sources sums; the same fear condition from two sources doesn't
+      double up) — reuses slice 4's `Modifier`/`stack` (`rules/modifiers.py`)
+      rather than a second bonus-stacking implementation. No real
+      conditions/handlers seeded yet, infrastructure only.
+- [ ] Frontend: deferred. `frontend/src/types/character.ts`'s existing
+      `Effect`/`EffectDef` (icon/amount/variant, mirroring `effects.json`)
+      predate this design and don't match it (no source_type/source_id,
+      no level/frequency/successes) — needs its own pass once this backend
+      slice is in place, extending the existing Effekte-Seal panel
+      (`pathfinder-mock.html`) rather than a new UI paradigm; a due save
+      would surface as a small Erfolg/Fehlschlag prompt on the seal itself.
 
 ### 6. Possible actions / legality checks
 - [ ] Scope narrowly first: e.g. "can this spell be prepared/cast right

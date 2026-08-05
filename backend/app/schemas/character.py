@@ -399,6 +399,71 @@ class SpellbookAdd(BaseModel):
     spell_id: UUID
 
 
+class EffectActivate(BaseModel):
+    """Body for `POST /api/characters/{id}/effects` — activates a persistent
+    effect on a character (roadmap slice 5). `source_type` selects which
+    catalog `source_id` resolves against; for "spell"/"class_ability" the
+    referenced row must have `is_persistent_effect=True`; "condition" only
+    needs to exist in `BaseCondition`. Whether this specific character
+    actually knows/has that spell/ability isn't checked here — that's
+    roadmap slice 6's "legality checks" (explicitly deferred, see
+    roadmap.md), not this slice. `level` and the countdown fields are supplied
+    by the player since nothing in the data model can derive them (see
+    `models.effect.CharacterEffect`'s docstring) — all optional, so a simple
+    "until removed" effect can omit every one."""
+
+    source_type: Literal["spell", "class_ability", "condition"]
+    source_id: UUID
+    level: int | None = None
+    incubation_remaining: int | None = None
+    duration_remaining: int | None = None
+    frequency_rounds: int | None = None
+    successes_required: int | None = None
+
+
+class EffectSaveResult(BaseModel):
+    """Body for `POST /api/characters/{id}/effects/{effect_id}/save-result`
+    — records the outcome of one of an effect's periodic saves (poison/
+    disease). Success increments `successes_current` (curing/deleting the
+    effect once it reaches `successes_required`); failure resets
+    `successes_current` to 0 without changing `level` (a failed save doesn't
+    escalate severity). Either way `next_check_in` resets to
+    `frequency_rounds`. Only updates the row's own state — the resulting
+    stat impact stays computed at sheet-read time via `EFFECT_HANDLERS` off
+    whatever the row currently holds, same composition-vs-computation split
+    as everywhere else, not a mutation triggered from here."""
+
+    success: bool
+
+
+class AdvanceTime(BaseModel):
+    """Body for `POST /api/characters/{id}/advance-time` — ticks every
+    active effect's countdowns forward. Uses the same round conversion as
+    the existing mock's time buttons (round=1, minute=10, hour=600); "day"
+    is a full rest — plain-duration effects clear (matches the old mock's
+    "+1 Tag includes a rest") but frequency-tracked ones (poison/disease)
+    don't, since surviving a rest is correct PF1e behavior for those, unlike
+    the old mock's blanket clear."""
+
+    unit: Literal["round", "minute", "hour", "day"]
+
+
+class EffectRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    character_id: UUID
+    source_type: str
+    source_id: UUID
+    level: int | None
+    incubation_remaining: int | None
+    duration_remaining: int | None
+    frequency_rounds: int | None
+    next_check_in: int | None
+    successes_current: int
+    successes_required: int | None
+
+
 class CharacterUpdate(BaseModel):
     name: str
 

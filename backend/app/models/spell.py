@@ -11,13 +11,19 @@ class BaseSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Identity-only global spell catalog — one row per spell regardless of
     which class(es) can cast it (a spell's grade is per-class, see
     `BaseClassSpell`, not a property of the spell itself). Replaces
-    `spells_by_class.json`'s bare per-class name lists."""
+    `spells_by_class.json`'s bare per-class name lists.
+
+    `is_persistent_effect` (roadmap slice 5) marks spells that create a
+    tracked `CharacterEffect` row when cast — most spells are instantaneous
+    (damage, a single save-or-nothing) and don't; buffs/debuffs with a real
+    duration (Vergrößern Person, Person betäuben) do."""
 
     __tablename__ = "base_spells"
 
     name: Mapped[str] = mapped_column(String(255))
     school: Mapped[str] = mapped_column(String(64))
     description: Mapped[str] = mapped_column(Text)
+    is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class BaseSpellComponent(Base, UUIDPrimaryKeyMixin, TimestampMixin):

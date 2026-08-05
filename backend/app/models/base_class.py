@@ -83,12 +83,19 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     prerequisites can reference a class ability by id (`BaseFeatRequiredClassAbility`
     in `feat.py`); it is not yet a general class-features model (no
     mechanical fields, no handler registry) — that is a larger, separate
-    effort than the feats slice this was introduced for."""
+    effort than the feats slice this was introduced for.
+
+    `is_persistent_effect` (roadmap slice 5) marks which abilities create a
+    tracked `CharacterEffect` row when activated — most class features are
+    instantaneous (Sneak Attack) or always-on passives with no activation
+    step, so this defaults to `False`; only ones with an active duration
+    (Rage, Bardic Performance, an "aktivierbare" aura) set it."""
 
     __tablename__ = "base_class_abilities"
 
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
+    is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):

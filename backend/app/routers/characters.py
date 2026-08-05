@@ -10,9 +10,11 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import (
     BaseClass,
+    BaseClassAbility,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSpell,
+    BaseCondition,
     BaseFeat,
     BaseItem,
     BaseRace,
@@ -23,6 +25,7 @@ from ..models import (
     Character,
     CharacterClass,
     CharacterClassOption,
+    CharacterEffect,
     CharacterFeat,
     CharacterGear,
     CharacterGearSpecialAbility,
@@ -40,10 +43,14 @@ from ..rules.progression import ability_mod, effective_ability_scores, is_valid_
 from ..rules.skill_points import race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..schemas.character import (
+    AdvanceTime,
     CharacterCreate,
     CharacterRead,
     CharacterUpdate,
     ClassSelection,
+    EffectActivate,
+    EffectRead,
+    EffectSaveResult,
     FeatSelection,
     GearSelection,
     GearUpdate,
@@ -753,6 +760,138 @@ def rest(character_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Charact
     db.commit()
     db.refresh(character)
     return character
+
+
+ROUND_CONVERSION = {"round": 1, "minute": 10, "hour": 600}
+
+
+def _get_character_effect(character: Character, effect_id: UUID) -> CharacterEffect:
+    effect = next((e for e in character.effects if e.id == effect_id), None)
+    if effect is None:
+        raise HTTPException(status_code=404, detail="Effect not found")
+    return effect
+
+
+@router.post("/{character_id}/effects", response_model=EffectRead, status_code=201)
+def activate_effect(
+    character_id: UUID, body: EffectActivate, db: Annotated[Session, Depends(get_db)]
+) -> CharacterEffect:
+    """Activates a persistent effect (roadmap slice 5) — whether this
+    specific character actually knows/has the referenced spell/ability isn't
+    checked here (slice 6's "legality checks"), only that the reference
+    resolves and, for spell/class_ability, is flagged `is_persistent_effect`."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    if body.source_type == "spell":
+        spell = db.get(BaseSpell, body.source_id)
+        if spell is None or not spell.is_persistent_effect:
+            raise HTTPException(status_code=422, detail="Not a persistent-effect spell")
+    elif body.source_type == "class_ability":
+        ability = db.get(BaseClassAbility, body.source_id)
+        if ability is None or not ability.is_persistent_effect:
+            raise HTTPException(status_code=422, detail="Not a persistent-effect class ability")
+    else:
+        if db.get(BaseCondition, body.source_id) is None:
+            raise HTTPException(status_code=422, detail="Unknown condition")
+
+    effect = CharacterEffect(
+        character_id=character_id,
+        source_type=body.source_type,
+        source_id=body.source_id,
+        level=body.level,
+        incubation_remaining=body.incubation_remaining,
+        duration_remaining=body.duration_remaining,
+        frequency_rounds=body.frequency_rounds,
+        next_check_in=body.frequency_rounds,
+        successes_required=body.successes_required,
+    )
+    db.add(effect)
+    db.commit()
+    db.refresh(effect)
+    return effect
+
+
+@router.delete("/{character_id}/effects/{effect_id}", status_code=204)
+def remove_effect(character_id: UUID, effect_id: UUID, db: Annotated[Session, Depends(get_db)]) -> None:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    effect = _get_character_effect(character, effect_id)
+    db.delete(effect)
+    db.commit()
+
+
+@router.post("/{character_id}/effects/{effect_id}/save-result", response_model=EffectRead)
+def record_effect_save_result(
+    character_id: UUID, effect_id: UUID, body: EffectSaveResult, db: Annotated[Session, Depends(get_db)]
+) -> EffectRead:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    effect = _get_character_effect(character, effect_id)
+    if effect.frequency_rounds is None:
+        raise HTTPException(status_code=422, detail="This effect has no periodic save to record")
+
+    effect.next_check_in = effect.frequency_rounds
+    cured = False
+    if body.success:
+        effect.successes_current += 1
+        cured = effect.successes_required is not None and effect.successes_current >= effect.successes_required
+    else:
+        effect.successes_current = 0
+
+    # Built from the still-attached, not-yet-committed row rather than
+    # returned after commit: if `cured`, the row is about to be deleted, and
+    # a deleted-then-expired ORM instance can't be re-read for serialization.
+    result = EffectRead.model_validate(effect)
+    if cured:
+        db.delete(effect)
+    db.commit()
+    return result
+
+
+@router.post("/{character_id}/advance-time", response_model=list[EffectRead])
+def advance_time(
+    character_id: UUID, body: AdvanceTime, db: Annotated[Session, Depends(get_db)]
+) -> list[CharacterEffect]:
+    """Ticks every active effect's countdowns forward by one unit (roadmap
+    slice 5) — round=1/minute=10/hour=600, same conversion the mock's time
+    buttons already use. "day" is a full rest: plain-duration effects (no
+    `frequency_rounds`) are removed outright; frequency-tracked ones
+    (poison/disease) are left alone, since surviving a rest is correct PF1e
+    behavior for those, unlike the old mock's blanket clear."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    remaining: list[CharacterEffect] = []
+    if body.unit == "day":
+        for effect in character.effects:
+            if effect.frequency_rounds is None:
+                db.delete(effect)
+            else:
+                remaining.append(effect)
+    else:
+        rounds = ROUND_CONVERSION[body.unit]
+        for effect in character.effects:
+            if effect.incubation_remaining is not None:
+                effect.incubation_remaining = max(0, effect.incubation_remaining - rounds)
+            if effect.duration_remaining is not None:
+                effect.duration_remaining = max(0, effect.duration_remaining - rounds)
+            if effect.next_check_in is not None:
+                effect.next_check_in = max(0, effect.next_check_in - rounds)
+
+            if effect.frequency_rounds is None and effect.duration_remaining == 0:
+                db.delete(effect)
+            else:
+                remaining.append(effect)
+
+    db.commit()
+    for effect in remaining:
+        db.refresh(effect)
+    return remaining
 
 
 @router.delete("/{character_id}/gear/{item_id}", status_code=204)
