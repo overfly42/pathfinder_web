@@ -6,20 +6,29 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
-SOURCE_TYPES = ("spell", "class_ability", "condition")
-
 
 class BaseCondition(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Identity-only catalog (roadmap slice 5) for conditions/poisons/
     diseases/curses that aren't already a `BaseSpell`/`BaseClassAbility` row
-    — mirrors `BaseRaceAbility`/`BaseClassAbility`'s identity-only shape. No
-    content seeded yet; a row only gets added once an actual condition needs
-    one (CLAUDE.md: don't front-load ruleset content)."""
+    — mirrors `BaseRaceAbility`/`BaseClassAbility`'s identity-only shape.
+    Seeded 2026-08-05 via `scripts/build_conditions_seed.py` (33 standard
+    conditions, 35 example poisons, 11 example diseases).
+
+    `type` is a plain categorization tag ("condition"/"poison"/"disease") —
+    same plain-string convention as `BaseFeat.type` — for grouping/filtering
+    a picker UI and choosing sensible default activation fields (a
+    poison/disease is frequency+successes-shaped, a plain condition is
+    usually duration-shaped); not a computed rule itself. A poison/disease's
+    SG/Inkubationszeit/Frequenz/Heilung lives in `description` as formatted
+    text rather than separate columns, same as `BaseSpell.description` holds
+    a spell's full text — the actual per-application numbers are typed in by
+    the player at activation time (`EffectActivate`), read off this text."""
 
     __tablename__ = "base_conditions"
 
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
+    type: Mapped[str] = mapped_column(String(32))
 
 
 class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):

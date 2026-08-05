@@ -14,6 +14,11 @@ router = APIRouter(prefix="/api/conditions", tags=["conditions"])
 def list_conditions(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
     conditions = db.scalars(select(BaseCondition).order_by(BaseCondition.name)).all()
     return [
-        {"id": str(condition.id), "name": condition.name, "description": condition.description}
+        {
+            "id": str(condition.id),
+            "name": condition.name,
+            "description": condition.description,
+            "type": condition.type,
+        }
         for condition in conditions
     ]

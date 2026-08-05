@@ -587,11 +587,24 @@ using one is "cast this known spell from a charge," reusing the spell path
 companions/familiars/eidolons don't exist in this app and are out of scope
 entirely, not a category here.
 
-- [ ] `BaseCondition` catalog (`id`, `name`, `description`) — identity only,
-      for conditions/poisons/diseases/curses that aren't already a
-      `BaseSpell`/`BaseClassAbility` row. No content seeded yet (same
-      "identity only for now" state `BaseClassAbility` started in) — only
-      built once an actual poison/disease/condition needs it.
+- [x] `BaseCondition` catalog (`id`, `name`, `description`, `type`) —
+      identity only, for conditions/poisons/diseases/curses that aren't
+      already a `BaseSpell`/`BaseClassAbility` row. `type`
+      ("condition"/"poison"/"disease") is a plain categorization tag, same
+      convention as `BaseFeat.type` — for a future picker UI to group/filter
+      by and to pick sensible default activation fields, not a computed
+      rule. Seeded 2026-08-05: the ~33
+      standard PF1e conditions (Verängstigt, Gelähmt, ...), hand-transcribed
+      since that page isn't behind any PRD datatable, plus 35 example
+      poisons and 11 example diseases fetched from the PRD's `.../Gebrechen/
+      Gifte` and `.../Gebrechen/Krankheiten` pages (`scripts/
+      build_conditions_seed.py` → `app/fixtures/seed/base_conditions.json`,
+      loaded via `app.seed.condition_seed`). A poison/disease's SG/
+      Inkubationszeit/Frequenz/etc. is one formatted `description` block,
+      same as `BaseSpell.description` holds a spell's full text — the
+      catalog has no separate numeric columns for these, matching this
+      slice's decision that the actual per-application numbers are typed in
+      by the player at activation time, not derived from the catalog row.
 - [ ] `BaseSpell`/`BaseClassAbility` each get an `is_persistent_effect`
       boolean — which ones create a tracked `CharacterEffect` row when
       activated (most spells/abilities are instantaneous and don't).

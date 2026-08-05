@@ -203,6 +203,39 @@ Scripts: `import_waffen_prd.py` → `../app/fixtures/imported/waffen_prd_import.
 (292 rows: adventuring gear + tools, summary columns only, `source_url` kept
 per row for on-demand full-text fetch later).
 
+## 6. Poison/disease tables → `BaseCondition` seed rows directly
+
+`build_conditions_seed.py` (roadmap slice 5) is a fourth shape again: a
+`<table>` of example poisons (same wiki-table shape as §5) at
+`.../Gebrechen/Gifte`, but the diseases page (`.../Gebrechen/Krankheiten`)
+has no table at all — one `<h5><span class="cl-stat-block-title">{Name}
+</span></h5>` per disease, followed by a single `<p>` stat block
+(`<strong>Art</strong>`/`Rettungswurf`/`Inkubationszeit`/`Frequenz`/
+`Effekt`/`Heilung` lines). The standard PF1e conditions (Verängstigt,
+Gelähmt, ...) aren't on any PRD page in structured form either — same
+"hand-transcribe it" situation as §3's bloodline lists — so they're a plain
+Python list literal in the script itself, not fetched.
+
+Unlike every other script here, this one skips the fetch/build split (no
+`app/fixtures/imported/` intermediate): `BaseCondition` only has `name`/
+`description` (see `models/effect.py`), so there's no cross-catalog
+resolution step that would need the raw fetch kept around separately — the
+table/stat-block fields get formatted straight into one `description` block
+per row (a poison/disease's SG/Inkubationszeit/Frequenz becomes descriptive
+text, not separate columns; the actual numbers get typed in by the player at
+activation time, see roadmap.md's slice 5).
+
+**Known quirk:** the diseases page's stat-block paragraph doesn't reliably
+end at the first `</p>` — some entries have additional prose inside the same
+`<p>` past a stray nested tag, which cut a naive `<br />(.*?)</p>` match off
+mid-sentence (caught on "Trübe Sieche", whose blindness-on-heavy-damage
+clause got truncated). Fixed by capturing everything up to the next entry's
+leading anchor (`<!--notypo--><a name="p`) instead of trusting `</p>`.
+
+Script: `build_conditions_seed.py` → `../app/fixtures/seed/base_conditions.json`
+(79 rows: 33 conditions + 35 poisons + 11 diseases), loaded via
+`app.seed.condition_seed` (same upsert-by-id pattern as `trait_seed.py`).
+
 ## Finding a class/section's page path
 
 `/{Book}/Klassen/{ClassSlug}` — book prefix matches the left nav on any PRD

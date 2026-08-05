@@ -8,8 +8,10 @@ from test_characters import _spells_by_class
 from test_items import _create_character
 
 
-def _make_condition(db_session: Session, name: str = "Gift: Riesenspinnengift") -> str:
-    condition = BaseCondition(name=name, description="1W2 STÄ-Schaden, Häufigkeit 1/Runde für 4 Runden.")
+def _make_condition(db_session: Session, name: str = "Gift: Riesenspinnengift", type_: str = "condition") -> str:
+    condition = BaseCondition(
+        name=name, description="1W2 STÄ-Schaden, Häufigkeit 1/Runde für 4 Runden.", type=type_
+    )
     db_session.add(condition)
     db_session.commit()
     return str(condition.id)
@@ -147,7 +149,7 @@ def test_advance_time_day_clears_plain_effect_but_not_frequency_tracked_one(
 ) -> None:
     character_id = _create_character(client, db_session)
     buff_id = _make_condition(db_session, "Gesegnet")
-    poison_id = _make_condition(db_session, "Gift")
+    poison_id = _make_condition(db_session, "Gift", type_="poison")
 
     buff_effect_id = client.post(
         f"/api/characters/{character_id}/effects",
@@ -174,7 +176,7 @@ def test_advance_time_day_clears_plain_effect_but_not_frequency_tracked_one(
 
 def test_save_result_success_increments_and_cures_at_threshold(client: TestClient, db_session: Session) -> None:
     character_id = _create_character(client, db_session)
-    poison_id = _make_condition(db_session, "Gift")
+    poison_id = _make_condition(db_session, "Gift", type_="poison")
     effect_id = client.post(
         f"/api/characters/{character_id}/effects",
         json={
@@ -199,7 +201,7 @@ def test_save_result_success_increments_and_cures_at_threshold(client: TestClien
 
 def test_save_result_failure_resets_successes_without_changing_level(client: TestClient, db_session: Session) -> None:
     character_id = _create_character(client, db_session)
-    poison_id = _make_condition(db_session, "Gift")
+    poison_id = _make_condition(db_session, "Gift", type_="poison")
     effect_id = client.post(
         f"/api/characters/{character_id}/effects",
         json={
