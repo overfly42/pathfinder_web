@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import type { Effect, EffectDef } from '../../types/character';
 import { Panel, PanelSearch } from '../primitives/Panel';
+import type { TimeUnit } from '../../lib/time';
 
-export type TimeUnit = 'round' | 'minute' | 'hour' | 'day';
+export type { TimeUnit } from '../../lib/time';
 
 interface EffectsPanelProps {
   effectsActive: Effect[];

@@ -21,16 +21,8 @@ import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
 import type { ConditionType, Effect, EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
+import { ROUNDS_PER_UNIT } from '../lib/time';
 import './CharacterSheetPage.css';
-
-const ROUNDS_PER_UNIT: Record<TimeUnit, number> = {
-  round: 1,
-  minute: 10,
-  hour: 600,
-  /** A day is a large but finite round count (24h), not Infinity — timed effects should decrement
-   *  and expire like any other unit, not get silently dropped (see handleAdvanceTime). */
-  day: 600 * 24,
-};
 
 // The two mock sheet fixtures (`backend/app/main.py`'s CHARACTER_FIXTURES) have no
 // backing database row — gear/slot mutations for them stay local-only (nothing to write to).
@@ -477,6 +469,7 @@ export function CharacterSheetPage() {
               conditionsCatalog={conditionsCatalog}
               activatableSpells={character.activatableSpells}
               activatableClassAbilities={character.activatableClassAbilities}
+              characterLevel={character.level}
               search={effectsSearch}
               onSearchChange={setEffectsSearch}
               typeFilter={effectsTypeFilter}

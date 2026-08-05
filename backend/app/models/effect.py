@@ -18,17 +18,27 @@ class BaseCondition(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     same plain-string convention as `BaseFeat.type` — for grouping/filtering
     a picker UI and choosing sensible default activation fields (a
     poison/disease is frequency+successes-shaped, a plain condition is
-    usually duration-shaped); not a computed rule itself. A poison/disease's
-    SG/Inkubationszeit/Frequenz/Heilung lives in `description` as formatted
-    text rather than separate columns, same as `BaseSpell.description` holds
-    a spell's full text — the actual per-application numbers are typed in by
-    the player at activation time (`EffectActivate`), read off this text."""
+    usually duration-shaped). SG/Inkubationszeit/Frequenz/Heilung stay in
+    `description` as formatted text for display — same as
+    `BaseSpell.description` holds a spell's full text — but where that text
+    states a single fixed number (not a dice roll), it's additionally
+    parsed into `default_*` below (round-normalized, same unit as
+    `CharacterEffect`'s matching field) so the activation form can pre-fill
+    it instead of making the player retype it. `None` means either the
+    catalog entry doesn't have that shape (e.g. a condition's
+    `default_frequency_rounds`) or the source text wasn't a fixed number
+    (dice-based, e.g. "1W4 Tage", or "-"/not stated) — the player still
+    types those in by hand, read off `description`."""
 
     __tablename__ = "base_conditions"
 
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
     type: Mapped[str] = mapped_column(String(32))
+    default_incubation_rounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    default_duration_rounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    default_frequency_rounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    default_successes_required: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):

@@ -67,6 +67,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
     gear: Mapped[list["CharacterGear"]] = relationship(cascade="all, delete-orphan")
     effects: Mapped[list["CharacterEffect"]] = relationship(cascade="all, delete-orphan")
+    ability_damage: Mapped[list["CharacterAbilityDamage"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:
@@ -460,3 +461,33 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     is_active: Mapped[bool] = mapped_column(Boolean, default=False)
 
     special_abilities: Mapped[list["CharacterGearSpecialAbility"]] = relationship(cascade="all, delete-orphan")
+
+
+class CharacterAbilityDamage(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Running total of non-drain-from-score ability penalties per ability
+    (roadmap.md §5, table created 2026-08-05 — schema only, nothing writes
+    to it yet, see the open item there). PF1e has three distinct kinds
+    (`kind`): temporary "damage" (heals 1 point/ability/day of full rest),
+    permanent "drain" (needs restoration magic), and permanent "burn" (never
+    heals) — same `ability_mod`-facing effect (subtract from the score at
+    read time, alongside `Character.ability_score_*`, same
+    composition-vs-computation split CLAUDE.md uses everywhere), but
+    different recovery rules, so `kind` has to be its own column rather than
+    folded into a single number.
+
+    One row per (character, ability, kind) rather than one row per source
+    application: PF1e ability damage/drain from multiple sources simply
+    sums into one running total per ability (`roadmap.md`'s "ability damage
+    from two sources sums") and heals as one pool, not per-source — so
+    there's nothing a source-level row would let the rules do that summing
+    into this row on `UPDATE` doesn't already cover. `amount` is always the
+    current total, not a delta log."""
+
+    __tablename__ = "character_ability_damage"
+    __table_args__ = (UniqueConstraint("character_id", "ability", "kind"),)
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    # "ST"/"GE"/"KO"/"IN"/"WE"/"CH" — same short codes as `Character.ability_scores`'s dict keys.
+    ability: Mapped[str] = mapped_column(String(2))
+    kind: Mapped[str] = mapped_column(String(16))
+    amount: Mapped[int] = mapped_column(Integer, default=0)

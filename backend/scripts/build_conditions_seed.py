@@ -17,10 +17,14 @@ describes for other non-indexed content. Poisons/diseases *are* structured
 ("condition"/"poison"/"disease"), for a future picker UI to group/filter by;
 a poison/disease's SG/Inkubationszeit/Frequenz/etc. still become one
 formatted description block rather than separate columns, the same way
-`BaseSpell.description` holds a spell's full text; the actual numeric values
-(initial `incubation_remaining`/`frequency_rounds`/`successes_required`) are
-typed in by the player at activation time (`EffectActivate`), read off this
-text.
+`BaseSpell.description` holds a spell's full text. Where that text states a
+single fixed number (not a dice roll or a "-"), `_parse_defaults` below also
+extracts it into the row's `default_incubation_rounds`/
+`default_duration_rounds`/`default_frequency_rounds`/
+`default_successes_required` (round-normalized) so the activation form can
+pre-fill it; anything dice-based, unstated, or in an unsupported unit
+(weeks — `CharacterEffect`/the frontend only model round/minute/hour/day)
+is left `None` and still typed in by the player, read off `description`.
 
 Ids are deterministic (`uuid5` off the condition's own name, `ID_NAMESPACE`
 below) so reruns upsert cleanly via `app.seed.condition_seed` instead of
@@ -462,6 +466,82 @@ def fetch_diseases() -> list[tuple[str, str]]:
     return entries
 
 
+# --- 4. Structured defaults parsed out of the formatted description -------
+# Only handles a single fixed "N Unit"/"N/Unit" value — dice rolls ("1W4
+# Tage"), "-" (not stated/incurable), and units this app doesn't model
+# (weeks) all fall through to None, same as any other unparseable case.
+
+_ROUND_UNITS = {
+    "rd": 1, "runde": 1, "runden": 1,
+    "min": 10, "minute": 10, "minuten": 10,
+    "std": 600, "stunde": 600, "stunden": 600,
+    "tag": 14400, "tage": 14400,
+}
+_NUM_UNIT_RE = re.compile(r"^\s*(\d+)\s*/?\s*([A-Za-zÄäÖöÜü]+)[./]*\s*$")
+_POISON_FIELDS_RE = re.compile(
+    r"Inkubationszeit:\s*(?P<inkubation>.*?)\s*Frequenz:\s*(?P<frequenz>.*?)\s*Effekt:.*?"
+    r"Heilung:\s*(?P<heilung>.*?)\s*Preis:",
+    re.DOTALL,
+)
+_DISEASE_FIELDS_RE = re.compile(
+    r"Inkubationszeit\s+(?P<inkubation>.*?);\s*Frequenz\s+(?P<frequenz>.*?)\s*\n.*?"
+    r"Heilung\s+(?P<heilung>\d+)\s+aufeinander",
+    re.DOTALL,
+)
+_CONDITION_DURATION_RE = re.compile(
+    r"währt üblicherweise (\d+) (Runde|Runden|Minute|Minuten|Stunde|Stunden|Tag|Tage)"
+)
+
+
+def _parse_fixed_value(raw: str) -> int | None:
+    """'10 Min.' -> 100 (rounds). '1/Rd.' -> 1. '-'/dice/unsupported unit -> None."""
+    raw = raw.strip().rstrip(".").strip()
+    if not raw or raw == "-" or re.search(r"\bW\d", raw, re.IGNORECASE):
+        return None
+    match = _NUM_UNIT_RE.match(raw)
+    if not match:
+        return None
+    value, unit = match.groups()
+    rounds = _ROUND_UNITS.get(unit.lower())
+    return int(value) * rounds if rounds else None
+
+
+def _parse_rate(raw: str) -> int | None:
+    """Frequency cell like '1/Rd. für 6 Rd.' -> just the leading 'N/Unit' interval."""
+    head = re.split(r"\s+für\b|,", raw.strip())[0].strip()
+    return _parse_fixed_value(head)
+
+
+def _parse_cure(raw: str) -> int | None:
+    """'2 aufeinander folgende Rettungswürfe' / '1 Rettungswurf' -> the leading count."""
+    match = re.match(r"^\s*(\d+)\b", raw.strip())
+    return int(match.group(1)) if match else None
+
+
+def _parse_defaults(description: str, type_: str) -> dict[str, int | None]:
+    defaults = {
+        "default_incubation_rounds": None,
+        "default_duration_rounds": None,
+        "default_frequency_rounds": None,
+        "default_successes_required": None,
+    }
+    if type_ == "poison":
+        match = _POISON_FIELDS_RE.search(description)
+    elif type_ == "disease":
+        match = _DISEASE_FIELDS_RE.search(description)
+    else:
+        duration_match = _CONDITION_DURATION_RE.search(description)
+        if duration_match:
+            value, unit = duration_match.groups()
+            defaults["default_duration_rounds"] = int(value) * _ROUND_UNITS[unit.lower()]
+        return defaults
+    if match:
+        defaults["default_incubation_rounds"] = _parse_fixed_value(match.group("inkubation"))
+        defaults["default_frequency_rounds"] = _parse_rate(match.group("frequenz"))
+        defaults["default_successes_required"] = _parse_cure(match.group("heilung"))
+    return defaults
+
+
 def main() -> None:
     entries: list[tuple[str, str, str]] = (
         [(name, description, "condition") for name, description in CORE_CONDITIONS]
@@ -469,7 +549,13 @@ def main() -> None:
         + [(name, description, "disease") for name, description in fetch_diseases()]
     )
     rows = [
-        {"id": str(uuid.uuid5(ID_NAMESPACE, name)), "name": name, "description": description, "type": type_}
+        {
+            "id": str(uuid.uuid5(ID_NAMESPACE, name)),
+            "name": name,
+            "description": description,
+            "type": type_,
+            **_parse_defaults(description, type_),
+        }
         for name, description, type_ in entries
     ]
     OUTPUT_PATH.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

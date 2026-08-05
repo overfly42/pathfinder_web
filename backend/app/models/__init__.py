@@ -11,6 +11,7 @@ from .base_class import (
 )
 from .character import (
     Character,
+    CharacterAbilityDamage,
     CharacterClass,
     CharacterClassOption,
     CharacterGear,
@@ -83,6 +84,7 @@ __all__ = [
     "BaseItem",
     "BaseWeaponSpecialAbility",
     "Character",
+    "CharacterAbilityDamage",
     "CharacterClass",
     "CharacterClassOption",
     "CharacterGear",

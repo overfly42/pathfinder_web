@@ -19,6 +19,10 @@ def list_conditions(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             "name": condition.name,
             "description": condition.description,
             "type": condition.type,
+            "defaultIncubationRounds": condition.default_incubation_rounds,
+            "defaultDurationRounds": condition.default_duration_rounds,
+            "defaultFrequencyRounds": condition.default_frequency_rounds,
+            "defaultSuccessesRequired": condition.default_successes_required,
         }
         for condition in conditions
     ]

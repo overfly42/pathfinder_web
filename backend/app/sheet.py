@@ -116,6 +116,20 @@ def _gear_ability_bonuses(db: Session, character: Character) -> dict[str, int]:
     return {key: stack(mods) for key, mods in modifiers_by_key.items()}
 
 
+def _ability_damage_totals(character: Character) -> dict[str, int]:
+    """Ability damage/drain/burn (`CharacterAbilityDamage`, roadmap.md §5's
+    open item) summed per ability — all three `kind`s reduce the score the
+    same way for modifier purposes, only their recovery differs (see that
+    model's docstring), so this doesn't need to distinguish them. Empty
+    today since nothing writes to the table yet (no `EFFECT_HANDLERS` entry
+    applies poison/disease ability damage) — every character's total is 0
+    until that handler exists, which is the intended, honest default."""
+    totals: dict[str, int] = {}
+    for row in character.ability_damage:
+        totals[row.ability] = totals.get(row.ability, 0) + row.amount
+    return totals
+
+
 def _fmt(mod: int) -> str:
     return ("+" if mod >= 0 else "") + str(mod)
 
@@ -131,6 +145,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
     for key, bonus in _gear_ability_bonuses(db, character).items():
         effective_scores[key] = effective_scores.get(key, 0) + bonus
+    ability_damage = _ability_damage_totals(character)
+    for key, amount in ability_damage.items():
+        effective_scores[key] = effective_scores.get(key, 0) - amount
     ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
 
     total_level = character.level
@@ -173,6 +190,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "label": ABILITY_LABELS[ability],
                 "score": effective_scores[ability],
                 "mod": _fmt(ability_mods[ability]),
+                "damage": ability_damage.get(ability, 0),
             }
             for ability in ("ST", "GE", "KO", "IN", "WE", "CH")
         ],

@@ -600,11 +600,22 @@ entirely, not a category here.
       Gifte` and `.../Gebrechen/Krankheiten` pages (`scripts/
       build_conditions_seed.py` → `app/fixtures/seed/base_conditions.json`,
       loaded via `app.seed.condition_seed`). A poison/disease's SG/
-      Inkubationszeit/Frequenz/etc. is one formatted `description` block,
-      same as `BaseSpell.description` holds a spell's full text — the
-      catalog has no separate numeric columns for these, matching this
-      slice's decision that the actual per-application numbers are typed in
-      by the player at activation time, not derived from the catalog row.
+      Inkubationszeit/Frequenz/etc. is still one formatted `description`
+      block, same as `BaseSpell.description` holds a spell's full text — but
+      revised 2026-08-05 (later the same day): where that text states a
+      single fixed number rather than a dice roll, `default_incubation_rounds`/
+      `default_duration_rounds`/`default_frequency_rounds`/
+      `default_successes_required` also parse it out (round-normalized),
+      re-derived by `build_conditions_seed.py` on every rerun rather than
+      hand-maintained, so the activation popup (below) can pre-fill instead
+      of the player retyping numbers already sitting in the description.
+      Dice-based/unstated/unsupported-unit (weeks) values still stay `None`
+      and are still typed in by hand. Note the `Frequenz` text's trailing
+      "für N Rd./Min." clause (e.g. "1/Rd. für 6 Rd.") is deliberately *not*
+      parsed into any of these — it reads like a duration cap distinct from
+      the `successes_required` cure path, but nothing downstream tracks an
+      occurrence count yet (see the open item below), so parsing it now
+      would produce a column nothing reads.
 - [ ] `BaseSpell`/`BaseClassAbility` each get an `is_persistent_effect`
       boolean — which ones create a tracked `CharacterEffect` row when
       activated (most spells/abilities are instantaneous and don't).
@@ -660,6 +671,57 @@ entirely, not a category here.
       double up) — reuses slice 4's `Modifier`/`stack` (`rules/modifiers.py`)
       rather than a second bonus-stacking implementation. No real
       conditions/handlers seeded yet, infrastructure only.
+- [x] Ability damage/drain/burn — schema + plumbing, done 2026-08-06 (no
+      handler yet, see open item below). `CharacterAbilityDamage` (table
+      created 2026-08-05, `backend/app/models/character.py`, migration
+      `f4549f885840`) — one running total per (character, ability, `kind` ∈
+      damage/drain/burn; damage heals 1/ability/day of full rest, drain
+      needs restoration magic, burn never heals — differ only in recovery,
+      so all three subtract from the score the same way). `sheet.py`'s
+      `_ability_damage_totals` now sums it per ability and subtracts from
+      `effective_scores` before `ability_mods` is computed, so the
+      score/save/mod math is already correct the moment something starts
+      writing rows; `abilities[].damage` also exposes the raw per-ability
+      total (0 for everyone today) so the frontend doesn't have to
+      re-derive it. `AbilityScores.tsx` renders it as a small "-N" badge
+      under the score when nonzero (`.ability .penalty`,
+      `CharacterSheetPage.css`) — the UI shape discussed below, done ahead
+      of the handler since it's harmless to ship while every value is 0.
+      Fixture characters ('1'/'2', `character_1.json`/`character_2.json`)
+      got `"damage": 0` added to each ability entry to match the type.
+- [ ] **Open — not wired yet:**
+  - The actual `EFFECT_HANDLERS` entries that make a poison/disease
+        *apply* ability damage (write/update `CharacterAbilityDamage` rows)
+        when its frequency check fails, plus the natural-healing hook for
+        temporary damage into `advance-time`'s day tick. The schema and
+        display above are ready for this; nothing computes or writes the
+        numbers yet. A successful save only stops *future* damage from that
+        effect (see `successes_current`/`successes_required` above) —
+        damage already dealt survives the cure and needs this separate
+        healing path, not automatic removal when the `CharacterEffect` row
+        is deleted (this is also why `AbilityScores.tsx` shows the penalty
+        on the score itself rather than only in the Effekte panel — it can
+        outlive its source).
+  - Occurrence cap: several poisons (e.g. Drachenschleim, `Heilung: -`)
+        have no save-based cure at all and only ever stop because the
+        source text's `Frequenz` clause caps how many times they fire
+        (e.g. "1/Rd. für 6 Rd." = 6 total). `CharacterEffect` has no counter
+        for this, and `default_*` parsing above deliberately didn't extract
+        it (see that bullet) since nothing would read it yet. Needs a
+        `default_max_occurrences` column on `BaseCondition` (re-parsed the
+        same way) and an `occurrences_remaining` column on `CharacterEffect`
+        that decrements alongside `next_check_in` and clears the row at 0 —
+        independent of, not a replacement for, the existing
+        `successes_required` cure path, since some poisons have both and
+        whichever condition is met first ends the effect.
+  - Source breakdown on the ability-damage badge (e.g. "-2 von Arsen" on
+        hover) isn't possible yet either — `CharacterAbilityDamage` only
+        stores the summed total per ability+kind, not per source, on
+        purpose (PF1e sums same-kind ability damage into one pool that
+        heals as a pool, not per source — see that model's docstring), so
+        a breakdown would have to be reconstructed from active
+        `CharacterEffect` rows whose handler targets that ability, which
+        only exists once the `EFFECT_HANDLERS` entries above are written.
 - [x] Frontend, done 2026-08-05: a real character (`isRealCharacter`) now
       renders `RealEffectsPanel` (`frontend/src/components/sheet/
       RealEffectsPanel.tsx`) instead of the old mock `EffectsPanel` — the
@@ -685,6 +747,22 @@ entirely, not a category here.
       open `<details>`" listener saw a detached `event.target` and closed
       the popover; fixed with a local `stopPropagation` rather than
       touching that shared listener.
+- [x] Activation popover → popup, done 2026-08-05: the inline
+      `effect-activate-inline` block became a real centered
+      `ActivateEffectModal` (`frontend/src/components/sheet/
+      ActivateEffectModal.tsx`), reusing the `.modal-overlay`/`.modal-dialog`
+      primitive `ItemDetailModal` already established rather than a second
+      popup pattern. Dauer/Inkubation/Frequenz each got a value + unit
+      (Runde/Minute/Stunde/Tag) pair (`frontend/src/lib/time.ts`'s shared
+      `ROUNDS_PER_UNIT`/`roundsToUnitValue`, factored out of
+      `CharacterSheetPage.tsx`'s local copy) instead of a rounds-only input,
+      converted to rounds client-side before `POST .../effects` — the
+      backend still only ever stores rounds. Opening the popup pre-fills
+      Stufe from the character's level (spells/class abilities only —
+      conditions/poisons/diseases have no level concept) and Dauer/
+      Inkubation/Frequenz/Erfolge from the new `default_*` catalog fields
+      above (still just a starting point, not locked — the player can
+      always override before confirming).
 
 ### 6. Possible actions / legality checks
 - [ ] Scope narrowly first: e.g. "can this spell be prepared/cast right

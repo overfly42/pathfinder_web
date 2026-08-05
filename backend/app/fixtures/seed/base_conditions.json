@@ -3,474 +3,790 @@
     "id": "b4c3c3dd-6c91-54d6-9ff7-540523c8e1c3",
     "name": "Benommen",
     "description": "Eine benommene Kreatur kann nicht normal handeln, hat aber keinen Malus auf die RK.\n\nBenommenheit währt üblicherweise 1 Runde lang.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 1,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "ebf473e9-b881-524d-8a13-f7a2ef7cb9f5",
     "name": "Beschädigt",
     "description": "Gegenstände, die mehr Schaden genommen haben, als es der Hälfte ihrer gesamten Trefferpunkte entspricht, sind beschädigt. Das heißt, dass sie ihre eigentliche Aufgabe nicht mehr effektiv ausüben können. Der Zustand beschädigt hat je nach Gegenstand die folgenden Auswirkungen:\n\nHandelt es sich bei dem Gegenstand um eine Waffe, erhalten Angriffe mit ihr einen Malus von -2 auf Angriffs- und Schadenswürfe. Kritische Treffer können nur noch bei einer natürlichen 20 erzielt werden und verursachen nur noch Schaden x2.\nHandelt es sich bei dem Gegenstand um eine Rüstung oder einen Schild, wird der RK-Bonus halbiert. Bei beschädigten Rüstungen wird außerdem der Rüstungsmalus auf Fertigkeiten verdoppelt.\nHandelt es sich bei dem Gegenstand um ein Werkzeug, das für eine Fertigkeit benötigt wird, erhalten Fertigkeitswürfe mit dem Gegenstand einen Malus von -2.\nHandelt es sich bei dem Gegenstand um einen Zauberstab oder einen Zauberstecken, verbraucht er bei einer Anwendung doppelt so viele Ladungen.\nPasst der Gegenstand in keine der eben angeführten Kategorien, hat der Zustand beschädigt keine Auswirkungen auf die Benutzung. Aber egal, zu welcher Art sie gehören, beschädigte Gegenstände sind immer nur 75 % ihres eigentlichen Preises wert.\nHandelt es sich um einen magischen Gegenstand, kann dieser nur mit Hilfe von Reparieren oder Ausbessern repariert werden, wenn der Zauber von einem Zaubernden gewirkt wird, dessen Zauberstufe mindestens so hoch ist wie die des Gegenstands.\n\nNichtmagische Gegenstände können entweder auf ähnliche Weise repariert werden oder mit einem erfolgreichen Wurf auf Handwerk auf den Handwerksberuf, der auch für die Erschaffung des Gegenstands notwendig ist. Der SG für den Wurf auf Handwerk liegt im Allgemeinen bei 20 und pro Schadenspunkt, der repariert werden soll, braucht es 1 Stunde Arbeit. Die meisten Handwerker nehmen 1/10 der Gesamtkosten für den Gegenstand, um solchen Schaden zu reparieren (mehr, wenn der Gegenstand schwer beschädigt oder ruiniert ist).",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "c1592376-c537-5e73-8683-834182c7a2db",
     "name": "Betäubt",
     "description": "Ein betäubter Charakter lässt alles fallen, was er hält, kann keine Aktionen ausführen, erhält einen Malus von -2 auf die RK und verliert seinen GE-Bonus auf die RK (falls vorhanden).",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "7b8a11ef-370d-556b-98b9-c2ab83a0fb70",
     "name": "Bewusstlos",
     "description": "Bewusstlose Kreaturen sind KO geschlagen und hilflos. Bewusstlosigkeit wird entweder durch negative Trefferpunkte hervorgerufen (aber nicht mehr als es dem Konstitutionswert der Kreatur entspricht) oder wenn der nichttödliche Schaden die momentanen Trefferpunkte der Kreatur übersteigt.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "1b994635-b0b0-5d2f-b8f6-38ebb7e1d7c4",
     "name": "Blind",
     "description": "Die betroffene Kreatur kann nichts sehen. Sie erhält einen Malus von -2 auf die RK, verliert den GE-Bonus auf die RK (falls vorhanden) und erhält einen Malus von -4 auf die meisten Fertigkeitswürfe, die auf Stärke oder Geschicklichkeit basieren, und auf konkurrierende Würfe auf Wahrnehmung. Alle Würfe und Handlungen, die von der Sehfähigkeit abhängen (wie etwa lesen und von der Sicht abhängige Würfe auf Wahrnehmung), misslingen automatisch. Alle Gegner haben gegenüber der betroffenen Kreatur vollständige Tarnung (Fehlschlagschance von 50 %). Blinde müssen einen Wurf auf Akrobatik (SG 10) machen, um sich schneller als mit ihrer halben Bewegungsrate bewegen zu können. Kreaturen, denen dieser Wurf nicht gelingt, fallen zu Boden. Charaktere, die über längere Zeit blind sind, können sich daran gewöhnen und einige der Nachteile überwinden.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "757dcd1a-a825-5d99-aa84-3eb905c184e6",
     "name": "Blutung",
     "description": "Eine Kreatur, die Schaden durch Blutverlust erleidet, nimmt zu Beginn ihres Zuges die angegebene Menge an Schaden. Blutungen können mit einem erfolgreichen Wurf auf Heilkunde (SG 15) gestoppt werden oder mit Hilfe eines Zaubers, der Schaden an den Trefferpunkten heilt (selbst wenn es sich bei dem Schaden durch Blutung um Attributsschaden handelt). Manche Blutungseffekte verursachen Attributsschaden oder sogar Attributsentzug. Blutungseffekte sind nicht miteinander kumulativ, außer sie verursachen unterschiedliche Arten von Schaden. Wird ein Charakter von zwei oder mehr Blutungseffekten betroffen, welche dieselbe Art von Schaden verursachen, wende den schlimmeren Effekt an. In diesem Fall ist ein Attributsentzug schlimmer als ein Attributsschaden.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "cb0021b3-f390-5eb6-b936-bfe6662b946b",
     "name": "Entkräftet",
     "description": "Ein entkräfteter Charakter kann sich nur mit seiner halben Bewegungsrate fortbewegen, kann nicht rennen und keine Sturmangriffe ausführen und erhält einen Malus von -6 auf Stärke und Geschicklichkeit. Hat ein entkräfteter Charakter sich 1 Stunde lang ausgeruht, ist er nur noch erschöpft. Ein erschöpft Charakter wird wieder entkräftet, wenn er etwas macht, das ihn normalerweise erschöpfen würde.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "cb149263-435d-52f1-93c5-72fb0a01ff85",
     "name": "Erschöpft",
     "description": "Ein erschöpfter Charakter kann weder rennen, noch Sturmangriffe ausführen und erhält einen Malus von -2 auf Stärke und Geschicklichkeit. Macht der Erschöpfte irgendetwas, das ihn normalerweise erschöpfen würde, wird er dadurch entkräftet. Hat der Charakter sich 8 Stunden lang ausgeruht, ist er nicht länger erschöpft.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "2542c353-3497-5c32-a049-a71dda20601c",
     "name": "Erschüttert",
     "description": "Ein erschütterter Charakter erhält einen Malus von -2 auf Angriffs-, Rettungs-, Fertigkeits- und Attributswürfe. Erschüttert ist ein weniger schlimmer Zustand der Furcht als verängstigt oder in Panik.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "eab57e40-dec1-562e-87a9-d930c49e42db",
     "name": "Fasziniert",
     "description": "Eine faszinierte Kreatur ist von einem übernatürlichen oder einem Zaubereffekt fasziniert. Sie steht oder sitzt ganz ruhig und macht nichts, außer den Effekt zu beobachten, der sie fasziniert. Die Kreatur erhält einen Malus von -4 auf Fertigkeitswürfe, mit denen sie auf etwas reagiert, wie etwa Würfe auf Wahrnehmung. Immer wenn sich dem Faszinierten eine potentielle Gefahr nähert, darf er einen erneuten Rettungswurf gegen den faszinierenden Effekt machen. Offensichtliche Gefahren, wie jemand, der eine Waffe zieht oder einen Zauber wirkt oder eine Fernkampfwaffe auf den Faszinierten richtet, brechen den Effekt sofort. Die Verbündeten des Faszinierten können diesen mit einer Standard-Aktion von dem Effekt befreien.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "f85ea944-6613-5e28-89a3-b08ad9fcdcec",
     "name": "Geblendet",
     "description": "Ein Geblendeter kann kaum etwas sehen, da seine Augen überreizt sind. Er erhält einen Malus von -1 auf Angriffswürfe und Würfe auf Wahrnehmung fürs Sehen.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "b1accda4-a4c5-5797-92e6-2ce211f2af6f",
     "name": "Gelähmt",
     "description": "Ein gelähmter Charakter ist auf der Stelle festgewurzelt und kann sich weder bewegen noch handeln. Er hat effektive Stärke- und Geschicklichkeitswerte von 0 und ist hilflos, kann aber noch rein geistige Aktionen ausführen. Eine geflügelte Kreatur, die gerade flog, als sie gelähmt wurde, kann nicht mehr mit den Flügeln schlagen und fällt. Ein gelähmter Schwimmer kann nicht mehr schwimmen und deshalb ertrinken. Jede Kreatur darf sich über ein Feld bewegen, auf dem ein Gelähmter steht, egal ob es sich um Verbündete oder Feinde handelt. Jedes Feld aber, auf dem ein Gelähmter steht, zählt als zwei Felder, wenn man sich darüber bewegen möchte.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "c5eff2f9-ccc1-53d0-bbd3-e71d63d1b7d3",
     "name": "Hilflos",
     "description": "Ein hilfloser Charakter ist gelähmt, festgehalten, gefesselt, bewusstlos, schläft oder ist sonst auf irgendeine Weise vollkommen der Gnade seiner Feinde ausgeliefert. Ein Hilfloser wird behandelt, als hätte er eine Geschicklichkeit von 0 (Modifikator -5). Nahkampfangriffe gegen einen Hilflosen werden mit einem Bonus von +4 gemacht (entspricht dem Angreifen eines auf dem Boden Liegenden). Fernkampfangriffe erhalten keinen besonderen Bonus. Schurken können Hinterhältige Angriffe gegen Hilflose ausführen.\n\nEin Gegner kann mit einer vollen Aktion auch einen Coup de Grace gegen einen Hilflosen ausführen. Er kann den Coup de Grace auch mit einem Bogen oder einer Armbrust ausführen, wenn er auf einem Feld steht, das an den Hilflosen angrenzt. Der Angreifer trifft automatisch und erzielt einen kritischen Treffer. (Ein Schurke kann auch noch den Schaden seines Hinterhältigen Angriffs addieren, wenn er einen Coup de Grace gegen einen Hilflosen ausführt.) Überlebt der Hilflose, muss er trotzdem einen Zähigkeitswurf (SG 10 + erlittener Schaden) machen. Bei einem Fehlschlag stirbt er. Das Ausführen eines Coup de Grace provoziert Gelegenheitsangriffe.\n\nKreaturen, die gegen kritische Treffer immun sind, erleiden keinen kritischen Schaden und müssen auch keinen Zähigkeitswurf ablegen, um nicht durch einen Coup de Grace getötet zu werden.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "b6561d36-4032-5c0e-b8e2-ce260c37546a",
     "name": "Im Haltegriff",
     "description": "Eine Kreatur im Haltegriff ist tatsächlich fest verschnürt und kann nur wenige Aktionen unternehmen. Sie kann sich nicht bewegen und gilt als auf dem falschen Fuß erwischt und erhält zusätzlich noch einen Malus von -4 auf ihre RK. Eine Kreatur im Haltegriff kann nur einige wenige Aktionen ausführen: Sie kann versuchen sich zu befreien, entweder mit Hilfe eines Kampfmanöverwurfs oder mit einem Wurf auf Entfesselungskunst. Sie kann verbale und geistige Aktionen ausführen, aber keine Zauber wirken, die eine Gesten- oder eine Materialkomponente benötigen. Eine Kreatur im Haltegriff, die einen Zauber wirken oder Zauberähnliche Fähigkeiten einsetzen möchte, muss einen Konzentrationswurf (SG 10 + KMB desjenigen, der sie im Haltegriff hat + Zaubergrad) machen. Bei einem Fehlschlag geht der Zauber verloren. Im Haltegriff ist eine schwerwiegendere Version des Zustands Ringend und die beiden Zustände sind nicht kumulativ.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "279ae214-c268-5224-9445-198f5ee85176",
     "name": "In Panik",
     "description": "Eine panische Kreatur muss alles fallen lassen, was sie festhält, und so schnell sie kann vor der Quelle ihrer Furcht und allen anderen Gefahren fliehen. Sie nimmt dabei einen zufällig ermittelten Weg und kann keine anderen Aktionen ausführen. Außerdem erhält die panische Kreatur einen Malus von -2 auf alle Rettungs-, Fertigkeits- und Attributswürfe. Wird sie in die Ecke gedrängt, kauert sich eine panische Kreatur zusammen und greift nicht an. Meist wird sie im Kampf die Aktion Volle Verteidigung einsetzen. Eine panische Kreatur kann ihre besonderen Fähigkeiten, auch Zauber, einsetzen, um zu fliehen, ja sie muss dies sogar tun, wenn dies den einzigen Weg darstellt zu fliehen.\n\nIn Panik ist ein intensiverer Zustand der Furcht als verängstigt oder erschüttert.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "248a0ad9-b24a-5d1c-ab50-c53e715f11bc",
     "name": "Kampfunfähig",
     "description": "Ein Charakter, der 0 TP oder negative TP hat, aber stabilisiert und bei Bewusstsein ist, ist kampfunfähig. Ein kampfunfähiger Charakter kann jede Runde eine Bewegungsaktion oder eine Standard-Aktion ausführen (nicht aber beides, er kann auch keine vollen Aktionen ausführen; er kann aber Schnelle, Augenblickliche und Freie Aktionen ausführen). Der Charakter bewegt sich mit seiner halben Bewegungsrate. Bei Bewegungsaktionen geht der Charakter nicht das Risiko weiterer Verletzungen ein, wenn er aber eine Standard-Aktion ausführt (oder eine andere Art von Aktion, die der Spielleiter für zu anstrengend hält – etwa manche freien Aktionen wie schnell zaubern), erleidet er 1 Schadenspunkt, nachdem er die Aktion vollendet hat. Solange die Aktion die TP des Charakters nicht erhöht, hat er dann negative TP und liegt damit im Sterben.\n\nEin kampfunfähiger Charakter mit negativen TP kann seine TP auf natürliche Weise regenerieren, wenn ihm jemand hilft. Ansonsten darf er jeden Tag einen Konstitutionswurf (SG 10) machen, nachdem er 8 Stunden geruht hat, um seine TP auf natürliche Weise zu regenerieren. Der Charakter erhält einen Malus auf diesen Wurf welcher der Anzahl der negativen TP gleicht. Misslingt der Wurf verliert der Charakter noch 1 TP, wird dadurch jedoch nicht bewusstlos. Ist der Wurf einmal gelungen, beginnt der Charakter auf natürlichem Wege zu heilen und schwebt nicht länger in der Gefahr, Trefferpunkte zu verlieren.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "2b4bc1bc-4012-51c4-8c3c-9e38875d66b0",
     "name": "Kauernd",
     "description": "Der Charakter ist vor Angst gelähmt und kann nicht handeln. Außerdem erhält er einen Malus von -2 auf die RK und verliert seinen GE-Bonus auf die RK (falls vorhanden).",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "11b30e37-b14b-5da0-a687-577a3d7f59f3",
     "name": "Körperlos",
     "description": "Eine Kreatur, die körperlos ist, besitzt keinen physischen Körper. Körperlose Kreaturen sind gegen alle nichtmagischen Angriffsforrnen immun. Sie erleiden nur den halben Schaden (50 %) von magischen Waffen, Zaubern, zauberähnlichen Effekten und übernatürlichen Effekten. Körperlose Kreaturen erleiden den vollen Schaden von Angriffen durch andere körperlose Kreaturen und Effekte und von Energieeffekten.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "95908d6b-82a4-599e-9b8e-df8bd06ab1c1",
     "name": "Kränkelnd",
     "description": "Der betroffene Charakter erhält einen Malus von -2 auf alle Angriffs-, Waffenschadens-, Rettungs-, Fertigkeits- und Attributswürfe.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "4469ea41-d781-55bd-83cf-cac17350fadc",
     "name": "Lebenskraftverlust",
     "description": "Ein Charakter, der eine oder mehrere negative Stufen erhalten hat, die ihm permanent Stufen entziehen könnten. Hat das Opfer mindestens so viele negative Stufen wie Trefferwürfel, stirbt es. Weitere Informationen findest du im Abschnitt „Lebenskraftverlust und Negative Stufen“ auf Seite 562.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "ede4d3ba-c156-5f51-8ba1-8805f4c258be",
     "name": "Liegend",
     "description": "Der Charakter liegt auf dem Boden. Ein liegender Angreifer erhält einen Malus von -4 auf Angriffswürfe im Nahkampf und kann keine Fernkampfwaffen (außer Armbrüsten) benutzen. Ein liegender Verteidiger erhält einen Bonus von +4 auf seine RK gegen Fernkampfangriffe, aber einen Malus von -4 auf die RK gegen Nahkampfangriffe.\n\nAufstehen gilt als Bewegungsaktion, die Gelegenheitsangriffe provoziert.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "c7423b72-77d2-5c94-9760-8dce3ae14d64",
     "name": "Ringend",
     "description": "Eine ringende Kreatur wird durch eine andere Kreatur, eine Falle oder einen Effekt festgehalten. Ringende Kreaturen können sich nicht bewegen und erhalten einen Malus von -4 auf ihre Geschicklichkeit. Außerdem erhält eine ringende Kreatur einen Malus von -2 auf alle Angriffs- und Kampfmanöverwürfe, außer auf solche, um selbst jemanden in den Ringkampf zu verwickeln oder dem ringenden Zustand zu entkommen. Des Weiteren können ringende Kreaturen keine Aktionen ausführen, für die sie beide Hände bräuchten. Ein ringender Charakter, der zaubern möchte, muss einen Konzentrationswurf (SG 10 + KMB desjenigen, der ihn in den Ringkampf verwickelt hat + Zaubergrad) machen. Misslingt dieser Wurf, geht der Zauber verloren. Ringende Kreaturen können keine Gelegenheitsangriffe ausführen.\n\nEiner ringenden Kreatur ist es nicht möglich, Heimlichkeit einzusetzen, um sich vor demjenigen zu verstecken, der sie in den Ringkampf verwickelt hat, selbst wenn ihr eine besondere Fähigkeit, wie etwa Meisterliches Verstecken, dies erlauben würde. Wenn eine ringende Kreatur unsichtbar wird, entweder mit Hilfe eines Zaubers oder einer anderen Fähigkeit, erhält sie einen Situationsbonus von +2 auf ihre KMV, um den Ringkampf zu vermeiden. Ansonsten erhält sie keine Vorteile.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "f0945a33-32d5-5d9f-97c9-7cf59d89f86c",
     "name": "Stabilisiert",
     "description": "Ein Charakter, der im Sterben liegt und zwar noch negative Trefferpunkte hat, aber keine Trefferpunkte mehr verliert, ist stabilisiert. Er stirbt also nicht mehr, ist aber noch bewusstlos. Ist der Charakter durch die Hilfe eines anderen Charakters stabilisiert worden (wie durch einen Wurf auf Heilkunde oder durch magische Heilung), verliert er keine Trefferpunkte mehr. Der Charakter darf jede Stunde einen Konstitutionswurf (SG 10) machen, um wieder zu Bewusstsein zu kommen und dann kampfunfähig zu sein (selbst wenn die Trefferpunkte immer noch negativ sind). Der Charakter erhält einen Malus auf diesen Wurf, welcher der Anzahl seiner negativen Trefferpunkte gleicht.\n\nHat der Charakter sich selbst ohne fremde Hilfe stabilisiert, besteht immer noch die Gefahr, dass er Trefferpunkte verliert. Er darf jede Stunde einen Konstitutionswurf machen, um sich zu stabilisieren (wie ein Charakter, dem geholfen wurde). Bei einem Misserfolg verliert er jedoch 1 weiteren TP.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "0d847645-bda5-52b9-b3f6-040f2ffc1b79",
     "name": "Sterbend",
     "description": "Eine sterbende Kreatur ist bewusstlos und dem Tode nahe. Kreaturen mit negativen Trefferpunkten, die nicht stabilisiert sind, liegen im Sterben. Eine sterbende Kreatur kann keine Aktionen ausführen. Wenn der sterbende Charakter wieder am Zug ist, nachdem er auf einen negativen TP-Wert gesunken ist (aber noch nicht tot ist), und in allen darauf folgenden Runden, muss er einen Konstitutionswurf (SG 10) machen, um sich zu stabilisieren. Der Charakter erhält einen Malus auf diesen Wurf, welcher dem momentanen negativen Wert seiner TP entspricht. Ein Charakter, der stabilisiert ist, muss diesen Wurf nicht machen. Eine natürliche 20 bei diesem Wurf, bedeutet einen automatischen Erfolg. Misslingt der Wurf, verliert der Charakter 1 Trefferpunkt. Wenn eine sterbende Kreatur so viele negative TP hat, wie es ihrem Konstitutionswert entspricht, stirbt sie.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "8795dc7e-558d-589b-9eb4-4db87097fe1f",
     "name": "Taub",
     "description": "Ein tauber Charakter kann nichts hören. Er erhält einen Malus von -4 auf Initiativewürfe und Würfe auf Wahrnehmung fürs Lauschen misslingen ihm automatisch. Außerdem erhält er einen Malus von -4 auf konkurrierende Würfe auf Wahrnehmung und Zauber mit verbaler Komponente verpatzt er zu 20 %. Charaktere, die über lange Zeit taub sind, können sich an die Nachteile dieses Zustands gewöhnen und einige von ihnen überwinden.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "b1a2ba4f-f804-536a-8135-ed50fc4c30f8",
     "name": "Tot",
     "description": "Entweder sind die Trefferpunkte des Charakters auf einen negativen Wert gesunken, welcher dem Konstitutionswert entspricht, seine Konstitution ist auf 0 gesunken oder er wurde schlagartig von einem Zauber oder Effekt getötet. Die Seele des Charakters verlässt seinen Körper. Verstorbene können zwar nicht von normaler oder magischer Heilung profitieren, aber mit Hilfe von Magie wieder zum Leben erweckt werden. Solange die Leiche nicht auf magische Weise konserviert wird, verrottet sie ganz normal. Magie, die einen toten Charakter wieder zum Leben erweckt, stellt meist auch den Körper wieder her und macht den Charakter entweder vollkommen gesund oder versetzt ihn in den Zustand zum Zeitpunkt des Todes (je nach Zauber oder Gegenstand). In beiden Fällen muss der erweckte Charakter sich aber keine Sorgen um Totenstarre, Verrottung oder andere Zustände machen, welche eine Leiche betreffen können.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "6d65e0b0-605a-59c3-a90d-59709c226a9a",
     "name": "Übelkeit",
     "description": "Kreaturen, denen übel ist, haben eine Magenverstimmung. Sie sind nicht in der Lage anzugreifen, Zauber zu wirken, sich auf Zauber zu konzentrieren oder irgendetwas anderes zu tun, das ihre Aufmerksamkeit beanspruchen würde. Ein Charakter, dem übel ist, kann pro Runde nur eine Bewegungsaktion ausführen.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "e85da614-6c3a-5762-b782-99cbaeb6478a",
     "name": "Unsichtbar",
     "description": "Kreaturen, die unsichtbar sind, können nicht mit Hilfe des Sehsinns wahrgenommen werden. Eine unsichtbare Kreatur erhält einen Bonus von +2 auf Angriffswürfe gegen Gegner, die sie sehen kann und kann deren GE-Boni auf die RK (falls vorhanden) ignorieren. Siehe ansonsten Unsichtbarkeit bei den besonderen Fähigkeiten.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "6f5b0668-51d5-5e9f-8c3e-3487642cf485",
     "name": "Verängstigt",
     "description": "Eine verängstigte Kreatur flieht vor der Quelle ihrer Furcht so gut sie kann. Kann sie nicht fliehen, darf sie kämpfen. Ein Verängstigter erhält einen Malus von -2 auf alle Angriffs-, Rettungs-, Fertigkeits- und Attributswürfe. Er kann aber besondere Fähigkeiten, auch Zauber, einsetzen, um zu fliehen. Ja der Charakter muss diese Mittel sogar einsetzen, wenn es ihm sonst nicht möglich ist zu fliehen. Verängstigt gleicht dem Zustand Erschüttert, außer dass die Kreatur fliehen muss, wenn ihr dies möglich ist. In Panik ist ein noch intensiverer Zustand der Furcht.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "0f2065a4-ca0c-50cb-8e6b-34366fac61d6",
     "name": "Versteinert",
     "description": "Ein versteinerter Charakter wurde zu Stein verwandelt und gilt als bewusstlos. Entstehen an einem versteinerten Charakter Risse oder zerbricht er, bleibt er unversehrt, wenn die abgebrochenen Körperteile bei der Zurückverwandlung in Fleisch wieder mit dem Körper verbunden werden. Ist der Körper des Charakters aber unvollständig, wenn er zurückverwandelt wird, bleibt er so und der Charakter erleidet möglicherweise einen permanenten Verlust an Trefferpunkten und/oder eine bleibende Behinderung.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "e0a40ae0-d19e-5ef1-9baf-f31a641a0571",
     "name": "Verstrickt",
     "description": "Ein verstrickter Charakter ist in seiner Bewegung eingeschränkt. Solange seine Fesseln nicht an einem unbeweglichen Objekt befestigt sind oder von einer Kraft festgehalten werden, kann er sich aber noch bewegen. Eine verstrickte Kreatur bewegt sich mit ihrer halben Bewegungsrate, kann nicht rennen oder Sturmangriffe ausführen, erhält einen Malus von -2 auf alle Angriffswürfe und einen Malus von -4 auf Geschicklichkeit. Ein verstrickter Charakter, der versucht, einen Zauber zu wirken, muss einen erfolgreichen Konzentrationswurf (SG 15 + Zaubergrad) machen, oder er verliert den Zauber.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "3d48b6fd-05de-532a-9a4e-344c6a64f129",
     "name": "Verwirrt",
     "description": "Eine verwirrte Kreatur ist durcheinander und kann nicht normal handeln. Sie kann Freund nicht von Feind unterscheiden und behandelt einfach alle anderen Kreaturen als Feinde. Verbündete, die einen für das Ziel vorteilhaften Zauber auf die verwirrte Kreatur wirken wollen, müssen einen erfolgreichen Berührungsangriff im Nahkampf ausführen. Wird eine verwirrte Kreatur angegriffen, greift sie ihren Angreifer ebenfalls an, bis dieser entweder tot oder außer Sichtreichweite ist.\n\nWürfle zu Beginn des Zuges einer verwirrten Kreatur auf der folgenden Tabelle, um zu ermitteln, wie sie sich in der Runde verhalten wird.\n\nW% 01-25: Verhält sich normal.\nW% 26-50: Macht nichts, außer zusammenhangslos vor sich hin zu brabbeln.\nW% 51-75: Fügt sich selbst mit einem Gegenstand, den sie in der Hand hält, 1W8 Schadenspunkte plus ST-Modifikator zu.\nW% 76-100: Greift die nächste Kreatur an (ein Vertrauter zählt in diesem Fall als Teil der verwirrten Kreatur).\n\nEin Verwirrter, dem es nicht möglich ist, die angegebene Handlung auszuführen, brabbelt zusammenhangslos vor sich hin. Angreifer erhalten jedoch keine besonderen Vorteile, wenn sie einen Verwirrten angreifen. Eine verwirrte Kreatur, die angegriffen wird, greift in ihrem nächsten Zug automatisch den Angreifer an, wenn sie in diesem Zug noch verwirrt ist. Denk daran, dass eine verwirrte Kreatur keine Gelegenheitsangriffe gegen Feinde ausführen wird, die sie nicht sowieso schon angreift (entweder auf Grund ihrer Handlung in diesem Zug oder weil sie gerade angegriffen wurde).",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "8ed7ad57-ed82-5cce-9ecf-560af98a33d0",
     "name": "Wankend",
     "description": "Eine wankende Kreatur kann pro Runde eine Bewegungsaktion oder eine Standard-Aktion (nicht aber beides, auch keine volle Aktion) ausführen. Sie kann aber immer noch schnelle und sofortige Aktionen unternehmen. Eine Kreatur, die genauso viel Betäubungsschaden wie momentane Trefferpunkte hat, gerät ins Wanken.",
-    "type": "condition"
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
   },
   {
     "id": "1a796923-9edf-577f-81f8-e4ca4fc5ded1",
     "name": "Albtraumdämpfe",
     "description": "Art: Einatmen. SG: 20. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1 WE und 1 Rd. lang verwirrt. Heilung: 2 Rettungswürfe. Preis: 1.800 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "a9388faf-4fb0-5dbc-8ac8-d62b0daaca07",
     "name": "Arsen",
     "description": "Art: Einnahme. SG: 13. Inkubationszeit: 10 Min.. Frequenz: 1/Min. für 4 Min.. Effekt: 1W2 KO. Heilung: 1 Rettungswurf. Preis: 120 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 40,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "35d5a7c1-2757-5b5e-97c5-1b85c106b56f",
     "name": "Belladonna",
     "description": "Art: Einnahme. SG: 14. Inkubationszeit: 10 Min.. Frequenz: 1 Min. für 6 Min,. Effekt: 1W2 ST, siehe Text. Heilung: 1 Rettungswurf. Preis: 100 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "685a48d9-b0b4-582f-abb4-4128fe2041f7",
     "name": "Blauer Ginster",
     "description": "Art: Verwundung. SG: 14. Inkubationszeit: -. Frequenz: 1/Rd. für 2 Rd.. Effekt: 1 KO/ 1W3 Stunden bewusstlos. Heilung: 1 Rettungswurf. Preis: 120 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 2,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "1b826d0d-5fce-5928-890b-ef2b8055eaf9",
     "name": "Blutwurz",
     "description": "Art: Verwundung. SG: 12. Inkubationszeit: 1 Rd.. Frequenz: 1/Rd. für 4 Rd.. Effekt: 1 KO & 1 WE. Heilung: 1 Rettungswurf. Preis: 100 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 1,
+    "default_duration_rounds": 4,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "19ec5b8e-8f21-5d41-a3c5-6d2e966e07db",
     "name": "Bruntdämpfe",
     "description": "Art: Einatmen. SG: 18. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1 KO Entzug / 1W3 KO. Heilung: 2 Rettungswürfe. Preis: 2.100 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "b9711cd8-142f-50e4-abec-c3f4cd886e0d",
     "name": "Drachenschleim",
     "description": "Art: Kontakt. SG: 26. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W3 ST. Heilung: -. Preis: 1.500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": null
   },
   {
     "id": "e1f2a1a1-9b8f-5a8e-ba2b-a74d7f698e01",
     "name": "Drowgift",
     "description": "Art: Verwundung. SG: 13. Inkubationszeit: -. Frequenz: 1/Min. für 2 Min.. Effekt: 1 Min./ 2w4 Stunden bewusstlos. Heilung: 1 Rettungswurf. Preis: 75 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 20,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "c557b174-2c5f-5aad-a529-ed23ff247785",
     "name": "Eisenhut",
     "description": "Art: Einnahme. SG: 16. Inkubationszeit: 10 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W3 KO. Heilung: 1 Rettungswurf. Preis: 500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "6eeda8a4-d1a3-5b83-8ba8-1be1e4f1a459",
     "name": "Gedankenmoos",
     "description": "Art: Einnahme. SG: 14. Inkubationszeit: 10 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W3 IN. Heilung: 1 Rettungswurf. Preis: 125 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "37e00c86-2daf-520e-aaa1-5041ebfcac3f",
     "name": "Gestreifter Fliegenpilz",
     "description": "Art: Einnahme. SG: 11. Inkubationszeit: 10 Min.. Frequenz: 1/min. für 4 Min.. Effekt: 1W3 WE & 1 IN. Heilung: 1 Rettungswurf. Preis: 180 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 40,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "062d98b9-257d-58cf-9025-2879708c71c9",
     "name": "Gift einer mittelgroßen Spinne",
     "description": "Art: Verwundung. SG: 14. Inkubationszeit: -. Frequenz: 1/Rd. für 4 Rd.. Effekt: 1W2 ST. Heilung: 1 Rettungswurf. Preis: 150 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 4,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "68b97f03-adce-5c7a-a069-64d27f9a21c2",
     "name": "Gift einer Riesenwespe",
     "description": "Art: Verwundung. SG: 18. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W2 GE. Heilung: 1 Rettungswurf. Preis: 210 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "81d5e446-f79f-5aa5-bd29-045c3b92c5d0",
     "name": "Gift eines Großen Skorpions",
     "description": "Art: Verwundung. SG: 17. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W2 ST. Heilung: 1 Rettungswurf. Preis: 200 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "8eaee82e-f1ef-52ae-af6b-d4355243baf1",
     "name": "Gift eines Kleinen Tausendfüßlers",
     "description": "Art: Verwundung. SG: 11. Inkubationszeit: -. Frequenz: 1/Rd. für 4. Rd.. Effekt: 1 GE. Heilung: 1 Rettungswurf. Preis: 90 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 4,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "0c16f163-ad56-5fee-b4ba-34f16f02a076",
     "name": "Grünblutöl",
     "description": "Art: Verwundung. SG: 13. Inkubationszeit: -. Frequenz: 1/Rd. für 4 Rd.. Effekt: 1 KO. Heilung: 1 Rettungswurf. Preis: 100 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 4,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "15bfbb2d-d8e9-5793-8a34-28fdbd34ad73",
     "name": "Grünes Regenbogengift",
     "description": "Art: Zauber. SG: verschieden. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: Tod / 1 KO. Heilung: 2 Rettungswürfe. Preis: -.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "bb12b779-0b51-59f7-89f8-91cb126b970f",
     "name": "Königsschlaf",
     "description": "Art: Einnahme. SG: 19. Inkubationszeit: 1 Tag. Frequenz: 1/Tag. Effekt: 1 KO-Entzug. Heilung: 2 Rettungswürfe. Preis: 5.000 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "1e26994e-99e2-5c0b-a95b-900ddc52d75e",
     "name": "Leichnamsstaub",
     "description": "Art: Einnahme. SG: 17. Inkubationszeit: 10 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W3 ST. Heilung: 2 Rettungswürfe. Preis: 400 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 2
   },
   {
     "id": "6765fad0-f27c-5193-935f-c9a15f1fe1bd",
     "name": "Malysswurzpaste",
     "description": "Art: Kontakt. SG: 16. Inkubationszeit: 1 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W2 GE. Heilung: 1 Rettungswurf. Preis: 250 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "d7607e94-6177-5b10-9d8b-3566fe707c83",
     "name": "Nitharit",
     "description": "Art: Kontakt. SG: 13. Inkubationszeit: 1 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W3 KO. Heilung: 1 Rettungswurf. Preis: 650 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "0d5582d0-dd34-541c-b88d-3b5a3b3bf87a",
     "name": "Purpurwurmgift",
     "description": "Art: Verwundung. SG: 24. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W3 ST. Heilung: 2 Rettungswürfe. Preis: 700 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "cf4c1e43-b7e5-5058-9ebb-4fe0da3b9ddb",
     "name": "Sassonblattextrakt",
     "description": "Art: Kontakt. SG: 16. Inkubationszeit: 1 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 2W12 TP / 1 KO. Heilung: 1 Rettungswurf. Preis: 300 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "542b1e86-b570-5021-93ef-d069d2c250e7",
     "name": "Schattenessenz",
     "description": "Art: Verwundung. SG: 17. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1 ST-Entzug / 1W2 ST. Heilung: 1 Rettungswurf. Preis: 250 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "ac55c373-2616-585f-a378-0a4c6781f300",
     "name": "Schierling",
     "description": "Art: Einnahme. SG: 18. Inkubationszeit: 10 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W6 GE, siehe Text. Heilung: 2 Rettungswürfe. Preis: 2.500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 2
   },
   {
     "id": "09beb74b-d744-53b6-a2cb-a2649a5eba46",
     "name": "Schwarzviperngift",
     "description": "Art: Verwundung. SG: 11. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W2 KO. Heilung: 1 Rettungswurf. Preis: 120 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "dfe59624-ca0c-5ba9-941a-cfa81677fede",
     "name": "Schwarzer Lotusextrakt",
     "description": "Art: Kontakt. SG: 20. Inkubationszeit: 1 Min.. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W6 KO. Heilung: 2 Rettungswürfe. Preis: 4.500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "7aec0473-531a-56e2-8f12-5c3e0d996847",
     "name": "Schwarzschlächterpulver",
     "description": "Art: Einnahme. SG: 18. Inkubationszeit: 10 Min.. Frequenz: 1 Min./ für 6 Min.. Effekt: 1W3 KO & 1 ST. Heilung: 2 Rettungswürfe. Preis: 800 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 100,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 2
   },
   {
     "id": "209b2b9f-244a-5f4e-a758-27e00610c9ac",
     "name": "Taggitöl",
     "description": "Art: Einnahme. SG: 15. Inkubationszeit: 1 Min.. Frequenz: -. Effekt: 1W3 Stunden lang Bewusstlos. Heilung: 1 Rettungswurf. Preis: 90 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": 1
   },
   {
     "id": "9d431795-0ef7-5994-a6f8-9a584aa1c2e6",
     "name": "Terinavwurzel",
     "description": "Art: Kontakt. SG: 16. Inkubationszeit: 1 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W3 GE. Heilung: 1 Rettungswurf. Preis: 400 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": 1
   },
   {
     "id": "47591067-9670-5f1f-ae39-246bc19e7278",
     "name": "Todesklinge",
     "description": "Art: Verwundung. SG: 20. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W3 KO. Heilung: 2 Rettungswürfe. Preis: 1.800 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "d6909063-3993-5f9b-a879-199a4ec3d6ae",
     "name": "Todestränen",
     "description": "Art: Kontakt. SG: 22. Inkubationszeit: 1 Min.. Frequenz: 1/Min. für 6 Min.. Effekt: 1W6 KO und 1 Min. lang gelähmt. Heilung: -. Preis: 6.500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": 10,
+    "default_duration_rounds": 60,
+    "default_frequency_rounds": 10,
+    "default_successes_required": null
   },
   {
     "id": "0544730f-e543-5e2f-8df9-a53145c1af6a",
     "name": "Ungolstaub",
     "description": "Art: Einatmen. SG: 15. Inkubationszeit: -. Frequenz: 1/Rd. für 4 Rd.. Effekt: 1 CH-Entzug / 1W2 CH. Heilung: 1 Rettungswurf. Preis: 1.000 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 4,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "a5b30ff4-a1e9-5d07-83f8-cd16159d24e8",
     "name": "Wahnsinnsnebel",
     "description": "Art: Einatmen. SG: 15. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W3 WE. Heilung: 1 Rettungswurf. Preis: 1.500 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 1
   },
   {
     "id": "b7d273a9-c11f-57f3-ba7f-59d1dc4bada7",
     "name": "Wyverngift",
     "description": "Art: Verwundung. SG: 17. Inkubationszeit: -. Frequenz: 1/Rd. für 6 Rd.. Effekt: 1W4 KO. Heilung: 2 Rettungswürfe. Preis: 3.000 GM.",
-    "type": "poison"
+    "type": "poison",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 6,
+    "default_frequency_rounds": 1,
+    "default_successes_required": 2
   },
   {
     "id": "9dde5428-5516-5ed0-a53c-4d0c005e2d13",
     "name": "Beulenpest",
     "description": "Art Krankheit, Einnahme oder Verwundung; \nRettungswurf: Zähigkeit, SG 17\nInkubationszeit 1 Tag; Frequenz 1/ Tag\nEffekt: 1W4 KO-Schaden und 1 CH-Schaden und Ziel ist erschöpft; Heilung 2 aufeinander folgenden Rettungswürfe.",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "bcdc9c7a-cade-57ad-8ad4-ad400c45a2ed",
     "name": "Dämonenfieber",
     "description": "Art Krankheit, Verwundung; Rettungswurf Zähigkeit, SG 18\nInkubationszeit 1 Tag; Frequenz 1/ Tag\nEffekt: 1W6 KO-Schaden, Ziel muss einen zweiten Zähigkeitswurf machen, bei einem Fehlschlag wird 1 Punkt des Attributsschadens zu Attributsentzug; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "bd3dbeda-4ec0-5464-a627-5c8b2a575b51",
     "name": "Fieberwahn",
     "description": "Art Krankheit, Einatmen; Rettungswurf Zähigkeit, SG 16\nInkubationszeit 1 Tag; Frequenz 1/Tag \nEffekt: 1W6 WE-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "d2199421-14bc-53f4-9ad9-72ba31c5b8d1",
     "name": "Hirnbrand",
     "description": "Art Krankheit, Einatmen; Rettungswurf Zähigkeit, SG 12\nInkubationszeit 1 Tag; Frequenz 1/Tag \nEffekt: 1W4 IN-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "4b2f48b4-40c1-55ac-b68f-193d5121237a",
     "name": "Lepra",
     "description": "Art Krankheit, Kontakt, Einnahme oder Einatmen; \nRettungswurf: Zähigkeit, SG 12, keine Wirkung, Zähigkeit, SG 20, um Effekte zu vermeiden\nInkubationszeit 2W4 Wochen; Frequenz 1/Woche\nEffekt: 1W2 CH-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": 2
   },
   {
     "id": "f1ea0986-2850-5f30-8e6b-9fe36c1dd028",
     "name": "Rote Qual",
     "description": "Art Krankheit, Verwundung; Rettungswurf Zähigkeit, SG 15\nInkubationszeit 1W3 Tage; Frequenz 1/Tag \nEffekt: 1W6 ST-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "9ba1e09a-5efa-5185-b75f-462ff6d2d212",
     "name": "Schleimiges Verderben",
     "description": "Art Krankheit, Kontakt; Rettungswurf Zähigkeit, SG 14\nInkubationszeit 1 Tag; Frequenz 1/Tag \nEffekt: 1W4 KO-Schaden, Ziel muss einen zweiten Zähigkeitswurf machen, bei einem Fehlschlag wird 1 Punkt des Attributsschadens zu Attributsentzug\nHeilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "d64d6fcb-3201-5ba2-a1c9-a4fa1df63208",
     "name": "Schmutzfieber",
     "description": "Art Krankheit, Verwundung; Rettungswurf Zähigkeit, SG 12\nInkubationszeit 1W3 Tage; Frequenz 1/ Tag \nEffekt: 1W3 GE-Schaden und 1W3 KO-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "84195022-9f88-5b75-9211-b9555c68a832",
     "name": "Schüttelkrämpfe",
     "description": "Art Krankheit, Kontakt; Rettungswurf Zähigkeit, SG 13\nInkubationszeit 1 Tag; Frequenz 1/Tag \nEffekt: 1W8 GE-Schaden; Heilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": 14400,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   },
   {
     "id": "aa97be55-9a42-5c05-8a9d-e0622f9bfda9",
     "name": "Teufelszuckungen",
     "description": "Art Krankheit, Verwundung; Rettungswurf Zähigkeit, SG 14\nInkubationszeit 1W4 Tage; Frequenz 1/Tag \nEffekt: 1W4 ST-Schaden; Heilung 3 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 3
   },
   {
     "id": "0a6d9f81-c925-5ec0-92d6-6ebfc5ef82de",
     "name": "Trübe Sieche",
     "description": "Art Krankheit, Einnahme; Rettungswurf Zähigkeit, SG 16\nInkubationszeit 1W3 Tage; Frequenz 1/ Tag\nEffekt: 1W4 ST-Schaden, wenn das Opfer mehr als 2 Punkte ST-Schaden erleidet, muss es einen erneuten Zähigkeitswurf machen, bei einem Fehlschlag ist es permanent blind\nHeilung 2 aufeinander folgende Rettungswürfe",
-    "type": "disease"
+    "type": "disease",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": null,
+    "default_frequency_rounds": 14400,
+    "default_successes_required": 2
   }
 ]

@@ -3,6 +3,10 @@ export interface AbilityScore {
   label: string;
   score: number;
   mod: string;
+  /** Ability damage/drain/burn already subtracted from `score` — shown as an annotation so the
+   *  penalty stays visible even though nothing removes it when its source effect is cured (see
+   *  roadmap.md §5's open item; always 0 today, no handler writes to it yet). */
+  damage: number;
 }
 
 export interface StatEntry {
@@ -150,6 +154,13 @@ export interface ConditionCatalogEntry {
   name: string;
   description: string;
   type: ConditionType;
+  /** Fixed-number defaults parsed out of `description` at seed time (rounds-normalized) —
+   *  `null` where the source text was dice-based, unstated, or in an unsupported unit (e.g.
+   *  weeks). Used to pre-fill the activation form; the player can still override them. */
+  defaultIncubationRounds: number | null;
+  defaultDurationRounds: number | null;
+  defaultFrequencyRounds: number | null;
+  defaultSuccessesRequired: number | null;
 }
 
 /** A persistent-effect spell or class ability this character actually knows/has, minimal shape

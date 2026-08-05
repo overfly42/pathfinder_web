@@ -4,11 +4,13 @@ import type {
   ActiveEffect,
   ConditionCatalogEntry,
   ConditionType,
-  EffectSourceType,
 } from '../../types/character';
 import { CONDITION_TYPE_ICONS, SOURCE_TYPE_ICONS, iconForActiveEffect } from '../../lib/effectIcons';
 import { Panel } from '../primitives/Panel';
 import type { TimeUnit } from './EffectsPanel';
+import { ActivateEffectModal, type ActivateEffectInput, type AvailableEntry } from './ActivateEffectModal';
+
+export type { ActivateEffectInput } from './ActivateEffectModal';
 
 const TYPE_LABELS: Record<ConditionType, string> = {
   condition: 'Zustand',
@@ -22,16 +24,6 @@ const TIME_BUTTONS: { unit: TimeUnit; label: string; className?: string }[] = [
   { unit: 'hour', label: '+1 Stunde' },
   { unit: 'day', label: '+1 Tag', className: 'day' },
 ];
-
-export interface ActivateEffectInput {
-  sourceType: EffectSourceType;
-  sourceId: string;
-  level: number | null;
-  incubationRemaining: number | null;
-  durationRemaining: number | null;
-  frequencyRounds: number | null;
-  successesRequired: number | null;
-}
 
 interface ActiveEffectSealProps {
   effect: ActiveEffect;
@@ -81,16 +73,6 @@ function ActiveEffectSeal({ effect, onRemove, onSaveResult }: ActiveEffectSealPr
   );
 }
 
-interface AvailableEntry {
-  domId: string;
-  sourceType: EffectSourceType;
-  sourceId: string;
-  name: string;
-  description?: string;
-  icon: string;
-  tag: string;
-}
-
 interface AvailableEffectSealProps {
   entry: AvailableEntry;
   onPick: (entry: AvailableEntry) => void;
@@ -114,66 +96,12 @@ function AvailableEffectSeal({ entry, onPick }: AvailableEffectSealProps) {
   );
 }
 
-function toNumberOrNull(value: string): number | null {
-  if (!value.trim()) return null;
-  const parsed = parseInt(value, 10);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-interface ActivateFieldsProps {
-  picked: AvailableEntry;
-  onCancel: () => void;
-  onActivate: (input: ActivateEffectInput) => void;
-}
-
-function ActivateFields({ picked, onCancel, onActivate }: ActivateFieldsProps) {
-  const [level, setLevel] = useState('');
-  const [duration, setDuration] = useState('');
-  const [incubation, setIncubation] = useState('');
-  const [frequency, setFrequency] = useState('');
-  const [successesRequired, setSuccessesRequired] = useState('');
-
-  function handleActivate() {
-    onActivate({
-      sourceType: picked.sourceType,
-      sourceId: picked.sourceId,
-      level: toNumberOrNull(level),
-      incubationRemaining: toNumberOrNull(incubation),
-      durationRemaining: toNumberOrNull(duration),
-      frequencyRounds: toNumberOrNull(frequency),
-      successesRequired: toNumberOrNull(successesRequired),
-    });
-  }
-
-  return (
-    <div className="effect-activate-inline">
-      <div className="effect-activate-inline-title">{picked.name} aktivieren</div>
-      <div className="effect-activate-inline-fields">
-        <input type="number" min={0} value={level} onChange={(e) => setLevel(e.target.value)} placeholder="Stufe" />
-        <input type="number" min={0} value={duration} onChange={(e) => setDuration(e.target.value)} placeholder="Dauer (Runden)" />
-        <input type="number" min={0} value={incubation} onChange={(e) => setIncubation(e.target.value)} placeholder="Inkubation (Runden)" />
-        <input type="number" min={0} value={frequency} onChange={(e) => setFrequency(e.target.value)} placeholder="Frequenz (Runden)" />
-        <input
-          type="number"
-          min={0}
-          value={successesRequired}
-          onChange={(e) => setSuccessesRequired(e.target.value)}
-          placeholder="Erfolge benötigt"
-        />
-      </div>
-      <div className="hp-popover-actions">
-        <button type="button" className="hp-btn ghost" onClick={onCancel}>Abbrechen</button>
-        <button type="button" className="hp-btn confirm" onClick={handleActivate}>Aktivieren</button>
-      </div>
-    </div>
-  );
-}
-
 interface RealEffectsPanelProps {
   activeEffects: ActiveEffect[];
   conditionsCatalog: ConditionCatalogEntry[];
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
+  characterLevel: number;
   search: string;
   onSearchChange: (value: string) => void;
   typeFilter: ConditionType | '';
@@ -189,6 +117,7 @@ export function RealEffectsPanel({
   conditionsCatalog,
   activatableSpells,
   activatableClassAbilities,
+  characterLevel,
   search,
   onSearchChange,
   typeFilter,
@@ -241,6 +170,10 @@ export function RealEffectsPanel({
         description: condition.description,
         icon: CONDITION_TYPE_ICONS[condition.type],
         tag: TYPE_LABELS[condition.type],
+        defaultIncubationRounds: condition.defaultIncubationRounds,
+        defaultDurationRounds: condition.defaultDurationRounds,
+        defaultFrequencyRounds: condition.defaultFrequencyRounds,
+        defaultSuccessesRequired: condition.defaultSuccessesRequired,
       });
     }
 
@@ -305,7 +238,12 @@ export function RealEffectsPanel({
       </div>
       {availableEntries.length === 0 && <p className="effect-empty-hint">Keine Treffer.</p>}
 
-      {picked && <ActivateFields picked={picked} onCancel={() => setPicked(null)} onActivate={handleActivate} />}
+      <ActivateEffectModal
+        entry={picked}
+        characterLevel={characterLevel}
+        onCancel={() => setPicked(null)}
+        onActivate={handleActivate}
+      />
     </Panel>
   );
 }

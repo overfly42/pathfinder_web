@@ -415,7 +415,7 @@ header .spacer { flex: 1; }
 .modal-foot {
   padding: 14px 20px 18px;
   border-top: 1px solid var(--parchment-shadow);
-  display: flex; justify-content: flex-end;
+  display: flex; justify-content: flex-end; gap: 8px;
 }
 .modal-foot .hp-btn { flex: 0 0 auto; padding: 9px 22px; }
 .gear-del {
