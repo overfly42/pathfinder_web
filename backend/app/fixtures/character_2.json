@@ -77,5 +77,8 @@
   ],
   "effectsActive": [
     { "id": "e1", "icon": "💪", "amount": "+2", "name": "Wut", "detail": "STÄ & KON, −2 RK", "variant": "buff", "active": true, "durationRounds": 6, "durationLabel": "6 Runden" }
-  ]
+  ],
+  "activeEffects": [],
+  "activatableSpells": [],
+  "activatableClassAbilities": []
 }

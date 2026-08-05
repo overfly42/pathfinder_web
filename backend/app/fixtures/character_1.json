@@ -163,5 +163,8 @@
     { "id": "e3", "icon": "⚡", "amount": "+1", "name": "Eile", "detail": "Angriff, Reflex, Init.", "variant": "buff", "active": true, "durationRounds": 4, "durationLabel": "4 Runden" },
     { "id": "e4", "icon": "💤", "amount": "−6", "name": "Erschöpft", "detail": "STÄ & GES", "variant": "debuff", "active": true, "durationRounds": null, "durationLabel": "bis Rast" },
     { "id": "e5", "icon": "🎵", "amount": "+1", "name": "Bardenlied", "detail": "Angriff & Schaden", "variant": "neutral", "active": true, "durationRounds": null, "durationLabel": "solange aktiv" }
-  ]
+  ],
+  "activeEffects": [],
+  "activatableSpells": [],
+  "activatableClassAbilities": []
 }

@@ -139,6 +139,46 @@ export interface EffectsView {
   effectsAvailable: EffectDef[];
 }
 
+export type EffectSourceType = 'spell' | 'class_ability' | 'condition';
+export type ConditionType = 'condition' | 'poison' | 'disease';
+
+/** One row from the shared condition/poison/disease catalog (`/api/conditions`) — same for every
+ *  character, same as a feat or trait definition. Not character state. Distinct from the older
+ *  `EffectDef`/`/api/effects` mock catalog (icon/amount/variant), which predates this backend model. */
+export interface ConditionCatalogEntry {
+  id: string;
+  name: string;
+  description: string;
+  type: ConditionType;
+}
+
+/** A persistent-effect spell or class ability this character actually knows/has, minimal shape
+ *  (no description) since the picker just needs something to activate by id. */
+export interface ActivatableRef {
+  key: string;
+  name: string;
+}
+
+/** One applied `CharacterEffect` instance (backend roadmap slice 5) — real character state, distinct
+ *  from the older mock `Effect`/`effectsActive` seal system. `null` fields are simply not tracked for
+ *  this instance (e.g. a plain buff has no frequency/successes, a poison has no plain duration). */
+export interface ActiveEffect {
+  id: string;
+  sourceType: EffectSourceType;
+  sourceId: string;
+  /** Only set when `sourceType` is `'condition'` — spells/class abilities have no equivalent
+   *  subcategory. Used to pick the right icon without a second lookup into the catalog. */
+  conditionType: ConditionType | null;
+  name: string;
+  level: number | null;
+  incubationRemaining: number | null;
+  durationRemaining: number | null;
+  frequencyRounds: number | null;
+  nextCheckIn: number | null;
+  successesCurrent: number;
+  successesRequired: number | null;
+}
+
 export interface Character {
   id: string;
   name: string;
@@ -165,4 +205,7 @@ export interface Character {
   spellbook: PreparableSpellGrade[];
   actions: ActionOption[];
   effectsActive: Effect[];
+  activeEffects: ActiveEffect[];
+  activatableSpells: ActivatableRef[];
+  activatableClassAbilities: ActivatableRef[];
 }

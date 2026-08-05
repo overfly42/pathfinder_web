@@ -5,6 +5,7 @@ import { apiDelete, apiPatch, apiPost, apiPut } from '../api/client';
 import { useAppState } from '../state/AppStateContext';
 import { useCharacter } from '../hooks/useCharacter';
 import { useEffectsCatalog } from '../hooks/useEffectsCatalog';
+import { useConditionsCatalog } from '../hooks/useConditionsCatalog';
 import { useItemsCatalog } from '../hooks/useItemsCatalog';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
@@ -16,8 +17,9 @@ import { SheetTabs } from '../components/sheet/SheetTabs';
 import { InventoryTabs } from '../components/sheet/InventoryTabs';
 import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
+import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/RealEffectsPanel';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { Effect, EffectsView } from '../types/character';
+import type { ConditionType, Effect, EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import './CharacterSheetPage.css';
 
@@ -40,6 +42,7 @@ export function CharacterSheetPage() {
   const nameOverride = nameOverrides[currentCharacterId];
   const character = rawCharacter && nameOverride ? { ...rawCharacter, name: nameOverride } : rawCharacter;
   const { catalog: effectsCatalog, loading: catalogLoading, error: catalogError } = useEffectsCatalog();
+  const { catalog: conditionsCatalog, loading: conditionsLoading, error: conditionsError } = useConditionsCatalog();
   const { catalog: itemsCatalog, loading: itemsLoading, error: itemsError } = useItemsCatalog();
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
@@ -47,6 +50,12 @@ export function CharacterSheetPage() {
   const [pendingReveal, setPendingReveal] = useState<string | null>(null);
   const [gearError, setGearError] = useState<string | null>(null);
   const [hpError, setHpError] = useState<string | null>(null);
+  const [effectError, setEffectError] = useState<string | null>(null);
+  // Lifted out of RealEffectsPanel (same reason skillsTab/inventoryTab are lifted here): a
+  // global-search jump to a catalog entry that the panel's own filter is currently hiding
+  // needs to reset that filter first, same as jumping to a skill needs to switch tabs first.
+  const [effectsSearch, setEffectsSearch] = useState('');
+  const [effectsTypeFilter, setEffectsTypeFilter] = useState<ConditionType | ''>('');
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -87,7 +96,7 @@ export function CharacterSheetPage() {
   if (!currentCharacterId) {
     return (
       <div className="app">
-        <AppHeader character={null} effects={null} onJump={() => {}} />
+        <AppHeader character={null} effects={null} conditionsCatalog={null} onJump={() => {}} />
         <div className="main" style={{ justifyContent: 'center' }}>
           <Panel title="Kein Charakter">
             <p style={{ marginBottom: 16 }}>Diesem Nutzer sind noch keine Charaktere zugeordnet.</p>
@@ -98,7 +107,7 @@ export function CharacterSheetPage() {
     );
   }
 
-  if (loading || catalogLoading || itemsLoading) {
+  if (loading || catalogLoading || conditionsLoading || itemsLoading) {
     return (
       <div className="app">
         <p style={{ color: '#e2d3ab', padding: 24 }}>Lade Charakter …</p>
@@ -106,24 +115,37 @@ export function CharacterSheetPage() {
     );
   }
 
-  if (error || catalogError || itemsError || !character || !effectsCatalog || !itemsCatalog) {
+  if (error || catalogError || conditionsError || itemsError || !character || !effectsCatalog || !conditionsCatalog || !itemsCatalog) {
     return (
       <div className="app">
         <p style={{ color: '#e2d3ab', padding: 24 }}>
-          Charakter konnte nicht geladen werden: {error ?? catalogError ?? itemsError}
+          Charakter konnte nicht geladen werden: {error ?? catalogError ?? conditionsError ?? itemsError}
         </p>
       </div>
     );
   }
 
-  const effectsView: EffectsView = {
-    effectsActive: character.effectsActive,
-    effectsAvailable: effectsCatalog.filter((def) => !character.effectsActive.some((active) => active.id === def.id)),
-  };
+  // Only meaningful for fixture characters — a real character's `effectsActive` is always `[]`
+  // (see sheet.py), so this would otherwise list every mock catalog def as "available" and make
+  // it falsely searchable/jumpable for a page that never renders those seals (RealEffectsPanel
+  // renders instead of EffectsPanel there).
+  const effectsView: EffectsView = isRealCharacter
+    ? { effectsActive: [], effectsAvailable: [] }
+    : {
+        effectsActive: character.effectsActive,
+        effectsAvailable: effectsCatalog.filter((def) => !character.effectsActive.some((active) => active.id === def.id)),
+      };
 
   function handleJump(entry: SearchEntry) {
     if (entry.tabGroup === 'skills' && entry.tabKey) setSkillsTab(entry.tabKey);
     if (entry.tabGroup === 'inventory' && entry.tabKey) setInventoryTab(entry.tabKey);
+    // A condition-catalog/activatable-spell/-ability hit lives inside RealEffectsPanel's own
+    // search+type filter — reset it first so the target seal is actually in the DOM to scroll to,
+    // same reasoning as switching skills/inventory tabs above.
+    if (entry.id.startsWith('condition-catalog-') || entry.id.startsWith('activatable-')) {
+      setEffectsSearch('');
+      setEffectsTypeFilter('');
+    }
     setPendingReveal(entry.id);
   }
 
@@ -340,6 +362,54 @@ export function CharacterSheetPage() {
     });
   }
 
+  async function handleActivateRealEffect(input: ActivateEffectInput) {
+    setEffectError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/effects`, {
+        source_type: input.sourceType,
+        source_id: input.sourceId,
+        level: input.level,
+        incubation_remaining: input.incubationRemaining,
+        duration_remaining: input.durationRemaining,
+        frequency_rounds: input.frequencyRounds,
+        successes_required: input.successesRequired,
+      });
+      refetch();
+    } catch {
+      setEffectError('Effekt konnte nicht aktiviert werden.');
+    }
+  }
+
+  async function handleRemoveRealEffect(effectId: string) {
+    setEffectError(null);
+    try {
+      await apiDelete(`/api/characters/${currentCharacterId}/effects/${effectId}`);
+      refetch();
+    } catch {
+      setEffectError('Effekt konnte nicht entfernt werden.');
+    }
+  }
+
+  async function handleSaveResult(effectId: string, success: boolean) {
+    setEffectError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/effects/${effectId}/save-result`, { success });
+      refetch();
+    } catch {
+      setEffectError('Rettungswurf-Ergebnis konnte nicht gespeichert werden.');
+    }
+  }
+
+  async function handleAdvanceRealTime(unit: TimeUnit) {
+    setEffectError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/advance-time`, { unit });
+      refetch();
+    } catch {
+      setEffectError('Zeit konnte nicht vorangeschritten werden.');
+    }
+  }
+
   async function handleSaveItemDetail(id: string, enhancement: string, properties: string[]) {
     if (!isRealCharacter) {
       setCharacter((prev) =>
@@ -361,7 +431,7 @@ export function CharacterSheetPage() {
 
   return (
     <div className="app">
-      <AppHeader character={character} effects={effectsView} onJump={handleJump} />
+      <AppHeader character={character} effects={effectsView} conditionsCatalog={conditionsCatalog} onJump={handleJump} />
 
       <div className="main">
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
@@ -400,15 +470,33 @@ export function CharacterSheetPage() {
 
         <div className="right-col">
           <ActionsPanel actions={character.actions} roundLabel={character.roundLabel} />
-          <EffectsPanel
-            effectsActive={effectsView.effectsActive}
-            effectsAvailable={effectsView.effectsAvailable}
-            onAdvanceTime={handleAdvanceTime}
-            onShortRest={handleShortRest}
-            onActivateEffect={handleActivateEffect}
-            onRemoveEffect={handleRemoveActiveEffect}
-            onAddCustomEffect={handleAddCustomEffect}
-          />
+          {effectError && <p style={{ color: '#e29a9a' }}>{effectError}</p>}
+          {isRealCharacter ? (
+            <RealEffectsPanel
+              activeEffects={character.activeEffects}
+              conditionsCatalog={conditionsCatalog}
+              activatableSpells={character.activatableSpells}
+              activatableClassAbilities={character.activatableClassAbilities}
+              search={effectsSearch}
+              onSearchChange={setEffectsSearch}
+              typeFilter={effectsTypeFilter}
+              onTypeFilterChange={setEffectsTypeFilter}
+              onAdvanceTime={handleAdvanceRealTime}
+              onActivate={handleActivateRealEffect}
+              onRemove={handleRemoveRealEffect}
+              onSaveResult={handleSaveResult}
+            />
+          ) : (
+            <EffectsPanel
+              effectsActive={effectsView.effectsActive}
+              effectsAvailable={effectsView.effectsAvailable}
+              onAdvanceTime={handleAdvanceTime}
+              onShortRest={handleShortRest}
+              onActivateEffect={handleActivateEffect}
+              onRemoveEffect={handleRemoveActiveEffect}
+              onAddCustomEffect={handleAddCustomEffect}
+            />
+          )}
         </div>
       </div>
 

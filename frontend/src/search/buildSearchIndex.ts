@@ -1,7 +1,11 @@
-import type { Character, EffectsView } from '../types/character';
+import type { Character, ConditionCatalogEntry, EffectsView } from '../types/character';
 import type { SearchEntry } from './types';
 
-export function buildSearchIndex(character: Character, effects: EffectsView): SearchEntry[] {
+export function buildSearchIndex(
+  character: Character,
+  effects: EffectsView,
+  conditionsCatalog: ConditionCatalogEntry[],
+): SearchEntry[] {
   const index: SearchEntry[] = [];
 
   index.push(
@@ -55,6 +59,32 @@ export function buildSearchIndex(character: Character, effects: EffectsView): Se
   }
   for (const effect of effects.effectsAvailable) {
     index.push({ id: `effect-available-${effect.id}`, label: effect.name, value: '', category: 'Verfügbar' });
+  }
+
+  // Real backend-driven effects (roadmap slice 5) — distinct ids from the mock pair above so a
+  // page never has both (a character is either a fixture or database-backed, never both), but
+  // kept as their own block since the two systems' data never overlaps.
+  for (const effect of character.activeEffects) {
+    index.push({ id: `effect-active-${effect.id}`, label: effect.name, value: '', category: 'Aktiver Effekt' });
+  }
+  for (const condition of conditionsCatalog) {
+    index.push({
+      id: `condition-catalog-${condition.id}`,
+      label: condition.name,
+      value: condition.description,
+      category: 'Zustand/Gift/Krankheit',
+    });
+  }
+  for (const spell of character.activatableSpells) {
+    index.push({ id: `activatable-spell-${spell.key}`, label: spell.name, value: '', category: 'Aktivierbarer Zauber' });
+  }
+  for (const ability of character.activatableClassAbilities) {
+    index.push({
+      id: `activatable-ability-${ability.key}`,
+      label: ability.name,
+      value: '',
+      category: 'Aktivierbare Klassenfähigkeit',
+    });
   }
 
   return index;

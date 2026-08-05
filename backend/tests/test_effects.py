@@ -1,8 +1,18 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import BaseClassAbility, BaseCondition, BaseSpell, CharacterEffect
+from app.models import (
+    BaseClassAbility,
+    BaseClassAbilityGrant,
+    BaseCondition,
+    BaseSpell,
+    Character,
+    CharacterEffect,
+    CharacterSpell,
+)
 
 from test_characters import _spells_by_class
 from test_items import _create_character
@@ -231,3 +241,48 @@ def test_save_result_rejected_for_effect_without_frequency(client: TestClient, d
 
     response = client.post(f"/api/characters/{character_id}/effects/{effect_id}/save-result", json={"success": True})
     assert response.status_code == 422
+
+
+def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    condition_id = _make_condition(db_session, "Verängstigt")
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "condition", "source_id": condition_id, "level": 2, "duration_remaining": 4},
+    )
+
+    # A spell only counts as "activatable" once it's both flagged
+    # is_persistent_effect *and* actually known by this character - inserted
+    # directly (like a level-up spell pick) rather than via the creation
+    # wizard's budget validation, which isn't what this test is about.
+    character = db_session.get(Character, UUID(character_id))
+    level = character.levels[0]
+    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
+    spell_id = next(iter(spells_by_name.values()))
+    spell = db_session.get(BaseSpell, spell_id)
+    spell.is_persistent_effect = True
+    db_session.add(CharacterSpell(level_id=level.id, base_class_id=level.base_class_id, spell_id=UUID(spell_id)))
+    db_session.commit()
+
+    grant = db_session.scalar(
+        select(BaseClassAbilityGrant).where(
+            BaseClassAbilityGrant.base_class_id == level.base_class_id, BaseClassAbilityGrant.level <= 1
+        )
+    )
+    ability = db_session.get(BaseClassAbility, grant.ability_id)
+    ability.is_persistent_effect = True
+    db_session.commit()
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+
+    assert len(sheet["activeEffects"]) == 1
+    active = sheet["activeEffects"][0]
+    assert active["sourceType"] == "condition"
+    assert active["conditionType"] == "condition"
+    assert active["name"] == "Verängstigt"
+    assert active["level"] == 2
+    assert active["durationRemaining"] == 4
+    assert active["successesCurrent"] == 0
+
+    assert any(s["key"] == spell_id for s in sheet["activatableSpells"])
+    assert any(a["key"] == str(ability.id) for a in sheet["activatableClassAbilities"])

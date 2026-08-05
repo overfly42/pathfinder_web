@@ -660,13 +660,31 @@ entirely, not a category here.
       double up) — reuses slice 4's `Modifier`/`stack` (`rules/modifiers.py`)
       rather than a second bonus-stacking implementation. No real
       conditions/handlers seeded yet, infrastructure only.
-- [ ] Frontend: deferred. `frontend/src/types/character.ts`'s existing
-      `Effect`/`EffectDef` (icon/amount/variant, mirroring `effects.json`)
-      predate this design and don't match it (no source_type/source_id,
-      no level/frequency/successes) — needs its own pass once this backend
-      slice is in place, extending the existing Effekte-Seal panel
-      (`pathfinder-mock.html`) rather than a new UI paradigm; a due save
-      would surface as a small Erfolg/Fehlschlag prompt on the seal itself.
+- [x] Frontend, done 2026-08-05: a real character (`isRealCharacter`) now
+      renders `RealEffectsPanel` (`frontend/src/components/sheet/
+      RealEffectsPanel.tsx`) instead of the old mock `EffectsPanel` — the
+      two stay side by side rather than one replacing the other, since
+      fixture characters ('1'/'2') have no DB row for the new endpoints to
+      act on. New types (`ActiveEffect`/`ConditionCatalogEntry`/
+      `ActivatableRef`) added alongside the untouched mock-era `Effect`/
+      `EffectDef` rather than reusing them (incompatible shapes — no
+      source_type/level/frequency/successes on the old ones). `sheet.py`
+      gained `activeEffects` (this character's `CharacterEffect` rows
+      resolved to a display name via whichever catalog `source_type`
+      points at), `activatableSpells`/`activatableClassAbilities` (known
+      spells/granted abilities flagged `is_persistent_effect` — empty for
+      every character today since none are seeded with the flag yet, same
+      "wiring ready, no content" state as `EFFECT_HANDLERS`). The activate
+      popover browses/searches/filters the 79-row `/api/conditions`
+      catalog and asks only for the numeric fields nothing else can supply
+      (level/duration/incubation/frequency/successes), matching the
+      backend's own "player types in what the data can't derive" design.
+      One UI bug found and fixed along the way: picking a row swapped the
+      popover's content before the click event finished bubbling to
+      `document`, so the page's existing global "click outside closes an
+      open `<details>`" listener saw a detached `event.target` and closed
+      the popover; fixed with a local `stopPropagation` rather than
+      touching that shared listener.
 
 ### 6. Possible actions / legality checks
 - [ ] Scope narrowly first: e.g. "can this spell be prepared/cast right

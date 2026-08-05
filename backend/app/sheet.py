@@ -13,7 +13,11 @@ not fabricated placeholder content:
   AC contribution come from `CharacterGear`/`BaseItem.ac_bonus`. The other 12
   wondrous-item slots (rings, belts, ...) have no real catalog content yet,
   so they're listed (for the paperdoll's fixed layout) with empty options.
-- `actions` catalog and `effectsActive` (roadmap slice 6).
+- `actions` catalog (roadmap slice 6). `effectsActive` stays a hardcoded `[]`
+  too, but only because it's the older mock seal system's field (icon/amount/
+  variant, `/api/effects`) — real active effects (roadmap slice 5) are now
+  served separately as `activeEffects`/`activatableSpells`/
+  `activatableClassAbilities`, see `_build_active_effects` below.
 - Per-day spell prepare/cast tracking (roadmap slice 6) — `spellsKnown`
   (`used`) and `spellbook` (`prepared`) both list every known spell with
   their tracking flag always `False`.
@@ -38,6 +42,7 @@ from .models import (
     BaseClassOptionGroup,
     BaseClassSkill,
     BaseClassSpell,
+    BaseCondition,
     BaseFeat,
     BaseItem,
     BaseRace,
@@ -195,6 +200,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "spellbook": _build_spell_grades(db, character, "prepared"),
         "actions": [],
         "effectsActive": [],
+        "activeEffects": _build_active_effects(db, character),
+        "activatableSpells": _build_activatable_spells(db, character),
+        "activatableClassAbilities": _build_activatable_class_abilities(db, granted_ability_ids),
     }
 
 
@@ -523,6 +531,104 @@ def _build_spell_grades(db: Session, character: Character, flag_name: str) -> li
             )
 
     return [{"grade": grade, "locked": False, "spells": spells} for grade, spells in sorted(by_grade.items())]
+
+
+def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
+    """Known spells flagged `is_persistent_effect` (roadmap slice 5) — the
+    subset a player can activate as a tracked `CharacterEffect` via
+    `POST .../effects`. Kept separate from `spellsKnown`/`spellbook` (cast/
+    prepare tracking, an unrelated concern) rather than adding a field to
+    those existing shapes. Empty for every character today since no spell
+    is seeded with the flag set yet — same "wiring ready, no content yet"
+    state `BaseCondition`/`EFFECT_HANDLERS` started in."""
+    all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
+    if not all_spell_ids:
+        return []
+    spells = db.scalars(
+        select(BaseSpell).where(BaseSpell.id.in_(all_spell_ids), BaseSpell.is_persistent_effect.is_(True))
+    ).all()
+    return [{"key": str(spell.id), "name": spell.name} for spell in spells]
+
+
+def _build_activatable_class_abilities(db: Session, granted_ability_ids: Counter[UUID]) -> list[dict]:
+    """Granted class abilities flagged `is_persistent_effect` — same idea as
+    `_build_activatable_spells`, kept separate from `classFeatures` (display
+    only) for the same reason."""
+    if not granted_ability_ids:
+        return []
+    abilities = db.scalars(
+        select(BaseClassAbility).where(
+            BaseClassAbility.id.in_(list(granted_ability_ids)), BaseClassAbility.is_persistent_effect.is_(True)
+        )
+    ).all()
+    return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
+
+
+def _build_active_effects(db: Session, character: Character) -> list[dict]:
+    """This character's active `CharacterEffect` rows (roadmap slice 5),
+    resolved against whichever catalog `source_type` points at for a display
+    name. Real backend-driven data — distinct from the older mock
+    `effectsActive`/`/api/effects` seal system (icon/amount/variant) that
+    predates this slice and still exists for the frontend's fixture
+    characters; this key intentionally differs (`activeEffects`) so the two
+    don't collide."""
+    if not character.effects:
+        return []
+
+    ids_by_source: dict[str, set[UUID]] = {"condition": set(), "spell": set(), "class_ability": set()}
+    for effect in character.effects:
+        ids_by_source[effect.source_type].add(effect.source_id)
+
+    catalogs: dict[str, dict[UUID, object]] = {
+        "condition": {
+            row.id: row
+            for row in db.scalars(select(BaseCondition).where(BaseCondition.id.in_(ids_by_source["condition"]))).all()
+        }
+        if ids_by_source["condition"]
+        else {},
+        "spell": (
+            {row.id: row for row in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(ids_by_source["spell"]))).all()}
+            if ids_by_source["spell"]
+            else {}
+        ),
+        "class_ability": (
+            {
+                row.id: row
+                for row in db.scalars(
+                    select(BaseClassAbility).where(BaseClassAbility.id.in_(ids_by_source["class_ability"]))
+                ).all()
+            }
+            if ids_by_source["class_ability"]
+            else {}
+        ),
+    }
+
+    result = []
+    for effect in character.effects:
+        source = catalogs[effect.source_type].get(effect.source_id)
+        if source is None:
+            continue
+        result.append(
+            {
+                "id": str(effect.id),
+                "sourceType": effect.source_type,
+                "sourceId": str(effect.source_id),
+                "name": source.name,
+                # Only conditions carry a type ("condition"/"poison"/"disease") — spells/class
+                # abilities have no equivalent subcategory, so this is the one field on this
+                # dict that's frequently null. Lets the frontend pick a per-type icon without
+                # a second round trip to the conditions catalog.
+                "conditionType": source.type if effect.source_type == "condition" else None,
+                "level": effect.level,
+                "incubationRemaining": effect.incubation_remaining,
+                "durationRemaining": effect.duration_remaining,
+                "frequencyRounds": effect.frequency_rounds,
+                "nextCheckIn": effect.next_check_in,
+                "successesCurrent": effect.successes_current,
+                "successesRequired": effect.successes_required,
+            }
+        )
+    return result
 
 
 def _build_gear(db: Session, character: Character) -> list[dict]:

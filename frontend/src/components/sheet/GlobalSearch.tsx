@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { Character, EffectsView } from '../../types/character';
+import type { Character, ConditionCatalogEntry, EffectsView } from '../../types/character';
 import { buildSearchIndex } from '../../search/buildSearchIndex';
 import { matchesQuery } from '../../search/matchesQuery';
 import type { SearchEntry } from '../../search/types';
@@ -8,13 +8,17 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 interface GlobalSearchProps {
   character: Character;
   effects: EffectsView;
+  conditionsCatalog: ConditionCatalogEntry[];
   onJump: (entry: SearchEntry) => void;
 }
 
-export function GlobalSearch({ character, effects, onJump }: GlobalSearchProps) {
+export function GlobalSearch({ character, effects, conditionsCatalog, onJump }: GlobalSearchProps) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const index = useMemo(() => buildSearchIndex(character, effects), [character, effects]);
+  const index = useMemo(
+    () => buildSearchIndex(character, effects, conditionsCatalog),
+    [character, effects, conditionsCatalog],
+  );
   const containerRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
   const q = query.trim().toLowerCase();

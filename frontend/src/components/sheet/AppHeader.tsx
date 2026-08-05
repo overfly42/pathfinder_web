@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { Character, EffectsView } from '../../types/character';
+import type { Character, ConditionCatalogEntry, EffectsView } from '../../types/character';
 import type { SearchEntry } from '../../search/types';
 import { useAppState } from '../../state/AppStateContext';
 import { useCharacterNames } from '../../hooks/useCharacterNames';
@@ -11,6 +11,7 @@ interface AppHeaderProps {
   /** Null when the current user owns no characters yet (e.g. right after being created). */
   character: Character | null;
   effects: EffectsView | null;
+  conditionsCatalog: ConditionCatalogEntry[] | null;
   onJump: (entry: SearchEntry) => void;
 }
 
@@ -178,7 +179,7 @@ function AddUserButton() {
   );
 }
 
-export function AppHeader({ character, effects, onJump }: AppHeaderProps) {
+export function AppHeader({ character, effects, conditionsCatalog, onJump }: AppHeaderProps) {
   return (
     <header>
       <div className="brand">
@@ -192,7 +193,9 @@ export function AppHeader({ character, effects, onJump }: AppHeaderProps) {
       <UserPicker />
       <CharacterPicker currentCharacterName={character?.name ?? '— kein Charakter —'} />
 
-      {character && effects && <GlobalSearch character={character} effects={effects} onJump={onJump} />}
+      {character && effects && (
+        <GlobalSearch character={character} effects={effects} conditionsCatalog={conditionsCatalog ?? []} onJump={onJump} />
+      )}
 
       <div className="spacer" />
 
