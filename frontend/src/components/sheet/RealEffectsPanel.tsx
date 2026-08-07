@@ -101,6 +101,7 @@ interface RealEffectsPanelProps {
   conditionsCatalog: ConditionCatalogEntry[];
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
+  externalClassAbilities: ActivatableRef[];
   characterLevel: number;
   search: string;
   onSearchChange: (value: string) => void;
@@ -117,6 +118,7 @@ export function RealEffectsPanel({
   conditionsCatalog,
   activatableSpells,
   activatableClassAbilities,
+  externalClassAbilities,
   characterLevel,
   search,
   onSearchChange,
@@ -146,7 +148,9 @@ export function RealEffectsPanel({
           tag: 'Zauber',
         });
       }
+      const ownAbilityIds = new Set<string>();
       for (const ability of activatableClassAbilities) {
+        ownAbilityIds.add(ability.key);
         if (term && !ability.name.toLowerCase().includes(term)) continue;
         entries.push({
           domId: `activatable-ability-${ability.key}`,
@@ -155,6 +159,22 @@ export function RealEffectsPanel({
           name: ability.name,
           icon: SOURCE_TYPE_ICONS.class_ability,
           tag: 'Klassenfähigkeit',
+        });
+      }
+      // Effects received from someone else's ability (e.g. a Barde's Lied des Mutes) — offered to
+      // every character regardless of whether they have it granted, same as conditionsCatalog below.
+      // Skipped here if already listed above (an ability with activation_scope 'both' appears in
+      // both backend lists for the character who owns it; the picker only needs it once).
+      for (const ability of externalClassAbilities) {
+        if (ownAbilityIds.has(ability.key)) continue;
+        if (term && !ability.name.toLowerCase().includes(term)) continue;
+        entries.push({
+          domId: `external-ability-${ability.key}`,
+          sourceType: 'class_ability',
+          sourceId: ability.key,
+          name: ability.name,
+          icon: SOURCE_TYPE_ICONS.class_ability,
+          tag: 'Klassenfähigkeit (von außen)',
         });
       }
     }
@@ -178,7 +198,7 @@ export function RealEffectsPanel({
     }
 
     return entries;
-  }, [conditionsCatalog, activatableSpells, activatableClassAbilities, search, typeFilter]);
+  }, [conditionsCatalog, activatableSpells, activatableClassAbilities, externalClassAbilities, search, typeFilter]);
 
   function handleActivate(input: ActivateEffectInput) {
     onActivate(input);

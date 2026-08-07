@@ -271,6 +271,7 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
     )
     ability = db_session.get(BaseClassAbility, grant.ability_id)
     ability.is_persistent_effect = True
+    ability.activation_scope = "self"
     db_session.commit()
 
     sheet = client.get(f"/api/characters/{character_id}").json()
@@ -286,3 +287,40 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
 
     assert any(s["key"] == spell_id for s in sheet["activatableSpells"])
     assert any(a["key"] == str(ability.id) for a in sheet["activatableClassAbilities"])
+
+
+def test_sheet_class_ability_activation_scope_filtering(client: TestClient, db_session: Session) -> None:
+    """`activation_scope` (roadmap slice 5, Barbar/Barde classification pass)
+    splits persistent-effect class abilities into the character's own
+    activation list (`self`/`both`, gated by ownership) and a catalog-wide
+    list anyone can pick from (`external`/`both`, e.g. a Barde's Lied des
+    Erfolgs on an ally who never learned Bardenauftritt)."""
+    character_id = _create_character(client, db_session)
+    character = db_session.get(Character, UUID(character_id))
+    level = character.levels[0]
+
+    grant = db_session.scalar(
+        select(BaseClassAbilityGrant).where(
+            BaseClassAbilityGrant.base_class_id == level.base_class_id, BaseClassAbilityGrant.level <= 1
+        )
+    )
+    granted_self_only = db_session.get(BaseClassAbility, grant.ability_id)
+    granted_self_only.is_persistent_effect = True
+    granted_self_only.activation_scope = "self"
+
+    external_only = BaseClassAbility(
+        name="Lied des Erfolgs (Test)", description="Kann nicht auf sich selbst gewirkt werden.",
+        is_persistent_effect=True, activation_scope="external",
+    )
+    db_session.add(external_only)
+    db_session.commit()
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+
+    # Granted + self-scoped: shows up in the character's own list, not the external one.
+    assert any(a["key"] == str(granted_self_only.id) for a in sheet["activatableClassAbilities"])
+    assert not any(a["key"] == str(granted_self_only.id) for a in sheet["externalClassAbilities"])
+
+    # External-scoped, never granted to this character: only in the external list.
+    assert not any(a["key"] == str(external_only.id) for a in sheet["activatableClassAbilities"])
+    assert any(a["key"] == str(external_only.id) for a in sheet["externalClassAbilities"])

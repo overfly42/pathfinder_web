@@ -80,5 +80,6 @@
   ],
   "activeEffects": [],
   "activatableSpells": [],
-  "activatableClassAbilities": []
+  "activatableClassAbilities": [],
+  "externalClassAbilities": []
 }

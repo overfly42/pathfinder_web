@@ -469,6 +469,7 @@ export function CharacterSheetPage() {
               conditionsCatalog={conditionsCatalog}
               activatableSpells={character.activatableSpells}
               activatableClassAbilities={character.activatableClassAbilities}
+              externalClassAbilities={character.externalClassAbilities}
               characterLevel={character.level}
               search={effectsSearch}
               onSearchChange={setEffectsSearch}

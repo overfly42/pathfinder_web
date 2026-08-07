@@ -89,13 +89,27 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     tracked `CharacterEffect` row when activated — most class features are
     instantaneous (Sneak Attack) or always-on passives with no activation
     step, so this defaults to `False`; only ones with an active duration
-    (Rage, Bardic Performance, an "aktivierbare" aura) set it."""
+    (Rage, Bardic Performance, an "aktivierbare" aura) set it.
+
+    `activation_scope` (plain tag, same convention as `BaseFeat.type`) is
+    only meaningful when `is_persistent_effect` is `True` and distinguishes
+    two shapes found while classifying Barbar/Barde: `"self"` — the owning
+    character activates it on themselves (Rage) — stays gated by that
+    character's own granted abilities, same as today; `"external"` — the
+    effect only ever lands on someone *other* than the activating character
+    (Barde's Lied des Erfolgs explicitly can't target the Barde themselves),
+    so it must be offered to any character the same way a `BaseCondition`
+    is, not gated by ownership; `"both"` — usable on the owner as well as
+    others (Barde's Lied des Mutes/Lied der Größe/Lied des Heldenmuts name
+    the Barde as an eligible target alongside allies). `None` for every
+    ability where `is_persistent_effect` is `False`."""
 
     __tablename__ = "base_class_abilities"
 
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
     is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
+    activation_scope: Mapped[str | None] = mapped_column(String(16), nullable=True)
 
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):

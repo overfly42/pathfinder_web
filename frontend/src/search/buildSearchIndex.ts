@@ -78,12 +78,22 @@ export function buildSearchIndex(
   for (const spell of character.activatableSpells) {
     index.push({ id: `activatable-spell-${spell.key}`, label: spell.name, value: '', category: 'Aktivierbarer Zauber' });
   }
+  const ownAbilityIds = new Set(character.activatableClassAbilities.map((ability) => ability.key));
   for (const ability of character.activatableClassAbilities) {
     index.push({
       id: `activatable-ability-${ability.key}`,
       label: ability.name,
       value: '',
       category: 'Aktivierbare Klassenfähigkeit',
+    });
+  }
+  for (const ability of character.externalClassAbilities) {
+    if (ownAbilityIds.has(ability.key)) continue;
+    index.push({
+      id: `external-ability-${ability.key}`,
+      label: ability.name,
+      value: '',
+      category: 'Klassenfähigkeit (von außen)',
     });
   }
 

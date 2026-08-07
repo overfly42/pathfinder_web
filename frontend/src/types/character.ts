@@ -219,4 +219,9 @@ export interface Character {
   activeEffects: ActiveEffect[];
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
+  /** Persistent-effect class abilities with `activation_scope` `'external'`/`'both'` (backend
+   *  `BaseClassAbility`) — effects this character can receive from someone else's ability (e.g. a
+   *  Barde's Lied des Mutes) even if they don't have it granted themselves. Not gated by ownership,
+   *  same as `conditionsCatalog`. */
+  externalClassAbilities: ActivatableRef[];
 }

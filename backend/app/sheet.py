@@ -17,7 +17,8 @@ not fabricated placeholder content:
   too, but only because it's the older mock seal system's field (icon/amount/
   variant, `/api/effects`) — real active effects (roadmap slice 5) are now
   served separately as `activeEffects`/`activatableSpells`/
-  `activatableClassAbilities`, see `_build_active_effects` below.
+  `activatableClassAbilities`/`externalClassAbilities`, see
+  `_build_active_effects` below.
 - Per-day spell prepare/cast tracking (roadmap slice 6) — `spellsKnown`
   (`used`) and `spellbook` (`prepared`) both list every known spell with
   their tracking flag always `False`.
@@ -221,6 +222,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "activeEffects": _build_active_effects(db, character),
         "activatableSpells": _build_activatable_spells(db, character),
         "activatableClassAbilities": _build_activatable_class_abilities(db, granted_ability_ids),
+        "externalClassAbilities": _build_external_class_abilities(db),
     }
 
 
@@ -571,12 +573,35 @@ def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
 def _build_activatable_class_abilities(db: Session, granted_ability_ids: Counter[UUID]) -> list[dict]:
     """Granted class abilities flagged `is_persistent_effect` — same idea as
     `_build_activatable_spells`, kept separate from `classFeatures` (display
-    only) for the same reason."""
+    only) for the same reason. Filtered to `activation_scope` `"self"`/`"both"`
+    (`BaseClassAbility`'s docstring) — an `"external"`-only ability like
+    Barde's Lied des Erfolgs explicitly can't target its own owner, so it has
+    no business in this character's own activation list even though they
+    have it granted; see `_build_external_class_abilities` for that half."""
     if not granted_ability_ids:
         return []
     abilities = db.scalars(
         select(BaseClassAbility).where(
-            BaseClassAbility.id.in_(list(granted_ability_ids)), BaseClassAbility.is_persistent_effect.is_(True)
+            BaseClassAbility.id.in_(list(granted_ability_ids)),
+            BaseClassAbility.is_persistent_effect.is_(True),
+            BaseClassAbility.activation_scope.in_(["self", "both"]),
+        )
+    ).all()
+    return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
+
+
+def _build_external_class_abilities(db: Session) -> list[dict]:
+    """The catalog-wide counterpart to `_build_activatable_class_abilities`:
+    persistent-effect class abilities whose `activation_scope` is
+    `"external"`/`"both"` (`BaseClassAbility`'s docstring) — effects a
+    character can receive from someone *else's* ability (Barde's Lied des
+    Mutes on an ally who has no Barde levels at all). Not gated by this
+    character's own granted abilities, same reasoning `conditionsCatalog` is
+    offered to every character regardless of what they know."""
+    abilities = db.scalars(
+        select(BaseClassAbility).where(
+            BaseClassAbility.is_persistent_effect.is_(True),
+            BaseClassAbility.activation_scope.in_(["external", "both"]),
         )
     ).all()
     return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
