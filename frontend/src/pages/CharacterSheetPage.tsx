@@ -149,10 +149,11 @@ export function CharacterSheetPage() {
     if (!isRealCharacter) {
       setCharacter((prev) => {
         if (!prev) return prev;
-        // No upper clamp at max: healing past it stays visible as negative
-        // damage (VitalsBar), the stand-in for temporary hit points until
-        // those are modeled as their own pool.
-        const current = Math.max(0, prev.hp.current + signedAmount);
+        // Mirrors the backend's clamp (routers/characters.py's adjust_hp):
+        // healing past hp.max is wasted, and damage bottoms out at -KO score
+        // (PF1e RAW death threshold), not 0.
+        const conScore = prev.abilities.find((ability) => ability.key === 'KO')?.score ?? 0;
+        const current = Math.max(-conScore, Math.min(prev.hp.max, prev.hp.current + signedAmount));
         return { ...prev, hp: { ...prev.hp, current } };
       });
       return;

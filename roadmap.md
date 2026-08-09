@@ -489,6 +489,17 @@ save progression), minimal starting gear. Full detail for all of these:
       bonus system. Scope this once slice 5 (Effects) has landed, since
       several of these abilities are duration/use-limited in the same way
       active effects are — not a slice-3 concern to retrofit now.
+      **Temporary HP is a separate concern from the flat-bonus/Modifier
+      shape above** (flagged 2026-08-09 while fixing the `damage_taken`
+      clamp bug, see `adjust_hp`'s docstring): Kampfrausch's "2 temporäre
+      Trefferpunkte pro Trefferwürfel" (scaling with Starker/Mächtiger
+      Kampfrausch) needs its own tracked pool, not a `Modifier` on `hp_max`
+      — it must be shown separately from real HP on the sheet, absorb
+      damage before `damage_taken` does, and evaporate (not convert to real
+      damage) when Kampfrausch ends. No schema for this exists yet
+      (`Character` has no temp-HP column); likely a new nullable int
+      column or a per-`CharacterEffect` amount, resolved the same
+      `HANDLERS`-by-ability-id way as everything else here.
 - [ ] **"Pick from a restricted list" unification** (feat pools, ability
       pools, spell pools, deterministic per-choice spell grants — generalizes
       past Kämpfer's hardcoded "combat" filter). Schema and seed data

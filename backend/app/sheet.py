@@ -63,10 +63,11 @@ from .models import (
 )
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
+from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.modifiers import Modifier, ModifierTarget, stack
 from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
-from .rules.progression import ability_mod, effective_ability_scores, max_hit_points
+from .rules.progression import ability_mod, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -77,65 +78,6 @@ SAVE_LABELS = {"fort": "Zähigkeit", "ref": "Reflex", "will": "Willen"}
 # ability-mod addition happens here, alongside this module's other
 # `effective_ability_scores`-dependent display math.
 SAVE_ABILITY = {"fort": "KO", "ref": "GE", "will": "WE"}
-
-# BaseItem.granted_ability's English code -> the sheet/Character's own
-# German ability-score key (roadmap.md's "Wondrous-Item-Katalog mit echter
-# Attributsboni-Wirkung", decided 2026-08-04).
-ABILITY_CODE_TO_KEY = {
-    "strength": "ST",
-    "dexterity": "GE",
-    "constitution": "KO",
-    "intelligence": "IN",
-    "wisdom": "WE",
-    "charisma": "CH",
-}
-
-
-def _gear_ability_bonuses(db: Session, character: Character) -> dict[str, int]:
-    """Enhancement bonuses to ability scores from equipped wondrous items
-    (e.g. a "Gürtel der großen Konstitution +2" adds 2 to KO while
-    equipped) — only the `BaseItem.granted_ability`/`ability_bonus` subset
-    is structured this way, see that catalog's docstring for why the rest
-    stays freetext. Only *equipped* gear counts (`equipped_slot` set), same
-    as `_build_equipment`'s AC logic; `stack()` applied per ability in case
-    two equipped items ever grant the same one (same-type bonuses don't
-    stack in PF1e)."""
-    equipped_item_ids = [g.item_id for g in character.gear if g.equipped_slot]
-    if not equipped_item_ids:
-        return {}
-    items = db.scalars(
-        select(BaseItem).where(BaseItem.id.in_(equipped_item_ids), BaseItem.granted_ability.is_not(None))
-    ).all()
-    modifiers_by_key: dict[str, list[Modifier]] = {}
-    for item in items:
-        key = ABILITY_CODE_TO_KEY.get(item.granted_ability)
-        if key is None:
-            continue
-        modifiers_by_key.setdefault(key, []).append(
-            Modifier(
-                source=item.name,
-                type="enhancement",
-                value=item.ability_bonus or 0,
-                target=ModifierTarget.SCORE,
-                target_id=key,
-            )
-        )
-    return {key: stack(mods) for key, mods in modifiers_by_key.items()}
-
-
-def _ability_damage_totals(character: Character) -> dict[str, int]:
-    """Ability damage/drain/burn (`CharacterAbilityDamage`, roadmap.md §5's
-    open item) summed per ability — all three `kind`s reduce the score the
-    same way for modifier purposes, only their recovery differs (see that
-    model's docstring), so this doesn't need to distinguish them. Empty
-    today since nothing writes to the table yet (no `EFFECT_HANDLERS` entry
-    applies poison/disease ability damage) — every character's total is 0
-    until that handler exists, which is the intended, honest default."""
-    totals: dict[str, int] = {}
-    for row in character.ability_damage:
-        totals[row.ability] = totals.get(row.ability, 0) + row.amount
-    return totals
-
 
 def _fmt(mod: int) -> str:
     return ("+" if mod >= 0 else "") + str(mod)
@@ -149,12 +91,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     archetype = ", ".join(favored["archetypes"]) if favored and favored["archetypes"] else "Keiner"
 
     race_mods = race_ability_score_mods(db, character.race_id)
-    effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
-    for key, bonus in _gear_ability_bonuses(db, character).items():
-        effective_scores[key] = effective_scores.get(key, 0) + bonus
-    ability_damage = _ability_damage_totals(character)
-    for key, amount in ability_damage.items():
-        effective_scores[key] = effective_scores.get(key, 0) - amount
+    effective_scores = full_effective_ability_scores(db, character, race_mods)
+    ability_damage = ability_damage_totals(character)
     ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
 
     total_level = character.level

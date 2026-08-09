@@ -42,11 +42,13 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # composition-vs-computation split as everywhere else: storing damage
     # rather than remaining stays correct across max HP changing (level-up,
     # a Constitution-boosting effect) without this column needing to be
-    # rewritten, and lets a future temporary-HP buffer be represented as a
-    # negative value here without a separate column. Nullable: a legacy
-    # character created before HP was computed at all (this column's former
-    # name/meaning, "current_hit_points") may still be null — treated as
-    # undamaged (0), not an error, same as before.
+    # rewritten. Always >= 0 (`routers/characters.py`'s `adjust_hp` clamps
+    # it there) — healing past `hp_max` is wasted, not banked as negative
+    # damage; there is no temporary-HP buffer here (see roadmap.md's open
+    # item on modeling that, e.g. Kampfrausch, as its own mechanism).
+    # Nullable: a legacy character created before HP was computed at all
+    # (this column's former name/meaning, "current_hit_points") may still be
+    # null — treated as undamaged (0), not an error, same as before.
     damage_taken: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     ability_score_st: Mapped[int] = mapped_column(Integer)

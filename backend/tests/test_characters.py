@@ -1224,28 +1224,31 @@ def test_adjust_hp_damage_and_heal(client: TestClient, db_session: Session) -> N
     assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 8, "max": 10}
 
 
-def test_adjust_hp_damage_is_capped_so_current_hp_never_goes_negative(
+def test_adjust_hp_damage_is_capped_at_negative_con_score_death_floor(
     client: TestClient, db_session: Session
 ) -> None:
+    # Same character as test_adjust_hp_damage_and_heal: hp_max == 10, effective
+    # KO == 11 (Elf's -2 applied to base 13) — PF1e RAW death floor is -con
+    # score, so current HP should bottom out at -11, not 0.
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -100})
     assert response.status_code == 200
-    assert response.json()["damage_taken"] == 10
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"]["current"] == 0
+    assert response.json()["damage_taken"] == 21
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"]["current"] == -11
 
 
-def test_adjust_hp_healing_past_max_shows_as_negative_damage(client: TestClient, db_session: Session) -> None:
+def test_adjust_hp_healing_past_max_is_wasted(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 5})
     assert response.status_code == 200
-    assert response.json()["damage_taken"] == -5
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 15, "max": 10}
+    assert response.json()["damage_taken"] == 0
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 10, "max": 10}
 
 
 def test_adjust_hp_unknown_character_is_404(client: TestClient) -> None:
