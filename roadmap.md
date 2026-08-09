@@ -700,13 +700,94 @@ entirely, not a category here.
       of the handler since it's harmless to ship while every value is 0.
       Fixture characters ('1'/'2', `character_1.json`/`character_2.json`)
       got `"damage": 0` added to each ability entry to match the type.
+- [ ] **Generische Gifte pro Attribut + Rettungswurf-Erinnerung fürs UI
+      (Entscheidung 2026-08-09, Umsetzung offen).** Anstoß: die meisten
+      Bestiary-Gifte auf Monstern folgen immer demselben Muster (Injury/
+      Inhaled/Ingested; Rettungswurf-Typ + SG; Frequenz; „X Schaden
+      [Attribut]"; Heilung nach N Erfolgen), nur SG/Frequenz/Schadenshöhe
+      wechseln pro Kreatur. Dafür braucht es keine eigene benannte
+      `BaseCondition`-Zeile pro Monster (wie bei den 35 bereits importierten
+      Beispielgiften), sondern sechs wiederverwendbare generische
+      Katalogzeilen, eine pro Attribut (ST/GE/KO/IN/WE/CH), deren SG/
+      Frequenz/Schaden der Spieler bei jeder Aktivierung frei einträgt —
+      gleiches Prinzip wie `level`, das aus genau diesem Grund schon heute
+      pro Aktivierung abgefragt statt aus dem Katalog gelesen wird.
+
+      Schema-Erweiterung, minimal:
+      - Sechs neue `BaseCondition`-Zeilen (`type: "poison"`, hand-vergebene
+        UUIDs) — welches Attribut betroffen ist, steckt in der jeweiligen
+        `EFFECT_HANDLERS`-Registrierung (composition-vs-computation wie
+        überall sonst in diesem Projekt), keine neue Katalogspalte dafür
+        nötig.
+      - Neue nullable Spalte `CharacterEffect.ability_damage_fixed_amount:
+        int | None` — bei Aktivierung gesetzt, wenn der Schaden pro
+        Fehlschlag immer gleich hoch ist (z. B. „1 Schaden"); der Handler
+        wendet dann automatisch denselben Wert bei jedem fehlgeschlagenen
+        Check an.
+      - `EffectSaveResult` (`schemas/character.py`, Body von
+        `POST .../effects/{id}/save-result`) bekommt ein neues optionales
+        Feld `damage_amount: int | None` — Pflicht genau dann, wenn
+        `success=False` **und** `ability_damage_fixed_amount` der Zeile
+        `None` ist (gewürfelter statt fixer Schaden, z. B. „1W3").
+
+      **Bewusst keine Würfelformel-Spalte, die der Server selbst auswertet**
+      (kein `dice: str`-Feld mit serverseitigem Würfeln) — es gibt in dieser
+      Codebase nirgends eine Zufalls-/Würfellogik (`is_valid_rolled_hit_points`
+      validiert bei TP-Würfen z. B. nur einen Wertebereich, würfelt nicht
+      selbst), passend zur wiederholt getroffenen Haltung „Tischhilfsmittel,
+      kein Kampfsimulator" (siehe Waffeneigenschaften-Entscheidung oben). Der
+      Spieler würfelt am Tisch und trägt das Ergebnis ein, genau wie bei TP.
+
+      **Gilt nicht nur für die 6 neuen generischen Zeilen**: die meisten der
+      schon importierten 35 Gifte/11 Krankheiten (`todos.md`s Gruppe B/C)
+      verursachen ebenfalls gewürfelten statt pauschal 1 Punkt Schaden —
+      `ability_damage_fixed_amount` bleibt für diese in aller Regel `None`,
+      der neue `damage_amount`-Pfad ist der Normalfall, nicht die Ausnahme.
+
+      **Zusätzlich, noch nicht in `todos.md`s Gruppe A–C erfasst — UI-
+      Erinnerung für fällige Rettungswürfe.** Sobald `next_check_in` einer
+      aktiven Gift-/Krankheits-Effekt-Zeile 0 erreicht (`advance-time`),
+      soll das Sheet proaktiv ein Modal zeigen statt den Spieler den
+      Effekte-Tab selbst nach fälligen Checks durchsuchen zu lassen — z. B.
+      „Reflexwurf oder 1W3 Schaden Geschicklichkeit" bzw. „Zähigkeitswurf
+      oder 1W2 Schaden Konstitution". Braucht:
+      - Neue Spalte `BaseCondition.save_type` (`"fort"`/`"reflex"`/`"will"`,
+        plain-tag-Konvention wie `type`) — welcher Rettungswurf gefordert
+        ist, steckt aktuell nur im Freitext von `description`. Nachträglich
+        für alle ~79 Zeilen zu befüllen, nicht nur die 6 neuen generischen
+        (gleicher Tagging-Durchgang wie die `activation_scope`-
+        Klassifizierung in Slice 3).
+      - Ein kurzer Anzeige-Text fürs Modal („1W3 Schaden Geschicklichkeit").
+        Ob das ein neues geparstes `default_ability_damage_display`-Feld
+        wird oder das Modal schlicht die vorhandene `description` zitiert,
+        hängt davon ab, wie knapp sich die Beschreibungstexte tatsächlich
+        zeigen — bei der Umsetzung zu entscheiden, nicht vorab zu raten.
+      - Backend kennt „fällig" bereits (`next_check_in == 0` nach
+        `advance-time`) — keine neue Spalte dafür nötig, nur `sheet.py`s
+        `activeEffects` muss `save_type` (und den Anzeige-Text) mit
+        durchreichen, damit das Frontend ohne Zusatz-Request rendern kann.
+      - Frontend: neue Modal-Komponente (vermutlich neben
+        `ActivateEffectModal.tsx`), sammelt beim Laden des Sheets alle
+        fälligen Effekte ein und fragt sie nacheinander ab (Erfolg/
+        Fehlschlag, bei Fehlschlag den gewürfelten Schadenswert), ruft dann
+        `POST .../effects/{id}/save-result` mit dem erweiterten Body auf.
+      - **Voraussetzung, noch nicht erfüllt**: `record_effect_save_result`
+        (`routers/characters.py:829`) bucht bislang nur die Erfolgs-/
+        Frequenz-Zähler, ruft `EFFECT_HANDLERS` aber noch gar nicht auf und
+        schreibt keine `CharacterAbilityDamage`-Zeilen — diese Verdrahtung
+        (nächster Punkt unten) ist Voraussetzung, nicht optional, sonst
+        bewirkt das Modal nichts.
 - [ ] **Open — not wired yet:**
   - The actual `EFFECT_HANDLERS` entries that make a poison/disease
         *apply* ability damage (write/update `CharacterAbilityDamage` rows)
         when its frequency check fails, plus the natural-healing hook for
         temporary damage into `advance-time`'s day tick. The schema and
         display above are ready for this; nothing computes or writes the
-        numbers yet. A successful save only stops *future* damage from that
+        numbers yet — including the fixed-vs-rolled amount now decided in
+        the generic-poison bullet just above, which this wiring must read
+        (`CharacterEffect.ability_damage_fixed_amount` when set, else the
+        `damage_amount` submitted with the save result). A successful save
+        only stops *future* damage from that
         effect (see `successes_current`/`successes_required` above) —
         damage already dealt survives the cure and needs this separate
         healing path, not automatic removal when the `CharacterEffect` row

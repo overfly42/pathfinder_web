@@ -67,6 +67,321 @@ Kurzfassung als Einstiegspunkt:
       Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
       `todos_history.md`.
 
+## Effekt-Handler-Inventar (`EFFECT_HANDLERS` / weapon `HANDLERS`) — noch offen
+
+`rules/effects.py`s `EFFECT_HANDLERS: dict[UUID, Callable]` ist seit Slice 5
+reine Infrastruktur (`{}` — leer), ebenso ist `rules/weapon_abilities.py`s
+eigenes `HANDLERS` für Zornig/Kräftigend noch nicht befüllt. Composition
+(welche Bedingungen/Gifte/Klassenfähigkeiten es gibt, welche davon als
+aktiver Effekt trackbar sind) ist für alle unten gelisteten Fälle bereits
+erledigt — dieser Abschnitt ist die flache, konkrete Arbeitsliste für die
+fehlende Computation-Hälfte, damit sie nicht bei jeder Session neu aus den
+Fixtures rekonstruiert werden muss (`roadmap.md`s Slice-5-Abschnitt nennt das
+Schreiben der ersten Handler explizit als nächsten Schritt). Ein Häkchen hier
+bedeutet: entweder ein echter `EFFECT_HANDLERS[id]`-Eintrag existiert, oder
+eine bewusste, dokumentierte Entscheidung „kein numerischer Effekt, bleibt
+generische Text-Anzeige" wurde getroffen (gleiches Muster wie die
+Waffeneigenschaften-Mehrheit in `roadmap.md`) — nicht stillschweigendes
+Weglassen. Erledigte Gruppen wandern wie üblich nach `todos_history.md`.
+
+### A. Bedingungen (`BaseCondition`, `type: "condition"`, 33 Zeilen)
+
+Pro Zeile zuerst gegen `prd.5footstep.de`s Zustände-Seite klassifizieren:
+numerischer Modifier-Effekt (→ `Modifier`/`stack()`, wie überall sonst) oder
+rein narrativ/Aktionsökonomie (→ bewusst kein Handler-Eintrag, kein
+Rateinhalt). Noch keine einzige Zeile klassifiziert oder verdrahtet:
+
+- [ ] Benommen
+- [ ] Beschädigt
+- [ ] Betäubt
+- [ ] Bewusstlos
+- [ ] Blind
+- [ ] Blutung
+- [ ] Entkräftet
+- [ ] Erschöpft
+- [ ] Erschüttert
+- [ ] Fasziniert
+- [ ] Geblendet
+- [ ] Gelähmt
+- [ ] Hilflos
+- [ ] Im Haltegriff
+- [ ] In Panik
+- [ ] Kampfunfähig
+- [ ] Kauernd
+- [ ] Kränkelnd
+- [ ] Körperlos
+- [ ] Lebenskraftverlust
+- [ ] Liegend
+- [ ] Ringend
+- [ ] Stabilisiert
+- [ ] Sterbend
+- [ ] Taub
+- [ ] Tot
+- [ ] Unsichtbar
+- [ ] Versteinert
+- [ ] Verstrickt
+- [ ] Verwirrt
+- [ ] Verängstigt
+- [ ] Wankend
+- [ ] Übelkeit
+
+### B. Gifte (`BaseCondition`, `type: "poison"`, 35 Zeilen + 6 neue generische)
+
+Ziel laut `roadmap.md`s „Open — not wired yet": bei fehlgeschlagenem
+Frequenz-Check echten `CharacterAbilityDamage`-Eintrag schreiben. Pro Zeile
+aus der bestehenden `description` extrahieren, welches Attribut, welche Art
+(Schaden/Verlust/Verbrennen) und welcher Würfelwert betroffen ist (die
+`default_*`-Rundenfelder sind schon geparst, die Schadenswerte selbst noch
+nicht) — die meisten Zeilen sollten dieselbe generische, parametrisierte
+Handler-Factory teilen können (CLAUDE.md: flacher Fall, eine Factory statt
+93 Einzelfunktionen), einzelne Sonderfälle (kein Attributsschaden, sondern
+z. B. reiner SR-Verlust oder Unbeweglichkeit) brauchen eine eigene Funktion.
+Schema für fixen vs. gewürfelten Schaden pro Fehlschlag jetzt entschieden
+(`roadmap.md`, 2026-08-09er Eintrag direkt nach der Ability-damage-Zeile):
+`CharacterEffect.ability_damage_fixed_amount` (fix) bzw. `EffectSaveResult.
+damage_amount` (gewürfelt, vom Spieler eingetragen) — für die meisten der 35
+Zeilen unten wird Letzteres der Normalfall sein, nicht die Ausnahme.
+
+Sechs neue generische Bestiary-Gifte (ein Katalogeintrag pro Attribut, SG/
+Frequenz/Schaden werden bei jeder Aktivierung frei eingetragen statt einer
+fixen Katalogzeile pro Monster) — noch nicht als `BaseCondition`-Zeilen
+angelegt:
+
+- [ ] Generisches Gift (Stärke)
+- [ ] Generisches Gift (Geschicklichkeit)
+- [ ] Generisches Gift (Konstitution)
+- [ ] Generisches Gift (Intelligenz)
+- [ ] Generisches Gift (Weisheit)
+- [ ] Generisches Gift (Charisma)
+
+Bereits importierte Beispielgifte (35):
+
+- [ ] Albtraumdämpfe
+- [ ] Arsen
+- [ ] Belladonna
+- [ ] Blauer Ginster
+- [ ] Blutwurz
+- [ ] Bruntdämpfe
+- [ ] Drachenschleim
+- [ ] Drowgift
+- [ ] Eisenhut
+- [ ] Gedankenmoos
+- [ ] Gestreifter Fliegenpilz
+- [ ] Gift einer Riesenwespe
+- [ ] Gift einer mittelgroßen Spinne
+- [ ] Gift eines Großen Skorpions
+- [ ] Gift eines Kleinen Tausendfüßlers
+- [ ] Grünblutöl
+- [ ] Grünes Regenbogengift
+- [ ] Königsschlaf
+- [ ] Leichnamsstaub
+- [ ] Malysswurzpaste
+- [ ] Nitharit
+- [ ] Purpurwurmgift
+- [ ] Sassonblattextrakt
+- [ ] Schattenessenz
+- [ ] Schierling
+- [ ] Schwarzer Lotusextrakt
+- [ ] Schwarzschlächterpulver
+- [ ] Schwarzviperngift
+- [ ] Taggitöl
+- [ ] Terinavwurzel
+- [ ] Todesklinge
+- [ ] Todestränen
+- [ ] Ungolstaub
+- [ ] Wahnsinnsnebel
+- [ ] Wyverngift
+
+### C. Krankheiten (`BaseCondition`, `type: "disease"`, 11 Zeilen)
+
+Gleiches Muster wie Gifte (Abschnitt B), inkl. geteilter Handler-Factory wo
+sinnvoll — Krankheiten unterscheiden sich von Giften nur in Inkubation
+statt Sofortwirkung (bereits in `incubation_remaining` modelliert), nicht im
+Schadensmechanismus.
+
+- [ ] Beulenpest
+- [ ] Dämonenfieber
+- [ ] Fieberwahn
+- [ ] Hirnbrand
+- [ ] Lepra
+- [ ] Rote Qual
+- [ ] Schleimiges Verderben
+- [ ] Schmutzfieber
+- [ ] Schüttelkrämpfe
+- [ ] Teufelszuckungen
+- [ ] Trübe Sieche
+
+### D. Klassenfähigkeiten als aktive Effekte (`BaseClassAbility`, `is_persistent_effect: true`, 78 Zeilen)
+
+Composition (welche Fähigkeit, wer sie aktivieren darf) ist seit 2026-08-07
+vollständig klassifiziert (`roadmap.md` Slice 3). Für keine der 78 existiert
+bisher ein `EFFECT_HANDLERS`-Eintrag — Aktivieren erzeugt eine echte
+`CharacterEffect`-Zeile mit Countdown, aber keinen Stat-Modifier. Text ist
+bereits PRD-geprüft (`base_class_abilities.json`), nicht neu zu recherchieren
+— nur in eine `Modifier`/`stack()`-Berechnung zu übersetzen. Gruppiert nach
+Klasse (Klasse = welche `BaseClass`/Archetyp die Fähigkeit vergibt, nicht
+Teil des Handler-Codes selbst):
+
+**Barbar (1):** Kampfrausch
+
+**Entfesselter Barbar (1):** Kampfrausch (eigene id, siehe roadmap.md — nicht
+mit Barbars Kampfrausch geteilt)
+
+**Barde (4):** Lied der Größe · Lied des Erfolgs · Lied des Heldenmuts ·
+Lied des Mutes
+
+**Hexenmeister (8):** Auf dunklen Schwingen · Berührung des Schicksals ·
+Klauen (×2, zwei verschiedene Blutlinien-Zeilen mit gleichem Namen — per id
+unterscheiden, nicht per Name) · Körperlose Gestalt · Schwingen · Schwingen
+des Himmels · Verschwinden
+
+**Kleriker (30):** Augen der Dunkelheit · Aura der Zerstörung · Aura des
+Schutzes · Chaosklinge · Dornenrüstung · Fernwahrnehmung · Flinkfuß ·
+Freiheit · Gegenwart des Göttlichen · Glückspilz · Hauch der Herrlichkeit ·
+Hauch der Ordnung · Hauch der Resistenz · Hauch des Guten · Heilige Lanze ·
+Holzfaust · Kraftschub · Macht der Götter · Meisterhafte Illusion ·
+Mit-Tieren-sprechen · Nachahmungstäter · Ruf der Freiheit · Schlachtenwut ·
+Schutz vor dem Tod · Sense des Bösen · Stab der Ordnung · Tanzende Waffen ·
+Waffenmeister · Wahnbild · Wort der Begeisterung
+
+**Magier (5):** Form verändern · Glück des Wahrsagers · Lebenssicht ·
+Schutz · Unsichtbarkeitsfeld
+
+**Mystiker (25):** Auf Flüssigkeit wandeln · Durch Erde gleiten · Eisenhaut ·
+Eisrüstung · Energiegestalt · Feuerschwingen · Flammengestalt ·
+Flammensicht · Gasförmige Gestalt · Geistwandeln · Knochenrüstung ·
+Kristallblick · Letzte Offenbarung (Natur) · Lockruf des Firmaments ·
+Luftbarriere · Luftschwingen · Schlachtruf · Stahlharte Haut ·
+Sternenmantel · Tiefe Meditation · Unsichtbarkeit · Wasserblick ·
+Wassergestalt · Windblick · Übernatürliches Band
+
+**Schildkämpfer (2):** Aktive Verteidigung · Schildwacht
+
+**Waldläufer (2):** Beute · Bund mit Gefährten
+
+Pro Fähigkeit einzeln abhaken:
+
+- [ ] Barbar: Kampfrausch
+- [ ] Entfesselter Barbar: Kampfrausch
+- [ ] Barde: Lied der Größe
+- [ ] Barde: Lied des Erfolgs
+- [ ] Barde: Lied des Heldenmuts
+- [ ] Barde: Lied des Mutes
+- [ ] Hexenmeister: Auf dunklen Schwingen
+- [ ] Hexenmeister: Berührung des Schicksals
+- [ ] Hexenmeister: Klauen (Blutlinie 1)
+- [ ] Hexenmeister: Klauen (Blutlinie 2)
+- [ ] Hexenmeister: Körperlose Gestalt
+- [ ] Hexenmeister: Schwingen
+- [ ] Hexenmeister: Schwingen des Himmels
+- [ ] Hexenmeister: Verschwinden
+- [ ] Kleriker: Augen der Dunkelheit
+- [ ] Kleriker: Aura der Zerstörung
+- [ ] Kleriker: Aura des Schutzes
+- [ ] Kleriker: Chaosklinge
+- [ ] Kleriker: Dornenrüstung
+- [ ] Kleriker: Fernwahrnehmung
+- [ ] Kleriker: Flinkfuß
+- [ ] Kleriker: Freiheit
+- [ ] Kleriker: Gegenwart des Göttlichen
+- [ ] Kleriker: Glückspilz
+- [ ] Kleriker: Hauch der Herrlichkeit
+- [ ] Kleriker: Hauch der Ordnung
+- [ ] Kleriker: Hauch der Resistenz
+- [ ] Kleriker: Hauch des Guten
+- [ ] Kleriker: Heilige Lanze
+- [ ] Kleriker: Holzfaust
+- [ ] Kleriker: Kraftschub
+- [ ] Kleriker: Macht der Götter
+- [ ] Kleriker: Meisterhafte Illusion
+- [ ] Kleriker: Mit-Tieren-sprechen
+- [ ] Kleriker: Nachahmungstäter
+- [ ] Kleriker: Ruf der Freiheit
+- [ ] Kleriker: Schlachtenwut
+- [ ] Kleriker: Schutz vor dem Tod
+- [ ] Kleriker: Sense des Bösen
+- [ ] Kleriker: Stab der Ordnung
+- [ ] Kleriker: Tanzende Waffen
+- [ ] Kleriker: Waffenmeister
+- [ ] Kleriker: Wahnbild
+- [ ] Kleriker: Wort der Begeisterung
+- [ ] Magier: Form verändern
+- [ ] Magier: Glück des Wahrsagers
+- [ ] Magier: Lebenssicht
+- [ ] Magier: Schutz
+- [ ] Magier: Unsichtbarkeitsfeld
+- [ ] Mystiker: Auf Flüssigkeit wandeln
+- [ ] Mystiker: Durch Erde gleiten
+- [ ] Mystiker: Eisenhaut
+- [ ] Mystiker: Eisrüstung
+- [ ] Mystiker: Energiegestalt
+- [ ] Mystiker: Feuerschwingen
+- [ ] Mystiker: Flammengestalt
+- [ ] Mystiker: Flammensicht
+- [ ] Mystiker: Gasförmige Gestalt
+- [ ] Mystiker: Geistwandeln
+- [ ] Mystiker: Knochenrüstung
+- [ ] Mystiker: Kristallblick
+- [ ] Mystiker: Letzte Offenbarung (Natur)
+- [ ] Mystiker: Lockruf des Firmaments
+- [ ] Mystiker: Luftbarriere
+- [ ] Mystiker: Luftschwingen
+- [ ] Mystiker: Schlachtruf
+- [ ] Mystiker: Stahlharte Haut
+- [ ] Mystiker: Sternenmantel
+- [ ] Mystiker: Tiefe Meditation
+- [ ] Mystiker: Unsichtbarkeit
+- [ ] Mystiker: Wasserblick
+- [ ] Mystiker: Wassergestalt
+- [ ] Mystiker: Windblick
+- [ ] Mystiker: Übernatürliches Band
+- [ ] Schildkämpfer: Aktive Verteidigung
+- [ ] Schildkämpfer: Schildwacht
+- [ ] Waldläufer: Beute
+- [ ] Waldläufer: Bund mit Gefährten
+
+Umbrella-Fähigkeiten bewusst **nicht** in dieser Liste, da sie kein eigenes
+`is_persistent_effect` tragen (siehe `roadmap.md`): Barbars/Entfesselter
+Barbars ~40 einzelne Kampfrauschkräfte und Bardes einzelne
+Bardenauftritt-Lieder hängen als Sub-Effekt am jeweiligen Parent
+(Kampfrausch/das aktive Lied) und werden von dessen eigenem Handler gelesen,
+nicht separat aktiviert.
+
+### E. Waffeneigenschaften (`rules/weapon_abilities.py`, eigenes `HANDLERS`, 2 Zeilen)
+
+Einzige zwei mit eigenem Zustand statt reiner Text-Anzeige (roadmap.md,
+2026-08-03 entschieden) — beide hängen vom Trägerzustand ab (Kampfrausch
+aktiv / kürzlich Gegner niedergestreckt), nicht von Gegnerdaten:
+
+- [ ] Zornig (nur während Kampfrausch aktiv)
+- [ ] Kräftigend (nur nach Niederstrecken eines Gegners, solange nicht
+      erschöpft/entkräftet)
+
+### F. Rettungswurf-Erinnerung fürs UI (Entscheidung 2026-08-09, `roadmap.md`)
+
+Wenn ein aktiver Gift-/Krankheits-Effekt fällig wird (`next_check_in == 0`),
+soll das Sheet proaktiv ein Modal zeigen statt den Spieler den Effekte-Tab
+selbst durchsuchen zu lassen (z. B. „Reflexwurf oder 1W3 Schaden
+Geschicklichkeit"), und Erfolg/Fehlschlag + bei Fehlschlag den gewürfelten
+Schadenswert direkt entgegennehmen. Voraussetzung für A–C oben, da diese
+Verdrahtung erst bewirkt, dass ein Handler-Treffer überhaupt sichtbar wird:
+
+- [ ] `BaseCondition.save_type` (`"fort"`/`"reflex"`/`"will"`) — neue Spalte,
+      für alle ~79 Zeilen zu befüllen (Fort/Reflex/Will steht aktuell nur im
+      `description`-Freitext), gleicher Tagging-Durchgang wie
+      `activation_scope` in Slice 3.
+  - [ ] Kurzer Anzeige-Text fürs Modal (z. B. „1W3 Schaden
+      Geschicklichkeit") — neues geparstes Feld oder Zitat aus
+      `description`, bei Umsetzung zu entscheiden.
+  - [ ] `sheet.py`s `activeEffects` reicht `save_type` (+ Anzeige-Text) mit
+      durch.
+  - [ ] Neue Frontend-Modal-Komponente (neben `ActivateEffectModal.tsx`),
+      sammelt fällige Effekte beim Laden ein, fragt sie nacheinander ab,
+      ruft `POST .../effects/{id}/save-result` mit dem erweiterten Body auf.
+- [ ] **Voraussetzung, noch offen**: `record_effect_save_result`
+      (`routers/characters.py:829`) ruft `EFFECT_HANDLERS` noch nicht auf
+      und schreibt keine `CharacterAbilityDamage` — siehe Gruppe A–C oben.
+
 ## Referenzdaten-Inhalte sind Platzhalter, keine geprüften Regeln
 
 Die konkreten Inhalte der Referenzdaten — Fertigkeitsnamen (`base_skills.json`),
