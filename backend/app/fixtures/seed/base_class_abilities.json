@@ -77,7 +77,9 @@
   {
     "id": "842009e5-6919-44be-ad21-289eb1b3641a",
     "name": "Aktive Verteidigung",
-    "description": "Die Vorteile des Schildkämpfers gelten nur, solange er gleichzeitig eine Waffe und einen Schild führt. Ab der 3. Stufe erhält der Schildkämpfer einen Ausweichbonus von +1 auf seine Rüstungsklasse, wenn er einen Schild führt und defensiv kämpft, das Talent Defensive Kampfweise nutzt oder Volle Verteidigung verwendet. Dieser Bonus steigt um weitere +1 alle vier Stufen nach der 3. Stufe. Als Schnelle Aktion kann er bis zum Beginn seines nächsten Zuges seinen Bonus mit einem benachbarten Verbündeten teilen oder seinen halben Bonus (Minimum +0) mit allen Verbündeten auf benachbarten Feldern. Ersetzt Rüstungstraining 1, 2, 3 und 4 (Schildkämpfer-Archetyp)."
+    "description": "Die Vorteile des Schildkämpfers gelten nur, solange er gleichzeitig eine Waffe und einen Schild führt. Ab der 3. Stufe erhält der Schildkämpfer einen Ausweichbonus von +1 auf seine Rüstungsklasse, wenn er einen Schild führt und defensiv kämpft, das Talent Defensive Kampfweise nutzt oder Volle Verteidigung verwendet. Dieser Bonus steigt um weitere +1 alle vier Stufen nach der 3. Stufe. Als Schnelle Aktion kann er bis zum Beginn seines nächsten Zuges seinen Bonus mit einem benachbarten Verbündeten teilen oder seinen halben Bonus (Minimum +0) mit allen Verbündeten auf benachbarten Feldern. Ersetzt Rüstungstraining 1, 2, 3 und 4 (Schildkämpfer-Archetyp).",
+    "is_persistent_effect": true,
+    "activation_scope": "external"
   },
   {
     "id": "d32b80f8-f3c6-48bb-bb39-a2e77a6117a1",
@@ -92,7 +94,9 @@
   {
     "id": "6789bc0c-ced2-4326-981e-6cb631fb1b71",
     "name": "Schildwacht",
-    "description": "Ab der 17. Stufe kann der Schildkämpfer ein benachbartes Feld auswählen (zwei Felder mit einem Schweren Schild, drei Felder mit einem Turmschild; die Felder müssen aneinander angrenzen). Feinde auf diesen Feldern können den Schildkämpfer nicht mehr in die Zange nehmen und zählen auch nicht, um zu bestimmen, ob der Schildkämpfer in die Zange genommen wird. Dieser Effekt wirkt, bis der Schildkämpfer seine Position verlässt oder mit einer weiteren Schnellen Aktion andere Felder auswählt. Ersetzt Waffentraining 4 (Schildkämpfer-Archetyp)."
+    "description": "Ab der 17. Stufe kann der Schildkämpfer ein benachbartes Feld auswählen (zwei Felder mit einem Schweren Schild, drei Felder mit einem Turmschild; die Felder müssen aneinander angrenzen). Feinde auf diesen Feldern können den Schildkämpfer nicht mehr in die Zange nehmen und zählen auch nicht, um zu bestimmen, ob der Schildkämpfer in die Zange genommen wird. Dieser Effekt wirkt, bis der Schildkämpfer seine Position verlässt oder mit einer weiteren Schnellen Aktion andere Felder auswählt. Ersetzt Waffentraining 4 (Schildkämpfer-Archetyp).",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "0339f81c-4500-4f75-a6d4-659bfc1976a3",
@@ -162,7 +166,9 @@
   {
     "id": "8c84a7a6-e17b-462c-92cb-9cb9f702dbc4",
     "name": "Beute",
-    "description": "Ab der 11. Stufe kann der Waldläufer mit einer Standard-Aktion einen Gegner in Sichtweite als Beute auswählen. Wenn er die Spuren seiner Beute verfolgt, kann der Waldläufer 10 nehmen, während er sich mit normaler Bewegungsrate bewegt. Zusätzlich erhält er einen Verständnisbonus von +2 auf Angriffe gegen seine Beute, und alle Bedrohungen, die zu einem kritischen Treffer führen können, werden automatisch bestätigt. Ein Waldläufer kann immer nur eine Beute haben, und sie muss aus der Liste seiner Erzfeinde stammen. Er kann diesen Effekt jederzeit als Freie Aktion beenden, muss dann aber 24 Stunden warten, bevor er eine neue Beute wählen kann (nur eine Stunde, wenn er einen Beweis sieht, dass seine Beute tot ist)."
+    "description": "Ab der 11. Stufe kann der Waldläufer mit einer Standard-Aktion einen Gegner in Sichtweite als Beute auswählen. Wenn er die Spuren seiner Beute verfolgt, kann der Waldläufer 10 nehmen, während er sich mit normaler Bewegungsrate bewegt. Zusätzlich erhält er einen Verständnisbonus von +2 auf Angriffe gegen seine Beute, und alle Bedrohungen, die zu einem kritischen Treffer führen können, werden automatisch bestätigt. Ein Waldläufer kann immer nur eine Beute haben, und sie muss aus der Liste seiner Erzfeinde stammen. Er kann diesen Effekt jederzeit als Freie Aktion beenden, muss dann aber 24 Stunden warten, bevor er eine neue Beute wählen kann (nur eine Stunde, wenn er einen Beweis sieht, dass seine Beute tot ist).",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "67431ada-9b99-46af-bc5c-d73d290f536f",
@@ -227,7 +233,9 @@
   {
     "id": "c1d3a3dc-49ca-44f3-8ace-d9d069a2f9b4",
     "name": "Schutz",
-    "description": "Schule der Bannzauber: Der Bannwirker kann als Standard-Aktion ein Feld schützender Magie mit einem Radius von 3 m erschaffen, das eine Anzahl von Runden in Höhe seines IN-Modifikators anhält. Alle Verbündeten im Bereich (einschließlich er selbst) erhalten einen Ablenkungsbonus von +1 auf die RK, der sich alle 5 Magierstufen um +1 erhöht. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+    "description": "Schule der Bannzauber: Der Bannwirker kann als Standard-Aktion ein Feld schützender Magie mit einem Radius von 3 m erschaffen, das eine Anzahl von Runden in Höhe seines IN-Modifikators anhält. Alle Verbündeten im Bereich (einschließlich er selbst) erhalten einen Ablenkungsbonus von +1 auf die RK, der sich alle 5 Magierstufen um +1 erhöht. Einsetzbar (3 + IN-Modifikator) Mal pro Tag.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "871cd98e-4cf3-4bbc-9945-abd7b8bb6d98",
@@ -257,7 +265,9 @@
   {
     "id": "49bc3a93-43c5-43fd-9d5f-56e2fb768afc",
     "name": "Glück des Wahrsagers",
-    "description": "Schule der Erkenntniszauber: Der Seher kann eine Kreatur mit einer Standard-Aktion berühren und ihr einen Verständnisbonus in Höhe seiner halben Magierstufe (Minimum +1) auf Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Runde verleihen. Einsetzbar (3 + IN-Modifikator) Mal pro Tag."
+    "description": "Schule der Erkenntniszauber: Der Seher kann eine Kreatur mit einer Standard-Aktion berühren und ihr einen Verständnisbonus in Höhe seiner halben Magierstufe (Minimum +1) auf Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Runde verleihen. Einsetzbar (3 + IN-Modifikator) Mal pro Tag.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "33999553-a372-4b45-95d4-44dc86b305ee",
@@ -292,7 +302,9 @@
   {
     "id": "929b51f4-b0b0-4a16-8f95-94929ed03e10",
     "name": "Unsichtbarkeitsfeld",
-    "description": "Schule der Illusion: Ab der 8. Stufe kann sich der Illusionist mit einer Schnellen Aktion für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe unsichtbar machen; funktioniert ansonsten wie Mächtige Unsichtbarkeit."
+    "description": "Schule der Illusion: Ab der 8. Stufe kann sich der Illusionist mit einer Schnellen Aktion für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe unsichtbar machen; funktioniert ansonsten wie Mächtige Unsichtbarkeit.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "a80f90c6-771d-4921-b39d-e272e81b33df",
@@ -307,7 +319,9 @@
   {
     "id": "44b88cb6-ed36-41a5-9fc5-b7f8ea1e2d19",
     "name": "Lebenssicht",
-    "description": "Schule der Nekromantie: Ab der 8. Stufe erhält der Nekromant Blindsicht in einem Radius von 3 m (+3 m alle weiteren 4 Magierstufen) für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe, mit der er lebende und untote Kreaturen (und ob sie leben oder untot sind) erkennt, jedoch keine Konstrukte oder ähnliches."
+    "description": "Schule der Nekromantie: Ab der 8. Stufe erhält der Nekromant Blindsicht in einem Radius von 3 m (+3 m alle weiteren 4 Magierstufen) für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe, mit der er lebende und untote Kreaturen (und ob sie leben oder untot sind) erkennt, jedoch keine Konstrukte oder ähnliches.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "e8a40b10-a2a3-4745-8ee4-7e6384ef3a5c",
@@ -322,7 +336,9 @@
   {
     "id": "f1d59906-5d9c-4826-836e-9ff82bb7c518",
     "name": "Form verändern",
-    "description": "Schule der Verwandlung: Ab der 8. Stufe kann der Wandler seine Gestalt für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe verändern, wie Bestiengestalt II oder Elementargestalt I; ab der 12. Stufe wie Bestiengestalt III oder Elementargestalt II."
+    "description": "Schule der Verwandlung: Ab der 8. Stufe kann der Wandler seine Gestalt für eine Anzahl an Runden pro Tag in Höhe seiner Magierstufe verändern, wie Bestiengestalt II oder Elementargestalt I; ab der 12. Stufe wie Bestiengestalt III oder Elementargestalt II.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "211a4a9c-d6d7-4ba0-8313-024b9e6a1646",
@@ -462,7 +478,9 @@
   {
     "id": "d7fd1232-574c-457d-8edd-44e7cc3a0048",
     "name": "Körperlose Gestalt",
-    "description": "Ab der 15. Stufe kann der Hexenmeister für eine Runde pro Stufe körperlos werden. In dieser Gestalt zählt er von der Kategorie her als Körperloses Wesen. Er erleidet nur halben Schaden von körperlichen Quellen, falls sie magisch sind (von nicht-magischen Waffen und Objekten kann er keinen Schaden erhalten); ebenso verursachen seine Zauber nur halben Schaden an körperlichen Kreaturen. Zauber und andere Effekte, die keinen Schaden verursachen, funktionieren normal. Nur ein Mal am Tag einsetzbar."
+    "description": "Ab der 15. Stufe kann der Hexenmeister für eine Runde pro Stufe körperlos werden. In dieser Gestalt zählt er von der Kategorie her als Körperloses Wesen. Er erleidet nur halben Schaden von körperlichen Quellen, falls sie magisch sind (von nicht-magischen Waffen und Objekten kann er keinen Schaden erhalten); ebenso verursachen seine Zauber nur halben Schaden an körperlichen Kreaturen. Zauber und andere Effekte, die keinen Schaden verursachen, funktionieren normal. Nur ein Mal am Tag einsetzbar.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "dc39138a-98b6-4a87-a240-16e1cd511dfc",
@@ -477,7 +495,9 @@
   {
     "id": "df6d0837-bf53-47e3-95b8-4cd4fa581d7d",
     "name": "Klauen",
-    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen. Die Klauen werden als natürliche Waffen behandelt, die es ihm erlauben, als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus auszuführen; der Hexenmeister gilt dabei immer als bewaffnet und erhält keine zusätzlichen Angriffe für einen hohen Grund-Angriffsbonus. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe werden diese Klauen als aufflammende Waffen gewertet, die jeweils bei einem Treffer 1W6 zusätzlichen Feuerschaden verursachen. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen."
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen. Die Klauen werden als natürliche Waffen behandelt, die es ihm erlauben, als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus auszuführen; der Hexenmeister gilt dabei immer als bewaffnet und erhält keine zusätzlichen Angriffe für einen hohen Grund-Angriffsbonus. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe werden diese Klauen als aufflammende Waffen gewertet, die jeweils bei einem Treffer 1W6 zusätzlichen Feuerschaden verursachen. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "1a78c395-9590-4aef-82f2-476369024096",
@@ -507,7 +527,9 @@
   {
     "id": "422b4a9f-d014-4c3f-8a3d-b9d388d739bc",
     "name": "Klauen",
-    "description": "Auf der 1. Stufe muss der Hexenmeister eine metallene oder chromatische Drachenart auswählen, von der er abstammt; diese Wahl ist endgültig und bestimmt Energietyp und Odem-Form der folgenden Fähigkeiten. Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen, die als natürliche Waffen gelten und ihm als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus erlauben. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe verursachen seine Klauen zusätzlich 1W6 Schadenspunkte seines Energietyps. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen."
+    "description": "Auf der 1. Stufe muss der Hexenmeister eine metallene oder chromatische Drachenart auswählen, von der er abstammt; diese Wahl ist endgültig und bestimmt Energietyp und Odem-Form der folgenden Fähigkeiten. Beginnend mit der 1. Stufe kann der Hexenmeister als Freie Aktion an seinen Händen Klauen wachsen lassen, die als natürliche Waffen gelten und ihm als Vollen Angriff zwei Klauenangriffe mit seinem höchsten Grund-Angriffsbonus erlauben. Die Klauen verursachen 1W4 (1W3, wenn der Hexenmeister klein ist) Schaden zuzüglich seinem ST-Modifikator. Ab der 5. Stufe werden seine Klauen als magische Waffen behandelt, um eine Schadensreduzierung zu brechen. Ab der 7. Stufe erhöht sich der Schaden um eine Stufe auf 1W6 oder 1W4, wenn er klein ist. Ab der 11. Stufe verursachen seine Klauen zusätzlich 1W6 Schadenspunkte seines Energietyps. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen. Diese Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "983dd877-158d-4479-84a5-191fc659a2ec",
@@ -522,7 +544,9 @@
   {
     "id": "ddfdb5b2-0863-4f73-9594-ee9701611d89",
     "name": "Schwingen",
-    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe lederne Schwingen aus seinem Rücken wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen."
+    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe lederne Schwingen aus seinem Rücken wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "f51d038f-ae06-4c85-bb12-95be7117f748",
@@ -577,7 +601,9 @@
   {
     "id": "88b85b4b-e9e0-48c4-a5f2-4768cc3ecd67",
     "name": "Verschwinden",
-    "description": "Ab der 9. Stufe kann der Hexenmeister für eine Runde pro Stufe unsichtbar werden (wie Mächtige Unsichtbarkeit). Die Runden müssen nicht hintereinander genutzt werden."
+    "description": "Ab der 9. Stufe kann der Hexenmeister für eine Runde pro Stufe unsichtbar werden (wie Mächtige Unsichtbarkeit). Die Runden müssen nicht hintereinander genutzt werden.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "b8eeaf6e-2b5a-4c5d-89a2-98de5298ec2e",
@@ -607,7 +633,9 @@
   {
     "id": "9aac0182-89e1-40ed-aece-9d3dab1a92bd",
     "name": "Schwingen des Himmels",
-    "description": "Ab der 9. Stufe kann der Hexenmeister gefiederte Schwingen wachsen lassen und mit einer Bewegungsrate von 18 m und guter Manövrierfähigkeit fliegen, für eine Anzahl von Minuten pro Tag in Höhe seiner Hexenmeisterstufe (nicht am Stück nutzbar, kürzeste Zeitspanne eine Minute)."
+    "description": "Ab der 9. Stufe kann der Hexenmeister gefiederte Schwingen wachsen lassen und mit einer Bewegungsrate von 18 m und guter Manövrierfähigkeit fliegen, für eine Anzahl von Minuten pro Tag in Höhe seiner Hexenmeisterstufe (nicht am Stück nutzbar, kürzeste Zeitspanne eine Minute).",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "d8d649f7-1934-40d7-b887-4430cd711a71",
@@ -627,7 +655,9 @@
   {
     "id": "87c36a5c-2825-414a-beac-dbf15635c2f6",
     "name": "Berührung des Schicksals",
-    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Standard-Aktion ein Wesen berühren und ihm für eine Runde einen Verständnisbonus auf Angriffs-, Attributs-, Fertigkeits- und Rettungswürfe in Höhe der halben Stufe des Hexenmeisters (Minimum +1) geben. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen."
+    "description": "Beginnend mit der 1. Stufe kann der Hexenmeister als Standard-Aktion ein Wesen berühren und ihm für eine Runde einen Verständnisbonus auf Angriffs-, Attributs-, Fertigkeits- und Rettungswürfe in Höhe der halben Stufe des Hexenmeisters (Minimum +1) geben. Der Hexenmeister kann diese Fähigkeit (3 + CH-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "2ee34f50-55aa-471d-8890-5e3da42c1a86",
@@ -672,7 +702,9 @@
   {
     "id": "7bcb4dee-c516-4df9-bc5a-f24ea2cdde67",
     "name": "Auf dunklen Schwingen",
-    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe furchterregende Fledermausflügel wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen."
+    "description": "Als Standard-Aktion kann der Hexenmeister ab der 15. Stufe furchterregende Fledermausflügel wachsen lassen und mit einer Bewegungsrate von 18 m und durchschnittlicher Manövrierfähigkeit fliegen. Er kann die Schwingen als Freie Aktion wieder verschwinden lassen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "fe557930-7026-4e9c-ad74-4655be7586f9",
@@ -847,7 +879,9 @@
   {
     "id": "373da33f-1121-5e6b-abec-033d06b191c8",
     "name": "Bund mit Gefährten",
-    "description": "Der Waldläufer kann als Bewegungsaktion allen Verbündeten innerhalb von 9 m, die ihn sehen oder hören können, für eine Anzahl von Runden gleich seinem WE-Modifikator (Minimum 1) die Hälfte seines Erzfeindbonusses gegen einen einzelnen Gegner geben; das addiert sich nicht mit eigenen Erzfeind-Boni der Verbündeten, es zählt der höchste."
+    "description": "Der Waldläufer kann als Bewegungsaktion allen Verbündeten innerhalb von 9 m, die ihn sehen oder hören können, für eine Anzahl von Runden gleich seinem WE-Modifikator (Minimum 1) die Hälfte seines Erzfeindbonusses gegen einen einzelnen Gegner geben; das addiert sich nicht mit eigenen Erzfeind-Boni der Verbündeten, es zählt der höchste.",
+    "is_persistent_effect": true,
+    "activation_scope": "external"
   },
   {
     "id": "a98d91f5-2dff-506e-8bcc-03b3166ae731",
@@ -937,7 +971,9 @@
   {
     "id": "d199549e-9110-5ef7-8357-1a930f07e2bf",
     "name": "Lockruf des Firmaments",
-    "description": "Deine Verbindung zum Firmament ist so stark, dass deine Füße kaum noch den Boden berühren. Ab der 1. Stufe hinterlässt du keine Spuren mehr. Ab der 5. Stufe kannst du bis zu 15 cm über dem Boden und sogar der Oberfläche von Flüssigkeiten schweben. Auf der 10. Stufe erhältst du für eine Anzahl von Minuten in Höhe deiner Stufe als Mystiker die Fähigkeit Fliegen (wie der gleichnamige Zauber). Diese Minuten müssen nicht aufeinander folgen, werden jedoch in Einheiten von jeweils einer Minute berechnet."
+    "description": "Deine Verbindung zum Firmament ist so stark, dass deine Füße kaum noch den Boden berühren. Ab der 1. Stufe hinterlässt du keine Spuren mehr. Ab der 5. Stufe kannst du bis zu 15 cm über dem Boden und sogar der Oberfläche von Flüssigkeiten schweben. Auf der 10. Stufe erhältst du für eine Anzahl von Minuten in Höhe deiner Stufe als Mystiker die Fähigkeit Fliegen (wie der gleichnamige Zauber). Diese Minuten müssen nicht aufeinander folgen, werden jedoch in Einheiten von jeweils einer Minute berechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "a5e1fa0a-c458-5327-9556-14783e95cd55",
@@ -962,7 +998,9 @@
   {
     "id": "3361a381-2b91-5f0b-9574-ab0dd8ac2496",
     "name": "Sternenmantel",
-    "description": "Du rufst einen Mantel aus dem Leuchten der Sterne herbei, welcher dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier weiteren Stufen steigt dieser Bonus um +2. Ab der 13. Stufe verleiht die Rüstung dir SR 5/Hieb. Du kannst den Mantel jeden Tag für 1 Stunde pro Stufe als Mystiker tragen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde berechnet."
+    "description": "Du rufst einen Mantel aus dem Leuchten der Sterne herbei, welcher dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier weiteren Stufen steigt dieser Bonus um +2. Ab der 13. Stufe verleiht die Rüstung dir SR 5/Hieb. Du kannst den Mantel jeden Tag für 1 Stunde pro Stufe als Mystiker tragen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde berechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "20324cb4-fc15-5a90-802d-eeb5ff9d6500",
@@ -987,7 +1025,9 @@
   {
     "id": "ef188712-72e5-5aea-9ea9-7943b31d0648",
     "name": "Feuerschwingen",
-    "description": "Als Schnelle Aktion kannst du ein Paar feuriger Schwingen an dir erscheinen lassen, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Du kannst diese Flügel täglich für die Dauer einer Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Schnelle Aktion kannst du ein Paar feuriger Schwingen an dir erscheinen lassen, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Du kannst diese Flügel täglich für die Dauer einer Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "6ad28d92-28da-5779-ac5a-89e6e9a772ce",
@@ -1002,7 +1042,9 @@
   {
     "id": "f4ebc5ba-0a88-5830-a4db-1504a91d964b",
     "name": "Flammengestalt",
-    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Feuerelementars annehmen, wie durch den gleichnamigen Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Feuerelementars annehmen, wie durch den Zauber Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Feuerelementars annehmen, wie durch den Zauber Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Feuerelementars annehmen, wie durch den Zauber Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden, die Wirkungsdauer beträgt1 Stunde pro deiner Stufe als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Feuerelementars annehmen, wie durch den gleichnamigen Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Feuerelementars annehmen, wie durch den Zauber Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Feuerelementars annehmen, wie durch den Zauber Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Feuerelementars annehmen, wie durch den Zauber Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden, die Wirkungsdauer beträgt1 Stunde pro deiner Stufe als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "b2eefa1d-8491-580d-86c7-bce31f02009d",
@@ -1012,7 +1054,9 @@
   {
     "id": "02f45727-4b6e-514b-ad25-5fcfcfee7515",
     "name": "Flammensicht",
-    "description": "Du kannst, solange die Lichtverhältnisse ausreichen, durch Feuer, Nebel und Rauch sehen ohne Abzüge zu erleiden. Ab der 7. Stufe kannst du durch jedes Feuers blicken, das sich nicht mehr als 3 m pro deiner Stufe als Mystiker von dir entfernt befindet, als ob du den Zauber Hellsicht wirken würdest. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+    "description": "Du kannst, solange die Lichtverhältnisse ausreichen, durch Feuer, Nebel und Rauch sehen ohne Abzüge zu erleiden. Ab der 7. Stufe kannst du durch jedes Feuers blicken, das sich nicht mehr als 3 m pro deiner Stufe als Mystiker von dir entfernt befindet, als ob du den Zauber Hellsicht wirken würdest. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Diese Runden müssen nicht aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "9ec94cd3-e685-5341-9c20-cbfccea6b709",
@@ -1022,7 +1066,9 @@
   {
     "id": "70ef7b96-79eb-5c55-8e82-65998908267c",
     "name": "Geistwandeln",
-    "description": "Als Standard-Aktion kannst du körperlos und unsichtbar werden. In dieser Gestalt kannst du dich in jede Richtung und durch alle Objekte, die nicht aus Energie bestehen, hindurch bewegen. Du kannst in dieser Gestalt keine andere Aktion ausführen als dich zu bewegen. Du kannst diese Gestalt eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten, du kannst diesen Effekt jedoch auch schon vorher als Standard-Aktion beenden. Du kannst diese Fähigkeit auf der 11. Stufe einmal täglich anwenden und zweimal täglich auf der 15. Stufe. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Standard-Aktion kannst du körperlos und unsichtbar werden. In dieser Gestalt kannst du dich in jede Richtung und durch alle Objekte, die nicht aus Energie bestehen, hindurch bewegen. Du kannst in dieser Gestalt keine andere Aktion ausführen als dich zu bewegen. Du kannst diese Gestalt eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten, du kannst diesen Effekt jedoch auch schon vorher als Standard-Aktion beenden. Du kannst diese Fähigkeit auf der 11. Stufe einmal täglich anwenden und zweimal täglich auf der 15. Stufe. Du musst mindestens die 11. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "ab409284-c35f-59d3-9a7f-9bc5274dbcef",
@@ -1032,7 +1078,9 @@
   {
     "id": "6dff525d-9083-5964-a9e0-518cac42d1dd",
     "name": "Knochenrüstung",
-    "description": "Du kannst eine Rüstung aus Knochen beschwören, die dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier Stufen danach erhöht sich dieser Bonus um weitere +2. Ab der 13. Stufe verleiht dir die Rüstung SR 5/Wucht. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet."
+    "description": "Du kannst eine Rüstung aus Knochen beschwören, die dir einen Rüstungsbonus von +4 verleiht. Auf der 7. Stufe und alle vier Stufen danach erhöht sich dieser Bonus um weitere +2. Ab der 13. Stufe verleiht dir die Rüstung SR 5/Wucht. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "882b23fa-c8ef-5d01-912b-12b32a5b9876",
@@ -1072,7 +1120,9 @@
   {
     "id": "4346e1e8-1a99-5f73-b07e-e98aa589dbd0",
     "name": "Energiegestalt",
-    "description": "Als Standard-Aktion kann du deinen Körper in reine Energie verwandeln, so dass du einem gold-weißen Feuerelementar ähnelst. In dieser Gestalt erhältst du die Unterart Elementar und gibst ein warmes, freundliches Licht ab, welches die Lichtverhältnisse innerhalb von 3 m um eine Kategorie verbessert, bis hin zu normalem Licht. Jede untote Kreatur, die dich mit einer Nahkampfwaffe oder ihren eigenen körperlichen Angriffen trifft, verursacht den normalen Schaden, erleidet selbst aber 1W6 Schadenspunkte durch positive Energie + 1 Punkt für je eine deiner Stufen als Mystiker. Kreaturen mit Nahkampfwaffen, die Reichweite besitzen (Stangenwaffen u.a.) sind nicht betroffen. Falls du dich mit einer untoten Kreatur im Ringkampf befindest oder sie mit waffenlosen Schlägen oder natürlichen Waffen angreifst, kannst du diesen Schaden statt des normalen Angriffsschadens Angriffsschadens verursachen. Einmal pro Runde, wenn du in dieser Gestalt das Feld eines lebenden Verbündeten durchquerst, oder ein lebender Verbündeter dein Feld durchquert, heilt er 1W6 Trefferpunkte + 1 Punkt für je eine deiner Stufen als Mystiker, sofern dies deinem Wunsch entspricht. Du kannst diese Fähigkeit auch als Bewegungsaktion nutzen, um dich selbst zu heilen. Du kannst jeder Zeit mit einer Freien Aktion deine normale Gestalt wieder annehmen. Du kannst die Energiegestalt täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten."
+    "description": "Als Standard-Aktion kann du deinen Körper in reine Energie verwandeln, so dass du einem gold-weißen Feuerelementar ähnelst. In dieser Gestalt erhältst du die Unterart Elementar und gibst ein warmes, freundliches Licht ab, welches die Lichtverhältnisse innerhalb von 3 m um eine Kategorie verbessert, bis hin zu normalem Licht. Jede untote Kreatur, die dich mit einer Nahkampfwaffe oder ihren eigenen körperlichen Angriffen trifft, verursacht den normalen Schaden, erleidet selbst aber 1W6 Schadenspunkte durch positive Energie + 1 Punkt für je eine deiner Stufen als Mystiker. Kreaturen mit Nahkampfwaffen, die Reichweite besitzen (Stangenwaffen u.a.) sind nicht betroffen. Falls du dich mit einer untoten Kreatur im Ringkampf befindest oder sie mit waffenlosen Schlägen oder natürlichen Waffen angreifst, kannst du diesen Schaden statt des normalen Angriffsschadens Angriffsschadens verursachen. Einmal pro Runde, wenn du in dieser Gestalt das Feld eines lebenden Verbündeten durchquerst, oder ein lebender Verbündeter dein Feld durchquert, heilt er 1W6 Trefferpunkte + 1 Punkt für je eine deiner Stufen als Mystiker, sofern dies deinem Wunsch entspricht. Du kannst diese Fähigkeit auch als Bewegungsaktion nutzen, um dich selbst zu heilen. Du kannst jeder Zeit mit einer Freien Aktion deine normale Gestalt wieder annehmen. Du kannst die Energiegestalt täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker aufrechterhalten.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "7026b46f-d845-55f1-8620-2201256284bb",
@@ -1167,12 +1217,16 @@
   {
     "id": "626e2d8e-01f7-54ac-bd7e-10fcacf777aa",
     "name": "Übernatürliches Band",
-    "description": "Du bist derartig auf das Band, das alles Leben durchdringt, eingestellt, dass du es nutzen kannst, um mit deinen Verbündeten zu kommunizieren. Du kannst mit deinen Verbündeten am Tag für einen Anzahl von Runden in Höhe deines CH-Modifikators wie durch den gleichnamigen Zauber Telepathisches Band kommunizieren. Du kannst eine Anzahl von Wesen in Höhe deines CH-Modifikators als Verbündete bestimmen, was jedoch für jedes Wesen eine Standard-Aktion und eine Berührung erfordert. Ab der 10. Stufe kannst du dieses Band nutzen, um einmal pro Tag einen Zauber auf einen Verbündeten mit der Reichweite Berührung zu wirken."
+    "description": "Du bist derartig auf das Band, das alles Leben durchdringt, eingestellt, dass du es nutzen kannst, um mit deinen Verbündeten zu kommunizieren. Du kannst mit deinen Verbündeten am Tag für einen Anzahl von Runden in Höhe deines CH-Modifikators wie durch den gleichnamigen Zauber Telepathisches Band kommunizieren. Du kannst eine Anzahl von Wesen in Höhe deines CH-Modifikators als Verbündete bestimmen, was jedoch für jedes Wesen eine Standard-Aktion und eine Berührung erfordert. Ab der 10. Stufe kannst du dieses Band nutzen, um einmal pro Tag einen Zauber auf einen Verbündeten mit der Reichweite Berührung zu wirken.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "c4cca964-bb45-5019-bfdc-cd756b58a2d1",
     "name": "Eisenhaut",
-    "description": "Einmal täglich kannst du deine Haut verhärten und ihr das Aussehen von Eisen geben. Dies gewährt dir SR 10/Adamant, wie der Zauber Steinhaut mit deiner Stufe als Mystiker als Zauberstufe. Auf der 15. Stufe kannst du diese Fähigkeit zweimal täglich anwenden. Du musst mindestens die 11. Stufe erreicht haben um diese Offenbarung auswählen zu können."
+    "description": "Einmal täglich kannst du deine Haut verhärten und ihr das Aussehen von Eisen geben. Dies gewährt dir SR 10/Adamant, wie der Zauber Steinhaut mit deiner Stufe als Mystiker als Zauberstufe. Auf der 15. Stufe kannst du diese Fähigkeit zweimal täglich anwenden. Du musst mindestens die 11. Stufe erreicht haben um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "128e0c89-bbee-5b41-acf4-5d19118f2018",
@@ -1192,7 +1246,9 @@
   {
     "id": "6d85238f-584d-50f9-be18-5aa3af968c22",
     "name": "Schlachtruf",
-    "description": "Du kannst als Standard-Aktion einen inspirierenden Schlachtruf von dir geben. Alle Verbündeten innerhalb von 30 m, die ihn hören, erhalten einen Moralbonus von +1 auf ihre Angriffs-, Fertigkeits- und Rettungswürfe für eine Anzahl von Runden in Höhe deines CH-Modifikators. Auf der 10. Stufe steigt dieser Bonus auf +2. Du kannst diese Fähigkeit einmal täglich und ein weiteres Mal am Tag auf der 5. Stufe sowie alle weiteren fünf Stufen anwenden."
+    "description": "Du kannst als Standard-Aktion einen inspirierenden Schlachtruf von dir geben. Alle Verbündeten innerhalb von 30 m, die ihn hören, erhalten einen Moralbonus von +1 auf ihre Angriffs-, Fertigkeits- und Rettungswürfe für eine Anzahl von Runden in Höhe deines CH-Modifikators. Auf der 10. Stufe steigt dieser Bonus auf +2. Du kannst diese Fähigkeit einmal täglich und ein weiteres Mal am Tag auf der 5. Stufe sowie alle weiteren fünf Stufen anwenden.",
+    "is_persistent_effect": true,
+    "activation_scope": "external"
   },
   {
     "id": "ff8c3a36-f552-52d0-9b68-114418fea1ee",
@@ -1222,7 +1278,9 @@
   {
     "id": "d5c3647d-ba42-55ac-961f-944a914feb79",
     "name": "Durch Erde gleiten",
-    "description": "Du kannst durch Stein und nahezu jede Art von Erde gleiten, wie ein Fische durchs Wasser, jedoch nicht durch bearbeiteten Stein sowie bearbeitetes Metall. Sofern du gegen Feuerschaden geschützt bist, kannst du auch durch Lava gleiten. Deine Geschwindigkeit entspricht deiner normalen Bewegungsrate. Du atmest im Stein als wäre er Luft (du musst nicht den Atem anhalten). Du hinterlässt keinen Tunnel, kein Loch und auch keine Wellenbewegungen oder sonstige Spuren deiner Anwesenheit. Ein Erde bewegen- Zauber, der auf den Bereich gewirkt wird, in dem du dich befindest, schleudert dich 9 m zurück und betäubt dich für 1 Runde, sofern dir kein Zähigkeitswurf gegen SG 15 gelingt. Diese Fähigkeit lässt sich als Freie Aktion aktivieren. Du kannst täglich für eine Minute für je eine deiner Stufen als Mystiker durch Erde gleiten. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute berechnet. Du kannst auch andere Kreaturen mit dir nehmen, allerdings kostet dich jeder Passagier 1 Minute Reisezeit. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Du kannst durch Stein und nahezu jede Art von Erde gleiten, wie ein Fische durchs Wasser, jedoch nicht durch bearbeiteten Stein sowie bearbeitetes Metall. Sofern du gegen Feuerschaden geschützt bist, kannst du auch durch Lava gleiten. Deine Geschwindigkeit entspricht deiner normalen Bewegungsrate. Du atmest im Stein als wäre er Luft (du musst nicht den Atem anhalten). Du hinterlässt keinen Tunnel, kein Loch und auch keine Wellenbewegungen oder sonstige Spuren deiner Anwesenheit. Ein Erde bewegen- Zauber, der auf den Bereich gewirkt wird, in dem du dich befindest, schleudert dich 9 m zurück und betäubt dich für 1 Runde, sofern dir kein Zähigkeitswurf gegen SG 15 gelingt. Diese Fähigkeit lässt sich als Freie Aktion aktivieren. Du kannst täglich für eine Minute für je eine deiner Stufen als Mystiker durch Erde gleiten. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Minute berechnet. Du kannst auch andere Kreaturen mit dir nehmen, allerdings kostet dich jeder Passagier 1 Minute Reisezeit. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "c67b9a3c-208b-5606-9002-0c23b86257ee",
@@ -1232,7 +1290,9 @@
   {
     "id": "560cb7cc-e711-5f37-99fb-a923d5d4297c",
     "name": "Kristallblick",
-    "description": "Du kannst durch Stein, Erde oder Sand sehen, als wäre es durchsichtiger Kristall. Dein Blick reicht 30 cm für je eine deiner Stufen als Mystiker. Solltest du versuchen durch Metall zu blicken, sinkt die Reichweite auf ein Zehntel. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen."
+    "description": "Du kannst durch Stein, Erde oder Sand sehen, als wäre es durchsichtiger Kristall. Dein Blick reicht 30 cm für je eine deiner Stufen als Mystiker. Solltest du versuchen durch Metall zu blicken, sinkt die Reichweite auf ein Zehntel. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "fd06b172-d9f0-597e-9aa6-33264af6b16f",
@@ -1262,7 +1322,9 @@
   {
     "id": "861104d2-d59f-5b7a-a415-7c81f8e2082a",
     "name": "Stahlharte Haut",
-    "description": "Als Standard-Aktion kann du dein Fleisch derart verhärten, dass Waffen, die dich treffen, beschädigt oder zerstört werden. Jedes Mal, wenn dich eine Nah- oder Fernkampfwaffe trifft, nimmt diese Schaden in Höhe deiner Stufe als Mystiker. Dies verhindert nicht, dass du verletzt wirst, außer die Waffe wird durch den Effekt zerstört. Du kannst diese Fähigkeit täglich für 1 Minute für je eine deiner Stufen als Mystiker einsetzen. Ab der 15. Stufe ignoriert der von dir verursachte Schaden dieser Fähigkeit eine Härte von 10. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Standard-Aktion kann du dein Fleisch derart verhärten, dass Waffen, die dich treffen, beschädigt oder zerstört werden. Jedes Mal, wenn dich eine Nah- oder Fernkampfwaffe trifft, nimmt diese Schaden in Höhe deiner Stufe als Mystiker. Dies verhindert nicht, dass du verletzt wirst, außer die Waffe wird durch den Effekt zerstört. Du kannst diese Fähigkeit täglich für 1 Minute für je eine deiner Stufen als Mystiker einsetzen. Ab der 15. Stufe ignoriert der von dir verursachte Schaden dieser Fähigkeit eine Härte von 10. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "cfbc1296-a768-5d9e-bf30-3df75842868a",
@@ -1272,7 +1334,9 @@
   {
     "id": "8b0a0c19-5e3c-56cf-bcf4-1c2715d50342",
     "name": "Auf Flüssigkeit wandeln",
-    "description": "Du kannst auf Flüssigkeiten gehen wie auf festem Boden. Du nimmst dabei keinerlei Schaden, was es dir ermöglicht, auch über Säure und Lava zu gehen (im letzteren Fall nimmst du jedoch immer noch Feuerschaden durch die Nähe der Lava). Du kannst dich mit deiner normalen Bewegungsrate bewegen. Ab der 7. Stufe kannst du auch unter Wasser gehen, du erhältst eine Schwimmbewegungsrate von 18 m und die Fähigkeit, Wasser zu atmen. Du kannst diese Fähigkeit täglich für 1 Stunde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten zu jeweils einer Stunde abgerechnet."
+    "description": "Du kannst auf Flüssigkeiten gehen wie auf festem Boden. Du nimmst dabei keinerlei Schaden, was es dir ermöglicht, auch über Säure und Lava zu gehen (im letzteren Fall nimmst du jedoch immer noch Feuerschaden durch die Nähe der Lava). Du kannst dich mit deiner normalen Bewegungsrate bewegen. Ab der 7. Stufe kannst du auch unter Wasser gehen, du erhältst eine Schwimmbewegungsrate von 18 m und die Fähigkeit, Wasser zu atmen. Du kannst diese Fähigkeit täglich für 1 Stunde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten zu jeweils einer Stunde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "44e384b3-b038-52bd-8e04-7283851be29f",
@@ -1287,7 +1351,9 @@
   {
     "id": "f890b332-61d1-5792-be21-5d1906716a21",
     "name": "Eisrüstung",
-    "description": "Du kannst eine Rüstung aus Eis beschwören, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Auf der 13. Stufe verleiht dir die Rüstung SR 5/Stich. In einer kalten Umgebung erhältst du zusätzlich einen Bonus von +2 auf deine RK und SR, in einer heißen Umgebung erleidest du dahingegen einen Malus von -2. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet."
+    "description": "Du kannst eine Rüstung aus Eis beschwören, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Auf der 13. Stufe verleiht dir die Rüstung SR 5/Stich. In einer kalten Umgebung erhältst du zusätzlich einen Bonus von +2 auf deine RK und SR, in einer heißen Umgebung erleidest du dahingegen einen Malus von -2. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils einer Stunde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "df7f9d6e-789b-532b-a05e-1e6db6bba24b",
@@ -1307,12 +1373,16 @@
   {
     "id": "527deb95-4c2a-5070-a179-ecbacb2fee02",
     "name": "Wasserblick",
-    "description": "Du kannst ohne Mali durch neblige Verhältnisse blicken, sofern die Lichtverhältnisse ausreichen, um normal sehen zu können. Ab der 7. Stufe kannst du jedes stehende Gewässer von wenigstens 30 cm Durchmesser zum Ausspähen verwenden, als würdest du Ausspähung wirken. Ab der 15. Stufe funktioniert dies wie Mächtiges Ausspähung. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen."
+    "description": "Du kannst ohne Mali durch neblige Verhältnisse blicken, sofern die Lichtverhältnisse ausreichen, um normal sehen zu können. Ab der 7. Stufe kannst du jedes stehende Gewässer von wenigstens 30 cm Durchmesser zum Ausspähen verwenden, als würdest du Ausspähung wirken. Ab der 15. Stufe funktioniert dies wie Mächtiges Ausspähung. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Mystiker einsetzen. Die Runden müssen nicht aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "5d5e1d0b-09b1-5b47-9c4d-adec92072863",
     "name": "Wassergestalt",
-    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Wasserelementars annehmen, wie durch den Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Wasserelementars annehmen, wie durch Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Wasserelementars annehmen, wie mit Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Wasserelementars annehmen, wie mit Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden. Die Wirkungsdauer beträgt 1 Stunde für je eine deiner Stufen als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Standard-Aktion kannst du die Gestalt eines Kleinen Wasserelementars annehmen, wie durch den Zauber Elementargestalt I. Ab der 9. Stufe kannst du die Gestalt eines Mittelgroßen Wasserelementars annehmen, wie durch Elementargestalt II. Ab der 11. Stufe kannst du die Gestalt eines Großen Wasserelementars annehmen, wie mit Elementargestalt III. Ab der 13. Stufe kannst du die Gestalt eines Riesigen Wasserelementars annehmen, wie mit Elementargestalt IV. Du kannst diese Fähigkeit einmal am Tag anwenden. Die Wirkungsdauer beträgt 1 Stunde für je eine deiner Stufen als Mystiker. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "c42dfec3-3478-528a-aaf8-f7ec57dbdc8e",
@@ -1342,27 +1412,37 @@
   {
     "id": "7936f2ea-fb50-5183-9495-d744b7a8a52b",
     "name": "Gasförmige Gestalt",
-    "description": "Als Standard-Aktion kannst du eine Gasförmige Gestalt annehmen, wie der gleichnamige Zauber. Du kannst täglich für 1 Minute für je eine deiner Stufen als Mystiker gasförmig bleiben, diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von 1 Minute berechnet. Du kannst auch andere Kreaturen in gasförmiger Gestalt mit dir nehmen, allerdings kostet dich jeder Mitreisende 1 Minute deiner verfügbaren Zeit. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst."
+    "description": "Als Standard-Aktion kannst du eine Gasförmige Gestalt annehmen, wie der gleichnamige Zauber. Du kannst täglich für 1 Minute für je eine deiner Stufen als Mystiker gasförmig bleiben, diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von 1 Minute berechnet. Du kannst auch andere Kreaturen in gasförmiger Gestalt mit dir nehmen, allerdings kostet dich jeder Mitreisende 1 Minute deiner verfügbaren Zeit. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "71b3df2b-2528-5c08-b734-ceec9643538b",
     "name": "Luftbarriere",
-    "description": "Du kannst eine unsichtbare Hülle aus Luft erschaffen, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Ab der 13. Stufe sorgt diese Barriere dafür, dass Pfeile, Strahlen und andere Fernkampfangriffe, die einen Angriffswurf erfordern, zu 50% fehlschlagen. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Stunde abgerechnet."
+    "description": "Du kannst eine unsichtbare Hülle aus Luft erschaffen, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Ab der 13. Stufe sorgt diese Barriere dafür, dass Pfeile, Strahlen und andere Fernkampfangriffe, die einen Angriffswurf erfordern, zu 50% fehlschlagen. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Stunde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "fface2cd-971d-5f26-958d-e62743f07000",
     "name": "Luftschwingen",
-    "description": "Als Schnelle Aktion kannst du ein Paar durchsichtiger, wolkenartiger Schwingen ausbilden, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Auf der 10. Stufe steigt die Bewegungsrate auf 27 Meter und die Manövrierfähigkeit auf Perfekt. Du kannst diese Flügel täglich für 1 Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst."
+    "description": "Als Schnelle Aktion kannst du ein Paar durchsichtiger, wolkenartiger Schwingen ausbilden, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Auf der 10. Stufe steigt die Bewegungsrate auf 27 Meter und die Manövrierfähigkeit auf Perfekt. Du kannst diese Flügel täglich für 1 Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "f186dc51-4400-5f14-855a-515dcdba4846",
     "name": "Unsichtbarkeit",
-    "description": "Als Standard-Aktion kann du dich unsichtbar machen, wie der gleichnamige Zauber Unsichtbarkeit. Du kannst täglich 1 Minute für je eine deiner Stufen als Mystiker unsichtbar bleiben. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute berechnet. Ab der 9. Stufe wirst du behandelt, als stündest du unter dem Zauber Mächtige Unsichtbarkeit. Hierbei kostet dich jedoch jede Runde eine Minute deiner täglich zur Verfügung stehenden Zeit. Du musst mindestens die 3. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
+    "description": "Als Standard-Aktion kann du dich unsichtbar machen, wie der gleichnamige Zauber Unsichtbarkeit. Du kannst täglich 1 Minute für je eine deiner Stufen als Mystiker unsichtbar bleiben. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute berechnet. Ab der 9. Stufe wirst du behandelt, als stündest du unter dem Zauber Mächtige Unsichtbarkeit. Hierbei kostet dich jedoch jede Runde eine Minute deiner täglich zur Verfügung stehenden Zeit. Du musst mindestens die 3. Stufe erreicht haben, um diese Offenbarung auswählen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "bb012af1-7a14-5e96-b16c-27f38179d925",
     "name": "Windblick",
-    "description": "Bei Wind kannst du Mali auf deine Fertigkeitswürfe für Wahrnehmung bis zu einer Entfernung von 30 m ignorieren. Ab der 7. Stufe kannst du in jeden Bereich innerhalb der Reichweite wie mit dem gleichnamigen Zauber Hellhören/Hellsehen hineinblicken und -horchen, sofern die Luft zwischen dir und dem Zielgebiet nicht blockiert wird (dies erfordert keine Sichtlinie, d.h. der Weg zum Ziel kann um Ecken oder durch Löcher von mindestens 3 cm Durchmesser führen). Du kannst diese Fähigkeit täglich für 1 Runde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Runde abgerechnet."
+    "description": "Bei Wind kannst du Mali auf deine Fertigkeitswürfe für Wahrnehmung bis zu einer Entfernung von 30 m ignorieren. Ab der 7. Stufe kannst du in jeden Bereich innerhalb der Reichweite wie mit dem gleichnamigen Zauber Hellhören/Hellsehen hineinblicken und -horchen, sofern die Luft zwischen dir und dem Zielgebiet nicht blockiert wird (dies erfordert keine Sichtlinie, d.h. der Weg zum Ziel kann um Ecken oder durch Löcher von mindestens 3 cm Durchmesser führen). Du kannst diese Fähigkeit täglich für 1 Runde für je eine deiner Stufen als Mystiker anwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Runde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "507cc482-0ac7-53ec-90aa-4c2a98f2864b",
@@ -1402,7 +1482,9 @@
   {
     "id": "b1a6cfb2-3154-5957-a961-59be65e15445",
     "name": "Tiefe Meditation",
-    "description": "Du kannst in tiefe Meditation versinken, in der du alle visuellen und akustischen Sinneseindrücke ausblendest. Anschließend kannst du dich auf ein einzelnes Problem konzentrieren, auf eine philosophische Auseinandersetzung oder eine Erinnerung. Diese Meditation hält für 1W6 Runden an. Während dieser Zeit kannst du nur Bewegungsaktionen durchführen, und erhältst einen Bonus in Höhe deiner Stufe als Mystiker auf alle Rettungswürfe gegen Schalleffekte und Blickangriffe. Wenn du aus deiner Meditation erwachst, kannst du einen einzelnen auf Intelligenz basierenden Fertigkeitswurf mit einem Situationsbonus von +20 ablegen. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators einsetzen."
+    "description": "Du kannst in tiefe Meditation versinken, in der du alle visuellen und akustischen Sinneseindrücke ausblendest. Anschließend kannst du dich auf ein einzelnes Problem konzentrieren, auf eine philosophische Auseinandersetzung oder eine Erinnerung. Diese Meditation hält für 1W6 Runden an. Während dieser Zeit kannst du nur Bewegungsaktionen durchführen, und erhältst einen Bonus in Höhe deiner Stufe als Mystiker auf alle Rettungswürfe gegen Schalleffekte und Blickangriffe. Wenn du aus deiner Meditation erwachst, kannst du einen einzelnen auf Intelligenz basierenden Fertigkeitswurf mit einem Situationsbonus von +20 ablegen. Du kannst diese Fähigkeit täglich in Höhe deines CH-Modifikators einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "ad6e75d3-45dd-527a-ab06-831ab19dff2d",
@@ -1442,7 +1524,9 @@
   {
     "id": "2ec15ddd-5911-585a-99bd-f6804a827e44",
     "name": "Letzte Offenbarung (Natur)",
-    "description": "Auf der 20. Stufe entdeckst du das Geheimnis des Lebens selbst und gewinnst unvorstellbare Kontrolle über deinen Körper. Einmal am Tag kannst du dich mit einer Vollen Aktion mit einem organischen Kokon umgeben. Während du dich in dem Kokon befindest, giltst du als hilflos. Nach 8 Stunden verlässt du ihn wieder. Deine Art hat sich zu Pflanze, Tier oder Humanoider geändert, was dir die damit einhergehenden körperlichen Eigenschaften verleiht (siehe Monsterhandbuch). Diese Verwandlung ändert jedoch weder deine Trefferwürfel, Trefferpunkte, Rettungswürfe, Fertigkeitspunkte, Klassenfertigkeiten, noch deine Fähigkeit im Umgang mit Waffen oder Rüstungen. Jedes Mal, wenn du dich der Verwandlung unterziehst, wirst du von allen Giften und Krankheiten gereinigt, erlangst deine volle Trefferpunktzahl und heilst sämtlichen Attributsschaden. Bei jeder Verwandlung musst du eine andere Art wählen."
+    "description": "Auf der 20. Stufe entdeckst du das Geheimnis des Lebens selbst und gewinnst unvorstellbare Kontrolle über deinen Körper. Einmal am Tag kannst du dich mit einer Vollen Aktion mit einem organischen Kokon umgeben. Während du dich in dem Kokon befindest, giltst du als hilflos. Nach 8 Stunden verlässt du ihn wieder. Deine Art hat sich zu Pflanze, Tier oder Humanoider geändert, was dir die damit einhergehenden körperlichen Eigenschaften verleiht (siehe Monsterhandbuch). Diese Verwandlung ändert jedoch weder deine Trefferwürfel, Trefferpunkte, Rettungswürfe, Fertigkeitspunkte, Klassenfertigkeiten, noch deine Fähigkeit im Umgang mit Waffen oder Rüstungen. Jedes Mal, wenn du dich der Verwandlung unterziehst, wirst du von allen Giften und Krankheiten gereinigt, erlangst deine volle Trefferpunktzahl und heilst sämtlichen Attributsschaden. Bei jeder Verwandlung musst du eine andere Art wählen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "4eb7ed7b-7357-5e19-9f13-c7b89eeceed3",
@@ -1527,7 +1611,9 @@
   {
     "id": "b02eb3bf-d9dd-5051-a493-e017764393b4",
     "name": "Wort der Begeisterung",
-    "description": "Du kannst mit einer Standard-Aktion einer Kreatur, die sich höchstens 9 m von dir entfernt befindet, ein Wort der Begeisterung zurufen. Das Ziel erhält einen Moralbonus von +2 auf seine Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Anzahl von Runden, die deiner halben Klerikerstufe (Minimum 1 Runde) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst mit einer Standard-Aktion einer Kreatur, die sich höchstens 9 m von dir entfernt befindet, ein Wort der Begeisterung zurufen. Das Ziel erhält einen Moralbonus von +2 auf seine Angriffs-, Fertigkeits-, Attributs- und Rettungswürfe für eine Anzahl von Runden, die deiner halben Klerikerstufe (Minimum 1 Runde) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "2186a767-3e74-5b08-ae41-5cf34b9c10a8",
@@ -1542,12 +1628,16 @@
   {
     "id": "52eae60a-ba7f-554b-9180-0c74b6668e2f",
     "name": "Freiheit",
-    "description": "Du hast die Fähigkeit, Beeinträchtigungen deiner Bewegungsmöglichkeiten zu ignorieren. Für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, kannst du dich normale bewegen, unabhängig von magischen Effekten, die die Bewegung einschränken, als stündest du unter dem Effekt des Zaubers Bewegungsfreiheit. Dieser Effekt tritt automatisch ein, sobald er angewandt wird. Diese Runden müssen nicht aufeinander folgen."
+    "description": "Du hast die Fähigkeit, Beeinträchtigungen deiner Bewegungsmöglichkeiten zu ignorieren. Für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, kannst du dich normale bewegen, unabhängig von magischen Effekten, die die Bewegung einschränken, als stündest du unter dem Effekt des Zaubers Bewegungsfreiheit. Dieser Effekt tritt automatisch ein, sobald er angewandt wird. Diese Runden müssen nicht aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "490c51c2-6f9b-59fc-a9bf-81cb961e343a",
     "name": "Ruf der Freiheit",
-    "description": "Ab der 8. Stufe kannst du für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, eine Aura der Freiheit mit einem Radius von 9 m ausstrahlen. Verbündete innerhalb des Wirkungsbereichs können nicht von den Zuständen ringend, verwirrt, verängstigt, in Panik, gelähmt, im Haltegriff oder erschüttert betroffen werden. Die Aura unterdrückt die Wirkung dieser Zustände jedoch nur. Verlässt die betroffene Kreatur den Wirkungsbereich oder endet die Wirkung, setzt der Zustand wieder ein. Die Runden müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du für eine Anzahl von Runden, die deiner Klerikerstufe entspricht, eine Aura der Freiheit mit einem Radius von 9 m ausstrahlen. Verbündete innerhalb des Wirkungsbereichs können nicht von den Zuständen ringend, verwirrt, verängstigt, in Panik, gelähmt, im Haltegriff oder erschüttert betroffen werden. Die Aura unterdrückt die Wirkung dieser Zustände jedoch nur. Verlässt die betroffene Kreatur den Wirkungsbereich oder endet die Wirkung, setzt der Zustand wieder ein. Die Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "external"
   },
   {
     "id": "f10925f4-f5c7-56b0-bf61-1927bcf53efe",
@@ -1562,7 +1652,9 @@
   {
     "id": "60465a55-1389-59c3-a851-1ccdab74a1b0",
     "name": "Sense des Bösen",
-    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Unheilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle weiteren 4 Stufen."
+    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Unheilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle weiteren 4 Stufen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "895c05b6-d881-56e6-a2d3-a4059c75fa75",
@@ -1577,7 +1669,9 @@
   {
     "id": "debb26cd-7963-5660-b4be-ea8632509450",
     "name": "Chaosklinge",
-    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl an Runden in Höhe deiner halben Klerikerstufe zu einer Waffe der Anarchie verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle 4 weiteren Stufen."
+    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl an Runden in Höhe deiner halben Klerikerstufe zu einer Waffe der Anarchie verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle 4 weiteren Stufen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "5b17c8e9-7cdb-55a7-a2e1-b150684aa1f0",
@@ -1592,7 +1686,9 @@
   {
     "id": "97e4470b-334e-5961-a7cf-888467a6ef03",
     "name": "Augen der Dunkelheit",
-    "description": "Ab der 8. Stufe wird deine Sicht niemals durch Lichtverhältnisse eingeschränkt, selbst in absoluter oder magischer Dunkelheit. Du kannst diese Fähigkeit für eine Anzahl von Runden am Tag einsetzen, die der Hälfte deiner Klerikerstufe entspricht. Diese Runden müssen nicht aufeinander folgen."
+    "description": "Ab der 8. Stufe wird deine Sicht niemals durch Lichtverhältnisse eingeschränkt, selbst in absoluter oder magischer Dunkelheit. Du kannst diese Fähigkeit für eine Anzahl von Runden am Tag einsetzen, die der Hälfte deiner Klerikerstufe entspricht. Diese Runden müssen nicht aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "39dd82bb-8715-5e40-8fa7-341ce60a9c0e",
@@ -1647,7 +1743,9 @@
   {
     "id": "5efe723e-6318-5065-89f2-7e848366680b",
     "name": "Glückspilz",
-    "description": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren und sie zu einem Glückspilz machen. Jedes Mal, wenn das Ziel in der nächsten Runde 1W20 würfelt, darf es zweimal würfeln und das bessere Ergebnis verwenden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren und sie zu einem Glückspilz machen. Jedes Mal, wenn das Ziel in der nächsten Runde 1W20 würfelt, darf es zweimal würfeln und das bessere Ergebnis verwenden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "b50aff71-1e10-5538-a7d9-75e1c06b8737",
@@ -1662,12 +1760,16 @@
   {
     "id": "eaf9e96f-f428-513a-8710-de46533118f9",
     "name": "Hauch des Guten",
-    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren, um ihr einen göttlichen Bonus in Höhe deiner halben Klerikerstufe (Minimum 1) auf eine Runde auf ihre Angriffs-, Fertigkeits-, Attributs- oder Rettungswürfe zu verleihen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren, um ihr einen göttlichen Bonus in Höhe deiner halben Klerikerstufe (Minimum 1) auf eine Runde auf ihre Angriffs-, Fertigkeits-, Attributs- oder Rettungswürfe zu verleihen. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "b499a597-ce4b-51f1-b726-a504475a7d23",
     "name": "Heilige Lanze",
-    "description": "Ab der 8. Stufe kannst du eine deiner Waffen durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Heilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen."
+    "description": "Ab der 8. Stufe kannst du eine deiner Waffen durch Berührung für eine Anzahl von Runden, die deiner halben Klerikerstufe entspricht, die besondere Waffeneigenschaft Heilig verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "542ac5ab-dae8-55ac-ac3b-0f78271ac41f",
@@ -1682,7 +1784,9 @@
   {
     "id": "91daf441-e487-5454-ab65-88cec63e8f3a",
     "name": "Tanzende Waffen",
-    "description": "Ab der 8. Stufe kannst du einer Waffe durch Berührung für 4 Runden die besondere Waffeneigenschaft Tanzend verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen."
+    "description": "Ab der 8. Stufe kannst du einer Waffe durch Berührung für 4 Runden die besondere Waffeneigenschaft Tanzend verleihen. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen, und später je ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "379fb7e4-51da-5e99-a516-e3f474c2b165",
@@ -1707,12 +1811,16 @@
   {
     "id": "084756f3-a4d4-5cfb-8fc5-5fb3728c6ba6",
     "name": "Hauch der Herrlichkeit",
-    "description": "Du kannst deine Hand in göttlichem Glanz erstrahlen lassen, was es dir ermöglicht, eine Kreatur als Standard-Aktion zu berühren, um ihr einen Bonus in Höhe deiner Klerikerstufe auf einen einzelnen Fertigkeits- oder Attributswurf zu verleihen, der auf Charisma basiert. Diese Fähigkeit dauert bis zu einer Stunde an oder solange, bis der Bonus auf einen Wurf angewandt wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst deine Hand in göttlichem Glanz erstrahlen lassen, was es dir ermöglicht, eine Kreatur als Standard-Aktion zu berühren, um ihr einen Bonus in Höhe deiner Klerikerstufe auf einen einzelnen Fertigkeits- oder Attributswurf zu verleihen, der auf Charisma basiert. Diese Fähigkeit dauert bis zu einer Stunde an oder solange, bis der Bonus auf einen Wurf angewandt wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "2d4075c9-4e86-5c19-8fb6-68d9994ffc91",
     "name": "Gegenwart des Göttlichen",
-    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der göttlichen Gegenwart mit einem Radius von 9 m ausstrahlen. Alle Verbündeten in dieser Aura werden behandelt, als stünden sie unter der Wirkung des Zaubers Heiligtum mit einem SG von 10 + deiner halben Klerikersufe + dein WE-Modifikator. Die Runden müssen nicht direkt aufeinander folgen. Das aktivieren dieser Fähigkeit ist eine Standard-Aktion. Wenn einer deiner Verbündeten den Bereich verlässt oder einen Angriff macht, endet der Effekt für ihn. Wenn du einen Angriff ausführst, endet der Effekt für dich und deine Verbündeten."
+    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der göttlichen Gegenwart mit einem Radius von 9 m ausstrahlen. Alle Verbündeten in dieser Aura werden behandelt, als stünden sie unter der Wirkung des Zaubers Heiligtum mit einem SG von 10 + deiner halben Klerikersufe + dein WE-Modifikator. Die Runden müssen nicht direkt aufeinander folgen. Das aktivieren dieser Fähigkeit ist eine Standard-Aktion. Wenn einer deiner Verbündeten den Bereich verlässt oder einen Angriff macht, endet der Effekt für ihn. Wenn du einen Angriff ausführst, endet der Effekt für dich und deine Verbündeten.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "ac67145f-cbf3-5461-b628-53b0f44a90cd",
@@ -1722,12 +1830,16 @@
   {
     "id": "656ea54c-7466-5495-aa01-385305d1792f",
     "name": "Schlachtenwut",
-    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit für eine Runde einen Bonus auf Schadenswürfe im Nahkampf verleihen, der deiner halben Klerikerstufe (Minimum +1) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit für eine Runde einen Bonus auf Schadenswürfe im Nahkampf verleihen, der deiner halben Klerikerstufe (Minimum +1) entspricht. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "062750e2-1837-587c-b929-8f6fb18f76f4",
     "name": "Waffenmeister",
-    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, ein Kampftalent erhalten. Das Aktivieren dieser Fähigkeit kostet eine Schnelle Aktion. Diese Runden müssen nicht direkt aufeinander folgen und du darfst dir jedes Mal, wenn du diese Fähigkeit benutzt, ein anderes Talent aussuchen. Du musst aber auch die Voraussetzungen erfüllen, um das Talent einsetzen zu können."
+    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, ein Kampftalent erhalten. Das Aktivieren dieser Fähigkeit kostet eine Schnelle Aktion. Diese Runden müssen nicht direkt aufeinander folgen und du darfst dir jedes Mal, wenn du diese Fähigkeit benutzt, ein anderes Talent aussuchen. Du musst aber auch die Voraussetzungen erfüllen, um das Talent einsetzen zu können.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "3eec1bd0-c568-54e7-b58b-75d0adc74579",
@@ -1767,12 +1879,16 @@
   {
     "id": "1466e82f-d0a3-5e32-815f-e37dee441db7",
     "name": "Hauch der Ordnung",
-    "description": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren, um sie mit der Macht göttlicher Ordnung zu erfüllen, die es ihr erlaubt, alle ihre Angriffs-, Fertigkeits-, Attributs-, oder Rettungswürfe für eine Runde zu betrachten, als hätte der zugrunde liegende Würfelwurf von 1W20 als Ergebnis eine 11 gehabt. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst eine willfährige Kreatur mit einer Standard-Aktion berühren, um sie mit der Macht göttlicher Ordnung zu erfüllen, die es ihr erlaubt, alle ihre Angriffs-, Fertigkeits-, Attributs-, oder Rettungswürfe für eine Runde zu betrachten, als hätte der zugrunde liegende Würfelwurf von 1W20 als Ergebnis eine 11 gehabt. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "f2a2fbba-e4a9-5e9d-a7ea-67135e777af0",
     "name": "Stab der Ordnung",
-    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden in Höhe deiner halben Klerikerstufe zu einer Waffe des Grundsatzes verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen und später ein weiteres Mal am Tag für alle vier weiteren Stufen."
+    "description": "Ab der 8. Stufe kannst du eine Waffe durch Berührung für eine Anzahl von Runden in Höhe deiner halben Klerikerstufe zu einer Waffe des Grundsatzes verzaubern. Auf der 8. Stufe kannst du diese Fähigkeit nur einmal am Tag einsetzen und später ein weiteres Mal am Tag für alle vier weiteren Stufen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "f66f2b47-a6a9-5eb6-a8f1-a8e1774a8321",
@@ -1782,12 +1898,16 @@
   {
     "id": "b7bf2e03-d450-58a0-a401-74c0f8473bac",
     "name": "Holzfaust",
-    "description": "Als eine Freie Aktion können deine Hände so hart wie Holz werden, bedeckt mit winzigen Dornen. Solange Holzfaust wirkt, führen deine waffenlosen Angriffe nicht zu Gelegenheitsangriffen, verursachen tödlichen Schaden und erhalten einen Schadensbonus in Höhe deiner halben Klerikerstufe (Minimum +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Als eine Freie Aktion können deine Hände so hart wie Holz werden, bedeckt mit winzigen Dornen. Solange Holzfaust wirkt, führen deine waffenlosen Angriffe nicht zu Gelegenheitsangriffen, verursachen tödlichen Schaden und erhalten einen Schadensbonus in Höhe deiner halben Klerikerstufe (Minimum +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "f02401b6-c426-5393-9ecb-66ca0873607d",
     "name": "Dornenrüstung",
-    "description": "Ab der 6. Stufe kannst du im Rahmen einer Freien Aktion eine Vielzahl von Holzdornen aus deiner Haut schießen lassen. Solange du die Dornenrüstung trägst, nehmen Gegner, die dich mit einem waffenlosen Schlag oder einer Nahkampfwaffe ohne Reichweite angreifen, 1W6 Schadenspunkte +1 je 2 Klerikerstufen. Du kannst diese Fähigkeit pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Diese Runden müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 6. Stufe kannst du im Rahmen einer Freien Aktion eine Vielzahl von Holzdornen aus deiner Haut schießen lassen. Solange du die Dornenrüstung trägst, nehmen Gegner, die dich mit einem waffenlosen Schlag oder einer Nahkampfwaffe ohne Reichweite angreifen, 1W6 Schadenspunkte +1 je 2 Klerikerstufen. Du kannst diese Fähigkeit pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Diese Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "14309059-14f1-5375-921d-8e25f147f256",
@@ -1797,7 +1917,9 @@
   {
     "id": "4970a87a-e685-51ec-9888-b2ccb3e7afea",
     "name": "Flinkfuß",
-    "description": "Mit einer Freien Aktion kannst du für eine Runde eine erhöhte Beweglichkeit erlangen. Für die nächste Runde ignorierst du jegliches schwieriges Gelände und erhältst keine Nachteile durch eine Bewegung durch solches. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Mit einer Freien Aktion kannst du für eine Runde eine erhöhte Beweglichkeit erlangen. Für die nächste Runde ignorierst du jegliches schwieriges Gelände und erhältst keine Nachteile durch eine Bewegung durch solches. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "b07634bd-e808-5bee-8849-4e87308cfd7b",
@@ -1817,7 +1939,9 @@
   {
     "id": "e6f5638b-410f-5c69-acea-1eee22450a5b",
     "name": "Schutz vor dem Tod",
-    "description": "Ab der 8. Stufe kannst du eine Aura mit einem Radius von 9 m ausstrahlen, die für eine Anzahl an Runden pro Tag, die deiner Klerikerstufe entspricht, gegen den Tod schützt. Lebende Kreaturen innerhalb des Bereichs sind immun gegen Todeseffekte, Energieentzug und Effekte, die negative Stufen verursachen. Negative Stufen, welche die Kreatur schon vorher hatte, werden zwar nicht durch die Schutzaura entfernt, dafür aber zumindest außer Kraft gesetzt, solange die Kreatur sich innerhalb des Wirkungsbereichs aufhält. Diese Runden müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du eine Aura mit einem Radius von 9 m ausstrahlen, die für eine Anzahl an Runden pro Tag, die deiner Klerikerstufe entspricht, gegen den Tod schützt. Lebende Kreaturen innerhalb des Bereichs sind immun gegen Todeseffekte, Energieentzug und Effekte, die negative Stufen verursachen. Negative Stufen, welche die Kreatur schon vorher hatte, werden zwar nicht durch die Schutzaura entfernt, dafür aber zumindest außer Kraft gesetzt, solange die Kreatur sich innerhalb des Wirkungsbereichs aufhält. Diese Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "fab64f2c-dfad-59c8-9697-db7d1d6f0025",
@@ -1842,12 +1966,16 @@
   {
     "id": "5f4bd534-0304-51b4-adc2-f275aea0c3a5",
     "name": "Hauch der Resistenz",
-    "description": "Als Standard-Aktion kannst du einen Verbündeten berühren und ihm 1 Minute lang deinen Resistenzbonus verleihen. Wenn du dies tust, verlierst du selbst für 1 Minute deinen Resistenzbonus, der dir von der Domäne des Schutzes verliehen wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Als Standard-Aktion kannst du einen Verbündeten berühren und ihm 1 Minute lang deinen Resistenzbonus verleihen. Wenn du dies tust, verlierst du selbst für 1 Minute deinen Resistenzbonus, der dir von der Domäne des Schutzes verliehen wurde. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "external"
   },
   {
     "id": "76c13cbc-a608-5e50-aba4-8f58bea5cd7e",
     "name": "Aura des Schutzes",
-    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura des Schutzes mit einem Radius von 9 m ausstrahlen. Du und alle deine Verbündeten innerhalb der Aura erhalten einen Ablenkungsbonus von +1 auf die RK und eine Resistenz von 5 gegen alle Elemente (Elektrizität, Feuer, Kälte, Säure und Schall). Der Ablenkungsbonus steigt alle vier Klerikerstufen über der achten um +1. Ab der 14. Stufe steigt die Resistenz gegen alle Elemente auf 10. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura des Schutzes mit einem Radius von 9 m ausstrahlen. Du und alle deine Verbündeten innerhalb der Aura erhalten einen Ablenkungsbonus von +1 auf die RK und eine Resistenz von 5 gegen alle Elemente (Elektrizität, Feuer, Kälte, Säure und Schall). Der Ablenkungsbonus steigt alle vier Klerikerstufen über der achten um +1. Ab der 14. Stufe steigt die Resistenz gegen alle Elemente auf 10. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "2891cb5a-729e-52ed-bd6f-fdb91a17c803",
@@ -1872,12 +2000,16 @@
   {
     "id": "54f466ed-3ac2-5e0e-a907-64885de4adc3",
     "name": "Kraftschub",
-    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit große Kraft verleihen. Das Ziel kann die nächste Runde auf Würfe für den Nahkampfangriff, auf Kampfmanöverproben, die auf Stärke basieren, auf Stärke basierende Fertigkeitswürfe und auf Stärkewürfe einen Verbesserungsbonus addieren, welcher der Hälfte deiner Klerikerstufe entspricht (mindestens +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst eine Kreatur mit einer Standard-Aktion berühren und ihr damit große Kraft verleihen. Das Ziel kann die nächste Runde auf Würfe für den Nahkampfangriff, auf Kampfmanöverproben, die auf Stärke basieren, auf Stärke basierende Fertigkeitswürfe und auf Stärkewürfe einen Verbesserungsbonus addieren, welcher der Hälfte deiner Klerikerstufe entspricht (mindestens +1). Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "c5297ca6-21fa-5e46-81c7-e80689a4179c",
     "name": "Macht der Götter",
-    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, deine Klerikerstufe als Verbesserungsbonus auf deinen Stärkewert addieren. Der Bonus gilt sowohl für Stärkewürfe als auch für Würfe auf Fertigkeiten, die auf Stärke basieren. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, deine Klerikerstufe als Verbesserungsbonus auf deinen Stärkewert addieren. Der Bonus gilt sowohl für Stärkewürfe als auch für Würfe auf Fertigkeiten, die auf Stärke basieren. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "2119902e-54b0-5274-ad9d-057f6f84cca7",
@@ -1887,7 +2019,9 @@
   {
     "id": "beb37a0b-0bc6-57cb-b5e2-86648ba84fc8",
     "name": "Mit-Tieren-sprechen",
-    "description": "Du kannst mit Tieren sprechen, wie durch den gleichnamigen Zauber. Dies kannst du je Tag für eine Anzahl von Runden machen, die 3 + deine Klerikerstufe entspricht."
+    "description": "Du kannst mit Tieren sprechen, wie durch den gleichnamigen Zauber. Dies kannst du je Tag für eine Anzahl von Runden machen, die 3 + deine Klerikerstufe entspricht.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "38fe2b58-a26e-5733-b9db-3a61baf89508",
@@ -1917,12 +2051,16 @@
   {
     "id": "f0c4825e-8608-5549-86d0-a79d4162cf21",
     "name": "Nachahmungstäter",
-    "description": "Du kannst mit einer Bewegungsaktion einen illusionären Doppelgänger deiner selbst erschaffen. Dieser funktioniert wie Spiegelbilder mit nur einem Abbild und währt eine Anzahl an Runden, die deiner Klerikerstufe entspricht (oder bis er gebannt oder zerstört wurde). Du kannst nicht mehr als einen Nachahmungstäter zu einem Zeitpunkt haben. Die Fähigkeit ist nicht kumulativ mit Spiegelbilder. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst mit einer Bewegungsaktion einen illusionären Doppelgänger deiner selbst erschaffen. Dieser funktioniert wie Spiegelbilder mit nur einem Abbild und währt eine Anzahl an Runden, die deiner Klerikerstufe entspricht (oder bis er gebannt oder zerstört wurde). Du kannst nicht mehr als einen Nachahmungstäter zu einem Zeitpunkt haben. Die Fähigkeit ist nicht kumulativ mit Spiegelbilder. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "3f766143-7c58-59b0-b8af-f87a2f114ac4",
     "name": "Meisterhafte Illusion",
-    "description": "Ab der 8. Stufe kannst du eine Illusion erschaffen, die dich und eine beliebige Anzahl an Verbündeten innerhalb eines Radius von 9 m für eine Anzahl an Runden verbirgt, die deiner Klerikerstufe entspricht. Die Fähigkeit funktioniert ansonsten wie der Zauber Schleier. Diese Runden müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du eine Illusion erschaffen, die dich und eine beliebige Anzahl an Verbündeten innerhalb eines Radius von 9 m für eine Anzahl an Runden verbirgt, die deiner Klerikerstufe entspricht. Die Fähigkeit funktioniert ansonsten wie der Zauber Schleier. Diese Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "8249198e-6737-58b7-b2a5-9a7c3a0bae8c",
@@ -1947,7 +2085,9 @@
   {
     "id": "1505a61b-899d-514a-a1d9-21dcb7ecf8be",
     "name": "Wahnbild",
-    "description": "Du kannst einer Kreatur mit Hilfe eines Berührungsangriffs im Nahkampf ein Wahnbild vermitteln. Such dir einen der folgenden Würfe aus: Angriffs-, Rettungs- oder Fertigkeitswürfe. Das Ziel erhält auf den ausgewählten Wurf einen Bonus, der deiner halben Klerikerstufe (Minimum +1) entspricht. Auf die anderen beiden Würfe erhält das Ziel einen Malus, der ebenfalls deiner halben Klerikerstufe (Minimum -1) entspricht. Die Wirkung verfliegt nach 3 Runden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen."
+    "description": "Du kannst einer Kreatur mit Hilfe eines Berührungsangriffs im Nahkampf ein Wahnbild vermitteln. Such dir einen der folgenden Würfe aus: Angriffs-, Rettungs- oder Fertigkeitswürfe. Das Ziel erhält auf den ausgewählten Wurf einen Bonus, der deiner halben Klerikerstufe (Minimum +1) entspricht. Auf die anderen beiden Würfe erhält das Ziel einen Malus, der ebenfalls deiner halben Klerikerstufe (Minimum -1) entspricht. Die Wirkung verfliegt nach 3 Runden. Du kannst diese Fähigkeit (3 + WE-Modifikator) Mal am Tag einsetzen.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
   },
   {
     "id": "025a87a6-87d8-5fc8-8682-4d6380acb382",
@@ -1997,7 +2137,9 @@
   {
     "id": "4f2f67fc-a87e-55e7-9c86-b7481d678105",
     "name": "Fernwahrnehmung",
-    "description": "Beginnend mit der 6. Stufe kannst du Hellhören/Hellsehen beliebig als zauberähnliche Fähigkeit einsetzen, wobei du deine Klerikerstufe als Zauberstufe verwendest. Diese Fähigkeit kannst du pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Die Runden müssen nicht direkt aufeinander folgen."
+    "description": "Beginnend mit der 6. Stufe kannst du Hellhören/Hellsehen beliebig als zauberähnliche Fähigkeit einsetzen, wobei du deine Klerikerstufe als Zauberstufe verwendest. Diese Fähigkeit kannst du pro Tag für eine Anzahl an Runden einsetzen, die deiner Klerikerstufe entspricht. Die Runden müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "0adc5866-3687-59e2-bd09-294bcf8ec4a1",
@@ -2012,7 +2154,9 @@
   {
     "id": "eaaa6b67-d539-5ece-a2fd-069611800452",
     "name": "Aura der Zerstörung",
-    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der Zerstörung mit einem Radius von 9 m ausstrahlen. Allen Angriffen, die innerhalb dieses Radius gegen ein Ziel (also auch dich) durchgeführt werden, wird ein Moralbonus auf den Schaden verliehen, welcher der Hälfte deiner Klerikerstufe entspricht. Außerdem werden alle Bedrohungen automatisch bestätigt. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen."
+    "description": "Ab der 8. Stufe kannst du pro Tag für eine Anzahl an Runden, die deiner Klerikerstufe entspricht, eine Aura der Zerstörung mit einem Radius von 9 m ausstrahlen. Allen Angriffen, die innerhalb dieses Radius gegen ein Ziel (also auch dich) durchgeführt werden, wird ein Moralbonus auf den Schaden verliehen, welcher der Hälfte deiner Klerikerstufe entspricht. Außerdem werden alle Bedrohungen automatisch bestätigt. Die Runden, in denen die Fähigkeit genutzt wird, müssen nicht direkt aufeinander folgen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "e9226fe2-dd44-5d6a-b152-f2490da222c7",

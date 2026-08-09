@@ -5,22 +5,35 @@ import { Tag } from '../primitives/Tag';
 interface ActionsPanelProps {
   actions: ActionOption[];
   roundLabel: string;
+  onActionClick: (action: ActionOption) => void;
 }
 
-export function ActionsPanel({ actions, roundLabel }: ActionsPanelProps) {
+export function ActionsPanel({ actions, roundLabel, onActionClick }: ActionsPanelProps) {
   return (
     <Panel title="Aktuelle Optionen" hint={roundLabel} beforeBody={<PanelSearch placeholder="Optionen durchsuchen" />}>
       {actions.map((action) => (
-        <div className="option-card" id={`action-${action.id}`} key={action.id}>
+        <button
+          type="button"
+          className={`option-card${action.isActive ? ' active' : ''}`}
+          id={`action-${action.id}`}
+          key={action.id}
+          onClick={() => onActionClick(action)}
+        >
           <div className="icon">{action.icon}</div>
           <div className="body">
             <div className="row1">
               <span className="name">{action.name}</span>
-              <Tag variant={action.tag} />
+              {action.tag && <Tag variant={action.tag} />}
+              {/* Gear toggle state only — a toggle never creates a CharacterEffect row, so this
+                  card is the only place its on/off state is visible (not "Aktive Effekte"). */}
+              {action.isActive && <span className="active-badge">Aktiv</span>}
             </div>
-            <div className="desc">{action.description}</div>
+            {/* Full text (real rule text, e.g. Kampfrausch's whole paragraph) stays intact in the
+                data and in `title` — only the display is clamped, same pattern as
+                RealEffectsPanel's AvailableEffectSeal. */}
+            <div className="desc" title={action.description}>{action.description}</div>
           </div>
-        </div>
+        </button>
       ))}
     </Panel>
   );

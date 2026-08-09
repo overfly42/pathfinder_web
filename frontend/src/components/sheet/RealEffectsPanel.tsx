@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import type {
   ActivatableRef,
   ActiveEffect,
@@ -8,7 +8,7 @@ import type {
 import { CONDITION_TYPE_ICONS, SOURCE_TYPE_ICONS, iconForActiveEffect } from '../../lib/effectIcons';
 import { Panel } from '../primitives/Panel';
 import type { TimeUnit } from './EffectsPanel';
-import { ActivateEffectModal, type ActivateEffectInput, type AvailableEntry } from './ActivateEffectModal';
+import type { AvailableEntry } from './ActivateEffectModal';
 
 export type { ActivateEffectInput } from './ActivateEffectModal';
 
@@ -102,13 +102,12 @@ interface RealEffectsPanelProps {
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
   externalClassAbilities: ActivatableRef[];
-  characterLevel: number;
   search: string;
   onSearchChange: (value: string) => void;
   typeFilter: ConditionType | '';
   onTypeFilterChange: (value: ConditionType | '') => void;
   onAdvanceTime: (unit: TimeUnit) => void;
-  onActivate: (input: ActivateEffectInput) => void;
+  onPick: (entry: AvailableEntry) => void;
   onRemove: (effectId: string) => void;
   onSaveResult: (effectId: string, success: boolean) => void;
 }
@@ -119,17 +118,15 @@ export function RealEffectsPanel({
   activatableSpells,
   activatableClassAbilities,
   externalClassAbilities,
-  characterLevel,
   search,
   onSearchChange,
   typeFilter,
   onTypeFilterChange,
   onAdvanceTime,
-  onActivate,
+  onPick,
   onRemove,
   onSaveResult,
 }: RealEffectsPanelProps) {
-  const [picked, setPicked] = useState<AvailableEntry | null>(null);
   const hint = `${activeEffects.length} aktiv · ${conditionsCatalog.length} im Kompendium`;
 
   const availableEntries = useMemo<AvailableEntry[]>(() => {
@@ -200,11 +197,6 @@ export function RealEffectsPanel({
     return entries;
   }, [conditionsCatalog, activatableSpells, activatableClassAbilities, externalClassAbilities, search, typeFilter]);
 
-  function handleActivate(input: ActivateEffectInput) {
-    onActivate(input);
-    setPicked(null);
-  }
-
   return (
     <Panel
       title="Effekte"
@@ -253,17 +245,10 @@ export function RealEffectsPanel({
       </div>
       <div className="seal-grid">
         {availableEntries.map((entry) => (
-          <AvailableEffectSeal key={entry.domId} entry={entry} onPick={setPicked} />
+          <AvailableEffectSeal key={entry.domId} entry={entry} onPick={onPick} />
         ))}
       </div>
       {availableEntries.length === 0 && <p className="effect-empty-hint">Keine Treffer.</p>}
-
-      <ActivateEffectModal
-        entry={picked}
-        characterLevel={characterLevel}
-        onCancel={() => setPicked(null)}
-        onActivate={handleActivate}
-      />
     </Panel>
   );
 }

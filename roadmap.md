@@ -763,6 +763,150 @@ entirely, not a category here.
       Inkubation/Frequenz/Erfolge from the new `default_*` catalog fields
       above (still just a starting point, not locked — the player can
       always override before confirming).
+- [x] **Class abilities as persistent effects — `activation_scope` column,
+      full catalog classified (2026-08-07).** `is_persistent_effect` marks
+      *which* class abilities are trackable at all, but said nothing about
+      *who* can be the target — a real gap once Barbar's Kampfrausch (only
+      the owning character can ever benefit) sat next to Barde's Bardic
+      Performance songs, some of which target allies who never took a
+      single level of Barde. New `BaseClassAbility.activation_scope`
+      (`str | None`, plain-tag convention, migration `aad95723a953`):
+      `"self"` (only the owner can be the target — stays gated by that
+      character's own granted abilities, `sheet.py`'s existing
+      `activatableClassAbilities`), `"external"` (the ability's own text
+      excludes the owner as a target, e.g. Barde's Lied des Erfolgs: "kann
+      diese Fähigkeit nicht auf sich selbst wirken" — offered to *every*
+      character regardless of what they have granted, same as
+      `conditionsCatalog`), `"both"` (owner names themselves as an eligible
+      target alongside allies, e.g. Lied des Mutes/Lied der Größe/Lied des
+      Heldenmuts). `None` whenever `is_persistent_effect` is `False`.
+      `sheet.py` gained `_build_external_class_abilities` (all
+      `external`/`both` rows, unfiltered by ownership) alongside the
+      existing `_build_activatable_class_abilities` (now filtered to
+      `self`/`both`, so an `external`-only ability doesn't wrongly appear in
+      its own owner's activation list); both feed the sheet as
+      `activatableClassAbilities`/new `externalClassAbilities`.
+      `RealEffectsPanel.tsx`'s picker merges the two (deduping an ability
+      that's `both` and already granted, so it doesn't show twice), tagged
+      "Klassenfähigkeit" vs. "Klassenfähigkeit (von außen)".
+
+      Classification covers every class with seeded `BaseClassAbility` rows
+      (Druide/Mönch/Paladin have none yet, per `todos.md`) — 529 rows
+      surveyed, 78 flagged, via one hand-done pass (Barbar/Entfesselter
+      Barbar/Barde, 126 rows, 6 flagged: 2× Kampfrausch → `self`; Lied des
+      Mutes/Lied der Größe/Lied des Heldenmuts → `both`; Lied des Erfolgs →
+      `external`) plus four parallel research-agent passes over the rest
+      (403 rows, 72 flagged — Mystiker 123→25, Kleriker 109→30, Hexenmeister
+      66→8, Magier 32→5, Waldläufer 19→2, Schildkämpfer 6→2, Schurke 33→0,
+      Kämpfer 7→0, Zwei-Waffen-Kämpfer 8→0), each grounded in the actual
+      seeded (already PRD-correct) description text rather than guessed,
+      then spot-checked by hand against the source JSON before applying
+      (one agent-proposed flag, Schurke's Widerstandsfähigkeit, was
+      overridden back to unflagged — it only triggers reactively at negative
+      HP, not something the player pre-emptively turns on, so it fit the
+      rubric's own "not a triggered reaction" exclusion despite having a
+      tracked duration).
+
+      **Correction (2026-08-08):** the Hexenmeister/Magier agent pass
+      initially excluded two touch-buff abilities — Hexenmeister's
+      Berührung des Schicksals (Schicksalhafte Blutlinie) and Magier's
+      Glück des Wahrsagers (Schule der Erkenntniszauber) — as "resolves
+      within the same round, nothing meaningful to show as active
+      afterward," even though both explicitly grant "für eine Runde"
+      (1 round). That reasoning didn't survive contact with how the
+      Kleriker pass treated the *same* shape (touch a creature, explicit
+      1-round bonus, X/day — Hauch des Guten/Kraftschub/etc., kept as
+      `both` since the app already tracks equally short conditions like a
+      1W4-round Verängstigt; an explicit duration is what the rubric asks
+      for, not a minimum length). Reclassified both to `both` for
+      consistency (neither excludes the caster as a target, same as the
+      Kleriker precedent) — found by spot-checking a description the user
+      flagged by hand rather than by re-running the agent. 78 rows flagged
+      total now (was 76).
+
+      Rubric applied throughout (is_persistent_effect=true only when *all*
+      hold): the character chooses to turn it on (not passive/reactive/
+      instantaneous); it has an explicit tracked duration; it isn't a
+      sub-modifier of an *already*-tracked parent effect (the ~40 individual
+      Barbar rage powers and Bardenauftritt's individual songs' shared
+      resource-pool wrapper stayed unflagged for this reason, same precedent
+      as the weapon-abilities Zornig/Kräftigend decision); its target is a
+      PC (owner and/or allies), never an enemy/opponent condition (this app
+      has no GM/monster view). Short (even single-round) touch-buff domain
+      powers were kept when the source text states an explicit round count
+      (Kleriker's Wort der Begeisterung/Hauch des Guten/etc.) rather than
+      excluded as "too short to matter" — the app already tracks equally
+      short conditions (e.g. a 1W4-round Verängstigt), so an explicit
+      duration is what the rubric asks for, not a minimum length.
+      Full backend suite green (225 tests, one new:
+      `test_sheet_class_ability_activation_scope_filtering`, a live
+      self/external/both filtering check).
+
+      **Repeatable approach, for the next class this needs running against**
+      (Druide/Mönch/Paladin once they get seeded `BaseClassAbility` rows, or
+      any future class/archetype import): this is a data-classification
+      pass, not a code change — nothing below touches the schema again, it
+      only ever adds rows to `base_class_abilities.json`'s existing
+      `is_persistent_effect`/`activation_scope` fields.
+      1. Find the class's `BaseClass.id` in `base_classes.json`, filter
+         `base_class_ability_grants.json` by `base_class_id` (include its
+         archetypes' own ids too, e.g. Kämpfer's Zwei-Waffen-
+         Kämpfer/Schildkämpfer — they grant their own rows separately from
+         the root class), collect the distinct `ability_id`s, and read each
+         one's full `description` in `base_class_abilities.json`. Never
+         invent or guess content — only classify what the (already
+         PRD-verified) text actually says.
+      2. Apply the four-part rubric from the paragraph above: activated (not
+         passive/reactive/instantaneous) · has an explicit tracked duration
+         (a stated round/minute/hour count is enough, however short — not a
+         judgment call about whether it "matters") · isn't a sub-modifier of
+         an already-tracked parent effect (an umbrella resource-pool
+         ability like Kampfrauschkraft/Bardenauftritt, or a bonus that only
+         applies "while raging"/"while in a stance," stays unflagged; the
+         *parent* effect carries it, resolved later by a handler keyed to
+         the parent's own `source_id`) · targets a PC, not an
+         enemy/opponent (this app has no GM/monster view).
+      3. For `activation_scope`, read specifically for whether the ability's
+         own text excludes the owner ("kann ... nicht auf sich selbst
+         wirken" → `external`), explicitly includes the owner alongside
+         allies ("sich selbst oder einen Verbündeten", "einschließlich er
+         selbst" → `both`), or never mentions anyone but the owner (→
+         `self`).
+      4. For a class with few rows (roughly Barbar/Barde's ~40-130-row
+         scale), do the read-and-classify by hand. For a much larger one
+         (Mystiker/Kleriker's 100+ rows), splitting the work across a few
+         parallel research agents — each given this same rubric, the worked
+         examples above, and one class to survey — kept the read-through
+         thorough without spending the whole conversation's context on raw
+         description text; each agent reports back *only* the rows it would
+         flag (id/name/scope/one-line justification quoting the specific
+         source text), never the much larger unflagged set. Always spot-
+         check the borderline calls against the raw JSON yourself before
+         applying — one flag from this pass (Schurke's Widerstandsfähigkeit)
+         didn't survive that check.
+      5. Apply via a small script keyed by id (never hand-edit the JSON
+         inline — 500+ rows makes that error-prone), asserting every id
+         exists and none were already flagged (catches an id typo or a
+         double-classification pass colliding) before writing. Re-run
+         `python -m app.seed.class_ability_seed` to push it into the dev DB
+         (idempotent upsert, safe to re-run), then the full backend suite.
+
+      **Still open** (this pass only changed *composition* — which
+      abilities count and who they can target — not *computation*): none of
+      the 78 flagged rows have an `EFFECT_HANDLERS` entry yet
+      (`rules/effects.py`'s registry stayed an empty dict, per slice 5's
+      "Open — not wired yet" above) — activating any of them creates a real
+      `CharacterEffect` row and shows a real countdown, but produces no
+      stat-modifier output. The rage-power/Bardic-Performance-song "resolved
+      by a handler on the parent effect" design mentioned throughout this
+      pass (reading which sub-abilities a character has, the same way
+      Zornig/Kräftigend was decided for weapon properties) hasn't been
+      built either — writing the first one or two of those handlers would
+      be the natural next step once slice 3's "Class-ability computation"
+      item (which already waits on this slice) gets picked up. Druide/
+      Mönch/Paladin's own class abilities aren't imported into the DB at
+      all yet (per `todos.md`) — nothing to classify there until that
+      happens, at which point the recipe above applies unchanged.
 
 ### 6. Possible actions / legality checks
 - [ ] Scope narrowly first: e.g. "can this spell be prepared/cast right

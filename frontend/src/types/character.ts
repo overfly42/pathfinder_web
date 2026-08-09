@@ -102,8 +102,21 @@ export interface ActionOption {
   id: string;
   icon: string;
   name: string;
-  tag: ActionTag;
+  /** `null` when no real action-cost data exists for this entry's source (backend `sheet.py`'s
+   *  `_build_actions`, roadmap slice 6 thin cut) — no field for it exists anywhere in the schema yet,
+   *  so this stays unset rather than guessed. */
+  tag: ActionTag | null;
   description: string;
+  /** Absent on the older mock fixture characters' hardcoded action cards (never meant to be
+   *  interactive) — present for every real, DB-backed entry. */
+  sourceType?: 'spell' | 'class_ability' | 'gear';
+  sourceId?: string;
+  /** Only meaningful when `sourceType` is `'gear'` — which endpoint a click should call. */
+  gearActionKind?: 'use' | 'toggle';
+  /** Only meaningful when `sourceType` is `'gear'` — the item's current `CharacterGear.is_active`.
+   *  Purely a display flag on this card (a toggle never creates a `CharacterEffect` row, so it
+   *  never shows up in "Aktive Effekte" — this is the only place its on/off state is visible). */
+  isActive?: boolean;
 }
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';

@@ -18,8 +18,9 @@ import { InventoryTabs } from '../components/sheet/InventoryTabs';
 import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
 import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/RealEffectsPanel';
+import { ActivateEffectModal, type AvailableEntry } from '../components/sheet/ActivateEffectModal';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { ConditionType, Effect, EffectsView } from '../types/character';
+import type { ActionOption, ConditionType, Effect, EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import { ROUNDS_PER_UNIT } from '../lib/time';
 import './CharacterSheetPage.css';
@@ -48,6 +49,9 @@ export function CharacterSheetPage() {
   // needs to reset that filter first, same as jumping to a skill needs to switch tabs first.
   const [effectsSearch, setEffectsSearch] = useState('');
   const [effectsTypeFilter, setEffectsTypeFilter] = useState<ConditionType | ''>('');
+  // Lifted out of RealEffectsPanel so ActionsPanel can trigger the same modal for a spell/class
+  // ability action card, not just the Effekte panel's own picker.
+  const [picked, setPicked] = useState<AvailableEntry | null>(null);
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -372,6 +376,43 @@ export function CharacterSheetPage() {
     }
   }
 
+  function handleActivateAndClose(input: ActivateEffectInput) {
+    handleActivateRealEffect(input);
+    setPicked(null);
+  }
+
+  // Aktionen-panel cards route to one of two existing flows: spell/class-ability entries open the
+  // same activation modal the Effekte panel's own picker uses; gear entries have no player-supplied
+  // values to ask for, so they fire straight through to the use/toggle endpoint (backend `sheet.py`'s
+  // `_build_actions` already decided which of the two per entry via `gearActionKind`).
+  function handleActionClick(action: ActionOption) {
+    if (!action.sourceType || !action.sourceId) return; // mock/fixture card, never wired
+    if (action.sourceType === 'gear') {
+      handleGearAction(action.sourceId, action.gearActionKind ?? 'use');
+      return;
+    }
+    setPicked({
+      domId: `action-${action.id}`,
+      sourceType: action.sourceType,
+      sourceId: action.sourceId,
+      name: action.name,
+      description: action.description,
+      icon: action.icon,
+      tag: action.sourceType === 'spell' ? 'Zauber' : 'Klassenfähigkeit',
+    });
+  }
+
+  async function handleGearAction(itemId: string, kind: 'use' | 'toggle') {
+    if (!isRealCharacter) return;
+    setEffectError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/gear/${itemId}/${kind}`);
+      refetch();
+    } catch {
+      setEffectError('Aktion konnte nicht ausgeführt werden.');
+    }
+  }
+
   async function handleRemoveRealEffect(effectId: string) {
     setEffectError(null);
     try {
@@ -461,7 +502,7 @@ export function CharacterSheetPage() {
         </Panel>
 
         <div className="right-col">
-          <ActionsPanel actions={character.actions} roundLabel={character.roundLabel} />
+          <ActionsPanel actions={character.actions} roundLabel={character.roundLabel} onActionClick={handleActionClick} />
           {effectError && <p style={{ color: '#e29a9a' }}>{effectError}</p>}
           {isRealCharacter ? (
             <RealEffectsPanel
@@ -470,13 +511,12 @@ export function CharacterSheetPage() {
               activatableSpells={character.activatableSpells}
               activatableClassAbilities={character.activatableClassAbilities}
               externalClassAbilities={character.externalClassAbilities}
-              characterLevel={character.level}
               search={effectsSearch}
               onSearchChange={setEffectsSearch}
               typeFilter={effectsTypeFilter}
               onTypeFilterChange={setEffectsTypeFilter}
               onAdvanceTime={handleAdvanceRealTime}
-              onActivate={handleActivateRealEffect}
+              onPick={setPicked}
               onRemove={handleRemoveRealEffect}
               onSaveResult={handleSaveResult}
             />
@@ -498,6 +538,13 @@ export function CharacterSheetPage() {
         item={character.gear.find((item) => item.id === itemDetailId) ?? null}
         onClose={() => setItemDetailId(null)}
         onSave={handleSaveItemDetail}
+      />
+
+      <ActivateEffectModal
+        entry={picked}
+        characterLevel={character.level}
+        onCancel={() => setPicked(null)}
+        onActivate={handleActivateAndClose}
       />
     </div>
   );

@@ -13,10 +13,16 @@ not fabricated placeholder content:
   AC contribution come from `CharacterGear`/`BaseItem.ac_bonus`. The other 12
   wondrous-item slots (rings, belts, ...) have no real catalog content yet,
   so they're listed (for the paperdoll's fixed layout) with empty options.
-- `actions` catalog (roadmap slice 6). `effectsActive` stays a hardcoded `[]`
-  too, but only because it's the older mock seal system's field (icon/amount/
-  variant, `/api/effects`) — real active effects (roadmap slice 5) are now
-  served separately as `activeEffects`/`activatableSpells`/
+- `actions` catalog (roadmap slice 6, thin cut): only the subset of
+  already-activatable data a character has (persistent-effect spells known,
+  persistent-effect class abilities granted, activatable gear — see
+  `_build_actions`). No action-cost/type field exists anywhere in the schema
+  (`BaseSpell`/`BaseFeat`/`BaseItem`), so every entry's `tag` is `None`
+  rather than a guessed value, and there's no usable-now/legality filtering
+  yet — a thick-pass follow-up. `effectsActive` stays a hardcoded `[]`, but
+  only because it's the older mock seal system's field (icon/amount/variant,
+  `/api/effects`) — real active effects (roadmap slice 5) are now served
+  separately as `activeEffects`/`activatableSpells`/
   `activatableClassAbilities`/`externalClassAbilities`, see
   `_build_active_effects` below.
 - Per-day spell prepare/cast tracking (roadmap slice 6) — `spellsKnown`
@@ -172,6 +178,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     granted_ability_ids = _granted_class_ability_ids(db, character, level_counts_by_root_id)
     base_speed = race_speed(db, character.race_id) or 9
     total_speed = base_speed + class_speed_bonus(granted_ability_ids)
+    gear = _build_gear(db, character)
 
     return {
         "id": str(character.id),
@@ -214,10 +221,10 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "classFeatures": _build_class_features(db, granted_ability_ids),
         "raceAbilities": _build_race_abilities(db, character.race_id),
         "spellsKnown": _build_spell_grades(db, character, "used"),
-        "gear": _build_gear(db, character),
+        "gear": gear,
         "equipmentSlots": equipment_slots,
         "spellbook": _build_spell_grades(db, character, "prepared"),
-        "actions": [],
+        "actions": _build_actions(db, character, granted_ability_ids, gear),
         "effectsActive": [],
         "activeEffects": _build_active_effects(db, character),
         "activatableSpells": _build_activatable_spells(db, character),
@@ -588,6 +595,104 @@ def _build_activatable_class_abilities(db: Session, granted_ability_ids: Counter
         )
     ).all()
     return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
+
+
+def _build_actions(
+    db: Session, character: Character, granted_ability_ids: Counter[UUID], gear: list[dict]
+) -> list[dict]:
+    """Aktionen panel (roadmap slice 6, thin cut) — only the subset of
+    already-activatable data this character has: persistent-effect spells
+    known, persistent-effect class abilities granted (self/both scope only —
+    `externalClassAbilities` represents what *other* characters can receive
+    from this one, not this character's own action), and activatable gear.
+    No action-cost data exists anywhere in the schema, so `tag` is always
+    `None` rather than a guessed value; no usable-now/legality filtering
+    either (a thick-pass follow-up) — every activatable-flagged entry is
+    listed, with remaining charges/uses folded honestly into its
+    description text instead of hidden.
+
+    `sourceType`/`sourceId` (and, for gear, `gearActionKind`) let the
+    frontend route a click without re-deriving what an entry is: spell/
+    class_ability entries feed the same `POST .../effects` activation flow
+    the Effekte panel's own picker already uses (same `sourceType`/
+    `sourceId` shape as `EffectActivate`); gear entries route to
+    `PATCH .../gear/{id}/use` or `/toggle` depending on `gearActionKind`,
+    decided once here rather than re-derived per click — `"use"` whenever
+    the item has any consumable uses/charges (even if it's also
+    toggleable, e.g. a wand), `"toggle"` only for a pure on/off item."""
+    actions: list[dict] = []
+
+    all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
+    if all_spell_ids:
+        spells = db.scalars(
+            select(BaseSpell).where(BaseSpell.id.in_(all_spell_ids), BaseSpell.is_persistent_effect.is_(True))
+        ).all()
+        actions += [
+            {
+                "id": f"spell-{spell.id}",
+                "icon": "✨",
+                "name": spell.name,
+                "tag": None,
+                "description": spell.description,
+                "sourceType": "spell",
+                "sourceId": str(spell.id),
+            }
+            for spell in spells
+        ]
+
+    if granted_ability_ids:
+        abilities = db.scalars(
+            select(BaseClassAbility).where(
+                BaseClassAbility.id.in_(list(granted_ability_ids)),
+                BaseClassAbility.is_persistent_effect.is_(True),
+                BaseClassAbility.activation_scope.in_(["self", "both"]),
+            )
+        ).all()
+        actions += [
+            {
+                "id": f"ability-{ability.id}",
+                "icon": "⚔️",
+                "name": ability.name,
+                "tag": None,
+                "description": ability.description,
+                "sourceType": "class_ability",
+                "sourceId": str(ability.id),
+            }
+            for ability in abilities
+        ]
+
+    for entry in gear:
+        if entry.get("activation") != "activatable":
+            continue
+        description = entry["name"]
+        if "usesRemainingToday" in entry:
+            description += f" ({entry['usesRemainingToday']}/{entry['usesPerDay']} Anwendungen heute übrig)"
+        if "chargesRemaining" in entry:
+            description += f" ({entry['chargesRemaining']}/{entry['maxCharges']} Ladungen übrig)"
+        # An item can have both consumable uses/charges and be toggleable at once (a wand: charges +
+        # activation="activatable") — "use" wins in that case, since consuming a charge is the
+        # dominant real intent; no seeded item needs a separate toggle affordance alongside it today.
+        gear_action_kind = "use" if ("usesRemainingToday" in entry or "chargesRemaining" in entry) else "toggle"
+        actions.append(
+            {
+                "id": f"gear-{entry['id']}",
+                "icon": "🎒",
+                "name": entry["name"],
+                "tag": None,
+                "description": description,
+                "sourceType": "gear",
+                "sourceId": entry["id"],
+                "gearActionKind": gear_action_kind,
+                # Guaranteed present: `_build_gear` sets it whenever `activation == "activatable"`,
+                # the same condition already filtered on above. Surfaced so a toggle click has some
+                # visible confirmation on the card itself — toggling doesn't create a `CharacterEffect`
+                # row (gear active-state is deliberately its own thing, not routed through the
+                # Effects system), so "Aktive Effekte" is the wrong place to look for it.
+                "isActive": entry["isActive"],
+            }
+        )
+
+    return actions
 
 
 def _build_external_class_abilities(db: Session) -> list[dict]:
