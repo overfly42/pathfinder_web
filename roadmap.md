@@ -46,6 +46,46 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   fundamentally "things that apply modifiers to character stats." Design
   that mechanism once, in slice 5 (Items), and reuse it in slice 6 (Effects)
   rather than building two separate systems.
+- **Uniform `CharacterContext` handler signature (decided 2026-08-10, refined
+  2026-08-10 — no privileged targets/phases after all).** Every
+  `HANDLERS`/`EFFECT_HANDLERS` entry, across every rule-element family (race
+  abilities, class abilities, effects, weapon abilities with real computed
+  state), should end up called exactly once, all in one flat pass, with the
+  same one typed `CharacterContext` dataclass — raw ability scores,
+  `skill_ranks`, levels/classes, feat/trait/granted-ability/active-effect
+  ids, gear — and always returning `list[Modifier]`, never a mutated
+  character. Every returned `Modifier` (from every family) then gets grouped
+  by target and `stack()`-ed once; `sheet.py`'s own final-assembly arithmetic
+  (computing `ability_mods` before the line that builds `saves`, total speed
+  before `jump_skill_bonus`, ...) consumes those stacked values in whatever
+  order its formulas need — ordinary sequential code, not a rule the
+  handler-calling contract itself has to encode. An earlier version of this
+  decision proposed resolving `SCORE`/`SPEED` handlers in a privileged first
+  phase before everything else, on the theory that other handlers might need
+  their *stacked* result as input; checked against every handler that
+  actually exists (`race_abilities.py`, `speed.py`, `effects.py`) and none of
+  them do — Skill Focus's +3-vs-+6 threshold needs raw skill ranks, not a
+  computed ability mod, and `jump_skill_bonus` was never a `HANDLERS` entry
+  to begin with (its own docstring already says so). No two-phase split is
+  needed today; full reasoning in `readme.md`'s "Request pipeline" section,
+  including the explicit caveat for if a future handler ever *does* need a
+  resolved value as input (not built for speculatively now). Motivated by a
+  real gap `CLAUDE.md`'s own Skill Focus example already implied but no
+  handler signature ever actually supported: a conditional handler (+3
+  normally, +6 at 10+ ranks) needs to read the character's skill ranks, and
+  today's `HANDLERS` (zero arguments) and `EFFECT_HANDLERS` (only that
+  effect's own instances) can't give it that.
+  **Document-only for now, no batch refactor**: `rules/race_abilities.py`/
+  `rules/speed.py`'s zero-arg `HANDLERS` and `rules/effects.py`'s
+  instances-only `EFFECT_HANDLERS` (its first content, Entfesselter
+  Barbar's Kampfrausch, landed 2026-08-09) stay as they are until a handler
+  that's actually conditional on something outside "does the character have
+  this ability" needs writing — most of `todos.md`'s "Effekt-Handler-
+  Inventar" and the still-unbuilt `rules/class_abilities.py` (roadmap Slice
+  3's "Class-ability computation" item) will hit this soon. Once every
+  family is migrated, `rules/effects.py`'s current "kept separate because
+  the call signature differs" rationale no longer holds and it should merge
+  into `rules/handlers.py`'s unified registry.
 
 ## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
 
@@ -777,6 +817,28 @@ entirely, not a category here.
         schreibt keine `CharacterAbilityDamage`-Zeilen — diese Verdrahtung
         (nächster Punkt unten) ist Voraussetzung, nicht optional, sonst
         bewirkt das Modal nichts.
+- [x] **First `EFFECT_HANDLERS` content, 2026-08-09: Entfesselter Barbar's
+      Kampfrausch.** `rules/effects.py` was empty infrastructure until now
+      (`todos.md`'s "Effekt-Handler-Inventar" tracks the rest). New
+      `active_effect_modifiers()` groups a character's `CharacterEffect`
+      rows by `source_id` and resolves each through `EFFECT_HANDLERS` once,
+      returning a mixed-target `Modifier` list; `sheet.py`'s
+      `build_character_sheet` computes it once and threads it into both
+      `_build_equipment` (filtered to `ModifierTarget.AC`, merged into the
+      same `stack()` pool as gear) and the `saves` list (filtered per
+      save key via a new `SAVE_TARGET` map, added the same way ability mods
+      already are). Kampfrausch (Entfesselter Barbar) itself: -2 AC
+      (untyped, so it correctly stacks with everything), +2 Will (morale).
+      Deliberately *not* modeled: the melee/thrown attack-and-damage bonus
+      (no attack/damage-roll endpoint anywhere in this app, project-wide
+      scope decision) and the 2-temp-HP-per-HD (needs its own tracked pool,
+      see Slice 3's "Class-ability computation" item) — both documented in
+      the handler's own docstring, not silently dropped. Regression test:
+      `tests/test_effects.py::test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus`.
+      Full suite green (226 tests). Barbar's own (non-Entfesselter)
+      Kampfrausch has a different id/effect shape (+4 ST/KO, +2 Will,
+      temporary HP via the CON bump rather than a separate pool) and still
+      needs its own handler — not done here, see `todos.md`.
 - [ ] **Open — not wired yet:**
   - The actual `EFFECT_HANDLERS` entries that make a poison/disease
         *apply* ability damage (write/update `CharacterAbilityDamage` rows)

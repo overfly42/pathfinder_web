@@ -262,7 +262,14 @@ Wassergestalt · Windblick · Übernatürliches Band
 Pro Fähigkeit einzeln abhaken:
 
 - [ ] Barbar: Kampfrausch
-- [ ] Entfesselter Barbar: Kampfrausch
+- [x] Entfesselter Barbar: Kampfrausch — 2026-08-09, `-2 RK`/`+2 Willen`
+      verdrahtet (AC/Save-Verbrauch über `rules/effects.py`s neues
+      `active_effect_modifiers`, gefüttert in `sheet.py`s
+      `_build_equipment` + `saves`-Berechnung). Nahkampfangriff/-schaden
+      und temporäre TP bewusst nicht modelliert (siehe Handler-Docstring:
+      kein Angriffs-/Schadenswurf-Endpunkt, keine TP-Pool-Spalte). Neuer
+      Regressionstest `test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus`
+      (`tests/test_effects.py`).
 - [ ] Barde: Lied der Größe
 - [ ] Barde: Lied des Erfolgs
 - [ ] Barde: Lied des Heldenmuts
