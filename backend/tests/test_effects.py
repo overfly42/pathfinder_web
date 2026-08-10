@@ -396,4 +396,42 @@ def test_sheet_class_ability_activation_scope_filtering(client: TestClient, db_s
 
     # External-scoped, never granted to this character: only in the external list.
     assert not any(a["key"] == str(external_only.id) for a in sheet["activatableClassAbilities"])
+
+
+def test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus(
+    client: TestClient, db_session: Session
+) -> None:
+    """First `EFFECT_HANDLERS` content (roadmap.md, `rules/effects.py`) —
+    activating it should move the sheet's `armorClass`/Will save, not just
+    create a countdown row (see `test_activate_persistent_class_ability_is_accepted`
+    for the pre-handler behavior this builds on)."""
+    character_id = _create_character(client, db_session)
+    ability_id = "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
+    db_session.add(
+        BaseClassAbility(
+            id=UUID(ability_id),
+            name="Kampfrausch",
+            description="+2 Nahkampfangriff/-schaden und Willenswürfe, -2 RK.",
+            is_persistent_effect=True,
+            activation_scope="self",
+        )
+    )
+    db_session.commit()
+
+    baseline = client.get(f"/api/characters/{character_id}").json()
+    baseline_ac = baseline["armorClass"]
+    baseline_will = int(next(s["value"] for s in baseline["saves"] if s["key"] == "will"))
+
+    response = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": ability_id},
+    )
+    assert response.status_code == 201
+
+    raging = client.get(f"/api/characters/{character_id}").json()
+    assert raging["armorClass"] == baseline_ac - 2
+    assert int(next(s["value"] for s in raging["saves"] if s["key"] == "will")) == baseline_will + 2
+    # Unaffected: no attack/damage-roll endpoint, no temp-HP pool (see the
+    # handler's own docstring for why those stay unmodeled).
+    assert raging["hp"] == baseline["hp"]
     assert any(a["key"] == str(external_only.id) for a in sheet["externalClassAbilities"])

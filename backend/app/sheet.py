@@ -64,6 +64,7 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
+from .rules.effects import active_effect_modifiers
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.modifiers import Modifier, ModifierTarget, stack
 from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
@@ -78,6 +79,7 @@ SAVE_LABELS = {"fort": "Zähigkeit", "ref": "Reflex", "will": "Willen"}
 # ability-mod addition happens here, alongside this module's other
 # `effective_ability_scores`-dependent display math.
 SAVE_ABILITY = {"fort": "KO", "ref": "GE", "will": "WE"}
+SAVE_TARGET = {"fort": ModifierTarget.SAVE_FORT, "ref": ModifierTarget.SAVE_REF, "will": ModifierTarget.SAVE_WILL}
 
 def _fmt(mod: int) -> str:
     return ("+" if mod >= 0 else "") + str(mod)
@@ -107,7 +109,12 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     str_mod = ability_mods["ST"]
     dex_mod = ability_mods["GE"]
     bab = character.bab
-    armor_class, equipment_slots = _build_equipment(db, character, dex_mod)
+    # Resolved once and threaded into both AC and saves below rather than
+    # re-grouping `character.effects` by source_id twice (roadmap.md's
+    # slice 5 "Open — not wired yet" — this is the first `EFFECT_HANDLERS`
+    # content, Entfesselter Barbar's Kampfrausch).
+    effect_modifiers = active_effect_modifiers(character.effects)
+    armor_class, equipment_slots = _build_equipment(db, character, dex_mod, effect_modifiers)
 
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
@@ -144,7 +151,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {
                 "key": key,
                 "label": label,
-                "value": _fmt(character.saves[key] + ability_mods[SAVE_ABILITY[key]]),
+                "value": _fmt(
+                    character.saves[key]
+                    + ability_mods[SAVE_ABILITY[key]]
+                    + stack([m for m in effect_modifiers if m.target == SAVE_TARGET[key]])
+                ),
             }
             for key, label in SAVE_LABELS.items()
         ],
@@ -788,13 +799,22 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
     return result
 
 
-def _build_equipment(db: Session, character: Character, dex_mod: int) -> tuple[int, list[dict]]:
+def _build_equipment(
+    db: Session, character: Character, dex_mod: int, effect_modifiers: list[Modifier]
+) -> tuple[int, list[dict]]:
     """Armor class + paperdoll slots from equipped gear (roadmap slice 4).
     Only armor ("ruestung") and shield ("schild") have real `BaseItem.ac_bonus`
     data (`rules/equipment_slots.SLOT_CATEGORY`) — the other 12 slots render
-    with empty options (see this module's docstring)."""
+    with empty options (see this module's docstring). `effect_modifiers` is
+    the character's full active-effect modifier list (roadmap slice 5,
+    `rules/effects.py`'s `active_effect_modifiers`) — filtered here to AC,
+    same `stack()` pool as gear-sourced modifiers so e.g. Kampfrausch's -2 AC
+    penalty and an armor bonus resolve together correctly."""
+    ac_effect_modifiers = [m for m in effect_modifiers if m.target == ModifierTarget.AC]
     if not character.gear:
-        return 10 + dex_mod, [{**slot_def, "options": [], "selected": ""} for slot_def in SLOT_DEFINITIONS]
+        return 10 + dex_mod + stack(ac_effect_modifiers), [
+            {**slot_def, "options": [], "selected": ""} for slot_def in SLOT_DEFINITIONS
+        ]
 
     items = {
         item.id: item
@@ -802,7 +822,7 @@ def _build_equipment(db: Session, character: Character, dex_mod: int) -> tuple[i
     }
     gear_by_slot = {g.equipped_slot: g for g in character.gear if g.equipped_slot}
 
-    modifiers: list[Modifier] = []
+    modifiers: list[Modifier] = list(ac_effect_modifiers)
     max_dex_bonus: int | None = None
     for slot_key, category in SLOT_CATEGORY.items():
         gear_row = gear_by_slot.get(slot_key)
