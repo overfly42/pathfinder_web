@@ -7,9 +7,18 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
+from ..rules.context import CharacterContext
 from ..rules.race_abilities import ABILITY_ANY_PLUS2, HANDLERS
 
 router = APIRouter(prefix="/api/races", tags=["races"])
+
+# These functions resolve race-level ability ids scoped only to a `race_id`
+# — several run before a `Character` row exists at all (creation-time
+# validation), so there's no real per-character state to build a
+# `CharacterContext` from. An empty one is correct here regardless: every
+# `HANDLERS` entry reachable from a *race* grant is `_attribute_bonus`
+# (`race_abilities.py`), which never reads its `context` argument.
+_NO_CHARACTER_CONTEXT = CharacterContext()
 
 
 def race_has_flex(db: Session, race_id: UUID) -> bool:
@@ -24,7 +33,7 @@ def race_has_flex(db: Session, race_id: UUID) -> bool:
     for grant in grants:
         ability = db.get(BaseRaceAbility, grant.ability_id)
         handler = HANDLERS.get(ability.id)
-        if handler is not None and handler()[0].target_id is None:
+        if handler is not None and handler(_NO_CHARACTER_CONTEXT)[0].target_id is None:
             return True
     return False
 
@@ -44,7 +53,7 @@ def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
         handler = HANDLERS.get(ability.id)
         if handler is None:
             continue
-        modifier = handler()[0]
+        modifier = handler(_NO_CHARACTER_CONTEXT)[0]
         if modifier.target_id is not None:
             mods[modifier.target_id] = mods.get(modifier.target_id, 0) + modifier.value
     return mods
@@ -65,7 +74,7 @@ def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID 
     ).all()
     for replacement in replacements:
         handler = HANDLERS.get(replacement.ability_id)
-        if handler is not None and handler()[0].target_id == attribute:
+        if handler is not None and handler(_NO_CHARACTER_CONTEXT)[0].target_id == attribute:
             return replacement.ability_id
     return None
 
@@ -136,7 +145,7 @@ def _race_option(db: Session, race: BaseRace) -> dict:
 
         base_ability_names[ability.id] = ability.name
         if handler is not None:
-            modifier = handler()[0]
+            modifier = handler(_NO_CHARACTER_CONTEXT)[0]
             if modifier.target_id is None:
                 flex = True
             else:

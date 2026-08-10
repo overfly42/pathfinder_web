@@ -10,6 +10,7 @@ from app.models import (
     CharacterSkillRank,
     CharacterTrait,
 )
+from app.rules.context import CharacterContext
 from app.rules.race_abilities import HANDLERS
 from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
@@ -484,7 +485,7 @@ def test_create_character_for_flex_race_persists_choice_via_replacement_system(
     # The stored row is an ability_id resolved through RaceAbilityReplacement,
     # not a raw "ST" string — resolving it back through HANDLERS must agree
     # with what was requested.
-    modifier = HANDLERS[choices[0].ability_id]()[0]
+    modifier = HANDLERS[choices[0].ability_id](CharacterContext())[0]
     assert (modifier.target_id, modifier.value) == ("ST", 2)
 
 

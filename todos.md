@@ -67,6 +67,49 @@ Kurzfassung als Einstiegspunkt:
       Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
       `todos_history.md`.
 
+## Handler-Migration zu `CharacterContext` — noch offen
+
+`roadmap.md`s „Uniform CharacterContext handler signature" (entschieden
+2026-08-10) legt fest, dass jeder `HANDLERS`/`EFFECT_HANDLERS`-Eintrag,
+über alle Familien hinweg, mit demselben rohen `CharacterContext`
+(`rules/context.py`, neu) aufgerufen wird statt mit keinem Argument
+(`HANDLERS`) bzw. nur der eigenen Instanzliste (`EFFECT_HANDLERS`). Bis
+2026-08-10 war das bewusst „nur dokumentiert, kein Batch-Refactor" — die
+Design-Entscheidung selbst war noch nicht final (eine frühere Version sah
+privilegierte Phasen vor, wieder verworfen, siehe `roadmap.md`). Das Design
+steht jetzt fest, daher wird ab hier tatsächlich migriert, Familie für
+Familie, jeweils wenn sie angefasst wird — kein Big-Bang-Refactor auf
+einmal. Ein Häkchen hier bedeutet: die Handler-Funktion(en) nehmen
+`context: CharacterContext` entgegen (auch wenn ungenutzt) und jeder
+Call-Site übergibt ihn.
+
+- [x] **`rules/race_abilities.py`: `_attribute_bonus`-Factory** (10 ids,
+      `ABILITY_GE_PLUS2` … `ABILITY_ANY_PLUS2`) — 2026-08-10, erste
+      migrierte Familie. `context` bleibt ungenutzt (Rassen-Attributsboni
+      sind nie bedingt), diente nur dazu, alle Call-Sites
+      (`routers/races.py` ×4, `models/character.py`s `flex_ability`,
+      `tests/test_characters.py`) auf die neue Signatur umzustellen. Orte
+      ohne echten `Character` (Rassen-Endpunkte vor Charaktererstellung)
+      übergeben einen leeren `CharacterContext()` — korrekt, kein Workaround,
+      da der Handler ihn ohnehin ignoriert.
+- [ ] **`rules/speed.py`: `_base_speed`-Factory** (2 ids:
+      `RACE_NORMAL_SPEED_ABILITY_ID`, `RACE_SLOW_SPEED_ABILITY_ID`) — Aufrufer
+      `race_speed` hat vollen `db`/`race_id`-Zugriff, aber (noch) keinen
+      Character; entscheiden, ob ein leerer Kontext reicht oder ob
+      `race_speed` erst nach `class_speed_bonus`/vollem Charakter sinnvoll
+      migrierbar ist.
+- [ ] **`rules/speed.py`: `_fast_movement`** (`BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`) —
+      Aufrufer `class_speed_bonus` hat bereits einen echten Charakter
+      (`sheet.py`), also der naheliegende Ort für einen erstmals *echt*
+      befüllten `CharacterContext.granted_ability_ids`.
+- [ ] **`rules/effects.py`: `_kampfrausch_entfesselter_barbar`** — bereits
+      auf Instanzlisten angewiesen (`EFFECT_HANDLERS`s bisherige Signatur),
+      Migration bedeutet hier zusätzlich `CharacterContext.active_effects`
+      tatsächlich aus `character.effects` zu befüllen (`sheet.py`) statt nur
+      die separat gruppierte Instanzliste durchzureichen — siehe
+      `rules/context.py`s Docstring für die Begründung, warum dieses Feld
+      volle Zeilen statt nur ids hält.
+
 ## Effekt-Handler-Inventar (`EFFECT_HANDLERS` / weapon `HANDLERS`) — noch offen
 
 `rules/effects.py`s `EFFECT_HANDLERS: dict[UUID, Callable]` ist seit Slice 5

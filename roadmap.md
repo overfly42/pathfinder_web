@@ -75,17 +75,21 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   normally, +6 at 10+ ranks) needs to read the character's skill ranks, and
   today's `HANDLERS` (zero arguments) and `EFFECT_HANDLERS` (only that
   effect's own instances) can't give it that.
-  **Document-only for now, no batch refactor**: `rules/race_abilities.py`/
-  `rules/speed.py`'s zero-arg `HANDLERS` and `rules/effects.py`'s
-  instances-only `EFFECT_HANDLERS` (its first content, Entfesselter
-  Barbar's Kampfrausch, landed 2026-08-09) stay as they are until a handler
-  that's actually conditional on something outside "does the character have
-  this ability" needs writing — most of `todos.md`'s "Effekt-Handler-
-  Inventar" and the still-unbuilt `rules/class_abilities.py` (roadmap Slice
-  3's "Class-ability computation" item) will hit this soon. Once every
-  family is migrated, `rules/effects.py`'s current "kept separate because
-  the call signature differs" rationale no longer holds and it should merge
-  into `rules/handlers.py`'s unified registry.
+  **Migration started 2026-08-10** (superseding the earlier "document-only,
+  no batch refactor" plan below, once the design itself stopped being the
+  open question): `rules/race_abilities.py`'s `_attribute_bonus` factory (10
+  ids) is the first family actually migrated to `CharacterContext` — every
+  call site now passes one, even where `context` goes unused (race
+  ability-score bonuses are never conditional). `rules/speed.py`'s zero-arg
+  `HANDLERS` and `rules/effects.py`'s instances-only `EFFECT_HANDLERS`
+  haven't moved yet. `todos.md`'s new "Handler-Migration zu
+  CharacterContext" tracks the remaining families one at a time (not a
+  single batch commit) — most of `todos.md`'s "Effekt-Handler-Inventar" and
+  the still-unbuilt `rules/class_abilities.py` (roadmap Slice 3's
+  "Class-ability computation" item) will hit this as they're written. Once
+  every family is migrated, `rules/effects.py`'s current "kept separate
+  because the call signature differs" rationale no longer holds and it
+  should merge into `rules/handlers.py`'s unified registry.
 
 ## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
 

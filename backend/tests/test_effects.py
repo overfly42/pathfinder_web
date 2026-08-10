@@ -404,19 +404,12 @@ def test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus(
     """First `EFFECT_HANDLERS` content (roadmap.md, `rules/effects.py`) —
     activating it should move the sheet's `armorClass`/Will save, not just
     create a countdown row (see `test_activate_persistent_class_ability_is_accepted`
-    for the pre-handler behavior this builds on)."""
+    for the pre-handler behavior this builds on). Entfesselter Barbar's
+    Kampfrausch (this id) is real seeded content
+    (`base_class_abilities.json`), already `is_persistent_effect`/
+    `activation_scope="self"` — no need to insert a stand-in row."""
     character_id = _create_character(client, db_session)
     ability_id = "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
-    db_session.add(
-        BaseClassAbility(
-            id=UUID(ability_id),
-            name="Kampfrausch",
-            description="+2 Nahkampfangriff/-schaden und Willenswürfe, -2 RK.",
-            is_persistent_effect=True,
-            activation_scope="self",
-        )
-    )
-    db_session.commit()
 
     baseline = client.get(f"/api/characters/{character_id}").json()
     baseline_ac = baseline["armorClass"]
@@ -434,4 +427,3 @@ def test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus(
     # Unaffected: no attack/damage-roll endpoint, no temp-HP pool (see the
     # handler's own docstring for why those stay unmodeled).
     assert raging["hp"] == baseline["hp"]
-    assert any(a["key"] == str(external_only.id) for a in sheet["externalClassAbilities"])

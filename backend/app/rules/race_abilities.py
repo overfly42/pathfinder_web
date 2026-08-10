@@ -4,6 +4,15 @@ stays code). Feeds `rules/handlers.py`'s unified `HANDLERS`, the one registry
 every consumer (ability-score composition here, land speed in
 `rules/speed.py`) looks up by ability UUID — see that module for why.
 
+First family migrated (2026-08-10) to the uniform `CharacterContext` handler
+signature (`rules/context.py`, `roadmap.md`'s "Uniform CharacterContext
+handler signature") — every call site now passes a `CharacterContext`, even
+though `_attribute_bonus` itself ignores it (a race's ability-score bonus is
+never conditional on anything about the character). `rules/speed.py`'s and
+`rules/effects.py`'s `HANDLERS`/`EFFECT_HANDLERS` haven't moved to this
+signature yet (`todos.md`'s "Handler-Migration zu CharacterContext" tracks
+the rest).
+
 The ids below are literal, hand-frozen UUIDs — the *only* link between this
 module and the matching rows in
 `backend/app/fixtures/seed/base_race_abilities.json`. They are never derived
@@ -39,6 +48,7 @@ import functools
 from collections.abc import Callable
 from uuid import UUID
 
+from .context import CharacterContext
 from .modifiers import Modifier, ModifierTarget
 
 # attribute=None means the player picks which attribute at character
@@ -56,19 +66,26 @@ ABILITY_ST_PLUS2 = UUID("04d2de62-ece9-4345-be84-cf8bf00d94dd")
 ABILITY_ANY_PLUS2 = UUID("2756eef0-10f0-42d4-a6d4-10f0b44ec4be")
 
 
-def _attribute_bonus(*, attribute: str | None, value: int) -> list[Modifier]:
+def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value: int) -> list[Modifier]:
+    # Unconditional (a race's ability-score bonus never depends on anything
+    # about the character it's granted to), so `context` goes unused here —
+    # the parameter exists only to keep this handler's signature uniform
+    # with every other `HANDLERS`/`EFFECT_HANDLERS` entry (`rules/context.py`,
+    # `roadmap.md`'s "Uniform CharacterContext handler signature").
+    del context
     return [
         Modifier(source="race ability", type="racial", value=value, target=ModifierTarget.SCORE, target_id=attribute)
     ]
 
 
-# Select by UUID, then call the looked-up function to get its Modifier list
-# — no separate schema column, no text parsing. `target_id=None` (flex, see
-# module docstring) is the "player picks" marker every caller below checks
-# for; a race never grants more than one ability-score `Modifier` per
-# handler call, but the list shape matches every other entry in the unified
-# `HANDLERS` registry (`rules/handlers.py`).
-HANDLERS: dict[UUID, Callable[[], list[Modifier]]] = {
+# Select by UUID, then call the looked-up function (with the caller's
+# `CharacterContext`) to get its Modifier list — no separate schema column,
+# no text parsing. `target_id=None` (flex, see module docstring) is the
+# "player picks" marker every caller below checks for; a race never grants
+# more than one ability-score `Modifier` per handler call, but the list
+# shape matches every other entry in the unified `HANDLERS` registry
+# (`rules/handlers.py`).
+HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ABILITY_GE_PLUS2: functools.partial(_attribute_bonus, attribute="GE", value=2),
     ABILITY_IN_PLUS2: functools.partial(_attribute_bonus, attribute="IN", value=2),
     ABILITY_KO_MINUS2: functools.partial(_attribute_bonus, attribute="KO", value=-2),

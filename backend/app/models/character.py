@@ -4,6 +4,7 @@ from sqlalchemy import JSON, Boolean, ForeignKey, Integer, String, UniqueConstra
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from ..rules.context import CharacterContext
 from ..rules.progression import class_bab, class_save_bonus
 from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -236,7 +237,10 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             handler = HANDLERS.get(choice.ability_id)
             if handler is None:
                 continue
-            modifier = handler()[0]
+            # Every `HANDLERS` entry a race grant can resolve to is
+            # `_attribute_bonus` (`rules/race_abilities.py`), which ignores
+            # `context` — an empty one is correct here, not a shortcut.
+            modifier = handler(CharacterContext())[0]
             if modifier.target_id is not None:
                 return modifier.target_id
         return None

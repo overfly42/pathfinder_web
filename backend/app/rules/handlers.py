@@ -21,7 +21,17 @@ of `HANDLERS` locally, for the same locality/git-blame reason
 fixture files rather than one combined one; this module only merges them.
 Ability ids are globally unique across catalogs (each is its own hand-frozen
 UUID, see `race_abilities.py`'s docstring), so the merge can never silently
-shadow one source's handler with another's."""
+shadow one source's handler with another's.
+
+Mid-migration to the uniform `CharacterContext` handler signature
+(`rules/context.py`, `roadmap.md`'s "Uniform CharacterContext handler
+signature", `todos.md`'s "Handler-Migration zu CharacterContext"):
+`race_abilities.py`'s slice takes `CharacterContext` as of 2026-08-10,
+`speed.py`'s doesn't yet, so the type below is the pre-migration shape for
+the entries that haven't moved — nothing actually calls this merged dict
+today (every real caller still goes through `race_abilities.HANDLERS`/
+`speed.HANDLERS` directly), so this is a documentation gap, not a live bug.
+Update once every source module has moved."""
 
 from collections.abc import Callable
 from uuid import UUID
@@ -30,7 +40,7 @@ from .modifiers import Modifier
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
 
-HANDLERS: dict[UUID, Callable[[], list[Modifier]]] = {
+HANDLERS: dict[UUID, Callable[..., list[Modifier]]] = {
     **_RACE_ABILITY_HANDLERS,
     **_SPEED_HANDLERS,
 }
