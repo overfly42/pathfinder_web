@@ -154,6 +154,36 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   is now paperdoll-display-only; `_gear_lookup()` fetches the shared
   item/gear-by-slot maps once for both it and `_gear_ac_modifiers()`.
 
+  **Per-class handler files, same day** (a maintainability decision, not a
+  business one — CLAUDE.md's "Working Conventions"): `rules/classes/` is a
+  new package, one module per class, closely related variants sharing a
+  file (`barbarian.py` covers both Barbar and Entfesselter Barbar). Class
+  content that used to live scattered across the older mechanic-based split
+  moved there: `BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID` out of `speed.py`,
+  `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` out of `effects.py`.
+  `speed.py` keeps the *generic, reusable* `fast_movement` factory (a
+  future Mönch "Schnelligkeit" file would import and partial-apply it too,
+  same as `barbarian.py` does) — only the concrete id/registration is
+  class-owned, not the computation shape itself. `rules/classes/__init__.py`
+  merges every class file's `HANDLERS` into one dict, so `rules/handlers.py`
+  imports one name (`rules.classes.HANDLERS`) regardless of how many class
+  files exist. `class_speed_bonus` (`speed.py`) had to switch from looking
+  ability ids up in its own local `HANDLERS` to the full merged
+  `rules/handlers.py` registry, since a granted class ability's speed
+  handler could now live in any class file, not just this module — deferred
+  import inside the function (same circular-import fix `race_speed` already
+  needed for `RaceAbilityGrant`), since `rules/handlers.py` itself imports
+  `speed.py`. `rules/effects.py` is now empty (`EFFECT_HANDLERS = {}`),
+  reserved for the non-class-tied content `todos.md`'s "Effekt-Handler-
+  Inventar" already tracks (conditions, poisons, diseases) — its now-fully-
+  redundant `resolve()`/`active_effect_modifiers()` helpers were deleted
+  (superseded by `rules/handlers.py`'s generic `resolve_ids()`/
+  `character_modifiers()`, and had zero callers left, even in tests, once
+  `sheet.py` moved to those). Race abilities deliberately stay split by
+  mechanic, not by race: few races, trivially one-line handlers, no seam
+  the way classes have — see CLAUDE.md for the reasoning to apply (or not)
+  to the next family that grows large.
+
 ## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
 
 Tracking section, added 2026-08-03 after trying to model a concrete

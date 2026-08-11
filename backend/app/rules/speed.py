@@ -1,8 +1,8 @@
 """Land speed — base (racial) plus any bonus from a granted class ability,
 composed via the shared `Modifier`/`stack()` primitive (`rules/modifiers.py`)
 through the same unified ability-effect registry `rules/race_abilities.py`
-uses for ability-score bonuses (see `rules/handlers.py`, which merges both
-modules' `HANDLERS` into the one dict `sheet.py` ultimately looks up
+uses for ability-score bonuses (see `rules/handlers.py`, which merges every
+family's `HANDLERS` into the one dict `sheet.py` ultimately looks up
 against) — composition (which race/class grants which speed-affecting
 ability) is real data (`RaceAbilityGrant`/`BaseClassAbilityGrant`), same
 split as `rules/skill_points.py`; only the *computation* (how many meters,
@@ -10,26 +10,19 @@ and how it stacks) lives here.
 
 Every seeded race grants exactly one of the two base-speed abilities
 (`race_seed.py`), so `race_speed` always finds a value — no stored default
-needed, unlike the old `BaseRace.speed` column this replaces.
+needed, unlike the old `BaseRace.speed` column this replaces. Race-tied
+content stays local to this module's own `HANDLERS` (same locality/
+git-blame reason `race_abilities.py` keeps its own slice too).
 
-"Schnelle Bewegung" (+3 m at level 1): one `BaseClassAbility` row/id shared
-by Barbar and Entfesselter Barbar via two separate `BaseClassAbilityGrant`
-rows (same mechanic — identical bonus, identical conditions — so one catalog
-row per CLAUDE.md/`race_abilities.py`'s "same rulebook ability shared by
-every grantor gets exactly one id" rule, not one row per importing script).
-Its handler's `Modifier` is `type="untyped"` (`modifiers.ALWAYS_STACKS`) per
-its own RAW text ("dieser Bonus ist kumulativ mit allen anderen Boni... auf
-seine Bewegungsrate an Land") — deliberately not a one-time flat add:
-`class_speed_bonus` calls the handler once per currently-qualified grant
-(`sheet.py`'s `_granted_class_ability_ids` `Counter`), so a genuinely
-repeating fast-movement feature (e.g. Mönch's Schnelligkeit, +3 m at
-3./6./9./12./15./18. Stufe — not imported yet, see todos.md) would stack
-correctly the moment its own grants exist, with no change needed here.
-Applied unconditionally — RAW gates it on wearing no more than medium armor
-and not being under a heavy load, but armor weight category/encumbrance
-aren't modeled yet (`models/item.py` only has `ac_bonus`/`max_dex_bonus`),
-same "honest simplification" `sheet.py`'s `_build_equipment` documents for
-AC/CMB/CMD."""
+`fast_movement` is the generic, reusable factory a class's own fast-movement
+ability partial-applies (e.g. `rules/classes/barbarian.py`'s "Schnelle
+Bewegung", CLAUDE.md's "trivial cases share one generic handler factory"
+guidance) — a *class*-granted ability, so its concrete id/registration lives
+in that class's own file (`rules/classes/`, one file per class — CLAUDE.md's
+"Working Conventions"), not here; this module only hosts the shape every
+such ability shares. `class_speed_bonus` below therefore looks up a granted
+ability id against `rules/handlers.py`'s full merged registry, not this
+module's own smaller `HANDLERS` — the id could now live in any class file."""
 
 import functools
 from collections import Counter
@@ -44,7 +37,6 @@ from .modifiers import Modifier, ModifierTarget, stack
 
 RACE_NORMAL_SPEED_ABILITY_ID = UUID("2e0186d5-e532-4532-b7f7-b4c6f4834bde")
 RACE_SLOW_SPEED_ABILITY_ID = UUID("9a5db666-54d4-4112-b750-dbb1abf1265d")
-BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID = UUID("b311443b-a086-52ae-a079-d31880638921")
 
 
 def _base_speed(context: CharacterContext, *, meters: int) -> list[Modifier]:
@@ -55,21 +47,32 @@ def _base_speed(context: CharacterContext, *, meters: int) -> list[Modifier]:
     return [Modifier(source="race", type="base", value=meters, target=ModifierTarget.SPEED)]
 
 
-def _fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
-    # Also unconditional: ownership/repetition count is already decided by
-    # the caller (`class_speed_bonus`'s per-grant loop below), not by
-    # anything this handler would read off `context` itself.
+def fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
+    """A flat, always-stacking (`type="untyped"`) bonus to land speed —
+    the shape PF1e's various "fast movement"-style class features share
+    (Barbar/Entfesselter Barbar's "Schnelle Bewegung", Mönch's
+    "Schnelligkeit", ...): per PF1e RAW text ("dieser Bonus ist kumulativ
+    mit allen anderen Boni... auf seine Bewegungsrate an Land"), deliberately
+    not a one-time flat add. `class_speed_bonus` below calls a granted
+    ability's handler once per currently-qualified grant, not once per
+    distinct id, so a genuinely repeating fast-movement feature (granted
+    again at higher levels) stacks correctly with no change needed here —
+    each class file just registers its own ability id against this same
+    factory, parameterized with its own `meters`."""
+    # Unconditional: ownership/repetition count is already decided by the
+    # caller (`class_speed_bonus`'s per-grant loop below), not by anything
+    # this handler would read off `context` itself.
     del context
     return [Modifier(source="Schnelle Bewegung", type="untyped", value=meters, target=ModifierTarget.SPEED)]
 
 
-# Feeds `rules/handlers.py`'s unified `HANDLERS` — kept local to this module
-# (not that merged dict) for the same locality/git-blame reason
-# `race_abilities.py` keeps its own `HANDLERS` slice separate too.
+# This module's own slice of `rules/handlers.py`'s unified `HANDLERS` —
+# race-tied speed content only. A class's fast-movement ability (built from
+# `fast_movement` above) registers its id in that class's own file under
+# `rules/classes/`, not here.
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     RACE_NORMAL_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=9),
     RACE_SLOW_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=6),
-    BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(_fast_movement, meters=3),
 }
 
 # `race_speed` only ever resolves a race's own base-speed grant, never
@@ -107,18 +110,22 @@ def class_speed_bonus(granted_class_ability_counts: Counter[UUID], context: Char
     class abilities (`sheet.py`'s `_granted_class_ability_ids` — already
     resolved against level count/archetype/option picks). The handler is
     called once per qualifying grant, not once per distinct ability id, so a
-    repeatedly-granted fast-movement feature stacks correctly (see module
-    docstring).
+    repeatedly-granted fast-movement feature stacks correctly (see
+    `fast_movement`'s docstring).
 
-    Unlike `race_speed`, this call site has a real `Character` in scope
-    (`sheet.py`), so it passes the caller's actual `context` through to each
-    handler call rather than an empty stand-in — even though no handler here
-    reads it yet, this is the first place `CharacterContext.granted_ability_ids`
-    can be genuinely populated (`todos.md`'s "Handler-Migration zu
-    CharacterContext")."""
+    Looks a granted ability id up against `rules/handlers.py`'s full merged
+    registry, not this module's own `HANDLERS`: a class's fast-movement
+    ability is registered in that class's own file under `rules/classes/`
+    (CLAUDE.md's "Working Conventions"), which could be any of them — this
+    function has no way to know which one without asking the merged
+    registry. Imported here, not at module level, since `rules/handlers.py`
+    itself imports this module's own `HANDLERS` — a module-level import here
+    would be circular."""
+    from .handlers import HANDLERS as _MERGED_HANDLERS
+
     modifiers: list[Modifier] = []
     for ability_id, count in granted_class_ability_counts.items():
-        handler = HANDLERS.get(ability_id)
+        handler = _MERGED_HANDLERS.get(ability_id)
         if handler is None:
             continue
         for _ in range(count):

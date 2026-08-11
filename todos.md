@@ -184,6 +184,20 @@ relevanten Handler auf):
       zweier separat gestackter Summen. `_build_equipment` ist jetzt reine
       Paperdoll-Anzeige; `_gear_lookup()` holt die Item-/Gear-by-Slot-Maps
       einmal für beide Funktionen gemeinsam.
+- [x] **Handler-Dateien nach Klasse statt Mechanik aufgeteilt, gleicher
+      Tag** (Wartbarkeitsentscheidung, keine fachliche — CLAUDE.md's
+      "Working Conventions") — neues Package `rules/classes/`, ein Modul pro
+      Klasse, eng verwandte Varianten teilen sich eine Datei
+      (`barbarian.py` für Barbar + Entfesselter Barbar).
+      `BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID` (vorher `speed.py`) und
+      `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` (vorher `effects.py`)
+      sind jetzt dort. `speed.py` behält die generische `fast_movement`-
+      Factory (wiederverwendbar für zukünftige Klassen, z. B. Mönchs
+      Schnelligkeit). `rules/effects.py` ist wieder leer
+      (`EFFECT_HANDLERS = {}`), reserviert für nicht klassengebundene
+      Effekte (Bedingungen/Gifte/Krankheiten, siehe unten); die dadurch
+      redundant gewordenen `resolve()`/`active_effect_modifiers()`-Helfer
+      (0 Aufrufer mehr, auch in Tests) wurden gelöscht.
 
 ## Effekt-Handler-Inventar (`EFFECT_HANDLERS` / weapon `HANDLERS`) — noch offen
 

@@ -22,13 +22,20 @@ repeat-count-aware (`sheet.py`'s `_granted_class_ability_ids`, `rules/speed.py`'
 nothing to do with computing an effect. Only the "what does this ability id
 compute" half is shared here.
 
-Each source module (`race_abilities.py`, `speed.py`, `effects.py`) authors
-its own slice of `HANDLERS` locally, for the same locality/git-blame reason
-`base_class_abilities.json`/`base_race_abilities.json` stay separate
-fixture files rather than one combined one; this module only merges them.
-Ability ids are globally unique across catalogs (each is its own hand-frozen
-UUID, see `race_abilities.py`'s docstring), so the merge can never silently
-shadow one source's handler with another's.
+Each source module authors its own slice of `HANDLERS` locally, for the
+same locality/git-blame reason `base_class_abilities.json`/
+`base_race_abilities.json` stay separate fixture files rather than one
+combined one; this module only merges them. Race-tied content stays split
+by mechanic (`race_abilities.py` for ability-score bonuses, `speed.py` for
+base land speed) since there are few races and each one's handlers are
+trivial one-liners; class-tied content is split by *class* instead
+(`rules/classes/`, one file per class, e.g. `barbarian.py` — CLAUDE.md's
+"Working Conventions") since PF1e's ~40 classes/archetypes each have many
+individually complex features, a very different growth shape than races'.
+Non-class-tied active effects (conditions/poisons/diseases) stay in
+`effects.py`. Ability ids are globally unique across catalogs (each is its
+own hand-frozen UUID, see `race_abilities.py`'s docstring), so the merge can
+never silently shadow one source's handler with another's.
 
 Every entry takes the uniform `CharacterContext` signature (`rules/context.py`,
 `roadmap.md`'s "Uniform CharacterContext handler signature") as of
@@ -39,6 +46,7 @@ that module's docstring)."""
 from collections.abc import Callable, Iterable
 from uuid import UUID
 
+from .classes import HANDLERS as _CLASS_HANDLERS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .modifiers import Modifier
@@ -49,6 +57,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_RACE_ABILITY_HANDLERS,
     **_SPEED_HANDLERS,
     **_EFFECT_HANDLERS,
+    **_CLASS_HANDLERS,
 }
 
 
