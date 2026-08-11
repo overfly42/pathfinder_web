@@ -37,12 +37,13 @@ from ..models import (
     User,
 )
 from ..rules.effective_scores import full_effective_ability_scores
-from ..rules.equipment_slots import SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
+from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
+from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
     CharacterCreate,
@@ -512,15 +513,23 @@ def rename_character(
 @router.patch("/{character_id}/hp", response_model=CharacterRead)
 def adjust_hp(character_id: UUID, body: HpAdjust, db: Annotated[Session, Depends(get_db)]) -> Character:
     """Applies damage (negative `delta`) or healing (positive `delta`) to a
-    character's current HP. Only `Character.damage_taken` is ever
-    persisted — remaining HP is always derived (`hp_max - damage_taken`,
-    same formula as `sheet.py`'s display), so this endpoint just moves that
-    one column, clamped to PF1e's real HP range: `damage_taken` is bounded
-    to `[0, hp_max + con_score]`, i.e. current HP can never exceed `hp_max`
-    (healing past full is wasted, not stored as overheal) and can't drop
-    below `-con_score` (PF1e RAW death threshold: a character dies at
-    negative HP equal to their full Constitution *score*, not modifier —
-    beyond that point further damage no longer changes the stored value).
+    character's current HP, and/or sets the temporary-HP pool (see
+    `HpAdjust`'s docstring). Only `Character.damage_taken`/
+    `temporary_hit_points` are ever persisted — remaining HP is always
+    derived (`hp_max - damage_taken`, same formula as `sheet.py`'s display).
+
+    Damage drains `temporary_hit_points` first (PF1e: temporary HP absorbs
+    damage before real HP does, and evaporates rather than converting to
+    real damage) — only the remainder, if any, moves `damage_taken`, bounded
+    to PF1e's real HP range: `[0, hp_max + con_score]`, i.e. current HP can
+    never exceed `hp_max` (healing past full is wasted, not stored as
+    overheal) and can't drop below `-con_score` (PF1e RAW death threshold: a
+    character dies at negative HP equal to their full Constitution *score*,
+    not modifier — beyond that point further damage no longer changes the
+    stored value). Healing (positive `delta`) never restores temporary HP,
+    only real HP — matches PF1e (a potion doesn't refill a rage's temp-HP
+    buffer) and this endpoint's `temporary_hit_points` field is the only way
+    to grant/replace that pool.
 
     `hp_max`/`con_score` here use the same `full_effective_ability_scores`
     (gear bonuses, ability damage, race/flex) that `sheet.py`'s
@@ -533,14 +542,26 @@ def adjust_hp(character_id: UUID, body: HpAdjust, db: Annotated[Session, Depends
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
-    race_mods = race_ability_score_mods(db, character.race_id)
-    effective_scores = full_effective_ability_scores(db, character, race_mods)
-    con_score = effective_scores["KO"]
-    con_mod = ability_mod(con_score)
-    hp_max = max_hit_points([level.hit_points for level in character.levels], con_mod, character.level)
+    if body.temporary_hit_points is not None:
+        character.temporary_hit_points = max(0, body.temporary_hit_points)
 
-    new_damage_taken = (character.damage_taken or 0) - body.delta
-    character.damage_taken = max(0, min(new_damage_taken, hp_max + con_score))
+    if body.delta is not None:
+        race_mods = race_ability_score_mods(db, character.race_id)
+        effective_scores = full_effective_ability_scores(db, character, race_mods)
+        con_score = effective_scores["KO"]
+        con_mod = ability_mod(con_score)
+        hp_max = max_hit_points([level.hit_points for level in character.levels], con_mod, character.level)
+
+        if body.delta < 0:
+            damage = -body.delta
+            current_temp = character.temporary_hit_points
+            absorbed = min(current_temp, damage)
+            character.temporary_hit_points = current_temp - absorbed
+            damage -= absorbed
+            new_damage_taken = (character.damage_taken or 0) + damage
+        else:
+            new_damage_taken = (character.damage_taken or 0) - body.delta
+        character.damage_taken = max(0, min(new_damage_taken, hp_max + con_score))
 
     db.commit()
     db.refresh(character)
@@ -718,7 +739,12 @@ def toggle_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
     """Flip `is_active` for an unlimited-use "aktivierbar" item whose effect
     is toggled rather than consumed (e.g. Energieschildring: +2 RK only
     while active) — see roadmap.md's "Wondrous-Item-Katalog mit echter
-    Attributsboni-Wirkung", decided 2026-08-04."""
+    Attributsboni-Wirkung", decided 2026-08-04. Also allows toggling a weapon
+    carrying one of the flat on-hit energy special abilities (Aufflammen/
+    Blitz/Eis/Säure and their crit-only siblings — `rules/weapon_abilities
+    .is_togglable`), even though weapon rows never have `BaseItem.activation
+    == "activatable"` (that field is only ever set for wondrous/ring/wand
+    catalog rows) — `sheet.py`'s attack/damage readout reads this same flag."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -726,7 +752,8 @@ def toggle_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
     if gear_row is None:
         raise HTTPException(status_code=404, detail="Item not found in inventory")
     item = db.get(BaseItem, item_id)
-    if item is None or item.activation != "activatable":
+    has_togglable_ability = any(is_togglable(link.ability_id) for link in gear_row.special_abilities)
+    if item is None or (item.activation != "activatable" and not has_togglable_ability):
         raise HTTPException(status_code=422, detail="This item cannot be toggled active/inactive")
 
     gear_row.is_active = not gear_row.is_active
@@ -917,7 +944,14 @@ def update_slot(
     `SLOT_CATEGORY` gives the required `BaseItem.category`; for the 12
     wondrous/ring slots, which share a category between several slots,
     `SLOT_TO_ITEM_SLOT` additionally checks `BaseItem.slot` against the
-    requested slot key (both ring slots accept `BaseItem.slot == "ring"`)."""
+    requested slot key (both ring slots accept `BaseItem.slot == "ring"`).
+
+    The two weapon slots plus "schild" additionally cross-clear each other
+    per `rules/equipment_slots.py`'s `OFF_HAND_SLOTS` docstring: a
+    two-handed "hauptwaffe" weapon (`BaseItem.hands == "two"`) clears
+    whatever "nebenwaffe" held, equipping into "nebenwaffe" is rejected
+    outright while "hauptwaffe" holds a two-handed weapon, and "nebenwaffe"/
+    "schild" clear each other since both claim the off hand."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -942,7 +976,26 @@ def update_slot(
             or (required_item_slot is not None and item.slot != required_item_slot)
         ):
             raise HTTPException(status_code=422, detail=f"Item does not fit slot '{slot_key}'")
+
+        if slot_key == "nebenwaffe":
+            main_hand = next((g for g in character.gear if g.equipped_slot == "hauptwaffe"), None)
+            main_hand_item = db.get(BaseItem, main_hand.item_id) if main_hand is not None else None
+            if main_hand_item is not None and main_hand_item.hands == "two":
+                raise HTTPException(
+                    status_code=422, detail="Hauptwaffe ist zweihändig — Nebenhand ist nicht frei"
+                )
+
         gear_row.equipped_slot = slot_key
+
+        if slot_key == "hauptwaffe" and item.hands == "two":
+            for other in character.gear:
+                if other.equipped_slot == "nebenwaffe":
+                    other.equipped_slot = None
+        elif slot_key in OFF_HAND_SLOTS:
+            other_slot = next(s for s in OFF_HAND_SLOTS if s != slot_key)
+            for other in character.gear:
+                if other.equipped_slot == other_slot:
+                    other.equipped_slot = None
 
     db.commit()
     db.refresh(character)

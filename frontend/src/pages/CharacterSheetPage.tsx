@@ -151,10 +151,19 @@ export function CharacterSheetPage() {
         if (!prev) return prev;
         // Mirrors the backend's clamp (routers/characters.py's adjust_hp):
         // healing past hp.max is wasted, and damage bottoms out at -KO score
-        // (PF1e RAW death threshold), not 0.
+        // (PF1e RAW death threshold), not 0. Damage drains temporary HP
+        // first, only spilling into current HP once that pool is empty;
+        // healing never refills temporary HP.
         const conScore = prev.abilities.find((ability) => ability.key === 'KO')?.score ?? 0;
-        const current = Math.max(-conScore, Math.min(prev.hp.max, prev.hp.current + signedAmount));
-        return { ...prev, hp: { ...prev.hp, current } };
+        let temporary = prev.hp.temporary;
+        let amount = signedAmount;
+        if (amount < 0) {
+          const absorbed = Math.min(temporary, -amount);
+          temporary -= absorbed;
+          amount += absorbed;
+        }
+        const current = Math.max(-conScore, Math.min(prev.hp.max, prev.hp.current + amount));
+        return { ...prev, hp: { ...prev.hp, current, temporary } };
       });
       return;
     }
@@ -164,6 +173,20 @@ export function CharacterSheetPage() {
       refetch();
     } catch {
       setHpError('Trefferpunkte konnten nicht aktualisiert werden.');
+    }
+  }
+
+  async function handleSetTempHp(amount: number) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => (prev ? { ...prev, hp: { ...prev.hp, temporary: amount } } : prev));
+      return;
+    }
+    setHpError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/hp`, { temporary_hit_points: amount });
+      refetch();
+    } catch {
+      setHpError('Temporäre Trefferpunkte konnten nicht aktualisiert werden.');
     }
   }
 
@@ -470,13 +493,13 @@ export function CharacterSheetPage() {
       <div className="main">
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
           <CharacterHeader character={character} />
-          <VitalsBar character={character} onApplyHp={handleApplyHp} />
+          <VitalsBar character={character} onApplyHp={handleApplyHp} onSetTempHp={handleSetTempHp} />
           {hpError && <p style={{ color: '#e29a9a' }}>{hpError}</p>}
 
           <div className="section-label">Attribute</div>
           <AbilityScores abilities={character.abilities} />
 
-          <SavesAndCombat saves={character.saves} combat={character.combat} />
+          <SavesAndCombat saves={character.saves} combat={character.combat} weaponAttacks={character.weaponAttacks} />
 
           <SheetTabs
             character={character}

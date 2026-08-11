@@ -162,6 +162,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + stacked.get((ModifierTarget.SPEED, None), 0)
     )
     gear = _build_gear(db, character)
+    weapon_attacks = _build_weapon_attacks(items, gear_by_slot, gear, bab, str_mod, dex_mod)
 
     return {
         "id": str(character.id),
@@ -170,7 +171,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "className": class_name,
         "archetype": archetype,
         "level": total_level,
-        "hp": {"current": hp_current, "max": hp_max},
+        "hp": {"current": hp_current, "max": hp_max, "temporary": character.temporary_hit_points},
         "armorClass": armor_class,
         "initiative": _fmt(dex_mod),
         "speed": f"{total_speed} m",
@@ -209,6 +210,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "raceAbilities": _build_race_abilities(db, character.race_id),
         "spellsKnown": _build_spell_grades(db, character, "used"),
         "gear": gear,
+        "weaponAttacks": weapon_attacks,
         "equipmentSlots": equipment_slots,
         "spellbook": _build_spell_grades(db, character, "prepared"),
         "actions": _build_actions(db, character, granted_ability_ids, gear),
@@ -932,3 +934,94 @@ def _build_equipment(
         equipment_slots.append({**slot_def, "options": options, "selected": selected})
 
     return equipment_slots
+
+
+_WEAPON_HAND_LABELS = {"hauptwaffe": "Hauptwaffe", "nebenwaffe": "Nebenhand"}
+
+
+def _iterative_attack_bonuses(bab: int, flat_bonus: int) -> list[int]:
+    """PF1e iterative attacks: a second/third/fourth attack joins at BAB
+    6/11/16 (one extra per full 5 points of BAB from 6 up), each 5 lower
+    than the last — e.g. BAB 7 -> [+7, +2]. `bab < 1` (a 0-or-negative
+    total, e.g. a fresh level-1 poor-BAB caster) still gets the one attack."""
+    count = 1 + (bab - 1) // 5 if bab >= 1 else 1
+    return [flat_bonus - 5 * i for i in range(count)]
+
+
+def _weapon_damage_str_mod(str_mod: int, hands: str | None, is_off_hand: bool) -> int:
+    """PF1e's Str-to-damage scaling by grip: a two-handed weapon adds 150% of
+    a *positive* Str mod (floored), an off-hand weapon only 50% — but a
+    negative Str mod (a penalty) is never scaled, only bonuses are (PF1e
+    FAQ). A one-handed/light weapon in the main hand (neither case) adds the
+    full modifier either way."""
+    if str_mod < 0:
+        return str_mod
+    if hands == "two":
+        return (str_mod * 3) // 2
+    if is_off_hand:
+        return str_mod // 2
+    return str_mod
+
+
+def _build_weapon_attacks(
+    items: dict[UUID, BaseItem],
+    gear_by_slot: dict[str, CharacterGear],
+    gear_entries: list[dict],
+    bab: int,
+    str_mod: int,
+    dex_mod: int,
+) -> list[dict]:
+    """Computed attack-bonus/damage-dice readout for whatever's equipped in
+    the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
+    weapon-slot item, 2026-08-11) — a static display number, not a dice
+    roll (see `rules/weapon_abilities.py`'s module docstring: this app
+    doesn't roll for the player). Attack uses Dex for a weapon with a
+    `weapon_range` (thrown/projectile), Str otherwise — a simplification
+    for thrown weapons (PF1e RAW still adds Str to *damage* for those, not
+    modeled here, see `_weapon_damage_str_mod`'s ranged-is-zero handling
+    below) and for projectile weapons that add a capped Str bonus (composite
+    bows), also not modeled. `gear_entries` (this module's own already-built
+    `_build_gear` output) is reused rather than re-querying
+    `BaseWeaponSpecialAbility` a second time — its `specialAbilities` list
+    already carries each ability's resolved `bonusDamage` (only the 8 flat
+    on-hit energy abilities have one, see `weapon_abilities.py`), gated here
+    on the equipped instance's own `CharacterGear.is_active`."""
+    gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
+    results = []
+    for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
+        gear_row = gear_by_slot.get(slot_key)
+        item = items.get(gear_row.item_id) if gear_row is not None else None
+        if item is None or item.category != "weapon":
+            continue
+
+        is_ranged = item.weapon_range is not None
+        attack_ability_mod = dex_mod if is_ranged else str_mod
+        attack_bonuses = _iterative_attack_bonuses(bab, bab + attack_ability_mod + gear_row.enhancement)
+
+        damage_parts: list[str] = []
+        if item.damage_medium:
+            damage_str_mod = (
+                0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
+            )
+            flat_damage = damage_str_mod + gear_row.enhancement
+            piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
+            if item.damage_type:
+                piece += f" {item.damage_type}"
+            damage_parts.append(piece)
+
+        entry = gear_entries_by_item_id.get(str(gear_row.item_id))
+        for ability in (entry or {}).get("specialAbilities", []):
+            bonus = ability.get("bonusDamage")
+            if bonus and (not bonus["requiresActive"] or gear_row.is_active):
+                damage_parts.append(f"{bonus['dice']} {bonus['type']}")
+
+        results.append(
+            {
+                "key": slot_key,
+                "hand": hand_label,
+                "name": item.name,
+                "attackBonus": "/".join(_fmt(bonus) for bonus in attack_bonuses),
+                "damage": " + ".join(damage_parts) if damage_parts else "—",
+            }
+        )
+    return results

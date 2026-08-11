@@ -69,6 +69,7 @@
 .vital .k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
 .vital .v { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px; color: var(--ink); }
 .vital.hp .v { color: var(--wax); }
+.hp-temp { font-size: 11px; font-weight: 600; color: var(--brass-dark); }
 .vital .bar { margin-top: 6px; height: 5px; border-radius: 4px; background: rgba(0,0,0,0.12); overflow: hidden; }
 .vital .bar span { display: block; height: 100%; background: var(--wax-light); }
 

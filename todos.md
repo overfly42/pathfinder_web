@@ -625,6 +625,7 @@ Abgleich der bestehenden Mocks (`pathfinder-mock.html` — Charakterbogen,
 
 ### Bekannte Detail-Lücken in den bestehenden Mocks
 
+- [ ] **Keine Anzeige für temporäre Trefferpunkte**: Das HP-Popover in `pathfinder-mock.html` kennt nur `current`/`max` (Schaden/Heilen) — es gibt kein Feld für einen separaten temporären-TP-Puffer, obwohl mehrere Quellen ihn brauchen (Kampfrausch, diverse Zaubersprüche). Backend-seitig existiert dafür noch keine Spalte (`Character` hat kein Temp-HP-Feld, siehe `backend/app/models/character.py`s `damage_taken`-Kommentar); Design-Überlegungen (muss vor echtem HP Schaden absorbieren, beim Wegfallen der Quelle verfallen statt sich in echten Schaden zu verwandeln, nicht als `Modifier` auf `hp_max` modellierbar) stehen bereits in `roadmap.md`s Slice-3-Punkt „Class-ability computation" — dort aber nur als Backend-/Rechenlücke, nicht als UI-Punkt erfasst.
 - [ ] **Kämpfer-Bonustalent**: Der Kämpfer bekommt zusätzlich zum normalen Talent auf ungeraden Stufen ein Bonus-Kampftalent auf jeder geraden Stufe. Das würde die Zähllogik im Talente-Schritt selbst ändern (nicht nur eine neue Auswahlgruppe) und ist im Stufenaufstiegs-Mock bewusst noch nicht umgesetzt.
 - [ ] **Terminologie „Zauberbuch"**: Im Charakterbogen-Mock ist der Ausrüstungs-Tab für die Waldläufer-Zaubervorbereitung mit „Zauberbuch" beschriftet, obwohl der Waldläufer ein göttlicher, vorbereitender Zauberwirker ohne echtes Zauberbuch ist (nur arkane Vorbereiter wie der Magier führen laut Requirement 2.2 ein Zauberbuch).
 

@@ -721,6 +721,46 @@ Done — armor/shield gear table + equip slots, gear CRUD endpoints, shared
 modifier/bonus-stacking design, real computed AC. Full detail:
 `roadmap_history.md`.
 
+- [ ] **Weapon-in-hand slots + computed attack-bonus/damage readout — not
+      done, flagged 2026-08-11.** Confirmed gap in both the current React
+      sheet and the old static mock: `rules/equipment_slots.py`'s
+      `SLOT_DEFINITIONS` has armor + shield (real, this slice) but no
+      main-hand/off-hand/two-handed weapon slot — a wielded weapon just sits
+      in the flat gear list like any other item, with no "this is what
+      you're attacking with" concept. There's also no attack-bonus/damage-
+      dice readout anywhere on the sheet (only the flat GAB/BAB number) —
+      `todos.md`'s Beispielcharakter gap log and the 2026-08-09 Kampfrausch-
+      effect note above ("Deliberately not modeled: the melee/thrown
+      attack-and-damage bonus...") both already flagged the missing
+      calculation. Scope, decided 2026-08-11: a **static computed readout
+      only** (attack bonus + damage dice shown on the sheet, same as GAB
+      today) — no dice-rolling/roll-log feature, that stays out of scope per
+      the 2026-08-09 decision, which this item clarifies rather than
+      reverses. Unlike that decision's assumption, this readout **does**
+      need real magic-bonus computation: enhancement bonus and at least
+      flat/energy-damage special properties (e.g. flaming = +1d6 fire)
+      should feed the computed number, not stay descriptive-only text —
+      revisits (not reverses) this file's "Magische Verzauberung/Material
+      als Berechnung statt Freitext" entry above, which deliberately left
+      the calculation out. Needs:
+  - Paperdoll: main-hand / off-hand / two-handed weapon slot(s), mutually
+    exclusive (a two-handed weapon occupies both hands; off-hand can hold a
+    light/one-handed weapon, or nothing if a shield is equipped there
+    instead — shield slot already exists separately).
+  - Attack bonus formula per equipped weapon: BAB + Str (or Dex for
+    finesse/ranged) mod + size mod + enhancement bonus + any already-wired
+    feat bonuses (e.g. Weapon Focus, once class-ability computation lands)
+    − iterative-attack/two-weapon-fighting penalties as applicable.
+  - Damage formula: `BaseItem.damage_small`/`damage_medium` dice + Str mod
+    (×1.5 two-handed, ×0.5 off-hand, per PF1e rules) + enhancement bonus +
+    flat/energy bonus dice from special properties.
+  - Enhancement bonus + special-property computation on `CharacterGear` —
+    currently free text (`enhancement`/`properties` columns), needs
+    structured fields/lookup feeding the formula above; the ~80 named
+    special weapon properties are not a uniform shape (flat on-hit energy
+    damage vs. toggle-on-command vs. crit-multiplier-scaling) — taxonomy
+    already researched in this file's "Magische Verzauberung" entry above.
+
 ### 5. Effects / Conditions / Time
 Data model decided 2026-08-05. This app is play support, not a simulation:
 it never tries to detect a real-world trigger itself (an ally being in
@@ -928,8 +968,11 @@ entirely, not a category here.
       (untyped, so it correctly stacks with everything), +2 Will (morale).
       Deliberately *not* modeled: the melee/thrown attack-and-damage bonus
       (no attack/damage-roll endpoint anywhere in this app, project-wide
-      scope decision) and the 2-temp-HP-per-HD (needs its own tracked pool,
-      see Slice 3's "Class-ability computation" item) — both documented in
+      scope decision — clarified 2026-08-11 in Slice 4's "Weapon-in-hand
+      slots + computed attack-bonus/damage readout" item: a computed
+      readout is in scope, an interactive roll/roll-log feature is not) and
+      the 2-temp-HP-per-HD (needs its own tracked pool, see Slice 3's
+      "Class-ability computation" item) — both documented in
       the handler's own docstring, not silently dropped. Regression test:
       `tests/test_effects.py::test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus`.
       Full suite green (226 tests). Barbar's own (non-Entfesselter)

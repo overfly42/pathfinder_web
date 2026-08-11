@@ -143,7 +143,7 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     # Waldläufer (d10, full BAB, good fort/ref, poor will) at char level 1,
     # max HP for the character's first level, Elf's -2 KO (13 -> 11, mod 0).
     sheet = client.get(f"/api/characters/{body['id']}").json()
-    assert sheet["hp"] == {"current": 10, "max": 10}
+    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 0}
 
 
 def test_create_character_with_unknown_race_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -207,7 +207,7 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
     # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
     # level sum: 10+6+5=21.
     sheet = client.get(f"/api/characters/{body['id']}").json()
-    assert sheet["hp"] == {"current": 21, "max": 21}
+    assert sheet["hp"] == {"current": 21, "max": 21, "temporary": 0}
 
 
 def test_create_character_missing_hit_points_for_a_higher_level_is_rejected(
@@ -1217,12 +1217,12 @@ def test_adjust_hp_damage_and_heal(client: TestClient, db_session: Session) -> N
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -4})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 4
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 6, "max": 10}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 6, "max": 10, "temporary": 0}
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 2})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 2
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 8, "max": 10}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 8, "max": 10, "temporary": 0}
 
 
 def test_adjust_hp_damage_is_capped_at_negative_con_score_death_floor(
@@ -1249,7 +1249,46 @@ def test_adjust_hp_healing_past_max_is_wasted(client: TestClient, db_session: Se
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 5})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 0
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 10, "max": 10}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 10, "max": 10, "temporary": 0}
+
+
+def test_adjust_hp_temporary_hit_points_absorb_damage_before_real_hp(
+    client: TestClient, db_session: Session
+) -> None:
+    # Same character as test_adjust_hp_damage_and_heal: hp_max == 10.
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
+
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"temporary_hit_points": 5})
+    assert response.status_code == 200
+    assert response.json()["temporary_hit_points"] == 5
+    sheet = client.get(f"/api/characters/{created['id']}").json()
+    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 5}
+
+    # 3 damage is fully absorbed by the temporary pool, real HP untouched.
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -3})
+    assert response.status_code == 200
+    assert response.json()["temporary_hit_points"] == 2
+    assert response.json()["damage_taken"] == 0
+    sheet = client.get(f"/api/characters/{created['id']}").json()
+    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 2}
+
+    # 5 more damage: drains the remaining 2 temporary HP, the other 3 spills onto real HP.
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -5})
+    assert response.status_code == 200
+    assert response.json()["temporary_hit_points"] == 0
+    assert response.json()["damage_taken"] == 3
+    sheet = client.get(f"/api/characters/{created['id']}").json()
+    assert sheet["hp"] == {"current": 7, "max": 10, "temporary": 0}
+
+    # Real healing never refills/changes the temporary pool.
+    client.patch(f"/api/characters/{created['id']}/hp", json={"temporary_hit_points": 4})
+    response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 1})
+    assert response.status_code == 200
+    assert response.json()["temporary_hit_points"] == 4
+    sheet = client.get(f"/api/characters/{created['id']}").json()
+    assert sheet["hp"]["temporary"] == 4
 
 
 def test_adjust_hp_unknown_character_is_404(client: TestClient) -> None:

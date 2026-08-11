@@ -53,9 +53,31 @@ export interface PreparableSpellGrade {
   spells: (SpellRef & { prepared: boolean })[];
 }
 
+/** Only set for the small set of flat on-hit energy abilities (Aufflammen/Blitz/Eis/Säure and their
+ *  crit-only siblings) — `rules/weapon_abilities.py`'s one exception to "no computed effect".
+ *  `requiresActive` is always true today (they're all command-word-toggled), kept explicit rather
+ *  than assumed in case a future non-toggled flat-damage ability is added. */
+export interface GearSpecialAbilityBonusDamage {
+  dice: string;
+  type: string;
+  requiresActive: boolean;
+}
+
 export interface GearSpecialAbility {
   name: string;
   description: string | null;
+  bonusDamage?: GearSpecialAbilityBonusDamage | null;
+}
+
+/** Computed attack-bonus/damage-dice readout for one equipped weapon slot (backend `sheet.py`'s
+ *  `_build_weapon_attacks`) — a static display number, not a dice roll (this app never rolls for
+ *  the player, see `rules/weapon_abilities.py`'s module docstring). */
+export interface WeaponAttack {
+  key: string;
+  hand: string;
+  name: string;
+  attackBonus: string;
+  damage: string;
 }
 
 export interface GearItem {
@@ -210,7 +232,7 @@ export interface Character {
   className: string;
   archetype: string;
   level: number;
-  hp: { current: number; max: number };
+  hp: { current: number; max: number; temporary: number };
   armorClass: number;
   initiative: string;
   speed: string;
@@ -225,6 +247,7 @@ export interface Character {
   raceAbilities: DescribedEntry[];
   spellsKnown: CastableSpellGrade[];
   gear: GearItem[];
+  weaponAttacks: WeaponAttack[];
   equipmentSlots: EquipmentSlot[];
   spellbook: PreparableSpellGrade[];
   actions: ActionOption[];

@@ -84,12 +84,21 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
     # Subsystems that genuinely don't exist yet stay honest empty defaults,
     # not fabricated content — this is what used to trip the frontend's
     # "not available yet" placeholder (`!('effectsActive' in character)`).
-    # equipmentSlots (roadmap slice 4) is real for armor/shield now — see
-    # test_items.py — but this character equipped nothing, and the other 12
-    # wondrous-item slots have no real catalog content yet, so every slot's
-    # options/selected stay empty here.
-    assert len(body["equipmentSlots"]) == 15
-    assert all(slot["options"] == [] and slot["selected"] == "" for slot in body["equipmentSlots"])
+    # equipmentSlots (roadmap slice 4) is real for armor/shield/weapons now —
+    # see test_items.py/test_weapon_slots.py — this character equipped
+    # nothing, so every slot's `selected` stays empty; owning the Dolch
+    # (unequipped) does make it a candidate *option* for both weapon slots
+    # (same as an owned-but-unequipped armor/shield item would be) — the
+    # other 12 wondrous-item slots still have no real catalog content, so
+    # their options stay empty too.
+    assert len(body["equipmentSlots"]) == 17
+    assert all(slot["selected"] == "" for slot in body["equipmentSlots"])
+    slots_by_key = {slot["key"]: slot for slot in body["equipmentSlots"]}
+    assert {option["label"] for option in slots_by_key["hauptwaffe"]["options"]} == {"Dolch"}
+    assert {option["label"] for option in slots_by_key["nebenwaffe"]["options"]} == {"Dolch"}
+    assert all(
+        slot["options"] == [] for key, slot in slots_by_key.items() if key not in ("hauptwaffe", "nebenwaffe")
+    )
     assert body["actions"] == []
     assert body["effectsActive"] == []
 
@@ -182,7 +191,7 @@ def test_character_sheet_for_legacy_character_without_hit_points_does_not_crash(
 
     response = client.get(f"/api/characters/{character_id}")
     assert response.status_code == 200
-    assert response.json()["hp"] == {"current": 0, "max": 0}
+    assert response.json()["hp"] == {"current": 0, "max": 0, "temporary": 0}
 
 
 def test_class_features_for_waldlaeufer_match_source(client: TestClient, db_session: Session) -> None:

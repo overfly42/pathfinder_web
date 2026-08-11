@@ -339,14 +339,26 @@ class LevelUp(BaseModel):
 
 
 class HpAdjust(BaseModel):
-    """Body for `PATCH /api/characters/{id}/hp` — `delta` is the signed
+    """Body for `PATCH /api/characters/{id}/hp`. `delta` is the signed
     change to *current* HP: positive heals, negative damages (matches the
     character sheet's `VitalsBar`/`onApplyHp` convention on the frontend).
     Persisted as the inverse onto `Character.damage_taken` — remaining HP is
     always derived at read time, never stored directly (see that column's
-    docstring)."""
+    docstring). Negative `delta` drains `Character.temporary_hit_points`
+    first, only spilling into `damage_taken` once the temporary pool is
+    exhausted (`routers/characters.py`'s `adjust_hp`); positive `delta`
+    (real healing) never refills it.
 
-    delta: int
+    `temporary_hit_points`, when present, *sets* the temporary-HP pool to
+    that value rather than adding to it — a spell/rage grant replaces the
+    old pool rather than stacking with it (same simplification PF1e itself
+    generally uses: temporary HP from the same or a new source doesn't
+    stack, the player keeps the higher single pool). Independent of `delta`:
+    both may be sent in one request (e.g. a GM manually setting HP down and
+    granting temp HP at once), or just one."""
+
+    delta: int | None = None
+    temporary_hit_points: int | None = None
 
 
 class GearUpdate(BaseModel):
@@ -489,6 +501,7 @@ class CharacterRead(BaseModel):
     # docstring; remaining HP is only derived in `sheet.py`'s fuller display
     # shape, not exposed here.
     damage_taken: int | None
+    temporary_hit_points: int
     # Computed (not stored) from each class's own `bab_progression`/
     # `fort_save`/`ref_save`/`wil_save` and level count, summed across
     # classes — see `Character.bab`/`Character.saves` (models/character.py)

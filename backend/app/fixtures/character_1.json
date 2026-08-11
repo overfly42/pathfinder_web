@@ -4,7 +4,7 @@
   "race": "Elfe",
   "className": "Waldläuferin",
   "level": 7,
-  "hp": { "current": 54, "max": 62 },
+  "hp": { "current": 54, "max": 62, "temporary": 0 },
   "armorClass": 19,
   "initiative": "+4",
   "speed": "9 m",
@@ -26,6 +26,9 @@
     { "key": "bab", "label": "Grundangriffsbonus (GAB)", "value": "+7" },
     { "key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": "+9" },
     { "key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": "23" }
+  ],
+  "weaponAttacks": [
+    { "key": "hauptwaffe", "hand": "Hauptwaffe", "name": "+1 Kompositlangbogen", "attackBonus": "+12/+7", "damage": "1W8+1 S" }
   ],
   "skills": [
     { "key": "schleichen", "label": "Schleichen", "value": "+12" },
@@ -105,6 +108,9 @@
     ] },
     { "key": "handgelenke", "label": "Handgelenke", "side": "left", "row": 7, "selected": "Armschienen des Bogenschützen", "options": [
       { "value": "Armschienen des Bogenschützen", "label": "Armschienen des Bogenschützen" }
+    ] },
+    { "key": "hauptwaffe", "label": "Hauptwaffe", "side": "left", "row": 8, "selected": "+1 Kompositlangbogen", "options": [
+      { "value": "+1 Kompositlangbogen", "label": "+1 Kompositlangbogen" }
     ] },
     { "key": "koerper", "label": "Körper", "side": "right", "row": 1, "selected": "", "options": [
       { "value": "Robe der Zauberkunde", "label": "Robe der Zauberkunde" }

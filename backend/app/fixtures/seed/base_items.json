@@ -892,7 +892,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf, Zu-Fall-bringen",
     "weight_lb": "2 Pfd.",
-    "description": "Die Aklys ist eine Wurfkeule mit Haken, an der ein 6 m langes, gewöhnlich aus Leder bestehendes Band befestigt ist. Daher kann man die Aklys mit einer Bewegungsaktion wieder zurückziehen, nachdem sie geworfen wurde. Mithilfe des Hakens kann man aus der Ferne versuchen, Gegner zu Fall zu bringen. In einige Aklydes werden Löcher gebohrt, sodass sie beim Werfen pfeifen."
+    "description": "Die Aklys ist eine Wurfkeule mit Haken, an der ein 6 m langes, gewöhnlich aus Leder bestehendes Band befestigt ist. Daher kann man die Aklys mit einer Bewegungsaktion wieder zurückziehen, nachdem sie geworfen wurde. Mithilfe des Hakens kann man aus der Ferne versuchen, Gegner zu Fall zu bringen. In einige Aklydes werden Löcher gebohrt, sodass sie beim Werfen pfeifen.",
+    "hands": "one"
   },
   {
     "id": "580be210-d92f-5e33-ba31-2f6fc987c3fa",
@@ -907,7 +908,8 @@
     "weapon_type": "martial",
     "special": "Schaukampf",
     "weight_lb": "1 Pfd.",
-    "description": "Ein Amentum ist ein langer Lederriemen, der an einem normalen Wurfspeer befestigt ist. Bevor der Wurfspeer geworfen wird, wird das Amentum um dessen Schaft gewickelt. Danach wirft man den Wurfspeer und hält gleichzeitig das Amentum fest, sodass die Waffe einen Drall und eine größere Reichweite bekommt. Das Anbringen des Amentum an einen Wurfspeer ist eine Bewegungsaktion, das Umwickeln ist eine Volle Aktion. Man kann Wurfspeere aufnehmen, um die zuvor Amenta gewickelt wurden. Ein Wurfspeer, der mit einem Amentum umwickelt ist, gilt als Kriegswaffe."
+    "description": "Ein Amentum ist ein langer Lederriemen, der an einem normalen Wurfspeer befestigt ist. Bevor der Wurfspeer geworfen wird, wird das Amentum um dessen Schaft gewickelt. Danach wirft man den Wurfspeer und hält gleichzeitig das Amentum fest, sodass die Waffe einen Drall und eine größere Reichweite bekommt. Das Anbringen des Amentum an einen Wurfspeer ist eine Bewegungsaktion, das Umwickeln ist eine Volle Aktion. Man kann Wurfspeere aufnehmen, um die zuvor Amenta gewickelt wurden. Ein Wurfspeer, der mit einem Amentum umwickelt ist, gilt als Kriegswaffe.",
+    "hands": "one"
   },
   {
     "id": "3a06fdb2-d9f9-4099-883a-e9005cb4fade",
@@ -934,7 +936,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Diese steinzeitliche Waffe besteht aus einem dünnen Holz- oder Geweihstück als Schwinge, mit der speziell angepasste Wurfpfeile geschleudert werden. Ein Atlatl verleiht dem Wurfpfeil eine größere Reichweite, muss aber wie eine Schusswaffe geladen werden. Ebenso wie bei Wurfwaffen wird bei der Atlatl der Stärkemodifikator auf die Schadenswürfe angerechnet. Man kann ein Atlatl mit einer Hand benutzen, allerdings nicht laden. Das Laden eines Atlatl ist eine Bewegungsaktion, die mit beiden Händen ausgeführt werden muss und Gelegenheitsangriffe provoziert. Man kann das Talent Schnelles Nachladen für Atlatl wählen und den Wurfpfeil daraufhin als Freie Aktion auflegen."
+    "description": "Diese steinzeitliche Waffe besteht aus einem dünnen Holz- oder Geweihstück als Schwinge, mit der speziell angepasste Wurfpfeile geschleudert werden. Ein Atlatl verleiht dem Wurfpfeil eine größere Reichweite, muss aber wie eine Schusswaffe geladen werden. Ebenso wie bei Wurfwaffen wird bei der Atlatl der Stärkemodifikator auf die Schadenswürfe angerechnet. Man kann ein Atlatl mit einer Hand benutzen, allerdings nicht laden. Das Laden eines Atlatl ist eine Bewegungsaktion, die mit beiden Händen ausgeführt werden muss und Gelegenheitsangriffe provoziert. Man kann das Talent Schnelles Nachladen für Atlatl wählen und den Wurfpfeil daraufhin als Freie Aktion auflegen.",
+    "hands": "one"
   },
   {
     "id": "5507b099-65d5-52db-8d12-5204df5cba44",
@@ -949,7 +952,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Atlatlwurfpfeile haben die Größe von Wurfspeeren, besitzen aber eine Befiederung und können ohne einen Atlatl als Wurfspeere eingesetzt werden."
+    "description": "Atlatlwurfpfeile haben die Größe von Wurfspeeren, besitzen aber eine Befiederung und können ohne einen Atlatl als Wurfspeere eingesetzt werden.",
+    "hands": "one"
   },
   {
     "id": "51a5fb79-f181-5d54-b6e2-57cddcd796b4",
@@ -964,7 +968,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "7a52980c-e58b-59f1-9660-aac0bdab9d06",
@@ -979,7 +984,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Bajonette sind Nahkampfwaffen, die hergestellt werden, um in die Kerben oder auf die Mündungen von Armbrüsten und Feuerwaffen zu passen. Dadurch können diese Waffen als Nahkampfwaffen eingesetzt werden, allerdings können sie dann zeitweise nicht als Fernkampfwaffen verwendet werden. Das Anbringen oder Abnehmen eines Bajonetts ist eine Bewegungsaktion."
+    "description": "Bajonette sind Nahkampfwaffen, die hergestellt werden, um in die Kerben oder auf die Mündungen von Armbrüsten und Feuerwaffen zu passen. Dadurch können diese Waffen als Nahkampfwaffen eingesetzt werden, allerdings können sie dann zeitweise nicht als Fernkampfwaffen verwendet werden. Das Anbringen oder Abnehmen eines Bajonetts ist eine Bewegungsaktion.",
+    "hands": "two"
   },
   {
     "id": "7c58d926-f209-5330-9ee7-9c7cc6d4e57b",
@@ -994,7 +1000,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Reichweite, siehe Text",
     "weight_lb": "14 Pfd.",
-    "description": "Das halbmondförmige Axtblatt dieser Stangenwaffe ist an zwei Stellen am Heft befestigt: Die Mitte des Blattes ist an einer Einkerbung am Kopf des Heftes angebracht, während das untere Ende der Klinge an einem zweiten Befestigungspunkt sitzt. Das Blatt ist häufig sehr lang, manchmal sogar so lang wie das Heft. Man erhält einen Bonus von +2 auf die KMV, um Versuchen zu widerstehen, eine Bardiche zu zerschmettern."
+    "description": "Das halbmondförmige Axtblatt dieser Stangenwaffe ist an zwei Stellen am Heft befestigt: Die Mitte des Blattes ist an einer Einkerbung am Kopf des Heftes angebracht, während das untere Ende der Klinge an einem zweiten Befestigungspunkt sitzt. Das Blatt ist häufig sehr lang, manchmal sogar so lang wie das Heft. Man erhält einen Bonus von +2 auf die KMV, um Versuchen zu widerstehen, eine Bardiche zu zerschmettern.",
+    "hands": "two"
   },
   {
     "id": "a2a045dc-d54e-5ac5-89a6-806e336da469",
@@ -1009,7 +1016,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Ein Bastardschwert ist ungefähr 1,20 m lang und daher zu groß, als dass es ohne besondere Ausbildung eingesetzt werden kann. Will man es mit einer Hand benutzen, gilt es als exotische Waffe. Man kann ein Bastardschwert allerdings beidhändig als Kriegswaffe führen."
+    "description": "Ein Bastardschwert ist ungefähr 1,20 m lang und daher zu groß, als dass es ohne besondere Ausbildung eingesetzt werden kann. Will man es mit einer Hand benutzen, gilt es als exotische Waffe. Man kann ein Bastardschwert allerdings beidhändig als Kriegswaffe führen.",
+    "hands": "one"
   },
   {
     "id": "24b5bacd-b7a6-5242-866d-7cc4a524b7d0",
@@ -1024,7 +1032,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Diese einhändig geführte Axt ist kurz (ungefähr 0,30 m lang) und auf die Verwendung mit einer Hand ausgelegt. Im Gegensatz zu Wurfäxten ist sie nicht dafür ausbalanciert, gleichförmig wirbelnd zu fliegen, und besitzt stattdessen einen schwereren Kopf. Tomahawks, Kriegsbeile und ähnliche Bezeichnungen beziehen sich für gewöhnlich auf Beile."
+    "description": "Diese einhändig geführte Axt ist kurz (ungefähr 0,30 m lang) und auf die Verwendung mit einer Hand ausgelegt. Im Gegensatz zu Wurfäxten ist sie nicht dafür ausbalanciert, gleichförmig wirbelnd zu fliegen, und besitzt stattdessen einen schwereren Kopf. Tomahawks, Kriegsbeile und ähnliche Bezeichnungen beziehen sich für gewöhnlich auf Beile.",
+    "hands": "one"
   },
   {
     "id": "b8911817-4399-55a2-9496-121169942fad",
@@ -1039,7 +1048,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Blasrohre werden für gewöhnlich zum Verschießen lähmender (aber selten tödlicher) Gifte verwendet. Beim Verschießen sind sie fast lautlos. Eine Liste passender Gifte findet man unter dem Abschnitt Gifte"
+    "description": "Blasrohre werden für gewöhnlich zum Verschießen lähmender (aber selten tödlicher) Gifte verwendet. Beim Verschießen sind sie fast lautlos. Eine Liste passender Gifte findet man unter dem Abschnitt Gifte",
+    "hands": "one"
   },
   {
     "id": "ddd09eb1-93d2-5569-84eb-a5a7e6d6e223",
@@ -1054,7 +1064,8 @@
     "weapon_type": "exotic",
     "special": "Blockierend, Doppel, Mönch",
     "weight_lb": "3 Pfd.",
-    "description": "Der Bo-Stab dient sowohl zum Schutz als auch als Waffe und ähnelt einem Kampfstab, der allerdings dünner und an einem Ende zugespitzt ist."
+    "description": "Der Bo-Stab dient sowohl zum Schutz als auch als Waffe und ähnelt einem Kampfstab, der allerdings dünner und an einem Ende zugespitzt ist.",
+    "hands": "two"
   },
   {
     "id": "eb50b448-6417-53a9-9572-1f59d6b594c7",
@@ -1069,7 +1080,8 @@
     "weapon_type": "exotic",
     "special": "Nicht tödlich, Zu Fall bringen",
     "weight_lb": "2 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "46b6bd99-4900-5cd3-9abf-a867e117f39a",
@@ -1084,7 +1096,8 @@
     "weapon_type": "exotic",
     "special": "siehe Text",
     "weight_lb": "3 Pfd.",
-    "description": "Der Bumerang ist hauptsächlich ein Jagdwerkzeug, allerdings ist es nicht ungewöhnlich, dass diese vielseitige Waffe im Kampf eingesetzt wird. Ein Bumerang besteht aus einem flachen Stück Holz: einem langen Heft, einer deutlichen Krümmung an der Vorderseite und einem scharfen rückwärtigen Knick an der Kopfseite. Ein Jagdbumerang kehrt nicht zurück."
+    "description": "Der Bumerang ist hauptsächlich ein Jagdwerkzeug, allerdings ist es nicht ungewöhnlich, dass diese vielseitige Waffe im Kampf eingesetzt wird. Ein Bumerang besteht aus einem flachen Stück Holz: einem langen Heft, einer deutlichen Krümmung an der Vorderseite und einem scharfen rückwärtigen Knick an der Kopfseite. Ein Jagdbumerang kehrt nicht zurück.",
+    "hands": "one"
   },
   {
     "id": "afb87451-a66b-5f36-9485-820f3603d6d4",
@@ -1099,7 +1112,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "15 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "cc2234a2-929d-58dd-806d-f45dc1af95d0",
@@ -1114,7 +1128,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "5 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "878ffc1c-10d8-5095-bf8d-728bd917027a",
@@ -1129,7 +1144,8 @@
     "weapon_type": "simple",
     "special": "Mönch, siehe Text",
     "weight_lb": "1 Pfd.",
-    "description": "Der Caestus ist ein Handschuh aus Leder oder dickem Stoff, der den Arm des Trägers vom Mittelfinger bis zum Ellenbogen bedeckt. Diese Nahkampfwaffe ist auf Höhe der Finger mit Metallplatten verstärkt und weist entlang des Handrückens und des Handgelenks häufig bösartige Stacheln auf. Man gilt als bewaffnet, während man den Caestus trägt, und verursacht mit waffenlosen Angriffen tödlichen Schaden. Ist man im Umgang mit einem Caestus geübt, kann man mit waffenlosen Schlägen Wucht- oder Schnittschaden verursachen. Wenn man einen Caestus trägt, sind die Finger größtenteils frei, weshalb man mit dieser Hand Gegenstände tragen oder einsetzen kann. Da die Waffe die Knöchel umschließt, erleidet man mit dieser Hand einen Malus von -2 auf alle Aufgaben, bei denen es auf Präzision ankommt (wie das Knacken eines Schlosses). Ein Caestus kann nicht entwaffnet werden."
+    "description": "Der Caestus ist ein Handschuh aus Leder oder dickem Stoff, der den Arm des Trägers vom Mittelfinger bis zum Ellenbogen bedeckt. Diese Nahkampfwaffe ist auf Höhe der Finger mit Metallplatten verstärkt und weist entlang des Handrückens und des Handgelenks häufig bösartige Stacheln auf. Man gilt als bewaffnet, während man den Caestus trägt, und verursacht mit waffenlosen Angriffen tödlichen Schaden. Ist man im Umgang mit einem Caestus geübt, kann man mit waffenlosen Schlägen Wucht- oder Schnittschaden verursachen. Wenn man einen Caestus trägt, sind die Finger größtenteils frei, weshalb man mit dieser Hand Gegenstände tragen oder einsetzen kann. Da die Waffe die Knöchel umschließt, erleidet man mit dieser Hand einen Malus von -2 auf alle Aufgaben, bei denen es auf Präzision ankommt (wie das Knacken eines Schlosses). Ein Caestus kann nicht entwaffnet werden.",
+    "hands": "one"
   },
   {
     "id": "07191fad-f986-5e35-b216-27ce6c5f0402",
@@ -1144,7 +1160,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Das Chakram ist eine einfache, elegante und leicht mitzuführende Wurfwaffe. Es handelt sich um einen flachen Metallring mit scharfer Außenkante. Man kann das Chakram wie eine Nahkampfwaffe einsetzen, allerdings ist sie nicht dafür ausgelegt und man erleidet einen Malus von -1 auf Angriffswürfe und muss einen Reflexwurf gegen SG 15 bestehen, um sich nicht an der Klinge zu schneiden (halber Schaden, kein Stärkemodifikator). Wenn man eine schwere Rüstung trägt, musst man diesen Rettungswurf nicht ablegen."
+    "description": "Das Chakram ist eine einfache, elegante und leicht mitzuführende Wurfwaffe. Es handelt sich um einen flachen Metallring mit scharfer Außenkante. Man kann das Chakram wie eine Nahkampfwaffe einsetzen, allerdings ist sie nicht dafür ausgelegt und man erleidet einen Malus von -1 auf Angriffswürfe und muss einen Reflexwurf gegen SG 15 bestehen, um sich nicht an der Klinge zu schneiden (halber Schaden, kein Stärkemodifikator). Wenn man eine schwere Rüstung trägt, musst man diesen Rettungswurf nicht ablegen.",
+    "hands": "one"
   },
   {
     "id": "33980230-8edb-5f87-a25d-7af4c47616d8",
@@ -1159,7 +1176,8 @@
     "weapon_type": "exotic",
     "special": "Blockierend, Mönch, siehe Text",
     "weight_lb": null,
-    "description": "Diese kurzen, stumpfen Stöcke werden zur Verbesserung von Kampfkunsttechniken in der Hand getragen und mit einer Schnur gesichert,die über den Daumen geschlungen wird. Sie verleihen dem Träger die Fähigkeit, einen Gegner in den Schwitzkasten zu nehmen und dessen Druckpunkte anzugreifen, verleihen zudem einen Bonus von +2 auf Kampfmanöverwürfe für den Ringkampf."
+    "description": "Diese kurzen, stumpfen Stöcke werden zur Verbesserung von Kampfkunsttechniken in der Hand getragen und mit einer Schnur gesichert,die über den Daumen geschlungen wird. Sie verleihen dem Träger die Fähigkeit, einen Gegner in den Schwitzkasten zu nehmen und dessen Druckpunkte anzugreifen, verleihen zudem einen Bonus von +2 auf Kampfmanöverwürfe für den Ringkampf.",
+    "hands": "one"
   },
   {
     "id": "248d13cd-51fd-470b-8d88-cb63e7f15e46",
@@ -1174,7 +1192,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Ein Dolch ist ein Kampfmesser. Seine Klinge ist normalerweise weniger als 0,30 m lang und kann gebogen oder gerade, ein- oder zweischneidig sein. Das Aussehen eines Dolches kann stark variieren, ebenso wie seine Bezeichnung (beispielsweise wird ein Vierkant auch Lang dolch genannt). Wenn man einen Dolch am Körper verbergen will, erhält man einen Bonus von +2 auf den Fertigkeitswurf für Fingerfertigkeit."
+    "description": "Ein Dolch ist ein Kampfmesser. Seine Klinge ist normalerweise weniger als 0,30 m lang und kann gebogen oder gerade, ein- oder zweischneidig sein. Das Aussehen eines Dolches kann stark variieren, ebenso wie seine Bezeichnung (beispielsweise wird ein Vierkant auch Lang dolch genannt). Wenn man einen Dolch am Körper verbergen will, erhält man einen Bonus von +2 auf den Fertigkeitswurf für Fingerfertigkeit.",
+    "hands": "one"
   },
   {
     "id": "c96ad8fa-962d-5004-a01b-f48a7fc98897",
@@ -1189,7 +1208,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "b4b0a4ab-c68d-5597-988f-855323862d06",
@@ -1204,7 +1224,8 @@
     "weapon_type": "firearm",
     "special": "Streuwaffe",
     "weight_lb": "8 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "41cda002-717b-512d-b16f-b4a5f1e2624d",
@@ -1219,7 +1240,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "18 Pfd.",
-    "description": "Mit einer einzigen Bewegung des Abzugs verschießt diese schwere Waffe zwei Bolzen mit Eisenspitzen. Wenn man im Umgang mit dieser Waffe geübt ist, erleidet man aufgrund der Größe und des Gewichts einen Malus von -4 auf den Angriffswurf, bzw. -8, wenn man mit ihr ungeübt ist. Trifft der Angriff, dann erleidet das Ziel Schaden durch beide Bolzen. Kritische Treffer, Schaden durch hinterhältige Angriffe und sonstiger Schaden, der auf Präzision basiert, gelten nur für den ersten Bolzen. Das Nachladen eines Bolzens ist eine Standard-Aktion, durch das Talent Schnelles Nachladen kann dies zu einer Bewegungsaktion verkürzt werden. Mit dem Talent Armbrustmeisterschaft (Expertenregeln) kann man mit einer Bewegungsaktion beide Bolzen nachladen. Eine Doppelarmbrust verschießt Armbrustbolzen."
+    "description": "Mit einer einzigen Bewegung des Abzugs verschießt diese schwere Waffe zwei Bolzen mit Eisenspitzen. Wenn man im Umgang mit dieser Waffe geübt ist, erleidet man aufgrund der Größe und des Gewichts einen Malus von -4 auf den Angriffswurf, bzw. -8, wenn man mit ihr ungeübt ist. Trifft der Angriff, dann erleidet das Ziel Schaden durch beide Bolzen. Kritische Treffer, Schaden durch hinterhältige Angriffe und sonstiger Schaden, der auf Präzision basiert, gelten nur für den ersten Bolzen. Das Nachladen eines Bolzens ist eine Standard-Aktion, durch das Talent Schnelles Nachladen kann dies zu einer Bewegungsaktion verkürzt werden. Mit dem Talent Armbrustmeisterschaft (Expertenregeln) kann man mit einer Bewegungsaktion beide Bolzen nachladen. Eine Doppelarmbrust verschießt Armbrustbolzen.",
+    "hands": "two"
   },
   {
     "id": "d15f28f3-e311-5b5a-9a1e-c6830c383292",
@@ -1234,7 +1256,8 @@
     "weapon_type": "exotic",
     "special": "Doppel",
     "weight_lb": "6 Pfd.",
-    "description": "In diesem Stab sind zwei gleiche Kampfschwerter verborgen, die so perfekt ausbalanciert sind, dass man sie als Paar einsetzen kann. Ihren Namen zum Trotz ähneln die Klingen eher dem kürzeren Wakizashi. Wenn die Klingen in der Scheide verborgen sind, kann man die Waffe als Kampfstab einsetzen."
+    "description": "In diesem Stab sind zwei gleiche Kampfschwerter verborgen, die so perfekt ausbalanciert sind, dass man sie als Paar einsetzen kann. Ihren Namen zum Trotz ähneln die Klingen eher dem kürzeren Wakizashi. Wenn die Klingen in der Scheide verborgen sind, kann man die Waffe als Kampfstab einsetzen.",
+    "hands": "two"
   },
   {
     "id": "dc52a5af-af86-5b13-9d2a-75e9893f4f00",
@@ -1249,7 +1272,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "18 Pfd",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "838e7488-2f41-533f-b59e-065711286b81",
@@ -1264,7 +1288,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen, Mönch",
     "weight_lb": "3 Pfd.",
-    "description": "Von der Spitze dieses 0,90 m langen Schwertes mit gerader Klinge gehen auf gegenüberliegenden Seiten versetzt zwei scharfe Sporen ab, die dazu eingesetzt werden können, einem Gegner die Waffen aus den Händen zu reißen."
+    "description": "Von der Spitze dieses 0,90 m langen Schwertes mit gerader Klinge gehen auf gegenüberliegenden Seiten versetzt zwei scharfe Sporen ab, die dazu eingesetzt werden können, einem Gegner die Waffen aus den Händen zu reißen.",
+    "hands": "one"
   },
   {
     "id": "2bb0f357-4b33-5d67-8dfa-274167e00fe7",
@@ -1279,7 +1304,8 @@
     "weapon_type": "exotic",
     "special": "Doppel, Mönch, Reichweite, Zu-Fall-bringen",
     "weight_lb": "4 Pfd.",
-    "description": "Diese Waffe besteht aus zwei Kama, die über eine 2,40 m lange Kette miteinander verbunden sind. Der Träger kann angreifen, als hielte er in jeder Hand eine Kama, oder er kann die Kette nutzen, um einen einzelnen Angriff mit Reichweite auszuführen. Indem er die Kette schwingt, kann der Träger die Kama herumwirbeln, um seine Gegner zu entwaffnen oder zu Fall zu bringen. Wenn er eines der Kama fallengelassen hat, kann der Träger sie darüber hinaus mithilfe der Kette mit einer Freien Aktion wieder zu sich zurückziehen."
+    "description": "Diese Waffe besteht aus zwei Kama, die über eine 2,40 m lange Kette miteinander verbunden sind. Der Träger kann angreifen, als hielte er in jeder Hand eine Kama, oder er kann die Kette nutzen, um einen einzelnen Angriff mit Reichweite auszuführen. Indem er die Kette schwingt, kann der Träger die Kama herumwirbeln, um seine Gegner zu entwaffnen oder zu Fall zu bringen. Wenn er eines der Kama fallengelassen hat, kann der Träger sie darüber hinaus mithilfe der Kette mit einer Freien Aktion wieder zu sich zurückziehen.",
+    "hands": "two"
   },
   {
     "id": "2269ce65-02fc-5ce8-a151-50442db0ade0",
@@ -1294,7 +1320,8 @@
     "weapon_type": "exotic",
     "special": "Doppel",
     "weight_lb": "10 Pfd.",
-    "description": "Ein Doppelklingenschwert ist eine Doppelwaffe. Zwei Klingen sind zu beiden Seiten eines in der Mitte befindlichen, kurzen Heftes angebracht, sodass der Träger elegante wie tödliche Hiebe vollführen kann."
+    "description": "Ein Doppelklingenschwert ist eine Doppelwaffe. Zwei Klingen sind zu beiden Seiten eines in der Mitte befindlichen, kurzen Heftes angebracht, sodass der Träger elegante wie tödliche Hiebe vollführen kann.",
+    "hands": "two"
   },
   {
     "id": "1264c029-e4ea-53c4-8770-95e282d1dd52",
@@ -1309,7 +1336,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "11 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "a53e9674-c21e-530c-a797-2f72dce73274",
@@ -1324,7 +1352,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "5 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "72b900db-45a9-532c-9833-eb9f54df2128",
@@ -1339,7 +1368,8 @@
     "weapon_type": "firearm",
     "special": "Streuwaffe",
     "weight_lb": "3 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "86a70b51-8c7b-51c7-bbc6-c2e95c2bb9e3",
@@ -1354,7 +1384,8 @@
     "weapon_type": "martial",
     "special": "Reichweite",
     "weight_lb": "14 Pfd.",
-    "description": "Auf der Spitze dieses 1,50 m langen Stabes sitzen drei lange, nach hinten gebogenen Klingen, die einem aufblühenden Lotus nachempfunden sind. Der ungewöhnlich große Kopf ist derart gestaltet, dass er schwere Schläge austeilt und mehrere Wunden verursacht, die sich in entgegengesetzter Richtung öffnen."
+    "description": "Auf der Spitze dieses 1,50 m langen Stabes sitzen drei lange, nach hinten gebogenen Klingen, die einem aufblühenden Lotus nachempfunden sind. Der ungewöhnlich große Kopf ist derart gestaltet, dass er schwere Schläge austeilt und mehrere Wunden verursacht, die sich in entgegengesetzter Richtung öffnen.",
+    "hands": "two"
   },
   {
     "id": "6dd15fe0-3c01-54f4-81ba-5ea5ca2b4d94",
@@ -1369,7 +1400,8 @@
     "weapon_type": "martial",
     "special": "Abwehr",
     "weight_lb": "4 Pfd.",
-    "description": "Ein Dreizack besitzt drei Metallzinken am Ende eines 1,20 m langen Stocks. Diese Waffe kann geworfen werden."
+    "description": "Ein Dreizack besitzt drei Metallzinken am Ende eines 1,20 m langen Stocks. Diese Waffe kann geworfen werden.",
+    "hands": "one"
   },
   {
     "id": "1b405640-07f1-5f33-a905-296701ae4304",
@@ -1384,7 +1416,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": null,
-    "description": "Dies ist ein Gelehrtenpinsel mit Eisengriff und scharfer Spitze. Obwohl der Pinsel wenig Schaden anrichtet, lässt er sich gut verbergen (man erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, wenn man den Eisenpinsel am Körper verbergen will). Zudem kann er auf kurze Distanz geworfen werden oder man kann überraschend verheerende Wirkungen erzielen, wenn man mit dem Pinsel auf wichtigen Nervenknoten und Akupunkturpunkte einsticht."
+    "description": "Dies ist ein Gelehrtenpinsel mit Eisengriff und scharfer Spitze. Obwohl der Pinsel wenig Schaden anrichtet, lässt er sich gut verbergen (man erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, wenn man den Eisenpinsel am Körper verbergen will). Zudem kann er auf kurze Distanz geworfen werden oder man kann überraschend verheerende Wirkungen erzielen, wenn man mit dem Pinsel auf wichtigen Nervenknoten und Akupunkturpunkte einsticht.",
+    "hands": "one"
   },
   {
     "id": "49268765-bca3-5517-830c-cec29c57ea8a",
@@ -1399,7 +1432,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "7 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "3c87be93-cba3-545e-9752-48e21fb8cab0",
@@ -1414,7 +1448,8 @@
     "weapon_type": "exotic",
     "special": "Mönch, siehe Text",
     "weight_lb": null,
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "3464d681-ecc1-5a5f-bac3-bd628dd565db",
@@ -1429,7 +1464,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "14 Pfd.",
-    "description": "Der grobe Metallkopf dieses wuchtigen Hammers mündet zu beiden Seiten in mehreren stumpfen Stacheln, welche die Wucht eines kräftigen Schwungs auf einen kleineren, stärker gebündelten Bereich konzentrieren, so dass Rüstungen einfacher durchdrungen werden. Aufgrund von Größe und Gewicht des Hammerkopfes ist ein Erdspalter schlecht ausbalanciert und man benötigt zwei Hände, um ihn ordentlich hochheben und führen zu können."
+    "description": "Der grobe Metallkopf dieses wuchtigen Hammers mündet zu beiden Seiten in mehreren stumpfen Stacheln, welche die Wucht eines kräftigen Schwungs auf einen kleineren, stärker gebündelten Bereich konzentrieren, so dass Rüstungen einfacher durchdrungen werden. Aufgrund von Größe und Gewicht des Hammerkopfes ist ein Erdspalter schlecht ausbalanciert und man benötigt zwei Hände, um ihn ordentlich hochheben und führen zu können.",
+    "hands": "two"
   },
   {
     "id": "ddb8d316-1f81-520a-a344-c906024569e2",
@@ -1444,7 +1480,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Diese schwere Klinge besitzt eine einzelne scharfe Schneide. Die Klinge ist unten konkav und oben konvex geformt und an einem hakenförmigen Heft befestigt. Aufgrund der Form wird das Gewicht gleichmäßig verteilt und verleiht der Waffe den Schwung einer Axt mit der Schneide eines Schwertes, so dass sie einem größeren Kukri gleicht. Das hakenförmige Heft wird manchmal mit Schnitzereien in Form eines Pferdekopfes oder eines Raubvogels versehen. Mitunter wird eine Kette über die Öffnung gespannt, die dann einen Teilschutz für Hand und Finger bietet."
+    "description": "Diese schwere Klinge besitzt eine einzelne scharfe Schneide. Die Klinge ist unten konkav und oben konvex geformt und an einem hakenförmigen Heft befestigt. Aufgrund der Form wird das Gewicht gleichmäßig verteilt und verleiht der Waffe den Schwung einer Axt mit der Schneide eines Schwertes, so dass sie einem größeren Kukri gleicht. Das hakenförmige Heft wird manchmal mit Schnitzereien in Form eines Pferdekopfes oder eines Raubvogels versehen. Mitunter wird eine Kette über die Öffnung gespannt, die dann einen Teilschutz für Hand und Finger bietet.",
+    "hands": "one"
   },
   {
     "id": "7019bb3c-df97-53db-84fb-5d80fbac7615",
@@ -1459,7 +1496,8 @@
     "weapon_type": "exotic",
     "special": "Zu-Fall-bringen, siehe Text",
     "weight_lb": "10 Pfd.",
-    "description": "Dieses kurze, breite Netz ist mit hakenbewehrten Schlingen und Laufknoten bedeckt. Es lässt sich wie ein gewöhnliches Netz handhaben, nur dass es die besondere Waffenfähigkeit Zu-Fall-bringen besitzt. Wenn man einen Gegner verstrickt und das Halteseil festhält, kann man bei seinem nächsten Zug statt eines Nahkampfangriffs einen Kampfmanöverwurf durchführen, um den Gegner zu Fall zu bringen. Ist dies erfolgreich, kann der Gegner zu Fall gebracht oder ihm 1 Punkt Stichschaden zugefügt werden. Wird man mit einem Fangnetz gehalten, muss man einen Konzentrationswurf gegen SG 17 + Zauberstufe ablegen, um Zauber erfolgreich zu wirken. Um sich zu befreien, ist ein Fertigkeitswurf für Entfesselungskunst gegen SG 22 nötig."
+    "description": "Dieses kurze, breite Netz ist mit hakenbewehrten Schlingen und Laufknoten bedeckt. Es lässt sich wie ein gewöhnliches Netz handhaben, nur dass es die besondere Waffenfähigkeit Zu-Fall-bringen besitzt. Wenn man einen Gegner verstrickt und das Halteseil festhält, kann man bei seinem nächsten Zug statt eines Nahkampfangriffs einen Kampfmanöverwurf durchführen, um den Gegner zu Fall zu bringen. Ist dies erfolgreich, kann der Gegner zu Fall gebracht oder ihm 1 Punkt Stichschaden zugefügt werden. Wird man mit einem Fangnetz gehalten, muss man einen Konzentrationswurf gegen SG 17 + Zauberstufe ablegen, um Zauber erfolgreich zu wirken. Um sich zu befreien, ist ein Fertigkeitswurf für Entfesselungskunst gegen SG 22 nötig.",
+    "hands": "one"
   },
   {
     "id": "29a927ef-8af8-53eb-ab26-ad58836bab3e",
@@ -1474,7 +1512,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "98cb8026-8061-58c7-87e9-bb1181f51398",
@@ -1489,7 +1528,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf, Reichweite",
     "weight_lb": "12 Pfd.",
-    "description": "Diese Waffe ist eine große, halbmondförmige Klinge, die an einer 3 m langen Kette befestigt ist. Man kämpft mit einer fliegenden Klinge, indem man sie über dem Kopf kreisen lässt oder nach einem Gegner wirft. Da die fliegende Klinge eine plumpe Waffe ist, erleidet man einen Malus von -2 auf Angriffswürfe. Wenn man allerdings Gelegenheitsangriffe durchführt, die durch Bewegung provoziert wurden, erhält man statt des Malus einen Bonus von +2 auf die Angriffswürfe."
+    "description": "Diese Waffe ist eine große, halbmondförmige Klinge, die an einer 3 m langen Kette befestigt ist. Man kämpft mit einer fliegenden Klinge, indem man sie über dem Kopf kreisen lässt oder nach einem Gegner wirft. Da die fliegende Klinge eine plumpe Waffe ist, erleidet man einen Malus von -2 auf Angriffswürfe. Wenn man allerdings Gelegenheitsangriffe durchführt, die durch Bewegung provoziert wurden, erhält man statt des Malus einen Bonus von +2 auf die Angriffswürfe.",
+    "hands": "two"
   },
   {
     "id": "c20309a2-153d-59c9-8bc1-2bea64b9f35f",
@@ -1504,7 +1544,8 @@
     "weapon_type": "firearm",
     "special": "Streuwaffe",
     "weight_lb": "12 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "82b1f8f5-0fb1-5267-8ba0-afb51b61d014",
@@ -1519,7 +1560,8 @@
     "weapon_type": "firearm",
     "special": "Streuwaffe",
     "weight_lb": "15 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "fc27042f-1a06-52fb-ac6d-d291d82bca88",
@@ -1534,7 +1576,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "12 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "b5c8ec58-393d-5c70-ae80-c5074b332faf",
@@ -1549,7 +1592,8 @@
     "weapon_type": "martial",
     "special": "Schaukampf",
     "weight_lb": "3 Pfd.",
-    "description": "Der Gladius, dessen Klinge schwerer als die eines gewöhnlichen Kurzschwerts ist, gilt als das Lieblingsschwert von Gladiatoren. Talente und Fähigkeiten, die Kurzschwerter betreffen, gelten auch für den Gladius."
+    "description": "Der Gladius, dessen Klinge schwerer als die eines gewöhnlichen Kurzschwerts ist, gilt als das Lieblingsschwert von Gladiatoren. Talente und Fähigkeiten, die Kurzschwerter betreffen, gelten auch für den Gladius.",
+    "hands": "one"
   },
   {
     "id": "430cf244-3214-5ff0-939d-da4b730e22cf",
@@ -1564,7 +1608,8 @@
     "weapon_type": "martial",
     "special": "Reichweite",
     "weight_lb": "10 Pfd.",
-    "description": "Eine Glefe besteht aus einer Klinge, die am Ende eines ungefähr 2,10 m langen Stabes angebracht wurde."
+    "description": "Eine Glefe besteht aus einer Klinge, die am Ende eines ungefähr 2,10 m langen Stabes angebracht wurde.",
+    "hands": "two"
   },
   {
     "id": "1d53a92c-0041-57d5-aadf-195cec24f5e8",
@@ -1579,7 +1624,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Reichweite, siehe Text",
     "weight_lb": "10 Pfd.",
-    "description": "Diese Stangenwaffe vereint in sich die Klinge einer Glefe und einen üblen Haken. Ein berittener Gegner, der von einer Glefe- Guisarme getroffen wird, erleidet einen Malus von -2 auf seinen Fertigkeitswurf für Reiten, um im Sattel zu bleiben."
+    "description": "Diese Stangenwaffe vereint in sich die Klinge einer Glefe und einen üblen Haken. Ein berittener Gegner, der von einer Glefe- Guisarme getroffen wird, erleidet einen Malus von -2 auf seinen Fertigkeitswurf für Reiten, um im Sattel zu bleiben.",
+    "hands": "two"
   },
   {
     "id": "e708806b-e158-5d7c-b135-4e2b4697b791",
@@ -1594,7 +1640,8 @@
     "weapon_type": "exotic",
     "special": "Doppel, Zu Fall bringen",
     "weight_lb": "6 Pfd.",
-    "description": "Ein gnomischer Hakenhammer ist eine Doppelwaffe: ein geniales Werkzeug mit einem Hammerkopf an einem und einem langen, gebogenen Haken am anderen Ende des langen Stiels. Der stumpfe Kopf des Hammers ist eine Wuchtwaffe, die 1W6 Punkte Schaden verursacht (Kritischer Treffer x3). Der Haken ist eine Stichwaffe, die 1W4 Punkte Schaden verursacht (Kritischer Treffer x4). Man kann beide Enden als Hauptwaffe einsetzen. Für Gnome gelten Hakenhämmer als Kriegswaffen."
+    "description": "Ein gnomischer Hakenhammer ist eine Doppelwaffe: ein geniales Werkzeug mit einem Hammerkopf an einem und einem langen, gebogenen Haken am anderen Ende des langen Stiels. Der stumpfe Kopf des Hammers ist eine Wuchtwaffe, die 1W6 Punkte Schaden verursacht (Kritischer Treffer x3). Der Haken ist eine Stichwaffe, die 1W4 Punkte Schaden verursacht (Kritischer Treffer x4). Man kann beide Enden als Hauptwaffe einsetzen. Für Gnome gelten Hakenhämmer als Kriegswaffen.",
+    "hands": "two"
   },
   {
     "id": "ad010b0f-1df2-5455-8187-55ef38094a80",
@@ -1609,7 +1656,8 @@
     "weapon_type": "martial",
     "special": "Reichweite, Zu Fall bringen",
     "weight_lb": "12 Pfd.",
-    "description": "Eine Guisarme ist ein 2,40 m langer Stab, an dessen Spitze eine Klinge mit Haken angebracht ist."
+    "description": "Eine Guisarme ist ein 2,40 m langer Stab, an dessen Spitze eine Klinge mit Haken angebracht ist.",
+    "hands": "two"
   },
   {
     "id": "730356f1-3daa-53dc-a742-c15e49520141",
@@ -1624,7 +1672,8 @@
     "weapon_type": "martial",
     "special": "Zerbrechlich",
     "weight_lb": "12 Pfd.",
-    "description": "Eine Hacke ähnelt einer beidhändig geführten Spitzhacke, allerdings mit einer meißelähnlichen Klinge anstelle einer Spitze."
+    "description": "Eine Hacke ähnelt einer beidhändig geführten Spitzhacke, allerdings mit einer meißelähnlichen Klinge anstelle einer Spitze.",
+    "hands": "two"
   },
   {
     "id": "2a940c91-988d-54fb-b015-47a3259f10f9",
@@ -1639,7 +1688,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Schaukampf, Zu-Fall-bringen",
     "weight_lb": "7 Pfd.",
-    "description": "Der Haken am Ende der Axtklinge kann dazu eingesetzt werden, einen Gegner zu entwaffnen oder ihn aus dem Gleichgewicht zu bringen. Eine Hakenaxt kann alternativ als Kriegswaffe eingesetzt werden und gilt diesem Fall sie als Streitaxt."
+    "description": "Der Haken am Ende der Axtklinge kann dazu eingesetzt werden, einen Gegner zu entwaffnen oder ihn aus dem Gleichgewicht zu bringen. Eine Hakenaxt kann alternativ als Kriegswaffe eingesetzt werden und gilt diesem Fall sie als Streitaxt.",
+    "hands": "one"
   },
   {
     "id": "c0149941-096b-527d-aae0-875b4f6b720a",
@@ -1654,7 +1704,8 @@
     "weapon_type": "martial",
     "special": "Reichweite, Zu-Fall-bringenl",
     "weight_lb": "10 Pfd.",
-    "description": "Auf dieser dünnen, 3 m langen Stangenwaffe ist am oberen Ende ein zusätzlicher Haken angebracht, mit dem man nach der Kleidung und Rüstung des Gegners haken kann. Im Gegensatz zu einer Lanze, kann die Hakenlanze im berittenen Kampf nicht einhändig geführt werden und verursacht beim Reiten auch keinen zusätzlichen Schaden."
+    "description": "Auf dieser dünnen, 3 m langen Stangenwaffe ist am oberen Ende ein zusätzlicher Haken angebracht, mit dem man nach der Kleidung und Rüstung des Gegners haken kann. Im Gegensatz zu einer Lanze, kann die Hakenlanze im berittenen Kampf nicht einhändig geführt werden und verursacht beim Reiten auch keinen zusätzlichen Schaden.",
+    "hands": "two"
   },
   {
     "id": "09ae881a-0d97-53c2-aabc-97e017999b25",
@@ -1669,7 +1720,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "ce0bdf41-8bd7-53fd-beca-d7569fcbd8b5",
@@ -1684,7 +1736,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Eine Handarmbrust kann per Hand gespannt und ihm Rahmen einer Bewegungsaktion nachgeladen werden, was Gelegenheitsangriffe provoziert. Ähnlich wie leichte und schwere Armbrüste verschießt eine Handarmbrust normale Armbrustbolzen. Die Handarmbrust kann ohne Malus mit einer Hand abgeschossen, aber nicht nachgeladen werden. Man kann mit beiden Händen jeweils eine Handarmbrust abfeuern, allerdings erleidet man den gleichen Malus, als würde man mit zwei leichten Waffen angreifen."
+    "description": "Eine Handarmbrust kann per Hand gespannt und ihm Rahmen einer Bewegungsaktion nachgeladen werden, was Gelegenheitsangriffe provoziert. Ähnlich wie leichte und schwere Armbrüste verschießt eine Handarmbrust normale Armbrustbolzen. Die Handarmbrust kann ohne Malus mit einer Hand abgeschossen, aber nicht nachgeladen werden. Man kann mit beiden Händen jeweils eine Handarmbrust abfeuern, allerdings erleidet man den gleichen Malus, als würde man mit zwei leichten Waffen angreifen.",
+    "hands": "one"
   },
   {
     "id": "66f83977-d1ed-458a-ae26-6352f17b2323",
@@ -1705,7 +1758,8 @@
     "weapon_type": "exotic",
     "special": "Zerbrechlich, Ringkampf (siehe Beschreibung)",
     "weight_lb": "16 Pfd.",
-    "description": "Eine Harpune ist ein mit Widerhaken besetzter Speer, der an einem bis zu 15 m langen Seil befestigt ist. Die meisten Harpunen weisen Metallspitzen auf, wenngleich einige Varianten aus Elfenbein oder gänzlich aus Holz bestehen. Wenn man mit der Harpune umgehen kann, gilt sie als Ringkampf waffe. Das Gesamtgewicht der Harpune enthält auch die 10 Pfund für das 15m lange Hanfseil. Das Gewicht kann mit einem kürzeren oder leichteren Seil verringert werden. Wenn man nicht mit der Harpune umgehen kann, gilt sie als Speer."
+    "description": "Eine Harpune ist ein mit Widerhaken besetzter Speer, der an einem bis zu 15 m langen Seil befestigt ist. Die meisten Harpunen weisen Metallspitzen auf, wenngleich einige Varianten aus Elfenbein oder gänzlich aus Holz bestehen. Wenn man mit der Harpune umgehen kann, gilt sie als Ringkampf waffe. Das Gesamtgewicht der Harpune enthält auch die 10 Pfund für das 15m lange Hanfseil. Das Gewicht kann mit einem kürzeren oder leichteren Seil verringert werden. Wenn man nicht mit der Harpune umgehen kann, gilt sie als Speer.",
+    "hands": "two"
   },
   {
     "id": "bbc7c880-3e1e-5ad7-9c41-427e6d29dd7c",
@@ -1720,7 +1774,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Zu Fall bringen",
     "weight_lb": "12 Pfd.",
-    "description": "Eine Hellebarde ähnelt einem 1,50 m langen Speer, an dessen Spitze eine axtähnliche Klinge angebracht wurde."
+    "description": "Eine Hellebarde ähnelt einem 1,50 m langen Speer, an dessen Spitze eine axtähnliche Klinge angebracht wurde.",
+    "hands": "two"
   },
   {
     "id": "6104e8d9-464f-576e-a3c1-1e8193b28fd1",
@@ -1735,7 +1790,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Entwaffnen, Reichweite, siehe Text",
     "weight_lb": "11 Pfd.",
-    "description": "Das Blatt dieser Stangenwaffe ist eine gebogene oder hakenförmige Schneidklinge mit einer Pike auf der Rückseite. Die Pike wird für gewöhnlich zum Blocken und Parieren verwendet. Wenn man mit dieser Waffe defensiv oder in voller Verteidigung kämpft, erhält man einen Schildbonus von +1 auf die RK. Wird ein berittener Feind von einer Hippe getroffen, erleidet er einen Malus von -1 auf seinen Fertigkeitswurf für Reiten, um im Sattel zu bleiben."
+    "description": "Das Blatt dieser Stangenwaffe ist eine gebogene oder hakenförmige Schneidklinge mit einer Pike auf der Rückseite. Die Pike wird für gewöhnlich zum Blocken und Parieren verwendet. Wenn man mit dieser Waffe defensiv oder in voller Verteidigung kämpft, erhält man einen Schildbonus von +1 auf die RK. Wird ein berittener Feind von einer Hippe getroffen, erleidet er einen Malus von -1 auf seinen Fertigkeitswurf für Reiten, um im Sattel zu bleiben.",
+    "hands": "two"
   },
   {
     "id": "03c9bb6c-2ad6-56a7-953c-cc4da82276fc",
@@ -1750,7 +1806,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Diese Nahkampfwaffe ist lediglich ein zugespitztes Stück Holz. Eisenstacheln, die als Waffen eingesetzt werden, verursachen den gleichen Schaden wie Holzpflöcke."
+    "description": "Diese Nahkampfwaffe ist lediglich ein zugespitztes Stück Holz. Eisenstacheln, die als Waffen eingesetzt werden, verursachen den gleichen Schaden wie Holzpflöcke.",
+    "hands": "one"
   },
   {
     "id": "813a4141-11e0-57f7-a0b9-4ea15cc7adca",
@@ -1765,7 +1822,8 @@
     "weapon_type": "martial",
     "special": "Zerbrechlich*",
     "weight_lb": "1 Pfd.",
-    "description": "Diese kurze, gebogene Klinge wurde von den Goblins erfunden, die häufig zahlreiche Löcher hinein bohren, um dadurch das Gewicht zu reduzieren. Die meisten Hundsschnitter sind für kleine Kreaturen gedacht."
+    "description": "Diese kurze, gebogene Klinge wurde von den Goblins erfunden, die häufig zahlreiche Löcher hinein bohren, um dadurch das Gewicht zu reduzieren. Die meisten Hundsschnitter sind für kleine Kreaturen gedacht.",
+    "hands": "one"
   },
   {
     "id": "57376cbd-9ae4-5425-962b-69374a2319cc",
@@ -1780,7 +1838,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Dieser Dolch mit drei Klingen, auch als Membele, Danisco, Goleyo oder Njiga bezeichnet und mit weitaus weniger bekannten Bezeichnungen bedacht, ist zwar als Wurfwaffe gedacht, kann aber auch als Nahkampfwaffe eingesetzt werden. Obwohl die Ausführung mit drei Klingen am weitesten verbreitet ist, gibt es viele verschiedene Formen von Hunga Mungas."
+    "description": "Dieser Dolch mit drei Klingen, auch als Membele, Danisco, Goleyo oder Njiga bezeichnet und mit weitaus weniger bekannten Bezeichnungen bedacht, ist zwar als Wurfwaffe gedacht, kann aber auch als Nahkampfwaffe eingesetzt werden. Obwohl die Ausführung mit drei Klingen am weitesten verbreitet ist, gibt es viele verschiedene Formen von Hunga Mungas.",
+    "hands": "one"
   },
   {
     "id": "d5f4c7a5-af9b-5c61-ac8b-a6a3e1747c6d",
@@ -1795,7 +1854,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen, Mönch",
     "weight_lb": "1. Pfd.",
-    "description": "Diese einem Schlagstock ähnelnde Waffe ist mit einem Metallhaken versehen, mit dem man die Waffe eines Gegners abblocken und festhalten kann. Einige Varianten weisen eine scharfe Metallspitze oder eine Klinge auf."
+    "description": "Diese einem Schlagstock ähnelnde Waffe ist mit einem Metallhaken versehen, mit dem man die Waffe eines Gegners abblocken und festhalten kann. Einige Varianten weisen eine scharfe Metallspitze oder eine Klinge auf.",
+    "hands": "one"
   },
   {
     "id": "77aafe00-1710-573d-ba90-ad05f0665b03",
@@ -1810,7 +1870,8 @@
     "weapon_type": "firearm",
     "special": "Streuwaffe",
     "weight_lb": "40 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "191bf29b-41cf-5be7-a2b5-5a067da70776",
@@ -1825,7 +1886,8 @@
     "weapon_type": "exotic",
     "special": "Mönch, Zu Fall bringen",
     "weight_lb": "2 Pfd.",
-    "description": "Eine Kama ähnelt einer Sichel mit einer kurzen, gebogenen Klinge, die an einem einfachen Griff befestigt ist, der für gewöhnlich aus Holz besteht. Sie wird gelegentlich Kai genannt und Kampfkünstler setzen häufig zwei davon gleichzeitig ein. In manchen Religionsgemeinschaften wird sie zudem noch zum Getreideernten benutzt."
+    "description": "Eine Kama ähnelt einer Sichel mit einer kurzen, gebogenen Klinge, die an einem einfachen Griff befestigt ist, der für gewöhnlich aus Holz besteht. Sie wird gelegentlich Kai genannt und Kampfkünstler setzen häufig zwei davon gleichzeitig ein. In manchen Religionsgemeinschaften wird sie zudem noch zum Getreideernten benutzt.",
+    "hands": "one"
   },
   {
     "id": "a5c2cbb1-7c1b-59e0-a8a9-bcba0636f3d0",
@@ -1840,7 +1902,8 @@
     "weapon_type": "simple",
     "special": "Doppel, Mönch",
     "weight_lb": "4 Pfd.",
-    "description": "Ein Kampfstab ist eine einfache Stange aus Holz und ungefähr 1,50 m lang. Im Kampf wird er mit einer Hand am unteren Ende und der anderen Hand ungefähr ein Viertel höher festgehalten, sodass Hiebe geblockt und schnelle Schläge ausgeteilt werden können."
+    "description": "Ein Kampfstab ist eine einfache Stange aus Holz und ungefähr 1,50 m lang. Im Kampf wird er mit einer Hand am unteren Ende und der anderen Hand ungefähr ein Viertel höher festgehalten, sodass Hiebe geblockt und schnelle Schläge ausgeteilt werden können.",
+    "hands": "two"
   },
   {
     "id": "52c778d3-a8fb-5a25-8089-cbffb72a3b99",
@@ -1855,7 +1918,8 @@
     "weapon_type": "exotic",
     "special": "Tödlich",
     "weight_lb": "6 Pfd.",
-    "description": "Die eigens für Samurai hergestellten Katanas werden in einem unverwechselbaren Schmiedeverfahren erschaffen, bei dem mehrere Sorten Stahl miteinander verbunden werden. Das Ergebnis sind Schwerter, die für ihre extrem scharfen, jedoch auch dünnen und leicht geschwungenen Klingen bekannt und dazu gedacht sind, mit anmutigen Hieben die Köpfe und Gliedmaßen von Feinden abzutrennen. Obwohl sie hervorragend ausbalanciert werden, sind diese Klingen vergleichsweise schwer zu beherrschen. Charaktere können ein Katana beidhändig als Kriegswaffe einsetzen, aber sie müssen das Talent Umgang mit exotischen Waffen (Katana) wählen, um es einhändig führen zu können."
+    "description": "Die eigens für Samurai hergestellten Katanas werden in einem unverwechselbaren Schmiedeverfahren erschaffen, bei dem mehrere Sorten Stahl miteinander verbunden werden. Das Ergebnis sind Schwerter, die für ihre extrem scharfen, jedoch auch dünnen und leicht geschwungenen Klingen bekannt und dazu gedacht sind, mit anmutigen Hieben die Köpfe und Gliedmaßen von Feinden abzutrennen. Obwohl sie hervorragend ausbalanciert werden, sind diese Klingen vergleichsweise schwer zu beherrschen. Charaktere können ein Katana beidhändig als Kriegswaffe einsetzen, aber sie müssen das Talent Umgang mit exotischen Waffen (Katana) wählen, um es einhändig führen zu können.",
+    "hands": "one"
   },
   {
     "id": "a64c3bbe-3fa3-57ac-ae4e-645b3b1a88e0",
@@ -1870,7 +1934,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": null,
-    "description": "Dieser kleine, gewundene Griffdolch weist am Ende des Heftes einen Metallring auf. Dadurch kann der Dolch mithilfe des kleinen Fingers festgehalten oder an einer Schnur befestigt werden, die ins Haar gebunden wird. Die gebogene Klinge ist zwar vergleichsweise klein, richtet aber furchtbare Wunden an. Diese Waffe ist unter Ninja und Assassinen sehr beliebt, da sie sich leicht verbergen lässt. (Der Träger erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, wenn er das Kerambit am Körper verbergen will.)"
+    "description": "Dieser kleine, gewundene Griffdolch weist am Ende des Heftes einen Metallring auf. Dadurch kann der Dolch mithilfe des kleinen Fingers festgehalten oder an einer Schnur befestigt werden, die ins Haar gebunden wird. Die gebogene Klinge ist zwar vergleichsweise klein, richtet aber furchtbare Wunden an. Diese Waffe ist unter Ninja und Assassinen sehr beliebt, da sie sich leicht verbergen lässt. (Der Träger erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, wenn er das Kerambit am Körper verbergen will.)",
+    "hands": "one"
   },
   {
     "id": "096aab64-e590-5da7-b3eb-7280389927f4",
@@ -1885,7 +1950,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Der Kestros ist eine merkwürdig geformte Schleuder aus der Bronzezeit, die zum Schleuder n von Kestroswurfpfeilen verwendet wird. Ebenso wie bei Wurfwaffen, wird der Stärkemodifikator auf die Angriffswürfe angerechnet, wenn man den Kestros einsetzt. Man kann den Kestros mit einer Hand abfeuern, aber nicht laden. Letzteres erfordert eine Bewegungsaktion, für die zwei Hände benötigt werden und die Gelegenheitsangriffe provoziert. Für Halblinge gilt der Kestros als Kriegswaffe."
+    "description": "Der Kestros ist eine merkwürdig geformte Schleuder aus der Bronzezeit, die zum Schleuder n von Kestroswurfpfeilen verwendet wird. Ebenso wie bei Wurfwaffen, wird der Stärkemodifikator auf die Angriffswürfe angerechnet, wenn man den Kestros einsetzt. Man kann den Kestros mit einer Hand abfeuern, aber nicht laden. Letzteres erfordert eine Bewegungsaktion, für die zwei Hände benötigt werden und die Gelegenheitsangriffe provoziert. Für Halblinge gilt der Kestros als Kriegswaffe.",
+    "hands": "one"
   },
   {
     "id": "0f1d41b0-bd35-510f-a55a-bf3da1efeb61",
@@ -1900,7 +1966,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "5 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "f3483077-0526-53b5-8780-afd9b90cc970",
@@ -1915,7 +1982,8 @@
     "weapon_type": "exotic",
     "special": "Zu Fall bringen",
     "weight_lb": "13 Pfd.",
-    "description": "Aufgrund ihrer Vielseitigkeit wird diese brutale Waffe häufig bei Gladiatorenspielen eingesetzt. Die Basis bildet ein gewöhnlicher Kurzspeer, mit dem hauptsächlich Stoßangriffe ausgeführt werden. Am unteren Ende des Speers ist eine häufig mit Stacheln besetzte Kette angebracht, deren Ende einen Haken aufweist. Haken und Kette können eingesetzt werden, um Gegner zu Fall zu bringen. Scheitert ein solcher Angriff um 10 oder mehr Punkte, kann man den Kettenspeer fallenlassen, um nicht selbst zu Boden zu gehen."
+    "description": "Aufgrund ihrer Vielseitigkeit wird diese brutale Waffe häufig bei Gladiatorenspielen eingesetzt. Die Basis bildet ein gewöhnlicher Kurzspeer, mit dem hauptsächlich Stoßangriffe ausgeführt werden. Am unteren Ende des Speers ist eine häufig mit Stacheln besetzte Kette angebracht, deren Ende einen Haken aufweist. Haken und Kette können eingesetzt werden, um Gegner zu Fall zu bringen. Scheitert ein solcher Angriff um 10 oder mehr Punkte, kann man den Kettenspeer fallenlassen, um nicht selbst zu Boden zu gehen.",
+    "hands": "two"
   },
   {
     "id": "057662cc-c71d-5021-8da0-1f0f553acb9c",
@@ -1930,7 +1998,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Diese Waffe besteht normalerweise aus einem einfach geschnitzten Stück Holz, in das manchmal ein paar Nägel oder Beschläge eingelassen sind."
+    "description": "Diese Waffe besteht normalerweise aus einem einfach geschnitzten Stück Holz, in das manchmal ein paar Nägel oder Beschläge eingelassen sind.",
+    "hands": "one"
   },
   {
     "id": "b895c80b-96fb-525b-92db-e8ac3d2f8614",
@@ -1945,7 +2014,8 @@
     "weapon_type": "martial",
     "special": "siehe Text",
     "weight_lb": "6 Pfd.",
-    "description": "Die traditionelle Form dieser Stammeswaffe ist die einer kurzen Metallklinge, welche am Schädel einer großen, gehörnten Echse befestigt ist. Ein geschickter Schmied kann solch eine Waffe aber auch gänzlich aus Metall fertigen. Ein traditionelles Klar gilt als leichter Holzschild mit Rüstungsstacheln, ein Klar aus Metall als leichter Stahlschild mit Rüstungsstacheln. Der Eintrag des Klar als Schild steht unter Rüstungen."
+    "description": "Die traditionelle Form dieser Stammeswaffe ist die einer kurzen Metallklinge, welche am Schädel einer großen, gehörnten Echse befestigt ist. Ein geschickter Schmied kann solch eine Waffe aber auch gänzlich aus Metall fertigen. Ein traditionelles Klar gilt als leichter Holzschild mit Rüstungsstacheln, ein Klar aus Metall als leichter Stahlschild mit Rüstungsstacheln. Der Eintrag des Klar als Schild steht unter Rüstungen.",
+    "hands": "one"
   },
   {
     "id": "d886ec57-0f91-5909-af17-2f923cb7a2ee",
@@ -1960,7 +2030,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, siehe Text",
     "weight_lb": "3 Pfd.",
-    "description": "Mit diesem Dolch kann man einen Gegner entwaffnen oder dessen Klinge zerschmettern, indem man sie mithilfe der Einkerbungen auf dem Klingenrücken abfängt und die Waffe als Hebel benutzt. Wenn man mit dieser Waffe umgehen kann, erhält man einen Bonus von +4 auf Kampfmanöverwürfe, um mit ihr Klingenwaffen zu zerschmettern oder ihre Träger zu entwaffnen."
+    "description": "Mit diesem Dolch kann man einen Gegner entwaffnen oder dessen Klinge zerschmettern, indem man sie mithilfe der Einkerbungen auf dem Klingenrücken abfängt und die Waffe als Hebel benutzt. Wenn man mit dieser Waffe umgehen kann, erhält man einen Bonus von +4 auf Kampfmanöverwürfe, um mit ihr Klingenwaffen zu zerschmettern oder ihre Träger zu entwaffnen.",
+    "hands": "one"
   },
   {
     "id": "aff24cdb-ba29-5c97-8dd4-90a41ef7ae8e",
@@ -1975,7 +2046,8 @@
     "weapon_type": "exotic",
     "special": "Mönch, Schaukampf",
     "weight_lb": "2 Pfd.",
-    "description": "Knöcheläxte, die gewöhnlich paarweise eingesetzt werden, ähneln auf Schlagringen angebrachte Axtklingen. Man kann eine Waffe oder einen anderen Gegenstand in einer Hand mit einer Knöchelaxt halten, aber nicht einsetzen. Im Gegensatz zu Schlagringen kann man mit der Hand, an welcher man die Knöchelaxt trägt, keine Zauber wirken."
+    "description": "Knöcheläxte, die gewöhnlich paarweise eingesetzt werden, ähneln auf Schlagringen angebrachte Axtklingen. Man kann eine Waffe oder einen anderen Gegenstand in einer Hand mit einer Knöchelaxt halten, aber nicht einsetzen. Im Gegensatz zu Schlagringen kann man mit der Hand, an welcher man die Knöchelaxt trägt, keine Zauber wirken.",
+    "hands": "one"
   },
   {
     "id": "9eb7a321-3eda-5dd9-ab0d-f658f4044592",
@@ -1990,7 +2062,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "fbd233ff-bc1a-520f-8ce7-0b07b0c31b88",
@@ -2005,7 +2078,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "07660882-168a-435f-9fc2-1acd179b0bd1",
@@ -2026,7 +2100,8 @@
     "weapon_type": "exotic",
     "special": "Zu Fall bringen",
     "weight_lb": "8 Pfd.",
-    "description": "Diese schwere Klinge ist zum Ende hin konvex gekrümmt, so dass sie im Großen und Ganzen wie eine Streitaxt aussieht. Ein Kopesch ist normalerweise zwischen 0,50 und 0,60 m lang. Die gebogene Klinge erlaubt es dem Träger, die Verteidigung des Gegners zu umgehen und ihn zu Fall zu bringen. Aufgrund der eleganten Form des Kopesch schmücken es geübte Handwerker gern mit kunstvollen Verzierungen."
+    "description": "Diese schwere Klinge ist zum Ende hin konvex gekrümmt, so dass sie im Großen und Ganzen wie eine Streitaxt aussieht. Ein Kopesch ist normalerweise zwischen 0,50 und 0,60 m lang. Die gebogene Klinge erlaubt es dem Träger, die Verteidigung des Gegners zu umgehen und ihn zu Fall zu bringen. Aufgrund der eleganten Form des Kopesch schmücken es geübte Handwerker gern mit kunstvollen Verzierungen.",
+    "hands": "one"
   },
   {
     "id": "42fe39cb-06aa-5238-805e-056bb5d3d092",
@@ -2041,7 +2116,8 @@
     "weapon_type": "exotic",
     "special": "Ablenkend, Mönch",
     "weight_lb": null,
-    "description": "Diese Gerätschaft wird wie der Fächer eines Höflings hergestellt und besteht aus Seidenpapier, das über einen Faltrahmen aus gehärtetem Stahl gespannt wird. Faltfächer werden normalerweise in Paaren und mit Techniken eingesetzt, die den Gegner ablenken sollen. Der Fächer ist mit scharfen Spitzen besetzt, die mit Gift bestrichen sein können. Eine Liste passender Gifte findet man im Abschnitt Gifte."
+    "description": "Diese Gerätschaft wird wie der Fächer eines Höflings hergestellt und besteht aus Seidenpapier, das über einen Faltrahmen aus gehärtetem Stahl gespannt wird. Faltfächer werden normalerweise in Paaren und mit Techniken eingesetzt, die den Gegner ablenken sollen. Der Fächer ist mit scharfen Spitzen besetzt, die mit Gift bestrichen sein können. Eine Liste passender Gifte findet man im Abschnitt Gifte.",
+    "hands": "one"
   },
   {
     "id": "32bc9182-5216-4457-8b61-287ec9a7c136",
@@ -2056,7 +2132,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "5 Pfd.",
-    "description": "Diese Waffe besteht aus einem Holzstiel und einem schweren Kopf aus Metall. Dieser kann eine (ähnlich einem Zimmermannshammer) oder zwei Schlagflächen aufweisen (wie bei einem Vorschlaghammer). Der Stiel ist so lang, dass man ihn ein- oder beidhändig einsetzen kann. Obwohl Kriegshämmer schwer und vergleichsweise langsam zu führende Waffen sind, können sie doch wuchtige Schläge austeilen und Rüstungen wie Knochen gleichermaßen zertrümmern."
+    "description": "Diese Waffe besteht aus einem Holzstiel und einem schweren Kopf aus Metall. Dieser kann eine (ähnlich einem Zimmermannshammer) oder zwei Schlagflächen aufweisen (wie bei einem Vorschlaghammer). Der Stiel ist so lang, dass man ihn ein- oder beidhändig einsetzen kann. Obwohl Kriegshämmer schwer und vergleichsweise langsam zu führende Waffen sind, können sie doch wuchtige Schläge austeilen und Rüstungen wie Knochen gleichermaßen zertrümmern.",
+    "hands": "one"
   },
   {
     "id": "c408fedb-f038-574b-a078-1295d0d3b666",
@@ -2071,7 +2148,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "773af3af-4866-5847-9dbd-d6caeb29f9c9",
@@ -2086,7 +2164,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Dieses Schwert besitzt wie ein Krummsäbel eine gebogene Klinge, deren hintere Kante nicht geschärft und entweder flach oder leicht gebogen ist. Das Gewicht ist zur Spitze hin größer, so dass die Waffe eher fürs Hacken denn fürs Zustoßen geeignet ist."
+    "description": "Dieses Schwert besitzt wie ein Krummsäbel eine gebogene Klinge, deren hintere Kante nicht geschärft und entweder flach oder leicht gebogen ist. Das Gewicht ist zur Spitze hin größer, so dass die Waffe eher fürs Hacken denn fürs Zustoßen geeignet ist.",
+    "hands": "two"
   },
   {
     "id": "25994f9d-92fe-5dc6-bfff-5e4646899bb5",
@@ -2101,7 +2180,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Dieses gebogene Schwert ist kürzer als ein Langschwert und länger als ein Kurzschwert. Lediglich die äußere Seite der Klinge ist scharf, die Rückseite dagegen flach, was dem Blatt ein dreieckiges Profil verleiht."
+    "description": "Dieses gebogene Schwert ist kürzer als ein Langschwert und länger als ein Kurzschwert. Lediglich die äußere Seite der Klinge ist scharf, die Rückseite dagegen flach, was dem Blatt ein dreieckiges Profil verleiht.",
+    "hands": "one"
   },
   {
     "id": "138a9729-ab74-5f0d-95f2-20bb1398ef54",
@@ -2116,7 +2196,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Ein Kukri ist ein gebogenes Messer von ungefähr 0,30 m Länge."
+    "description": "Ein Kukri ist ein gebogenes Messer von ungefähr 0,30 m Länge.",
+    "hands": "one"
   },
   {
     "id": "834292ec-52a3-4b4d-b315-ed8158c85ea5",
@@ -2131,7 +2212,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Ein Kurzbogen besteht aus einem einzelnen, ungefähr 0,90 m langen Holzstück. Unabhängig von seiner Größe benötigt man zwei Hände, um ihn einzusetzen. Dies kann auch beritten geschehen. Falls man einem Malus aufgrund niedriger Stärke unterliegt, wird dieser auf die Schadenswürfe mit dem Kurzbogen angerechnet. Erhält man einen Bonus aufgrund hoher Stärke, kann man diesen auf die Schadenswürfe mit einem kurzen Kompositbogen, nicht aber einem gewöhnlichen Kurzbogen anrechnen. Ein Kurzbogen verschießt Pfeile."
+    "description": "Ein Kurzbogen besteht aus einem einzelnen, ungefähr 0,90 m langen Holzstück. Unabhängig von seiner Größe benötigt man zwei Hände, um ihn einzusetzen. Dies kann auch beritten geschehen. Falls man einem Malus aufgrund niedriger Stärke unterliegt, wird dieser auf die Schadenswürfe mit dem Kurzbogen angerechnet. Erhält man einen Bonus aufgrund hoher Stärke, kann man diesen auf die Schadenswürfe mit einem kurzen Kompositbogen, nicht aber einem gewöhnlichen Kurzbogen anrechnen. Ein Kurzbogen verschießt Pfeile.",
+    "hands": "two"
   },
   {
     "id": "a07a2cfa-e0e6-4848-bdc5-960e79d28a79",
@@ -2146,7 +2228,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Kurzschwerter sind in jeglicher kriegerischer Gemeinschaft am weitesten verbreitet, daher variiert die Gestaltung stark nach Region und Hersteller. Die meisten Kurzschwerter sind ungefähr 0,60 m lang. Ihre Klingen können gebogen oder gerade, ein- oder zweischneidig, breit oder schmal sein. Die Hefte sind verziert oder einfach, mal mit Parierstange, Korbgefäß oder auch gänzlich ohne Schutz. Solche Waffen werden häufig allein eingesetzt, können aber auch zusammen mit einem passenden Gegenstück oder in Verbindung mit einem Dolch oder längeren Schwert verwendet werden."
+    "description": "Kurzschwerter sind in jeglicher kriegerischer Gemeinschaft am weitesten verbreitet, daher variiert die Gestaltung stark nach Region und Hersteller. Die meisten Kurzschwerter sind ungefähr 0,60 m lang. Ihre Klingen können gebogen oder gerade, ein- oder zweischneidig, breit oder schmal sein. Die Hefte sind verziert oder einfach, mal mit Parierstange, Korbgefäß oder auch gänzlich ohne Schutz. Solche Waffen werden häufig allein eingesetzt, können aber auch zusammen mit einem passenden Gegenstück oder in Verbindung mit einem Dolch oder längeren Schwert verwendet werden.",
+    "hands": "one"
   },
   {
     "id": "1449389b-2d5b-5a4d-9f9a-b84ad5568353",
@@ -2161,7 +2244,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Ein Kurzspeer ist ungefähr 0,90 m lang und daher als Wurfwaffe geeignet."
+    "description": "Ein Kurzspeer ist ungefähr 0,90 m lang und daher als Wurfwaffe geeignet.",
+    "hands": "one"
   },
   {
     "id": "ae3d0e79-1c0e-5da6-9d57-bc7814fb9f7e",
@@ -2176,7 +2260,8 @@
     "weapon_type": "exotic",
     "special": "Doppel, Mönch, Reichweite, Zu-Fall-bringen, Ringkampf",
     "weight_lb": "3 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "769e9c5a-42b3-5ad7-b9af-57597bd82a35",
@@ -2191,7 +2276,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Ringkampf, Mönch, Reichweite",
     "weight_lb": "1 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "daf1f306-9507-4114-92f5-ce38704120e2",
@@ -2206,7 +2292,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Ein Langbogen ist knapp 1,50 m lang und besteht aus einem robusten Stück sorgfältig gebogenen Holzes. Diese Waffe kann nicht beritten eingesetzt werden. Wenn man einen Malus aufgrund niedriger Stärke besitzt, wird dieser von den Schadenswürfen abgezogen, wenn man einen Langbogen einsetzt. Man kann den Stärkemodifikator zu den Schadenswürfen hinzurechnen, wenn man einen langen Kompositbogen einsetzt, was allerdings nicht für gewöhnliche Lang bögen gilt. Ein Langbogen verschießt Pfeile."
+    "description": "Ein Langbogen ist knapp 1,50 m lang und besteht aus einem robusten Stück sorgfältig gebogenen Holzes. Diese Waffe kann nicht beritten eingesetzt werden. Wenn man einen Malus aufgrund niedriger Stärke besitzt, wird dieser von den Schadenswürfen abgezogen, wenn man einen Langbogen einsetzt. Man kann den Stärkemodifikator zu den Schadenswürfen hinzurechnen, wenn man einen langen Kompositbogen einsetzt, was allerdings nicht für gewöhnliche Lang bögen gilt. Ein Langbogen verschießt Pfeile.",
+    "hands": "two"
   },
   {
     "id": "afbdea17-7394-47cb-adfb-e205a410b4ec",
@@ -2221,7 +2308,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Dieses Schwert ist ungefähr 1 m lang."
+    "description": "Dieses Schwert ist ungefähr 1 m lang.",
+    "hands": "one"
   },
   {
     "id": "d0e9a69c-3d8e-54c9-b9a1-8092eba5bfc4",
@@ -2236,7 +2324,8 @@
     "weapon_type": "simple",
     "special": "Abwehr, Reichweite",
     "weight_lb": "9 Pfd.",
-    "description": "Ein Langspeer ist etwa 2,40 m lang."
+    "description": "Ein Langspeer ist etwa 2,40 m lang.",
+    "hands": "two"
   },
   {
     "id": "2f5374b6-c46a-57b2-b921-45b023755026",
@@ -2251,7 +2340,8 @@
     "weapon_type": "martial",
     "special": "Reichweite",
     "weight_lb": "10 Pfd.",
-    "description": "Wenn sie vom Rücken eines heranstürmenden Reittiers eingesetzt wird, verursacht eine Lanze den doppelten Schaden. Während man auf einem Reittier sitzt, kann man die Lanze mit einer Hand einsetzen."
+    "description": "Wenn sie vom Rücken eines heranstürmenden Reittiers eingesetzt wird, verursacht eine Lanze den doppelten Schaden. Während man auf einem Reittier sitzt, kann man die Lanze mit einer Hand einsetzen.",
+    "hands": "two"
   },
   {
     "id": "df3f122a-de73-5798-a32b-b91b5bc325ea",
@@ -2266,7 +2356,8 @@
     "weapon_type": "exotic",
     "special": "siehe Text",
     "weight_lb": "5 Pfd.",
-    "description": "Diese Wurfwaffe besteht aus einem längeren Seil mit einem einfachen, offenen Knoten an einem Ende, mit dem man einen Gegner wie mit einem Netz verstricken kann. Der SG zum Wirken eines Zaubers, während man mit einem Lasso gefesselt ist, beträgt 10 + Stufe des gewirkten Zaubers. Eine verstrickte Kreatur kann sich mit einem erfolgreichen Fertigkeitswurf für Entfesselungskunst gegen SG 15 als Volle Aktion befreien. Das Lasso besitzt 2 TP und RK 10; es ist ein Stärkewurf gegen SG 23 notwendig, um es zu zerreißen. Bei einem erfolgreichen Treffer zieht sich das Lasso zusammen und um es erneut einsetzen zu können, muss man eine Standard-Aktion aufwenden, um den Knoten zu lösen und die Schlinge zu vergrößern."
+    "description": "Diese Wurfwaffe besteht aus einem längeren Seil mit einem einfachen, offenen Knoten an einem Ende, mit dem man einen Gegner wie mit einem Netz verstricken kann. Der SG zum Wirken eines Zaubers, während man mit einem Lasso gefesselt ist, beträgt 10 + Stufe des gewirkten Zaubers. Eine verstrickte Kreatur kann sich mit einem erfolgreichen Fertigkeitswurf für Entfesselungskunst gegen SG 15 als Volle Aktion befreien. Das Lasso besitzt 2 TP und RK 10; es ist ein Stärkewurf gegen SG 23 notwendig, um es zu zerreißen. Bei einem erfolgreichen Treffer zieht sich das Lasso zusammen und um es erneut einsetzen zu können, muss man eine Standard-Aktion aufwenden, um den Knoten zu lösen und die Schlinge zu vergrößern.",
+    "hands": "one"
   },
   {
     "id": "ebd03bac-82af-52b2-86b8-6541a0ff8952",
@@ -2281,7 +2372,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Die leichte Armbrust spannt man mithilfe eines Hebels. Das Laden einer leichten Armbrust ist eine Bewegungsaktion, die Gelegenheitsangriffe provoziert. Diese Waffe verschießt Armbrustbolzen. Normalerweise werden für den Einsatz einer leichten Armbrust zwei Hände benötigt. Allerdings kann man mit einem Malus von -2 auf die Angriffswürfe die leichte Armbrust mit einer Hand abfeuern, aber nicht nachladen. Man kann mit beiden Händen je eine leichte Armbrust abfeuern, doch unterliegt man demselben Malus auf die Angriffswürfe, als würde man mit zwei leichten Waffen angreifen. Der Malus ist kumulativ mit dem für das Abfeuern der Waffe mit einer Hand."
+    "description": "Die leichte Armbrust spannt man mithilfe eines Hebels. Das Laden einer leichten Armbrust ist eine Bewegungsaktion, die Gelegenheitsangriffe provoziert. Diese Waffe verschießt Armbrustbolzen. Normalerweise werden für den Einsatz einer leichten Armbrust zwei Hände benötigt. Allerdings kann man mit einem Malus von -2 auf die Angriffswürfe die leichte Armbrust mit einer Hand abfeuern, aber nicht nachladen. Man kann mit beiden Händen je eine leichte Armbrust abfeuern, doch unterliegt man demselben Malus auf die Angriffswürfe, als würde man mit zwei leichten Waffen angreifen. Der Malus ist kumulativ mit dem für das Abfeuern der Waffe mit einer Hand.",
+    "hands": "two"
   },
   {
     "id": "86cfbb69-a34d-54e4-b5a3-00975e62857b",
@@ -2296,7 +2388,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Diese Waffe funktioniert genauso wie eine schwere Repetierarmbrust, allerdings sind die Werte für Schaden, Kritische Treffer und Reichweite die gleichen, wie bei einer leichten statt einer schweren Armbrust. Aufgrund ihrer deutlich leichteren Bauart und Zuges ist sie wesentlich einfacher zu tragen und nützlicher für jene, die auf Heimlichkeit und Geschwindigkeit angewiesen sind."
+    "description": "Diese Waffe funktioniert genauso wie eine schwere Repetierarmbrust, allerdings sind die Werte für Schaden, Kritische Treffer und Reichweite die gleichen, wie bei einer leichten statt einer schweren Armbrust. Aufgrund ihrer deutlich leichteren Bauart und Zuges ist sie wesentlich einfacher zu tragen und nützlicher für jene, die auf Heimlichkeit und Geschwindigkeit angewiesen sind.",
+    "hands": "two"
   },
   {
     "id": "d63369d8-2684-54f7-9d29-1bbff27d1dd8",
@@ -2311,7 +2404,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Eine leichte Unterwasserarmbrust funktioniert über Wasser genauso wie ihr normales Gegenstück und kann auch unter Wasser eingesetzt werden. Wenn sie unter Wasser abgefeuert wird, so besitzt die Armbrust eine Grundreichweite von 6 m. Wer mit einer üblichen leichten Armbrust umgehen kann, kann auch die leichte Unterwasserarmbrust einsetzen."
+    "description": "Eine leichte Unterwasserarmbrust funktioniert über Wasser genauso wie ihr normales Gegenstück und kann auch unter Wasser eingesetzt werden. Wenn sie unter Wasser abgefeuert wird, so besitzt die Armbrust eine Grundreichweite von 6 m. Wer mit einer üblichen leichten Armbrust umgehen kann, kann auch die leichte Unterwasserarmbrust einsetzen.",
+    "hands": "two"
   },
   {
     "id": "e69a8f6a-4ee6-5b1f-8e5f-e5d43451207f",
@@ -2326,7 +2420,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Diese Waffe ist die leichtere Ausgabe eines Kriegshammers und ist für gewöhnlich mit einem glatten Metallkopf mit einer Schlagfläche ausgestattet."
+    "description": "Diese Waffe ist die leichtere Ausgabe eines Kriegshammers und ist für gewöhnlich mit einem glatten Metallkopf mit einer Schlagfläche ausgestattet.",
+    "hands": "one"
   },
   {
     "id": "5670afdf-127b-5ae3-a88e-287443148ade",
@@ -2341,7 +2436,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "Speziell",
-    "description": "Statt sich zu verteidigen, kann man mit einem leichten Schild auch zustoßen. Der Eintrag für leichte Schilde steht unter Rüstungen."
+    "description": "Statt sich zu verteidigen, kann man mit einem leichten Schild auch zustoßen. Der Eintrag für leichte Schilde steht unter Rüstungen.",
+    "hands": "one"
   },
   {
     "id": "aeba71dc-ca24-5f88-87ae-c8e53eda63c8",
@@ -2356,7 +2452,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "Speziell",
-    "description": "Anstatt ihn zur Verteidigung einzusetzen, kann man mit dem leichten Stachelschild auch zustoßen. Ein Gegner kann keine Entwaffnungsaktion durchführen, um den Träger eines leichten Stachelschildes zu entwaffnen. Für nähere Informationen, siehe den Eintrag über Rüstungsstacheln unter Rüstungen."
+    "description": "Anstatt ihn zur Verteidigung einzusetzen, kann man mit dem leichten Stachelschild auch zustoßen. Ein Gegner kann keine Entwaffnungsaktion durchführen, um den Träger eines leichten Stachelschildes zu entwaffnen. Für nähere Informationen, siehe den Eintrag über Rüstungsstacheln unter Rüstungen.",
+    "hands": "one"
   },
   {
     "id": "06aa13f9-5782-5011-9606-ad264db3536c",
@@ -2371,7 +2468,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen, Zu Fall bringen",
     "weight_lb": "5 Pfd.",
-    "description": "Ein leichter Streitflegel besteht aus einem schweren Schlagkopf, der über eine feste Kette mit einem Griff verbunden ist. Obwohl man sich den Schlagkopf häufig als Kugel vorstellt, die manchmal wie ein Morgenstern mit Stacheln bewehrt ist, kann der Kopf des leichten Streitflegels viele verschiedene Formen besitzen, wie z. B. ein kurzer Stab. Kriegsflegel sind robustere Varianten von landwirtschaftlichen Flegeln, die zum Dreschen eingesetzt werden, womit der nützliche Weizen von der Spreu getrennt wird."
+    "description": "Ein leichter Streitflegel besteht aus einem schweren Schlagkopf, der über eine feste Kette mit einem Griff verbunden ist. Obwohl man sich den Schlagkopf häufig als Kugel vorstellt, die manchmal wie ein Morgenstern mit Stacheln bewehrt ist, kann der Kopf des leichten Streitflegels viele verschiedene Formen besitzen, wie z. B. ein kurzer Stab. Kriegsflegel sind robustere Varianten von landwirtschaftlichen Flegeln, die zum Dreschen eingesetzt werden, womit der nützliche Weizen von der Spreu getrennt wird.",
+    "hands": "one"
   },
   {
     "id": "711c0159-a0fc-5cbe-8eb7-ca8a6e46fdce",
@@ -2386,7 +2484,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Diese Waffe ist eine Abwandlung der Spitzhacke und besteht aus einem leicht gebogenen, panzerbrechenden Stachel als Kopf und einem hammerähnlichen Gegengewicht auf dessen Rückseite."
+    "description": "Diese Waffe ist eine Abwandlung der Spitzhacke und besteht aus einem leicht gebogenen, panzerbrechenden Stachel als Kopf und einem hammerähnlichen Gegengewicht auf dessen Rückseite.",
+    "hands": "one"
   },
   {
     "id": "63e13a6e-57e5-5bc5-8d09-92be517cfdfe",
@@ -2401,7 +2500,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Ein Streitkolben besteht aus einem verzierten Metallkopf, der an einem einfachen Holz- oder Metallgriff befestigt ist. Der Kopf des Streitkolbens ist für gewöhnlich bekranzt, um dadurch mehr Schmerz und Schaden zu verursachen. Einige primitivere Streitkolben besitzen Steinköpfe, die mithilfe von Lederriemen an einem Holzgriff befestigt sind."
+    "description": "Ein Streitkolben besteht aus einem verzierten Metallkopf, der an einem einfachen Holz- oder Metallgriff befestigt ist. Der Kopf des Streitkolbens ist für gewöhnlich bekranzt, um dadurch mehr Schmerz und Schaden zu verursachen. Einige primitivere Streitkolben besitzen Steinköpfe, die mithilfe von Lederriemen an einem Holzgriff befestigt sind.",
+    "hands": "one"
   },
   {
     "id": "d757259f-ae90-5ebe-95ac-9cb656ed296b",
@@ -2416,7 +2516,8 @@
     "weapon_type": "martial",
     "special": "Mönch",
     "weight_lb": "1 Pfd.",
-    "description": "Was nach einer einfachen Scheide für einen Schlagstock aussieht, beherbergt zwei passende Dolche mit schmaler Klinge - die perfekt zum Werfen ausbalanciert sind."
+    "description": "Was nach einer einfachen Scheide für einen Schlagstock aussieht, beherbergt zwei passende Dolche mit schmaler Klinge - die perfekt zum Werfen ausbalanciert sind.",
+    "hands": "one"
   },
   {
     "id": "cb1377bb-6f44-5694-bd56-4479e818af00",
@@ -2431,7 +2532,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Reichweite, siehe Text",
     "weight_lb": "12 Pfd.",
-    "description": "Diese Stangenwaffe besitzt sowohl einen Hammerkopf für Schmetterschläge, als auch einen Stachelkopf zum Durchdringen und Abreißen von Rüstungen. Der lange Schaft erlaubt dem Träger, den Kopf mit großer Wucht zu schwingen. Man erhält einen Bonus von +2 auf Kampfmanöverwürfe, um mit dem Luzerner Hammer eine mittelschwere oder schwere Rüstung zu zerschmettern."
+    "description": "Diese Stangenwaffe besitzt sowohl einen Hammerkopf für Schmetterschläge, als auch einen Stachelkopf zum Durchdringen und Abreißen von Rüstungen. Der lange Schaft erlaubt dem Träger, den Kopf mit großer Wucht zu schwingen. Man erhält einen Bonus von +2 auf Kampfmanöverwürfe, um mit dem Luzerner Hammer eine mittelschwere oder schwere Rüstung zu zerschmettern.",
+    "hands": "two"
   },
   {
     "id": "e2f71ea7-a7e9-55e4-80dc-c318677eb763",
@@ -2446,7 +2548,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "5 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "8080d440-9278-5ecf-b98f-ec347bbc81d5",
@@ -2461,7 +2564,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "6 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "c941a24b-78dd-53ba-90a3-ff8d5e7619fd",
@@ -2476,7 +2580,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "790336cd-28b1-55ff-900a-56af43c673c0",
@@ -2491,7 +2596,8 @@
     "weapon_type": "exotic",
     "special": "Reichweite, siehe Text",
     "weight_lb": "10 Pfd.",
-    "description": "Diese Stangenwaffe besteht aus zwei gebogenen Metallbändern, die sich beim Angriff um das Ziel schließen, sodass man einen Gegner festhalten kann. Ein Menschenfänger wird zum Einfangen von Kreaturen einer bestimmten Größenkategorie (zum Beispiel Klein oder Mittelgroß) hergestellt und funktioniert nicht bei Kreaturen einer anderen Größe. Um einen Gegner zu treffen ist ein Berührungsangriff notwendig, zudem ein Kampfmanöverwurf, um ihn in einen Ringkampf zu zwingen (ohne den Malus von -4 dafür, dass man nicht beide Hände frei hat). Ein Erfolg bedeutet, dass Angreifer und Ziel in einen Ringkampf verwickelt sind. Sobald sich das Ziel im Ringkampf befindet, kann man sich im Ringkampf entweder bewegen oder dem Gegner Schaden zufügen. Der Menschenfänger besitzt Härte 10 und 5 Trefferpunkte; um ihn zu zerbrechen ist ein Stärkewurf gegen SG 26 notwendig. Wenn man den Menschenfänger fallenlässt, kann sich das Ziel mit einer Standard-Aktion selbst befreien."
+    "description": "Diese Stangenwaffe besteht aus zwei gebogenen Metallbändern, die sich beim Angriff um das Ziel schließen, sodass man einen Gegner festhalten kann. Ein Menschenfänger wird zum Einfangen von Kreaturen einer bestimmten Größenkategorie (zum Beispiel Klein oder Mittelgroß) hergestellt und funktioniert nicht bei Kreaturen einer anderen Größe. Um einen Gegner zu treffen ist ein Berührungsangriff notwendig, zudem ein Kampfmanöverwurf, um ihn in einen Ringkampf zu zwingen (ohne den Malus von -4 dafür, dass man nicht beide Hände frei hat). Ein Erfolg bedeutet, dass Angreifer und Ziel in einen Ringkampf verwickelt sind. Sobald sich das Ziel im Ringkampf befindet, kann man sich im Ringkampf entweder bewegen oder dem Gegner Schaden zufügen. Der Menschenfänger besitzt Härte 10 und 5 Trefferpunkte; um ihn zu zerbrechen ist ein Stärkewurf gegen SG 26 notwendig. Wenn man den Menschenfänger fallenlässt, kann sich das Ziel mit einer Standard-Aktion selbst befreien.",
+    "hands": "two"
   },
   {
     "id": "3274fa89-d0b6-5877-8a69-46186533be6d",
@@ -2506,7 +2612,8 @@
     "weapon_type": "exotic",
     "special": "Reichweite, Zu-Fall-bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Diese Waffe besteht aus zwei kugelförmigen Gewichten, die an einer 3 m langen Kette befestigt sind. Man wirbelt die Gewichte herum und lässt diese sich um den Körper eines Gegners wickeln. Wenn mit einem Meteor-Hammer ein Kampfmanöver für Zu-Fall-bringen gelingt, kann man den Gegner 1,50 m an sich heranziehen, statt ihn zu Boden zu werfen. Diese Waffe kann auf zweierlei Weise eingesetzt werden: Als Meteor funktioniert sie als Doppelwaffe, während man sie im Verteidigungsmodus nicht als Doppelwaffe einsetzt, dafür aber Reichweite und einen Schildbonus auf RK von +1 erhält. Zu Beginn des Zuges kann man mit einer Freie Aktion die Verwendungsweise wechseln."
+    "description": "Diese Waffe besteht aus zwei kugelförmigen Gewichten, die an einer 3 m langen Kette befestigt sind. Man wirbelt die Gewichte herum und lässt diese sich um den Körper eines Gegners wickeln. Wenn mit einem Meteor-Hammer ein Kampfmanöver für Zu-Fall-bringen gelingt, kann man den Gegner 1,50 m an sich heranziehen, statt ihn zu Boden zu werfen. Diese Waffe kann auf zweierlei Weise eingesetzt werden: Als Meteor funktioniert sie als Doppelwaffe, während man sie im Verteidigungsmodus nicht als Doppelwaffe einsetzt, dafür aber Reichweite und einen Schildbonus auf RK von +1 erhält. Zu Beginn des Zuges kann man mit einer Freie Aktion die Verwendungsweise wechseln.",
+    "hands": "two"
   },
   {
     "id": "02e8c62d-8519-5e0b-8112-ad44c43dc79e",
@@ -2521,7 +2628,8 @@
     "weapon_type": "simple",
     "special": "Zerbrechlich",
     "weight_lb": "2 Pfd.",
-    "description": "Diese steinzeitliche Waffe, die traditionell aus gemeißeltem Stein besteht, ist eine kurze, flache und spitz zulaufende Keule."
+    "description": "Diese steinzeitliche Waffe, die traditionell aus gemeißeltem Stein besteht, ist eine kurze, flache und spitz zulaufende Keule.",
+    "hands": "one"
   },
   {
     "id": "1a73fe4f-e41d-5197-b9aa-7e5c6d6f7496",
@@ -2536,7 +2644,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Ein Morgenstern besteht aus einer mit Spitzen besetzt Metallkugel, die an einem Griff befestigt ist."
+    "description": "Ein Morgenstern besteht aus einer mit Spitzen besetzt Metallkugel, die an einem Griff befestigt ist.",
+    "hands": "one"
   },
   {
     "id": "23f239a5-aa4d-5427-afe0-8dd8ded50b7b",
@@ -2551,7 +2660,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "9 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "caa4215b-d056-5c3a-8c23-a534478b2587",
@@ -2566,7 +2676,8 @@
     "weapon_type": "martial",
     "special": "Doppel, Mönch",
     "weight_lb": "12 Pfd.",
-    "description": "Diese Stangenwaffe ist eine Doppelwaffe. Ein Ende ist mit einem breiten, scharfen Blatt wie von einer Schaufel ausgestattet, während das andere Ende eine Sichel förmige Klinge aufweist, die wie zwei Stierhörner absteht. Die Art des vom Mönchsspaten verursachten Schadens hängt davon ab, wie er verwendet wird: Die Spaten seite verursacht Wucht- und Hiebschaden, die Sichel seite dagegen Hiebund Stichschaden."
+    "description": "Diese Stangenwaffe ist eine Doppelwaffe. Ein Ende ist mit einem breiten, scharfen Blatt wie von einer Schaufel ausgestattet, während das andere Ende eine Sichel förmige Klinge aufweist, die wie zwei Stierhörner absteht. Die Art des vom Mönchsspaten verursachten Schadens hängt davon ab, wie er verwendet wird: Die Spaten seite verursacht Wucht- und Hiebschaden, die Sichel seite dagegen Hiebund Stichschaden.",
+    "hands": "two"
   },
   {
     "id": "88fa0371-c428-521d-a41c-b178ee654100",
@@ -2581,7 +2692,8 @@
     "weapon_type": "martial",
     "special": "Reichweite",
     "weight_lb": "9 Pfd.",
-    "description": "Die Naginata besteht aus einem 1,80 m langen Stab, an dem eine 0,60 m lange, leicht geschwungene, schwertähnliche Klinge angebracht ist. Der Stab dient dazu, Schwerter und kürzere Waffen vom Träger fernzuhalten."
+    "description": "Die Naginata besteht aus einem 1,80 m langen Stab, an dem eine 0,60 m lange, leicht geschwungene, schwertähnliche Klinge angebracht ist. Der Stab dient dazu, Schwerter und kürzere Waffen vom Träger fernzuhalten.",
+    "hands": "two"
   },
   {
     "id": "34e68c4b-f31d-5a15-bd34-930f9810c39c",
@@ -2596,7 +2708,8 @@
     "weapon_type": "exotic",
     "special": "siehe Text",
     "weight_lb": "6 Pfd.",
-    "description": "Ein Netz wird verwendet, um Feinde zu verstricken. Wenn man ein Netz auf ein Ziel wirft, führt man einen Berührungsangriff im Fernkampf gegen das Ziel aus. Die maximale Reichweite eines Netzes beträgt 3 m. Trifft man das Ziel, gilt es als verstrickt. Eine verstrickte Kreatur erleidet einen Malus von -2 auf Angriffswürfe und von -4 auf Geschicklichkeit, kann sich nur mit halber Bewegungsrate fortbewegen und weder rennen noch eine Sturmangriff durchführen. Wenn man mit einem konkurrierenden Stärkewurf das Schleppseil festhalten kann, während eine Kreatur verstrickt ist, kann sich diese nur so weit bewegen, wie es das Netz erlaubt. Wenn die verstrickte Kreatur versucht, einen Zauber zu wirken, muss sie einen erfolgreichen Konzentrationswurf gegen SG 15 + die Zauberstufe ablegen oder sie kann nicht zaubern. Mit einem erfolgreichen Fertigkeitswurf für Entfesselungskunstgegen SG 20 (eine Vollen Aktion) kann sich eine verstrickte Kreatur befreien. Das Netz besitzt 5 TP und kann mit einem erfolgreichen Stärkewurf gegen SG 25 (ebenfalls eine Volle Aktion) zerrissen werden. Ein Netz nutzt nur gegen Kreaturen, die eine Größenkategorie kleiner, größer oder ebenso groß wie der Träger sind. Ein Netz muss zusammengefaltet sein, damit man es wirkungsvoll auswerfen kann. Wenn man das erste Mal im Kampf das Netz wirft, legt man einen gewöhnlichen Wurf für einen Berührungsangriff auf Entfernung ab. Nachdem es auseinandergefaltet ist, erleidet man einen Malus von -4 auf die Angriffswürfe mit dem Netz. Ein geübter Träger benötigt zwei Runden, um das Netz zusammenzufalten. Ist man im Umgang mit ihm nicht geübt, dauert es doppelt so lange."
+    "description": "Ein Netz wird verwendet, um Feinde zu verstricken. Wenn man ein Netz auf ein Ziel wirft, führt man einen Berührungsangriff im Fernkampf gegen das Ziel aus. Die maximale Reichweite eines Netzes beträgt 3 m. Trifft man das Ziel, gilt es als verstrickt. Eine verstrickte Kreatur erleidet einen Malus von -2 auf Angriffswürfe und von -4 auf Geschicklichkeit, kann sich nur mit halber Bewegungsrate fortbewegen und weder rennen noch eine Sturmangriff durchführen. Wenn man mit einem konkurrierenden Stärkewurf das Schleppseil festhalten kann, während eine Kreatur verstrickt ist, kann sich diese nur so weit bewegen, wie es das Netz erlaubt. Wenn die verstrickte Kreatur versucht, einen Zauber zu wirken, muss sie einen erfolgreichen Konzentrationswurf gegen SG 15 + die Zauberstufe ablegen oder sie kann nicht zaubern. Mit einem erfolgreichen Fertigkeitswurf für Entfesselungskunstgegen SG 20 (eine Vollen Aktion) kann sich eine verstrickte Kreatur befreien. Das Netz besitzt 5 TP und kann mit einem erfolgreichen Stärkewurf gegen SG 25 (ebenfalls eine Volle Aktion) zerrissen werden. Ein Netz nutzt nur gegen Kreaturen, die eine Größenkategorie kleiner, größer oder ebenso groß wie der Träger sind. Ein Netz muss zusammengefaltet sein, damit man es wirkungsvoll auswerfen kann. Wenn man das erste Mal im Kampf das Netz wirft, legt man einen gewöhnlichen Wurf für einen Berührungsangriff auf Entfernung ab. Nachdem es auseinandergefaltet ist, erleidet man einen Malus von -4 auf die Angriffswürfe mit dem Netz. Ein geübter Träger benötigt zwei Runden, um das Netz zusammenzufalten. Ist man im Umgang mit ihm nicht geübt, dauert es doppelt so lange.",
+    "hands": "one"
   },
   {
     "id": "02641009-1fba-5dfc-84fa-3f3e7a6f0297",
@@ -2611,7 +2724,8 @@
     "weapon_type": "martial",
     "special": "Mönch",
     "weight_lb": "4 Pfd.",
-    "description": "In den Rücken dieser Waffe mit breiter Klinge sind neun Ringe eingelassen, die das Gewicht erhöhen und den Hieben zusätzliche Wucht verleihen."
+    "description": "In den Rücken dieser Waffe mit breiter Klinge sind neun Ringe eingelassen, die das Gewicht erhöhen und den Hieben zusätzliche Wucht verleihen.",
+    "hands": "one"
   },
   {
     "id": "a7d109be-841c-5553-b34f-cc5aea7479d9",
@@ -2626,7 +2740,8 @@
     "weapon_type": "exotic",
     "special": "Blockierend, Ablenkend, Mönch, Zu-Fall-bringen",
     "weight_lb": "3 Pfd.",
-    "description": "Die neunteilige Peitsche besteht aus miteinander verbundenen Stahlstangen. Die letzte Stange ist ein schwerer, 0,15 m langer Stachel. Diese Waffe kann einhändig, beidhändig oder als Paar eingesetzt werden. Oft sind an der Spitze der neunteiligen Peitsche bunte Fähnchen angebracht, um den Umgang mit ihr zu erleichtern."
+    "description": "Die neunteilige Peitsche besteht aus miteinander verbundenen Stahlstangen. Die letzte Stange ist ein schwerer, 0,15 m langer Stachel. Diese Waffe kann einhändig, beidhändig oder als Paar eingesetzt werden. Oft sind an der Spitze der neunteiligen Peitsche bunte Fähnchen angebracht, um den Umgang mit ihr zu erleichtern.",
+    "hands": "one"
   },
   {
     "id": "d4b2a4c3-e8f5-57b3-b238-d2a55cfbc1ca",
@@ -2641,7 +2756,8 @@
     "weapon_type": "martial",
     "special": "Abwehr",
     "weight_lb": "8 Pfd.",
-    "description": "Diese sehr lange, beidhändige Waffe besitzt an einem Ende eine schmale, aber äußerst scharfe und 1,20 m lange Klinge. Sie wird hauptsächlich von Fußtruppen eingesetzt, welche damit berittene Krieger angreifen. Dabei wird versucht, die Reiter von ihren Tieren herunter zu schlagen oder sich gegen deren Sturmangriffe zur Wehr zu setzen."
+    "description": "Diese sehr lange, beidhändige Waffe besitzt an einem Ende eine schmale, aber äußerst scharfe und 1,20 m lange Klinge. Sie wird hauptsächlich von Fußtruppen eingesetzt, welche damit berittene Krieger angreifen. Dabei wird versucht, die Reiter von ihren Tieren herunter zu schlagen oder sich gegen deren Sturmangriffe zur Wehr zu setzen.",
+    "hands": "two"
   },
   {
     "id": "eafeec5c-a841-5f42-bed2-a6ac1b92b54a",
@@ -2656,7 +2772,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Mönch",
     "weight_lb": "2 Pfd.",
-    "description": "Ein Nunchaku besteht aus zwei Holz- oder Metallgriffen, die über ein kurzes Seil oder eine kurze Kette miteinander verbunden sind."
+    "description": "Ein Nunchaku besteht aus zwei Holz- oder Metallgriffen, die über ein kurzes Seil oder eine kurze Kette miteinander verbunden sind.",
+    "hands": "one"
   },
   {
     "id": "d5581054-1161-53a5-881e-b0a8dafe5351",
@@ -2671,7 +2788,8 @@
     "weapon_type": "martial",
     "special": "Zu Fall bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Mit diesem großen Haken aus geschärftem Metall kann man flüchtende Gegner leicht zu Fall bringen und einfangen. Die Ogerhaken wurden von den Ogern ersonnen und sind zumeist groß und grob gefertigt, bestehen häufig aus Metallteilen der Waffen und Rüstungen von Opfern. Der schlechten Verarbeitung zum Trotz sind Ogerhaken recht wertvolle Gegenstände, da sie selten und nur unter Gefahren zu bekommen sind."
+    "description": "Mit diesem großen Haken aus geschärftem Metall kann man flüchtende Gegner leicht zu Fall bringen und einfangen. Die Ogerhaken wurden von den Ogern ersonnen und sind zumeist groß und grob gefertigt, bestehen häufig aus Metallteilen der Waffen und Rüstungen von Opfern. Der schlechten Verarbeitung zum Trotz sind Ogerhaken recht wertvolle Gegenstände, da sie selten und nur unter Gefahren zu bekommen sind.",
+    "hands": "two"
   },
   {
     "id": "e2de757d-84fc-5a08-9b03-95d20b9a2f40",
@@ -2686,7 +2804,8 @@
     "weapon_type": "exotic",
     "special": "Doppel",
     "weight_lb": "15 Pfd.",
-    "description": "Die Orkische Doppelaxt ist eine grausame Doppelwaffe mit Axtblättern an beiden Enden eines langen Schaftes. Obwohl sie von Orks hergestellt und traditionell mit ihnen in Verbindung gebracht wird, kann die Doppelaxt auch von anderen Völkern hergestellt und getragen werden, wenngleich viele sie aufgrund ihrer Schwerfälligkeit und des extremen Gewichts meiden. Da die Axt an beiden Enden Klingen aufweist, muss der Träger sie in der Mitte des Schaftes halten und sich auf einen wellenförmigen, schneidenden Kampfstil verlegen, der eher dem Einsatz eines Kampfstabes denn dem einer Zweihand- oder Streitaxt ähnelt."
+    "description": "Die Orkische Doppelaxt ist eine grausame Doppelwaffe mit Axtblättern an beiden Enden eines langen Schaftes. Obwohl sie von Orks hergestellt und traditionell mit ihnen in Verbindung gebracht wird, kann die Doppelaxt auch von anderen Völkern hergestellt und getragen werden, wenngleich viele sie aufgrund ihrer Schwerfälligkeit und des extremen Gewichts meiden. Da die Axt an beiden Enden Klingen aufweist, muss der Träger sie in der Mitte des Schaftes halten und sich auf einen wellenförmigen, schneidenden Kampfstil verlegen, der eher dem Einsatz eines Kampfstabes denn dem einer Zweihand- oder Streitaxt ähnelt.",
+    "hands": "two"
   },
   {
     "id": "4a0b1e30-38ee-5fc0-b9ad-56a01ba9b7c9",
@@ -2701,7 +2820,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Mithilfe dieses Metallhandschuhs kann man mit einem waffenlosen Schlag tödlichen statt nichttödlichen Schaden verursachen. Ansonsten gilt ein Schlag mit einem Panzerhandschuh als waffenloser Angriff. Der Preis und das Gewicht gelten für ein einzelnes Exemplar. Panzerhandschuhe sind Teile von mittelgroßen und schweren Rüstungen (außer Brustplatten). Eine Entwaffnungsaktion gegen einen Panzerhandschuh ist nicht möglich."
+    "description": "Mithilfe dieses Metallhandschuhs kann man mit einem waffenlosen Schlag tödlichen statt nichttödlichen Schaden verursachen. Ansonsten gilt ein Schlag mit einem Panzerhandschuh als waffenloser Angriff. Der Preis und das Gewicht gelten für ein einzelnes Exemplar. Panzerhandschuhe sind Teile von mittelgroßen und schweren Rüstungen (außer Brustplatten). Eine Entwaffnungsaktion gegen einen Panzerhandschuh ist nicht möglich.",
+    "hands": "one"
   },
   {
     "id": "b603912d-8320-5670-86b3-dccac331e707",
@@ -2716,7 +2836,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "3 Pfd.",
-    "description": "Das Pata ist eine Weiterentwicklung des Stoßdolches: ein kurzes Schwert, das in einem voll gepanzerten, fingerlosen Handschuhgriff mündet. Man schlägt eher mit der Waffe als dass man sticht und legt damit mehr Wucht hinter jeden Schlag. Während man das Pata trägt, kann man diese Hand für nichts anderes verwenden. Ein Pata verleiht dem Träger einen Bonus von +10 auf die KMV gegen Entwaffnungsversuche."
+    "description": "Das Pata ist eine Weiterentwicklung des Stoßdolches: ein kurzes Schwert, das in einem voll gepanzerten, fingerlosen Handschuhgriff mündet. Man schlägt eher mit der Waffe als dass man sticht und legt damit mehr Wucht hinter jeden Schlag. Während man das Pata trägt, kann man diese Hand für nichts anderes verwenden. Ein Pata verleiht dem Träger einen Bonus von +10 auf die KMV gegen Entwaffnungsversuche.",
+    "hands": "one"
   },
   {
     "id": "c2734978-df5c-5c59-9680-9fe954a645ce",
@@ -2731,7 +2852,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Nicht tödlich, Reichweite, Zu Fall bringen",
     "weight_lb": "2 Pfd.",
-    "description": "Kreaturen mit einem Rüstungsbonus von +1 oder höher nehmen durch eine Peitsche keinen Schaden. Gleiches gilt für Kreaturen mit einem natürlichen Rüstungsbonus von +3 oder höher. Sie wird als Nahkampfwaffe mit einer Reichweite von 4,50 m behandelt, bedroht allerdings nicht den Bereich, in den der Angriff hineinführt. Außerdem kann man die Peitsche im Gegensatz zu anderen Waffen mit Reichweite auch gegen Feinde einsetzen, die sich innerhalb der Reichweite der Waffe befinden (also auch gegen Gegner, die direkt neben einem stehen). Das Benutzen einer Peitsche provoziert wie bei Fernkampfwaffen Gelegenheitsangriffe. Obwohl es sich bei der Peitsche nicht um eine leichte Waffe handelt, kann man mit ihr das Talent Waffenfinesse einsetzen, um bei einem Angriffswurf den GE-Modifikator statt des ST-Modifikators zu benutzen."
+    "description": "Kreaturen mit einem Rüstungsbonus von +1 oder höher nehmen durch eine Peitsche keinen Schaden. Gleiches gilt für Kreaturen mit einem natürlichen Rüstungsbonus von +3 oder höher. Sie wird als Nahkampfwaffe mit einer Reichweite von 4,50 m behandelt, bedroht allerdings nicht den Bereich, in den der Angriff hineinführt. Außerdem kann man die Peitsche im Gegensatz zu anderen Waffen mit Reichweite auch gegen Feinde einsetzen, die sich innerhalb der Reichweite der Waffe befinden (also auch gegen Gegner, die direkt neben einem stehen). Das Benutzen einer Peitsche provoziert wie bei Fernkampfwaffen Gelegenheitsangriffe. Obwohl es sich bei der Peitsche nicht um eine leichte Waffe handelt, kann man mit ihr das Talent Waffenfinesse einsetzen, um bei einem Angriffswurf den GE-Modifikator statt des ST-Modifikators zu benutzen.",
+    "hands": "one"
   },
   {
     "id": "b0729a3e-5ac9-5019-9fb1-a79026cd362f",
@@ -2746,7 +2868,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "1/2 Pfd.",
-    "description": "Diese Waffe besteht aus einer schmalen Metallröhre, die in einer Hülle steckt. In dieser Röhre verbirgt sich ein kurzer, vorgespannter Bambusstab. Man erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, um die Röhre am Körper zu verbergen. Durch das Lösen der Klammer wird der Pfeil mit großer Wucht herausgeschossen. Sobald der Pfeil verschossen ist, muss die Röhre nachgeladen werden, bevor sie wieder einsatzbereit ist. Das Laden einer Röhre ist eine Volle Aktion bzw. eine Standard-Aktion, wenn der Träger das Talent Schnelles Nachladen besitzt."
+    "description": "Diese Waffe besteht aus einer schmalen Metallröhre, die in einer Hülle steckt. In dieser Röhre verbirgt sich ein kurzer, vorgespannter Bambusstab. Man erhält einen Bonus von +2 auf Fertigkeitswürfe für Fingerfertigkeit, um die Röhre am Körper zu verbergen. Durch das Lösen der Klammer wird der Pfeil mit großer Wucht herausgeschossen. Sobald der Pfeil verschossen ist, muss die Röhre nachgeladen werden, bevor sie wieder einsatzbereit ist. Das Laden einer Röhre ist eine Volle Aktion bzw. eine Standard-Aktion, wenn der Träger das Talent Schnelles Nachladen besitzt.",
+    "hands": "one"
   },
   {
     "id": "0f6bf613-be39-56e2-9b1c-07819f22841b",
@@ -2761,7 +2884,8 @@
     "weapon_type": "martial",
     "special": "Reichweite, Zu-Fall-bringen",
     "weight_lb": "12 Pfd.",
-    "description": "Diese Waffe, die von den Goblins für den Kampf gegen Pferde hergestellt wird, ist im Grunde eine langstielige Hellebarde mit einem größeren Haken an der Klinge. Die meisten Pferdeschlächter werden an kleine Kreaturen angepasst."
+    "description": "Diese Waffe, die von den Goblins für den Kampf gegen Pferde hergestellt wird, ist im Grunde eine langstielige Hellebarde mit einem größeren Haken an der Klinge. Die meisten Pferdeschlächter werden an kleine Kreaturen angepasst.",
+    "hands": "two"
   },
   {
     "id": "d9e1dcd5-e6cb-55ac-ae98-c5959aed3ab2",
@@ -2776,7 +2900,8 @@
     "weapon_type": "martial",
     "special": "siehe Text",
     "weight_lb": "4 Pfd.",
-    "description": "Die Spitze dieses schweren Wurfspeers ist so gestaltet, dass sie sich bei einem Treffer in einen Schild bohrt und dann verbiegt. Ebenso wie Munition, wird auch das Pilum zerstört, wenn es sein Ziel trifft. Wird ein schildtragender Gegner von einem Pilum getroffen, verliert er den RK-Boni durch seinen Schild, bis er mit einer Standard-Aktion die Überreste des Pilums aus dem Schild herauszieht."
+    "description": "Die Spitze dieses schweren Wurfspeers ist so gestaltet, dass sie sich bei einem Treffer in einen Schild bohrt und dann verbiegt. Ebenso wie Munition, wird auch das Pilum zerstört, wenn es sein Ziel trifft. Wird ein schildtragender Gegner von einem Pilum getroffen, verliert er den RK-Boni durch seinen Schild, bis er mit einer Standard-Aktion die Überreste des Pilums aus dem Schild herauszieht.",
+    "hands": "one"
   },
   {
     "id": "cd05cf69-cbc8-5795-9dbd-e874870cadd2",
@@ -2791,7 +2916,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "e783870b-f5c1-57c3-ad62-ec19c0bdb3df",
@@ -2806,7 +2932,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "2 Pfd.",
-    "description": "Ein Quadrens ähnelt einem robusten Dolch, weist allerdings statt einer Klinge vier Stacheln auf, die auf einem rechteckigen Handschutz angeordnet sind. Wenn man mit einem Quadrens einen Kritischen Treffer erzielt, verursacht die darauf folgende klaffende Wunde 1 Punkt Blutungsschaden. Abgesehen davon, dass die Stacheln Haut und Rüstung durchdringen, können sie auch dazu eingesetzt werden, die Klingen des Gegners zu blockieren und ihm aus der Hand zu reißen."
+    "description": "Ein Quadrens ähnelt einem robusten Dolch, weist allerdings statt einer Klinge vier Stacheln auf, die auf einem rechteckigen Handschutz angeordnet sind. Wenn man mit einem Quadrens einen Kritischen Treffer erzielt, verursacht die darauf folgende klaffende Wunde 1 Punkt Blutungsschaden. Abgesehen davon, dass die Stacheln Haut und Rüstung durchdringen, können sie auch dazu eingesetzt werden, die Klingen des Gegners zu blockieren und ihm aus der Hand zu reißen.",
+    "hands": "one"
   },
   {
     "id": "b96004d5-974b-5153-b53d-d86e81674428",
@@ -2821,7 +2948,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Reichweite, siehe Text",
     "weight_lb": "12 Pfd.",
-    "description": "Der Rabenschnabel ist eine Stangenwaffe ähnlich dem Luzerner Hammer, allerdings ist der Hammerkopf etwas stumpfer, der Schnabel robuster und stärker gebogen. Man greift hauptsächlich mit dem Schnabel an und erhält einen Bonus von +2 auf Kampfmanöverwürfe, wenn man mit dem Rabenschnabel eine mittlere oder schwere Rüstung zertrümmern will."
+    "description": "Der Rabenschnabel ist eine Stangenwaffe ähnlich dem Luzerner Hammer, allerdings ist der Hammerkopf etwas stumpfer, der Schnabel robuster und stärker gebogen. Man greift hauptsächlich mit dem Schnabel an und erhält einen Bonus von +2 auf Kampfmanöverwürfe, wenn man mit dem Rabenschnabel eine mittlere oder schwere Rüstung zertrümmern will.",
+    "hands": "two"
   },
   {
     "id": "c13a1806-0822-57eb-9986-24030ecdf818",
@@ -2836,7 +2964,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen, Reichweite",
     "weight_lb": "12 Pfd.",
-    "description": "Die einem Dreizack ähnelnde Ranseur besitzt eine speerartige Spitze, die von zwei kurzen, gebogenen Klingen flankiert wird."
+    "description": "Die einem Dreizack ähnelnde Ranseur besitzt eine speerartige Spitze, die von zwei kurzen, gebogenen Klingen flankiert wird.",
+    "hands": "two"
   },
   {
     "id": "39672b63-1356-4b0b-964c-73f14290ced4",
@@ -2851,7 +2980,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Man kann das Talent Waffenfinesse einsetzen, um den Geschicklichkeits- statt des Stärkemodifikators auf Angriffswürfe mit einem Rapier anzurechnen, das für deine Größe angepasst ist, auch wenn es sich nicht um eine leichte Waffe handelt. Man kann ein Rapier nicht mit beiden Händen einsetzen, um das 1,5-fache des Stärkemodifikators auf den Schaden anzurechnen."
+    "description": "Man kann das Talent Waffenfinesse einsetzen, um den Geschicklichkeits- statt des Stärkemodifikators auf Angriffswürfe mit einem Rapier anzurechnen, das für deine Größe angepasst ist, auch wenn es sich nicht um eine leichte Waffe handelt. Man kann ein Rapier nicht mit beiden Händen einsetzen, um das 1,5-fache des Stärkemodifikators auf den Schaden anzurechnen.",
+    "hands": "one"
   },
   {
     "id": "f8e3d01f-273b-5f8e-8c07-70d94592479d",
@@ -2866,7 +2996,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Die Funktionsweise entspricht der einer schweren Repetierarmbrust, nur dass die Werte für den Schaden, Kritische Treffer und Reichweite denen einer Handarmbrust entsprechen."
+    "description": "Die Funktionsweise entspricht der einer schweren Repetierarmbrust, nur dass die Werte für den Schaden, Kritische Treffer und Reichweite denen einer Handarmbrust entsprechen.",
+    "hands": "one"
   },
   {
     "id": "9d064e30-a6b3-5553-bdbe-427e219286e9",
@@ -2881,7 +3012,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "f53c8c8a-a4e4-53ea-b2d5-912349a08528",
@@ -2896,7 +3028,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Dieses Schwert wird fast ausschließlich von den Urdefhan verwendet, denen der Hass auf alles Lebende innewohnt. Es besitzt dieselbe Länge wie ein Langschwert, besteht aber aus zwei gezackten Klingen, die nebeneinander angeordnet sind."
+    "description": "Dieses Schwert wird fast ausschließlich von den Urdefhan verwendet, denen der Hass auf alles Lebende innewohnt. Es besitzt dieselbe Länge wie ein Langschwert, besteht aber aus zwei gezackten Klingen, die nebeneinander angeordnet sind.",
+    "hands": "one"
   },
   {
     "id": "7f0e8644-8985-5cbf-ac3e-2a72e0362639",
@@ -2911,7 +3044,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Zerbrechlich, Reichweite",
     "weight_lb": "10 Pfd.",
-    "description": "Diese Waffe aus der Bronzezeit ist eine frühe Stangenwaffe, die aus einer langen, einschneidigen, manchmal leicht gebogenen Klinge besteht, die an einer robusten Stange befestigt ist. Sie dient als Hieb- und Stoßwaffe."
+    "description": "Diese Waffe aus der Bronzezeit ist eine frühe Stangenwaffe, die aus einer langen, einschneidigen, manchmal leicht gebogenen Klinge besteht, die an einer robusten Stange befestigt ist. Sie dient als Hieb- und Stoßwaffe.",
+    "hands": "two"
   },
   {
     "id": "31e075f6-6fb3-5533-984a-69510c45711e",
@@ -2926,7 +3060,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "Speziell",
-    "description": "Man kann seine Rüstung mit Stacheln besetzen, die im Ringkampf oder in einem separaten Angriff Schaden verursachen können. Für nähere Informationen, siehe den Eintrag für Rüstungsstacheln. Rüstungsstacheln können nicht Ziel einer Entwaffnung werden."
+    "description": "Man kann seine Rüstung mit Stacheln besetzen, die im Ringkampf oder in einem separaten Angriff Schaden verursachen können. Für nähere Informationen, siehe den Eintrag für Rüstungsstacheln. Rüstungsstacheln können nicht Ziel einer Entwaffnung werden.",
+    "hands": "one"
   },
   {
     "id": "6f2c122e-25c2-5ede-8a69-78da77687ca7",
@@ -2941,7 +3076,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Mönch",
     "weight_lb": "1 Pfd.",
-    "description": "Ein Sai besteht aus einem Metallstachel, von dem links und rechts zwei Zinken abstehen, mit denen die Waffe des Gegners abgefangen wird. Wenn man einen Sai führt, erhält man einen Bonus von +2 auf Kampfmanöverwürfe, um die Waffe des Gegners zu zerschmettern. Obwohl das Sai spitz zuläuft, wird es normalerweise nicht für Stoßangriffe verwendet. Stattdessen setzt man es hauptsächlich dazu ein, Feinde niederzuschlagen, mit dem Griff zuzuschlagen oder aber zwischen den Zinken feindliche Waffen zu verkeilen und den Gegner zu entwaffnen. Sai s werden häufig als Paar eingesetzt."
+    "description": "Ein Sai besteht aus einem Metallstachel, von dem links und rechts zwei Zinken abstehen, mit denen die Waffe des Gegners abgefangen wird. Wenn man einen Sai führt, erhält man einen Bonus von +2 auf Kampfmanöverwürfe, um die Waffe des Gegners zu zerschmettern. Obwohl das Sai spitz zuläuft, wird es normalerweise nicht für Stoßangriffe verwendet. Stattdessen setzt man es hauptsächlich dazu ein, Feinde niederzuschlagen, mit dem Griff zuzuschlagen oder aber zwischen den Zinken feindliche Waffen zu verkeilen und den Gegner zu entwaffnen. Sai s werden häufig als Paar eingesetzt.",
+    "hands": "one"
   },
   {
     "id": "4a65ee2e-92d8-55f7-a56f-b7608b9ab617",
@@ -2956,7 +3092,8 @@
     "weapon_type": "martial",
     "special": "Blockierend, Entwaffnen, Mönch",
     "weight_lb": "3 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "c1e951c5-6318-5961-9fbd-6f2138776d94",
@@ -2971,7 +3108,8 @@
     "weapon_type": "simple",
     "special": "Abwehr, siehe Text",
     "weight_lb": "8 Pfd.",
-    "description": "Dieser Speer ist mit einer Querstange aus Metall besetzt, die vor heranstürmenden Angreifern schützt. Wenn man eine Saufeder gegen einen Sturmangriff einsetzt und trifft, erhält man bis zum nächsten Zug gegen die heranstürmende Kreatur einen Schildbonus von +2 auf die RK."
+    "description": "Dieser Speer ist mit einer Querstange aus Metall besetzt, die vor heranstürmenden Angreifern schützt. Wenn man eine Saufeder gegen einen Sturmangriff einsetzt und trifft, erhält man bis zum nächsten Zug gegen die heranstürmende Kreatur einen Schildbonus von +2 auf die RK.",
+    "hands": "two"
   },
   {
     "id": "82001015-2737-57fb-9ade-03c55f493105",
@@ -2986,7 +3124,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen oder Zu-Fall-bringen (siehe Beschreibung), Mönch",
     "weight_lb": "1 Pfd.",
-    "description": "Diese festen Metallklingen, die paarweise geschmiedet werden, enden in gebogenen Haken, während die Knöchelschützer in nach außen zeigende, spitze Sicheln gehämmert werden. Sowohl die Sicheln als auch die Spitzen des Griffs werden für den Kampf geschärft. Sie können als Einhandwaffen oder im zweihändigen Kampfstil eingesetzt werden. Nutzt man sie einzeln, dann erhalten sie die besondere Fähigkeit Entwaffnen. Zwei Schang Gou können darüber hinaus eine Einhandwaffe bilden und erhalten dann die besondere Fähigkeit Zu-Fall-bringen."
+    "description": "Diese festen Metallklingen, die paarweise geschmiedet werden, enden in gebogenen Haken, während die Knöchelschützer in nach außen zeigende, spitze Sicheln gehämmert werden. Sowohl die Sicheln als auch die Spitzen des Griffs werden für den Kampf geschärft. Sie können als Einhandwaffen oder im zweihändigen Kampfstil eingesetzt werden. Nutzt man sie einzeln, dann erhalten sie die besondere Fähigkeit Entwaffnen. Zwei Schang Gou können darüber hinaus eine Einhandwaffe bilden und erhalten dann die besondere Fähigkeit Zu-Fall-bringen.",
+    "hands": "one"
   },
   {
     "id": "8922af4b-c746-5535-96f5-61a71a9c0fb3",
@@ -3001,7 +3140,8 @@
     "weapon_type": "simple",
     "special": "Mönch, siehe Text",
     "weight_lb": "1 Pfd.",
-    "description": "Mit dieser Waffe, die sich um die Fingerknöchel schmiegt, kann mit einem waffenlosen Schlag tödlicher Schaden ausgeteilt werden. In einer Hand mit einem Schlagring kann man zwar eine Waffe oder einen anderen Gegenstand festhalten, aber nicht einsetzen. Mit einem erfolgreichen Konzentrationswurf (SG 10 + Stufe des gewirkten Zaubers) kann man einen Zauber mit Gestenkomponenten wirken, während man den Schlagring trägt. Mönche sind im Umgang mit Schlagringen geübt. Schlagringe können nicht Ziel eines Kampfmanövers für Entwaffnen werden."
+    "description": "Mit dieser Waffe, die sich um die Fingerknöchel schmiegt, kann mit einem waffenlosen Schlag tödlicher Schaden ausgeteilt werden. In einer Hand mit einem Schlagring kann man zwar eine Waffe oder einen anderen Gegenstand festhalten, aber nicht einsetzen. Mit einem erfolgreichen Konzentrationswurf (SG 10 + Stufe des gewirkten Zaubers) kann man einen Zauber mit Gestenkomponenten wirken, während man den Schlagring trägt. Mönche sind im Umgang mit Schlagringen geübt. Schlagringe können nicht Ziel eines Kampfmanövers für Entwaffnen werden.",
+    "hands": "one"
   },
   {
     "id": "09a718cb-3012-4617-a7fb-376b1ad100ba",
@@ -3016,7 +3156,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "0 Pfd.",
-    "description": "Eine Schleuder ist wenig mehr als ein Lederkorb an zwei Schnüren. Ebenso wie bei Wurfwaffen rechnet man den Stärkemodifikator zu den Schadenswürfen hinzu, wenn man eine Schleuder einsetzt. Die Schleuder kann mit einer Hand abgefeuert, aber nicht geladen werden. Das Laden dieser Waffe ist eine Bewegungsaktion, die mit zwei Händen durchgeführt werden muss und Gelegenheitsangriffe provoziert. Eine Schleuder verschießt Schleuder kugeln. Man kann gewöhnliche Steine mit einer Schleuder benutzen, die allerdings nicht so hart oder rund wie Kugeln sind. Daher verursacht ein solcher Angriff Schaden so, als wäre die Waffe an eine Kreatur angepasst, die eine Größenkategorie kleiner ist. Zudem erleidet man einen Malus von -1 auf die Angriffswürfe."
+    "description": "Eine Schleuder ist wenig mehr als ein Lederkorb an zwei Schnüren. Ebenso wie bei Wurfwaffen rechnet man den Stärkemodifikator zu den Schadenswürfen hinzu, wenn man eine Schleuder einsetzt. Die Schleuder kann mit einer Hand abgefeuert, aber nicht geladen werden. Das Laden dieser Waffe ist eine Bewegungsaktion, die mit zwei Händen durchgeführt werden muss und Gelegenheitsangriffe provoziert. Eine Schleuder verschießt Schleuder kugeln. Man kann gewöhnliche Steine mit einer Schleuder benutzen, die allerdings nicht so hart oder rund wie Kugeln sind. Daher verursacht ein solcher Angriff Schaden so, als wäre die Waffe an eine Kreatur angepasst, die eine Größenkategorie kleiner ist. Zudem erleidet man einen Malus von -1 auf die Angriffswürfe.",
+    "hands": "one"
   },
   {
     "id": "e551a1c6-33f6-57e3-8ed1-ea29454e1f11",
@@ -3031,7 +3172,8 @@
     "weapon_type": "martial",
     "special": "Mönch",
     "weight_lb": "1 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "96a74805-f281-556d-bdbd-2d6623a0c0d8",
@@ -3046,7 +3188,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "3 Pfd.",
-    "description": "Das Schotel ist ein nach unten gebogenes Schwert, das darauf ausgelegt ist, den Schild des Gegners von oben oder seitlich zu umgehen. Man erhält einen Bonus von +1 auf Angriffswürfe, wenn man mit dem Schotel gegen einen Feind mit einer Tartsche, einem leichten oder einem schweren Schild kämpft. Die Krümmung eines Schotels ist von Schwert zu Schwert unterschiedlich; einige Varianten sind zweischneidig, andere wiederum einschneidig mit einem verstärkten Rücken, der gegen einen Schild für zusätzliche Wucht sorgt. Schotels sind besonders gut dazu geeignet, berittene Gegner zu packen und von ihren Reittieren zu reißen."
+    "description": "Das Schotel ist ein nach unten gebogenes Schwert, das darauf ausgelegt ist, den Schild des Gegners von oben oder seitlich zu umgehen. Man erhält einen Bonus von +1 auf Angriffswürfe, wenn man mit dem Schotel gegen einen Feind mit einer Tartsche, einem leichten oder einem schweren Schild kämpft. Die Krümmung eines Schotels ist von Schwert zu Schwert unterschiedlich; einige Varianten sind zweischneidig, andere wiederum einschneidig mit einem verstärkten Rücken, der gegen einen Schild für zusätzliche Wucht sorgt. Schotels sind besonders gut dazu geeignet, berittene Gegner zu packen und von ihren Reittieren zu reißen.",
+    "hands": "one"
   },
   {
     "id": "f499bdce-e2be-598c-9d31-45c25542b715",
@@ -3061,7 +3204,8 @@
     "weapon_type": "exotic",
     "special": "Doppel, Entwaffnen, Zu Fall bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Ein Schreckensflegel besteht aus dornenbewehrten, an Ketten hängenden Eisenkugeln, die an beiden Enden eines langen Holzschafts angebracht wurden."
+    "description": "Ein Schreckensflegel besteht aus dornenbewehrten, an Ketten hängenden Eisenkugeln, die an beiden Enden eines langen Holzschafts angebracht wurden.",
+    "hands": "two"
   },
   {
     "id": "1c95d4c3-0e0f-5fff-aaa4-d6456f3e49e0",
@@ -3076,7 +3220,8 @@
     "weapon_type": "exotic",
     "special": "Mönch",
     "weight_lb": "1/2 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "2db6fcc1-773c-5cef-893c-95bd49517f37",
@@ -3091,7 +3236,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Durch das Drehen einer kleinen Winde spannt man die schwere Armbrust, das Laden nimmt eine Volle Aktion in Anspruch und provoziert Gelegenheitsangriffe. Eine schwere Armbrust verschießt Armbrustbolzen. Normalerweise werden für die Verwendung einer schweren Armbrust zwei Hände benötigt. Allerdings kann man mit einem Malus von -4 auf die Angriffswürfe eine schwere Armbrust mit einer Hand abfeuern, aber nicht nachladen. Man kann mit beiden Händen jeweils eine schwere Armbrust abfeuern, allerdings erleidet man einen Malus auf die Angriffswürfe, als würde man mit zwei Einhandwaffen angreifen. Dieser Malus ist kumulativ mit dem Malus für das Schießen mit einer Hand."
+    "description": "Durch das Drehen einer kleinen Winde spannt man die schwere Armbrust, das Laden nimmt eine Volle Aktion in Anspruch und provoziert Gelegenheitsangriffe. Eine schwere Armbrust verschießt Armbrustbolzen. Normalerweise werden für die Verwendung einer schweren Armbrust zwei Hände benötigt. Allerdings kann man mit einem Malus von -4 auf die Angriffswürfe eine schwere Armbrust mit einer Hand abfeuern, aber nicht nachladen. Man kann mit beiden Händen jeweils eine schwere Armbrust abfeuern, allerdings erleidet man einen Malus auf die Angriffswürfe, als würde man mit zwei Einhandwaffen angreifen. Dieser Malus ist kumulativ mit dem Malus für das Schießen mit einer Hand.",
+    "hands": "two"
   },
   {
     "id": "28094020-54c5-5dfc-ba5e-140e33089619",
@@ -3106,7 +3252,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "12 Pfd.",
-    "description": "Diese Schusswaffe kann mit 5 Repetierarmbrustbolzen geladen werden. Solange Bolzen im Magazin sind, kann man sie mithilfe des Nachladehebels nachladen (eine Freie Aktion). Das Laden eines neuen Magazins mit 5 Bolzen ist eine Volle Aktion, die Gelegenheitsangriffe provoziert. Man kann eine Repetierarmbrust mit einer Hand oder je eine Repetierarmbrust mit beiden Händen abfeuern, als würde man mit einer normalen Armbrust der gleichen Größe schießen. Allerdings muss man die Waffe mit beiden Händen halten, um den Nachladehebel nutzen zu können. Gleichfalls benötigt man beide Hände, um ein neues Bolzenmagazin einzulegen."
+    "description": "Diese Schusswaffe kann mit 5 Repetierarmbrustbolzen geladen werden. Solange Bolzen im Magazin sind, kann man sie mithilfe des Nachladehebels nachladen (eine Freie Aktion). Das Laden eines neuen Magazins mit 5 Bolzen ist eine Volle Aktion, die Gelegenheitsangriffe provoziert. Man kann eine Repetierarmbrust mit einer Hand oder je eine Repetierarmbrust mit beiden Händen abfeuern, als würde man mit einer normalen Armbrust der gleichen Größe schießen. Allerdings muss man die Waffe mit beiden Händen halten, um den Nachladehebel nutzen zu können. Gleichfalls benötigt man beide Hände, um ein neues Bolzenmagazin einzulegen.",
+    "hands": "two"
   },
   {
     "id": "070e65df-7863-55d7-9eda-44e965bdad34",
@@ -3121,7 +3268,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Über Wasser funktioniert diese Waffe genauso wie eine schwere Armbrust. Man kann sie auch unter Wasser einsetzen, wo ihre Grundreichweite 6 m beträgt. In Bezug auf Waffenumgang und besondere Eigenschaften gilt sie als schwere Armbrust"
+    "description": "Über Wasser funktioniert diese Waffe genauso wie eine schwere Armbrust. Man kann sie auch unter Wasser einsetzen, wo ihre Grundreichweite 6 m beträgt. In Bezug auf Waffenumgang und besondere Eigenschaften gilt sie als schwere Armbrust",
+    "hands": "two"
   },
   {
     "id": "d8e4226f-67e5-568f-aaeb-d7117794bf96",
@@ -3136,7 +3284,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "Speziell",
-    "description": "Du kannst mit einem Schild auch zustoßen, statt dich damit zu verteidigen. Vergleiche dazu den Abschnitt über Rüstungen für weitere Einzelheiten."
+    "description": "Du kannst mit einem Schild auch zustoßen, statt dich damit zu verteidigen. Vergleiche dazu den Abschnitt über Rüstungen für weitere Einzelheiten.",
+    "hands": "one"
   },
   {
     "id": "56bb130f-296f-5a1b-b02c-f593f98d5c35",
@@ -3151,7 +3300,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "Speziell",
-    "description": "Du kannst mit einem Stachelschild auch zustoßen, statt dich damit zu verteidigen. Vergleiche dazu den Abschnitt über Rüstungen für weitere Einzelheiten."
+    "description": "Du kannst mit einem Stachelschild auch zustoßen, statt dich damit zu verteidigen. Vergleiche dazu den Abschnitt über Rüstungen für weitere Einzelheiten.",
+    "hands": "one"
   },
   {
     "id": "b7992947-9b0c-554a-8501-c85fa84111ca",
@@ -3166,7 +3316,8 @@
     "weapon_type": "martial",
     "special": "Entwaffnen, Zu Fall bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Der schwere Streitflegel ähnelt einem leichten Streitflegel, allerdings besitzt er eine größere Metallkugel und einen längeren Griff."
+    "description": "Der schwere Streitflegel ähnelt einem leichten Streitflegel, allerdings besitzt er eine größere Metallkugel und einen längeren Griff.",
+    "hands": "two"
   },
   {
     "id": "2e395c37-4452-53a5-8d69-2cde146b49d2",
@@ -3181,7 +3332,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Diese Variante des leichten Streithammers besteht aus einem längeren Stiel und kann ein- oder beidhändig eingesetzt werden. Da man sie wirkungsvoll vom Rücken eines Pferdes aus verwenden kann, ist diese günstige Waffe unter berittenen Soldaten weit verbreitet."
+    "description": "Diese Variante des leichten Streithammers besteht aus einem längeren Stiel und kann ein- oder beidhändig eingesetzt werden. Da man sie wirkungsvoll vom Rücken eines Pferdes aus verwenden kann, ist diese günstige Waffe unter berittenen Soldaten weit verbreitet.",
+    "hands": "one"
   },
   {
     "id": "2dbd99a0-ba9d-507d-83e2-27ebe7de39a7",
@@ -3196,7 +3348,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Ein schwerer Streitkolben besteht aus einem größeren Kopf und einem längeren Griff als die leichte Variante dieser Waffe."
+    "description": "Ein schwerer Streitkolben besteht aus einem größeren Kopf und einem längeren Griff als die leichte Variante dieser Waffe.",
+    "hands": "one"
   },
   {
     "id": "57ce9ca0-cba1-5503-817f-fc35960a210c",
@@ -3211,7 +3364,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Mönch",
     "weight_lb": "7 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "d5bdfd1c-c4e2-5c45-b99a-712cd5eaaa63",
@@ -3226,7 +3380,8 @@
     "weapon_type": "martial",
     "special": "Schaukampf",
     "weight_lb": "3 Pfd.",
-    "description": "Der Scizore besteht aus einer gehärteten Röhre, die über den Unterarm passt und in einer halbkreisförmigen Klinge mündet, mit welcher verheerende Klingenstöße ausgeführt werden können. Der Scizore verleiht einen Schildbonus von +1 auf die RK; wenn man allerdings mit der Klinge angreift, verliert man in dieser Runde den RK-Bonus und erleidet einen Malus von -1 auf Angriffswürfe. Während man den Scizore trägt, kann man diese Hand für nichts anderes verwenden. Ein Scizore verleiht einen Bonus von +10 auf die KMV gegen die Entwaffnung des Scizore. Das Anlegen dieser Waffe ist eine Volle Aktion."
+    "description": "Der Scizore besteht aus einer gehärteten Röhre, die über den Unterarm passt und in einer halbkreisförmigen Klinge mündet, mit welcher verheerende Klingenstöße ausgeführt werden können. Der Scizore verleiht einen Schildbonus von +1 auf die RK; wenn man allerdings mit der Klinge angreift, verliert man in dieser Runde den RK-Bonus und erleidet einen Malus von -1 auf Angriffswürfe. Während man den Scizore trägt, kann man diese Hand für nichts anderes verwenden. Ein Scizore verleiht einen Bonus von +10 auf die KMV gegen die Entwaffnung des Scizore. Das Anlegen dieser Waffe ist eine Volle Aktion.",
+    "hands": "one"
   },
   {
     "id": "1fe2a8fe-c452-5636-b546-267a35e3255f",
@@ -3241,7 +3396,8 @@
     "weapon_type": "exotic",
     "special": "Blockierend, Ablenkend, Mönch",
     "weight_lb": null,
-    "description": "Diese täuschend komplexe Waffe scheint lediglich ein 3,60 m langes Seil zu sein, an dem eine 0,15 m lange, kegelförmige Metallspitze hängt. Ebenso wie der Meteor-Hammer, kann diese Waffe mit großer Geschwindigkeit herumgewirbelt und dann auf weit entfernte Gegner geschleudert werden, um diese zu durchbohren. Sobald die Waffe trifft, kann der Träger sie als Freie Aktion mit einem Ruck am Seil zu sich zurückziehen."
+    "description": "Diese täuschend komplexe Waffe scheint lediglich ein 3,60 m langes Seil zu sein, an dem eine 0,15 m lange, kegelförmige Metallspitze hängt. Ebenso wie der Meteor-Hammer, kann diese Waffe mit großer Geschwindigkeit herumgewirbelt und dann auf weit entfernte Gegner geschleudert werden, um diese zu durchbohren. Sobald die Waffe trifft, kann der Träger sie als Freie Aktion mit einem Ruck am Seil zu sich zurückziehen.",
+    "hands": "one"
   },
   {
     "id": "6e9d28f6-1170-51e1-9805-ec800d523668",
@@ -3256,7 +3412,8 @@
     "weapon_type": "martial",
     "special": "Zu Fall bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Diese Waffe besteht aus einem langen Holzstiel mit abstehenden Griffen und einem scharfen, gebogenen und rechtwinklig abstehenden Blatt. Die Sense ist eine Abwandlung eines bäuerlichen Werkzeugs zum Abernten von Getreide und muss mit beiden Händen gehalten werden. Sie ist zwar unhandlich, kann aber schmerzhafte Wunden verursachen. Ihr Bezug als Symbol des Todes im Zusammenhang mit dem Bild des Erntens macht die Sense zu einer besonders einschüchternden Waffe."
+    "description": "Diese Waffe besteht aus einem langen Holzstiel mit abstehenden Griffen und einem scharfen, gebogenen und rechtwinklig abstehenden Blatt. Die Sense ist eine Abwandlung eines bäuerlichen Werkzeugs zum Abernten von Getreide und muss mit beiden Händen gehalten werden. Sie ist zwar unhandlich, kann aber schmerzhafte Wunden verursachen. Ihr Bezug als Symbol des Todes im Zusammenhang mit dem Bild des Erntens macht die Sense zu einer besonders einschüchternden Waffe.",
+    "hands": "two"
   },
   {
     "id": "eec88107-e1c1-5085-a49f-ec650c403749",
@@ -3271,7 +3428,8 @@
     "weapon_type": "exotic",
     "special": "Mönch",
     "weight_lb": "1 Pfd.",
-    "description": "Diese mit der Hand geführte Waffe besteht aus einem angespitzten Schaft, mit dem man nach Gegnern stechen kann."
+    "description": "Diese mit der Hand geführte Waffe besteht aus einem angespitzten Schaft, mit dem man nach Gegnern stechen kann.",
+    "hands": "one"
   },
   {
     "id": "9b0d6cc6-b2c7-572d-bf04-bc44a0b509d8",
@@ -3286,7 +3444,8 @@
     "weapon_type": "martial",
     "special": "siehe Beschreibung",
     "weight_lb": "2 Pfd.",
-    "description": "Diese Waffe ähnelt einem Kurzspeer mit einem flexiblen Bambus- oder Rattanschaft und einer vielgezahnten Klinge. Der Träger kann mit einer Freien Aktion ein Kampfmanöver für Ringkampf gegen einen Gegner versuchen, welches beim Ziel keine Gelegenheitsangriffe provoziert. Wenn man ein Ziel mit einem Sibat in einen Ringkampf verwickelt hat, kann man sich während des Zuges des Zieles nur mit dem Ziel bewegen oder ihm Schaden zufügen. Der Träger gilt als in einen Ringkampf verstrickt, muss sich aber nicht angrenzend zum Ziel aufhalten, um den Ringkampf aufrechtzuerhalten. Sollte er die Reichweite des Sibat verlassen, beendet diese Bewegung den Ringkampf."
+    "description": "Diese Waffe ähnelt einem Kurzspeer mit einem flexiblen Bambus- oder Rattanschaft und einer vielgezahnten Klinge. Der Träger kann mit einer Freien Aktion ein Kampfmanöver für Ringkampf gegen einen Gegner versuchen, welches beim Ziel keine Gelegenheitsangriffe provoziert. Wenn man ein Ziel mit einem Sibat in einen Ringkampf verwickelt hat, kann man sich während des Zuges des Zieles nur mit dem Ziel bewegen oder ihm Schaden zufügen. Der Träger gilt als in einen Ringkampf verstrickt, muss sich aber nicht angrenzend zum Ziel aufhalten, um den Ringkampf aufrechtzuerhalten. Sollte er die Reichweite des Sibat verlassen, beendet diese Bewegung den Ringkampf.",
+    "hands": "one"
   },
   {
     "id": "c4589856-a45b-5f68-88a9-8d8b75ad18a8",
@@ -3301,7 +3460,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "2 Pfd.",
-    "description": "Diese Klinge ist eine kleinere und leichtere Version des Schotel. Man erhält einen Bonus von +1 auf Angriffswürfe mit einer Sica gegen Gegner, die Tartschen, leichte oder schwere Schilde verwenden."
+    "description": "Diese Klinge ist eine kleinere und leichtere Version des Schotel. Man erhält einen Bonus von +1 auf Angriffswürfe mit einer Sica gegen Gegner, die Tartschen, leichte oder schwere Schilde verwenden.",
+    "hands": "one"
   },
   {
     "id": "813e2ff6-5978-5a98-878e-e3a13689219e",
@@ -3316,7 +3476,8 @@
     "weapon_type": "simple",
     "special": "Zu Fall bringen",
     "weight_lb": "2 Pfd.",
-    "description": "Diese einhändige Waffe, die aus einem bäuerlichen Werkzeug zur Getreideernte hervorgegangen ist, besitzt eine stark gebogene Klinge, mit der man mühelos die Gliedmaßen oder Rüstung eines Gegners ergreifen kann. Die Klinge kann entweder glatt oder gezahnt sein. Manche Kampf Sicheln sind zu beiden Seiten der Spitze geschärft, was es leichter macht, durch das Fleisch des Gegners zu schneiden."
+    "description": "Diese einhändige Waffe, die aus einem bäuerlichen Werkzeug zur Getreideernte hervorgegangen ist, besitzt eine stark gebogene Klinge, mit der man mühelos die Gliedmaßen oder Rüstung eines Gegners ergreifen kann. Die Klinge kann entweder glatt oder gezahnt sein. Manche Kampf Sicheln sind zu beiden Seiten der Spitze geschärft, was es leichter macht, durch das Fleisch des Gegners zu schneiden.",
+    "hands": "one"
   },
   {
     "id": "8fd4fbf2-e281-5f4e-b67e-e7411e2f7749",
@@ -3331,7 +3492,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf",
     "weight_lb": "3 Pfd.",
-    "description": "Die Spitze dieser Peitsche ist mit einer Reihe von rasiermesserscharfen Klingen und Reißzähnen besetzt. Sie verursacht tödlichen Schaden, auch gegen Kreaturen mit Rüstungsboni. Wenn man im Umgang mit Peitschen geübt ist, kann man die Skorpionpeitsche als Peitsche einsetzen."
+    "description": "Die Spitze dieser Peitsche ist mit einer Reihe von rasiermesserscharfen Klingen und Reißzähnen besetzt. Sie verursacht tödlichen Schaden, auch gegen Kreaturen mit Rüstungsboni. Wenn man im Umgang mit Peitschen geübt ist, kann man die Skorpionpeitsche als Peitsche einsetzen.",
+    "hands": "one"
   },
   {
     "id": "d1887a60-0a90-4692-b957-7d4620207a40",
@@ -3346,7 +3508,8 @@
     "weapon_type": "simple",
     "special": "Abwehr",
     "weight_lb": "6 Pfd.",
-    "description": "Ein Speer ist 1,50 m lang und kann geworfen werden."
+    "description": "Ein Speer ist 1,50 m lang und kann geworfen werden.",
+    "hands": "two"
   },
   {
     "id": "bd9e3078-15b1-5f1f-8e95-84a3f74555ab",
@@ -3361,7 +3524,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Dies ist ein gepanzerter Handschuh aus dickem Leder oder Metall, aus dem auf Höhe der Knöchel Stacheln oder Klingen hervorstehen, sodass der Träger mit der Wucht eines Schlages zustoßen kann. Ein Angriff mit einem Stachelhandschuh gilt als bewaffneter Angriff. Ein Stachelhandschuh kann nicht Ziel einer Entwaffnung werden."
+    "description": "Dies ist ein gepanzerter Handschuh aus dickem Leder oder Metall, aus dem auf Höhe der Knöchel Stacheln oder Klingen hervorstehen, sodass der Träger mit der Wucht eines Schlages zustoßen kann. Ein Angriff mit einem Stachelhandschuh gilt als bewaffneter Angriff. Ein Stachelhandschuh kann nicht Ziel einer Entwaffnung werden.",
+    "hands": "one"
   },
   {
     "id": "2e0b9e60-6d4f-5363-a867-e69a7e7ee4a3",
@@ -3376,7 +3540,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, Zu Fall bringen",
     "weight_lb": "10 Pfd.",
-    "description": "Eine Stachelkette ist ungefähr 1,20 m lang und mit üblen Widerhaken gespickt. Manche Ketten weisen Metallringe als Griffe auf. Mithilfe des Talents Waffenfinesse kann man den Geschicklichkeits- statt des Stärkemodifikators auf Angriffswürfe mit einer Stachelkette anrechnen. Dies gilt nur für Stachelketten, die für die Größenkategorie des Benutzers gedacht sind."
+    "description": "Eine Stachelkette ist ungefähr 1,20 m lang und mit üblen Widerhaken gespickt. Manche Ketten weisen Metallringe als Griffe auf. Mithilfe des Talents Waffenfinesse kann man den Geschicklichkeits- statt des Stärkemodifikators auf Angriffswürfe mit einer Stachelkette anrechnen. Dies gilt nur für Stachelketten, die für die Größenkategorie des Benutzers gedacht sind.",
+    "hands": "two"
   },
   {
     "id": "bcdf2522-ebc3-5cca-9800-01381ed396db",
@@ -3391,7 +3556,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "3 Pfd.",
-    "description": "Von einem mittleren Ring gehen bei dieser Waffe vier zugespitzte Metallklingen wie die Spitzen einer Kompassrose ab. Indem er die Querstange hält, die durch die offene Mitte der Waffe läuft, kann der Träger sie als Nahkampfwaffe einsetzen und tödliche Hiebe austeilen. Alternativ dazu kann das Sternmesser auch am äußeren Rand gepackt und aufgrund seiner aerodynamischen Gestaltung ähnlich wie das Chakram über kurze Entfernungen geworfen werden."
+    "description": "Von einem mittleren Ring gehen bei dieser Waffe vier zugespitzte Metallklingen wie die Spitzen einer Kompassrose ab. Indem er die Querstange hält, die durch die offene Mitte der Waffe läuft, kann der Träger sie als Nahkampfwaffe einsetzen und tödliche Hiebe austeilen. Alternativ dazu kann das Sternmesser auch am äußeren Rand gepackt und aufgrund seiner aerodynamischen Gestaltung ähnlich wie das Chakram über kurze Entfernungen geworfen werden.",
+    "hands": "one"
   },
   {
     "id": "0c3f5954-4d58-52c2-9ad0-8d64de9fa7a3",
@@ -3406,7 +3572,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "4 Pfd.",
-    "description": "Diese schmale und leichte Klinge verbirgt sich in einem Gehäuse, das gleichermaßen als Schwertscheide wie als Versteck gilt. Man kann das Schwert als Schnelle Aktion ziehen (oder als Freie Aktion, wenn man das Talent Schnelle Waffenbereitschaft besitzt). Ein Beobachter muss einen Fertigkeitswurf für Wahrnehmung gegen SG 20 bestehen, um zu bemerken, dass es sich bei dem Stockdegen um eine Waffe und nicht um einen Spazierstock handelt. Der SG verringert sich um 10, wenn der Beobachter selbst mit der Waffe umgehen kann. Man kann das Talent Waffenfinesse verwenden und den Geschicklichkeits- statt des Stärkemodifikators auf die Angriffswürfe mit einem an die eigene Größe angepassten Stockdegen anrechnen, obwohl er keine leichte Waffe ist. Man kann den Stockdegen nicht beidhändig führen, um das 1,5-fache des Stärkemodifikators auf den Schaden anzurechnen."
+    "description": "Diese schmale und leichte Klinge verbirgt sich in einem Gehäuse, das gleichermaßen als Schwertscheide wie als Versteck gilt. Man kann das Schwert als Schnelle Aktion ziehen (oder als Freie Aktion, wenn man das Talent Schnelle Waffenbereitschaft besitzt). Ein Beobachter muss einen Fertigkeitswurf für Wahrnehmung gegen SG 20 bestehen, um zu bemerken, dass es sich bei dem Stockdegen um eine Waffe und nicht um einen Spazierstock handelt. Der SG verringert sich um 10, wenn der Beobachter selbst mit der Waffe umgehen kann. Man kann das Talent Waffenfinesse verwenden und den Geschicklichkeits- statt des Stärkemodifikators auf die Angriffswürfe mit einem an die eigene Größe angepassten Stockdegen anrechnen, obwohl er keine leichte Waffe ist. Man kann den Stockdegen nicht beidhändig führen, um das 1,5-fache des Stärkemodifikators auf den Schaden anzurechnen.",
+    "hands": "one"
   },
   {
     "id": "3dfb7c94-ab26-5192-85fb-c90deb2b9b21",
@@ -3421,7 +3588,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "8fa044b4-6845-5bd2-961b-993fe8bc412f",
@@ -3436,7 +3604,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Die Klinge eines Stoßdolches ist an einem horizontalen Griff befestigt, der von der Faust aus nach vorne zeigt, wenn die Waffe gehalten wird."
+    "description": "Die Klinge eines Stoßdolches ist an einem horizontalen Griff befestigt, der von der Faust aus nach vorne zeigt, wenn die Waffe gehalten wird.",
+    "hands": "one"
   },
   {
     "id": "ab3213b6-20cf-52bf-8378-060fec8452ba",
@@ -3451,7 +3620,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": "Der Griff dieser Axt ist lang genug, dass man sie mit einer oder mit beiden Händen einsetzen kann. Der Kopf kann ein oder zwei Blätter aufweisen, deren Form von Halbmonden bis zu Keilwinkeln wie auch schmaleren Varianten einer Fallaxt reicht. Der Holzgriff kann mithilfe von Metallbändern, sogenannten Schaftfedern, geschützt und gestärkt werden."
+    "description": "Der Griff dieser Axt ist lang genug, dass man sie mit einer oder mit beiden Händen einsetzen kann. Der Kopf kann ein oder zwei Blätter aufweisen, deren Form von Halbmonden bis zu Keilwinkeln wie auch schmaleren Varianten einer Fallaxt reicht. Der Holzgriff kann mithilfe von Metallbändern, sogenannten Schaftfedern, geschützt und gestärkt werden.",
+    "hands": "one"
   },
   {
     "id": "07d24f06-6033-4073-8bbe-ebcb47e0f062",
@@ -3472,7 +3642,8 @@
     "weapon_type": "simple",
     "special": "siehe Text",
     "weight_lb": "4 Pfd.",
-    "description": "Dieser leichte Streitkolben, der nach einem gewöhnlichen Sprengel benannt ist (einem Streitkolben ähnlichen Gerät, mit dem Priester Weihwasser versprengen), besteht aus einem hohlen Kopf mit einem Metallpfropfen, der das Loch verschließt, durch das der Kopf befüllt wird. Wenn der Streitkolben eine Kreatur trifft, wird aus winzigen Löchern, die überall auf dem Waffenkopf verstreut sind, Heiliges Wasser versprüht: Zusätzlich zu den normalen Auswirkungen eines Schlages mit einem Streitkolben, erleidet jede Kreatur, die durch Heiliges Wasser Schaden nimmt, 1 zusätzlichen Schadenspunkt. (Auf diese Weise kann ein nicht-magischer Sprengel einer körperlosen Kreatur Schaden durch Heiliges Wasser zufügen, selbst wenn der Streitkolben selbst keinen Schaden verursacht.) Nach 5 Treffern ist der Streitsprengel leer und muss nachgefüllt werden. Dies erfordert eine Standard-Aktion, die wie das Trinken eines Trankes Gelegenheitsangriffe provoziert. Ein voller Sprengel wird für gewöhnlich senkrecht getragen, damit das Heilige Wasser nicht aus der Waffe läuft, wenn diese bewegt wird."
+    "description": "Dieser leichte Streitkolben, der nach einem gewöhnlichen Sprengel benannt ist (einem Streitkolben ähnlichen Gerät, mit dem Priester Weihwasser versprengen), besteht aus einem hohlen Kopf mit einem Metallpfropfen, der das Loch verschließt, durch das der Kopf befüllt wird. Wenn der Streitkolben eine Kreatur trifft, wird aus winzigen Löchern, die überall auf dem Waffenkopf verstreut sind, Heiliges Wasser versprüht: Zusätzlich zu den normalen Auswirkungen eines Schlages mit einem Streitkolben, erleidet jede Kreatur, die durch Heiliges Wasser Schaden nimmt, 1 zusätzlichen Schadenspunkt. (Auf diese Weise kann ein nicht-magischer Sprengel einer körperlosen Kreatur Schaden durch Heiliges Wasser zufügen, selbst wenn der Streitkolben selbst keinen Schaden verursacht.) Nach 5 Treffern ist der Streitsprengel leer und muss nachgefüllt werden. Dies erfordert eine Standard-Aktion, die wie das Trinken eines Trankes Gelegenheitsangriffe provoziert. Ein voller Sprengel wird für gewöhnlich senkrecht getragen, damit das Heilige Wasser nicht aus der Waffe läuft, wenn diese bewegt wird.",
+    "hands": "one"
   },
   {
     "id": "7c03f44d-e6d3-53cd-9548-8bbb759377a8",
@@ -3487,7 +3658,8 @@
     "weapon_type": "exotic",
     "special": "Doppel",
     "weight_lb": "8 Pfd.",
-    "description": "Der steinzeitliche Taiaha ist ein langer, schwerer Stock, der an einem Ende wie eine Keule geformt ist und am anderen Ende eine Speerspitze aus Holz oder Metall aufweist. Man setzt ihn ein, indem man mit der Keulenseite einerseits harte Schläge austeilt, andererseits mit der Speerseite Verteidigungsbewegungen durchführt. Ein Taiaha kann wie eine Kriegswaffe eingesetzt werden, wobei er dann 1W8 Punkte Schaden (1W6 bei einer kleinen Waffe) und bei einem Kritischen Treffer doppelten Schaden verursacht."
+    "description": "Der steinzeitliche Taiaha ist ein langer, schwerer Stock, der an einem Ende wie eine Keule geformt ist und am anderen Ende eine Speerspitze aus Holz oder Metall aufweist. Man setzt ihn ein, indem man mit der Keulenseite einerseits harte Schläge austeilt, andererseits mit der Speerseite Verteidigungsbewegungen durchführt. Ein Taiaha kann wie eine Kriegswaffe eingesetzt werden, wobei er dann 1W8 Punkte Schaden (1W6 bei einer kleinen Waffe) und bei einem Kritischen Treffer doppelten Schaden verursacht.",
+    "hands": "one"
   },
   {
     "id": "04049de3-b8f9-58f8-9e1e-89a36f1dbfc8",
@@ -3502,7 +3674,8 @@
     "weapon_type": "firearm",
     "special": null,
     "weight_lb": "6 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "08252a5e-257e-5d57-88f2-65938da16797",
@@ -3517,7 +3690,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen, siehe Text",
     "weight_lb": null,
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "ec940e5b-146f-50c1-a47d-2f23cb4d52ed",
@@ -3532,7 +3706,8 @@
     "weapon_type": "exotic",
     "special": "Mönch, Zu Fall bringen",
     "weight_lb": "3 Pfd.",
-    "description": "Tempelschwerter – schwere Klingen, die für gewöhnlich von Bewachern religiöser Stätten verwendet werden – besitzen unverwechselbare gebogene Klingen, sodass sie wie eine Verbindung aus Sichel und Schwert aussehen. Viele dieser Waffen weisen Löcher in Klinge und Knauf auf, an denen Glücksbringer, Glöckchen oder andere religiöse Schmuckstücke befestigt werden können, welche die Hingabe des Trägers widerspiegeln oder als Foki für Gebete oder Meditationen dienen. Mönche sind im Umgang mit Tempelschwertern geübt."
+    "description": "Tempelschwerter – schwere Klingen, die für gewöhnlich von Bewachern religiöser Stätten verwendet werden – besitzen unverwechselbare gebogene Klingen, sodass sie wie eine Verbindung aus Sichel und Schwert aussehen. Viele dieser Waffen weisen Löcher in Klinge und Knauf auf, an denen Glücksbringer, Glöckchen oder andere religiöse Schmuckstücke befestigt werden können, welche die Hingabe des Trägers widerspiegeln oder als Foki für Gebete oder Meditationen dienen. Mönche sind im Umgang mit Tempelschwertern geübt.",
+    "hands": "one"
   },
   {
     "id": "d22beaec-325b-5765-b37c-b7de96d27872",
@@ -3547,7 +3722,8 @@
     "weapon_type": "martial",
     "special": "Zerbrechlich, Reichweite",
     "weight_lb": "8 Pfd.",
-    "description": "Die breite Spitze dieser steinzeitlichen Stangenwaffe aus Holz ist mit scharfen Obsidianscherben, Glas, Zähnen oder ähnlichen Materialien besetzt. Sie verursacht sowohl Stich- als auch Hiebschaden."
+    "description": "Die breite Spitze dieser steinzeitlichen Stangenwaffe aus Holz ist mit scharfen Obsidianscherben, Glas, Zähnen oder ähnlichen Materialien besetzt. Sie verursacht sowohl Stich- als auch Hiebschaden.",
+    "hands": "two"
   },
   {
     "id": "cc664c27-0343-586d-b68d-ecee4aba262b",
@@ -3562,7 +3738,8 @@
     "weapon_type": "martial",
     "special": "Zerbrechlich",
     "weight_lb": "2 Pfd.",
-    "description": "Diese steinzeitliche Waffe, die auch Macuahuitl genannt wird, besteht aus einem langen Stück abgelagerten Holzes. An der Seite des Waffenkörpers sind Stücke von Haizähnen, Obsidiansplitter, Glasscherben oder ähnliche Materialien eingelassen."
+    "description": "Diese steinzeitliche Waffe, die auch Macuahuitl genannt wird, besteht aus einem langen Stück abgelagerten Holzes. An der Seite des Waffenkörpers sind Stücke von Haizähnen, Obsidiansplitter, Glasscherben oder ähnliche Materialien eingelassen.",
+    "hands": "one"
   },
   {
     "id": "607ab6a0-8266-52f3-821b-574ca98cdcae",
@@ -3577,7 +3754,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "10 Pfd.",
-    "description": "Diese Waffe stellt eine leichte Verbesserung gegenüber der Zweihändigen Keule dar und besteht aus einem langen, schlanken Stab aus Holz oder Metall, dessen obere Hälfte mit einer dicken Schicht Nieten besetzten Metalls beschlagen ist. Das Eisen erhöht das Gewicht und die Durchschlagskraft der Keule, während die Nieten dazu gedacht sind, Helme und Rüstungen zu zerschlagen."
+    "description": "Diese Waffe stellt eine leichte Verbesserung gegenüber der Zweihändigen Keule dar und besteht aus einem langen, schlanken Stab aus Holz oder Metall, dessen obere Hälfte mit einer dicken Schicht Nieten besetzten Metalls beschlagen ist. Das Eisen erhöht das Gewicht und die Durchschlagskraft der Keule, während die Nieten dazu gedacht sind, Helme und Rüstungen zu zerschlagen.",
+    "hands": "two"
   },
   {
     "id": "0ba139e7-1870-5cde-a4a5-9ab519a8d159",
@@ -3592,7 +3770,8 @@
     "weapon_type": "martial",
     "special": "Abwehr, Mönch",
     "weight_lb": "8 Pfd.",
-    "description": "Diese lange, dreizack ähnliche Waffe besteht aus einer dreizinkigen Gabel auf einem 2,40 m langen Stock. Sie wird ähnlich wie ein Stab eingesetzt, indem der Träger den Stock in der Mitte festhält und mit den Zinken zustößt. Eine Tigergabel kann zur Verteidigung gegen einen Sturmangriff verwendet werden."
+    "description": "Diese lange, dreizack ähnliche Waffe besteht aus einer dreizinkigen Gabel auf einem 2,40 m langen Stock. Sie wird ähnlich wie ein Stab eingesetzt, indem der Träger den Stock in der Mitte festhält und mit den Zinken zustößt. Eine Tigergabel kann zur Verteidigung gegen einen Sturmangriff verwendet werden.",
+    "hands": "two"
   },
   {
     "id": "eb933ce4-9c60-5306-bdcc-b555ebdb0bc2",
@@ -3607,7 +3786,8 @@
     "weapon_type": "martial",
     "special": "Blockierend, Mönch",
     "weight_lb": "1 Pfd.",
-    "description": "Dieser L-förmige Schlagstock ist besonders zum Schlagen und Blocken geeignet. Der Träger hält die Waffe am Griff fest und wirbelt entweder mit dem Stock oder schlägt mit dem Teil zu, der den Unterarm schützt."
+    "description": "Dieser L-förmige Schlagstock ist besonders zum Schlagen und Blocken geeignet. Der Träger hält die Waffe am Griff fest und wirbelt entweder mit dem Stock oder schlägt mit dem Teil zu, der den Unterarm schützt.",
+    "hands": "one"
   },
   {
     "id": "9d404dd9-947e-57bf-b7b3-8172e580e996",
@@ -3622,7 +3802,8 @@
     "weapon_type": "martial",
     "special": "Nicht tödlich",
     "weight_lb": "2 Pfd.",
-    "description": "Diese Waffe besteht aus einem weichen Band, das um einen harten, dichten Kern gewickelt ist - zumeist eine mit Leder umwickelte Bleistange. Der Kopf ist breiter als der Griff und dazu gedacht, die Wucht des Schlages zu verteilen, sodass es weniger wahrscheinlich ist, dass Blut spritzt oder Knochen gebrochen werden."
+    "description": "Diese Waffe besteht aus einem weichen Band, das um einen harten, dichten Kern gewickelt ist - zumeist eine mit Leder umwickelte Bleistange. Der Kopf ist breiter als der Griff und dazu gedacht, die Wucht des Schlages zu verteilen, sodass es weniger wahrscheinlich ist, dass Blut spritzt oder Knochen gebrochen werden.",
+    "hands": "one"
   },
   {
     "id": "550bebdc-26b0-5826-94d6-3a69ca4cc0cc",
@@ -3637,7 +3818,8 @@
     "weapon_type": "exotic",
     "special": "Ablenkend",
     "weight_lb": "6 Pfd.",
-    "description": "Diese tödliche Waffe, die umgangssprachlich Peitschenschwert genannt wird, besteht aus einer 1,50 m langen, rasiermesserscharfen und biegsamen Stahlklinge und ähnelt teilweise einer neunschwänzigen Katze aus Metall. Die Waffe wird eingesetzt, indem mit der Klinge wie bei einer Peitsche nach dem Gegner geschlagen wird. Die gewundene Klinge ist so schmal und biegsam, dass sie als Gürtel getragen werden kann. Die Besitzer tragen ihre Urumi häufig derart am Körper."
+    "description": "Diese tödliche Waffe, die umgangssprachlich Peitschenschwert genannt wird, besteht aus einer 1,50 m langen, rasiermesserscharfen und biegsamen Stahlklinge und ähnelt teilweise einer neunschwänzigen Katze aus Metall. Die Waffe wird eingesetzt, indem mit der Klinge wie bei einer Peitsche nach dem Gegner geschlagen wird. Die gewundene Klinge ist so schmal und biegsam, dass sie als Gürtel getragen werden kann. Die Besitzer tragen ihre Urumi häufig derart am Körper.",
+    "hands": "one"
   },
   {
     "id": "7ae6f6c9-7021-5f15-aea0-65d4ae55d537",
@@ -3652,7 +3834,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "1 Pfd.",
-    "description": "Diese Röhre, die einem schmalen Schriftrollenbehälter aus Bambus oder Metall ähnelt, ist mit feinem Sand gefüllt, der mit einem Kontaktgift oder einem Gift, das eingeatmet wird, getränkt oder bestrichen ist. Sobald die Röhre mit 3 Dosen eines jener Gifte gefüllt ist, kann man den giftigen Sand in einem 4,5-m-Kegel dem Gegner ins Gesicht blasen. Selbst wenn die Röhre mit ungiftigem Sand gefüllt ist, verbreitet sie doch einen starken Reizstoff und ein Gegner muss einen Zähigkeitswurf gegen SG 12 bestehen, ansonsten ist er für 1 Runde geblendet. Sobald sie leer ist, muss die Röhre erneut befüllt werden, bevor man sie wieder einsetzen kann. Für das Befüllen einer Röhre benötigt man eine Volle Aktion bzw. eine Standard-Aktion, wenn man das Talent Schnelles Nachladen besitzt."
+    "description": "Diese Röhre, die einem schmalen Schriftrollenbehälter aus Bambus oder Metall ähnelt, ist mit feinem Sand gefüllt, der mit einem Kontaktgift oder einem Gift, das eingeatmet wird, getränkt oder bestrichen ist. Sobald die Röhre mit 3 Dosen eines jener Gifte gefüllt ist, kann man den giftigen Sand in einem 4,5-m-Kegel dem Gegner ins Gesicht blasen. Selbst wenn die Röhre mit ungiftigem Sand gefüllt ist, verbreitet sie doch einen starken Reizstoff und ein Gegner muss einen Zähigkeitswurf gegen SG 12 bestehen, ansonsten ist er für 1 Runde geblendet. Sobald sie leer ist, muss die Röhre erneut befüllt werden, bevor man sie wieder einsetzen kann. Für das Befüllen einer Röhre benötigt man eine Volle Aktion bzw. eine Standard-Aktion, wenn man das Talent Schnelles Nachladen besitzt.",
+    "hands": "one"
   },
   {
     "id": "7dce036c-8baa-503e-9d1d-a9262859aaa1",
@@ -3667,7 +3850,8 @@
     "weapon_type": "simple",
     "special": "Nicht tödlich",
     "weight_lb": null,
-    "description": "Ein waffenloser Schlag kann ein Faustschlag oder Tritt sein, ohne dass der Angreifer eine Waffe für seinen Angriff nutzt. Ein mittelgroßer Charakter verursacht mit einem waffenlosen Schlag 1W3 Punkte nichttödlichen Schaden, ein kleiner Charakter 1W2 Punkte. Ein Mönch oder jeder andere Charakter mit dem Talent Verbesserter waffenloser Schlag kann nach Wunsch tödlichen oder nichttödlichen Schaden verursachen. In Bezug auf Effekte, die einen Bonus auf Schadenswürfe verleihen, gilt der Schaden eines waffenlosen Schlags als Waffenschaden. Ein waffenloser Schlag gilt immer als leichte Waffe. Daher kann man unter Verwendung des Talents Waffenfinesse auf die Angriffswürfe mit einem waffenlosen Schlag den Geschicklichkeits- statt des Stärkemodifikators anrechnen. Waffenlose Schläge sind keine natürlichen Waffen und können kein Ziel einer Entwaffnung sein."
+    "description": "Ein waffenloser Schlag kann ein Faustschlag oder Tritt sein, ohne dass der Angreifer eine Waffe für seinen Angriff nutzt. Ein mittelgroßer Charakter verursacht mit einem waffenlosen Schlag 1W3 Punkte nichttödlichen Schaden, ein kleiner Charakter 1W2 Punkte. Ein Mönch oder jeder andere Charakter mit dem Talent Verbesserter waffenloser Schlag kann nach Wunsch tödlichen oder nichttödlichen Schaden verursachen. In Bezug auf Effekte, die einen Bonus auf Schadenswürfe verleihen, gilt der Schaden eines waffenlosen Schlags als Waffenschaden. Ein waffenloser Schlag gilt immer als leichte Waffe. Daher kann man unter Verwendung des Talents Waffenfinesse auf die Angriffswürfe mit einem waffenlosen Schlag den Geschicklichkeits- statt des Stärkemodifikators anrechnen. Waffenlose Schläge sind keine natürlichen Waffen und können kein Ziel einer Entwaffnung sein.",
+    "hands": "one"
   },
   {
     "id": "d7f2a703-6a88-5e5d-aeed-40d31952adf0",
@@ -3682,7 +3866,8 @@
     "weapon_type": "exotic",
     "special": "Entwaffnen",
     "weight_lb": "3 Pfd.",
-    "description": "Diese kurze und breite Keule aus der Steinzeit besteht aus gehärtetem Holz oder Knochen. An einer Seite gibt es eine Einkerbung zum Abfangen von Waffen. Ist man im Umgang mit der Waffe geübt, kann man die Kerbe in der Wahaika einsetzen, um seine Feinde zu entwaffnen. Ansonsten gilt diese Waffe als Keule. Talente und Fähigkeiten, die auf Keule n angewendet werden, gelten auch für die Wahaika."
+    "description": "Diese kurze und breite Keule aus der Steinzeit besteht aus gehärtetem Holz oder Knochen. An einer Seite gibt es eine Einkerbung zum Abfangen von Waffen. Ist man im Umgang mit der Waffe geübt, kann man die Kerbe in der Wahaika einsetzen, um seine Feinde zu entwaffnen. Ansonsten gilt diese Waffe als Keule. Talente und Fähigkeiten, die auf Keule n angewendet werden, gelten auch für die Wahaika.",
+    "hands": "one"
   },
   {
     "id": "49e63b6f-a372-52b4-a320-5eee87400966",
@@ -3697,7 +3882,8 @@
     "weapon_type": "exotic",
     "special": "Tödlich",
     "weight_lb": "2 Pfd.",
-    "description": "Diese kurzen schmalen Klingen sind zwischen 30 und 0,60 m lang. Sie werden hauptsächlich zur Absicherung, Enthauptung besiegter Feinde oder zum Begehen von Sepukku (ritueller Selbstmord) als ehrenvolle Handlung verwendet. Diese Klingen werden insbesondere von Samurai getragen und gehören eigentlich immer zu einem Katana. Ein solches Schwertpaar wird als Daischo bezeichnet."
+    "description": "Diese kurzen schmalen Klingen sind zwischen 30 und 0,60 m lang. Sie werden hauptsächlich zur Absicherung, Enthauptung besiegter Feinde oder zum Begehen von Sepukku (ritueller Selbstmord) als ehrenvolle Handlung verwendet. Diese Klingen werden insbesondere von Samurai getragen und gehören eigentlich immer zu einem Katana. Ein solches Schwertpaar wird als Daischo bezeichnet.",
+    "hands": "one"
   },
   {
     "id": "b594596d-9233-520a-a3b4-e38455859eb3",
@@ -3712,7 +3898,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Diese einhändig geführte Axt ist klein und zum Werfen perfekt ausbalanciert, kann aber auch als Nahkampfwaffe eingesetzt werden. Wurfäxte tragen die verschiedensten Bezeichnungen, wie etwa Franziska, Tomahawk und dergleichen. Normalerweise wird die Axt am Stiel gegriffen und von oben geworfen, sodass sie eine vollständige Drehung vollzieht, bevor die Axtklinge im Ziel einschlägt."
+    "description": "Diese einhändig geführte Axt ist klein und zum Werfen perfekt ausbalanciert, kann aber auch als Nahkampfwaffe eingesetzt werden. Wurfäxte tragen die verschiedensten Bezeichnungen, wie etwa Franziska, Tomahawk und dergleichen. Normalerweise wird die Axt am Stiel gegriffen und von oben geworfen, sodass sie eine vollständige Drehung vollzieht, bevor die Axtklinge im Ziel einschlägt.",
+    "hands": "one"
   },
   {
     "id": "b3e570d5-8cb3-4df0-ac5f-10b6f9e1d3c6",
@@ -3739,7 +3926,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "1/2 Pfd.",
-    "description": "Diese Wurfwaffe ist länger als ein Pfeil und kürzer als ein Wurfspeer, besitzt eine schwere Spitze und eine kürzere Reichweite als ein Wurfspeer. Die meisten Wurfpfeile bestehen aus Holzschäften mit einer dicken Metallspitze."
+    "description": "Diese Wurfwaffe ist länger als ein Pfeil und kürzer als ein Wurfspeer, besitzt eine schwere Spitze und eine kürzere Reichweite als ein Wurfspeer. Die meisten Wurfpfeile bestehen aus Holzschäften mit einer dicken Metallspitze.",
+    "hands": "one"
   },
   {
     "id": "e5937aea-a030-5e83-afab-5bd16b728cde",
@@ -3754,7 +3942,8 @@
     "weapon_type": "exotic",
     "special": "Schaukampf, Zu-Fall-bringen",
     "weight_lb": null,
-    "description": "Dieser Schild ist zum Werfen ausgelegt und besitzt speziell hergestellte Gurte, die man lösen und den Schild dann als Freie Aktion werfen kann. Turmschilde sind niemals Wurfschilde. Weder der Verbesserungsbonus des Schildes auf die RK noch dessen Schildstacheln werden auf Angriffs- oder Schadenswürfe angerechnet. Ein Wurfschild kann nicht Ziel eines Entwaffnungsversuchs sein."
+    "description": "Dieser Schild ist zum Werfen ausgelegt und besitzt speziell hergestellte Gurte, die man lösen und den Schild dann als Freie Aktion werfen kann. Turmschilde sind niemals Wurfschilde. Weder der Verbesserungsbonus des Schildes auf die RK noch dessen Schildstacheln werden auf Angriffs- oder Schadenswürfe angerechnet. Ein Wurfschild kann nicht Ziel eines Entwaffnungsversuchs sein.",
+    "hands": "one"
   },
   {
     "id": "adbc541c-3f66-5971-a3f0-c04a92eb7dfc",
@@ -3769,7 +3958,8 @@
     "weapon_type": "simple",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Ein Wurfspeer ist ein dünner Speer, der geworfen wird. Er ist nicht als Nahkampfwaffe gedacht und wenn man ihn als solche einsetzt, gilt man als nicht im Umgang mit dem Wurfspeer geübt und erleidet einen Malus von -4 auf die Angriffswürfe."
+    "description": "Ein Wurfspeer ist ein dünner Speer, der geworfen wird. Er ist nicht als Nahkampfwaffe gedacht und wenn man ihn als solche einsetzt, gilt man als nicht im Umgang mit dem Wurfspeer geübt und erleidet einen Malus von -4 auf die Angriffswürfe.",
+    "hands": "one"
   },
   {
     "id": "634a1c93-7caf-5081-a74b-51cfdd4777cc",
@@ -3784,7 +3974,8 @@
     "weapon_type": "martial",
     "special": "Mönch",
     "weight_lb": null,
-    "description": null
+    "description": null,
+    "hands": "one"
   },
   {
     "id": "d1e41fba-cbd6-5ee6-90ed-b8fa5feaea7f",
@@ -3799,7 +3990,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "2 Pfd.",
-    "description": "Der Zahnsäbel ist die unverkennbare Waffe bestimmter Kulte von Assassinen und auf grausame Weise wirkungsvoll. Man kann den Zahnsäbel als Kriegswaffe einsetzen (in diesem Fall funktioniert er genauso wie ein Langschwert). Wenn man das Talent Umgang mit exotischen Waffen (Zahnsäbel) besitzt, gilt er im Kampf mit zwei Waffen als leichte Waffe, ansonsten ist er eine einhändige Nahkampfwaffe."
+    "description": "Der Zahnsäbel ist die unverkennbare Waffe bestimmter Kulte von Assassinen und auf grausame Weise wirkungsvoll. Man kann den Zahnsäbel als Kriegswaffe einsetzen (in diesem Fall funktioniert er genauso wie ein Langschwert). Wenn man das Talent Umgang mit exotischen Waffen (Zahnsäbel) besitzt, gilt er im Kampf mit zwei Waffen als leichte Waffe, ansonsten ist er eine einhändige Nahkampfwaffe.",
+    "hands": "one"
   },
   {
     "id": "a5a9eb8c-fcc9-5cdd-9728-5d6977acbed2",
@@ -3814,7 +4006,8 @@
     "weapon_type": "exotic",
     "special": "Zerbrechlich",
     "weight_lb": "4 Pfd.",
-    "description": "Diese steinzeitliche Waffe ist eine 1,20 m lange Ausgabe der Terburtje. Sie ist zu groß, um ohne besondere Ausbildung in einer Hand geführt zu werden; daher ist sie eine exotische Waffe. Die Zweihandterbutje kann aber beidhändig als Kriegswaffe eingesetzt werden."
+    "description": "Diese steinzeitliche Waffe ist eine 1,20 m lange Ausgabe der Terburtje. Sie ist zu groß, um ohne besondere Ausbildung in einer Hand geführt zu werden; daher ist sie eine exotische Waffe. Die Zweihandterbutje kann aber beidhändig als Kriegswaffe eingesetzt werden.",
+    "hands": "one"
   },
   {
     "id": "923011c7-b343-5c06-989e-30362f113613",
@@ -3829,7 +4022,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Dieses wuchtige Zweihandschwert ist ungefähr 1,50 m lang. Die untere Hälfte der Klinge eines Zweihänders kann stumpf sein, damit man sie dort greifen kann."
+    "description": "Dieses wuchtige Zweihandschwert ist ungefähr 1,50 m lang. Die untere Hälfte der Klinge eines Zweihänders kann stumpf sein, damit man sie dort greifen kann.",
+    "hands": "two"
   },
   {
     "id": "64305069-6d2e-5ec5-8b20-11fdfdf56529",
@@ -3844,7 +4038,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "12 Pfd.",
-    "description": null
+    "description": null,
+    "hands": "two"
   },
   {
     "id": "c87031b7-37d3-500c-a35e-767fa09c4a60",
@@ -3859,7 +4054,8 @@
     "weapon_type": "martial",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Diese größere, klotzigere Ausgabe der gewöhnlichen Keule ist so schwer, dass sie nicht einhändig geführt werden kann. Sie können Verzierungen und Schnitzereien aufweisen, mit Metall verstärkt sein oder einfach ein dicker Ast von einem Baum sein. Ähnlich wie einfache Varianten haben zweihändige Keulen vielerlei Namen: Knüppel, Prügel, Shillelagh und dergleichen."
+    "description": "Diese größere, klotzigere Ausgabe der gewöhnlichen Keule ist so schwer, dass sie nicht einhändig geführt werden kann. Sie können Verzierungen und Schnitzereien aufweisen, mit Metall verstärkt sein oder einfach ein dicker Ast von einem Baum sein. Ähnlich wie einfache Varianten haben zweihändige Keulen vielerlei Namen: Knüppel, Prügel, Shillelagh und dergleichen.",
+    "hands": "two"
   },
   {
     "id": "5da3914e-cbce-5ed3-95ae-ca695bdb65c3",
@@ -3874,7 +4070,8 @@
     "weapon_type": "exotic",
     "special": null,
     "weight_lb": "8 Pfd.",
-    "description": "Eine zwergische Streitaxt besitzt eine große, verzierte Klinge, die auf einen dicken Griff gesetzt wird, sodass sie zu groß ist, als dass sie nicht ohne besondere Ausbildung eingesetzt werden kann; daher ist sie eine exotische Waffe. Ein mittelgroßer Charakter kann die zwergische Streitaxt beidhändig als Kriegswaffe einsetzen; eine große Kreatur kann sie gleichermaßen einhändig führen. Für einen Zwerg gilt die zwergische Streitaxt als Kriegswaffe, selbst wenn er sie einhändig führt."
+    "description": "Eine zwergische Streitaxt besitzt eine große, verzierte Klinge, die auf einen dicken Griff gesetzt wird, sodass sie zu groß ist, als dass sie nicht ohne besondere Ausbildung eingesetzt werden kann; daher ist sie eine exotische Waffe. Ein mittelgroßer Charakter kann die zwergische Streitaxt beidhändig als Kriegswaffe einsetzen; eine große Kreatur kann sie gleichermaßen einhändig führen. Für einen Zwerg gilt die zwergische Streitaxt als Kriegswaffe, selbst wenn er sie einhändig führt.",
+    "hands": "one"
   },
   {
     "id": "0313786e-93b0-5617-8efc-58fe98988358",
@@ -3889,7 +4086,8 @@
     "weapon_type": "exotic",
     "special": "Abwehr, Doppel",
     "weight_lb": "12 Pfd.",
-    "description": "Eine zwergische Urgrosch ist eine Doppelwaffe mit einem Axtblatt und einer Speerspitze an den Enden eines langen Stiels. Das Axtblatt der Urgrosch ist eine Hiebwaffe, die 1W8 Punkte Schaden verursacht. Die Speerspitze ist eine Stichwaffe, die 1W6 Punkte Schaden verursacht. Man kann beide Enden als Hauptwaffe einsetzen; das jeweils andere Ende wird damit zur Zweithandwaffe. Wenn man eine Urgrosch gegen eine heranstürmende Kreatur einsetzt, so ist die Speerspitze der Teil der Waffe, der Schaden verursacht. Für Zwerge gilt die zwergische Urgrosch als Kriegswaffe."
+    "description": "Eine zwergische Urgrosch ist eine Doppelwaffe mit einem Axtblatt und einer Speerspitze an den Enden eines langen Stiels. Das Axtblatt der Urgrosch ist eine Hiebwaffe, die 1W8 Punkte Schaden verursacht. Die Speerspitze ist eine Stichwaffe, die 1W6 Punkte Schaden verursacht. Man kann beide Enden als Hauptwaffe einsetzen; das jeweils andere Ende wird damit zur Zweithandwaffe. Wenn man eine Urgrosch gegen eine heranstürmende Kreatur einsetzt, so ist die Speerspitze der Teil der Waffe, der Schaden verursacht. Für Zwerge gilt die zwergische Urgrosch als Kriegswaffe.",
+    "hands": "two"
   },
   {
     "id": "1f0a7abe-e442-599c-aa6a-249fc0a370ef",

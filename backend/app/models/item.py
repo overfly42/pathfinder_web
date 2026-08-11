@@ -40,11 +40,27 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     category ("simple"/"martial"/"exotic"/"firearm" — distinct from
     `category`, which stays the picker-filter tag "weapon", and distinct
     from `weapon_group` above, which is a different taxonomy), and `special`
-    is free-text property notes (e.g. "Nicht tödlich"). All of these are
-    plain imported strings, not evaluated by any rule logic — no attack-
-    bonus/damage computation reads them yet, they only close the "no schema
-    field existed at all" half of roadmap.md's "Waffenkatalog ohne
-    Kampfwerte" gap; the computation half stays open.
+    is free-text property notes (e.g. "Nicht tödlich"). These are plain
+    imported strings, not evaluated by any rule logic.
+
+    `hands` ("one"/"two", weapon only) is the one exception that *is*
+    computed from (roadmap.md's Slice-4 weapon-slot item, 2026-08-11): which
+    paperdoll weapon slot(s) an equipped weapon occupies
+    (`rules.equipment_slots`) and, together with `sheet.py`'s Str modifier,
+    the attack-bonus/damage-dice readout. Backfilled from the PRD import's
+    `subgroup` column (`Zweihandwaffen`/`Zweihändige Feuerwaffen*` -> "two",
+    `Einhandwaffen`/`Leichte Waffen`/`Einhändige Feuerwaffen*` -> "one"; see
+    `backend/scripts/README.md`'s weapon-import section) — that column
+    itself was never persisted to `BaseItem` before, only the price/damage
+    table it came with. For the `Fernkampfwaffen` (ranged) subgroup, which
+    mixes bows (two-handed), crossbows (mostly two-handed, hand crossbows
+    one-handed) and thrown weapons (one-handed) under one PRD heading with
+    no further column to disambiguate, each row was hand-classified by name
+    against the PRD text rather than guessed by a blanket rule. Null for
+    every non-"weapon" row and for the handful of weapon rows with no
+    PRD-sourced `subgroup` at all (the 16 old placeholder rows predating the
+    PRD import, see roadmap.md's "Waffenkatalog ohne Kampfwerte") — those
+    render with no paperdoll weapon slot until re-matched to a PRD row.
 
     `weight_lb` (raw string, e.g. "4 Pfd.") and `description` (prose text)
     are generic across every category but only populated for "weapon" and
@@ -86,6 +102,7 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     damage_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
     weapon_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
     special: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    hands: Mapped[str | None] = mapped_column(String(8), nullable=True)
     weight_lb: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     slot: Mapped[str | None] = mapped_column(String(32), nullable=True)

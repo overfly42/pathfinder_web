@@ -53,6 +53,18 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # null — treated as undamaged (0), not an error, same as before.
     damage_taken: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
+    # Temporary HP pool (Kampfrausch, various buff spells) — separate from
+    # `damage_taken` on purpose (see that column's docstring, and
+    # roadmap.md's Slice-3 "Class-ability computation" item): it must absorb
+    # damage before `damage_taken` does and evaporate rather than convert to
+    # real damage when its source ends, so it can't be folded into the same
+    # number. `routers/characters.py`'s `adjust_hp` is the only writer:
+    # damage drains this first, and a `temporary_hit_points` value in the
+    # request body sets it directly (a spell/rage grant, not a delta).
+    # Real healing never refills it. Not nullable — unlike `damage_taken`,
+    # every row has had this column since creation, 0 always means "none".
+    temporary_hit_points: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+
     ability_score_st: Mapped[int] = mapped_column(Integer)
     ability_score_ge: Mapped[int] = mapped_column(Integer)
     ability_score_ko: Mapped[int] = mapped_column(Integer)

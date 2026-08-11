@@ -4,7 +4,7 @@
   "race": "Halbork",
   "className": "Kämpfer",
   "level": 3,
-  "hp": { "current": 34, "max": 34 },
+  "hp": { "current": 34, "max": 34, "temporary": 6 },
   "armorClass": 18,
   "initiative": "+1",
   "speed": "6 m",
@@ -26,6 +26,9 @@
     { "key": "bab", "label": "Grundangriffsbonus (GAB)", "value": "+3" },
     { "key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": "+7" },
     { "key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": "18" }
+  ],
+  "weaponAttacks": [
+    { "key": "hauptwaffe", "hand": "Hauptwaffe", "name": "Langschwert +1", "attackBonus": "+9", "damage": "1W8+5 H" }
   ],
   "skills": [
     { "key": "einschuechtern", "label": "Einschüchtern", "value": "+6" },
@@ -67,6 +70,12 @@
     ] },
     { "key": "guertel", "label": "Gürtel", "side": "right", "row": 2, "selected": "Gürtel der Stärke +2", "options": [
       { "value": "Gürtel der Stärke +2", "label": "Gürtel der Stärke +2" }
+    ] },
+    { "key": "hauptwaffe", "label": "Hauptwaffe", "side": "left", "row": 8, "selected": "Langschwert +1", "options": [
+      { "value": "Langschwert +1", "label": "Langschwert +1" }
+    ] },
+    { "key": "schild", "label": "Schild", "side": "right", "row": 8, "selected": "Schwerer Schild", "options": [
+      { "value": "Schwerer Schild", "label": "Schwerer Schild" }
     ] }
   ],
   "spellbook": [],

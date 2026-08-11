@@ -5,11 +5,13 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 interface VitalsBarProps {
   character: Character;
   onApplyHp: (signedAmount: number) => void;
+  onSetTempHp: (amount: number) => void;
 }
 
-export function VitalsBar({ character, onApplyHp }: VitalsBarProps) {
+export function VitalsBar({ character, onApplyHp, onSetTempHp }: VitalsBarProps) {
   const [open, setOpen] = useState(false);
   const [delta, setDelta] = useState('');
+  const [tempInput, setTempInput] = useState('');
   const popoverRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
   const percent = Math.max(0, Math.min(100, Math.round((character.hp.current / character.hp.max) * 100)));
@@ -22,12 +24,21 @@ export function VitalsBar({ character, onApplyHp }: VitalsBarProps) {
     setOpen(false);
   }
 
+  function setTemp() {
+    const amount = parseInt(tempInput, 10);
+    if (!Number.isFinite(amount) || amount < 0) return;
+    onSetTempHp(amount);
+    setTempInput('');
+    setOpen(false);
+  }
+
   return (
     <div className="vitals">
       <div className="vital hp" ref={popoverRef}>
         <div className="k">Trefferpunkte</div>
         <div className="v" role="button" tabIndex={0} onClick={() => setOpen((o) => !o)}>
           {character.hp.current} / {character.hp.max}
+          {character.hp.temporary > 0 && <span className="hp-temp"> (+{character.hp.temporary} temp.)</span>}
         </div>
         {open && (
           <div className="hp-popover-body">
@@ -42,6 +53,17 @@ export function VitalsBar({ character, onApplyHp }: VitalsBarProps) {
             <div className="hp-popover-actions">
               <button type="button" className="hp-btn dmg" onClick={() => apply(-1)}>Schaden</button>
               <button type="button" className="hp-btn heal" onClick={() => apply(1)}>Heilen</button>
+            </div>
+            <input
+              type="number"
+              min={0}
+              inputMode="numeric"
+              placeholder="Temporäre TP"
+              value={tempInput}
+              onChange={(e) => setTempInput(e.target.value)}
+            />
+            <div className="hp-popover-actions">
+              <button type="button" className="hp-btn confirm" onClick={setTemp}>Temp-TP setzen</button>
             </div>
           </div>
         )}
