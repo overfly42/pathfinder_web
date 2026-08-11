@@ -115,25 +115,44 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   `readme.md`'s "Request pipeline" describes: `resolve_ids()` (every id
   against the merged registry, same `CharacterContext`) and
   `character_modifiers()` (every feat/trait/active-effect id in one flat
-  pass, grouped by `ModifierTarget` at the call site). `sheet.py` now builds
-  one fully-populated `CharacterContext` per request (`ability_scores`,
-  `skill_ranks`, `feat_ids`, `trait_ids`, `granted_ability_ids`,
-  `active_effects`, `gear_item_ids` — every field, not just the two that
-  had callers before) and uses `character_modifiers()`'s output for AC,
-  saves, speed, and skills alike, replacing the old effects-only
-  `active_effect_modifiers()` call. Land speed now also picks up any
-  feat/trait/active-effect `SPEED` modifier (previously silently dropped —
-  nothing produces one today, but nothing would have applied it either).
-  `character_modifiers()` deliberately excludes `granted_ability_ids` (race
-  + class abilities): those already have dedicated, repeat-count-aware
-  resolution (`race_ability_score_mods`/`effective_ability_scores` for
-  SCORE, `race_speed`/`class_speed_bonus` for SPEED, both kept as-is) — a
-  class ability shared by two grants on a multiclassed character (Barbar/
+  pass). `sheet.py` now builds one fully-populated `CharacterContext` per
+  request (`ability_scores`, `skill_ranks`, `feat_ids`, `trait_ids`,
+  `granted_ability_ids`, `active_effects`, `gear_item_ids` — every field,
+  not just the two that had callers before) and uses `character_modifiers()`'s
+  output for AC, saves, speed, and skills alike, replacing the old
+  effects-only `active_effect_modifiers()` call. Land speed now also picks
+  up any feat/trait/active-effect `SPEED` modifier (previously silently
+  dropped — nothing produces one today, but nothing would have applied it
+  either). `character_modifiers()` deliberately excludes
+  `granted_ability_ids` (race + class abilities): those already have
+  dedicated, repeat-count-aware resolution
+  (`race_ability_score_mods`/`effective_ability_scores` for SCORE,
+  `race_speed`/`class_speed_bonus` for SPEED, both kept as-is) — a class
+  ability shared by two grants on a multiclassed character (Barbar/
   Entfesselter Barbar's shared Schnelle-Bewegung id) must stack once per
   grant, and the generic pass's plain `set` of ids can't preserve that
   count. Folding granted-ability ids into the generic pass is future work
   for whenever a granted ability needs a non-SCORE/non-SPEED effect, not
   done speculatively now.
+
+  **Step 4 (group-by-target-and-stack), same day**: step 3's output
+  (`character_modifiers()`) used to be re-filtered by target and `stack()`-ed
+  separately at every consumer (`sheet.py` once per save, once per skill
+  row, ...). `rules/modifiers.py` gained `stack_by_target()` — groups a
+  `list[Modifier]` by `(target, target_id)` and stacks each group once — so
+  `sheet.py` now computes one `stacked` dict per request and every
+  consumer does a plain `dict.get((target, target_id), 0)`. AC's gear
+  bonus (armor/shield `ac_bonus`, any slot's `enhancement`, previously
+  computed and stacked separately inside `_build_equipment`, then added
+  arithmetically to the composition-side AC stack) is now extracted into
+  its own `_gear_ac_modifiers()` and combined into the *same* raw list as
+  `character_modifiers()`'s output *before* the one `stack_by_target()`
+  call — two same-type AC bonuses from different origins (a composition
+  "armor" bonus and a gear "armor" bonus) must not both apply, and
+  `stack()` can only enforce that within a single call over the combined
+  list, not by adding two independently-stacked totals. `_build_equipment`
+  is now paperdoll-display-only; `_gear_lookup()` fetches the shared
+  item/gear-by-slot maps once for both it and `_gear_ac_modifiers()`.
 
 ## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
 

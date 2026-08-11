@@ -57,3 +57,24 @@ def stack(modifiers: list[Modifier]) -> int:
         else:
             best_by_type[modifier.type] = max(best_by_type.get(modifier.type, 0), modifier.value)
     return total + sum(best_by_type.values())
+
+
+def stack_by_target(modifiers: list[Modifier]) -> dict[tuple[ModifierTarget, str | None], int]:
+    """`readme.md`'s "Request pipeline" step 4 in one call: group every
+    `Modifier` by `(target, target_id)` and `stack()` each group, once, up
+    front — rather than every consumer re-filtering the same flat list and
+    calling `stack()` itself (`sheet.py` used to do this once per save, once
+    per skill row, ...). Callers look up their own key; a `(target,
+    target_id)` pair with no contributing modifiers simply isn't a key, so
+    callers should default to 0 (`dict.get(key, 0)`).
+
+    Callers whose modifiers come from more than one source (e.g. AC: both
+    composition-driven modifiers and gear's own armor/shield bonus) must
+    combine them into one list *before* calling this — grouping/stacking
+    them separately and adding the two results back together would break
+    the same-type-cap rule across sources (two "armor"-type bonuses from
+    different origins still don't stack)."""
+    by_key: dict[tuple[ModifierTarget, str | None], list[Modifier]] = {}
+    for modifier in modifiers:
+        by_key.setdefault((modifier.target, modifier.target_id), []).append(modifier)
+    return {key: stack(group) for key, group in by_key.items()}

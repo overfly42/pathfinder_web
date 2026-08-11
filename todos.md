@@ -165,6 +165,25 @@ relevanten Handler auf):
       der generische Pass mit einem einfachen `set` nicht abbilden kann.
       Diese Ids in den generischen Pass aufzunehmen bleibt offen, bis eine
       Klassenfähigkeit einen Nicht-SCORE/Nicht-SPEED-Effekt braucht.
+- [x] **Schritt 4 (Gruppieren nach Ziel + Stacken), gleicher Tag** — vorher
+      filterte jeder Verbraucher (`sheet.py`) `character_modifiers()`s
+      Ergebnis selbst nach `target` und rief `stack()` separat auf (einmal
+      pro Rettungswurf, einmal pro Fertigkeit, ...). Neu:
+      `rules/modifiers.py`s `stack_by_target()` gruppiert einmal nach
+      `(target, target_id)` und stackt jede Gruppe; `sheet.py` berechnet
+      jetzt ein `stacked`-Dict pro Request, jeder Verbraucher macht nur noch
+      ein `dict.get((target, target_id), 0)`. RK-Ausrüstungsboni (Rüstung/
+      Schild-`ac_bonus`, jeder Slot-`enhancement`) wurden aus
+      `_build_equipment` in eine eigene `_gear_ac_modifiers()` extrahiert
+      und VOR dem einen `stack_by_target()`-Aufruf in dieselbe Rohliste wie
+      `character_modifiers()`s Ergebnis gemischt — zwei gleichtypige
+      RK-Boni aus unterschiedlichen Quellen (z. B. ein Komposition-„armor"-
+      Bonus und ein Ausrüstungs-„armor"-Bonus) dürfen nicht beide gelten,
+      und `stack()` kann das nur innerhalb eines einzigen Aufrufs über die
+      kombinierte Liste durchsetzen, nicht durch nachträgliches Addieren
+      zweier separat gestackter Summen. `_build_equipment` ist jetzt reine
+      Paperdoll-Anzeige; `_gear_lookup()` holt die Item-/Gear-by-Slot-Maps
+      einmal für beide Funktionen gemeinsam.
 
 ## Effekt-Handler-Inventar (`EFFECT_HANDLERS` / weapon `HANDLERS`) — noch offen
 

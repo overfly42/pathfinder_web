@@ -59,6 +59,7 @@ from .models import (
     BaseTrait,
     BaseWeaponSpecialAbility,
     Character,
+    CharacterGear,
     RaceAbilityGrant,
 )
 from .routers.characters import _class_def
@@ -67,7 +68,7 @@ from .rules.context import CharacterContext
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.handlers import character_modifiers
-from .rules.modifiers import Modifier, ModifierTarget, stack
+from .rules.modifiers import Modifier, ModifierTarget, stack_by_target
 from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
@@ -137,16 +138,28 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
     # active effects (`rules/handlers.py`'s `character_modifiers`; race/class
     # granted-ability ids are deliberately excluded there, see its
-    # docstring). Resolved once and threaded into AC/saves/speed/skills
-    # below rather than re-deriving it per target.
+    # docstring) — plus gear's own AC bonus (armor/shield `ac_bonus`, any
+    # slot's `enhancement`). Combined into one raw list *before* stacking,
+    # not stacked separately per source and added: two same-type bonuses
+    # (e.g. a composition "armor" bonus and a gear "armor" bonus) must not
+    # both apply, and `stack()` can only enforce that within a single call
+    # (`rules/modifiers.py`'s `stack_by_target` docstring). Grouped by
+    # target once here and threaded into AC/saves/speed/skills below as
+    # plain dict lookups rather than each one re-filtering/re-stacking.
+    items, gear_by_slot = _gear_lookup(db, character)
+    gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     all_modifiers = character_modifiers(context)
-    armor_class, equipment_slots = _build_equipment(db, character, dex_mod, all_modifiers)
+    stacked = stack_by_target(all_modifiers + gear_ac_modifiers)
+
+    capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
+    armor_class = 10 + capped_dex_mod + stacked.get((ModifierTarget.AC, None), 0)
+    equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = race_speed(db, character.race_id) or 9
     total_speed = (
         base_speed
         + class_speed_bonus(granted_ability_ids, context)
-        + stack([m for m in all_modifiers if m.target == ModifierTarget.SPEED])
+        + stacked.get((ModifierTarget.SPEED, None), 0)
     )
     gear = _build_gear(db, character)
 
@@ -179,7 +192,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "value": _fmt(
                     character.saves[key]
                     + ability_mods[SAVE_ABILITY[key]]
-                    + stack([m for m in all_modifiers if m.target == SAVE_TARGET[key]])
+                    + stacked.get((SAVE_TARGET[key], None), 0)
                 ),
             }
             for key, label in SAVE_LABELS.items()
@@ -189,7 +202,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {"key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": _fmt(bab + str_mod)},
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
-        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, all_modifiers),
+        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, stacked),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
@@ -360,15 +373,9 @@ def _build_skills(
     level_counts_by_root_id: dict[UUID, int],
     ability_mods: dict[str, int],
     total_speed: int,
-    all_modifiers: list[Modifier],
+    stacked: dict[tuple[ModifierTarget, str | None], int],
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
-    # `target_id` is a skill's id as `str` (`rules/modifiers.py`'s
-    # `Modifier` docstring) — no producing handler exists yet (e.g. Skill
-    # Focus's ranks-dependent bonus, CLAUDE.md's own canonical example), so
-    # this is 0 for every skill today; wired now so the first such handler
-    # doesn't also need a sheet.py change to take effect.
-    skill_modifiers = [m for m in all_modifiers if m.target == ModifierTarget.SKILL]
 
     class_skill_ids: set[UUID] = set()
     if level_counts_by_root_id:
@@ -401,7 +408,11 @@ def _build_skills(
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
         class_bonus = 3 if skill.id in class_skill_ids else 0
-        handler_bonus = stack([m for m in skill_modifiers if m.target_id == str(skill.id)])
+        # No producing handler exists yet (e.g. Skill Focus's ranks-dependent
+        # bonus, CLAUDE.md's own canonical example), so this is 0 for every
+        # skill today; wired now so the first such handler doesn't also need
+        # a sheet.py change to take effect.
+        handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
         entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus + handler_bonus)}
         if skill.id == AKROBATIK_SKILL_ID:
             # Springen-specific Volksbonus (rules/speed.py's jump_skill_bonus)
@@ -832,30 +843,34 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
     return result
 
 
-def _build_equipment(
-    db: Session, character: Character, dex_mod: int, effect_modifiers: list[Modifier]
-) -> tuple[int, list[dict]]:
-    """Armor class + paperdoll slots from equipped gear (roadmap slice 4).
-    Only armor ("ruestung") and shield ("schild") have real `BaseItem.ac_bonus`
-    data (`rules/equipment_slots.SLOT_CATEGORY`) — the other 12 slots render
-    with empty options (see this module's docstring). `effect_modifiers` is
-    the character's full feat/trait/active-effect modifier list
-    (`rules/handlers.py`'s `character_modifiers`) — filtered here to AC,
-    same `stack()` pool as gear-sourced modifiers so e.g. Kampfrausch's -2 AC
-    penalty and an armor bonus resolve together correctly."""
-    ac_effect_modifiers = [m for m in effect_modifiers if m.target == ModifierTarget.AC]
+def _gear_lookup(db: Session, character: Character) -> tuple[dict[UUID, BaseItem], dict[str, CharacterGear]]:
+    """Shared prep step for `_gear_ac_modifiers`/`_build_equipment`: every
+    equipped item's catalog row, and equipped gear keyed by slot — one query
+    for both, computed once in `build_character_sheet` rather than each
+    function re-fetching it."""
     if not character.gear:
-        return 10 + dex_mod + stack(ac_effect_modifiers), [
-            {**slot_def, "options": [], "selected": ""} for slot_def in SLOT_DEFINITIONS
-        ]
-
+        return {}, {}
     items = {
         item.id: item
         for item in db.scalars(select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))).all()
     }
     gear_by_slot = {g.equipped_slot: g for g in character.gear if g.equipped_slot}
+    return items, gear_by_slot
 
-    modifiers: list[Modifier] = list(ac_effect_modifiers)
+
+def _gear_ac_modifiers(
+    items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear]
+) -> tuple[list[Modifier], int | None]:
+    """Raw AC `Modifier`s from equipped gear (armor/shield's real
+    `BaseItem.ac_bonus`, any slot's `enhancement`), plus armor's
+    `max_dex_bonus` cap. Returns the raw list, not a stacked total: the
+    caller (`build_character_sheet`) combines it with composition-driven AC
+    modifiers *before* stacking, so a same-type bonus from either source
+    still only counts once (`rules/modifiers.py`'s `stack_by_target`
+    docstring). Only armor ("ruestung") and shield ("schild") have real
+    `ac_bonus` data (`rules/equipment_slots.SLOT_CATEGORY`) — other slots
+    only contribute via `enhancement`, if set."""
+    modifiers: list[Modifier] = []
     max_dex_bonus: int | None = None
     for slot_key, category in SLOT_CATEGORY.items():
         gear_row = gear_by_slot.get(slot_key)
@@ -872,9 +887,20 @@ def _build_equipment(
         )
         if category == "armor":
             max_dex_bonus = item.max_dex_bonus
+    return modifiers, max_dex_bonus
 
-    capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
-    armor_class = 10 + capped_dex_mod + stack(modifiers)
+
+def _build_equipment(
+    character: Character, items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear]
+) -> list[dict]:
+    """Paperdoll slot options from equipped gear (roadmap slice 4). Only
+    armor ("ruestung") and shield ("schild") have real `BaseItem.ac_bonus`
+    data (`rules/equipment_slots.SLOT_CATEGORY`) — the other 12 slots render
+    with empty options (see this module's docstring). AC itself is computed
+    by the caller (`build_character_sheet`, via `_gear_ac_modifiers` +
+    `character_modifiers`, stacked together) — this function is display-only."""
+    if not character.gear:
+        return [{**slot_def, "options": [], "selected": ""} for slot_def in SLOT_DEFINITIONS]
 
     # Keyed by (category, BaseItem.slot) rather than category alone — several
     # paperdoll slots share category "wondrous"/"ring" (roadmap.md's
@@ -905,4 +931,4 @@ def _build_equipment(
                 selected = str(equipped.item_id)
         equipment_slots.append({**slot_def, "options": options, "selected": selected})
 
-    return armor_class, equipment_slots
+    return equipment_slots
