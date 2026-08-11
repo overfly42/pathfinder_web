@@ -39,7 +39,7 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ..models import RaceAbilityGrant
+from .context import CharacterContext
 from .modifiers import Modifier, ModifierTarget, stack
 
 RACE_NORMAL_SPEED_ABILITY_ID = UUID("2e0186d5-e532-4532-b7f7-b4c6f4834bde")
@@ -47,27 +47,50 @@ RACE_SLOW_SPEED_ABILITY_ID = UUID("9a5db666-54d4-4112-b750-dbb1abf1265d")
 BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID = UUID("b311443b-a086-52ae-a079-d31880638921")
 
 
-def _base_speed(*, meters: int) -> list[Modifier]:
+def _base_speed(context: CharacterContext, *, meters: int) -> list[Modifier]:
+    # Unconditional, same as race_abilities.py's `_attribute_bonus` — a
+    # race's base speed never depends on anything about the character it's
+    # granted to.
+    del context
     return [Modifier(source="race", type="base", value=meters, target=ModifierTarget.SPEED)]
 
 
-def _fast_movement(*, meters: int) -> list[Modifier]:
+def _fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
+    # Also unconditional: ownership/repetition count is already decided by
+    # the caller (`class_speed_bonus`'s per-grant loop below), not by
+    # anything this handler would read off `context` itself.
+    del context
     return [Modifier(source="Schnelle Bewegung", type="untyped", value=meters, target=ModifierTarget.SPEED)]
 
 
 # Feeds `rules/handlers.py`'s unified `HANDLERS` — kept local to this module
 # (not that merged dict) for the same locality/git-blame reason
 # `race_abilities.py` keeps its own `HANDLERS` slice separate too.
-HANDLERS: dict[UUID, Callable[[], list[Modifier]]] = {
+HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     RACE_NORMAL_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=9),
     RACE_SLOW_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=6),
     BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(_fast_movement, meters=3),
 }
 
+# `race_speed` only ever resolves a race's own base-speed grant, never
+# anything conditional on a character — same reasoning as
+# `routers/races.py`'s `_NO_CHARACTER_CONTEXT` (that module's `HANDLERS`
+# entries, from `race_abilities.py`, share the exact same "ignores context"
+# property as `_base_speed` above).
+_NO_CHARACTER_CONTEXT = CharacterContext()
+
 
 def race_speed(db: Session, race_id: UUID) -> int | None:
     """This race's base land speed in meters, from its non-alternate speed
     grant."""
+    # Imported here, not at module level: `rules/handlers.py` merges this
+    # module's `HANDLERS` for `models/character.py` to use, and
+    # `models/character.py` loads partway through `models/__init__.py`
+    # (before `RaceAbilityGrant` is defined there) — a module-level `from
+    # ..models import RaceAbilityGrant` here would make that a circular
+    # import. Deferred to call time, well after `models` is fully loaded.
+    from ..models import RaceAbilityGrant
+
     grants = db.scalars(
         select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
     ).all()
@@ -75,24 +98,31 @@ def race_speed(db: Session, race_id: UUID) -> int | None:
     for grant in grants:
         handler = HANDLERS.get(grant.ability_id)
         if handler is not None:
-            modifiers.extend(m for m in handler() if m.target == ModifierTarget.SPEED)
+            modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.SPEED)
     return stack(modifiers) if modifiers else None
 
 
-def class_speed_bonus(granted_class_ability_counts: Counter[UUID]) -> int:
+def class_speed_bonus(granted_class_ability_counts: Counter[UUID], context: CharacterContext) -> int:
     """Total land-speed bonus (meters) from this character's actually-granted
     class abilities (`sheet.py`'s `_granted_class_ability_ids` — already
     resolved against level count/archetype/option picks). The handler is
     called once per qualifying grant, not once per distinct ability id, so a
     repeatedly-granted fast-movement feature stacks correctly (see module
-    docstring)."""
+    docstring).
+
+    Unlike `race_speed`, this call site has a real `Character` in scope
+    (`sheet.py`), so it passes the caller's actual `context` through to each
+    handler call rather than an empty stand-in — even though no handler here
+    reads it yet, this is the first place `CharacterContext.granted_ability_ids`
+    can be genuinely populated (`todos.md`'s "Handler-Migration zu
+    CharacterContext")."""
     modifiers: list[Modifier] = []
     for ability_id, count in granted_class_ability_counts.items():
         handler = HANDLERS.get(ability_id)
         if handler is None:
             continue
         for _ in range(count):
-            modifiers.extend(m for m in handler() if m.target == ModifierTarget.SPEED)
+            modifiers.extend(m for m in handler(context) if m.target == ModifierTarget.SPEED)
     return stack(modifiers)
 
 

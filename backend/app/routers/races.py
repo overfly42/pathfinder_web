@@ -8,7 +8,9 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from ..rules.context import CharacterContext
-from ..rules.race_abilities import ABILITY_ANY_PLUS2, HANDLERS
+from ..rules.handlers import HANDLERS
+from ..rules.modifiers import ModifierTarget
+from ..rules.race_abilities import ABILITY_ANY_PLUS2
 
 router = APIRouter(prefix="/api/races", tags=["races"])
 
@@ -33,7 +35,15 @@ def race_has_flex(db: Session, race_id: UUID) -> bool:
     for grant in grants:
         ability = db.get(BaseRaceAbility, grant.ability_id)
         handler = HANDLERS.get(ability.id)
-        if handler is not None and handler(_NO_CHARACTER_CONTEXT)[0].target_id is None:
+        if handler is None:
+            continue
+        modifier = handler(_NO_CHARACTER_CONTEXT)[0]
+        # `HANDLERS` is the merged registry now (`rules/handlers.py`), so a
+        # race's own base-speed grant resolves too — its `Modifier` also has
+        # `target_id=None` (SPEED never sets it), the same shape the flex
+        # placeholder uses. Must check `target == SCORE` explicitly, not just
+        # `target_id is None`, or every race would look flex-eligible.
+        if modifier.target == ModifierTarget.SCORE and modifier.target_id is None:
             return True
     return False
 
@@ -54,7 +64,10 @@ def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
         if handler is None:
             continue
         modifier = handler(_NO_CHARACTER_CONTEXT)[0]
-        if modifier.target_id is not None:
+        # Explicit target check (not just `target_id is not None`): a race's
+        # base-speed grant also resolves via the merged `HANDLERS` now, and
+        # must not be folded into an ability-score dict.
+        if modifier.target == ModifierTarget.SCORE and modifier.target_id is not None:
             mods[modifier.target_id] = mods.get(modifier.target_id, 0) + modifier.value
     return mods
 
@@ -74,7 +87,10 @@ def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID 
     ).all()
     for replacement in replacements:
         handler = HANDLERS.get(replacement.ability_id)
-        if handler is not None and handler(_NO_CHARACTER_CONTEXT)[0].target_id == attribute:
+        if handler is None:
+            continue
+        modifier = handler(_NO_CHARACTER_CONTEXT)[0]
+        if modifier.target == ModifierTarget.SCORE and modifier.target_id == attribute:
             return replacement.ability_id
     return None
 
@@ -144,8 +160,7 @@ def _race_option(db: Session, race: BaseRace) -> dict:
             continue
 
         base_ability_names[ability.id] = ability.name
-        if handler is not None:
-            modifier = handler(_NO_CHARACTER_CONTEXT)[0]
+        if handler is not None and (modifier := handler(_NO_CHARACTER_CONTEXT)[0]).target == ModifierTarget.SCORE:
             if modifier.target_id is None:
                 flex = True
             else:

@@ -75,21 +75,65 @@ frontend-only `AppStateContext` state into a real, database-backed system. See
   normally, +6 at 10+ ranks) needs to read the character's skill ranks, and
   today's `HANDLERS` (zero arguments) and `EFFECT_HANDLERS` (only that
   effect's own instances) can't give it that.
-  **Migration started 2026-08-10** (superseding the earlier "document-only,
-  no batch refactor" plan below, once the design itself stopped being the
-  open question): `rules/race_abilities.py`'s `_attribute_bonus` factory (10
-  ids) is the first family actually migrated to `CharacterContext` — every
-  call site now passes one, even where `context` goes unused (race
-  ability-score bonuses are never conditional). `rules/speed.py`'s zero-arg
-  `HANDLERS` and `rules/effects.py`'s instances-only `EFFECT_HANDLERS`
-  haven't moved yet. `todos.md`'s new "Handler-Migration zu
-  CharacterContext" tracks the remaining families one at a time (not a
-  single batch commit) — most of `todos.md`'s "Effekt-Handler-Inventar" and
-  the still-unbuilt `rules/class_abilities.py` (roadmap Slice 3's
-  "Class-ability computation" item) will hit this as they're written. Once
-  every family is migrated, `rules/effects.py`'s current "kept separate
-  because the call signature differs" rationale no longer holds and it
-  should merge into `rules/handlers.py`'s unified registry.
+  **Migration completed 2026-08-10** for every handler family that existed
+  at the time (superseding the earlier "document-only, no batch refactor"
+  plan below, once the design itself stopped being the open question):
+  `rules/race_abilities.py`'s `_attribute_bonus` factory (10 ids) moved
+  first, then `rules/speed.py`'s `_base_speed`/`_fast_movement` and
+  `rules/effects.py`'s `_kampfrausch_entfesselter_barbar` in the same pass —
+  every call site now passes a `CharacterContext`, even where a given
+  handler doesn't read it yet (race/base-speed bonuses are never
+  conditional; `_fast_movement`'s repeat count still comes from
+  `class_speed_bonus`'s own `Counter` argument, not `context`).
+  `rules/effects.py`'s handler now filters `context.active_effects` by its
+  own ability id itself, rather than being handed a pre-grouped instance
+  list — see `todos.md`'s "Handler-Migration zu CharacterContext" for the
+  per-family detail. The still-unbuilt `rules/class_abilities.py` (Slice 3's
+  "Class-ability computation" item) starts directly on this signature, no
+  migration needed for it.
+
+  **Central-registry routing + generic resolution pass, 2026-08-11**
+  (closing two gaps a design-review conversation surfaced: nothing actually
+  called the merged `rules/handlers.py` dict, and no single pass resolved
+  *every* relevant handler before a sheet was returned). `rules/effects.py`'s
+  `EFFECT_HANDLERS` is now folded into `rules/handlers.py`'s `HANDLERS` for
+  real (not just documented as unblocked) — every family shares the one
+  merged dict, and the callers that used to import a per-family slice
+  directly (`routers/races.py`, `models/character.py`) now import from
+  `rules/handlers.py` instead. That reroute exposed a latent bug: several
+  `routers/races.py` functions used to tell "this is the flex ability-score
+  placeholder" apart from "no bonus" purely by `modifier.target_id is None`
+  — which a race's own base-speed grant *also* produces (`SPEED` modifiers
+  never set `target_id`) once `HANDLERS` includes `speed.py`'s entries too.
+  Fixed by checking `modifier.target == ModifierTarget.SCORE` explicitly
+  everywhere that pattern appeared (`race_has_flex`, `race_ability_score_mods`,
+  `resolve_flex_ability_id`, `_race_option`, `Character.flex_ability`) —
+  worth calling out since it's exactly the kind of gap "resolve everything
+  through one registry" is supposed to prevent, not introduce.
+
+  `rules/handlers.py` also gained the generic multi-target resolution pass
+  `readme.md`'s "Request pipeline" describes: `resolve_ids()` (every id
+  against the merged registry, same `CharacterContext`) and
+  `character_modifiers()` (every feat/trait/active-effect id in one flat
+  pass, grouped by `ModifierTarget` at the call site). `sheet.py` now builds
+  one fully-populated `CharacterContext` per request (`ability_scores`,
+  `skill_ranks`, `feat_ids`, `trait_ids`, `granted_ability_ids`,
+  `active_effects`, `gear_item_ids` — every field, not just the two that
+  had callers before) and uses `character_modifiers()`'s output for AC,
+  saves, speed, and skills alike, replacing the old effects-only
+  `active_effect_modifiers()` call. Land speed now also picks up any
+  feat/trait/active-effect `SPEED` modifier (previously silently dropped —
+  nothing produces one today, but nothing would have applied it either).
+  `character_modifiers()` deliberately excludes `granted_ability_ids` (race
+  + class abilities): those already have dedicated, repeat-count-aware
+  resolution (`race_ability_score_mods`/`effective_ability_scores` for
+  SCORE, `race_speed`/`class_speed_bonus` for SPEED, both kept as-is) — a
+  class ability shared by two grants on a multiclassed character (Barbar/
+  Entfesselter Barbar's shared Schnelle-Bewegung id) must stack once per
+  grant, and the generic pass's plain `set` of ids can't preserve that
+  count. Folding granted-ability ids into the generic pass is future work
+  for whenever a granted ability needs a non-SCORE/non-SPEED effect, not
+  done speculatively now.
 
 ## Beispielcharakter (Referenz-Charakter für Vollständigkeitsprüfung)
 

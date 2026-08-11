@@ -92,23 +92,79 @@ Call-Site übergibt ihn.
       ohne echten `Character` (Rassen-Endpunkte vor Charaktererstellung)
       übergeben einen leeren `CharacterContext()` — korrekt, kein Workaround,
       da der Handler ihn ohnehin ignoriert.
-- [ ] **`rules/speed.py`: `_base_speed`-Factory** (2 ids:
-      `RACE_NORMAL_SPEED_ABILITY_ID`, `RACE_SLOW_SPEED_ABILITY_ID`) — Aufrufer
-      `race_speed` hat vollen `db`/`race_id`-Zugriff, aber (noch) keinen
-      Character; entscheiden, ob ein leerer Kontext reicht oder ob
-      `race_speed` erst nach `class_speed_bonus`/vollem Charakter sinnvoll
-      migrierbar ist.
-- [ ] **`rules/speed.py`: `_fast_movement`** (`BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`) —
-      Aufrufer `class_speed_bonus` hat bereits einen echten Charakter
-      (`sheet.py`), also der naheliegende Ort für einen erstmals *echt*
-      befüllten `CharacterContext.granted_ability_ids`.
-- [ ] **`rules/effects.py`: `_kampfrausch_entfesselter_barbar`** — bereits
-      auf Instanzlisten angewiesen (`EFFECT_HANDLERS`s bisherige Signatur),
-      Migration bedeutet hier zusätzlich `CharacterContext.active_effects`
-      tatsächlich aus `character.effects` zu befüllen (`sheet.py`) statt nur
-      die separat gruppierte Instanzliste durchzureichen — siehe
-      `rules/context.py`s Docstring für die Begründung, warum dieses Feld
-      volle Zeilen statt nur ids hält.
+- [x] **`rules/speed.py`: `_base_speed`-Factory** (2 ids:
+      `RACE_NORMAL_SPEED_ABILITY_ID`, `RACE_SLOW_SPEED_ABILITY_ID`) —
+      2026-08-10. `race_speed` bleibt bei einem leeren Kontext (Modul-Konstante
+      `_NO_CHARACTER_CONTEXT`, gleiches Muster wie `routers/races.py`) — der
+      einzige Aufrufer (`sheet.py`) hat zwar längst einen echten Charakter im
+      Scope, aber `race_speed` selbst nimmt weiterhin nur `db`/`race_id`
+      entgegen und der Handler ignoriert `context` ohnehin.
+- [x] **`rules/speed.py`: `_fast_movement`** (`BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`) —
+      2026-08-10. `class_speed_bonus` nimmt jetzt zusätzlich `context:
+      CharacterContext` entgegen und reicht ihn an jeden Handler-Aufruf
+      durch; `sheet.py` befüllt `context.granted_ability_ids` (erstmals echt,
+      aus `_granted_class_ability_ids`) bevor es `class_speed_bonus` ruft.
+      Der Handler selbst liest `context` noch nicht (Wiederholungscount kommt
+      weiterhin vom `Counter`-Parameter).
+- [x] **`rules/effects.py`: `_kampfrausch_entfesselter_barbar`** — 2026-08-10.
+      Nimmt jetzt `context: CharacterContext` entgegen und filtert
+      `context.active_effects` selbst auf die eigene Ability-Id
+      (`KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID`), statt eine schon
+      gruppierte Instanzliste zu bekommen — `EFFECT_HANDLERS`,  `resolve()`
+      und `active_effect_modifiers()` wurden entsprechend umgestellt.
+      `sheet.py` befüllt `context.active_effects` aus `character.effects`.
+
+Alle drei Familien sind jetzt auf der einheitlichen Signatur.
+
+**2026-08-11 abgeschlossen** (Design-Review-Gespräch deckte zwei Lücken auf:
+niemand rief tatsächlich das gemergte `rules/handlers.py`-`HANDLERS` auf,
+und kein einzelner Pass löste vor dem Sheet-Response wirklich *jeden*
+relevanten Handler auf):
+
+- [x] **`EFFECT_HANDLERS` wirklich in `rules/handlers.py`s `HANDLERS`
+      gemergt** (nicht mehr nur als möglich dokumentiert). `rules/effects.py`s
+      `resolve()`/`active_effect_modifiers()` existieren weiter als
+      eigenständig testbare Funktionen, aber `sheet.py` ruft sie nicht mehr
+      auf — siehe nächster Punkt.
+- [x] **Alle bisherigen Direktimporte auf den gemergten `HANDLERS` umgeleitet**:
+      `routers/races.py` und `models/character.py` importieren jetzt `from
+      ..rules.handlers import HANDLERS` statt `..rules.race_abilities`.
+      Deckte einen echten Bug auf: mehrere `routers/races.py`-Funktionen
+      unterschieden den Flex-Platzhalter nur über `modifier.target_id is
+      None` — was nach dem Merge auch auf eine Rassen-Basisgeschwindigkeit
+      zutrifft (`SPEED`-Modifier setzen `target_id` nie). Gefixt durch
+      explizites `modifier.target == ModifierTarget.SCORE` in
+      `race_has_flex`, `race_ability_score_mods`, `resolve_flex_ability_id`,
+      `_race_option`, `Character.flex_ability`. `rules/speed.py`s
+      `race_speed` musste seinen `RaceAbilityGrant`-Import in die Funktion
+      verschieben (statt Modulebene), da `models/character.py` mitten in
+      `models/__init__.py` lädt und ein Modulebene-Import sonst einen
+      Zirkelimport über `rules.handlers` → `rules.speed` → `..models`
+      auslöst.
+- [x] **Generischer Mehrziel-Resolve-Pass** (`readme.md`s "Request pipeline"
+      Schritt 3) — neu in `rules/handlers.py`: `resolve_ids()` (jede Id
+      gegen die gemergte Registry, gleicher `CharacterContext`) und
+      `character_modifiers()` (Feat-/Trait-/Active-Effect-Ids in einem
+      flachen Pass, Ergebnis nach `ModifierTarget` gefiltert vom Aufrufer).
+      `sheet.py` baut jetzt einen vollständig befüllten `CharacterContext`
+      (`ability_scores`, `skill_ranks`, `feat_ids`, `trait_ids`,
+      `granted_ability_ids`, `active_effects`, `gear_item_ids` — vorher
+      hatten nur zwei Felder überhaupt einen Aufrufer) und nutzt
+      `character_modifiers()` einheitlich für RK, Rettungswürfe,
+      Bewegungsrate und Fertigkeiten statt der alten, nur-Effekte-
+      Funktion `active_effect_modifiers()`. Bewegungsrate berücksichtigt
+      dadurch jetzt auch Feat-/Trait-/Effekt-`SPEED`-Modifier (vorher still
+      verworfen — heute noch folgenlos, da keiner existiert, aber vorher
+      hätte auch keiner gewirkt). `character_modifiers()` lässt
+      `granted_ability_ids` bewusst aus: Rassen-/Klassenfähigkeiten haben
+      bereits eigene, wiederholungssensitive Pfade
+      (`race_ability_score_mods`/`effective_ability_scores` für SCORE,
+      `race_speed`/`class_speed_bonus` für SPEED) — eine von zwei Grants
+      geteilte Klassenfähigkeit (Barbar/Entfesselter-Barbar-Multiclass'
+      gemeinsame Schnelle-Bewegung-Id) muss einmal pro Grant stacken, was
+      der generische Pass mit einem einfachen `set` nicht abbilden kann.
+      Diese Ids in den generischen Pass aufzunehmen bleibt offen, bis eine
+      Klassenfähigkeit einen Nicht-SCORE/Nicht-SPEED-Effekt braucht.
 
 ## Effekt-Handler-Inventar (`EFFECT_HANDLERS` / weapon `HANDLERS`) — noch offen
 

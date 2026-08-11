@@ -63,9 +63,10 @@ from .models import (
 )
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
+from .rules.context import CharacterContext
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
-from .rules.effects import active_effect_modifiers
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
+from .rules.handlers import character_modifiers
 from .rules.modifiers import Modifier, ModifierTarget, stack
 from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
 from .rules.progression import ability_mod, max_hit_points
@@ -109,20 +110,44 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     str_mod = ability_mods["ST"]
     dex_mod = ability_mods["GE"]
     bab = character.bab
-    # Resolved once and threaded into both AC and saves below rather than
-    # re-grouping `character.effects` by source_id twice (roadmap.md's
-    # slice 5 "Open — not wired yet" — this is the first `EFFECT_HANDLERS`
-    # content, Entfesselter Barbar's Kampfrausch).
-    effect_modifiers = active_effect_modifiers(character.effects)
-    armor_class, equipment_slots = _build_equipment(db, character, dex_mod, effect_modifiers)
 
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
-
     granted_ability_ids = _granted_class_ability_ids(db, character, level_counts_by_root_id)
+
+    # The character's raw `CharacterContext` (`rules/context.py`) — built
+    # once here, fully populated, and threaded into every handler family
+    # below rather than each one re-deriving its own slice of character
+    # state, per `readme.md`'s "Request pipeline" step 2. `ability_scores`
+    # is the already-fully-resolved effective scores (race/flex/gear/damage,
+    # `rules/effective_scores.py`), not raw base scores — a handler reading
+    # it (e.g. a future Skill-Focus-style threshold) sees the same total the
+    # sheet itself displays.
+    context = CharacterContext(
+        ability_scores=effective_scores,
+        skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
+        feat_ids=frozenset(character.feat_ids),
+        trait_ids=frozenset(character.trait_ids),
+        granted_ability_ids=frozenset(granted_ability_ids),
+        active_effects=character.effects,
+        gear_item_ids=frozenset(g.item_id for g in character.gear),
+    )
+    # Every Modifier from a composition source that doesn't already have its
+    # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
+    # active effects (`rules/handlers.py`'s `character_modifiers`; race/class
+    # granted-ability ids are deliberately excluded there, see its
+    # docstring). Resolved once and threaded into AC/saves/speed/skills
+    # below rather than re-deriving it per target.
+    all_modifiers = character_modifiers(context)
+    armor_class, equipment_slots = _build_equipment(db, character, dex_mod, all_modifiers)
+
     base_speed = race_speed(db, character.race_id) or 9
-    total_speed = base_speed + class_speed_bonus(granted_ability_ids)
+    total_speed = (
+        base_speed
+        + class_speed_bonus(granted_ability_ids, context)
+        + stack([m for m in all_modifiers if m.target == ModifierTarget.SPEED])
+    )
     gear = _build_gear(db, character)
 
     return {
@@ -154,7 +179,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "value": _fmt(
                     character.saves[key]
                     + ability_mods[SAVE_ABILITY[key]]
-                    + stack([m for m in effect_modifiers if m.target == SAVE_TARGET[key]])
+                    + stack([m for m in all_modifiers if m.target == SAVE_TARGET[key]])
                 ),
             }
             for key, label in SAVE_LABELS.items()
@@ -164,7 +189,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {"key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": _fmt(bab + str_mod)},
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
-        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed),
+        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, all_modifiers),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
@@ -335,8 +360,15 @@ def _build_skills(
     level_counts_by_root_id: dict[UUID, int],
     ability_mods: dict[str, int],
     total_speed: int,
+    all_modifiers: list[Modifier],
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
+    # `target_id` is a skill's id as `str` (`rules/modifiers.py`'s
+    # `Modifier` docstring) — no producing handler exists yet (e.g. Skill
+    # Focus's ranks-dependent bonus, CLAUDE.md's own canonical example), so
+    # this is 0 for every skill today; wired now so the first such handler
+    # doesn't also need a sheet.py change to take effect.
+    skill_modifiers = [m for m in all_modifiers if m.target == ModifierTarget.SKILL]
 
     class_skill_ids: set[UUID] = set()
     if level_counts_by_root_id:
@@ -369,7 +401,8 @@ def _build_skills(
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
         class_bonus = 3 if skill.id in class_skill_ids else 0
-        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus)}
+        handler_bonus = stack([m for m in skill_modifiers if m.target_id == str(skill.id)])
+        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus + handler_bonus)}
         if skill.id == AKROBATIK_SKILL_ID:
             # Springen-specific Volksbonus (rules/speed.py's jump_skill_bonus)
             # — doesn't apply to Akrobatik's other uses (Balancieren,
@@ -379,7 +412,7 @@ def _build_skills(
             # -malus), not just the isolated racial component — a player
             # making a jump check wants one usable number, not a formula
             # piece to add up themselves.
-            base_value = ranks + ab_mod + class_bonus
+            base_value = ranks + ab_mod + class_bonus + handler_bonus
             jump_bonus = jump_skill_bonus(total_speed)
             entry["note"] = (
                 f"Sprung (Hoch-/Weitsprung): {_fmt(base_value + jump_bonus)} gesamt "
@@ -806,8 +839,8 @@ def _build_equipment(
     Only armor ("ruestung") and shield ("schild") have real `BaseItem.ac_bonus`
     data (`rules/equipment_slots.SLOT_CATEGORY`) — the other 12 slots render
     with empty options (see this module's docstring). `effect_modifiers` is
-    the character's full active-effect modifier list (roadmap slice 5,
-    `rules/effects.py`'s `active_effect_modifiers`) — filtered here to AC,
+    the character's full feat/trait/active-effect modifier list
+    (`rules/handlers.py`'s `character_modifiers`) — filtered here to AC,
     same `stack()` pool as gear-sourced modifiers so e.g. Kampfrausch's -2 AC
     penalty and an armor bonus resolve together correctly."""
     ac_effect_modifiers = [m for m in effect_modifiers if m.target == ModifierTarget.AC]

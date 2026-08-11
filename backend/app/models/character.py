@@ -5,8 +5,9 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..rules.context import CharacterContext
+from ..rules.handlers import HANDLERS
+from ..rules.modifiers import ModifierTarget
 from ..rules.progression import class_bab, class_save_bonus
-from ..rules.race_abilities import HANDLERS
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
 from .effect import CharacterEffect
@@ -237,11 +238,15 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             handler = HANDLERS.get(choice.ability_id)
             if handler is None:
                 continue
-            # Every `HANDLERS` entry a race grant can resolve to is
-            # `_attribute_bonus` (`rules/race_abilities.py`), which ignores
-            # `context` — an empty one is correct here, not a shortcut.
+            # Every `HANDLERS` entry a race *replacement* choice can resolve
+            # to is `_attribute_bonus` (`rules/race_abilities.py`), which
+            # ignores `context` — an empty one is correct here, not a
+            # shortcut. `HANDLERS` is the merged registry (`rules/handlers.py`)
+            # now, so the explicit `target == SCORE` check guards against a
+            # non-SCORE handler ever being reachable from a `racial_choices`
+            # row, the same defensive check `routers/races.py` needs.
             modifier = handler(CharacterContext())[0]
-            if modifier.target_id is not None:
+            if modifier.target == ModifierTarget.SCORE and modifier.target_id is not None:
                 return modifier.target_id
         return None
 
