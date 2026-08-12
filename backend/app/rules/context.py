@@ -40,3 +40,9 @@ class CharacterContext:
     # the reasoning of.
     active_effects: list["CharacterEffect"] = field(default_factory=list)
     gear_item_ids: frozenset[UUID] = frozenset()
+    # How many `CharacterLevel` rows this character has per root class taken
+    # (`Character._class_level_counts()`, keyed by id instead of by
+    # `BaseClass` row) — the one raw input a level-scaling class-ability
+    # handler needs (e.g. Kampfrausch's rounds/day, `rules/classes/
+    # barbarian.py`) that nothing else on this dataclass already carries.
+    level_counts_by_root_id: dict[UUID, int] = field(default_factory=dict)

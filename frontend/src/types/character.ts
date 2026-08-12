@@ -199,10 +199,13 @@ export interface ConditionCatalogEntry {
 }
 
 /** A persistent-effect spell or class ability this character actually knows/has, minimal shape
- *  (no description) since the picker just needs something to activate by id. */
+ *  since the picker just needs something to activate by id. `description`, when set, is only ever
+ *  a daily-limited ability's remaining-today count (e.g. Kampfrausch's rounds/day) — most entries
+ *  have none. */
 export interface ActivatableRef {
   key: string;
   name: string;
+  description?: string | null;
 }
 
 /** One applied `CharacterEffect` instance (backend roadmap slice 5) — real character state, distinct
@@ -223,6 +226,11 @@ export interface ActiveEffect {
   nextCheckIn: number | null;
   successesCurrent: number;
   successesRequired: number | null;
+  /** Set only for an ability registered in the backend's `DAILY_LIMITS` (e.g. Kampfrausch) — its
+   *  rounds/uses remaining today out of the computed daily total. `null` for everything else,
+   *  including this same ability once its own pool is exhausted and it's no longer active. */
+  dailyLimitRemaining: number | null;
+  dailyLimitTotal: number | null;
 }
 
 export interface Character {

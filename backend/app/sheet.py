@@ -65,9 +65,10 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import race_ability_score_mods
 from .rules.context import CharacterContext
+from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
-from .rules.handlers import character_modifiers
+from .rules.handlers import DAILY_LIMITS, character_modifiers
 from .rules.modifiers import Modifier, ModifierTarget, stack_by_target
 from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
 from .rules.progression import ability_mod, max_hit_points
@@ -133,6 +134,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         granted_ability_ids=frozenset(granted_ability_ids),
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
+        level_counts_by_root_id=level_counts_by_root_id,
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -162,7 +164,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + stacked.get((ModifierTarget.SPEED, None), 0)
     )
     gear = _build_gear(db, character)
-    weapon_attacks = _build_weapon_attacks(items, gear_by_slot, gear, bab, str_mod, dex_mod)
+    melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
+    melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
+    weapon_attacks = _build_weapon_attacks(
+        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus
+    )
 
     return {
         "id": str(character.id),
@@ -200,7 +206,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         ],
         "combat": [
             {"key": "bab", "label": "Grundangriffsbonus (GAB)", "value": _fmt(bab)},
-            {"key": "cmb", "label": "Kampfmanöverbonus (KMB)", "value": _fmt(bab + str_mod)},
+            {
+                "key": "cmb",
+                "label": "Kampfmanöverbonus (KMB)",
+                "value": _fmt(bab + str_mod + melee_attack_bonus),
+            },
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
         "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, stacked),
@@ -215,9 +225,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "spellbook": _build_spell_grades(db, character, "prepared"),
         "actions": _build_actions(db, character, granted_ability_ids, gear),
         "effectsActive": [],
-        "activeEffects": _build_active_effects(db, character),
+        "activeEffects": _build_active_effects(db, character, context),
         "activatableSpells": _build_activatable_spells(db, character),
-        "activatableClassAbilities": _build_activatable_class_abilities(db, granted_ability_ids),
+        "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
         "externalClassAbilities": _build_external_class_abilities(db),
     }
 
@@ -572,14 +582,23 @@ def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
     return [{"key": str(spell.id), "name": spell.name} for spell in spells]
 
 
-def _build_activatable_class_abilities(db: Session, granted_ability_ids: Counter[UUID]) -> list[dict]:
+def _build_activatable_class_abilities(
+    db: Session, character: Character, context: CharacterContext, granted_ability_ids: Counter[UUID]
+) -> list[dict]:
     """Granted class abilities flagged `is_persistent_effect` — same idea as
     `_build_activatable_spells`, kept separate from `classFeatures` (display
     only) for the same reason. Filtered to `activation_scope` `"self"`/`"both"`
     (`BaseClassAbility`'s docstring) — an `"external"`-only ability like
     Barde's Lied des Erfolgs explicitly can't target its own owner, so it has
     no business in this character's own activation list even though they
-    have it granted; see `_build_external_class_abilities` for that half."""
+    have it granted; see `_build_external_class_abilities` for that half.
+
+    For an ability registered in `rules/handlers.py`'s `DAILY_LIMITS` (e.g.
+    Kampfrausch), `description` carries the remaining-today count
+    (`rules/daily_limits.py`'s `remaining_today`) — reuses
+    `AvailableEntry.description`, already rendered as a tooltip in
+    `RealEffectsPanel.tsx`, rather than adding a dedicated field for what's
+    still only ever one ability."""
     if not granted_ability_ids:
         return []
     abilities = db.scalars(
@@ -589,7 +608,15 @@ def _build_activatable_class_abilities(db: Session, granted_ability_ids: Counter
             BaseClassAbility.activation_scope.in_(["self", "both"]),
         )
     ).all()
-    return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
+    results = []
+    for ability in abilities:
+        remaining = remaining_today(db, character, context, ability.id)
+        description = None
+        if remaining is not None:
+            total = DAILY_LIMITS[ability.id](context)
+            description = f"{max(0, remaining)} von {total} Runden heute übrig"
+        results.append({"key": str(ability.id), "name": ability.name, "description": description})
+    return results
 
 
 def _build_actions(
@@ -707,14 +734,22 @@ def _build_external_class_abilities(db: Session) -> list[dict]:
     return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
 
 
-def _build_active_effects(db: Session, character: Character) -> list[dict]:
+def _build_active_effects(db: Session, character: Character, context: CharacterContext) -> list[dict]:
     """This character's active `CharacterEffect` rows (roadmap slice 5),
     resolved against whichever catalog `source_type` points at for a display
     name. Real backend-driven data — distinct from the older mock
     `effectsActive`/`/api/effects` seal system (icon/amount/variant) that
     predates this slice and still exists for the frontend's fixture
     characters; this key intentionally differs (`activeEffects`) so the two
-    don't collide."""
+    don't collide.
+
+    `dailyLimitRemaining`/`dailyLimitTotal` (2026-08-12) are the one thing
+    here not read straight off the `CharacterEffect` row — a `DAILY_LIMITS`
+    ability (e.g. Kampfrausch) deliberately leaves `duration_remaining`
+    unset (its pool lives in `CharacterAbilityUsage`, not the effect row, see
+    `rules/classes/barbarian.py`), so without this the frontend's active-
+    effect seal would show a bare "bis Entfernen" while raging instead of
+    how many rounds are actually left today."""
     if not character.effects:
         return []
 
@@ -751,6 +786,7 @@ def _build_active_effects(db: Session, character: Character) -> list[dict]:
         source = catalogs[effect.source_type].get(effect.source_id)
         if source is None:
             continue
+        remaining = remaining_today(db, character, context, effect.source_id)
         result.append(
             {
                 "id": str(effect.id),
@@ -769,6 +805,8 @@ def _build_active_effects(db: Session, character: Character) -> list[dict]:
                 "nextCheckIn": effect.next_check_in,
                 "successesCurrent": effect.successes_current,
                 "successesRequired": effect.successes_required,
+                "dailyLimitRemaining": max(0, remaining) if remaining is not None else None,
+                "dailyLimitTotal": DAILY_LIMITS[effect.source_id](context) if remaining is not None else None,
             }
         )
     return result
@@ -970,6 +1008,8 @@ def _build_weapon_attacks(
     bab: int,
     str_mod: int,
     dex_mod: int,
+    melee_attack_bonus: int,
+    melee_damage_bonus: int,
 ) -> list[dict]:
     """Computed attack-bonus/damage-dice readout for whatever's equipped in
     the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
@@ -985,7 +1025,15 @@ def _build_weapon_attacks(
     `BaseWeaponSpecialAbility` a second time — its `specialAbilities` list
     already carries each ability's resolved `bonusDamage` (only the 8 flat
     on-hit energy abilities have one, see `weapon_abilities.py`), gated here
-    on the equipped instance's own `CharacterGear.is_active`."""
+    on the equipped instance's own `CharacterGear.is_active`.
+
+    `melee_attack_bonus`/`melee_damage_bonus` (`build_character_sheet`'s
+    stacked `ModifierTarget.ATTACK`/`DAMAGE`, e.g. Kampfrausch's flat +2)
+    are added to melee weapons only — this function's own `is_ranged` flag
+    already conflates thrown-and-true-ranged (see above), so applying either
+    bonus to every "ranged" item would incorrectly buff a bow; Kampfrausch's
+    thrown-weapon-damage nuance is therefore a known, documented gap here
+    too, not modeled."""
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
@@ -995,7 +1043,7 @@ def _build_weapon_attacks(
             continue
 
         is_ranged = item.weapon_range is not None
-        attack_ability_mod = dex_mod if is_ranged else str_mod
+        attack_ability_mod = dex_mod if is_ranged else str_mod + melee_attack_bonus
         attack_bonuses = _iterative_attack_bonuses(bab, bab + attack_ability_mod + gear_row.enhancement)
 
         damage_parts: list[str] = []
@@ -1003,7 +1051,7 @@ def _build_weapon_attacks(
             damage_str_mod = (
                 0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
             )
-            flat_damage = damage_str_mod + gear_row.enhancement
+            flat_damage = damage_str_mod + gear_row.enhancement + (0 if is_ranged else melee_damage_bonus)
             piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
             if item.damage_type:
                 piece += f" {item.damage_type}"

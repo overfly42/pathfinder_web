@@ -14,8 +14,9 @@ from app.models import (
     CharacterEffect,
     CharacterSpell,
 )
+from app.seed.condition_seed import seed_conditions
 
-from test_characters import _item_id, _spells_by_class
+from test_characters import _character_payload, _create_user, _elf_race_id, _item_id, _spells_by_class
 from test_items import _create_character
 
 
@@ -398,32 +399,175 @@ def test_sheet_class_ability_activation_scope_filtering(client: TestClient, db_s
     assert not any(a["key"] == str(external_only.id) for a in sheet["activatableClassAbilities"])
 
 
-def test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus(
+KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID = "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
+ERSCHOPFT_CONDITION_ID = "cb149263-435d-52f1-93c5-72fb0a01ff85"
+
+
+def test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_hp(
     client: TestClient, db_session: Session
 ) -> None:
     """First `EFFECT_HANDLERS` content (roadmap.md, `rules/effects.py`) —
-    activating it should move the sheet's `armorClass`/Will save, not just
-    create a countdown row (see `test_activate_persistent_class_ability_is_accepted`
-    for the pre-handler behavior this builds on). Entfesselter Barbar's
-    Kampfrausch (this id) is real seeded content
-    (`base_class_abilities.json`), already `is_persistent_effect`/
-    `activation_scope="self"` — no need to insert a stand-in row."""
+    activating it should move the sheet's `armorClass`/Will save/attack-
+    damage readout/temp HP, not just create a countdown row (see
+    `test_activate_persistent_class_ability_is_accepted` for the pre-handler
+    behavior this builds on). Entfesselter Barbar's Kampfrausch (this id) is
+    real seeded content (`base_class_abilities.json`), already
+    `is_persistent_effect`/`activation_scope="self"` — no need to insert a
+    stand-in row.
+
+    Test character (`_create_character`) is a level-1 Waldläufer/Elf, not
+    actually an Entfesselter Barbar — `activate_effect` doesn't check
+    legality (roadmap slice 6), so the ability still activates and computes
+    normally; only the rounds/day pool (0 Entfesselter-Barbar levels) is
+    covered separately below."""
     character_id = _create_character(client, db_session)
-    ability_id = "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
+    langschwert_id = _item_id(client, db_session, "Langschwert")  # one-handed, 1W8 H, melee
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    client.put(f"/api/characters/{character_id}/slots/hauptwaffe", json={"item_id": langschwert_id})
 
     baseline = client.get(f"/api/characters/{character_id}").json()
     baseline_ac = baseline["armorClass"]
     baseline_will = int(next(s["value"] for s in baseline["saves"] if s["key"] == "will"))
+    baseline_cmb = int(next(c["value"] for c in baseline["combat"] if c["key"] == "cmb"))
+    assert baseline["hp"]["temporary"] == 0
 
     response = client.post(
         f"/api/characters/{character_id}/effects",
-        json={"source_type": "class_ability", "source_id": ability_id},
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
     )
     assert response.status_code == 201
 
     raging = client.get(f"/api/characters/{character_id}").json()
     assert raging["armorClass"] == baseline_ac - 2
     assert int(next(s["value"] for s in raging["saves"] if s["key"] == "will")) == baseline_will + 2
-    # Unaffected: no attack/damage-roll endpoint, no temp-HP pool (see the
-    # handler's own docstring for why those stay unmodeled).
-    assert raging["hp"] == baseline["hp"]
+    assert int(next(c["value"] for c in raging["combat"] if c["key"] == "cmb")) == baseline_cmb + 2
+    weapon = next(w for w in raging["weaponAttacks"] if w["key"] == "hauptwaffe")
+    assert weapon["attackBonus"] == "+3"  # bab 1 + str_mod 0 + Kampfrausch +2
+    assert weapon["damage"] == "1W8+2 H"  # base die + Kampfrausch +2 damage
+    # 2 temporary HP per Hit Die; this character is level 1.
+    assert raging["hp"]["temporary"] == 2
+
+
+def _create_entfesselter_barbar(client: TestClient, db_session: Session) -> str:
+    """A real Entfesselter Barbar (unlike `test_items.py`'s generic
+    `_create_character`, a level-1 Waldläufer) — Kampfrausch must actually be
+    *granted* (`base_class_ability_grants.json`, level 1) to show up in
+    `activatableClassAbilities` (gated by `granted_ability_ids`, unlike
+    `activate_effect` itself which skips legality checks, see
+    `test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_hp`),
+    needed to read the daily-pool description off the sheet below."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    payload = _character_payload(user_id, race_id, db_session, classes=[{"class_name": "Entfesselter Barbar", "level": 1}])
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    return response.json()["id"]
+
+
+def test_kampfrausch_daily_pool_shared_across_activations_and_auto_ends(
+    client: TestClient, db_session: Session
+) -> None:
+    """Rounds/day (`rules/daily_limits.py`) is a real shared pool, not a
+    per-activation duration: KO mod 0 (Elf -2 KON on base 13) + 1
+    Entfesselter-Barbar level -> `0 + 2 + 2*1 = 4` rounds/day. Advancing past
+    that auto-ends the rage, grants Erschöpft (`ON_END`), and drops the temp
+    HP (`TEMP_HP_GRANTS`) — `_expire_effect`'s shared cleanup, exercised
+    here via the round-tick path rather than manual removal (see the next
+    test for that path)."""
+    character_id = _create_entfesselter_barbar(client, db_session)
+    baseline = client.get(f"/api/characters/{character_id}").json()
+    baseline_ac = baseline["armorClass"]
+
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    )
+
+    def kampfrausch_entry(sheet: dict) -> dict:
+        return next(a for a in sheet["activatableClassAbilities"] if a["key"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert kampfrausch_entry(sheet)["description"] == "4 von 4 Runden heute übrig"
+
+    result = client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "round"}).json()
+    assert len(result) == 1 and result[0]["source_id"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert kampfrausch_entry(sheet)["description"] == "3 von 4 Runden heute übrig"
+    assert sheet["hp"]["temporary"] == 2
+    # Same number, but on the *active* effect's own seal (`dailyLimitRemaining`/`Total`) — this is
+    # what the frontend shows instead of a bare "bis Entfernen" while a DAILY_LIMITS ability with no
+    # fixed `durationRemaining` of its own (like Kampfrausch) is active.
+    active_kampfrausch = next(e for e in sheet["activeEffects"] if e["sourceId"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID)
+    assert active_kampfrausch["dailyLimitRemaining"] == 3
+    assert active_kampfrausch["dailyLimitTotal"] == 4
+    assert active_kampfrausch["durationRemaining"] is None
+
+    # Spend the remaining 3 rounds one at a time; only the last tick should end it.
+    for expected_remaining in (2, 1, 0):
+        result = client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "round"}).json()
+        if expected_remaining > 0:
+            assert len(result) == 1 and result[0]["source_id"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID
+        else:
+            assert len(result) == 1
+            assert result[0]["source_type"] == "condition"
+            assert result[0]["source_id"] == ERSCHOPFT_CONDITION_ID
+            assert result[0]["duration_remaining"] == 10
+        sheet = client.get(f"/api/characters/{character_id}").json()
+        assert kampfrausch_entry(sheet)["description"] == f"{expected_remaining} von 4 Runden heute übrig"
+
+    assert sheet["armorClass"] == baseline_ac
+    assert sheet["hp"]["temporary"] == 0
+
+    # Pool exhausted: reactivating the same day is rejected.
+    response = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    )
+    assert response.status_code == 422
+
+    # A full rest restores it.
+    client.post(f"/api/characters/{character_id}/rest")
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert kampfrausch_entry(sheet)["description"] == "4 von 4 Runden heute übrig"
+
+
+def test_kampfrausch_manual_end_preserves_pool_and_grants_erschoepft(
+    client: TestClient, db_session: Session
+) -> None:
+    """Ending rage early (DELETE, not exhausting the pool) still runs
+    `_expire_effect`'s cleanup, and — unlike the old behavior — must *not*
+    reset the daily pool back to fresh: `record_usage` already persisted
+    what was actually spent via `advance_time`, independent of the
+    `CharacterEffect` row's own lifecycle, so reactivating later the same
+    day resumes from the correct remainder rather than a fresh one."""
+    seed_conditions(db_session)  # Erschöpft must resolve against the catalog for `activeEffects`
+    character_id = _create_entfesselter_barbar(client, db_session)
+    baseline = client.get(f"/api/characters/{character_id}").json()
+
+    effect_id = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    ).json()["id"]
+    client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "round"})  # spends 1 of 4
+
+    response = client.delete(f"/api/characters/{character_id}/effects/{effect_id}")
+    assert response.status_code == 204
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline["armorClass"]
+    assert sheet["hp"]["temporary"] == 0
+    erschoepft = next(e for e in sheet["activeEffects"] if e["sourceId"] == ERSCHOPFT_CONDITION_ID)
+    assert erschoepft["durationRemaining"] == 10
+    kampfrausch = next(a for a in sheet["activatableClassAbilities"] if a["key"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID)
+    assert kampfrausch["description"] == "3 von 4 Runden heute übrig"
+
+    # Reactivating resumes from the preserved 3 rounds, not a fresh 4.
+    reactivate = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    )
+    assert reactivate.status_code == 201
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    kampfrausch = next(a for a in sheet["activatableClassAbilities"] if a["key"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID)
+    assert kampfrausch["description"] == "3 von 4 Runden heute übrig"

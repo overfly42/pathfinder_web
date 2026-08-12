@@ -46,7 +46,10 @@ that module's docstring)."""
 from collections.abc import Callable, Iterable
 from uuid import UUID
 
+from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
 from .classes import HANDLERS as _CLASS_HANDLERS
+from .classes import ON_END as _CLASS_ON_END
+from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .modifiers import Modifier
@@ -58,6 +61,30 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_SPEED_HANDLERS,
     **_EFFECT_HANDLERS,
     **_CLASS_HANDLERS,
+}
+
+# How many rounds/uses per day a daily-limited ability id grants, computed
+# per character (`rules/daily_limits.py`'s `CharacterAbilityUsage` tracks
+# consumption against whatever this returns). Only class abilities
+# contribute today (`rules/classes`'s own merge) — a future race ability
+# with the same shape would merge in here the same way.
+DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    **_CLASS_DAILY_LIMITS,
+}
+
+# How much temporary HP activating an ability id grants
+# (`routers/characters.py`'s `activate_effect`), set directly onto
+# `Character.temporary_hit_points` rather than through the `Modifier`/
+# `stack()` pipeline (not a stat bonus).
+TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
+    **_CLASS_TEMP_HP_GRANTS,
+}
+
+# Which condition (id, duration in rounds) an ability id's active effect
+# grants when it ends (`routers/characters.py`'s `_expire_effect`) — e.g.
+# Kampfrausch ending into Erschöpft.
+ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
+    **_CLASS_ON_END,
 }
 
 

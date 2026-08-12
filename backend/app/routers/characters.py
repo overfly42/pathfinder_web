@@ -36,9 +36,12 @@ from ..models import (
     CharacterTrait,
     User,
 )
+from ..rules.context import CharacterContext
+from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
+from ..rules.handlers import ON_END, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import race_grants_bonus_skill_point_per_level
@@ -767,25 +770,28 @@ def rest(character_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Charact
     """Deliberately narrow pull-forward of roadmap slice 5's "rest" concept
     (decided 2026-08-04, see roadmap.md's "Wondrous-Item-Katalog mit echter
     Attributsboni-Wirkung") — resets every equipped-or-owned item's
-    `uses_remaining_today` back to its catalog `uses_per_day`. Does not touch
-    `charges_remaining` (wand charges never auto-reset) or `is_active`
-    (toggled items keep their state across a rest)."""
+    `uses_remaining_today` back to its catalog `uses_per_day`, and (2026-08-12)
+    any `DAILY_LIMITS` class/race-ability pool (`rules/daily_limits.py`) back
+    to nothing used. Does not touch `charges_remaining` (wand charges never
+    auto-reset) or `is_active` (toggled items keep their state across a
+    rest)."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
-    if not character.gear:
-        return character
 
-    items = {
-        item.id: item
-        for item in db.scalars(
-            select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))
-        ).all()
-    }
-    for gear_row in character.gear:
-        item = items.get(gear_row.item_id)
-        if item is not None and item.uses_per_day is not None:
-            gear_row.uses_remaining_today = item.uses_per_day
+    if character.gear:
+        items = {
+            item.id: item
+            for item in db.scalars(
+                select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))
+            ).all()
+        }
+        for gear_row in character.gear:
+            item = items.get(gear_row.item_id)
+            if item is not None and item.uses_per_day is not None:
+                gear_row.uses_remaining_today = item.uses_per_day
+
+    reset_daily_limits(db, character)
 
     db.commit()
     db.refresh(character)
@@ -802,6 +808,46 @@ def _get_character_effect(character: Character, effect_id: UUID) -> CharacterEff
     return effect
 
 
+def _ability_context(db: Session, character: Character) -> CharacterContext:
+    """A `CharacterContext` populated with just the raw inputs a class-
+    ability handler needs outside `sheet.py`'s full build (`ability_scores`,
+    `level_counts_by_root_id`) — same "every field defaults to empty, a
+    handler that never reads a given field is unaffected" usage `rules/
+    speed.py`'s `_NO_CHARACTER_CONTEXT` already relies on."""
+    race_mods = race_ability_score_mods(db, character.race_id)
+    effective_scores = full_effective_ability_scores(db, character, race_mods)
+    level_counts_by_root_id: dict[UUID, int] = {}
+    for lvl in character.levels:
+        level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
+    return CharacterContext(ability_scores=effective_scores, level_counts_by_root_id=level_counts_by_root_id)
+
+
+def _expire_effect(db: Session, character: Character, effect: CharacterEffect) -> CharacterEffect | None:
+    """Shared cleanup for every place a `CharacterEffect` row ends (manual
+    removal, natural duration expiry, daily-limit exhaustion, a full rest) —
+    an ability registered in `TEMP_HP_GRANTS` loses its temp HP the moment
+    its effect ends (PF1e: Kampfrausch's temp HP doesn't outlive the rage),
+    and one registered in `ON_END` grants its own follow-up condition (e.g.
+    Kampfrausch -> Erschöpft), returned here (not yet committed/refreshed)
+    so `advance_time` can include it in the same response instead of the
+    frontend only seeing it after a later fetch."""
+    if effect.source_id in TEMP_HP_GRANTS:
+        character.temporary_hit_points = 0
+    on_end = ON_END.get(effect.source_id)
+    follow_up: CharacterEffect | None = None
+    if on_end is not None:
+        condition_id, duration_rounds = on_end(_ability_context(db, character))
+        follow_up = CharacterEffect(
+            character_id=character.id,
+            source_type="condition",
+            source_id=condition_id,
+            duration_remaining=duration_rounds,
+        )
+        db.add(follow_up)
+    db.delete(effect)
+    return follow_up
+
+
 @router.post("/{character_id}/effects", response_model=EffectRead, status_code=201)
 def activate_effect(
     character_id: UUID, body: EffectActivate, db: Annotated[Session, Depends(get_db)]
@@ -809,7 +855,14 @@ def activate_effect(
     """Activates a persistent effect (roadmap slice 5) — whether this
     specific character actually knows/has the referenced spell/ability isn't
     checked here (slice 6's "legality checks"), only that the reference
-    resolves and, for spell/class_ability, is flagged `is_persistent_effect`."""
+    resolves and, for spell/class_ability, is flagged `is_persistent_effect`.
+
+    Ability ids registered in `rules/handlers.py`'s `DAILY_LIMITS` (e.g.
+    Kampfrausch) are rejected once today's pool is exhausted
+    (`rules/daily_limits.py`'s `remaining_today`) — the pool itself isn't
+    consumed here, only checked; `advance_time` is what actually spends it
+    round by round. Ones registered in `TEMP_HP_GRANTS` grant their temp HP
+    directly onto `Character.temporary_hit_points` at this same moment."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -826,6 +879,11 @@ def activate_effect(
         if db.get(BaseCondition, body.source_id) is None:
             raise HTTPException(status_code=422, detail="Unknown condition")
 
+    context = _ability_context(db, character)
+    remaining = remaining_today(db, character, context, body.source_id)
+    if remaining is not None and remaining <= 0:
+        raise HTTPException(status_code=422, detail="No uses/rounds of this ability left today")
+
     effect = CharacterEffect(
         character_id=character_id,
         source_type=body.source_type,
@@ -838,6 +896,11 @@ def activate_effect(
         successes_required=body.successes_required,
     )
     db.add(effect)
+
+    temp_hp_grant = TEMP_HP_GRANTS.get(body.source_id)
+    if temp_hp_grant is not None:
+        character.temporary_hit_points = temp_hp_grant(context)
+
     db.commit()
     db.refresh(effect)
     return effect
@@ -849,7 +912,7 @@ def remove_effect(character_id: UUID, effect_id: UUID, db: Annotated[Session, De
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
     effect = _get_character_effect(character, effect_id)
-    db.delete(effect)
+    _expire_effect(db, character, effect)
     db.commit()
 
 
@@ -889,22 +952,36 @@ def advance_time(
     """Ticks every active effect's countdowns forward by one unit (roadmap
     slice 5) — round=1/minute=10/hour=600, same conversion the mock's time
     buttons already use. "day" is a full rest: plain-duration effects (no
-    `frequency_rounds`) are removed outright; frequency-tracked ones
-    (poison/disease) are left alone, since surviving a rest is correct PF1e
-    behavior for those, unlike the old mock's blanket clear."""
+    `frequency_rounds`) are removed outright, and any `DAILY_LIMITS` pool
+    (`rules/daily_limits.py`) resets; frequency-tracked ones (poison/
+    disease) are left alone, since surviving a rest is correct PF1e
+    behavior for those, unlike the old mock's blanket clear.
+
+    For a real round/minute/hour tick, an effect registered in
+    `DAILY_LIMITS` (e.g. Kampfrausch) also spends that many rounds from its
+    daily pool (`record_usage`) and ends the moment the pool runs out — this
+    is what actually enforces the limit `activate_effect` only checks, not a
+    separate timer of its own. Any effect that ends here (either way) goes
+    through `_expire_effect`, whose own follow-up effect (if any, e.g.
+    Erschöpft) is included in the response so the frontend sees it without
+    a separate fetch."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
     remaining: list[CharacterEffect] = []
     if body.unit == "day":
+        reset_daily_limits(db, character)
         for effect in character.effects:
             if effect.frequency_rounds is None:
-                db.delete(effect)
+                follow_up = _expire_effect(db, character, effect)
+                if follow_up is not None:
+                    remaining.append(follow_up)
             else:
                 remaining.append(effect)
     else:
         rounds = ROUND_CONVERSION[body.unit]
+        context = _ability_context(db, character)
         for effect in character.effects:
             if effect.incubation_remaining is not None:
                 effect.incubation_remaining = max(0, effect.incubation_remaining - rounds)
@@ -913,8 +990,14 @@ def advance_time(
             if effect.next_check_in is not None:
                 effect.next_check_in = max(0, effect.next_check_in - rounds)
 
-            if effect.frequency_rounds is None and effect.duration_remaining == 0:
-                db.delete(effect)
+            daily_remaining = record_usage(db, character, effect.source_id, rounds, context)
+            expired = (effect.frequency_rounds is None and effect.duration_remaining == 0) or (
+                daily_remaining is not None and daily_remaining <= 0
+            )
+            if expired:
+                follow_up = _expire_effect(db, character, effect)
+                if follow_up is not None:
+                    remaining.append(follow_up)
             else:
                 remaining.append(effect)
 

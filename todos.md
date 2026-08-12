@@ -393,15 +393,28 @@ Wassergestalt · Windblick · Übernatürliches Band
 
 Pro Fähigkeit einzeln abhaken:
 
-- [ ] Barbar: Kampfrausch
-- [x] Entfesselter Barbar: Kampfrausch — 2026-08-09, `-2 RK`/`+2 Willen`
-      verdrahtet (AC/Save-Verbrauch über `rules/effects.py`s neues
-      `active_effect_modifiers`, gefüttert in `sheet.py`s
-      `_build_equipment` + `saves`-Berechnung). Nahkampfangriff/-schaden
-      und temporäre TP bewusst nicht modelliert (siehe Handler-Docstring:
-      kein Angriffs-/Schadenswurf-Endpunkt, keine TP-Pool-Spalte). Neuer
-      Regressionstest `test_entfesselter_barbar_kampfrausch_applies_ac_penalty_and_will_bonus`
-      (`tests/test_effects.py`).
+- [ ] Barbar: Kampfrausch — eigene Mechanik (+4 ST/KO Moralbonus statt
+      fixem +2/TP-Pool, siehe `rules/classes/barbarian.py`s Docstring),
+      braucht ability-score-Modifier live in HP/Angriffsbonus statt nur
+      AC/Saves — separater, größerer Task, siehe `roadmap.md`.
+- [x] Entfesselter Barbar: Kampfrausch — 2026-08-09 `-2 RK`/`+2 Willen`,
+      2026-08-12 vervollständigt: `+2` Nahkampfangriff/-schaden (neue
+      `ModifierTarget.ATTACK`/`DAMAGE`, in `sheet.py`s
+      `_build_weapon_attacks`/KMB gelesen; Wurfwaffen-Schadensnuance
+      bewusst nicht modelliert, da `_build_weapon_attacks` Wurf-/
+      Fernkampfwaffen schon zuvor unter einem `is_ranged`-Flag
+      zusammenfasst), 2 temporäre TP/TW (`Character.temporary_hit_points`,
+      gesetzt bei Aktivierung), Runden/Tag als generischer Mechanismus
+      (neue Tabelle `character_ability_usages` + `rules/daily_limits.py` +
+      `rules/handlers.py`s `DAILY_LIMITS`-Registry — wiederverwendbar für
+      jede künftige Klassen-/Rassenfähigkeit mit berechnetem Tageskontingent,
+      nicht Kampfrausch-exklusiv), sowie Erschöpft-Zustand + Verfall der
+      temporären TP beim Rundenende (`routers/characters.py`s
+      `_expire_effect`, über die neue `ON_END`-Registry). Regressionstests
+      in `tests/test_effects.py`
+      (`test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_hp`,
+      `test_kampfrausch_daily_pool_shared_across_activations_and_auto_ends`,
+      `test_kampfrausch_manual_end_preserves_pool_and_grants_erschoepft`).
 - [ ] Barde: Lied der Größe
 - [ ] Barde: Lied des Erfolgs
 - [ ] Barde: Lied des Heldenmuts
@@ -625,7 +638,7 @@ Abgleich der bestehenden Mocks (`pathfinder-mock.html` — Charakterbogen,
 
 ### Bekannte Detail-Lücken in den bestehenden Mocks
 
-- [ ] **Keine Anzeige für temporäre Trefferpunkte**: Das HP-Popover in `pathfinder-mock.html` kennt nur `current`/`max` (Schaden/Heilen) — es gibt kein Feld für einen separaten temporären-TP-Puffer, obwohl mehrere Quellen ihn brauchen (Kampfrausch, diverse Zaubersprüche). Backend-seitig existiert dafür noch keine Spalte (`Character` hat kein Temp-HP-Feld, siehe `backend/app/models/character.py`s `damage_taken`-Kommentar); Design-Überlegungen (muss vor echtem HP Schaden absorbieren, beim Wegfallen der Quelle verfallen statt sich in echten Schaden zu verwandeln, nicht als `Modifier` auf `hp_max` modellierbar) stehen bereits in `roadmap.md`s Slice-3-Punkt „Class-ability computation" — dort aber nur als Backend-/Rechenlücke, nicht als UI-Punkt erfasst.
+- [x] **Keine Anzeige für temporäre Trefferpunkte** (im alten `pathfinder-mock.html` weiterhin so — dieser Punkt betraf nur den echten Stack): 2026-08-11 nachgezogen — `Character.temporary_hit_points` (Spalte + `PATCH .../hp`, absorbiert vor echtem Schaden, verfällt statt sich in Schaden umzuwandeln, siehe `HpAdjust`s Docstring) plus `VitalsBar.tsx`s Popover-Feld. 2026-08-12: erster echter Setzer — Entfesselter Barbars Kampfrausch (siehe oben), verfällt automatisch beim Rundenende der Fähigkeit (`_expire_effect`). `pathfinder-mock.html` selbst bleibt unverändert (Referenz-Mockup, kein aktives Ziel mehr für UI-Änderungen).
 - [ ] **Kämpfer-Bonustalent**: Der Kämpfer bekommt zusätzlich zum normalen Talent auf ungeraden Stufen ein Bonus-Kampftalent auf jeder geraden Stufe. Das würde die Zähllogik im Talente-Schritt selbst ändern (nicht nur eine neue Auswahlgruppe) und ist im Stufenaufstiegs-Mock bewusst noch nicht umgesetzt.
 - [ ] **Terminologie „Zauberbuch"**: Im Charakterbogen-Mock ist der Ausrüstungs-Tab für die Waldläufer-Zaubervorbereitung mit „Zauberbuch" beschriftet, obwohl der Waldläufer ein göttlicher, vorbereitender Zauberwirker ohne echtes Zauberbuch ist (nur arkane Vorbereiter wie der Magier führen laut Requirement 2.2 ein Zauberbuch).
 

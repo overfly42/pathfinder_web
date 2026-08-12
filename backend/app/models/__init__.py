@@ -19,7 +19,7 @@ from .character import (
     CharacterRacialChoice,
     CharacterSkillRank,
 )
-from .effect import BaseCondition, CharacterEffect
+from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect
 from .feat import (
     BaseFeat,
     BaseFeatRequiredAbilityScore,
@@ -94,4 +94,5 @@ __all__ = [
     "CharacterSkillRank",
     "BaseCondition",
     "CharacterEffect",
+    "CharacterAbilityUsage",
 ]

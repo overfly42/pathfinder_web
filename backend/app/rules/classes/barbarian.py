@@ -16,7 +16,15 @@ from uuid import UUID
 
 from ..context import CharacterContext
 from ..modifiers import Modifier, ModifierTarget
+from ..progression import ability_mod
 from ..speed import fast_movement
+
+# Entfesselter Barbar's own root `BaseClass` id (it's modeled as an
+# independent root class here, not an archetype of Barbar — confirmed
+# against `base_classes.json`/`base_class_ability_grants.json`) — needed by
+# Kampfrausch's rounds/day formula below, which scales with *this* class's
+# levels specifically, not total character level.
+BARBAR_ENTFESSELTER_ROOT_CLASS_ID = UUID("332f742d-d2a1-5375-8bff-0924f92d2b9d")
 
 # "Schnelle Bewegung" (+3 m at level 1): one `BaseClassAbility` row/id shared
 # by Barbar and Entfesselter Barbar via two separate `BaseClassAbilityGrant`
@@ -41,16 +49,20 @@ def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier
     ad985f6f-3b03-5861-bccf-a016ebaba4ec — Barbar's own, differently worded
     Kampfrausch is a *different* id, not shared, see roadmap.md). PRD text:
     +2 on melee attack/damage, thrown-weapon damage, and Will saves; -2 AC;
-    2 temporary HP per Hit Die.
+    2 temporary HP per Hit Die; a limited number of rounds/day.
 
-    Only the AC penalty and Will-save bonus are modeled here. The melee/
-    thrown attack-and-damage bonus isn't — this app has no attack/damage-roll
-    endpoint for a `Modifier` to attach to at all (project-wide scope
-    decision, see roadmap.md's weapon-abilities writeup). Temporary HP isn't
-    either — it needs its own tracked pool separate from `hp_max`/
-    `damage_taken`, which doesn't exist yet (roadmap.md Slice 3's
-    "Class-ability computation" item flags this explicitly). Both are
-    deliberate gaps, not oversights.
+    AC/Will/melee-attack/melee-damage are all modeled here as flat
+    `Modifier`s. Thrown-weapon damage isn't: `sheet.py`'s `_build_weapon_attacks`
+    conflates thrown and true-ranged weapons under one `is_ranged` flag
+    (documented existing simplification there), so the ATTACK/DAMAGE
+    modifiers below are only ever read for melee weapons — applying them to
+    every "ranged" item would incorrectly buff a bow. Temporary HP and the
+    rounds/day limit aren't `Modifier`s at all (2026-08-12): temp HP is
+    granted directly onto `Character.temporary_hit_points` at activation
+    (`TEMP_HP_GRANTS` below, applied by `routers/characters.py`'s
+    `activate_effect`), and rounds/day is tracked via `rules/daily_limits.py`
+    (`DAILY_LIMITS` below) rather than through the stacking pipeline, since
+    neither is a stat bonus a `Modifier`/`stack()` call could represent.
 
     Doesn't scale with instance count: raging twice at once from the same
     source isn't a state this app can produce (self-scoped toggle), so the
@@ -64,10 +76,66 @@ def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier
     return [
         Modifier(source="Kampfrausch", type="untyped", value=-2, target=ModifierTarget.AC),
         Modifier(source="Kampfrausch", type="morale", value=2, target=ModifierTarget.SAVE_WILL),
+        Modifier(source="Kampfrausch", type="morale", value=2, target=ModifierTarget.ATTACK),
+        Modifier(source="Kampfrausch", type="morale", value=2, target=ModifierTarget.DAMAGE),
     ]
+
+
+def _kampfrausch_entfesselter_barbar_rounds_per_day(context: CharacterContext) -> int:
+    """PRD text: "eine Anzahl von Runden ... welche der Höhe seines
+    KO-Modifikators +4 entspricht. Mit Erreichen jeder weiteren Stufe erhält
+    er 2 weitere Runden" — level 1: con_mod+4; +2/level thereafter, i.e.
+    `con_mod + 2 + 2*level`. Scoped to *this* class's own levels
+    (`BARBAR_ENTFESSELTER_ROOT_CLASS_ID`), not total character level, so a
+    multiclassed character's rounds/day only grow with Entfesselter-Barbar
+    levels, matching RAW."""
+    con_mod = ability_mod(context.ability_scores.get("KO", 10))
+    barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
+    return con_mod + 2 + 2 * barbar_level
+
+
+def _kampfrausch_entfesselter_barbar_temp_hp(context: CharacterContext) -> int:
+    """"2 temporäre Trefferpunkte pro Trefferwürfel" — Hit Dice, here taken
+    as total character level (this app's existing simplification, same one
+    `sheet.py`'s `max_hit_points` already uses: no racial HD modeled)."""
+    return 2 * sum(context.level_counts_by_root_id.values())
+
+
+ERSCHOPFT_CONDITION_ID = UUID("cb149263-435d-52f1-93c5-72fb0a01ff85")
+
+
+def _kampfrausch_entfesselter_barbar_end(context: CharacterContext) -> tuple[UUID, int]:
+    """"Der Barbar kann seinen Kampfrausch als Freie Aktion beenden und
+    erhält sodann für 1 Minute den Zustand Erschöpft" — a fixed 10-round
+    (1-minute) Fatigued condition regardless of how long the rage lasted
+    (contrast plain Barbar's own Kampfrausch, whose fatigue instead scales
+    with rounds raged — a different id, out of scope here, see roadmap.md)."""
+    del context
+    return (ERSCHOPFT_CONDITION_ID, 10)
 
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(fast_movement, meters=3),
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS` — how
+# many rounds/uses per day a daily-limited ability id grants, computed (not
+# fixed), same locality convention as `HANDLERS` above.
+DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar_rounds_per_day,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `TEMP_HP_GRANTS` — how
+# much temporary HP activating an ability id grants
+# (`routers/characters.py`'s `activate_effect`).
+TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
+    KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar_temp_hp,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `ON_END` — which
+# condition (id, duration in rounds) an ability id's active effect grants
+# when it ends (`routers/characters.py`'s `_expire_effect`).
+ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
+    KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar_end,
 }

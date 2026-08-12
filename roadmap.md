@@ -979,6 +979,59 @@ entirely, not a category here.
       Kampfrausch has a different id/effect shape (+4 ST/KO, +2 Will,
       temporary HP via the CON bump rather than a separate pool) and still
       needs its own handler — not done here, see `todos.md`.
+- [x] **Entfesselter Barbar's Kampfrausch completed, 2026-08-12: attack/
+      damage bonus, temp HP, rounds/day, Erschöpft on end.** The two gaps
+      the previous entry flagged as deliberate (attack/damage, temp HP) both
+      closed once their prerequisite infrastructure landed for unrelated
+      reasons the same week (`Character.temporary_hit_points`, `sheet.py`'s
+      computed weapon attack/damage readout, both from the weapon-slots
+      item above). New `ModifierTarget.ATTACK`/`DAMAGE` (`rules/modifiers.py`),
+      read by `_build_weapon_attacks` for melee weapons only (this app
+      already conflates thrown-and-true-ranged under one `is_ranged` flag,
+      so Kampfrausch's thrown-weapon-damage nuance stays a documented,
+      unmodeled gap, same simplification `_build_weapon_attacks` already
+      had) and folded into `combat`'s KMB line too.
+
+      Rounds/day was scoped up from a Kampfrausch-only column into a
+      genuinely generic mechanism (explicit ask: this pattern recurs across
+      PF1e — Bardic Performance, Channel Energy, Smite Evil, Ki pool, ...):
+      new `CharacterAbilityUsage` table (`character_ability_usages`,
+      `source_type`/`source_id` discriminator like `CharacterEffect`,
+      `used_today` counts up, resets by row deletion on rest) plus
+      `rules/daily_limits.py` (`remaining_today`/`record_usage`/`reset_all`)
+      reading a new merged `DAILY_LIMITS: dict[UUID, Callable[[CharacterContext],
+      int]]` registry (`rules/handlers.py`, same three-tier merge as
+      `HANDLERS` — class file -> `rules/classes/__init__.py` ->
+      `rules/handlers.py`). Needed one new `CharacterContext` field,
+      `level_counts_by_root_id` (a level-scaling handler's one missing raw
+      input — `sheet.py` already computed this locally, just wasn't
+      threading it through). Kampfrausch's own formula: `con_mod + 2 +
+      2*barbar_level` (barbar_level scoped to Entfesselter Barbar's own
+      root-class levels, not total character level). `activate_effect`
+      rejects activation once the pool's spent; `advance_time` is what
+      actually spends it, a round at a time, for whichever effects are
+      both active and registered in `DAILY_LIMITS`, auto-ending the effect
+      once exhausted — no separate per-activation duration needed, so
+      Kampfrausch's own `CharacterEffect` row stays open-ended
+      (`duration_remaining=None`) rather than a forced fixed length.
+
+      Also added (explicit ask, not originally scoped): ending Kampfrausch
+      (manual removal, natural expiry, or the daily pool running out) now
+      grants a fixed 10-round Erschöpft condition and zeroes any remaining
+      temp HP — both via one shared `routers/characters.py::_expire_effect`
+      helper, driven by two more small merged registries,
+      `TEMP_HP_GRANTS`/`ON_END` (same three-tier merge pattern), so the
+      cleanup is automatically correct for any future ability with the same
+      shape, not hardcoded to "if this is Kampfrausch". Not modeled: the
+      Erschöpft condition's own -2 ST/GE penalty (blocked on the
+      pre-existing, unrelated "no condition has an `EFFECT_HANDLERS` entry
+      yet" gap, `todos.md`'s "Effekt-Handler-Inventar"); the "no temp HP if
+      you re-rage within a minute of ending a rage" RAW nuance (always
+      grants fresh temp HP on activation). Regression tests:
+      `tests/test_effects.py::test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_hp`
+      (superseded the old `..._applies_ac_penalty_and_will_bonus` test),
+      `..._test_kampfrausch_daily_pool_shared_across_activations_and_auto_ends`,
+      `..._test_kampfrausch_manual_end_preserves_pool_and_grants_erschoepft`.
 - [ ] **Open — not wired yet:**
   - The actual `EFFECT_HANDLERS` entries that make a poison/disease
         *apply* ability damage (write/update `CharacterAbilityDamage` rows)

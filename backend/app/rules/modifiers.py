@@ -37,6 +37,12 @@ class ModifierTarget(StrEnum):
     SAVE_REF = "save_ref"
     SAVE_WILL = "save_will"
     SKILL = "skill"
+    # Melee attack rolls/melee+thrown damage rolls (`sheet.py`'s
+    # `_build_weapon_attacks` computed readout) — first producer is
+    # Kampfrausch's flat +2 (`rules/classes/barbarian.py`). Single slot, no
+    # `target_id`, same as AC/SPEED/SAVE_*.
+    ATTACK = "attack"
+    DAMAGE = "damage"
 
 
 @dataclass

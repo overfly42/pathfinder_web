@@ -41,6 +41,10 @@ function ActiveEffectSeal({ effect, onRemove, onSaveResult }: ActiveEffectSealPr
     ribbon = `${effect.durationRemaining} ${effect.durationRemaining === 1 ? 'Runde' : 'Runden'}`;
   } else if (effect.incubationRemaining != null) {
     ribbon = `Inkubation ${effect.incubationRemaining}`;
+  } else if (effect.dailyLimitRemaining != null) {
+    // Kampfrausch-shaped abilities: no fixed duration on the effect itself (see `dailyLimitRemaining`'s
+    // own docstring on the backend) — the daily pool is the only "how much longer" info there is.
+    ribbon = `${effect.dailyLimitRemaining} von ${effect.dailyLimitTotal} Runden heute`;
   } else {
     ribbon = 'bis Entfernen';
   }
@@ -154,6 +158,7 @@ export function RealEffectsPanel({
           sourceType: 'class_ability',
           sourceId: ability.key,
           name: ability.name,
+          description: ability.description ?? undefined,
           icon: SOURCE_TYPE_ICONS.class_ability,
           tag: 'Klassenfähigkeit',
         });

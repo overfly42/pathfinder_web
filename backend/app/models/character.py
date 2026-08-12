@@ -10,7 +10,7 @@ from ..rules.modifiers import ModifierTarget
 from ..rules.progression import class_bab, class_save_bonus
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import BaseClass
-from .effect import CharacterEffect
+from .effect import CharacterAbilityUsage, CharacterEffect
 from .item import CharacterGearSpecialAbility
 from .race import BaseRaceAbility
 
@@ -83,6 +83,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
     gear: Mapped[list["CharacterGear"]] = relationship(cascade="all, delete-orphan")
     effects: Mapped[list["CharacterEffect"]] = relationship(cascade="all, delete-orphan")
+    ability_usages: Mapped[list["CharacterAbilityUsage"]] = relationship(cascade="all, delete-orphan")
     ability_damage: Mapped[list["CharacterAbilityDamage"]] = relationship(cascade="all, delete-orphan")
 
     @property
