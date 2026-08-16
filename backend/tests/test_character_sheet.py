@@ -337,6 +337,35 @@ def test_class_features_include_picked_hunter_bond_branch(client: TestClient, db
     assert "Erzfeind" in feature_names
 
 
+def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, db_session: Session) -> None:
+    """`rules/feats.py`'s first `HANDLERS` entry: Einschüchternde Kraft adds
+    the ST modifier on top of Einschüchtern's own CH-based value (GRW S.
+    121)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)  # doesn't touch ST
+
+    einschuechtern_id = _skill_id(client, db_session, "Einschüchtern")
+    feat_id = _feat_id(client, db_session, "Einschüchternde Kraft")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            ability_scores={**DEFAULT_ABILITY_SCORES, "ST": 16},
+            feats=[_feat_selection(feat_id)],
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    # CH mod (-1) + class skill bonus (+3, Waldläufer) + ST mod (+3) = +5.
+    assert skills_by_key[einschuechtern_id]["value"] == "+5"
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

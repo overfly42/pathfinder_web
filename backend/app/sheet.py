@@ -425,10 +425,10 @@ def _build_skills(
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
         class_bonus = 3 if skill.id in class_skill_ids else 0
-        # No producing handler exists yet (e.g. Skill Focus's ranks-dependent
-        # bonus, CLAUDE.md's own canonical example), so this is 0 for every
-        # skill today; wired now so the first such handler doesn't also need
-        # a sheet.py change to take effect.
+        # Unconditional feat/class-ability skill bonuses (e.g. Einschüchternde
+        # Kraft's ST modifier on Einschüchtern, `rules/feats.py`) — 0 for
+        # every skill without such a handler, same "wired ahead of the first
+        # producer" convention `ModifierTarget.SKILL` was declared under.
         handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
         base_value = ranks + ab_mod + class_bonus + handler_bonus
         entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(base_value)}

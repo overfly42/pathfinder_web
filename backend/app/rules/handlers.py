@@ -101,6 +101,7 @@ from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HAND
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
+from .feats import HANDLERS as _FEAT_HANDLERS
 from .modifiers import Modifier, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
@@ -110,6 +111,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_SPEED_HANDLERS,
     **_EFFECT_HANDLERS,
     **_CLASS_HANDLERS,
+    **_FEAT_HANDLERS,
 }
 
 # Scopes 1/2 of this module's own "SITUATIONAL_SKILL_HANDLERS" docstring
