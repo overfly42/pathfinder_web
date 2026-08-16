@@ -174,7 +174,14 @@ def _validate_feat_sub_choice(
             )
 
 
-def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]], character_level: int) -> None:
+def _validate_options(
+    db: Session,
+    root: BaseClass,
+    options: dict[str, list[str]],
+    character_level: int,
+    already_chosen_ids: set[UUID] | None = None,
+    race_id: UUID | None = None,
+) -> None:
     """Validates submitted option-group choices (e.g. Kleriker's `domain`)
     against `base_class_option_groups`/`base_class_option_choices` — real
     tables now (see `app/seed/class_option_seed.py`), not `classes.json`.
@@ -196,14 +203,76 @@ def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]
     2nd/4th-level occurrences — not the group's lifetime `max_choices` of
     10). `/api/classes`' `occurrenceLevels` is this same function's output,
     used by `ClassStep.tsx` purely to decide what to render — this is the
-    actual, server-side-enforced rule."""
+    actual, server-side-enforced rule.
+
+    `BaseClassOptionChoice.requires_choice_id` is checked 2026-08-16 against
+    `already_chosen_ids` (this character's real, already-persisted choice
+    ids across *every* group for this root class — empty/omitted for
+    creation and for a brand-new class's initial level-up, where there's no
+    persisted character yet) unioned with every choice submitted *in this
+    same call*, resolved up front across all groups before any per-group
+    check runs (order-independent, and correctly cross-group). Two real
+    shapes both need this: same-group totem chains (Entfesselter Barbar's
+    "Bestientotem" needing "Bestientotem, Schwächeres" already taken,
+    `import_entfesselter_barbar.py`'s docstring) and cross-group gating
+    (Hexenmeister's bloodline-power choices each requiring their bloodline's
+    own choice from the *separate* `bloodline` group, per
+    `models/character.py`'s `CharacterClassOption` docstring) — resolving
+    `known_ids` globally rather than per group_key handles both the same
+    way, and doesn't spuriously reject a valid bloodline-power pick just
+    because its prerequisite lives in a different group. A single
+    creation-time submission for a starting character past level 6 also
+    legitimately contains both "Bestientotem, Schwächeres" and "Bestientotem"
+    at once, with no persisted history to check against — the global,
+    resolved-up-front `known_ids` set covers that self-consistency too.
+
+    `race_id` (the character's own race, 2026-08-16) excludes any
+    `BaseClassOptionChoice` scoped to a *different* race from
+    `choices_by_name` entirely — e.g. Half-Orc's "Halb-Ork (Barbar)"
+    favored-class-bonus choice never shows up as a legal name for a Human
+    character, the same "Invalid choice" error path as a plain typo, no new
+    error message needed. `None` (the default, used by every existing
+    caller) only excludes choices that are themselves race-scoped; a choice
+    with `race_id=None` (every non-favored-class-bonus choice today) is
+    always included regardless."""
     groups = db.scalars(select(BaseClassOptionGroup).where(BaseClassOptionGroup.base_class_id == root.id)).all()
     groups_by_key = {group.key: group for group in groups}
     ability_ids_by_name_map = ability_ids_by_name(db)
+
+    # First pass: resolve every group's real choice rows and validate that
+    # the group/choice names themselves exist, building one global
+    # known-choice-id set across every group in this submission before any
+    # requires_choice_id check runs (see docstring above for why this must
+    # be global and order-independent, not per-group or per-iteration).
+    choices_by_name_by_group: dict[str, dict[str, BaseClassOptionChoice]] = {}
+    known_ids = set(already_chosen_ids or set())
     for group_key, choices in options.items():
         group = groups_by_key.get(group_key)
         if group is None:
             raise HTTPException(status_code=422, detail=f"Unknown option group '{group_key}' for {root.name}")
+        race_filter = (
+            BaseClassOptionChoice.race_id.is_(None)
+            if race_id is None
+            else (BaseClassOptionChoice.race_id.is_(None) | (BaseClassOptionChoice.race_id == race_id))
+        )
+        choices_by_name = {
+            choice.name: choice
+            for choice in db.scalars(
+                select(BaseClassOptionChoice).where(BaseClassOptionChoice.group_id == group.id, race_filter)
+            ).all()
+        }
+        choices_by_name_by_group[group_key] = choices_by_name
+        for choice in choices:
+            choice_row = choices_by_name.get(choice)
+            if choice_row is None:
+                raise HTTPException(
+                    status_code=422, detail=f"Invalid choice '{choice}' for option group '{group_key}'"
+                )
+            known_ids.add(choice_row.id)
+
+    for group_key, choices in options.items():
+        group = groups_by_key[group_key]
+        choices_by_name = choices_by_name_by_group[group_key]
         if len(choices) > group.max_choices:
             raise HTTPException(status_code=422, detail=f"Too many choices for option group '{group_key}'")
         occurrence_levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
@@ -225,22 +294,19 @@ def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]
                         f"at {root.name} level {character_level}, {len(choices)} submitted"
                     ),
                 )
-        choices_by_name = {
-            choice.name: choice
-            for choice in db.scalars(
-                select(BaseClassOptionChoice).where(BaseClassOptionChoice.group_id == group.id)
-            ).all()
-        }
         for choice in choices:
-            choice_row = choices_by_name.get(choice)
-            if choice_row is None:
-                raise HTTPException(
-                    status_code=422, detail=f"Invalid choice '{choice}' for option group '{group_key}'"
-                )
+            choice_row = choices_by_name[choice]
             if choice_row.min_level is not None and character_level < choice_row.min_level:
                 raise HTTPException(
                     status_code=422,
                     detail=f"'{choice}' requires {root.name} level {choice_row.min_level} (currently {character_level})",
+                )
+            if choice_row.requires_choice_id is not None and choice_row.requires_choice_id not in known_ids:
+                prerequisite = db.get(BaseClassOptionChoice, choice_row.requires_choice_id)
+                prerequisite_name = prerequisite.name if prerequisite is not None else None
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"'{choice}' requires '{prerequisite_name}' to be taken first",
                 )
 
 
@@ -262,7 +328,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
 
     for selection, root in zip(body.classes, roots):
-        _validate_options(db, root, selection.options, level_by_root_id[root.id])
+        _validate_options(db, root, selection.options, level_by_root_id[root.id], race_id=body.race_id)
 
     if spent_points(body.ability_scores) > body.point_budget:
         raise HTTPException(status_code=422, detail="Ability scores exceed the chosen point-buy budget")
@@ -1230,8 +1296,19 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             status_code=422, detail="This level is in the favored class — favored_class_bonus is required"
         )
 
+    # "hp"/"skill" stay the two hardcoded, immediately-applied values they
+    # always were (see below). Any other favored_class_bonus value is a real
+    # `BaseClassOptionChoice` name (e.g. an Advanced-Race-Guide alternate
+    # bonus, `scripts/import_favored_class_bonus_halbork.py`) — folded into
+    # the same `existing_level_options` dict so it rides the existing
+    # generic option-group validation/persistence machinery below instead of
+    # needing its own parallel code path.
+    existing_level_options = dict(body.existing_level_options or {})
+    if body.favored_class_bonus is not None and body.favored_class_bonus not in ("hp", "skill"):
+        existing_level_options["favored_class_bonus"] = [body.favored_class_bonus]
+
     if is_new_class:
-        _validate_options(db, receiving_root, body.target.options, receiving_class_level)
+        _validate_options(db, receiving_root, body.target.options, receiving_class_level, race_id=character.race_id)
 
     if not is_valid_rolled_hit_points(receiving_root.hit_dice, body.hit_points):
         raise HTTPException(status_code=422, detail=f"hit_points must be between 1 and {receiving_root.hit_dice}")
@@ -1247,13 +1324,34 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         column = f"ability_score_{body.ability_increase.lower()}"
         setattr(character, column, getattr(character, column) + 1)
 
-    if body.target.mode == "existing" and body.existing_level_options:
-        if any(len(choices) > 1 for choices in body.existing_level_options.values()):
+    if body.target.mode == "existing" and existing_level_options:
+        if any(len(choices) > 1 for choices in existing_level_options.values()):
             raise HTTPException(
                 status_code=422,
                 detail="Only one pick is allowed per recurring option group at a single level-up",
             )
-        _validate_options(db, receiving_root, body.existing_level_options, receiving_class_level)
+        # An existing class's level-up only submits *this* level's new
+        # pick(s), not the character's full history (unlike creation/a new
+        # class's initial level-up, `_validate_options`' docstring) - a
+        # requires_choice_id prerequisite from an earlier level must be
+        # checked against what's actually persisted already.
+        already_chosen_ids = set(
+            db.scalars(
+                select(CharacterClassOption.choice_id).where(
+                    CharacterClassOption.character_id == character.id,
+                    CharacterClassOption.base_class_id == receiving_root.id,
+                    CharacterClassOption.choice_id.is_not(None),
+                )
+            ).all()
+        )
+        _validate_options(
+            db,
+            receiving_root,
+            existing_level_options,
+            receiving_class_level,
+            already_chosen_ids,
+            race_id=character.race_id,
+        )
 
     seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)
     race_mods = race_ability_score_mods(db, character.race_id)
@@ -1408,8 +1506,8 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                         level=new_level,
                     )
                 )
-    elif body.existing_level_options:
-        for group_key, choices in body.existing_level_options.items():
+    elif existing_level_options:
+        for group_key, choices in existing_level_options.items():
             for choice in choices:
                 choice_row = db.scalar(
                     select(BaseClassOptionChoice)

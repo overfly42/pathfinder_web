@@ -8,7 +8,20 @@ authored from, not read at request time anymore.
 
 Idempotent: each row is upserted by its own `id`, safe to re-run. Requires
 `base_classes` to already be seeded (`class_seed.seed_classes`) since
-`base_class_option_groups` rows FK into it.
+`base_class_option_groups` rows FK into it — same "caller's responsibility"
+convention every other seed module in this package uses (no seed function
+calls another internally).
+
+`base_class_option_choices.race_id` (2026-08-16, Advanced Race Guide
+favored-class-bonus options, `scripts/import_favored_class_bonus_halbork.py`)
+is the one exception to that convention: `seed_races` is called here
+directly rather than left to 45+ existing call sites across the test suite
+to each remember a new, easy-to-miss cross-domain dependency forever
+(`base_classes` only ever gained *test-visible* callers after this module
+already existed, so the original convention never had to survive a schema
+change like this one) — `seed_races` is itself idempotent, so calling it
+here even when a caller already seeded races elsewhere is a no-op, not a
+correctness risk.
 
 Run with the project venv active and the database up:
     cd backend && python -m app.seed.class_option_seed
@@ -21,6 +34,7 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 
 from ..models.base_class import BaseClassOptionChoice, BaseClassOptionGroup
+from .race_seed import seed_races
 
 SEED_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "seed"
 
@@ -41,6 +55,8 @@ def _upsert(db: Session, model: type, row: dict) -> None:
 
 
 def seed_class_options(db: Session) -> None:
+    seed_races(db)
+
     for row in _load("base_class_option_groups.json"):
         _upsert(db, BaseClassOptionGroup, {**row, "base_class_id": UUID(row["base_class_id"])})
     db.flush()

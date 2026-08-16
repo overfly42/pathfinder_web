@@ -10,8 +10,10 @@ export interface LevelUpDraft {
    *  is by definition not the character's very first level). */
   hitPoints: number | null;
   /** Required exactly when this level is in the favored class (see
-   *  `ClassProgressionEntry.isFavored`) — +1 HP or +1 skill rank. */
-  favoredClassBonus: 'hp' | 'skill' | null;
+   *  `ClassProgressionEntry.isFavored`) — `"hp"`, `"skill"`, or one of the
+   *  character's own race+class-specific alternates
+   *  (`Character.favoredClassBonusOptions`). */
+  favoredClassBonus: string | null;
   /** Recurring per-class level-gated choices (CLASS_LEVEL_OPTIONS), keyed by group key. */
   existingLevelOptionSelections: Record<string, string[]>;
   abilityIncrease: AbilityKey | null;

@@ -23,6 +23,8 @@ from app.seed.class_seed import seed_classes
 from app.seed.skill_seed import seed_skills
 from app.seed.spell_seed import seed_spells
 
+from test_characters import _character_payload, _create_user, _elf_race_id
+
 
 def _mystiker(db_session: Session) -> BaseClass:
     return db_session.query(BaseClass).filter_by(name="Mystiker").one()
@@ -182,6 +184,57 @@ def test_mystiker_revelation_choices_are_scoped_to_their_mystery_with_min_level(
     assert by_name["Sternenkarte"].min_level == 7
     # Most revelations have no minimum beyond the Offenbarung slot itself.
     assert by_name["Sternenmantel"].min_level is None
+
+
+def test_create_mystiker_accepts_revelation_matching_the_chosen_mystery(
+    client: TestClient, db_session: Session
+) -> None:
+    """`requires_choice_id` (this file's own "the whole reason it was added"
+    docstring above) is `routers/characters.py`'s `_validate_options` -
+    cross-group here, unlike Entfesselter Barbar's same-group totem chains:
+    "Feuerodem" requires the *separate* "mystery" group's "Flammen" choice,
+    not another "revelation" choice. Both are submitted in the same
+    creation request, so this must resolve `known_ids` globally across
+    every group in the submission, not per group_key."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Mystiker",
+                    "level": 1,
+                    "options": {"mystery": ["Flammen"], "revelation": ["Feuerodem"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    mystiker = next(c for c in response.json()["classes"] if c["class_name"] == "Mystiker")
+    assert mystiker["options"]["mystery"] == ["Flammen"]
+    assert mystiker["options"]["revelation"] == ["Feuerodem"]
+
+
+def test_create_mystiker_rejects_revelation_without_its_mystery(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Mystiker", "level": 1, "options": {"revelation": ["Feuerodem"]}}],
+        ),
+    )
+    assert response.status_code == 422
+    assert "Flammen" in response.json()["detail"]
 
 
 def test_mystiker_offenbarung_and_mysteriumszauber_grant_occurrences(

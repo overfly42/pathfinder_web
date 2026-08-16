@@ -489,6 +489,80 @@ def test_level_up_rejects_more_than_one_recurring_option_pick_per_level_up(
     assert response.status_code == 422
 
 
+def test_level_up_favored_class_bonus_accepts_halbork_barbar_alternate(
+    client: TestClient, db_session: Session
+) -> None:
+    """Half-Orc's Advanced Race Guide alternate favored-class bonus for
+    Barbarian (+1 rage round/day per pick, flat) - real accumulation via
+    `rules/favored_class_bonuses.py`'s `HANDLERS`, not just composition."""
+    race_id = _race_id(client, db_session, "Halb-Ork")
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Barbar", 1, flex_ability="ST")
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, favored_class_bonus="Halb-Ork (Barbar)"),
+    )
+    assert response.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    entry = next(e for e in sheet["favoredClassBonuses"] if e["name"] == "Halb-Ork (Barbar)")
+    assert entry["pickCount"] == 1
+    assert entry["currentBonus"] == 1
+    assert "Halb-Ork (Barbar)" in sheet["favoredClassBonusOptions"]
+    assert {"hp", "skill"} <= set(sheet["favoredClassBonusOptions"])
+
+
+def test_level_up_favored_class_bonus_fraction_accumulates_and_floors(
+    client: TestClient, db_session: Session
+) -> None:
+    """Half-Orc Rogue's alternate (+1/3 per pick, capped at +5) only becomes
+    a whole bonus once enough picks accumulate - exactly `hit_points`'
+    "raw value per level, aggregated at read time" shape, per the user's
+    own framing for this feature."""
+    race_id = _race_id(client, db_session, "Halb-Ork")
+    base_class_id = _class_id(client, db_session, "Schurke")
+    character_id = _create_level_n_character(client, db_session, race_id, "Schurke", 1, flex_ability="ST")
+
+    for _ in range(2):
+        response = client.post(
+            f"/api/characters/{character_id}/level-up",
+            json=_level_up_payload(base_class_id, 5, favored_class_bonus="Halb-Ork (Schurke)"),
+        )
+        assert response.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    entry = next(e for e in sheet["favoredClassBonuses"] if e["name"] == "Halb-Ork (Schurke)")
+    assert entry["pickCount"] == 2
+    assert entry["currentBonus"] == 0  # floor(2/3) = 0, no whole bonus yet
+
+    # Level 3 -> 4 is also a 4th-level ability-increase level.
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id, 5, favored_class_bonus="Halb-Ork (Schurke)", ability_increase="ST"
+        ),
+    )
+    assert response.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    entry = next(e for e in sheet["favoredClassBonuses"] if e["name"] == "Halb-Ork (Schurke)")
+    assert entry["pickCount"] == 3
+    assert entry["currentBonus"] == 1  # floor(3/3) = 1
+
+
+def test_level_up_favored_class_bonus_rejects_wrong_race(client: TestClient, db_session: Session) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Barbar", 1)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, favored_class_bonus="Halb-Ork (Barbar)"),
+    )
+    assert response.status_code == 422
+
+
 def test_level_up_accepts_one_recurring_option_pick(client: TestClient, db_session: Session) -> None:
     race_id = _elf_race_id(client, db_session)
     base_class_id = _class_id(client, db_session, "Barbar")
@@ -501,6 +575,60 @@ def test_level_up_accepts_one_recurring_option_pick(client: TestClient, db_sessi
     assert response.status_code == 201
     barbar = next(c for c in response.json()["classes"] if c["class_name"] == "Barbar")
     assert "Aberglaube" in barbar["options"].get("kampfrauschkraft", [])
+
+
+def test_level_up_rejects_chain_rage_power_without_its_prerequisite(
+    client: TestClient, db_session: Session
+) -> None:
+    """Entfesselter Barbar's "Bestientotem" (min_level 6) also requires
+    "Bestientotem, Schwächeres" to already have been taken - not just the
+    level threshold (routers/characters.py's `_validate_options`,
+    `BaseClassOptionChoice.requires_choice_id`). Regression test: this
+    prerequisite used to be stored in the seed data but never actually
+    enforced anywhere, so a level-6+ character could pick the mid tier
+    without ever taking the entry tier."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Entfesselter Barbar")
+    character_id = _create_level_n_character(client, db_session, race_id, "Entfesselter Barbar", 5)
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, existing_level_options={"kampfrauschkraft": ["Bestientotem"]}),
+    )
+    assert response.status_code == 422
+    assert "Bestientotem, Schwächeres" in response.json()["detail"]
+
+
+def test_level_up_accepts_chain_rage_power_once_its_prerequisite_was_taken(
+    client: TestClient, db_session: Session
+) -> None:
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Entfesselter Barbar")
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            _create_user(client),
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Entfesselter Barbar",
+                    "level": 5,
+                    "options": {"kampfrauschkraft": ["Bestientotem, Schwächeres"]},
+                }
+            ],
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, existing_level_options={"kampfrauschkraft": ["Bestientotem"]}),
+    )
+    assert response.status_code == 201
+    barbar = next(c for c in response.json()["classes"] if c["class_name"] == "Entfesselter Barbar")
+    assert {"Bestientotem, Schwächeres", "Bestientotem"} <= set(barbar["options"].get("kampfrauschkraft", []))
 
 
 def test_level_up_requires_favored_class_bonus_for_the_favored_class(

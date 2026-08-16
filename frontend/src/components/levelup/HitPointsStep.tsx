@@ -14,8 +14,9 @@ interface HitPointsStepProps {
 /** Player-entered HP roll for the new level — creation never needed this
  *  step (it only ever creates level-1 characters, always auto-maxed), so
  *  this is the first place the wizard asks for one. Also asks for the
- *  favored-class bonus (+1 HP or +1 skill rank) when this level is in the
- *  favored class — http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben. */
+ *  favored-class bonus (+1 HP, +1 skill rank, or a race+class-specific
+ *  Advanced Race Guide alternate) when this level is in the favored class —
+ *  http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben. */
 export function HitPointsStep({ progression, options, draft, setDraft }: HitPointsStepProps) {
   const target = draft.target;
   const className = getReceivingClassName(progression, target);
@@ -32,9 +33,21 @@ export function HitPointsStep({ progression, options, draft, setDraft }: HitPoin
     setDraft((prev) => ({ ...prev, hitPoints: parsed !== null && Number.isFinite(parsed) ? parsed : null }));
   }
 
-  function setFavoredClassBonus(value: 'hp' | 'skill') {
+  function setFavoredClassBonus(value: string) {
     setDraft((prev) => ({ ...prev, favoredClassBonus: prev.favoredClassBonus === value ? null : value }));
   }
+
+  // "hp"/"skill" always come first with their own fixed German labels (they
+  // aren't real catalog entries, see `routers/characters.py`'s
+  // `level_up_character`); anything else in `favoredClassBonusOptions` is a
+  // real race+class-specific alternate. The chip shows its short label
+  // (`favoredClassBonusShortLabels`, e.g. "+1 Rd. Kampfrausch/Tag") rather
+  // than the bare catalog name — short enough to read directly on the
+  // button, no hover needed (2026-08-16; the full rules text still shows on
+  // the summary step, where there's room for it).
+  const alternateFavoredClassBonuses = (progression.favoredClassBonusOptions ?? []).filter(
+    (name) => name !== 'hp' && name !== 'skill',
+  );
 
   const outOfRange = draft.hitPoints !== null && (draft.hitPoints < 1 || draft.hitPoints > hitDice);
 
@@ -78,6 +91,16 @@ export function HitPointsStep({ progression, options, draft, setDraft }: HitPoin
             >
               +1 Fertigkeitsrang
             </button>
+            {alternateFavoredClassBonuses.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className={`chip${draft.favoredClassBonus === name ? ' active' : ''}`}
+                onClick={() => setFavoredClassBonus(name)}
+              >
+                {progression.favoredClassBonusShortLabels?.[name] ?? name}
+              </button>
+            ))}
           </div>
         </>
       )}

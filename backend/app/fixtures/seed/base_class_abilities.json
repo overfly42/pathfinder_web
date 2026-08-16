@@ -2984,5 +2984,70 @@
     "id": "0596b577-d4f7-5cbe-9de7-8c5af3b83156",
     "name": "Überwältigendes Niederrennen",
     "description": "(AF) Der Barbar kann versuchen, mehr als ein Ziel pro Runde zu überrennen. Für jeden Überrennen-Wurf nach dem ersten erhält er einen Malus von -2 auf seinen KMB."
+  },
+  {
+    "id": "0dfd2ef1-832f-5426-b5fd-d6d0a5f497b2",
+    "name": "Halb-Ork (Barbar)",
+    "description": "Addiere +1 auf die Gesamtanzahl der Runden an Kampfrausch pro Tag."
+  },
+  {
+    "id": "b8416b77-9246-582f-a205-52f05ddaae2d",
+    "name": "Halb-Ork (Entfesselter Barbar)",
+    "description": "Addiere +1 auf die Gesamtanzahl der Runden an Kampfrausch pro Tag."
+  },
+  {
+    "id": "7c4305d0-c854-5461-90df-f184c71fe856",
+    "name": "Halb-Ork (Barde)",
+    "description": "Addiere +1 auf die Gesamtzahl der Runden an Bardenauftritt pro Tag."
+  },
+  {
+    "id": "202c3828-61cb-5843-b173-1ba0359e99b6",
+    "name": "Halb-Ork (Druide)",
+    "description": "Addiere +1/3 auf den natürlichen Rüstungsbonus des Druiden in Tiergestalt."
+  },
+  {
+    "id": "485694fc-a7c2-5445-89c9-ccbf33905fca",
+    "name": "Halb-Ork (Hexenmeister)",
+    "description": "Addiere +1/2 zum Feuerschaden aller vom Hexenmeister gewirkten Zauber, die Feuerschaden verursachen."
+  },
+  {
+    "id": "0d8cc92c-629c-50f6-a57e-e20f8580d0f3",
+    "name": "Halb-Ork (Kämpfer)",
+    "description": "Addiere +2 auf alle Stabilisierungswürfe, wenn der Charakter im Sterben liegt."
+  },
+  {
+    "id": "48e09921-5994-5775-9caf-d2bc03c4cacf",
+    "name": "Halb-Ork (Kleriker)",
+    "description": "Wähle eine Domänenfähigkeit der 1. Stufe aus, welche normalerweise (3 + WE-Modifikator des Klerikers) Mal am Tag anwendbar ist. Der Kleriker addiert +1/2 auf die Anzahl seiner Anwendungsmöglichkeiten pro Tag."
+  },
+  {
+    "id": "71831c42-3bd4-5772-86cb-8025d2f01ddb",
+    "name": "Halb-Ork (Magier)",
+    "description": "Addiere einen Bonus von +1 auf Konzentrationswürfe, die erforderlich werden, wenn der Magier beim Wirken eines Magierzaubers Schaden nimmt."
+  },
+  {
+    "id": "46aadc25-b2f2-5bbc-b1a0-d7349f7392f6",
+    "name": "Halb-Ork (Mönch)",
+    "description": "Addiere +1 auf die KMV des Mönchs gegen Ringkampf und +1/2 auf die Anzahl seiner täglichen Betäubende Schläge."
+  },
+  {
+    "id": "204f3b72-104d-509b-81ac-84efe72ec1af",
+    "name": "Halb-Ork (Mystiker)",
+    "description": "Addiere einen Mystikerzauber zur Liste deiner bekannten Zauber. Dieser Zauber muss wenigstens ein Grad unter dem höchsten liegen, den der Mystiker wirken kann."
+  },
+  {
+    "id": "d35737a9-d13d-5869-8cdd-17a34a302273",
+    "name": "Halb-Ork (Paladin)",
+    "description": "Addiere +1/3 auf Bestätigungswürfe für Kritische Treffer, wenn du Böses niederstrecken einsetzt (Maximumbonus von +5). Dieser Bonus ist nicht kumulativ mit Kritischer-Treffer-Fokus."
+  },
+  {
+    "id": "74443a77-d062-5d70-9cf3-41f5aff39107",
+    "name": "Halb-Ork (Schurke)",
+    "description": "Addiere +1/3 auf Bestätigungswürfe für Kritische Treffer mit Hinterhältigem Angriff (Maximumbonus von +5). Dieser Bonus ist nicht kumulativ mit Kritischer-Treffer-Fokus."
+  },
+  {
+    "id": "06ced308-8185-5bf2-882a-3b3ed4ad518a",
+    "name": "Halb-Ork (Waldläufer)",
+    "description": "Der Tiergefährte des Waldläufers erhält einen zusätzlichen TP. Sollte der Halb-Ork jemals seinen Tiergefährten wechseln, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
   }
 ]

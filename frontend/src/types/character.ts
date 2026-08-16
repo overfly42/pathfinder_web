@@ -44,6 +44,17 @@ export interface DescribedEntry {
   description: string;
 }
 
+/** One race-scoped favored-class-bonus choice the character has picked at
+ *  least once, with its accumulated pick count and (if the bonus is a
+ *  single accumulating number) the current whole-number value derived from
+ *  it — `null` when a pick doesn't reduce to one number (e.g. a choice that
+ *  grants two different effects per pick, or adds a known spell instead of
+ *  a numeric bonus); read the full `description` instead in that case. */
+export interface FavoredClassBonusEntry extends DescribedEntry {
+  pickCount: number;
+  currentBonus: number | null;
+}
+
 export interface SpellRef {
   key: string;
   name: string;
@@ -270,6 +281,16 @@ export interface Character {
   traits: DescribedEntry[];
   classFeatures: DescribedEntry[];
   raceAbilities: DescribedEntry[];
+  /** Values currently legal for a favored-class-bonus level-up pick
+   *  (`"hp"`/`"skill"` plus this character's race+class-specific
+   *  alternates) — empty without a favored class. Absent for the two
+   *  hardcoded mock fixtures, which predate this field. */
+  favoredClassBonusOptions?: string[];
+  /** Accumulated favored-class-bonus picks across the character's whole
+   *  career (any favored class, not just the current one) — "hp"/"skill"
+   *  picks never appear here, see `FavoredClassBonusEntry`'s docstring.
+   *  Absent for the two hardcoded mock fixtures. */
+  favoredClassBonuses?: FavoredClassBonusEntry[];
   spellsKnown: CastableSpellGrade[];
   gear: GearItem[];
   weaponAttacks: WeaponAttack[];

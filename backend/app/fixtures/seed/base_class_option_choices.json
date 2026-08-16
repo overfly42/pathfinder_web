@@ -2141,5 +2141,109 @@
     "name": "Überwältigendes Niederrennen",
     "min_level": 6,
     "requires_choice_id": "f0850e39-dbe2-5ad3-a112-8e203d261d09"
+  },
+  {
+    "id": "0f134941-47fc-5601-bad2-bc5414f6e963",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "Halb-Ork (Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "a6da0398-ab08-5864-b396-c5d848523f79",
+    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
+    "name": "Halb-Ork (Entfesselter Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "4b5e3ead-1d1c-50df-8507-e1ec9237b732",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "Halb-Ork (Barde)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "f3de15fb-55bd-5447-ba11-ab84df30d590",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "Halb-Ork (Druide)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "ad431597-4bc0-560a-84ca-9196a48209db",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "Halb-Ork (Hexenmeister)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "f30e2ef2-2ae6-57f2-80cd-649b70fd4034",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "Halb-Ork (Kämpfer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "28c71980-6db8-5935-9853-03a0287db086",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "Halb-Ork (Kleriker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "2f7a1a57-9eaa-5576-bc7c-d2b7567210d9",
+    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
+    "name": "Halb-Ork (Magier)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "f55206e5-4b5c-53f8-b64b-ea047b783914",
+    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
+    "name": "Halb-Ork (Mönch)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "42690b35-2058-5f6d-883f-2d3761f6e791",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "Halb-Ork (Mystiker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "511e4867-b45c-51fa-8821-3f392db5638b",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "Halb-Ork (Paladin)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "6d173894-9b17-59b2-90c6-b03e2a60f498",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "Halb-Ork (Schurke)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "9c7bd1ef-bf5f-5a95-9aa4-f6851823ff2c",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "Halb-Ork (Waldläufer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
   }
 ]

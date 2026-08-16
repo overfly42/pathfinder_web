@@ -4,6 +4,13 @@
    class-options, option-group, summary-grid/summary-block). Net-new or
    renamed-to-avoid-collision bits only live here. */
 
+/* A favored-class-bonus alternate's full rules text, under its summary-block
+   value line — there's room for the full description here (unlike the
+   picker chips, which show a short label instead, see HitPointsStep.tsx).
+   Same look as theme.css's .trait-item .desc, scoped to summary-block since
+   this isn't a .trait-item. */
+.summary-block .desc { font-size: 12px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+
 .char-context-banner {
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
   background: var(--shell-2);

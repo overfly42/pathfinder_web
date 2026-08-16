@@ -236,7 +236,17 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     character picked at 1st level (e.g. "Sternenmantel" requires the
     "Firmament" mystery choice) — every option group before this one was
     either fully open or restricted purely by grant-occurrence level, never
-    by a sibling choice, so there was no field to express it."""
+    by a sibling choice, so there was no field to express it.
+
+    `race_id` (nullable) restricts a choice to one race — first used
+    2026-08-16 for Advanced Race Guide alternate favored-class-bonus options
+    (e.g. Half-Orc Barbarian's own "Kampfrauschrunden" choice in that
+    class's own `favored_class_bonus` group, alongside the two
+    race-independent "hp"/"skill" values every class offers, which aren't
+    `BaseClassOptionChoice` rows at all — see `routers/characters.py`'s
+    `level_up_character`). `None` means available regardless of race, the
+    same meaning every choice already had implicitly before this column
+    existed."""
 
     __tablename__ = "base_class_option_choices"
     __table_args__ = (UniqueConstraint("group_id", "name"),)
@@ -247,6 +257,7 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     requires_choice_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
     )
+    race_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"), nullable=True)
 
 
 class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):

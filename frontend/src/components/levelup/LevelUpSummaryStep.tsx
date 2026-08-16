@@ -74,8 +74,15 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
       ? '+1 Trefferpunkt'
       : draft.favoredClassBonus === 'skill'
         ? '+1 Fertigkeitsrang'
-        : '— noch nicht gewählt —'
+        : (draft.favoredClassBonus ?? '— noch nicht gewählt —')
     : null;
+  // Only the race+class-specific alternates need their rules text spelled
+  // out here — "hp"/"skill" are already self-explanatory via sumFavoredBonus
+  // above, and have no entry in favoredClassBonusDescriptions anyway.
+  const sumFavoredBonusDescription =
+    draft.favoredClassBonus && draft.favoredClassBonus !== 'hp' && draft.favoredClassBonus !== 'skill'
+      ? progression.favoredClassBonusDescriptions?.[draft.favoredClassBonus]
+      : undefined;
 
   const classDef = className ? options.classes.find((c) => c.name === className) : undefined;
   const spellType = classDef?.spellType ?? 'none';
@@ -113,6 +120,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
           <div className="summary-block">
             <div className="sb-title">Bevorzugte Klasse</div>
             <div className="sb-line"><span>{sumFavoredBonus}</span></div>
+            {sumFavoredBonusDescription && <div className="desc">{sumFavoredBonusDescription}</div>}
           </div>
         )}
 

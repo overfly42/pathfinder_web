@@ -32,5 +32,23 @@ export interface CharacterProgression {
   altTraits: string[];
   skillRanks: Record<string, number>;
   spellsKnown: Record<string, string[]>;
+  /** Values currently legal for a favored-class-bonus level-up pick —
+   *  `"hp"`/`"skill"` plus this character's race+class-specific alternates
+   *  (empty without a favored class). Absent for the two hardcoded mock
+   *  fixtures (`progression_1`/`progression_2.json`), which predate this
+   *  field. */
+  favoredClassBonusOptions?: string[];
+  /** `favoredClassBonusOptions` entry name -> its full rules text, for the
+   *  race+class-specific alternates only ("hp"/"skill" excluded — the
+   *  wizard already has fixed, friendly text for those two). Lets the
+   *  summary step show what a picked alternate actually does, not just its
+   *  bare name. Absent for the two hardcoded mock fixtures. */
+  favoredClassBonusDescriptions?: Record<string, string>;
+  /** `favoredClassBonusOptions` entry name -> a short, button-sized label
+   *  (e.g. "+1 Rd. Kampfrausch/Tag") for the race+class-specific alternates
+   *  only — the picker chips show this directly so a player doesn't need to
+   *  hover to understand what a chip does. Absent for the two hardcoded
+   *  mock fixtures. */
+  favoredClassBonusShortLabels?: Record<string, string>;
   history: HistoryEntry[];
 }

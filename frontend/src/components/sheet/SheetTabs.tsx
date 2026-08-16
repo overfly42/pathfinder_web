@@ -66,6 +66,25 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
 
         <TabPanel active={activeTab} tabKey="classfeatures">
           <DescribedList entries={character.classFeatures} idPrefix="classfeature" />
+          {character.favoredClassBonuses && character.favoredClassBonuses.length > 0 && (
+            <>
+              <div className="section-label" style={{ marginTop: 14 }}>
+                Bevorzugte Klasse
+              </div>
+              {character.favoredClassBonuses.map((entry) => (
+                <div className="trait-item" id={`favoredclassbonus-${entry.key}`} key={entry.key}>
+                  <div className="name">
+                    {entry.name}
+                    {' — '}
+                    {entry.currentBonus !== null
+                      ? `${entry.pickCount}× gewählt, aktueller Bonus: +${entry.currentBonus}`
+                      : `${entry.pickCount}× gewählt`}
+                  </div>
+                  <div className="desc">{entry.description}</div>
+                </div>
+              ))}
+            </>
+          )}
         </TabPanel>
 
         <TabPanel active={activeTab} tabKey="raceabilities">

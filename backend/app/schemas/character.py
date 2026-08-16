@@ -281,9 +281,16 @@ class LevelUp(BaseModel):
     # (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben: "Charaktere,
     # die eine Stufe in ihrer bevorzugten Klasse aufsteigen, erhalten die
     # Möglichkeit, 1 zusätzlichen Fertigkeitsrang oder 1 zusätzlichen
-    # Trefferpunkt zu bekommen") — must be None otherwise. "hp" adds 1 to
-    # hit_points above; "skill" adds 1 to this level's skill-point budget.
-    favored_class_bonus: Literal["hp", "skill"] | None = None
+    # Trefferpunkt zu bekommen") — must be None otherwise. "hp"/"skill" are
+    # the two stable literal values every class always offers, checked and
+    # applied directly by `routers/characters.py` (+1 to hit_points above /
+    # +1 to this level's skill-point budget). Any other value is a real
+    # `BaseClassOptionChoice` name from that class's own `favored_class_bonus`
+    # option group (e.g. an Advanced Race Guide alternate bonus scoped to the
+    # character's race, `scripts/import_favored_class_bonus_halbork.py`,
+    # 2026-08-16) — no longer a fixed `Literal`, DB-validated instead like
+    # every other option-group pick.
+    favored_class_bonus: str | None = None
     # Recurring per-class picks gated by the receiving class's own new level
     # (e.g. a ranger's 2nd favored enemy at level 5) — only meaningful for
     # mode "existing"; a "new" class's level-1 picks go in target.options

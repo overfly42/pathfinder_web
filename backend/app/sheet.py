@@ -68,6 +68,8 @@ from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
+from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
+from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
 from .rules.handlers import DAILY_LIMITS, character_modifiers, situational_skill_notes
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
@@ -94,6 +96,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     favored = next((c for c in classes if c["is_favored"]), classes[0] if classes else None)
     class_name = favored["class_name"] if favored else ""
     archetype = ", ".join(favored["archetypes"]) if favored and favored["archetypes"] else "Keiner"
+    favored_membership = next((m for m in character.class_memberships if m.is_favored), None)
+    favored_root_id = favored_membership.base_class_id if favored_membership else None
 
     race_mods = race_ability_score_mods(db, character.race_id)
     effective_scores = full_effective_ability_scores(db, character, race_mods)
@@ -228,6 +232,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
         "raceAbilities": _build_race_abilities(db, character.race_id),
+        "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
+        "favoredClassBonuses": _build_favored_class_bonuses(db, character),
         "spellsKnown": _build_spell_grades(db, character, "used"),
         "gear": gear,
         "weaponAttacks": weapon_attacks,
@@ -258,6 +264,9 @@ def build_character_progression(character: Character, db: Session) -> dict:
             continue
         spells_known[root.name] = list(db.scalars(select(BaseSpell.name).where(BaseSpell.id.in_(spell_ids))).all())
 
+    favored_membership = next((m for m in character.class_memberships if m.is_favored), None)
+    favored_root_id = favored_membership.base_class_id if favored_membership else None
+
     return {
         "name": character.name,
         "race": race.name if race is not None else "",
@@ -282,6 +291,9 @@ def build_character_progression(character: Character, db: Session) -> dict:
         "altTraits": character.alt_traits,
         "skillRanks": character.skill_ranks,
         "spellsKnown": spells_known,
+        "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
+        "favoredClassBonusDescriptions": _favored_class_bonus_descriptions(db, favored_root_id, character.race_id),
+        "favoredClassBonusShortLabels": _favored_class_bonus_short_labels(db, favored_root_id, character.race_id),
         "history": build_character_history(character, db),
     }
 
@@ -593,6 +605,143 @@ def _build_race_abilities(db: Session, race_id: UUID) -> list[dict]:
         select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
     ).all()
     return _described(db, BaseRaceAbility, [grant.ability_id for grant in grants])
+
+
+def _favored_class_bonus_race_choices(
+    db: Session, favored_root_id: UUID | None, race_id: UUID
+) -> list[BaseClassOptionChoice]:
+    """This class's own race-scoped favored-class-bonus alternates (e.g.
+    Half-Ork Barbar's "Halb-Ork (Barbar)",
+    `scripts/import_favored_class_bonus_halbork.py`) — never includes
+    "hp"/"skill", which aren't `BaseClassOptionChoice` rows at all (see
+    `routers/characters.py`'s `level_up_character`). Empty without a
+    favored class. Shared by `_favored_class_bonus_options` (names, for the
+    wizard's pick list) and `_favored_class_bonus_descriptions` (name ->
+    rules text, for the wizard's summary step) so both read the same query
+    once instead of each re-deriving it."""
+    if favored_root_id is None:
+        return []
+    return db.scalars(
+        select(BaseClassOptionChoice)
+        .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+        .where(
+            BaseClassOptionGroup.base_class_id == favored_root_id,
+            BaseClassOptionGroup.key == "favored_class_bonus",
+            BaseClassOptionChoice.race_id.is_(None) | (BaseClassOptionChoice.race_id == race_id),
+        )
+    ).all()
+
+
+def _favored_class_bonus_options(db: Session, favored_root_id: UUID | None, race_id: UUID) -> list[str]:
+    """Which values are currently legal for `LevelUp.favored_class_bonus`
+    for this character's one favored class — "hp"/"skill" (the two stable
+    literals every class offers) plus this class's own race-scoped
+    alternates. The level-up wizard renders this list directly — no
+    client-side race filtering needed, same reasoning `race_skill_modifiers`'s
+    docstring gives for keeping composition-vs-character-scoped filtering
+    server-side."""
+    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    return ["hp", "skill", *(choice.name for choice in choices)]
+
+
+def _favored_class_bonus_descriptions(db: Session, favored_root_id: UUID | None, race_id: UUID) -> dict[str, str]:
+    """Choice name -> full rules text, for this class's own race-scoped
+    favored-class-bonus alternates only ("hp"/"skill" excluded — the
+    level-up wizard already has fixed, friendly text for those two). Lets
+    the wizard's summary step ("Zusammenfassung", 2026-08-16 — a player
+    picking e.g. "Halb-Ork (Barbar)" saw no indication anywhere of what that
+    choice actually does) show the real rules text instead of just the bare
+    catalog name."""
+    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    descriptions_by_choice_id = _ability_descriptions_by_choice_id(db, [choice.id for choice in choices])
+    return {choice.name: descriptions_by_choice_id.get(choice.id, "") for choice in choices}
+
+
+def _favored_class_bonus_short_labels(db: Session, favored_root_id: UUID | None, race_id: UUID) -> dict[str, str]:
+    """Choice name -> short, button-sized label (`rules/favored_class_bonuses.py`'s
+    `SHORT_LABELS`, e.g. "+1 Rd. Kampfrausch/Tag") for this class's own
+    race-scoped alternates — the level-up wizard's picker chips show this
+    instead of the bare catalog name, so a player doesn't need to hover to
+    understand what a chip does (2026-08-16). Falls back to the catalog name
+    itself for a choice with no short label yet, so a future race's
+    alternates still render *something* before this dict is filled in for
+    them."""
+    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    return {choice.name: FAVORED_CLASS_BONUS_SHORT_LABELS.get(choice.id, choice.name) for choice in choices}
+
+
+def _ability_descriptions_by_choice_id(db: Session, choice_ids: list[UUID]) -> dict[UUID, str]:
+    """A `BaseClassOptionChoice.id` -> its matching `BaseClassAbility`'s
+    description text, via the `BaseClassAbilityGrant(option_choice_id=...)`
+    link every option-group choice's description goes through (choices have
+    no description column of their own, see `BaseClassOptionChoice`'s
+    docstring). A choice with no matching grant is simply absent from the
+    result."""
+    if not choice_ids:
+        return {}
+    grants = db.scalars(
+        select(BaseClassAbilityGrant).where(BaseClassAbilityGrant.option_choice_id.in_(choice_ids))
+    ).all()
+    ability_id_by_choice_id = {grant.option_choice_id: grant.ability_id for grant in grants}
+    abilities = {
+        ability.id: ability
+        for ability in db.scalars(
+            select(BaseClassAbility).where(BaseClassAbility.id.in_(ability_id_by_choice_id.values()))
+        ).all()
+    }
+    return {
+        choice_id: abilities[ability_id].description
+        for choice_id, ability_id in ability_id_by_choice_id.items()
+        if ability_id in abilities
+    }
+
+
+def _build_favored_class_bonuses(db: Session, character: Character) -> list[dict]:
+    """Accumulated read-out for every race-scoped favored-class-bonus choice
+    this character has ever picked (any favored class over their career,
+    not just the current one) — mirrors `rules/progression.py`'s
+    `max_hit_points`: `CharacterClassOption` rows are the one raw value per
+    level, summed/derived here at read time, nothing pre-aggregated stored.
+    "hp"/"skill" picks never appear here — they're not `BaseClassOptionChoice`
+    rows at all (folded directly into `armorClass`.../HP/skill ranks
+    already), so there's nothing extra to surface for them."""
+    picks = [
+        option
+        for option in character.class_options
+        if option.group_key == "favored_class_bonus" and option.choice_id is not None
+    ]
+    if not picks:
+        return []
+
+    pick_counts: Counter[UUID] = Counter(option.choice_id for option in picks)
+    choices = {
+        choice.id: choice
+        for choice in db.scalars(
+            select(BaseClassOptionChoice).where(BaseClassOptionChoice.id.in_(pick_counts))
+        ).all()
+    }
+    descriptions_by_choice_id = _ability_descriptions_by_choice_id(db, list(pick_counts))
+
+    result = []
+    for choice_id, count in pick_counts.items():
+        choice = choices.get(choice_id)
+        if choice is None:
+            continue
+        handler = FAVORED_CLASS_BONUS_HANDLERS.get(choice_id)
+        result.append(
+            {
+                "key": str(choice_id),
+                "name": choice.name,
+                "description": descriptions_by_choice_id.get(choice_id, ""),
+                "pickCount": count,
+                # Absent handler (e.g. Mönch's two-effects-per-pick, Mystiker's
+                # "+1 known spell") means there's no single accumulating
+                # number - the description is the whole answer, see
+                # `rules/favored_class_bonuses.py`'s own docstring.
+                "currentBonus": handler(count) if handler is not None else None,
+            }
+        )
+    return result
 
 
 def _build_spell_grades(db: Session, character: Character, flag_name: str) -> list[dict]:
