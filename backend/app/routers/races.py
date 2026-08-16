@@ -9,7 +9,7 @@ from ..db import get_db
 from ..models import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from ..rules.context import CharacterContext
 from ..rules.handlers import HANDLERS
-from ..rules.modifiers import ModifierTarget
+from ..rules.modifiers import Modifier, ModifierTarget
 from ..rules.race_abilities import ABILITY_ANY_PLUS2
 
 router = APIRouter(prefix="/api/races", tags=["races"])
@@ -70,6 +70,34 @@ def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
         if modifier.target == ModifierTarget.SCORE and modifier.target_id is not None:
             mods[modifier.target_id] = mods.get(modifier.target_id, 0) + modifier.value
     return mods
+
+
+def race_skill_modifiers(db: Session, race_id: UUID) -> list[Modifier]:
+    """Every SKILL-target `Modifier` this race's own (non-alternate) grants
+    produce, e.g. Halb-Ork's Einschüchternd (+2 Volksbonus on Einschüchtern).
+    Same non-alternate-grant-only scope as `race_ability_score_mods` above —
+    alt-trait replacement swaps aren't computed here either, the same
+    existing gap those already have (`models/character.py`'s `alt_traits`
+    resolves a chosen swap's *name* for display only, never its mechanical
+    effect).
+
+    Unlike SCORE (folded straight into effective ability scores) and SPEED
+    (folded into total land speed, `rules/speed.py`'s `race_speed`) — both of
+    which already have a dedicated resolution path — a race's SKILL bonus has
+    none yet, so this returns raw `Modifier`s for `sheet.py` to merge into
+    its own `all_modifiers` list *before* `stack_by_target`, same "combine
+    before stacking" reasoning that list's own docstring already spells out
+    for gear's AC bonus."""
+    grants = db.scalars(
+        select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
+    ).all()
+    modifiers: list[Modifier] = []
+    for grant in grants:
+        handler = HANDLERS.get(grant.ability_id)
+        if handler is None:
+            continue
+        modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.SKILL)
+    return modifiers
 
 
 def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID | None:

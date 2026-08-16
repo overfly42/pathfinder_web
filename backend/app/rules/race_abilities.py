@@ -22,11 +22,14 @@ doesn't (and it's a flavor-only ability, e.g. Darkvision, with no mechanical
 effect modeled yet). If you change an id here, update the JSON row to match,
 and vice versa — nothing enforces the link automatically.
 
-Ability-score bonuses are the one case relevant to races today; they're the
-same rulebook ability across races (e.g. "+2 auf einen Attributswert" is one
-concept shared by Human/Half-Elf/Half-Orc), so each occurring (attribute,
-value) combination gets exactly one id/handler, reused by every race that
-grants it.
+Ability-score bonuses are the main case; they're the same rulebook ability
+across races (e.g. "+2 auf einen Attributswert" is one concept shared by
+Human/Half-Elf/Half-Orc), so each occurring (attribute, value) combination
+gets exactly one id/handler, reused by every race that grants it. Flat racial
+skill bonuses (Halb-Ork's Einschüchternd — 2026-08-16) follow the same
+"trivial one-liner" shape, just targeting `ModifierTarget.SKILL` instead of
+`SCORE` — still small enough to live alongside the ability-score handlers
+rather than needing their own file.
 
 `ABILITY_ANY_PLUS2` ("Anpassungsfähig") is the one ability whose handler
 returns `attribute=None` — the player picks at character creation. That
@@ -65,6 +68,11 @@ ABILITY_ST_MINUS2 = UUID("8ccc99e8-00c5-4245-8fb0-73d7fcd5bbdb")
 ABILITY_ST_PLUS2 = UUID("04d2de62-ece9-4345-be84-cf8bf00d94dd")
 ABILITY_ANY_PLUS2 = UUID("2756eef0-10f0-42d4-a6d4-10f0b44ec4be")
 
+EINSCHUECHTERND = UUID("342e6626-6d77-47d5-a129-3a3ccc017088")
+# `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill
+# Einschüchternd's Volksbonus targets.
+_EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
+
 
 def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value: int) -> list[Modifier]:
     # Unconditional (a race's ability-score bonus never depends on anything
@@ -75,6 +83,15 @@ def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value:
     del context
     return [
         Modifier(source="race ability", type="racial", value=value, target=ModifierTarget.SCORE, target_id=attribute)
+    ]
+
+
+def _skill_bonus(context: CharacterContext, *, skill_id: str, value: int) -> list[Modifier]:
+    # Unconditional, same reasoning as `_attribute_bonus` above — a race's
+    # flat skill Volksbonus never depends on anything about the character.
+    del context
+    return [
+        Modifier(source="race ability", type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
     ]
 
 
@@ -96,4 +113,5 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ABILITY_ST_MINUS2: functools.partial(_attribute_bonus, attribute="ST", value=-2),
     ABILITY_ST_PLUS2: functools.partial(_attribute_bonus, attribute="ST", value=2),
     ABILITY_ANY_PLUS2: functools.partial(_attribute_bonus, attribute=None, value=2),
+    EINSCHUECHTERND: functools.partial(_skill_bonus, skill_id=_EINSCHUECHTERN_SKILL_ID, value=2),
 }

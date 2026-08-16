@@ -366,6 +366,29 @@ def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, d
     assert skills_by_key[einschuechtern_id]["value"] == "+5"
 
 
+def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/race_abilities.py`'s `EINSCHUECHTERND` handler: Halb-Ork's
+    Einschüchternd grants a +2 Volksbonus (racial) on Einschüchtern."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Halb-Ork")
+
+    einschuechtern_id = _skill_id(client, db_session, "Einschüchtern")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, flex_ability="ST"),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    # CH mod (-1) + class skill bonus (+3, Waldläufer) + racial (+2) = +4.
+    assert skills_by_key[einschuechtern_id]["value"] == "+4"
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

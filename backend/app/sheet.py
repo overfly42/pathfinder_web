@@ -63,7 +63,7 @@ from .models import (
     RaceAbilityGrant,
 )
 from .routers.characters import _class_def
-from .routers.races import race_ability_score_mods
+from .routers.races import race_ability_score_mods, race_skill_modifiers
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
@@ -140,17 +140,20 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
     # active effects (`rules/handlers.py`'s `character_modifiers`; race/class
     # granted-ability ids are deliberately excluded there, see its
-    # docstring) — plus gear's own AC bonus (armor/shield `ac_bonus`, any
-    # slot's `enhancement`). Combined into one raw list *before* stacking,
-    # not stacked separately per source and added: two same-type bonuses
-    # (e.g. a composition "armor" bonus and a gear "armor" bonus) must not
-    # both apply, and `stack()` can only enforce that within a single call
-    # (`rules/modifiers.py`'s `stack_by_target` docstring). Grouped by
-    # target once here and threaded into AC/saves/speed/skills below as
-    # plain dict lookups rather than each one re-filtering/re-stacking.
+    # docstring) — plus a race's own SKILL-target grants (`race_skill_modifiers`,
+    # e.g. Halb-Ork's Einschüchternd — SCORE/SPEED already have their own
+    # dedicated path, see that function's docstring) and gear's own AC bonus
+    # (armor/shield `ac_bonus`, any slot's `enhancement`). Combined into one
+    # raw list *before* stacking, not stacked separately per source and
+    # added: two same-type bonuses (e.g. a composition "armor" bonus and a
+    # gear "armor" bonus) must not both apply, and `stack()` can only enforce
+    # that within a single call (`rules/modifiers.py`'s `stack_by_target`
+    # docstring). Grouped by target once here and threaded into
+    # AC/saves/speed/skills below as plain dict lookups rather than each one
+    # re-filtering/re-stacking.
     items, gear_by_slot = _gear_lookup(db, character)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
-    all_modifiers = character_modifiers(context)
+    all_modifiers = character_modifiers(context) + race_skill_modifiers(db, character.race_id)
     stacked = stack_by_target(all_modifiers + gear_ac_modifiers)
 
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
@@ -425,10 +428,12 @@ def _build_skills(
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
         class_bonus = 3 if skill.id in class_skill_ids else 0
-        # Unconditional feat/class-ability skill bonuses (e.g. Einschüchternde
-        # Kraft's ST modifier on Einschüchtern, `rules/feats.py`) — 0 for
-        # every skill without such a handler, same "wired ahead of the first
-        # producer" convention `ModifierTarget.SKILL` was declared under.
+        # Unconditional feat/race/class-ability skill bonuses (e.g.
+        # Einschüchternde Kraft's ST modifier on Einschüchtern,
+        # `rules/feats.py`; Halb-Ork's Einschüchternd, `race_skill_modifiers`
+        # above) — 0 for every skill without such a handler, same "wired
+        # ahead of the first producer" convention `ModifierTarget.SKILL` was
+        # declared under.
         handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
         base_value = ranks + ab_mod + class_bonus + handler_bonus
         entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(base_value)}
