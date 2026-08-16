@@ -2799,5 +2799,30 @@
     "id": "f8c6a559-db3c-50e3-bc7d-16b980d3490b",
     "name": "Mächtiger Kampfrausch",
     "description": "(AF) Auf der 20. Stufe erhöhen sich die Boni zu seiner Stärke und seiner Konstitution auf +8 und der Bonus auf Willenswürfe steigt auf +4, wenn der Barbar in einen Kampfrausch verfällt."
+  },
+  {
+    "id": "fb60dfd1-2d4c-5e15-99e9-a93965258016",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Ein Seeräuber ist im Umgang mit allen einfachen Waffen und allen Kriegswaffen, leichten Rüstungen und Schilden (außer Turmschilden) geübt, jedoch nicht mit Mittelschweren Rüstungen. Dieses Klassenmerkmal ersetzt Entfesselter Barbars Umgang mit Waffen und Rüstungen."
+  },
+  {
+    "id": "946906da-5a19-5d1b-a5c4-3da36cae65ca",
+    "name": "Schrecken des Meeres",
+    "description": "(AF) Ein Seeräuber kann seinen Atem für eine Anzahl von Runden in Höhe des Vierfachen seiner Konstitution anhalten. Ferner kann er sich normal durch Felder stehenden Wassers oder Sumpfes mit einer Tiefe von bis zu 0,30 m hindurch bewegen, ohne dass ihn dies zusätzliche Bewegung kostet. Schlussendlich ignoriert ein Seeräuber bei seinem Angriff den normalen Deckungsbonus auf die RK von Kreaturen, die teilweise unter Wasser sind. Dieses Klassenmerkmal ersetzt Schnelle Bewegung."
+  },
+  {
+    "id": "3a8f654d-86dc-5c02-8390-fb62e5bb9269",
+    "name": "Augen des Sturms",
+    "description": "(AF) Mit Beginn der 2. Stufe ignoriert ein Seeräuber Tarnung aufgrund von Nebel, Regen, Wind oder anderen Wettereffekten, die nicht Vollständige Tarnung verleihen. Ferner werden alle Mali auf Fertigkeitswürfe für Wahrnehmung aufgrund von Wetterbedingungen halbiert."
+  },
+  {
+    "id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "name": "Wilder Seemann",
+    "description": "(AF) Mit Beginn der 3. Stufe erhält ein Seeräuber einen Bonus von +1 auf seine Fertigkeitswürfe für Akrobatik, Beruf (Seemann), Klettern, Schwimmen und Überlebenskunst im Wasser, auf Schiffen und an der Küste. Diese Boni steigen alle weiteren drei Stufen als Barbar um zusätzliche +1 (d.h. auf der 6., 9. usw.). Dieses Klassenmerkmal ersetzt Gefahreninstinkt (Entfesselter Barbars Entsprechung zu Fallengespür, das dieses Klassenmerkmal beim Grundregelwerk-Barbaren ersetzt)."
+  },
+  {
+    "id": "d8094dcc-15ba-59c5-ba62-9da2c1c8cabc",
+    "name": "Sicherer Tritt",
+    "description": "(AF) Mit Beginn der 5. Stufe erleidet ein Seeräuber keine Nachteile mehr, wenn er sich über übernatürliche oder magische rutschige Oberflächen bewegt (z.B. Schmieren, Eissturm oder Schneesturm). Er riskiert nicht zu stürzen und verliert auch seinen GE-Bonus auf die RK nicht, wenn er sich durch solche Gebiete bewegt; er behandelt sie auch nicht als Schwieriges Gelände. Dieses Klassenmerkmal ersetzt Verbesserte Reflexbewegung."
   }
 ]

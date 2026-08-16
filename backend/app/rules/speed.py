@@ -25,7 +25,6 @@ ability id against `rules/handlers.py`'s full merged registry, not this
 module's own smaller `HANDLERS` — the id could now live in any class file."""
 
 import functools
-from collections import Counter
 from collections.abc import Callable
 from uuid import UUID
 
@@ -33,7 +32,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from .context import CharacterContext
-from .modifiers import Modifier, ModifierTarget, stack
+from .modifiers import Modifier, ModifierTarget, SkillNote, stack
+from .skill_ids import AKROBATIK_SKILL_ID
 
 RACE_NORMAL_SPEED_ABILITY_ID = UUID("2e0186d5-e532-4532-b7f7-b4c6f4834bde")
 RACE_SLOW_SPEED_ABILITY_ID = UUID("9a5db666-54d4-4112-b750-dbb1abf1265d")
@@ -105,13 +105,14 @@ def race_speed(db: Session, race_id: UUID) -> int | None:
     return stack(modifiers) if modifiers else None
 
 
-def class_speed_bonus(granted_class_ability_counts: Counter[UUID], context: CharacterContext) -> int:
+def class_speed_bonus(context: CharacterContext) -> int:
     """Total land-speed bonus (meters) from this character's actually-granted
-    class abilities (`sheet.py`'s `_granted_class_ability_ids` — already
-    resolved against level count/archetype/option picks). The handler is
-    called once per qualifying grant, not once per distinct ability id, so a
-    repeatedly-granted fast-movement feature stacks correctly (see
-    `fast_movement`'s docstring).
+    class abilities (`context.granted_ability_ids` — a `Counter`, already
+    resolved against level count/archetype/option picks by `sheet.py`'s
+    `_granted_class_ability_ids` before it's placed on `context`). The
+    handler is called once per qualifying grant, not once per distinct
+    ability id, so a repeatedly-granted fast-movement feature stacks
+    correctly (see `fast_movement`'s docstring).
 
     Looks a granted ability id up against `rules/handlers.py`'s full merged
     registry, not this module's own `HANDLERS`: a class's fast-movement
@@ -124,7 +125,7 @@ def class_speed_bonus(granted_class_ability_counts: Counter[UUID], context: Char
     from .handlers import HANDLERS as _MERGED_HANDLERS
 
     modifiers: list[Modifier] = []
-    for ability_id, count in granted_class_ability_counts.items():
+    for ability_id, count in context.granted_ability_ids.items():
         handler = _MERGED_HANDLERS.get(ability_id)
         if handler is None:
             continue
@@ -140,18 +141,38 @@ def jump_skill_bonus(total_land_speed: int) -> int:
     full 3 m the character's *already fully resolved* land speed
     (`race_speed(...) + class_speed_bonus(...)`, not just the racial part)
     is above 9 m, or -4 per full 3 m it's below — partial 3 m steps don't
-    count (a character at 11 m gets +0, not a fraction of +4).
-
-    Deliberately not a `HANDLERS` entry: nothing grants this, it's an
-    automatic consequence of a character's resolved speed, so there's no
-    ability/feat/trait catalog row (no UUID) to key a handler off of — a
-    fixed formula belongs in the derivation phase alongside
-    `rules/progression.py`'s `ability_mod`, not the composition-driven
-    registry. Only applies to jump checks, not Akrobatik's other uses
-    (Balancieren, Abrollen, ...), so `sheet.py`'s `_build_skills` never folds
-    it into the general Akrobatik `value` shown on the skill row — it only
-    appears combined with that value in the row's info-note (a ready-to-roll
-    jump total), computed there, not here."""
+    count (a character at 11 m gets +0, not a fraction of +4)."""
     diff = total_land_speed - 9
     increments = abs(diff) // 3
     return 4 * increments if diff >= 0 else -4 * increments
+
+
+def jump_skill_note(total_land_speed: int) -> SkillNote:
+    """Scope 3 ("conditional for all characters") of
+    `rules/handlers.py`'s `SITUATIONAL_SKILL_HANDLERS` model: this bonus is
+    an automatic consequence of a character's resolved speed, not something
+    any ability/feat/trait grants — there's no catalog UUID to key a
+    `SITUATIONAL_SKILL_HANDLERS` entry off, so unlike Wilder Seemann this
+    isn't looked up by id at all. `sheet.py`'s `_build_skills` instead calls
+    this directly and unconditionally for every character (every character
+    can attempt a jump), the same way `race_speed`'s base-speed grant is
+    unconditional rather than composition-gated.
+
+    Always returns a note, even when the bonus is exactly 0 (a character at
+    the default 9 m land speed) — unlike an id-keyed `SITUATIONAL_SKILL_HANDLERS`
+    entry, which is simply never invoked for a character who lacks the
+    triggering id, there's no "doesn't apply" state here: every character's
+    Akrobatik total does interact with their speed for a jump check, +0 is
+    itself the answer, not an absence of one. Only applies to jump checks,
+    not Akrobatik's other uses (Balancieren, Abrollen, ...), so `_build_skills`
+    never folds this into the general Akrobatik `value` shown on the skill
+    row — it only appears combined with that value in the row's info-note (a
+    ready-to-roll jump total)."""
+    bonus = jump_skill_bonus(total_land_speed)
+    return SkillNote(
+        skill_id=AKROBATIK_SKILL_ID,
+        title="Sprung (Hoch-/Weitsprung)",
+        modifier_label="Volksbonus/-malus",
+        value=bonus,
+        detail=f" bei {total_land_speed} m Bewegungsrate, 4 pro volle 3 m über/unter 9 m",
+    )

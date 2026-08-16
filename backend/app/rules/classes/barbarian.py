@@ -1,9 +1,12 @@
-"""Barbar + Entfesselter Barbar (unchained Barbarian) handlers — one file
-per class, closely related variants sharing a file (CLAUDE.md's "Working
-Conventions"): the two are the same rulebook character concept, and their
-mechanics either share an id outright ("Schnelle Bewegung" below) or are
-independently worded/tuned variants of the same feature (each has its own
-Kampfrausch — see roadmap.md — so those get separate ids, not a shared one).
+"""Barbar + Entfesselter Barbar (unchained Barbarian) handlers, plus
+Entfesselter Barbar's Seeräuber archetype (`import_barbar_seereauber.py`) —
+one file per class, closely related variants sharing a file (CLAUDE.md's
+"Working Conventions"): the two root classes are the same rulebook character
+concept, and their mechanics either share an id outright ("Schnelle
+Bewegung" below) or are independently worded/tuned variants of the same
+feature (each has its own Kampfrausch — see roadmap.md — so those get
+separate ids, not a shared one); an archetype belongs in its parent's file
+by the same "closely related variant" rule.
 
 Feeds `rules/handlers.py`'s unified `HANDLERS`, same merge-only role
 `race_abilities.py`/`speed.py` play for their own slices — this file owns
@@ -15,8 +18,15 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
-from ..modifiers import Modifier, ModifierTarget
+from ..modifiers import Modifier, ModifierTarget, SkillNote
 from ..progression import ability_mod
+from ..skill_ids import (
+    AKROBATIK_SKILL_ID,
+    BERUF_SKILL_ID,
+    KLETTERN_SKILL_ID,
+    SCHWIMMEN_SKILL_ID,
+    UEBERLEBENSKUNST_SKILL_ID,
+)
 from ..speed import fast_movement
 
 # Entfesselter Barbar's own root `BaseClass` id (it's modeled as an
@@ -114,9 +124,73 @@ def _kampfrausch_entfesselter_barbar_end(context: CharacterContext) -> tuple[UUI
     return (ERSCHOPFT_CONDITION_ID, 10)
 
 
+# Seeräuber (Entfesselter Barbar archetype, `import_barbar_seereauber.py`)'s
+# "Wilder Seemann" — id is that script's own deterministic
+# `uid("seereauber-ability", "Wilder Seemann")` (against its own
+# `ID_NAMESPACE`), reproduced here as a plain literal since the seed script
+# isn't importable at runtime (it's a one-off fixture-writer, not a package
+# module).
+SEERAEUBER_WILDER_SEEMANN_ABILITY_ID = UUID("0f023bbd-cdea-5ea3-9518-c530cb119f1f")
+
+# The five skills Wilder Seemann's bonus applies to — Beruf stands in for
+# "Beruf (Seemann)" specifically, since Profession specializations aren't
+# modeled as distinct `BaseSkill` rows anywhere in this codebase.
+SEERAEUBER_WILDER_SEEMANN_SKILL_IDS = (
+    AKROBATIK_SKILL_ID,
+    BERUF_SKILL_ID,
+    KLETTERN_SKILL_ID,
+    SCHWIMMEN_SKILL_ID,
+    UEBERLEBENSKUNST_SKILL_ID,
+)
+
+
+def _wilder_seemann_notes(context: CharacterContext) -> list[SkillNote]:
+    """"+1 auf ... Akrobatik, Beruf (Seemann), Klettern, Schwimmen und
+    Überlebenskunst im Wasser, auf Schiffen und an der Küste [...] steigen
+    alle weiteren drei Stufen ... um zusätzliche +1" — granted via 6
+    separate `BaseClassAbilityGrant` rows (3rd/6th/9th/12th/15th/18th, same
+    repeated-grant shape as core Barbar's Schadensreduzierung), so the
+    count of this ability's own currently-met grants
+    (`context.granted_ability_ids[SEERAEUBER_WILDER_SEEMANN_ABILITY_ID]`,
+    already resolved by `sheet.py`'s `_granted_class_ability_ids`) *is* the
+    total +1-per-grant bonus, no separate scaling formula needed.
+
+    Only called at all when this id is actually one of the character's
+    granted abilities (`rules/handlers.py`'s `SITUATIONAL_SKILL_HANDLERS`
+    resolution loop looks the id up in `context.granted_ability_ids`
+    first), so the count read here is always > 0 — no extra presence check
+    needed the way `HANDLERS` entries sometimes need one.
+
+    Conditional on where the check is made (water/ships/coast), unlike
+    Fallengespür's unconditional AC/Reflex bonus — so this is a
+    `SITUATIONAL_SKILL_HANDLERS` entry (produces `SkillNote`s,
+    `sheet.py`'s `_build_skills` renders them as an info note, never folded
+    into a skill's base value) rather than a `HANDLERS`/`Modifier` one,
+    which would incorrectly apply the bonus to every
+    Akrobatik/Klettern/Schwimmen/... check regardless of location."""
+    count = context.granted_ability_ids[SEERAEUBER_WILDER_SEEMANN_ABILITY_ID]
+    return [
+        SkillNote(
+            skill_id=skill_id,
+            title="Wilder Seemann (im Wasser, auf Schiffen, an der Küste)",
+            modifier_label="Wilder Seemann",
+            value=count,
+        )
+        for skill_id in SEERAEUBER_WILDER_SEEMANN_SKILL_IDS
+    ]
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(fast_movement, meters=3),
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `SITUATIONAL_SKILL_HANDLERS`
+# — conditional skill bonuses that only apply in some situation the sheet
+# can't detect on its own, surfaced as a note rather than folded into a
+# skill's base value (see that module's docstring for the full model).
+SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
+    SEERAEUBER_WILDER_SEEMANN_ABILITY_ID: _wilder_seemann_notes,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS` — how

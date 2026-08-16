@@ -112,5 +112,59 @@
     "archetype_class_id": "80748750-c27b-4bd3-9354-868ed3b01e18",
     "ability_id": "f64bdb1f-991c-4dba-bb9c-bc5b920f91b3",
     "replaces_grant_id": "44527160-6a9e-4a53-ab9f-b06a273fabfb"
+  },
+  {
+    "id": "2ca3723d-40c1-5279-8464-ebaf95c2afee",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "fb60dfd1-2d4c-5e15-99e9-a93965258016",
+    "replaces_grant_id": "63f4f5e2-3ff8-5fdb-9020-f759425e377f"
+  },
+  {
+    "id": "d1ebf225-1e58-56f8-9301-67941ce24c94",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "946906da-5a19-5d1b-a5c4-3da36cae65ca",
+    "replaces_grant_id": "4ae53700-845c-5afc-8965-b41d2ad9fd72"
+  },
+  {
+    "id": "41178d1d-33a9-5874-9b58-acc501b80986",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "f182a2c5-1873-5937-bd2d-abcec4525c50"
+  },
+  {
+    "id": "2d428377-0658-560c-a5f5-6daa319950ab",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "1f9db2fe-37f7-552b-95df-0ea6f1605a63"
+  },
+  {
+    "id": "63c5c588-9dee-5685-b92d-722cd87ba9e4",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "9308366a-36c3-587e-961d-b5465ca1c8bb"
+  },
+  {
+    "id": "b5f38ffa-243a-5a29-96e3-147e3c2220c1",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "91e568d4-9451-537a-970a-c8beec5651e0"
+  },
+  {
+    "id": "f53cdb1c-7e5a-5d41-991b-344070249ba1",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "1333566c-18aa-5f36-bbae-a01b1da1392c"
+  },
+  {
+    "id": "5af4f0d4-5a62-516c-bf06-8dc17af0b12d",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "0f023bbd-cdea-5ea3-9518-c530cb119f1f",
+    "replaces_grant_id": "edadf840-7ef7-5c67-b6b4-5e2aca6b2b04"
+  },
+  {
+    "id": "7c88cdb3-61bf-57da-9bef-c265c6fe790a",
+    "archetype_class_id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "ability_id": "d8094dcc-15ba-59c5-ba62-9da2c1c8cabc",
+    "replaces_grant_id": "d9ef537b-5fc2-5258-8782-f4cb4d68e473"
   }
 ]

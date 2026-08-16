@@ -193,5 +193,18 @@
     "ref_save": false,
     "wil_save": false,
     "skill_points_base": 4
+  },
+  {
+    "id": "4877361f-c373-53f4-b7e6-458143b36832",
+    "name": "Seeräuber",
+    "hit_dice": null,
+    "arch_class_of": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

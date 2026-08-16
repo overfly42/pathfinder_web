@@ -17,6 +17,7 @@ populated as the call sites that can actually supply them are migrated
 today is an honest "not wired yet", the same convention `EFFECT_HANDLERS`
 itself started with."""
 
+from collections import Counter
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 from uuid import UUID
@@ -31,7 +32,17 @@ class CharacterContext:
     skill_ranks: dict[UUID, int] = field(default_factory=dict)
     feat_ids: frozenset[UUID] = frozenset()
     trait_ids: frozenset[UUID] = frozenset()
-    granted_ability_ids: frozenset[UUID] = frozenset()
+    # A `Counter`, not a `frozenset`: some class abilities are granted more
+    # than once at different levels and each repetition has independent
+    # mechanical weight (`sheet.py`'s `_granted_class_ability_ids` docstring
+    # — e.g. Seeräuber's Wilder Seemann, `rules/classes/barbarian.py`), so a
+    # handler reading its own id's count off this field (same pattern
+    # `rules/speed.py`'s `class_speed_bonus` already used before this field
+    # existed) sees how many of its own grants are currently met, not just
+    # whether it has any. A plain membership/iteration check (`x in
+    # context.granted_ability_ids`) still works unchanged — `Counter` is a
+    # `dict` subclass.
+    granted_ability_ids: Counter[UUID] = field(default_factory=Counter)
     # Full rows, not just ids: unlike the other composition fields above, a
     # handler resolving an active effect needs to decide *how multiple
     # independent instances of its own id combine* (ability damage from two

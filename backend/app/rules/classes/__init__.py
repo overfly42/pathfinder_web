@@ -11,10 +11,10 @@ concern that already keeps `base_class_abilities.json` split from
 easy to find, easy to blame.
 
 This module only merges every class file's own `HANDLERS`/`DAILY_LIMITS`/
-`TEMP_HP_GRANTS`/`ON_END` into one dict apiece, the same merge-only role
-`rules/handlers.py` plays for every family — `rules/handlers.py` imports
-this package's dicts, not each class file individually, so a new class
-module only needs registering once, here.
+`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS` into one dict apiece,
+the same merge-only role `rules/handlers.py` plays for every family —
+`rules/handlers.py` imports this package's dicts, not each class file
+individually, so a new class module only needs registering once, here.
 
 Adding a class: create `rules/classes/<class_name>.py`, define its
 handlers, export its own `HANDLERS: dict[UUID, Callable[[CharacterContext],
@@ -22,17 +22,19 @@ list[Modifier]]]` (ability ids are globally unique, hand-frozen UUIDs, same
 convention as every other catalog — see `race_abilities.py`'s docstring —
 so merging can never silently shadow one class's handler with another's),
 and, only if it actually has content for them, its own `DAILY_LIMITS`/
-`TEMP_HP_GRANTS`/`ON_END` slices (see `rules/handlers.py` for what each
-covers) — then merge whichever it defines in below."""
+`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS` slices (see
+`rules/handlers.py` for what each covers) — then merge whichever it defines
+in below."""
 
 from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
-from ..modifiers import Modifier
+from ..modifiers import Modifier, SkillNote
 from .barbarian import DAILY_LIMITS as _BARBARIAN_DAILY_LIMITS
 from .barbarian import HANDLERS as _BARBARIAN_HANDLERS
 from .barbarian import ON_END as _BARBARIAN_ON_END
+from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -40,7 +42,8 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 }
 
 # Merged the same way as `HANDLERS` above — see `rules/handlers.py`'s
-# `DAILY_LIMITS`/`TEMP_HP_GRANTS`/`ON_END` docstrings for what each covers.
+# `DAILY_LIMITS`/`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`
+# docstrings for what each covers.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
 }
@@ -49,4 +52,7 @@ TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
 }
 ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
     **_BARBARIAN_ON_END,
+}
+SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
+    **_BARBARIAN_SITUATIONAL_SKILL_HANDLERS,
 }

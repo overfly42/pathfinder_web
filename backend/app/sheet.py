@@ -34,7 +34,7 @@ creature: `BaseRace` has no size field yet, so no size modifier is applied
 (a Small race like Halfling/Gnome should get +1 AC/attack, -1 CMB/CMD in
 real PF1e — not modeled here)."""
 
-from collections import Counter
+from collections import Counter, defaultdict
 from uuid import UUID
 
 from sqlalchemy import select
@@ -68,9 +68,9 @@ from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
-from .rules.handlers import DAILY_LIMITS, character_modifiers
-from .rules.modifiers import Modifier, ModifierTarget, stack_by_target
-from .rules.speed import class_speed_bonus, jump_skill_bonus, race_speed
+from .rules.handlers import DAILY_LIMITS, character_modifiers, situational_skill_notes
+from .rules.modifiers import Modifier, ModifierTarget, SkillNote, stack_by_target
+from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
@@ -131,7 +131,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
         feat_ids=frozenset(character.feat_ids),
         trait_ids=frozenset(character.trait_ids),
-        granted_ability_ids=frozenset(granted_ability_ids),
+        granted_ability_ids=granted_ability_ids,
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
         level_counts_by_root_id=level_counts_by_root_id,
@@ -158,11 +158,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = race_speed(db, character.race_id) or 9
-    total_speed = (
-        base_speed
-        + class_speed_bonus(granted_ability_ids, context)
-        + stacked.get((ModifierTarget.SPEED, None), 0)
-    )
+    total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
@@ -213,7 +209,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             },
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
-        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, stacked),
+        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, context),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
@@ -376,9 +372,6 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
     return result
 
 
-AKROBATIK_SKILL_ID = UUID("61a2cb21-fcda-4a2d-8fb5-8ed12133c648")
-
-
 def _build_skills(
     db: Session,
     character: Character,
@@ -386,8 +379,20 @@ def _build_skills(
     ability_mods: dict[str, int],
     total_speed: int,
     stacked: dict[tuple[ModifierTarget, str | None], int],
+    context: CharacterContext,
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
+
+    # Every situational (never-folded-into-`value`) skill bonus this
+    # character currently has, grouped by which skill it targets — scopes 1
+    # (granted class ability) and 2 (feat) resolved generically via
+    # `rules/handlers.py`'s `SITUATIONAL_SKILL_HANDLERS`, scope 3
+    # (universal — currently just the jump bonus) called directly since it
+    # has no id to look up (see that module's docstring for the full model).
+    # Computed once, up front, rather than each skill row re-deriving it.
+    notes_by_skill: dict[UUID, list[SkillNote]] = defaultdict(list)
+    for note in [jump_skill_note(total_speed), *situational_skill_notes(context)]:
+        notes_by_skill[note.skill_id].append(note)
 
     class_skill_ids: set[UUID] = set()
     if level_counts_by_root_id:
@@ -425,23 +430,19 @@ def _build_skills(
         # skill today; wired now so the first such handler doesn't also need
         # a sheet.py change to take effect.
         handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
-        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(ranks + ab_mod + class_bonus + handler_bonus)}
-        if skill.id == AKROBATIK_SKILL_ID:
-            # Springen-specific Volksbonus (rules/speed.py's jump_skill_bonus)
-            # — doesn't apply to Akrobatik's other uses (Balancieren,
-            # Abrollen, ...), so it's never folded into the displayed value
-            # above. The note itself, though, shows the full ready-to-roll
-            # jump total (this character's Akrobatik total + that Volksbonus/
-            # -malus), not just the isolated racial component — a player
-            # making a jump check wants one usable number, not a formula
-            # piece to add up themselves.
-            base_value = ranks + ab_mod + class_bonus + handler_bonus
-            jump_bonus = jump_skill_bonus(total_speed)
-            entry["note"] = (
-                f"Sprung (Hoch-/Weitsprung): {_fmt(base_value + jump_bonus)} gesamt "
-                f"(Akrobatik {_fmt(base_value)} + Volksbonus/-malus {_fmt(jump_bonus)} "
-                f"bei {total_speed} m Bewegungsrate, 4 pro volle 3 m über/unter 9 m)"
-            )
+        base_value = ranks + ab_mod + class_bonus + handler_bonus
+        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(base_value)}
+        # The note shows the full ready-to-roll total (this skill's base
+        # value + the situational bonus), not just the isolated bonus — a
+        # player wants one usable number, not a formula piece to add up
+        # themselves.
+        notes = [
+            f"{note.title}: {_fmt(base_value + note.value)} gesamt "
+            f"({skill.name} {_fmt(base_value)} + {note.modifier_label} {_fmt(note.value)}{note.detail})"
+            for note in notes_by_skill.get(skill.id, [])
+        ]
+        if notes:
+            entry["note"] = "; ".join(notes)
         result.append(entry)
     return result
 

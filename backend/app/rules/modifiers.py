@@ -25,6 +25,7 @@ for AC's own bonus types."""
 
 from dataclasses import dataclass
 from enum import StrEnum
+from uuid import UUID
 
 ALWAYS_STACKS = {"dodge", "circumstance", "untyped"}
 
@@ -52,6 +53,47 @@ class Modifier:
     value: int
     target: ModifierTarget
     target_id: str | None = None
+
+
+@dataclass(frozen=True)
+class SkillNote:
+    """A *conditional* skill bonus — one that only applies in some
+    situation the sheet can't itself detect (Seeräuber's Wilder Seemann
+    only applies in water/on ships/at the coast; Sprung's Volksbonus only
+    applies to a jump check, not Akrobatik's other uses) — sibling to
+    `Modifier`, deliberately not a `Modifier`: everything that reaches
+    `stack()`/`stack_by_target()` is treated as unconditionally active and
+    folded straight into a stat's displayed value, which would be wrong
+    here. `sheet.py`'s `_build_skills` is the only consumer — it renders
+    every `SkillNote` targeting a skill as that skill's info `note` (never
+    added to `value`) and is where `title`/`modifier_label`/`detail` end up
+    in the sentence; this dataclass only carries the ingredients, not
+    presentation logic, same "handler computes, sheet.py formats" split
+    `Modifier`/`stack_by_target` already keep.
+
+    Produced by two different kinds of source, per `rules/handlers.py`'s
+    `SITUATIONAL_SKILL_HANDLERS` docstring:
+    - id-keyed (granted class ability or feat) — `value` is already fully
+      resolved by the handler (e.g. scaled by grant count), no further
+      conditioning needed.
+    - universal (`rules/speed.py`'s jump bonus) — applies to every
+      character regardless of composition, so it's never looked up by id
+      at all; called directly and unconditionally instead."""
+
+    skill_id: UUID
+    # The note's leading label, e.g. "Wilder Seemann (im Wasser, auf
+    # Schiffen, an der Küste)" or "Sprung (Hoch-/Weitsprung)".
+    title: str
+    # The bonus's own name inside the "skill total + this" breakdown, e.g.
+    # "Wilder Seemann" or "Volksbonus/-malus" — usually equal to `title`
+    # minus its parenthetical, but kept separate since they diverge for
+    # Sprung.
+    modifier_label: str
+    value: int
+    # Trailing free text after the value, e.g. jump's
+    # " bei 9 m Bewegungsrate, 4 pro volle 3 m über/unter 9 m" — empty for
+    # notes with nothing more to add.
+    detail: str = ""
 
 
 def stack(modifiers: list[Modifier]) -> int:
