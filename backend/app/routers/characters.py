@@ -37,6 +37,7 @@ from ..models import (
     User,
 )
 from ..rules.context import CharacterContext
+from ..rules.class_options import ability_ids_by_name, group_occurrence_levels
 from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
@@ -183,15 +184,47 @@ def _validate_options(db: Session, root: BaseClass, options: dict[str, list[str]
     submitted choice's `BaseClassOptionChoice.min_level` (e.g. Mystiker's
     Offenbarung choices each carry their own threshold; Kampfrauschkraft's
     "Innere Zähigkeit" needs Barbar 8). `None` means no threshold beyond the
-    group's own grant level, so nothing to check."""
+    group's own grant level, so nothing to check.
+
+    For a *recurring* group (`rules/class_options.py`'s `group_occurrence_levels`
+    — Kampfrauschkraft, Trick, Offenbarung, ...) two more checks apply,
+    2026-08-16: `character_level` must have reached the group's own earliest
+    occurrence at all (a level-1 Entfesselter Barbar has zero Kampfrauschkraft
+    occurrences yet, regardless of any individual choice's own `min_level`),
+    and the submission can't exceed how many occurrences have actually been
+    reached (a starting level-5 character gets 2 Kampfrauschkraft picks — the
+    2nd/4th-level occurrences — not the group's lifetime `max_choices` of
+    10). `/api/classes`' `occurrenceLevels` is this same function's output,
+    used by `ClassStep.tsx` purely to decide what to render — this is the
+    actual, server-side-enforced rule."""
     groups = db.scalars(select(BaseClassOptionGroup).where(BaseClassOptionGroup.base_class_id == root.id)).all()
     groups_by_key = {group.key: group for group in groups}
+    ability_ids_by_name_map = ability_ids_by_name(db)
     for group_key, choices in options.items():
         group = groups_by_key.get(group_key)
         if group is None:
             raise HTTPException(status_code=422, detail=f"Unknown option group '{group_key}' for {root.name}")
         if len(choices) > group.max_choices:
             raise HTTPException(status_code=422, detail=f"Too many choices for option group '{group_key}'")
+        occurrence_levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
+        if occurrence_levels and choices:
+            reached = [level for level in occurrence_levels if level <= character_level]
+            if not reached:
+                raise HTTPException(
+                    status_code=422,
+                    detail=(
+                        f"Option group '{group_key}' isn't available until {root.name} level "
+                        f"{occurrence_levels[0]} (currently {character_level})"
+                    ),
+                )
+            if len(choices) > len(reached):
+                raise HTTPException(
+                    status_code=422,
+                    detail=(
+                        f"Too many choices for option group '{group_key}': {len(reached)} occurrence(s) reached "
+                        f"at {root.name} level {character_level}, {len(choices)} submitted"
+                    ),
+                )
         choices_by_name = {
             choice.name: choice
             for choice in db.scalars(

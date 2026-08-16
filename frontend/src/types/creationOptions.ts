@@ -28,6 +28,13 @@ export interface ClassOptionGroup {
   label: string;
   max: number;
   choices: string[];
+  /** Levels (in this root class) at which one more occurrence of this group
+   *  opens up, e.g. Kampfrauschkraft's `[2, 4, 6, ..., 20]` — empty for a
+   *  one-time creation-time pick (domain/bloodline/school), which is always
+   *  available. Backend-computed (`rules/class_options.py`'s
+   *  `group_occurrence_levels`) and backend-enforced (`_validate_options`);
+   *  the frontend only uses it to decide what to render — see `ClassStep.tsx`. */
+  occurrenceLevels: number[];
 }
 
 export interface ClassDef {

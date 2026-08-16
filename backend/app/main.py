@@ -11,7 +11,6 @@ from sqlalchemy.orm import Session
 from .db import get_db
 from .models import (
     BaseClass,
-    BaseClassAbility,
     BaseClassAbilityGrant,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
@@ -20,6 +19,7 @@ from .models import (
     Character,
 )
 from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
+from .rules.class_options import ability_ids_by_name, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .sheet import build_character_history, build_character_progression, build_character_sheet
 
@@ -167,7 +167,12 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     `fortSave`/`refSave`/`willSave` (roadmap slice 3's HP/BAB/save item)
     likewise come straight from `BaseClass`, letting a future sheet/level-up
     UI mirror `rules/progression.py`'s math without hardcoding per-class
-    progression."""
+    progression. Each `optionGroups` entry also carries `occurrenceLevels`
+    (`rules/class_options.py`'s `group_occurrence_levels`, 2026-08-16) — empty
+    for a one-time pick, otherwise the levels at which the frontend should
+    treat the group as newly available/countable; `ClassStep.tsx` uses this
+    purely as backend-computed data (which levels exist), `_validate_options`
+    (`routers/characters.py`) is what actually enforces it."""
     classes = load_fixture("classes.json")
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_id_by_name = {root.name: root.id for root in roots}
@@ -186,6 +191,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     choice_names_by_group_id: dict = {}
     for choice in db.scalars(select(BaseClassOptionChoice)).all():
         choice_names_by_group_id.setdefault(choice.group_id, []).append(choice.name)
+    ability_ids_by_name_map = ability_ids_by_name(db)
     option_groups_by_root_id: dict = {}
     for group in db.scalars(select(BaseClassOptionGroup)).all():
         option_groups_by_root_id.setdefault(group.base_class_id, []).append(
@@ -194,6 +200,17 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                 "label": group.label,
                 "max": group.max_choices,
                 "choices": choice_names_by_group_id.get(group.id, []),
+                # Empty for a one-time creation-time pick (domain/bloodline/
+                # school - always available); non-empty for a recurring pick
+                # (Kampfrauschkraft/Trick/Offenbarung) - the levels (in this
+                # root class) at which one more occurrence opens up. The
+                # frontend uses this purely as backend-computed data (which
+                # occurrence levels exist, full stop) to decide whether to
+                # render the group at a given class-row level and to cap how
+                # many picks are legal so far - `_validate_options`
+                # (`routers/characters.py`) is what actually enforces both,
+                # server-side, using this exact same function.
+                "occurrenceLevels": group_occurrence_levels(db, group, ability_ids_by_name_map),
             }
         )
 
@@ -249,9 +266,12 @@ def get_effects() -> list:
 
 
 # Recurring per-class choices gated by level (e.g. a barbarian's new
-# Kampfrauschkraft at every even level), distinct from /api/classes'
-# optionGroups which are one-time level-1 picks. Used by the level-up
-# wizard's ClassChoiceStep only.
+# Kampfrauschkraft at every even level), one occurrence at a time. Distinct
+# from /api/classes' optionGroups, which exposes every occurrence's worth of
+# choices flatly (creation submits every earned pick for a group in one go,
+# not incrementally) — this endpoint is for the level-up wizard's
+# ClassChoiceStep specifically, which picks exactly one new occurrence per
+# level-up.
 @app.get("/api/class-level-options")
 def get_class_level_options(db: Annotated[Session, Depends(get_db)]) -> dict:
     """Computed from the real `base_class_option_groups`/
@@ -301,30 +321,15 @@ def get_class_level_options(db: Annotated[Session, Depends(get_db)]) -> dict:
     for choice in db.scalars(select(BaseClassOptionChoice)).all():
         choices_by_group_id.setdefault(choice.group_id, []).append(choice)
 
-    ability_ids_by_name: dict[str, list[UUID]] = {}
-    for ability in db.scalars(select(BaseClassAbility)).all():
-        ability_ids_by_name.setdefault(ability.name, []).append(ability.id)
-
+    ability_ids_by_name_map = ability_ids_by_name(db)
     class_names_by_root_id = {root.id: root.name for root in db.scalars(select(BaseClass)).all()}
 
     result: dict[str, list[dict]] = {}
     for group in db.scalars(select(BaseClassOptionGroup)).all():
-        ability_ids = ability_ids_by_name.get(group.label, [])
         class_name = class_names_by_root_id.get(group.base_class_id)
-        if not ability_ids or class_name is None:
+        if group.label not in ability_ids_by_name_map or class_name is None:
             continue
-        levels = sorted(
-            {
-                grant.level
-                for grant in db.scalars(
-                    select(BaseClassAbilityGrant).where(
-                        BaseClassAbilityGrant.base_class_id == group.base_class_id,
-                        BaseClassAbilityGrant.ability_id.in_(ability_ids),
-                        BaseClassAbilityGrant.option_choice_id.is_(None),
-                    )
-                ).all()
-            }
-        )
+        levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
         if len(levels) < 2:
             continue
         group_choices = choices_by_group_id.get(group.id, [])
