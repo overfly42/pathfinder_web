@@ -2824,5 +2824,165 @@
     "id": "d8094dcc-15ba-59c5-ba62-9da2c1c8cabc",
     "name": "Sicherer Tritt",
     "description": "(AF) Mit Beginn der 5. Stufe erleidet ein Seeräuber keine Nachteile mehr, wenn er sich über übernatürliche oder magische rutschige Oberflächen bewegt (z.B. Schmieren, Eissturm oder Schneesturm). Er riskiert nicht zu stürzen und verliert auch seinen GE-Bonus auf die RK nicht, wenn er sich durch solche Gebiete bewegt; er behandelt sie auch nicht als Schwieriges Gelände. Dieses Klassenmerkmal ersetzt Verbesserte Reflexbewegung."
+  },
+  {
+    "id": "bd67f19e-bb44-5aca-8de1-1dce17bdbb07",
+    "name": "Benebelter Säufer",
+    "description": "(AF) Nimmt der Barbar Alkohol zu sich, kann er einen neuen Rettungswurf gegen einen der folgenden Zustände ablegen, die ihn betreffen: Blind, Geblendet, Verwirrt, Taub, Erschöpft, Ermüdet, Verängstigt, Übelkeit, Panisch, Erschüttert, Kränkelnd. Bei Erfolg wird der Effekt für die Dauer des Kampfrausches unterdrückt. Auf dieselbe Weise kann er auch einen neuen Rettungswurf gegen eine Vergiftung ablegen. Ein gelungener Rettungswurf zählt als bestandener Rettungswurf; ein misslungener Rettungswurf hat keine weiteren Nachteile zur Folge."
+  },
+  {
+    "id": "41f38a6b-92a5-5d0b-9991-67eb9669137d",
+    "name": "Beschütztes Leben",
+    "description": "(AF) Sollte der Barbar unter 0 Trefferpunkte reduziert werden, wird 1 Schadenspunkt pro Barbarenstufe in nichttödlichen Schaden umgewandelt. Befindet sich der Barbar aufgrund von tödlichem Schaden im negativen Trefferpunktebereich, stabilisiert er sich automatisch."
+  },
+  {
+    "id": "694f425e-d5f9-55d7-978e-4f7e50296dec",
+    "name": "Bestientotem, Schwächeres",
+    "description": "(ÜF) Der Barbar erhält zwei Klauenangriffe. Diese Angriffe sind Primärangriffe und werden mit dem vollen Grund-Angriffsbonus ausgeführt. Die Klauen verursachen 1W6 Punkte Hiebschaden (1W4 falls klein) zuzüglich des ST-Modifikators des Barbaren."
+  },
+  {
+    "id": "a26e564e-295b-5c25-be44-4a75ee3ce486",
+    "name": "Bestientotem",
+    "description": "(ÜF) Der Barbar erhält einen Bonus von +1 auf seine natürliche Rüstung. Dieser Bonus steigt um weitere +1 pro 4 Barbarenstufen."
+  },
+  {
+    "id": "21649bfa-845d-56bb-aa8b-8cf18f646aff",
+    "name": "Bestientotem, Mächtiges",
+    "description": "(ÜF) Der Barbar erhält die besondere Kraft Anspringen, wodurch er im Anschluss an einen Sturmangriff einen Vollen Angriff durchführen kann. Der Schaden seiner Klauen steigt auf 1W8 (1W6 falls klein) und sie verursachen bei einem Kritischen Treffer den dreifachen Schaden."
+  },
+  {
+    "id": "0c801a8a-3cb3-53cc-a631-94e87ed18c4a",
+    "name": "Chaostotem, Schwächeres",
+    "description": "(ÜF) Der Barbar erhält einen Ablenkungsbonus von +1 auf seine Rüstungsklasse gegen Angriffe rechtschaffener Kreaturen sowie einen Resistenzbonus von +1 auf Rettungswürfe gegen Verwirrung, Wahnsinn, Verwandlung und rechtschaffene Effekte. Dieser Bonus steigt um weitere +1 für jede weitere Kampfrauschkraft des Chaostotems, über die der Barbar verfügt."
+  },
+  {
+    "id": "2a84034d-57f6-5ef4-b9a9-8cee26f0f777",
+    "name": "Chaostotem",
+    "description": "(ÜF) Die Gestalt des Barbaren wird von Chaos erfüllt. Er erhält einen Bonus von +4 auf Fertigkeitswürfe für Entfesselungskunst und eine Chance von 25%, den zusätzlichen Schaden durch Kritische Treffer und Hinterhältige Angriffe zu ignorieren."
+  },
+  {
+    "id": "731850bc-fdd2-5335-944d-25dbd0ebf9e2",
+    "name": "Chaostotem, Mächtiges",
+    "description": "(ÜF) Der Barbar erhält Schadensreduzierung/Rechtschaffen in Höhe der halben Barbarenstufe. Seine Waffen und natürlichen Waffen gelten als chaotisch, um Schadensreduzierung zu überwinden."
+  },
+  {
+    "id": "cbc5d988-8332-5092-8974-874109024f05",
+    "name": "Faustkämpfer",
+    "description": "(AF) Der Barbar wird behandelt, als besäße er das Talent Verbesserter waffenloser Schlag. Besitzt er dieses Talent bereits, verursachen seine waffenlosen Schläge 1W6 Schadenspunkte (1W4 falls klein)."
+  },
+  {
+    "id": "925a6bfa-c2b3-52fe-81c2-0c71da232081",
+    "name": "Faustkämpfer, Mächtiger",
+    "description": "(AF) Der Barbar wird behandelt, als besäße er das Talent Kampf mit zwei Waffen, wenn er waffenlose Angriffe ausführt."
+  },
+  {
+    "id": "53a33036-6e09-5d59-bca7-6048c4bdcdc7",
+    "name": "Flüssiger Mut",
+    "description": "(AF) Der Barbar kann seinen Moralbonus auf Rettungswürfe gegen geistesbeeinflussende Effekte um +1 für jedes im Kampfrausch konsumierte alkoholische Getränk erhöhen (maximal ein Getränk pro 4 Barbarenstufen)."
+  },
+  {
+    "id": "112f2c43-64b8-5848-9502-aaa64f639248",
+    "name": "Geistertotem, Schwächeres",
+    "description": "(ÜF) Der Barbar wird von Geisterfetzen umgeben, die seine Feinde verfolgen. Diese Fetzen können pro Runde einen Hieb-Angriff mit dem vollen Angriffsbonus des Barbaren zuzüglich seines CH-Modifikators ausführen. Dieser verursacht 1W4 Punkte Schaden durch negative Energie zuzüglich des CH-Modifikators des Barbaren."
+  },
+  {
+    "id": "a2e00d1f-916b-5855-b87d-8649274b58cf",
+    "name": "Geistertotem",
+    "description": "(ÜF) Die den Barbaren umgebenden Geisterfetzen erschweren es Feinden, ihn zu treffen. Sie gewähren ihm eine Fehlschlagschance von 20% gegen Fernkampfangriffe sowie gegen Nahkampfangriffe von Kreaturen, die sich nicht auf angrenzenden Feldern befinden (üblicherweise Angriffe mit Reichweite)."
+  },
+  {
+    "id": "76b8567e-c315-5ffd-a122-bfbfa64e66c0",
+    "name": "Geistertotem, Mächtiges",
+    "description": "(ÜF) Die Geisterfetzen des Barbaren werden allen Gegnern auf angrenzenden Feldern gefährlich. Lebende Feinde, die sich zu Beginn seines Zuges auf einem angrenzenden Feld befinden, nehmen 1W8 Punkte Schaden durch negative Energie. Zudem können die Geisterfetzen nun auch Gegner bis zu 4,50 m Entfernung angreifen; ihr Hieb-Angriff verursacht dabei 1W6 Punkte Schaden durch negative Energie."
+  },
+  {
+    "id": "846b0f13-879e-54e7-8d48-3318ab26198d",
+    "name": "Grölender Säufer",
+    "description": "(AF) Der Barbar erhält einen Moralbonus von +1 auf Fertigkeitswürfe für Einschüchtern sowie auf den SG der Rettungswürfe gegen von ihm hervorgerufene Furchteffekte für jedes im Kampfrausch konsumierte alkoholische Getränk, bis zu einem Maximum von +1 pro 4 Barbarenstufen."
+  },
+  {
+    "id": "6bf70ff0-2dbf-59f2-bee5-8498704f1f22",
+    "name": "Scheusaltotem, Schwächeres",
+    "description": "(ÜF) Dem Barbaren wachsen ein Paar großer Hörner, mit denen er einen Durchbohren-Angriff ausführen kann. Dies ist ein Primärangriff, außer der Barbar greift zusätzlich mit Waffen an – dann ist es ein Sekundärangriff mit vollem Grund-Angriffsbonus (-5 als Sekundärangriff). Das Durchbohren verursacht 1W8 Punkte Stichschaden (1W6 falls klein) zuzüglich des ST-Modifikators des Barbaren (halber ST- Modifikator bei einem Sekundärangriff)."
+  },
+  {
+    "id": "371afacc-5dee-5743-8734-8ca7170aaa47",
+    "name": "Scheusaltotem",
+    "description": "(ÜF) Dutzende gefährlicher Stacheln wachsen aus dem Körper des Barbaren. Jeder, der ihn mit einer Nahkampfwaffe, einem waffenlosen Schlag oder einer natürlichen Waffe angreift, nimmt 1W6 Punkte Stichschaden."
+  },
+  {
+    "id": "9e5c1858-0e4f-5231-bd08-04b3a90bee80",
+    "name": "Scheusaltotem, Mächtiges",
+    "description": "(ÜF) Der Barbar ist von einer Aura der Bedrohung umgeben. Gute Kreaturen auf angrenzenden Feldern sind erschüttert und nehmen zu Beginn seines Zuges 2W6 Punkte Hiebschaden, da sich dutzende kleiner Schnittwunden auf ihrem Körper öffnen. Neutrale Kreaturen auf angrenzenden Feldern sind erschüttert, nehmen aber keinen Schaden. Böse Kreaturen sind nicht betroffen."
+  },
+  {
+    "id": "14373d59-3074-5fd6-bcd9-1e16b881f55d",
+    "name": "Schleudern, Schwächeres",
+    "description": "(AF) Der Barbar kann als Volle Aktion mit beiden Händen einen Gegenstand hochheben und schleudern, der eine Größenkategorie kleiner ist als er selbst, oder mit einer Hand einen Gegenstand, der zwei Größenkategorien kleiner ist. Der Gegenstand zählt als improvisierte Waffe mit einer Grundreichweite von 3 m und verursacht Schaden wie ein fallender Gegenstand zuzüglich des ST-Modifikators des Barbaren (halbiert, sollte der Gegenstand nicht aus Stein, Metall oder ähnlichem Material bestehen). Dies ist ein Fernkampf-Berührungsangriff; dem Ziel steht ein Reflexwurf gegen SG 10 + ½ Barbarenstufe + ST-Modifikator des Barbaren zu, um den Schaden zu halbieren. Der Barbar kann das Talent Heftiger Angriff in Verbindung mit dieser Kraft wie bei einer Einhand- oder Zweihandwaffe einsetzen."
+  },
+  {
+    "id": "1b8b7d02-4a5d-5ff5-b353-521a31ba02d2",
+    "name": "Schleudern",
+    "description": "(AF) Wie Schwächeres Schleudern, jedoch kann der Barbar die Grundreichweite um 6 m erhöhen oder einen Gegenstand der nächsten Größenkategorie schleudern."
+  },
+  {
+    "id": "d5806674-98ac-548f-87ba-5c897c1da9e4",
+    "name": "Schleudern, Mächtiges",
+    "description": "(AF) Wie Schleudern, jedoch kann der Barbar die Grundreichweite um 9 m erhöhen oder einen Gegenstand der übernächsten Größenkategorie schleudern."
+  },
+  {
+    "id": "5184df2c-99ac-551a-8bf0-1571bc40fc4e",
+    "name": "Schleuder- und Sturmangriff",
+    "description": "(AF) Bei einem Sturmangriff kann der Barbar im Laufen eine zusätzliche Waffe ziehen und werfen. Der übliche Angriffsbonus von +2 für den Sturmangriff gilt sowohl für den Wurf als auch für den abschließenden Nahkampfangriff. Der Barbar muss sich mindestens 3 m bewegt haben, bevor er die Wurfwaffe einsetzen kann, und weitere 3 m, bevor er den abschließenden Nahkampfangriff ausführt. Er muss zu Beginn des Sturmangriffes eine Wurfwaffe in der Hand oder eine Hand frei haben."
+  },
+  {
+    "id": "24b1c24d-6164-5539-8291-a070e14ca922",
+    "name": "Stichelnder Prahler",
+    "description": "(AF) Der Barbar kann versuchen, eine Kreatur mit einem Fertigkeitswurf für Einschüchtern zu demoralisieren, um sie zum Angriff auf sich zu provozieren. Bei Erfolg ist das Ziel erschüttert, solange es den Barbaren sehen kann und dieser sich im Kampfrausch befindet, oder bis es ihn im Nahkampf angreift. Der Barbar erhält einen Situationsbonus von +2 auf den Wurf für jedes im Kampfrausch konsumierte alkoholische Getränk. Dies ist ein sprachabhängiger, geistesbeeinflussender Effekt mit hörbaren Komponenten."
+  },
+  {
+    "id": "6974304f-23f8-5a2c-bc16-35336460f7d7",
+    "name": "Temperamentvolles Ross",
+    "description": "(ÜF) Ist der Barbar beritten, erhält sein Reittier Schadensreduzierung/Magie in Höhe der halben Barbarenstufe. Die natürlichen Waffen des Reittieres gelten als magisch, um Schadensreduzierung zu überwinden."
+  },
+  {
+    "id": "10a76d78-398b-5455-af22-ee7acb915382",
+    "name": "Torkelnder Säufer",
+    "description": "(AF) Der Barbar erhält einen Ausweichbonus von +1 auf seine Rüstungsklasse für jedes im Kampfrausch konsumierte alkoholische Getränk, bis zu einem Maximum von +1 pro 4 Barbarenstufen."
+  },
+  {
+    "id": "31f005c3-88a1-5eb9-9b64-e1c2919920f3",
+    "name": "Wildes Reittier",
+    "description": "(AF) Reitet der Barbar, erhält sein Reittier die Vorteile eines Kampfrausches. Dies gilt, solange der Barbar beritten ist oder sich auf einem zu seinem Reittier angrenzenden Feld befindet. Der Kampfrausch des Reittieres kostet den Barbaren für jede Runde, in der es davon profitiert, 1 zusätzliche Runde seines eigenen Kampfrausches; er kann sich entscheiden, diese Kosten nicht zu zahlen, wodurch das Reittier keinen Kampfrausch erhält."
+  },
+  {
+    "id": "641d7efa-3b4c-5c42-bb8c-efc2e1bebc81",
+    "name": "Wildes Reittier, Mächtiges",
+    "description": "(AF) Reitet der Barbar, erhält sein Reittier für die Dauer des Kampfrausches zusätzlich alle Vorteile jeder dauerhaft wirkenden Kampfrauschkraft des Barbaren. Kampfrauschkräfte, die zur Aktivierung eine Aktion erfordern (auch Freie Aktionen), gewähren dem Reittier ihre Vorteile dagegen nicht."
+  },
+  {
+    "id": "a0e99026-4e6b-5e74-a34d-76c18ac2608c",
+    "name": "Wildes Trampeln",
+    "description": "(AF) Reitet der Barbar, erhält sein Reittier einen Trampelangriff. Dieser verursacht 1W8 Schadenspunkte bei einem mittelgroßen, 2W6 bei einem großen und 2W8 bei einem riesigen Reittier, jeweils zuzüglich des 1½-fachen ST-Modifikators des Reittieres. Ein erfolgreicher Reflexwurf gegen SG 10 + ½ Barbarenstufe + ST-Modifikator des Reittieres halbiert den Schaden. Kreaturen im Weg des Reittieres oder die vom Reittier durchquerte Felder bedrohen, können einen Gelegenheitsangriff entweder gegen das Reittier oder gegen den Barbaren ausführen, aber nicht gegen beide."
+  },
+  {
+    "id": "8e3b7011-0581-5e83-97a2-e3d10465efb6",
+    "name": "Wildes Trampeln, Mächtiges",
+    "description": "(AF) Das Reittier des Barbaren kann mit seinem Trampelangriff auch Kreaturen bis zu seiner eigenen Größe betreffen. Zudem kann es als Freie Aktion das Kampfmanöver Überrennen gegen eine Kreatur ausführen, die ihren Reflexwurf gegen das Trampeln nicht bestanden hat oder darauf verzichtet hat, um stattdessen einen Gelegenheitsangriff auszuführen."
+  },
+  {
+    "id": "075f365d-c02c-5105-9a3a-80237d4f4cd1",
+    "name": "Zauberstörer",
+    "description": "(AF) Der Barbar erhält für die Dauer des Kampfrausches das Bonustalent Zauberstörer."
+  },
+  {
+    "id": "c4e535b0-84c9-5e53-ac17-bc1834bb651f",
+    "name": "Überwältigender Vorstoß",
+    "description": "(AF) Der Barbar verursacht Schaden in Höhe seines ST-Modifikators, wenn er das Kampfmanöver Überrennen erfolgreich durchführt."
+  },
+  {
+    "id": "0596b577-d4f7-5cbe-9de7-8c5af3b83156",
+    "name": "Überwältigendes Niederrennen",
+    "description": "(AF) Der Barbar kann versuchen, mehr als ein Ziel pro Runde zu überrennen. Für jeden Überrennen-Wurf nach dem ersten erhält er einen Malus von -2 auf seinen KMB."
   }
 ]

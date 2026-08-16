@@ -12,14 +12,37 @@ Mystiker was modeled relative to Kleriker: a second root `BaseClass` row
 (`arch_class_of=None`), not `BaseClass.archetypes` of the existing Barbar
 row - same hit die/BAB/saves/skill points, own id, own everything else.
 
-What this script does NOT attempt, and why (see todos.md for the full
+The page names ~46 further rage powers as "reused unmodified" from two other
+books, without repeating their rule text (each lives on its own PRD page):
+32 from Expertenregeln (Benebelter Säufer, Beschütztes Leben, Bestientotem
+and its two totem-chain tiers, Chaostotem's three tiers, Faustkämpfer's two
+tiers, Flüssiger Mut, Geistertotem's three tiers, Grölender Säufer,
+Scheusaltotem's three tiers, Schleudern's three tiers, Schleuder- und
+Sturmangriff, Stichelnder Prahler, Temperamentvolles Ross, Torkelnder
+Säufer, Überwältigender Vorstoß, Überwältigendes Niederrennen, Wildes
+Reittier's two tiers, Wildes Trampeln's two tiers, Zauberstörer) plus 14
+from Ausbauregeln II: Kampf (Beschütztes Leben (Mächtiges), Drachentotem and
+its two related powers, Geisterwüter, Körperkeule, Schwarmtotem and its two
+related powers, Urtümlicher Geruchssinn, Verzauberung zerschmettern,
+Weltenschlangentotem and its two related powers) - see
+http://prd.5footstep.de/Alternativregeln/Klassen/Barbar's own allow-list
+text for the exact two name lists.
+
+The 32 Expertenregeln ones are transcribed into `RAGE_POWERS` below
+(2026-08-16, from
+http://prd.5footstep.de/Expertenregeln/Klassen/Grundklassen/Barbar/Kampfrauschkraefte),
+faithfully close to that source since the unchained page states they apply
+"ohne Veränderungen" - unlike this file's own 54 unchained-specific powers,
+which are deliberately reworded where Pathfinder Unchained's rage mechanic
+changed the underlying math (see `import_barbar_rage_powers.py`'s docstring
+for a worked example of that divergence).
+
+What this script still does NOT attempt, and why (see todos.md for the full
 writeup):
-- The ~30 rage powers the page lists as "reused unmodified from
-  Expertenregeln/Ausbauregeln II Kampf" (Bestientotem, Chaostotem,
-  Drachentotem, ...) are named only, with no rule text on this page at all -
-  each lives on its own PRD page. Not imported here, same "bewusst nicht
-  importiert - echte Grenze, keine Zeitfrage" boundary as Mystiker's ~90
-  unlinked domain spells.
+- The 14 Ausbauregeln II: Kampf rage powers (Drachentotem, Schwarmtotem,
+  Weltenschlangentotem, ...) remain unimported - out of scope for the
+  Expertenregeln pass above, same "bewusst nicht importiert - echte Grenze,
+  keine Zeitfrage" boundary as Mystiker's ~90 unlinked domain spells.
 - Nachtsicht's prerequisite ("Dämmersicht or Dunkelsicht racial trait, OR
   the Dämmersicht rage power") is a 3-way OR across two different domains
   (a `BaseRaceAbility` and a `BaseClassOptionChoice`) - `BaseClassOptionChoice.
@@ -101,6 +124,53 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "+2 auf seine Kampfmanöver für Ringkampf gegen das Ziel.",
     ),
     (
+        "Benebelter Säufer",
+        "AF",
+        None,
+        None,
+        "Nimmt der Barbar Alkohol zu sich, kann er einen neuen Rettungswurf gegen einen der folgenden "
+        "Zustände ablegen, die ihn betreffen: Blind, Geblendet, Verwirrt, Taub, Erschöpft, Ermüdet, "
+        "Verängstigt, Übelkeit, Panisch, Erschüttert, Kränkelnd. Bei Erfolg wird der Effekt für die Dauer des "
+        "Kampfrausches unterdrückt. Auf dieselbe Weise kann er auch einen neuen Rettungswurf gegen eine "
+        "Vergiftung ablegen. Ein gelungener Rettungswurf zählt als bestandener Rettungswurf; ein misslungener "
+        "Rettungswurf hat keine weiteren Nachteile zur Folge.",
+    ),
+    (
+        "Beschütztes Leben",
+        "AF",
+        None,
+        None,
+        "Sollte der Barbar unter 0 Trefferpunkte reduziert werden, wird 1 Schadenspunkt pro Barbarenstufe in "
+        "nichttödlichen Schaden umgewandelt. Befindet sich der Barbar aufgrund von tödlichem Schaden im "
+        "negativen Trefferpunktebereich, stabilisiert er sich automatisch.",
+    ),
+    (
+        "Bestientotem, Schwächeres",
+        "ÜF",
+        None,
+        None,
+        "Der Barbar erhält zwei Klauenangriffe. Diese Angriffe sind Primärangriffe und werden mit dem vollen "
+        "Grund-Angriffsbonus ausgeführt. Die Klauen verursachen 1W6 Punkte Hiebschaden (1W4 falls klein) "
+        "zuzüglich des ST-Modifikators des Barbaren.",
+    ),
+    (
+        "Bestientotem",
+        "ÜF",
+        6,
+        "Bestientotem, Schwächeres",
+        "Der Barbar erhält einen Bonus von +1 auf seine natürliche Rüstung. Dieser Bonus steigt um weitere +1 "
+        "pro 4 Barbarenstufen.",
+    ),
+    (
+        "Bestientotem, Mächtiges",
+        "ÜF",
+        10,
+        "Bestientotem",
+        "Der Barbar erhält die besondere Kraft Anspringen, wodurch er im Anschluss an einen Sturmangriff "
+        "einen Vollen Angriff durchführen kann. Der Schaden seiner Klauen steigt auf 1W8 (1W6 falls klein) "
+        "und sie verursachen bei einem Kritischen Treffer den dreifachen Schaden.",
+    ),
+    (
         "Blutender Schlag",
         "AF",
         8,
@@ -130,6 +200,33 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "Wenn der Barbar die Kampfrauschkraft Bodenbrecher nutzt, kann er den Radius des Effektes um "
         "1,50 m erhöhen. Diese Kampfrauschkraft kann bis zu drei Mal gewählt werden, ihre Effekte sind "
         "kumulativ.",
+    ),
+    (
+        "Chaostotem, Schwächeres",
+        "ÜF",
+        None,
+        None,
+        "Der Barbar erhält einen Ablenkungsbonus von +1 auf seine Rüstungsklasse gegen Angriffe "
+        "rechtschaffener Kreaturen sowie einen Resistenzbonus von +1 auf Rettungswürfe gegen Verwirrung, "
+        "Wahnsinn, Verwandlung und rechtschaffene Effekte. Dieser Bonus steigt um weitere +1 für jede weitere "
+        "Kampfrauschkraft des Chaostotems, über die der Barbar verfügt.",
+    ),
+    (
+        "Chaostotem",
+        "ÜF",
+        6,
+        "Chaostotem, Schwächeres",
+        "Die Gestalt des Barbaren wird von Chaos erfüllt. Er erhält einen Bonus von +4 auf Fertigkeitswürfe "
+        "für Entfesselungskunst und eine Chance von 25%, den zusätzlichen Schaden durch Kritische Treffer und "
+        "Hinterhältige Angriffe zu ignorieren.",
+    ),
+    (
+        "Chaostotem, Mächtiges",
+        "ÜF",
+        10,
+        "Chaostotem",
+        "Der Barbar erhält Schadensreduzierung/Rechtschaffen in Höhe der halben Barbarenstufe. Seine Waffen "
+        "und natürlichen Waffen gelten als chaotisch, um Schadensreduzierung zu überwinden.",
     ),
     (
         "Dämmersicht",
@@ -220,6 +317,22 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "einmal am Tag eingesetzt werden.",
     ),
     (
+        "Faustkämpfer",
+        "AF",
+        None,
+        None,
+        "Der Barbar wird behandelt, als besäße er das Talent Verbesserter waffenloser Schlag. Besitzt er "
+        "dieses Talent bereits, verursachen seine waffenlosen Schläge 1W6 Schadenspunkte (1W4 falls klein).",
+    ),
+    (
+        "Faustkämpfer, Mächtiger",
+        "AF",
+        None,
+        "Faustkämpfer",
+        "Der Barbar wird behandelt, als besäße er das Talent Kampf mit zwei Waffen, wenn er waffenlose "
+        "Angriffe ausführt.",
+    ),
+    (
         "Fleischwunde",
         "AF",
         10,
@@ -232,12 +345,50 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "entscheiden, nachdem der Angriffswurf erfolgt ist, aber bevor der Schaden ausgewürfelt wurde.",
     ),
     (
+        "Flüssiger Mut",
+        "AF",
+        None,
+        None,
+        "Der Barbar kann seinen Moralbonus auf Rettungswürfe gegen geistesbeeinflussende Effekte um +1 für "
+        "jedes im Kampfrausch konsumierte alkoholische Getränk erhöhen (maximal ein Getränk pro 4 "
+        "Barbarenstufen).",
+    ),
+    (
         "Furchtlose Wut",
         "AF",
         12,
         None,
         "Der Barbar ist gegen die Zustände Erschüttert und Verängstigt (nicht aber gegen Panisch) "
         "immun.",
+    ),
+    (
+        "Geistertotem, Schwächeres",
+        "ÜF",
+        None,
+        None,
+        "Der Barbar wird von Geisterfetzen umgeben, die seine Feinde verfolgen. Diese Fetzen können pro Runde "
+        "einen Hieb-Angriff mit dem vollen Angriffsbonus des Barbaren zuzüglich seines CH-Modifikators "
+        "ausführen. Dieser verursacht 1W4 Punkte Schaden durch negative Energie zuzüglich des CH-Modifikators "
+        "des Barbaren.",
+    ),
+    (
+        "Geistertotem",
+        "ÜF",
+        6,
+        "Geistertotem, Schwächeres",
+        "Die den Barbaren umgebenden Geisterfetzen erschweren es Feinden, ihn zu treffen. Sie gewähren ihm "
+        "eine Fehlschlagschance von 20% gegen Fernkampfangriffe sowie gegen Nahkampfangriffe von Kreaturen, "
+        "die sich nicht auf angrenzenden Feldern befinden (üblicherweise Angriffe mit Reichweite).",
+    ),
+    (
+        "Geistertotem, Mächtiges",
+        "ÜF",
+        10,
+        "Geistertotem",
+        "Die Geisterfetzen des Barbaren werden allen Gegnern auf angrenzenden Feldern gefährlich. Lebende "
+        "Feinde, die sich zu Beginn seines Zuges auf einem angrenzenden Feld befinden, nehmen 1W8 Punkte "
+        "Schaden durch negative Energie. Zudem können die Geisterfetzen nun auch Gegner bis zu 4,50 m "
+        "Entfernung angreifen; ihr Hieb-Angriff verursacht dabei 1W6 Punkte Schaden durch negative Energie.",
     ),
     (
         "Geruchssinn",
@@ -266,6 +417,15 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "er den Zustand Erschöpft besitzen, wenn er sich in Kampfrausch versetzt, verliert er diesen "
         "Zustand, erhält aber keine temporären Trefferpunkte. Sobald dieser Kampfrausch dann endet, "
         "erleidet der Barbar für 10 Minuten den Zustand Entkräftet.",
+    ),
+    (
+        "Grölender Säufer",
+        "AF",
+        None,
+        None,
+        "Der Barbar erhält einen Moralbonus von +1 auf Fertigkeitswürfe für Einschüchtern sowie auf den SG "
+        "der Rettungswürfe gegen von ihm hervorgerufene Furchteffekte für jedes im Kampfrausch konsumierte "
+        "alkoholische Getränk, bis zu einem Maximum von +1 pro 4 Barbarenstufen.",
     ),
     (
         "Hexenjäger",
@@ -440,6 +600,78 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "Runden an Kampfrausch. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung.",
     ),
     (
+        "Scheusaltotem, Schwächeres",
+        "ÜF",
+        None,
+        None,
+        "Dem Barbaren wachsen ein Paar großer Hörner, mit denen er einen Durchbohren-Angriff ausführen kann. "
+        "Dies ist ein Primärangriff, außer der Barbar greift zusätzlich mit Waffen an – dann ist es ein "
+        "Sekundärangriff mit vollem Grund-Angriffsbonus (-5 als Sekundärangriff). Das Durchbohren verursacht "
+        "1W8 Punkte Stichschaden (1W6 falls klein) zuzüglich des ST-Modifikators des Barbaren (halber ST- "
+        "Modifikator bei einem Sekundärangriff).",
+    ),
+    (
+        "Scheusaltotem",
+        "ÜF",
+        6,
+        "Scheusaltotem, Schwächeres",
+        "Dutzende gefährlicher Stacheln wachsen aus dem Körper des Barbaren. Jeder, der ihn mit einer "
+        "Nahkampfwaffe, einem waffenlosen Schlag oder einer natürlichen Waffe angreift, nimmt 1W6 Punkte "
+        "Stichschaden.",
+    ),
+    (
+        "Scheusaltotem, Mächtiges",
+        "ÜF",
+        10,
+        "Scheusaltotem",
+        "Der Barbar ist von einer Aura der Bedrohung umgeben. Gute Kreaturen auf angrenzenden Feldern sind "
+        "erschüttert und nehmen zu Beginn seines Zuges 2W6 Punkte Hiebschaden, da sich dutzende kleiner "
+        "Schnittwunden auf ihrem Körper öffnen. Neutrale Kreaturen auf angrenzenden Feldern sind erschüttert, "
+        "nehmen aber keinen Schaden. Böse Kreaturen sind nicht betroffen.",
+    ),
+    (
+        "Schleudern, Schwächeres",
+        "AF",
+        None,
+        None,
+        "Der Barbar kann als Volle Aktion mit beiden Händen einen Gegenstand hochheben und schleudern, der "
+        "eine Größenkategorie kleiner ist als er selbst, oder mit einer Hand einen Gegenstand, der zwei "
+        "Größenkategorien kleiner ist. Der Gegenstand zählt als improvisierte Waffe mit einer Grundreichweite "
+        "von 3 m und verursacht Schaden wie ein fallender Gegenstand zuzüglich des ST-Modifikators des "
+        "Barbaren (halbiert, sollte der Gegenstand nicht aus Stein, Metall oder ähnlichem Material bestehen). "
+        "Dies ist ein Fernkampf-Berührungsangriff; dem Ziel steht ein Reflexwurf gegen SG 10 + ½ "
+        "Barbarenstufe + ST-Modifikator des Barbaren zu, um den Schaden zu halbieren. Der Barbar kann das "
+        "Talent Heftiger Angriff in Verbindung mit dieser Kraft wie bei einer Einhand- oder Zweihandwaffe "
+        "einsetzen.",
+    ),
+    (
+        "Schleudern",
+        "AF",
+        8,
+        "Schleudern, Schwächeres",
+        "Wie Schwächeres Schleudern, jedoch kann der Barbar die Grundreichweite um 6 m erhöhen oder einen "
+        "Gegenstand der nächsten Größenkategorie schleudern.",
+    ),
+    (
+        "Schleudern, Mächtiges",
+        "AF",
+        12,
+        "Schleudern",
+        "Wie Schleudern, jedoch kann der Barbar die Grundreichweite um 9 m erhöhen oder einen Gegenstand der "
+        "übernächsten Größenkategorie schleudern.",
+    ),
+    (
+        "Schleuder- und Sturmangriff",
+        "AF",
+        6,
+        "Schleudern, Schwächeres",
+        "Bei einem Sturmangriff kann der Barbar im Laufen eine zusätzliche Waffe ziehen und werfen. Der "
+        "übliche Angriffsbonus von +2 für den Sturmangriff gilt sowohl für den Wurf als auch für den "
+        "abschließenden Nahkampfangriff. Der Barbar muss sich mindestens 3 m bewegt haben, bevor er die "
+        "Wurfwaffe einsetzen kann, und weitere 3 m, bevor er den abschließenden Nahkampfangriff ausführt. Er "
+        "muss zu Beginn des Sturmangriffes eine Wurfwaffe in der Hand oder eine Hand frei haben.",
+    ),
+    (
         "Schmähende Kampfhaltung",
         "AF",
         12,
@@ -482,6 +714,35 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "SG wiederholen. Sollte dieser zweite Rettungswurf gelingen, wird der Barbar so behandelt, als "
         "sei ihm der erste Rettungswurf bereits gelungen, wodurch der Effekt aufgehoben oder reduziert "
         "wird, je nachdem wie es der Zauber oder Effekt bestimmt.",
+    ),
+    (
+        "Stichelnder Prahler",
+        "AF",
+        6,
+        None,
+        "Der Barbar kann versuchen, eine Kreatur mit einem Fertigkeitswurf für Einschüchtern zu "
+        "demoralisieren, um sie zum Angriff auf sich zu provozieren. Bei Erfolg ist das Ziel erschüttert, "
+        "solange es den Barbaren sehen kann und dieser sich im Kampfrausch befindet, oder bis es ihn im "
+        "Nahkampf angreift. Der Barbar erhält einen Situationsbonus von +2 auf den Wurf für jedes im "
+        "Kampfrausch konsumierte alkoholische Getränk. Dies ist ein sprachabhängiger, geistesbeeinflussender "
+        "Effekt mit hörbaren Komponenten.",
+    ),
+    (
+        "Temperamentvolles Ross",
+        "ÜF",
+        6,
+        "Wildes Reittier",
+        "Ist der Barbar beritten, erhält sein Reittier Schadensreduzierung/Magie in Höhe der halben "
+        "Barbarenstufe. Die natürlichen Waffen des Reittieres gelten als magisch, um Schadensreduzierung zu "
+        "überwinden.",
+    ),
+    (
+        "Torkelnder Säufer",
+        "AF",
+        None,
+        None,
+        "Der Barbar erhält einen Ausweichbonus von +1 auf seine Rüstungsklasse für jedes im Kampfrausch "
+        "konsumierte alkoholische Getränk, bis zu einem Maximum von +1 pro 4 Barbarenstufen.",
     ),
     (
         "Tödliche Treffsicherheit",
@@ -540,6 +801,48 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "ist eine Kampfrauschkraft der Kategorie Kampfhaltung.",
     ),
     (
+        "Wildes Reittier",
+        "AF",
+        None,
+        None,
+        "Reitet der Barbar, erhält sein Reittier die Vorteile eines Kampfrausches. Dies gilt, solange der "
+        "Barbar beritten ist oder sich auf einem zu seinem Reittier angrenzenden Feld befindet. Der "
+        "Kampfrausch des Reittieres kostet den Barbaren für jede Runde, in der es davon profitiert, 1 "
+        "zusätzliche Runde seines eigenen Kampfrausches; er kann sich entscheiden, diese Kosten nicht zu "
+        "zahlen, wodurch das Reittier keinen Kampfrausch erhält.",
+    ),
+    (
+        "Wildes Reittier, Mächtiges",
+        "AF",
+        8,
+        "Wildes Reittier",
+        "Reitet der Barbar, erhält sein Reittier für die Dauer des Kampfrausches zusätzlich alle Vorteile "
+        "jeder dauerhaft wirkenden Kampfrauschkraft des Barbaren. Kampfrauschkräfte, die zur Aktivierung eine "
+        "Aktion erfordern (auch Freie Aktionen), gewähren dem Reittier ihre Vorteile dagegen nicht.",
+    ),
+    (
+        "Wildes Trampeln",
+        "AF",
+        8,
+        "Wildes Reittier",
+        "Reitet der Barbar, erhält sein Reittier einen Trampelangriff. Dieser verursacht 1W8 Schadenspunkte "
+        "bei einem mittelgroßen, 2W6 bei einem großen und 2W8 bei einem riesigen Reittier, jeweils zuzüglich "
+        "des 1½-fachen ST-Modifikators des Reittieres. Ein erfolgreicher Reflexwurf gegen SG 10 + ½ "
+        "Barbarenstufe + ST-Modifikator des Reittieres halbiert den Schaden. Kreaturen im Weg des Reittieres "
+        "oder die vom Reittier durchquerte Felder bedrohen, können einen Gelegenheitsangriff entweder gegen "
+        "das Reittier oder gegen den Barbaren ausführen, aber nicht gegen beide.",
+    ),
+    (
+        "Wildes Trampeln, Mächtiges",
+        "AF",
+        12,
+        "Wildes Trampeln",
+        "Das Reittier des Barbaren kann mit seinem Trampelangriff auch Kreaturen bis zu seiner eigenen Größe "
+        "betreffen. Zudem kann es als Freie Aktion das Kampfmanöver Überrennen gegen eine Kreatur ausführen, "
+        "die ihren Reflexwurf gegen das Trampeln nicht bestanden hat oder darauf verzichtet hat, um "
+        "stattdessen einen Gelegenheitsangriff auszuführen.",
+    ),
+    (
         "Wildheit inspirieren",
         "AF",
         None,
@@ -575,6 +878,13 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "Der Barbar erhält eine Bewegungsrate für Schwimmen in Höhe seiner halben Bewegungsrate an "
         "Land (rechne zuvor den Effekt seines Klassenmerkmales Schnelle Bewegung hinzu). Er erhält "
         "ferner einen Verbesserungsbonus von +8 auf Fertigkeitswürfe für Schwimmen.",
+    ),
+    (
+        "Zauberstörer",
+        "AF",
+        8,
+        "Aberglaube",
+        "Der Barbar erhält für die Dauer des Kampfrausches das Bonustalent Zauberstörer.",
     ),
     (
         "Zeichen der Geister",
@@ -615,9 +925,25 @@ RAGE_POWERS: list[tuple[str, str, int | None, str | None, str]] = [
         "ausführen, welches keine Gelegenheitsangriffe provoziert, und bei Erfolg dem Ziel den Zustand "
         "Liegend verleihen. Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung.",
     ),
+    (
+        "Überwältigender Vorstoß",
+        "AF",
+        None,
+        None,
+        "Der Barbar verursacht Schaden in Höhe seines ST-Modifikators, wenn er das Kampfmanöver Überrennen "
+        "erfolgreich durchführt.",
+    ),
+    (
+        "Überwältigendes Niederrennen",
+        "AF",
+        6,
+        "Überwältigender Vorstoß",
+        "Der Barbar kann versuchen, mehr als ein Ziel pro Runde zu überrennen. Für jeden Überrennen-Wurf nach "
+        "dem ersten erhält er einen Malus von -2 auf seinen KMB.",
+    ),
 ]
 
-assert len(RAGE_POWERS) == 54, len(RAGE_POWERS)
+assert len(RAGE_POWERS) == 86, len(RAGE_POWERS)
 
 
 def uid(*parts: str) -> str:

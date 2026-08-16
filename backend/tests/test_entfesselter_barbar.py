@@ -71,7 +71,7 @@ def test_entfesselter_barbar_class_skills_are_the_full_10(client: TestClient, db
     }
 
 
-def test_entfesselter_barbar_kampfrauschkraft_group_has_54_rage_powers(
+def test_entfesselter_barbar_kampfrauschkraft_group_has_86_rage_powers(
     client: TestClient, db_session: Session
 ) -> None:
     seed_classes(db_session)
@@ -82,8 +82,47 @@ def test_entfesselter_barbar_kampfrauschkraft_group_has_54_rage_powers(
     assert group.max_choices == 10
 
     names = {c.name for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=group.id)}
-    assert len(names) == 54
+    assert len(names) == 86
     assert {"Aberglaube", "Zielsichere Kampfhaltung", "Machtvolle Kampfhaltung"} <= names
+    # The 32 Expertenregeln rage powers the class's own page names as reusable
+    # "ohne Veränderungen" (scripts/import_entfesselter_barbar.py's docstring).
+    assert {
+        "Benebelter Säufer",
+        "Bestientotem, Schwächeres",
+        "Bestientotem",
+        "Bestientotem, Mächtiges",
+        "Zauberstörer",
+    } <= names
+
+
+def test_entfesselter_barbar_totem_chain_prerequisites_are_wired(
+    client: TestClient, db_session: Session
+) -> None:
+    """Each totem chain's higher tiers require the previous tier by id, not
+    just by min_level - same `requires_choice_id` composition every other
+    rage-power prerequisite in this catalog uses."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+
+    barbar = _entfesselter_barbar(db_session)
+    group = _kampfrauschkraft_group(db_session, barbar)
+    choices_by_name = {
+        c.name: c for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=group.id)
+    }
+
+    schwaecheres = choices_by_name["Bestientotem, Schwächeres"]
+    bestientotem = choices_by_name["Bestientotem"]
+    maechtiges = choices_by_name["Bestientotem, Mächtiges"]
+    assert schwaecheres.requires_choice_id is None
+    assert bestientotem.requires_choice_id == schwaecheres.id
+    assert bestientotem.min_level == 6
+    assert maechtiges.requires_choice_id == bestientotem.id
+    assert maechtiges.min_level == 10
+
+    # Zauberstörer's prerequisite (Aberglaube) predates this pass and already
+    # existed in the catalog - confirms the new batch correctly links against
+    # an existing choice, not just against itself.
+    assert choices_by_name["Zauberstörer"].requires_choice_id == choices_by_name["Aberglaube"].id
 
 
 def test_entfesselter_barbar_kampfrauschkraft_slot_grants_every_even_level_through_20(

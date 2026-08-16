@@ -1345,384 +1345,6 @@
     "name": "Domäne der Zerstörung"
   },
   {
-    "id": "2dcf64b3-77fa-5514-b00b-74c107bac592",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Aberglaube",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "764fe506-ac8a-51b9-acc8-e8dab13da48f",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Animalische Wut",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "faf6913f-b57c-58c3-8171-b6433cc465cc",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Blutender Schlag",
-    "min_level": 8,
-    "requires_choice_id": "11d22571-3eb4-582d-8e8e-82208b16e6d3"
-  },
-  {
-    "id": "d99eb5ce-ad74-5a3c-98f1-bd3737c30ef2",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Bodenbrecher",
-    "min_level": 6,
-    "requires_choice_id": null
-  },
-  {
-    "id": "64fde35c-541a-585d-8282-37e6561d5e60",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Bodenbrecher, Mächtiger",
-    "min_level": 8,
-    "requires_choice_id": "d99eb5ce-ad74-5a3c-98f1-bd3737c30ef2"
-  },
-  {
-    "id": "0a8b9340-2228-58bb-baad-fc073f7007af",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Dämmersicht",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "a804c281-515a-55be-811c-d492b8813fab",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Einschüchterndes Niederstarren",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "2bc8dabe-a8cd-5c1f-9dd6-a2e08def8980",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Elementare Kampfhaltung",
-    "min_level": 4,
-    "requires_choice_id": null
-  },
-  {
-    "id": "fe8f7df5-c4b6-5260-bb78-91d36bb812c5",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Energieabsorption",
-    "min_level": 12,
-    "requires_choice_id": "8c37b9e2-8eb2-58fc-9b99-4763a48853bd"
-  },
-  {
-    "id": "8c37b9e2-8eb2-58fc-9b99-4763a48853bd",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Energieresistenz",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "cc062581-d195-570f-86cc-8eff53425a2d",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Erhöhte Schadensreduzierung",
-    "min_level": 8,
-    "requires_choice_id": null
-  },
-  {
-    "id": "879b8a43-17c1-5856-9371-0e214b2baaa9",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Erneuerte Gesundheit",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "6cb45be3-6a71-5786-a040-1394271ff93a",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Erneuerte Lebenskraft",
-    "min_level": 4,
-    "requires_choice_id": null
-  },
-  {
-    "id": "f78acde4-351c-5360-8ac7-d7f46b32c9c8",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Fleischwunde",
-    "min_level": 10,
-    "requires_choice_id": null
-  },
-  {
-    "id": "29473d4e-20d0-5cc5-aa18-4552c77b9dca",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Furchtlose Wut",
-    "min_level": 12,
-    "requires_choice_id": null
-  },
-  {
-    "id": "6a3e1ab8-b80c-5dc9-8e8d-88865ae7def4",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Geruchssinn",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "40aeb197-61bd-5a42-a625-d33e8e3998fb",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Geschärfte Treffsicherheit",
-    "min_level": 8,
-    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
-  },
-  {
-    "id": "66bb5ba9-76a8-5b3c-a363-4bd5aecd1870",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Geweckte Wut",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "4fbdb4e7-c7ab-5de7-bd81-79244ac457a6",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Hexenjäger",
-    "min_level": null,
-    "requires_choice_id": "2dcf64b3-77fa-5514-b00b-74c107bac592"
-  },
-  {
-    "id": "c8bb3da4-0ea7-5f4b-a31e-96938453fee3",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Hindurchstürmen",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "0c27d2ef-10fd-5567-82ad-133d7fd91c92",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Hindurchstürmen, Mächtiges",
-    "min_level": 8,
-    "requires_choice_id": "c8bb3da4-0ea7-5f4b-a31e-96938453fee3"
-  },
-  {
-    "id": "63a391b1-0690-563b-a144-666283830d65",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Innere Zähigkeit",
-    "min_level": 8,
-    "requires_choice_id": null
-  },
-  {
-    "id": "3359e61e-73b5-5071-ac27-fcda6cb1e02f",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Kampfschrei",
-    "min_level": 8,
-    "requires_choice_id": "a804c281-515a-55be-811c-d492b8813fab"
-  },
-  {
-    "id": "8a2c510f-d0bb-5fb6-889e-a054bfa340ce",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Kein Entkommen",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "9b94f871-e763-5ad3-808e-5cc2ffc3d178",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Kraftvolle Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "b2c00b15-22c3-50ea-babc-29e1ad8145c9",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Kritische Stellen schützen",
-    "min_level": 8,
-    "requires_choice_id": "8ab8c222-0199-51ad-93d9-86f3537c8740"
-  },
-  {
-    "id": "84ab4b8f-c19f-5098-bcfd-37a8f2c8f48e",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Mächtiger Schlag",
-    "min_level": 12,
-    "requires_choice_id": null
-  },
-  {
-    "id": "11d22571-3eb4-582d-8e8e-82208b16e6d3",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Machtvolle Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "76c08275-ab62-5fb2-a047-631cadfe3e30",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Magiefresser",
-    "min_level": 10,
-    "requires_choice_id": "2dcf64b3-77fa-5514-b00b-74c107bac592"
-  },
-  {
-    "id": "4a581b89-50eb-54fe-aad5-4dbd5f776067",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Nachtsicht",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "dde8a873-d7c8-5cc0-a918-8fabb7af6207",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Niederschlagen",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "bf9fb0a2-370a-5bac-9430-a6feec919b06",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Perfekte Klarheit",
-    "min_level": null,
-    "requires_choice_id": "7ad2f832-0997-5984-87bc-39ca6792df2b"
-  },
-  {
-    "id": "13e696cc-ef9a-5e1f-9f76-3b6c1835b63a",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Reflexartiges Ausweichen",
-    "min_level": 6,
-    "requires_choice_id": "8ab8c222-0199-51ad-93d9-86f3537c8740"
-  },
-  {
-    "id": "75f5ab5c-c24d-5064-8346-fd312666cb55",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Regenerative Kampfhaltung",
-    "min_level": 4,
-    "requires_choice_id": null
-  },
-  {
-    "id": "7ad2f832-0997-5984-87bc-39ca6792df2b",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Ruhige Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "642b972c-fed0-5e4a-ba08-d1de1c669c4a",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Schmähende Kampfhaltung",
-    "min_level": 12,
-    "requires_choice_id": null
-  },
-  {
-    "id": "7e52a2ca-fc2c-59be-aaf3-6c7c4643557c",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Schnelle Reflexe",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "d3918708-4d89-5a0e-b93e-ecce3112ec2c",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Schneller Fuß",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "e385823c-6092-5fdb-80d0-472d12a69964",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Sprinten",
-    "min_level": 4,
-    "requires_choice_id": "d3918708-4d89-5a0e-b93e-ecce3112ec2c"
-  },
-  {
-    "id": "c00061c2-eb7b-5015-a1f6-5a377dfe1fb1",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Starker Geist",
-    "min_level": 8,
-    "requires_choice_id": null
-  },
-  {
-    "id": "81966b8d-f765-5b3d-af31-5776d756fab1",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Tödliche Treffsicherheit",
-    "min_level": 4,
-    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
-  },
-  {
-    "id": "39dd590c-2489-54cc-82c7-177cc2d4ffed",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Unerwarteter Schlag",
-    "min_level": 8,
-    "requires_choice_id": null
-  },
-  {
-    "id": "2f97c210-c4b8-501e-94b8-383eda3e1e9c",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Verkrüppelnder Schlag",
-    "min_level": 8,
-    "requires_choice_id": null
-  },
-  {
-    "id": "7e245bf9-35bc-55e2-b2bf-dbce0c4e2118",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Vernichtende Treffsicherheit",
-    "min_level": 16,
-    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
-  },
-  {
-    "id": "8ab8c222-0199-51ad-93d9-86f3537c8740",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Wachsame Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "64ec6527-d1b5-576c-ae51-1c45d50560f3",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Waghalsige Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "1557b1bb-d581-5154-bcfe-d7232a3b2148",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Wildheit inspirieren",
-    "min_level": null,
-    "requires_choice_id": "64ec6527-d1b5-576c-ae51-1c45d50560f3"
-  },
-  {
-    "id": "2c4bf8b3-f464-5543-a4ca-f1acf2bb6af4",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Wuterfüllter Sprung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "11a579ca-35fc-5296-bf74-0bc86e5f5b1c",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Wuterfülltes Klettern",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "1fa9eba5-8d00-54cd-a549-b4e3a673c64f",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Wuterfülltes Schwimmen",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "dba806d8-0ffd-51b8-b44a-962ce2f131fd",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Zeichen der Geister",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "e3753aa2-a7ef-5631-af1d-9abaf191d03b",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Zertrümmerer",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "b3f12c5f-2187-5421-966f-11aa6d2bd178",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Zielsichere Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
-    "id": "e402e298-a649-5ddc-962c-b93c99b7e230",
-    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
-    "name": "Zu-Fall-bringende Kampfhaltung",
-    "min_level": null,
-    "requires_choice_id": null
-  },
-  {
     "id": "f5b6f2db-8d7c-5d6f-9f42-f96a73ac6356",
     "group_id": "5085aaf0-6905-5116-b24f-8d9c1f8d60ab",
     "name": "Aberglaube",
@@ -1917,5 +1539,607 @@
     "name": "Zurücktreiben",
     "min_level": null,
     "requires_choice_id": null
+  },
+  {
+    "id": "2dcf64b3-77fa-5514-b00b-74c107bac592",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Aberglaube",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "764fe506-ac8a-51b9-acc8-e8dab13da48f",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Animalische Wut",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "aed2c4d0-3fa1-5cb1-9bcd-62ce33445790",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Benebelter Säufer",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "f02d37b1-9900-5e40-af09-de2b2e04f474",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Beschütztes Leben",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "542c7640-0e10-565a-875b-3f404c6096c1",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Bestientotem, Schwächeres",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "206ceefa-19f6-5f3c-8397-a46a42f01d4b",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Bestientotem",
+    "min_level": 6,
+    "requires_choice_id": "542c7640-0e10-565a-875b-3f404c6096c1"
+  },
+  {
+    "id": "3faadcbd-bc1e-5660-b7da-fc6c443813b5",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Bestientotem, Mächtiges",
+    "min_level": 10,
+    "requires_choice_id": "206ceefa-19f6-5f3c-8397-a46a42f01d4b"
+  },
+  {
+    "id": "faf6913f-b57c-58c3-8171-b6433cc465cc",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Blutender Schlag",
+    "min_level": 8,
+    "requires_choice_id": "11d22571-3eb4-582d-8e8e-82208b16e6d3"
+  },
+  {
+    "id": "d99eb5ce-ad74-5a3c-98f1-bd3737c30ef2",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Bodenbrecher",
+    "min_level": 6,
+    "requires_choice_id": null
+  },
+  {
+    "id": "64fde35c-541a-585d-8282-37e6561d5e60",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Bodenbrecher, Mächtiger",
+    "min_level": 8,
+    "requires_choice_id": "d99eb5ce-ad74-5a3c-98f1-bd3737c30ef2"
+  },
+  {
+    "id": "61448fed-edc4-5d9c-8457-3317915e8b8c",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Chaostotem, Schwächeres",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "af463f85-2e93-5a13-bffa-8a96126e0034",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Chaostotem",
+    "min_level": 6,
+    "requires_choice_id": "61448fed-edc4-5d9c-8457-3317915e8b8c"
+  },
+  {
+    "id": "3abc878a-82ae-500b-93ca-c466051f3476",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Chaostotem, Mächtiges",
+    "min_level": 10,
+    "requires_choice_id": "af463f85-2e93-5a13-bffa-8a96126e0034"
+  },
+  {
+    "id": "0a8b9340-2228-58bb-baad-fc073f7007af",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Dämmersicht",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "a804c281-515a-55be-811c-d492b8813fab",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Einschüchterndes Niederstarren",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "2bc8dabe-a8cd-5c1f-9dd6-a2e08def8980",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Elementare Kampfhaltung",
+    "min_level": 4,
+    "requires_choice_id": null
+  },
+  {
+    "id": "fe8f7df5-c4b6-5260-bb78-91d36bb812c5",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Energieabsorption",
+    "min_level": 12,
+    "requires_choice_id": "8c37b9e2-8eb2-58fc-9b99-4763a48853bd"
+  },
+  {
+    "id": "8c37b9e2-8eb2-58fc-9b99-4763a48853bd",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Energieresistenz",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "cc062581-d195-570f-86cc-8eff53425a2d",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Erhöhte Schadensreduzierung",
+    "min_level": 8,
+    "requires_choice_id": null
+  },
+  {
+    "id": "879b8a43-17c1-5856-9371-0e214b2baaa9",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Erneuerte Gesundheit",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "6cb45be3-6a71-5786-a040-1394271ff93a",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Erneuerte Lebenskraft",
+    "min_level": 4,
+    "requires_choice_id": null
+  },
+  {
+    "id": "cd615b1b-7d34-577a-8b40-75f912730462",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Faustkämpfer",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "36449980-5aa5-5da6-a9fe-8d7824b475c6",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Faustkämpfer, Mächtiger",
+    "min_level": null,
+    "requires_choice_id": "cd615b1b-7d34-577a-8b40-75f912730462"
+  },
+  {
+    "id": "f78acde4-351c-5360-8ac7-d7f46b32c9c8",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Fleischwunde",
+    "min_level": 10,
+    "requires_choice_id": null
+  },
+  {
+    "id": "80aff641-ea92-539e-9bf3-3900e690ab5d",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Flüssiger Mut",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "29473d4e-20d0-5cc5-aa18-4552c77b9dca",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Furchtlose Wut",
+    "min_level": 12,
+    "requires_choice_id": null
+  },
+  {
+    "id": "867b5f07-b3fd-5a39-af9a-a1fb010ac3d5",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geistertotem, Schwächeres",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "e31dbedc-432d-5f1d-9e0f-7eb4baf79fd6",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geistertotem",
+    "min_level": 6,
+    "requires_choice_id": "867b5f07-b3fd-5a39-af9a-a1fb010ac3d5"
+  },
+  {
+    "id": "3b67ee71-7d2d-5088-91e5-50d6cdafcdca",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geistertotem, Mächtiges",
+    "min_level": 10,
+    "requires_choice_id": "e31dbedc-432d-5f1d-9e0f-7eb4baf79fd6"
+  },
+  {
+    "id": "6a3e1ab8-b80c-5dc9-8e8d-88865ae7def4",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geruchssinn",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "40aeb197-61bd-5a42-a625-d33e8e3998fb",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geschärfte Treffsicherheit",
+    "min_level": 8,
+    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
+  },
+  {
+    "id": "66bb5ba9-76a8-5b3c-a363-4bd5aecd1870",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Geweckte Wut",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "8c681812-1f3e-52b9-9801-027617e577fb",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Grölender Säufer",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "4fbdb4e7-c7ab-5de7-bd81-79244ac457a6",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Hexenjäger",
+    "min_level": null,
+    "requires_choice_id": "2dcf64b3-77fa-5514-b00b-74c107bac592"
+  },
+  {
+    "id": "c8bb3da4-0ea7-5f4b-a31e-96938453fee3",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Hindurchstürmen",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "0c27d2ef-10fd-5567-82ad-133d7fd91c92",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Hindurchstürmen, Mächtiges",
+    "min_level": 8,
+    "requires_choice_id": "c8bb3da4-0ea7-5f4b-a31e-96938453fee3"
+  },
+  {
+    "id": "63a391b1-0690-563b-a144-666283830d65",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Innere Zähigkeit",
+    "min_level": 8,
+    "requires_choice_id": null
+  },
+  {
+    "id": "3359e61e-73b5-5071-ac27-fcda6cb1e02f",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Kampfschrei",
+    "min_level": 8,
+    "requires_choice_id": "a804c281-515a-55be-811c-d492b8813fab"
+  },
+  {
+    "id": "8a2c510f-d0bb-5fb6-889e-a054bfa340ce",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Kein Entkommen",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "9b94f871-e763-5ad3-808e-5cc2ffc3d178",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Kraftvolle Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "b2c00b15-22c3-50ea-babc-29e1ad8145c9",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Kritische Stellen schützen",
+    "min_level": 8,
+    "requires_choice_id": "8ab8c222-0199-51ad-93d9-86f3537c8740"
+  },
+  {
+    "id": "84ab4b8f-c19f-5098-bcfd-37a8f2c8f48e",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Mächtiger Schlag",
+    "min_level": 12,
+    "requires_choice_id": null
+  },
+  {
+    "id": "11d22571-3eb4-582d-8e8e-82208b16e6d3",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Machtvolle Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "76c08275-ab62-5fb2-a047-631cadfe3e30",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Magiefresser",
+    "min_level": 10,
+    "requires_choice_id": "2dcf64b3-77fa-5514-b00b-74c107bac592"
+  },
+  {
+    "id": "4a581b89-50eb-54fe-aad5-4dbd5f776067",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Nachtsicht",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "dde8a873-d7c8-5cc0-a918-8fabb7af6207",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Niederschlagen",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "bf9fb0a2-370a-5bac-9430-a6feec919b06",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Perfekte Klarheit",
+    "min_level": null,
+    "requires_choice_id": "7ad2f832-0997-5984-87bc-39ca6792df2b"
+  },
+  {
+    "id": "13e696cc-ef9a-5e1f-9f76-3b6c1835b63a",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Reflexartiges Ausweichen",
+    "min_level": 6,
+    "requires_choice_id": "8ab8c222-0199-51ad-93d9-86f3537c8740"
+  },
+  {
+    "id": "75f5ab5c-c24d-5064-8346-fd312666cb55",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Regenerative Kampfhaltung",
+    "min_level": 4,
+    "requires_choice_id": null
+  },
+  {
+    "id": "7ad2f832-0997-5984-87bc-39ca6792df2b",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Ruhige Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "ff93909a-d612-5b34-9040-61d877d5d058",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Scheusaltotem, Schwächeres",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "c8c95c2c-4ef6-56bf-8ead-4589bb24b63e",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Scheusaltotem",
+    "min_level": 6,
+    "requires_choice_id": "ff93909a-d612-5b34-9040-61d877d5d058"
+  },
+  {
+    "id": "5fc562db-80b8-58b3-8b23-52e69770123f",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Scheusaltotem, Mächtiges",
+    "min_level": 10,
+    "requires_choice_id": "c8c95c2c-4ef6-56bf-8ead-4589bb24b63e"
+  },
+  {
+    "id": "fd8de7fc-8273-50c9-99ca-2475ad6cac10",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schleudern, Schwächeres",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "92b794f5-61e1-50d9-9bb4-33a0400feba8",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schleudern",
+    "min_level": 8,
+    "requires_choice_id": "fd8de7fc-8273-50c9-99ca-2475ad6cac10"
+  },
+  {
+    "id": "6fe1214f-ac61-52c7-9c13-28eb3bb150f6",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schleudern, Mächtiges",
+    "min_level": 12,
+    "requires_choice_id": "92b794f5-61e1-50d9-9bb4-33a0400feba8"
+  },
+  {
+    "id": "1cc82510-3129-5332-ad37-1a2de3f180df",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schleuder- und Sturmangriff",
+    "min_level": 6,
+    "requires_choice_id": "fd8de7fc-8273-50c9-99ca-2475ad6cac10"
+  },
+  {
+    "id": "642b972c-fed0-5e4a-ba08-d1de1c669c4a",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schmähende Kampfhaltung",
+    "min_level": 12,
+    "requires_choice_id": null
+  },
+  {
+    "id": "7e52a2ca-fc2c-59be-aaf3-6c7c4643557c",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schnelle Reflexe",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "d3918708-4d89-5a0e-b93e-ecce3112ec2c",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Schneller Fuß",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "e385823c-6092-5fdb-80d0-472d12a69964",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Sprinten",
+    "min_level": 4,
+    "requires_choice_id": "d3918708-4d89-5a0e-b93e-ecce3112ec2c"
+  },
+  {
+    "id": "c00061c2-eb7b-5015-a1f6-5a377dfe1fb1",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Starker Geist",
+    "min_level": 8,
+    "requires_choice_id": null
+  },
+  {
+    "id": "a46e9be1-5ed7-5274-b7b5-97de6e4decb2",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Stichelnder Prahler",
+    "min_level": 6,
+    "requires_choice_id": null
+  },
+  {
+    "id": "8787b0bc-be39-5710-92c7-425a7f9fa688",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Temperamentvolles Ross",
+    "min_level": 6,
+    "requires_choice_id": "fd01079c-eb0c-53f9-abb5-66e8d2ac2280"
+  },
+  {
+    "id": "8a62da5d-5c90-5592-ba84-f02c2db60171",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Torkelnder Säufer",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "81966b8d-f765-5b3d-af31-5776d756fab1",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Tödliche Treffsicherheit",
+    "min_level": 4,
+    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
+  },
+  {
+    "id": "39dd590c-2489-54cc-82c7-177cc2d4ffed",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Unerwarteter Schlag",
+    "min_level": 8,
+    "requires_choice_id": null
+  },
+  {
+    "id": "2f97c210-c4b8-501e-94b8-383eda3e1e9c",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Verkrüppelnder Schlag",
+    "min_level": 8,
+    "requires_choice_id": null
+  },
+  {
+    "id": "7e245bf9-35bc-55e2-b2bf-dbce0c4e2118",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Vernichtende Treffsicherheit",
+    "min_level": 16,
+    "requires_choice_id": "b3f12c5f-2187-5421-966f-11aa6d2bd178"
+  },
+  {
+    "id": "8ab8c222-0199-51ad-93d9-86f3537c8740",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wachsame Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "64ec6527-d1b5-576c-ae51-1c45d50560f3",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Waghalsige Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "fd01079c-eb0c-53f9-abb5-66e8d2ac2280",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wildes Reittier",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "5bf8d162-5161-5eaf-88b6-ab4b86d8f705",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wildes Reittier, Mächtiges",
+    "min_level": 8,
+    "requires_choice_id": "fd01079c-eb0c-53f9-abb5-66e8d2ac2280"
+  },
+  {
+    "id": "8fc14cfd-b280-5de9-8269-00a0f9dbbb01",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wildes Trampeln",
+    "min_level": 8,
+    "requires_choice_id": "fd01079c-eb0c-53f9-abb5-66e8d2ac2280"
+  },
+  {
+    "id": "2bb0146f-6afc-5c69-90b7-93eb53363b2d",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wildes Trampeln, Mächtiges",
+    "min_level": 12,
+    "requires_choice_id": "8fc14cfd-b280-5de9-8269-00a0f9dbbb01"
+  },
+  {
+    "id": "1557b1bb-d581-5154-bcfe-d7232a3b2148",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wildheit inspirieren",
+    "min_level": null,
+    "requires_choice_id": "64ec6527-d1b5-576c-ae51-1c45d50560f3"
+  },
+  {
+    "id": "2c4bf8b3-f464-5543-a4ca-f1acf2bb6af4",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wuterfüllter Sprung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "11a579ca-35fc-5296-bf74-0bc86e5f5b1c",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wuterfülltes Klettern",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "1fa9eba5-8d00-54cd-a549-b4e3a673c64f",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Wuterfülltes Schwimmen",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "500ebf66-a4e5-5797-97e2-6e9b37c66e50",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Zauberstörer",
+    "min_level": 8,
+    "requires_choice_id": "2dcf64b3-77fa-5514-b00b-74c107bac592"
+  },
+  {
+    "id": "dba806d8-0ffd-51b8-b44a-962ce2f131fd",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Zeichen der Geister",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "e3753aa2-a7ef-5631-af1d-9abaf191d03b",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Zertrümmerer",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "b3f12c5f-2187-5421-966f-11aa6d2bd178",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Zielsichere Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "e402e298-a649-5ddc-962c-b93c99b7e230",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Zu-Fall-bringende Kampfhaltung",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "f0850e39-dbe2-5ad3-a112-8e203d261d09",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Überwältigender Vorstoß",
+    "min_level": null,
+    "requires_choice_id": null
+  },
+  {
+    "id": "d4aeba07-77f1-522c-a498-57a9a9a32067",
+    "group_id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
+    "name": "Überwältigendes Niederrennen",
+    "min_level": 6,
+    "requires_choice_id": "f0850e39-dbe2-5ad3-a112-8e203d261d09"
   }
 ]
