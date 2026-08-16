@@ -149,18 +149,19 @@ def get_character_history(character_id: str, db: Annotated[Session, Depends(get_
 
 @app.get("/api/classes")
 def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
-    """`classes.json`'s content (spell type/archetypes) stays fixture, joined
-    by `name`, except `classSkills`, `optionGroups`, `bonusFeatLevels` and
-    `skillPointsBase`: those fields are overwritten here with real rows from
-    `base_class_skills`, `base_class_option_groups`/`base_class_option_choices`
-    and `base_class_ability_grants` (roadmap slice 3) instead of the
-    fixture's own copies, now that they're real tables — see
-    `routers/skills.py`, `app/seed/class_option_seed.py` and
-    `app/seed/class_ability_seed.py`. `bonusFeatLevels` (which levels of this
-    class grant a bonus feat slot, e.g. Kämpfer's 1st and every even level)
-    lets the frontend compute `featMax` without hardcoding a class name —
-    see `rules/feat_slots.py`. `id` (the root `BaseClass` id — `null` if this
-    class name has no matching root row) is exposed so the frontend can key
+    """`classes.json`'s content (only `spellType` left, as of 2026-08-16)
+    stays fixture, joined by `name`, except `classSkills`, `optionGroups`,
+    `bonusFeatLevels`, `skillPointsBase` and `archetypes`: those fields are
+    overwritten here with real rows from `base_classes`, `base_class_skills`,
+    `base_class_option_groups`/`base_class_option_choices` and
+    `base_class_ability_grants` (roadmap slice 3) instead of the fixture's
+    own copies, now that they're real tables — see `routers/skills.py`,
+    `app/seed/class_option_seed.py` and `app/seed/class_ability_seed.py`.
+    `bonusFeatLevels` (which levels of this class grant a bonus feat slot,
+    e.g. Kämpfer's 1st and every even level) lets the frontend compute
+    `featMax` without hardcoding a class name — see `rules/feat_slots.py`.
+    `id` (the root `BaseClass` id — `null` if this class name has no
+    matching root row) is exposed so the frontend can key
     `CharacterCreate.spell_ids`/`spellbook` calls by `base_class_id`, same
     reasoning as `castingAbility`/`spellTradition`/`spellsKnownByLevel`
     (roadmap slice 3's spellbook pass, see `rules/spells.py`). `babProgression`/
@@ -172,11 +173,30 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     for a one-time pick, otherwise the levels at which the frontend should
     treat the group as newly available/countable; `ClassStep.tsx` uses this
     purely as backend-computed data (which levels exist), `_validate_options`
-    (`routers/characters.py`) is what actually enforces it."""
+    (`routers/characters.py`) is what actually enforces it.
+
+    `archetypes` (2026-08-16) was still a hand-maintained `classes.json` list
+    until the Seeräuber archetype shipped with a `BaseClass` row and a
+    `base_class_ability_*` seed but no matching `classes.json` entry — a
+    real archetype the creation wizard simply couldn't offer, because this
+    one field was the sole exception never promoted off the fixture even
+    though `BaseClass.arch_class_of` already fully modeled it. Now computed
+    the same way every other field above already is: `["Keiner", *sorted
+    names of every BaseClass row whose arch_class_of is this root's id]` —
+    one archetype only ever needs a seed script from here on, not a second,
+    easy-to-forget fixture edit."""
     classes = load_fixture("classes.json")
-    roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
+    all_base_classes = db.scalars(select(BaseClass)).all()
+    roots = [row for row in all_base_classes if row.arch_class_of is None]
     root_id_by_name = {root.name: root.id for root in roots}
     roots_by_id = {root.id: root for root in roots}
+
+    archetype_names_by_root_id: dict = {}
+    for row in all_base_classes:
+        if row.arch_class_of is not None:
+            archetype_names_by_root_id.setdefault(row.arch_class_of, []).append(row.name)
+    for names in archetype_names_by_root_id.values():
+        names.sort()
 
     # option_choice_id IS NULL only: a class's unconditional base skill list.
     # Mystery-conditional additions (Mystiker/Oracle - each Mysterium adds its
@@ -234,6 +254,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         root_id = root_id_by_name.get(class_def["name"])
         root = roots_by_id.get(root_id) if root_id else None
         class_def["id"] = str(root_id) if root_id else None
+        class_def["archetypes"] = ["Keiner", *archetype_names_by_root_id.get(root_id, [])] if root_id else ["Keiner"]
         class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []

@@ -1404,7 +1404,52 @@ create → play → level-up loop end to end.
 ### 8. Reference-data migration (later, not upfront)
 - [ ] Move classes/feats/spells/items/effects from JSON fixtures into
       database tables + seed scripts, once the schemas from slices 1–7 have
-      stabilized against real usage. Races are already handled in slice 2.
+      stabilized against real usage. Races, skills, feats, spells, items,
+      conditions, and weapon abilities are already handled (slice 2/3) —
+      each has its own real DB-backed router, no fixture reads left. What's
+      still open, per file (audited 2026-08-16, prompted by the Seeräuber
+      archetype shipping a `BaseClass` row with no matching `classes.json`
+      entry — the creation wizard couldn't offer it):
+  - [x] `classes.json`'s `archetypes` field — was the one field on this
+        endpoint's response still hand-copied from the fixture even though
+        `BaseClass.arch_class_of` already fully modeled it (every other
+        field — `classSkills`/`optionGroups`/`bonusFeatLevels`/casting/
+        BAB/saves/HP/skill points — had already been promoted to a real
+        `get_classes()` query). Fixed: computed as `["Keiner", *sorted
+        archetype names whose arch_class_of is this root]`, dropped from
+        the fixture file entirely. Also surfaced ~24 stale placeholder
+        archetype `BaseClass` rows in the local dev DB (e.g. Barbar's
+        "Berserker"/"Invulnerable Rager") — zero-content stubs (no grants,
+        no replacements) left over from before commit a37b082 ("removed
+        unsourced classes", 2026-08-03) trimmed the same names out of
+        `classes.json`, never cleaned from the DB since `class_seed.py`'s
+        upsert never deletes. Deleted from the dev DB directly; nothing
+        else referenced them (0 grants/replacements each).
+  - [ ] `classes.json`'s `spellType` field (`"none"`/`"divine-prepared"`/
+        `"arcane-prepared"`/`"spontaneous"`) — genuinely unmodeled, not a
+        read-side oversight like `archetypes` was: `BaseClass` only has
+        `casting_ability`/`spell_tradition`, which underdetermines it
+        (Kleriker and Mystiker are both `divine` but prepared vs.
+        spontaneous respectively). Needs a real column (or a derivation
+        rule) added to `BaseClass`, not just a query.
+  - [ ] `abilities.json`, `point_buy_costs.json` — fixed PF1e ruleset
+        constants (the 6 ability scores, the point-buy cost table), not
+        per-sourcebook content that grows the way classes/feats/spells/
+        items do. Whether these ever need a DB table at all is an open
+        call, not an oversight — flagging so it's a decision, not a default.
+  - [ ] `effects.json` (`/api/effects`) — not a migration candidate, a
+        cleanup one: the pre-slice-5 mock "seal" system (4 hardcoded icon
+        effects: Gesegnet, Ermüdet, ...), superseded by the real
+        `BaseCondition`/`CharacterEffect` system slice 5 already built
+        (`activeEffects`/`activatableSpells`/`activatableClassAbilities`/
+        `externalClassAbilities` on the sheet). Candidate for deletion
+        (endpoint, fixture, and whatever of `EffectsPanel.tsx` still reads
+        it) once the frontend fully switches to the real active-effects
+        data, not for a database table.
+  - `character_1.json`/`character_2.json` + `progression_1.json`/
+    `progression_2.json` are explicitly not in scope here at all — see
+    "Beispielcharakter" above, they're a permanent completeness-check
+    fixture pair, not reference data awaiting migration.
 
 ## Explicitly out of scope here
 
