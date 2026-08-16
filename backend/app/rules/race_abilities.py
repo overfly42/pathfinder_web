@@ -86,12 +86,18 @@ def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value:
     ]
 
 
-def _skill_bonus(context: CharacterContext, *, skill_id: str, value: int) -> list[Modifier]:
+def _skill_bonus(context: CharacterContext, *, source: str, skill_id: str, value: int) -> list[Modifier]:
     # Unconditional, same reasoning as `_attribute_bonus` above — a race's
     # flat skill Volksbonus never depends on anything about the character.
+    # Unlike `_attribute_bonus`'s generic "race ability" (ability-score
+    # `Modifier`s never reach a player-facing breakdown, that's out of scope
+    # for now), `source` is the ability's own name here: `sheet.py`'s skill
+    # breakdown (`_build_skills`) surfaces `Modifier.source` directly to the
+    # player, so it must identify *which* ability granted the bonus, not
+    # just "a race ability".
     del context
     return [
-        Modifier(source="race ability", type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
+        Modifier(source=source, type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
     ]
 
 
@@ -113,5 +119,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ABILITY_ST_MINUS2: functools.partial(_attribute_bonus, attribute="ST", value=-2),
     ABILITY_ST_PLUS2: functools.partial(_attribute_bonus, attribute="ST", value=2),
     ABILITY_ANY_PLUS2: functools.partial(_attribute_bonus, attribute=None, value=2),
-    EINSCHUECHTERND: functools.partial(_skill_bonus, skill_id=_EINSCHUECHTERN_SKILL_ID, value=2),
+    EINSCHUECHTERND: functools.partial(
+        _skill_bonus, source="Einschüchternd", skill_id=_EINSCHUECHTERN_SKILL_ID, value=2
+    ),
 }

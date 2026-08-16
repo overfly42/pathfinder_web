@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatBreakdown } from '../../lib/breakdown';
 import type { Character } from '../../types/character';
 import { useClickOutside } from '../../hooks/useClickOutside';
 
@@ -71,7 +72,9 @@ export function VitalsBar({ character, onApplyHp, onSetTempHp }: VitalsBarProps)
       </div>
       <div className="vital">
         <div className="k">Rüstungsklasse</div>
-        <div className="v">{character.armorClass}</div>
+        <div className="v" title={formatBreakdown(character.armorClassBreakdown)}>
+          {character.armorClass}
+        </div>
       </div>
       <div className="vital">
         <div className="k">Initiative</div>

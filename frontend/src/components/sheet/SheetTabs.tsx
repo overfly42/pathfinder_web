@@ -1,3 +1,4 @@
+import { formatBreakdown } from '../../lib/breakdown';
 import type { Character, DescribedEntry } from '../../types/character';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
@@ -48,7 +49,9 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
                   </span>
                 )}
               </span>
-              <span className="val">{skill.value}</span>
+              <span className="val" title={formatBreakdown(skill.breakdown)}>
+                {skill.value}
+              </span>
             </div>
           ))}
         </TabPanel>

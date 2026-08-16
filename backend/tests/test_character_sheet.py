@@ -365,6 +365,12 @@ def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, d
     # CH mod (-1) + class skill bonus (+3, Waldläufer) + ST mod (+3) = +5.
     assert skills_by_key[einschuechtern_id]["value"] == "+5"
 
+    breakdown = skills_by_key[einschuechtern_id]["breakdown"]
+    assert {"label": "Attributsbonus (CHA)", "value": -1} in breakdown
+    assert {"label": "Klassenfertigkeit", "value": 3} in breakdown
+    assert {"label": "Einschüchternde Kraft", "value": 3} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == 5
+
 
 def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
     client: TestClient, db_session: Session
@@ -387,6 +393,35 @@ def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
     skills_by_key = {s["key"]: s for s in body["skills"]}
     # CH mod (-1) + class skill bonus (+3, Waldläufer) + racial (+2) = +4.
     assert skills_by_key[einschuechtern_id]["value"] == "+4"
+
+    breakdown = skills_by_key[einschuechtern_id]["breakdown"]
+    assert {"label": "Einschüchternd", "value": 2} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == 4
+
+
+def test_armor_class_breakdown_sums_to_armor_class(client: TestClient, db_session: Session) -> None:
+    """`sheet.py`'s `_ac_breakdown`: base 10 + Dex mod + every equipped
+    gear's own AC `Modifier` (`source=item.name`), summing to `armorClass`."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    lederruestung_id = _item_id(client, db_session, "Lederrüstung")  # +2 AC
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, gear=[{"item_id": lederruestung_id, "quantity": 1}]
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": lederruestung_id})
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    breakdown = body["armorClassBreakdown"]
+    assert {"label": "Basis", "value": 10} in breakdown
+    assert {"label": "Lederrüstung", "value": 2} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == body["armorClass"]
 
 
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:

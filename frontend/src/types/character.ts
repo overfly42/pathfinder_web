@@ -15,6 +15,13 @@ export interface StatEntry {
   value: string;
 }
 
+/** One line item in a value-origin breakdown (e.g. "Klassenfertigkeit: +3") —
+ * `label`s sum to the stat's own displayed total. */
+export interface BreakdownEntry {
+  label: string;
+  value: number;
+}
+
 export interface SkillEntry {
   key: string;
   label: string;
@@ -23,6 +30,12 @@ export interface SkillEntry {
    * jump-only speed bonus) — shown as an info affordance, not folded into
    * the displayed skill total. */
   note?: string;
+  /** What `value` is made of (ranks, ability mod, class skill bonus, every
+   * contributing feat/race/... bonus) — absent when there's nothing to show
+   * (e.g. an untrained skill with a 0 total). Deliberately excludes `note`'s
+   * situational bonus, which was never folded into `value` in the first
+   * place. */
+  breakdown?: BreakdownEntry[];
 }
 
 export interface DescribedEntry {
@@ -242,6 +255,10 @@ export interface Character {
   level: number;
   hp: { current: number; max: number; temporary: number };
   armorClass: number;
+  /** What `armorClass` is made of (base 10, Dex mod, every equipped/granted
+   * AC bonus) — absent for the two hardcoded mock fixtures, which predate
+   * this field. */
+  armorClassBreakdown?: BreakdownEntry[];
   initiative: string;
   speed: string;
   roundLabel: string;

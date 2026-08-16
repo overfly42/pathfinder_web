@@ -107,6 +107,39 @@ def stack(modifiers: list[Modifier]) -> int:
     return total + sum(best_by_type.values())
 
 
+def contributing(modifiers: list[Modifier]) -> list[Modifier]:
+    """Same type-cap rule as `stack()` (`ALWAYS_STACKS` types all count;
+    every other type only counts its highest-value entry), but returns the
+    surviving `Modifier`s themselves instead of collapsing them to a single
+    int — for provenance/breakdown display (`sheet.py`'s skill/AC breakdown),
+    where the caller needs to know *which* modifiers actually counted toward
+    the total, not just the total itself. `sum(m.value for m in
+    contributing(mods)) == stack(mods)` always holds."""
+    result: list[Modifier] = []
+    best_by_type: dict[str, Modifier] = {}
+    for modifier in modifiers:
+        if modifier.type in ALWAYS_STACKS:
+            result.append(modifier)
+        else:
+            current = best_by_type.get(modifier.type)
+            if current is None or modifier.value > current.value:
+                best_by_type[modifier.type] = modifier
+    result.extend(best_by_type.values())
+    return result
+
+
+def group_by_target(modifiers: list[Modifier]) -> dict[tuple[ModifierTarget, str | None], list[Modifier]]:
+    """Groups every `Modifier` by `(target, target_id)` — the shared first
+    step `stack_by_target` (the summed total) and any breakdown/provenance
+    caller (the raw list, via `contributing`) both need, factored out so
+    `sheet.py` can compute both from the same grouping pass rather than
+    grouping twice."""
+    by_key: dict[tuple[ModifierTarget, str | None], list[Modifier]] = {}
+    for modifier in modifiers:
+        by_key.setdefault((modifier.target, modifier.target_id), []).append(modifier)
+    return by_key
+
+
 def stack_by_target(modifiers: list[Modifier]) -> dict[tuple[ModifierTarget, str | None], int]:
     """`readme.md`'s "Request pipeline" step 4 in one call: group every
     `Modifier` by `(target, target_id)` and `stack()` each group, once, up
@@ -122,7 +155,4 @@ def stack_by_target(modifiers: list[Modifier]) -> dict[tuple[ModifierTarget, str
     them separately and adding the two results back together would break
     the same-type-cap rule across sources (two "armor"-type bonuses from
     different origins still don't stack)."""
-    by_key: dict[tuple[ModifierTarget, str | None], list[Modifier]] = {}
-    for modifier in modifiers:
-        by_key.setdefault((modifier.target, modifier.target_id), []).append(modifier)
-    return {key: stack(group) for key, group in by_key.items()}
+    return {key: stack(group) for key, group in group_by_target(modifiers).items()}

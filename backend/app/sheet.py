@@ -69,7 +69,7 @@ from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.handlers import DAILY_LIMITS, character_modifiers, situational_skill_notes
-from .rules.modifiers import Modifier, ModifierTarget, SkillNote, stack_by_target
+from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
@@ -154,10 +154,18 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     items, gear_by_slot = _gear_lookup(db, character)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     all_modifiers = character_modifiers(context) + race_skill_modifiers(db, character.race_id)
-    stacked = stack_by_target(all_modifiers + gear_ac_modifiers)
+    # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
+    # than each consumer below re-filtering the same flat list — `stacked`
+    # (the summed total per target, what AC/saves/speed/skills actually add
+    # up) and `groups` (the raw per-target Modifier list, what the AC/skill
+    # breakdowns below read `contributing()` off of) both come from this one
+    # pass.
+    groups = group_by_target(all_modifiers + gear_ac_modifiers)
+    stacked = {key: stack(group) for key, group in groups.items()}
 
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
     armor_class = 10 + capped_dex_mod + stacked.get((ModifierTarget.AC, None), 0)
+    armor_class_breakdown = _ac_breakdown(capped_dex_mod, groups)
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = race_speed(db, character.race_id) or 9
@@ -178,6 +186,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "level": total_level,
         "hp": {"current": hp_current, "max": hp_max, "temporary": character.temporary_hit_points},
         "armorClass": armor_class,
+        "armorClassBreakdown": armor_class_breakdown,
         "initiative": _fmt(dex_mod),
         "speed": f"{total_speed} m",
         "roundLabel": "Runde 1",
@@ -212,7 +221,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             },
             {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
         ],
-        "skills": _build_skills(db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, context),
+        "skills": _build_skills(
+            db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, groups, context
+        ),
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
@@ -375,6 +386,27 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
     return result
 
 
+def _ac_breakdown(
+    capped_dex_mod: int, groups: dict[tuple[ModifierTarget, str | None], list[Modifier]]
+) -> list[dict]:
+    """Ordered `{label, value}` line items that sum to `armor_class` exactly
+    (`10 + capped_dex_mod + stacked.get((AC, None), 0)`) — the frontend's
+    value-origin tooltip. Only the `contributing()`-filtered survivors of the
+    AC group are listed (`rules/modifiers.py`'s `contributing` docstring):
+    PF1e's same-type-doesn't-stack rule means a suppressed same-type
+    modifier never actually counted toward `armor_class`, so listing it here
+    too would make the breakdown sum to more than the displayed total."""
+    entries = [
+        {"label": "Basis", "value": 10},
+        {"label": "Geschicklichkeit", "value": capped_dex_mod},
+    ]
+    entries.extend(
+        {"label": modifier.source, "value": modifier.value}
+        for modifier in contributing(groups.get((ModifierTarget.AC, None), []))
+    )
+    return entries
+
+
 def _build_skills(
     db: Session,
     character: Character,
@@ -382,6 +414,7 @@ def _build_skills(
     ability_mods: dict[str, int],
     total_speed: int,
     stacked: dict[tuple[ModifierTarget, str | None], int],
+    groups: dict[tuple[ModifierTarget, str | None], list[Modifier]],
     context: CharacterContext,
 ) -> list[dict]:
     skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
@@ -437,6 +470,28 @@ def _build_skills(
         handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
         base_value = ranks + ab_mod + class_bonus + handler_bonus
         entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(base_value)}
+        # Value-origin tooltip: only the fixed components that actually
+        # contributed (0-value ones dropped — a skill row is shown for every
+        # untrained/non-class skill too, so most rows would otherwise carry
+        # 2-3 always-zero lines) plus every `contributing()`-surviving
+        # handler `Modifier` for this skill (feat/race bonuses, e.g.
+        # Einschüchternde Kraft/Halb-Orks Einschüchternd). Sums to
+        # `base_value` exactly, same reasoning as `_ac_breakdown`. Deliberately
+        # excludes `notes_by_skill` (Wilder Seemann/jump) — those are
+        # situational and never folded into `base_value` in the first place.
+        breakdown = []
+        if ranks:
+            breakdown.append({"label": "Ränge", "value": ranks})
+        if ab_mod:
+            breakdown.append({"label": f"Attributsbonus ({ABILITY_LABELS[skill.ability]})", "value": ab_mod})
+        if class_bonus:
+            breakdown.append({"label": "Klassenfertigkeit", "value": class_bonus})
+        breakdown.extend(
+            {"label": modifier.source, "value": modifier.value}
+            for modifier in contributing(groups.get((ModifierTarget.SKILL, str(skill.id)), []))
+        )
+        if breakdown:
+            entry["breakdown"] = breakdown
         # The note shows the full ready-to-roll total (this skill's base
         # value + the situational bonus), not just the isolated bonus — a
         # player wants one usable number, not a formula piece to add up
