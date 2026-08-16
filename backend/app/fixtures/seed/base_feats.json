@@ -60,7 +60,9 @@
     "name": "Heftiger Angriff",
     "description": "Du kannst im Nahkampf Präzision zugunsten von reiner Wucht opfern. Du kannst dich entscheiden, einen Abzug auf Nahkampf-Angriffswürfe hinzunehmen, um einen entsprechenden Bonus auf den Schaden zu erhalten.",
     "type": "combat",
-    "prerequisite_text": "ST 13, Grund-Angriffsbonus +1"
+    "prerequisite_text": "ST 13, Grund-Angriffsbonus +1",
+    "is_persistent_effect": true,
+    "default_duration_rounds": 1
   },
   {
     "id": "8e01b6ed-f31d-49a5-9bb7-f223d4bac873",

@@ -22,8 +22,13 @@ handler, same "absent handler = flavor-only" convention `race_abilities.py`
 already established for Darkvision)."""
 
 import functools
+from collections import Counter
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 from uuid import UUID
+
+if TYPE_CHECKING:
+    from ..models.character import Character
 
 BARBAR = UUID("0f134941-47fc-5601-bad2-bc5414f6e963")
 ENTFESSELTER_BARBAR = UUID("a6da0398-ab08-5864-b396-c5d848523f79")
@@ -38,6 +43,26 @@ MYSTIKER = UUID("42690b35-2058-5f6d-883f-2d3761f6e791")
 PALADIN = UUID("511e4867-b45c-51fa-8821-3f392db5638b")
 SCHURKE = UUID("6d173894-9b17-59b2-90c6-b03e2a60f498")
 WALDLAEUFER = UUID("9c7bd1ef-bf5f-5a95-9aa4-f6851823ff2c")
+
+
+def pick_counts(character: "Character") -> Counter[UUID]:
+    """How many times `character` has picked each race-scoped
+    favored-class-bonus `BaseClassOptionChoice` id over their whole career
+    — the one raw count both `sheet.py`'s `_build_favored_class_bonuses`
+    (display) and `CharacterContext.favored_class_bonus_pick_counts` (so a
+    handler whose daily allowance an ARG racial bonus augments, e.g.
+    Entfesselter Barbar's Kampfrausch rounds/day in `rules/classes/
+    barbarian.py`, can actually add it rather than only display it) need —
+    shared here so `sheet.py`'s full-sheet build and `routers/characters.py`'s
+    leaner `_ability_context` compute it identically instead of two
+    independent implementations drifting apart. "hp"/"skill" picks never
+    contribute — they're not `BaseClassOptionChoice` rows at all (folded
+    directly into HP/skill ranks already)."""
+    return Counter(
+        option.choice_id
+        for option in character.class_options
+        if option.group_key == "favored_class_bonus" and option.choice_id is not None
+    )
 
 
 def _fraction_bonus(pick_count: int, *, numerator: int, denominator: int, max_bonus: int | None = None) -> int:

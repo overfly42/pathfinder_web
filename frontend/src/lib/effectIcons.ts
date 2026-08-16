@@ -12,6 +12,7 @@ export const SOURCE_TYPE_ICONS: Record<EffectSourceType, string> = {
   condition: CONDITION_TYPE_ICONS.condition,
   spell: '✨',
   class_ability: '⚔️',
+  feat: '🎯',
 };
 
 export function iconForActiveEffect(effect: ActiveEffect): string {

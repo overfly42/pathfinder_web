@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -21,7 +21,22 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     to content not yet modeled) still can't be structured at all, so this is
     always the source of truth for display; the structured rows are a
     best-effort machine-checkable subset. Null when the feat has no
-    prerequisite."""
+    prerequisite.
+
+    `is_persistent_effect`/`default_duration_rounds` (2026-08-16, same
+    "activatable" concept `BaseClassAbility`/`BaseSpell` already have) mark
+    which feats a player can activate as a tracked `CharacterEffect` via
+    `POST .../effects` — most feats are passive or instantaneous, so this
+    defaults to `False`/`None`; only ones with a real per-declaration effect
+    (Heftiger Angriff) set it. Unlike `BaseClassAbility`, there's no
+    `activation_scope` here — no feat found so far only makes sense on
+    someone other than its owner, so every persistent-effect feat is
+    implicitly self-scoped; add it if that ever changes, same as
+    `BaseClassAbility`'s own docstring explains its scope tag.
+    `default_duration_rounds` pre-fills the activation form's duration field
+    (rounds — GRW's "bis zu deinem nächsten Zug", i.e. 1 round, for Heftiger
+    Angriff) the same way `BaseCondition.default_duration_rounds` pre-fills a
+    poison/disease's; the player can still override it, same as there."""
 
     __tablename__ = "base_feats"
 
@@ -29,6 +44,8 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     description: Mapped[str] = mapped_column(Text)
     type: Mapped[str] = mapped_column(String(64))
     prerequisite_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
+    default_duration_rounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
     # Declares which kind of one-off sub-choice this feat needs beyond just
     # taking it (roadmap.md's "Talent-Sub-Wahl-Schema") — "weapon" (Waffenfokus,
     # Mächtiger Waffenfokus, Waffenspezialisierung, Mächtige

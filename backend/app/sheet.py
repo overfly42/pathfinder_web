@@ -69,6 +69,8 @@ from .rules.effective_scores import ability_damage_totals, full_effective_abilit
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
+from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
+from .rules.feats import HEFTIGER_ANGRIFF, power_attack_bonus
 from .rules.handlers import DAILY_LIMITS, NATURAL_ATTACK_HANDLERS, character_modifiers, situational_skill_notes
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
@@ -138,6 +140,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
         level_counts_by_root_id=level_counts_by_root_id,
+        favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -180,7 +183,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         db, character.race_id, {choice.ability_id for choice in character.racial_choices}
     )
     weapon_attacks = _build_weapon_attacks(
-        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus
+        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context
     ) + _build_natural_attacks(
         items,
         gear_by_slot,
@@ -256,6 +259,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "activeEffects": _build_active_effects(db, character, context),
         "activatableSpells": _build_activatable_spells(db, character),
         "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
+        "activatableFeats": _build_activatable_feats(db, character),
         "externalClassAbilities": _build_external_class_abilities(db),
     }
 
@@ -722,15 +726,10 @@ def _build_favored_class_bonuses(db: Session, character: Character) -> list[dict
     "hp"/"skill" picks never appear here — they're not `BaseClassOptionChoice`
     rows at all (folded directly into `armorClass`.../HP/skill ranks
     already), so there's nothing extra to surface for them."""
-    picks = [
-        option
-        for option in character.class_options
-        if option.group_key == "favored_class_bonus" and option.choice_id is not None
-    ]
-    if not picks:
+    pick_counts = favored_class_bonus_pick_counts(character)
+    if not pick_counts:
         return []
 
-    pick_counts: Counter[UUID] = Counter(option.choice_id for option in picks)
     choices = {
         choice.id: choice
         for choice in db.scalars(
@@ -809,6 +808,27 @@ def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
     return [{"key": str(spell.id), "name": spell.name} for spell in spells]
 
 
+def _build_activatable_feats(db: Session, character: Character) -> list[dict]:
+    """Known feats flagged `is_persistent_effect` (2026-08-16, same idea as
+    `_build_activatable_spells`/`_build_activatable_class_abilities`) — the
+    subset a player can activate as a tracked `CharacterEffect` via
+    `POST .../effects` (e.g. Heftiger Angriff). `defaultDurationRounds`
+    pre-fills the frontend's activation-form duration field from
+    `BaseFeat.default_duration_rounds`, same role `ConditionCatalogEntry`'s
+    own default fields play for conditions/poisons/diseases — the player can
+    still override it."""
+    feat_ids = set(character.feat_ids)
+    if not feat_ids:
+        return []
+    feats = db.scalars(
+        select(BaseFeat).where(BaseFeat.id.in_(feat_ids), BaseFeat.is_persistent_effect.is_(True))
+    ).all()
+    return [
+        {"key": str(feat.id), "name": feat.name, "defaultDurationRounds": feat.default_duration_rounds}
+        for feat in feats
+    ]
+
+
 def _build_activatable_class_abilities(
     db: Session, character: Character, context: CharacterContext, granted_ability_ids: Counter[UUID]
 ) -> list[dict]:
@@ -853,22 +873,25 @@ def _build_actions(
     already-activatable data this character has: persistent-effect spells
     known, persistent-effect class abilities granted (self/both scope only —
     `externalClassAbilities` represents what *other* characters can receive
-    from this one, not this character's own action), and activatable gear.
-    No action-cost data exists anywhere in the schema, so `tag` is always
-    `None` rather than a guessed value; no usable-now/legality filtering
-    either (a thick-pass follow-up) — every activatable-flagged entry is
-    listed, with remaining charges/uses folded honestly into its
-    description text instead of hidden.
+    from this one, not this character's own action), persistent-effect feats
+    (2026-08-16, e.g. Heftiger Angriff), and activatable gear. No action-cost
+    data exists anywhere in the schema, so `tag` is always `None` rather than
+    a guessed value; no usable-now/legality filtering either (a thick-pass
+    follow-up) — every activatable-flagged entry is listed, with remaining
+    charges/uses folded honestly into its description text instead of
+    hidden.
 
     `sourceType`/`sourceId` (and, for gear, `gearActionKind`) let the
     frontend route a click without re-deriving what an entry is: spell/
-    class_ability entries feed the same `POST .../effects` activation flow
-    the Effekte panel's own picker already uses (same `sourceType`/
-    `sourceId` shape as `EffectActivate`); gear entries route to
-    `PATCH .../gear/{id}/use` or `/toggle` depending on `gearActionKind`,
-    decided once here rather than re-derived per click — `"use"` whenever
-    the item has any consumable uses/charges (even if it's also
-    toggleable, e.g. a wand), `"toggle"` only for a pure on/off item."""
+    class_ability/feat entries feed the same `POST .../effects` activation
+    flow the Effekte panel's own picker already uses (same `sourceType`/
+    `sourceId` shape as `EffectActivate`; a feat entry's `defaultDurationRounds`
+    additionally pre-fills that flow's duration field, same as
+    `_build_activatable_feats`); gear entries route to `PATCH .../gear/{id}/use`
+    or `/toggle` depending on `gearActionKind`, decided once here rather than
+    re-derived per click — `"use"` whenever the item has any consumable
+    uses/charges (even if it's also toggleable, e.g. a wand), `"toggle"` only
+    for a pure on/off item."""
     actions: list[dict] = []
 
     all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
@@ -908,6 +931,25 @@ def _build_actions(
                 "sourceId": str(ability.id),
             }
             for ability in abilities
+        ]
+
+    feat_ids = set(character.feat_ids)
+    if feat_ids:
+        feats = db.scalars(
+            select(BaseFeat).where(BaseFeat.id.in_(feat_ids), BaseFeat.is_persistent_effect.is_(True))
+        ).all()
+        actions += [
+            {
+                "id": f"feat-{feat.id}",
+                "icon": "🎯",
+                "name": feat.name,
+                "tag": None,
+                "description": feat.description,
+                "sourceType": "feat",
+                "sourceId": str(feat.id),
+                "defaultDurationRounds": feat.default_duration_rounds,
+            }
+            for feat in feats
         ]
 
     for entry in gear:
@@ -980,7 +1022,7 @@ def _build_active_effects(db: Session, character: Character, context: CharacterC
     if not character.effects:
         return []
 
-    ids_by_source: dict[str, set[UUID]] = {"condition": set(), "spell": set(), "class_ability": set()}
+    ids_by_source: dict[str, set[UUID]] = {"condition": set(), "spell": set(), "class_ability": set(), "feat": set()}
     for effect in character.effects:
         ids_by_source[effect.source_type].add(effect.source_id)
 
@@ -1004,6 +1046,11 @@ def _build_active_effects(db: Session, character: Character, context: CharacterC
                 ).all()
             }
             if ids_by_source["class_ability"]
+            else {}
+        ),
+        "feat": (
+            {row.id: row for row in db.scalars(select(BaseFeat).where(BaseFeat.id.in_(ids_by_source["feat"]))).all()}
+            if ids_by_source["feat"]
             else {}
         ),
     }
@@ -1213,19 +1260,48 @@ def _iterative_attack_bonuses(bab: int, flat_bonus: int) -> list[int]:
     return [flat_bonus - 5 * i for i in range(count)]
 
 
+def _grip_scaled(value: int, hands: str | None, is_off_hand: bool) -> int:
+    """PF1e's melee grip-based scaling: a two-handed weapon adds 150% of a
+    bonus (floored), an off-hand weapon only 50% — a one-handed/light
+    weapon in the main hand (neither case) gets the full value. Shared by
+    `_weapon_damage_str_mod` (Str-to-damage) and `_power_attack_effect`
+    (Heftiger Angriff's damage bonus) — the two PF1e melee-damage bonuses
+    this exact scaling rule applies to."""
+    if hands == "two":
+        return (value * 3) // 2
+    if is_off_hand:
+        return value // 2
+    return value
+
+
 def _weapon_damage_str_mod(str_mod: int, hands: str | None, is_off_hand: bool) -> int:
-    """PF1e's Str-to-damage scaling by grip: a two-handed weapon adds 150% of
-    a *positive* Str mod (floored), an off-hand weapon only 50% — but a
+    """PF1e's Str-to-damage scaling by grip (`_grip_scaled`) — but a
     negative Str mod (a penalty) is never scaled, only bonuses are (PF1e
-    FAQ). A one-handed/light weapon in the main hand (neither case) adds the
-    full modifier either way."""
+    FAQ), unlike `_grip_scaled`'s other caller (Heftiger Angriff's bonus,
+    which is never negative in the first place)."""
     if str_mod < 0:
         return str_mod
-    if hands == "two":
-        return (str_mod * 3) // 2
-    if is_off_hand:
-        return str_mod // 2
-    return str_mod
+    return _grip_scaled(str_mod, hands, is_off_hand)
+
+
+def _power_attack_effect(
+    bab: int, context: CharacterContext, hands: str | None = None, is_off_hand: bool = False
+) -> tuple[int, int] | None:
+    """Heftiger Angriff's attack/damage trade-off (`rules/feats.py`'s
+    `power_attack_bonus`), folded into a melee weapon/natural attack's own
+    computed numbers only while the player has actually activated it
+    (`context.active_effects`, `POST .../effects` with `source_type:
+    "feat"`) — same "own-state toggle" pattern `_kampfrausch_entfesselter_barbar`
+    already uses for its own id, not a `HANDLERS`/`Modifier` entry, since the
+    damage half still needs per-weapon grip scaling (`_grip_scaled`) a single
+    flat `ModifierTarget.DAMAGE` value can't represent. Returns the
+    already-scaled `(attack_penalty, damage_bonus)` pair for the caller to
+    add into its own attack-bonus/damage-dice computation; `None` when not
+    currently active."""
+    if not any(effect.source_id == HEFTIGER_ANGRIFF for effect in context.active_effects):
+        return None
+    attack_penalty, damage_bonus = power_attack_bonus(bab)
+    return attack_penalty, _grip_scaled(damage_bonus, hands, is_off_hand)
 
 
 def _build_weapon_attacks(
@@ -1237,6 +1313,7 @@ def _build_weapon_attacks(
     dex_mod: int,
     melee_attack_bonus: int,
     melee_damage_bonus: int,
+    context: CharacterContext,
 ) -> list[dict]:
     """Computed attack-bonus/damage-dice readout for whatever's equipped in
     the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
@@ -1260,7 +1337,12 @@ def _build_weapon_attacks(
     already conflates thrown-and-true-ranged (see above), so applying either
     bonus to every "ranged" item would incorrectly buff a bow; Kampfrausch's
     thrown-weapon-damage nuance is therefore a known, documented gap here
-    too, not modeled."""
+    too, not modeled.
+
+    `context` only feeds Heftiger Angriff's attack/damage trade-off while
+    actually activated (`_power_attack_effect`) — melee only, same reasoning
+    as `melee_attack_bonus`/`melee_damage_bonus` above (Power Attack is
+    explicitly a *melee* attack/damage trade-off, GRW S. 124)."""
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
@@ -1270,15 +1352,25 @@ def _build_weapon_attacks(
             continue
 
         is_ranged = item.weapon_range is not None
+        power_attack = (
+            None if is_ranged else _power_attack_effect(bab, context, item.hands, slot_key == "nebenwaffe")
+        )
+        power_attack_penalty = power_attack[0] if power_attack is not None else 0
+        power_attack_damage = power_attack[1] if power_attack is not None else 0
+
         attack_ability_mod = dex_mod if is_ranged else str_mod + melee_attack_bonus
-        attack_bonuses = _iterative_attack_bonuses(bab, bab + attack_ability_mod + gear_row.enhancement)
+        attack_bonuses = _iterative_attack_bonuses(
+            bab, bab + attack_ability_mod + gear_row.enhancement + power_attack_penalty
+        )
 
         damage_parts: list[str] = []
         if item.damage_medium:
             damage_str_mod = (
                 0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
             )
-            flat_damage = damage_str_mod + gear_row.enhancement + (0 if is_ranged else melee_damage_bonus)
+            flat_damage = (
+                damage_str_mod + gear_row.enhancement + (0 if is_ranged else melee_damage_bonus) + power_attack_damage
+            )
             piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
             if item.damage_type:
                 piece += f" {item.damage_type}"
@@ -1290,15 +1382,16 @@ def _build_weapon_attacks(
             if bonus and (not bonus["requiresActive"] or gear_row.is_active):
                 damage_parts.append(f"{bonus['dice']} {bonus['type']}")
 
-        results.append(
-            {
-                "key": slot_key,
-                "hand": hand_label,
-                "name": item.name,
-                "attackBonus": "/".join(_fmt(bonus) for bonus in attack_bonuses),
-                "damage": " + ".join(damage_parts) if damage_parts else "—",
-            }
-        )
+        result = {
+            "key": slot_key,
+            "hand": hand_label,
+            "name": item.name,
+            "attackBonus": "/".join(_fmt(bonus) for bonus in attack_bonuses),
+            "damage": " + ".join(damage_parts) if damage_parts else "—",
+        }
+        if power_attack is not None:
+            result["note"] = "Heftiger Angriff aktiv"
+        results.append(result)
     return results
 
 
@@ -1352,9 +1445,18 @@ def _build_natural_attacks(
         (gear_row := gear_by_slot.get(slot)) is not None and items[gear_row.item_id].category == "weapon"
         for slot in _WEAPON_HAND_LABELS
     )
-    attack_bonus = bab + str_mod + melee_attack_bonus - (5 if wields_weapon else 0)
+    # Natural attacks never get Power Attack's 150% two-handed scaling (no
+    # "hands" concept for them at all, same simplification the Str-mod
+    # halving just below already makes) — only the secondary-attack 50%
+    # halving via `wields_weapon`, reusing `_power_attack_effect`'s
+    # `is_off_hand` parameter for that same halving rule.
+    power_attack = _power_attack_effect(bab, context, hands=None, is_off_hand=wields_weapon)
+    power_attack_penalty = power_attack[0] if power_attack is not None else 0
+    power_attack_damage = power_attack[1] if power_attack is not None else 0
+
+    attack_bonus = bab + str_mod + melee_attack_bonus - (5 if wields_weapon else 0) + power_attack_penalty
     damage_str_mod = str_mod if str_mod < 0 or not wields_weapon else str_mod // 2
-    flat_damage = damage_str_mod + melee_damage_bonus
+    flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
 
     ability_ids = sorted(set(race_ability_ids) | set(class_ability_ids), key=str)
     results = []
@@ -1365,13 +1467,14 @@ def _build_natural_attacks(
         attack = handler(context)
         if attack is None:
             continue
-        results.append(
-            {
-                "key": f"natural-{ability_id}",
-                "hand": "Naturangriff",
-                "name": attack.name,
-                "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
-                "damage": f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}",
-            }
-        )
+        result = {
+            "key": f"natural-{ability_id}",
+            "hand": "Naturangriff",
+            "name": attack.name,
+            "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
+            "damage": f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}",
+        }
+        if power_attack is not None:
+            result["note"] = "Heftiger Angriff aktiv"
+        results.append(result)
     return results

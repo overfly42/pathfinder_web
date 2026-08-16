@@ -102,6 +102,10 @@ export interface WeaponAttack {
   name: string;
   attackBonus: string;
   damage: string;
+  /** Confirms an own-state-activated bonus is already folded into `attackBonus`/`damage` above
+   *  (e.g. "Heftiger Angriff aktiv") — present only while the player has actually activated it
+   *  (backend `POST .../effects`, `source_type: "feat"`), absent otherwise. */
+  note?: string;
 }
 
 export interface GearItem {
@@ -155,7 +159,7 @@ export interface ActionOption {
   description: string;
   /** Absent on the older mock fixture characters' hardcoded action cards (never meant to be
    *  interactive) — present for every real, DB-backed entry. */
-  sourceType?: 'spell' | 'class_ability' | 'gear';
+  sourceType?: 'spell' | 'class_ability' | 'feat' | 'gear';
   sourceId?: string;
   /** Only meaningful when `sourceType` is `'gear'` — which endpoint a click should call. */
   gearActionKind?: 'use' | 'toggle';
@@ -163,6 +167,11 @@ export interface ActionOption {
    *  Purely a display flag on this card (a toggle never creates a `CharacterEffect` row, so it
    *  never shows up in "Aktive Effekte" — this is the only place its on/off state is visible). */
   isActive?: boolean;
+  /** Only meaningful when `sourceType` is `'feat'` — pre-fills the activation modal's duration
+   *  field from `BaseFeat.default_duration_rounds` (e.g. Heftiger Angriff's 1 round), same role
+   *  `ConditionCatalogEntry.defaultDurationRounds` plays for conditions; the player can still
+   *  override it. */
+  defaultDurationRounds?: number | null;
 }
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';
@@ -202,7 +211,7 @@ export interface EffectsView {
   effectsAvailable: EffectDef[];
 }
 
-export type EffectSourceType = 'spell' | 'class_ability' | 'condition';
+export type EffectSourceType = 'spell' | 'class_ability' | 'condition' | 'feat';
 export type ConditionType = 'condition' | 'poison' | 'disease';
 
 /** One row from the shared condition/poison/disease catalog (`/api/conditions`) — same for every
@@ -222,14 +231,17 @@ export interface ConditionCatalogEntry {
   defaultSuccessesRequired: number | null;
 }
 
-/** A persistent-effect spell or class ability this character actually knows/has, minimal shape
- *  since the picker just needs something to activate by id. `description`, when set, is only ever
- *  a daily-limited ability's remaining-today count (e.g. Kampfrausch's rounds/day) — most entries
- *  have none. */
+/** A persistent-effect spell, class ability, or feat this character actually knows/has, minimal
+ *  shape since the picker just needs something to activate by id. `description`, when set, is only
+ *  ever a daily-limited ability's remaining-today count (e.g. Kampfrausch's rounds/day) — most
+ *  entries have none. `defaultDurationRounds` (feats only, e.g. Heftiger Angriff's 1 round) pre-fills
+ *  the activation modal's duration field, same role `ConditionCatalogEntry`'s own default plays for
+ *  conditions — the player can still override it. */
 export interface ActivatableRef {
   key: string;
   name: string;
   description?: string | null;
+  defaultDurationRounds?: number | null;
 }
 
 /** One applied `CharacterEffect` instance (backend roadmap slice 5) — real character state, distinct
@@ -301,6 +313,9 @@ export interface Character {
   activeEffects: ActiveEffect[];
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
+  /** Known feats flagged `is_persistent_effect` (backend `BaseFeat`, 2026-08-16, e.g. Heftiger
+   *  Angriff) — the feat counterpart to `activatableSpells`/`activatableClassAbilities`. */
+  activatableFeats: ActivatableRef[];
   /** Persistent-effect class abilities with `activation_scope` `'external'`/`'both'` (backend
    *  `BaseClassAbility`) — effects this character can receive from someone else's ability (e.g. a
    *  Barde's Lied des Mutes) even if they don't have it granted themselves. Not gated by ownership,

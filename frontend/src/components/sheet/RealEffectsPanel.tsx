@@ -105,6 +105,7 @@ interface RealEffectsPanelProps {
   conditionsCatalog: ConditionCatalogEntry[];
   activatableSpells: ActivatableRef[];
   activatableClassAbilities: ActivatableRef[];
+  activatableFeats: ActivatableRef[];
   externalClassAbilities: ActivatableRef[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -121,6 +122,7 @@ export function RealEffectsPanel({
   conditionsCatalog,
   activatableSpells,
   activatableClassAbilities,
+  activatableFeats,
   externalClassAbilities,
   search,
   onSearchChange,
@@ -163,6 +165,19 @@ export function RealEffectsPanel({
           tag: 'Klassenfähigkeit',
         });
       }
+      for (const feat of activatableFeats) {
+        if (term && !feat.name.toLowerCase().includes(term)) continue;
+        entries.push({
+          domId: `activatable-feat-${feat.key}`,
+          sourceType: 'feat',
+          sourceId: feat.key,
+          name: feat.name,
+          description: feat.description ?? undefined,
+          icon: SOURCE_TYPE_ICONS.feat,
+          tag: 'Talent',
+          defaultDurationRounds: feat.defaultDurationRounds,
+        });
+      }
       // Effects received from someone else's ability (e.g. a Barde's Lied des Mutes) — offered to
       // every character regardless of whether they have it granted, same as conditionsCatalog below.
       // Skipped here if already listed above (an ability with activation_scope 'both' appears in
@@ -200,7 +215,15 @@ export function RealEffectsPanel({
     }
 
     return entries;
-  }, [conditionsCatalog, activatableSpells, activatableClassAbilities, externalClassAbilities, search, typeFilter]);
+  }, [
+    conditionsCatalog,
+    activatableSpells,
+    activatableClassAbilities,
+    activatableFeats,
+    externalClassAbilities,
+    search,
+    typeFilter,
+  ]);
 
   return (
     <Panel

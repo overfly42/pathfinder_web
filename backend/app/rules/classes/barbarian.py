@@ -18,6 +18,8 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
+from ..favored_class_bonuses import ENTFESSELTER_BARBAR as ENTFESSELTER_BARBAR_FCB_CHOICE_ID
+from ..favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from ..modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from ..progression import ability_mod
 from ..skill_ids import (
@@ -123,10 +125,19 @@ def _kampfrausch_entfesselter_barbar_rounds_per_day(context: CharacterContext) -
     `con_mod + 2 + 2*level`. Scoped to *this* class's own levels
     (`BARBAR_ENTFESSELTER_ROOT_CLASS_ID`), not total character level, so a
     multiclassed character's rounds/day only grow with Entfesselter-Barbar
-    levels, matching RAW."""
+    levels, matching RAW.
+
+    Plus this class's own race-scoped favored-class-bonus alternate ("+1
+    Runde Kampfrausch/Tag" per pick, `rules/favored_class_bonuses.py`'s
+    `ENTFESSELTER_BARBAR` choice) — picked and displayed
+    (`sheet.py`'s `_build_favored_class_bonuses`) since 2026-08-16 but never
+    actually added to this total until now (todos.md's "Volksspezifische
+    Optionen zur Bevorzugten Klasse" gap)."""
     con_mod = ability_mod(context.ability_scores.get("KO", 10))
     barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
-    return con_mod + 2 + 2 * barbar_level
+    fcb_picks = context.favored_class_bonus_pick_counts.get(ENTFESSELTER_BARBAR_FCB_CHOICE_ID, 0)
+    fcb_bonus = FAVORED_CLASS_BONUS_HANDLERS[ENTFESSELTER_BARBAR_FCB_CHOICE_ID](fcb_picks) if fcb_picks else 0
+    return con_mod + 2 + 2 * barbar_level + fcb_bonus
 
 
 def _kampfrausch_entfesselter_barbar_temp_hp(context: CharacterContext) -> int:

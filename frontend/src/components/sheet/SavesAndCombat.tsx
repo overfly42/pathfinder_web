@@ -33,13 +33,23 @@ export function SavesAndCombat({
       {weaponAttacks.length > 0 && (
         <>
           <div className="section-label">Waffen</div>
-          <StatGrid
-            entries={weaponAttacks.map((weapon) => ({
-              key: weapon.key,
-              label: `${weapon.name} (${weapon.hand})`,
-              value: `Angriff ${weapon.attackBonus} · Schaden ${weapon.damage}`,
-            }))}
-          />
+          <div className="saves">
+            {weaponAttacks.map((weapon) => (
+              <div className="save" key={weapon.key}>
+                <span className="name">
+                  {weapon.name} ({weapon.hand})
+                  {weapon.note && (
+                    <span className="skill-note" title={weapon.note} aria-label={weapon.note}>
+                      ⓘ
+                    </span>
+                  )}
+                </span>
+                <span className="val">
+                  Angriff {weapon.attackBonus} · Schaden {weapon.damage}
+                </span>
+              </div>
+            ))}
+          </div>
         </>
       )}
     </>

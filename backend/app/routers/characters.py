@@ -38,6 +38,7 @@ from ..models import (
 )
 from ..rules.context import CharacterContext
 from ..rules.class_options import ability_ids_by_name, group_occurrence_levels
+from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
@@ -910,15 +911,23 @@ def _get_character_effect(character: Character, effect_id: UUID) -> CharacterEff
 def _ability_context(db: Session, character: Character) -> CharacterContext:
     """A `CharacterContext` populated with just the raw inputs a class-
     ability handler needs outside `sheet.py`'s full build (`ability_scores`,
-    `level_counts_by_root_id`) — same "every field defaults to empty, a
-    handler that never reads a given field is unaffected" usage `rules/
-    speed.py`'s `_NO_CHARACTER_CONTEXT` already relies on."""
+    `level_counts_by_root_id`, `favored_class_bonus_pick_counts` — the last
+    needed so a `DAILY_LIMITS` handler an ARG racial favored-class bonus
+    augments, e.g. Entfesselter Barbar's Kampfrausch rounds/day, sees the
+    same total here — activation/rest/advance-time — as `sheet.py` displays)
+    — same "every field defaults to empty, a handler that never reads a
+    given field is unaffected" usage `rules/speed.py`'s
+    `_NO_CHARACTER_CONTEXT` already relies on."""
     race_mods = race_ability_score_mods(db, character.race_id)
     effective_scores = full_effective_ability_scores(db, character, race_mods)
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
-    return CharacterContext(ability_scores=effective_scores, level_counts_by_root_id=level_counts_by_root_id)
+    return CharacterContext(
+        ability_scores=effective_scores,
+        level_counts_by_root_id=level_counts_by_root_id,
+        favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
+    )
 
 
 def _expire_effect(db: Session, character: Character, effect: CharacterEffect) -> CharacterEffect | None:
@@ -952,16 +961,20 @@ def activate_effect(
     character_id: UUID, body: EffectActivate, db: Annotated[Session, Depends(get_db)]
 ) -> CharacterEffect:
     """Activates a persistent effect (roadmap slice 5) — whether this
-    specific character actually knows/has the referenced spell/ability isn't
-    checked here (slice 6's "legality checks"), only that the reference
-    resolves and, for spell/class_ability, is flagged `is_persistent_effect`.
+    specific character actually knows/has the referenced spell/ability/feat
+    isn't checked here (slice 6's "legality checks"), only that the
+    reference resolves and, for spell/class_ability/feat, is flagged
+    `is_persistent_effect`.
 
     Ability ids registered in `rules/handlers.py`'s `DAILY_LIMITS` (e.g.
     Kampfrausch) are rejected once today's pool is exhausted
     (`rules/daily_limits.py`'s `remaining_today`) — the pool itself isn't
     consumed here, only checked; `advance_time` is what actually spends it
     round by round. Ones registered in `TEMP_HP_GRANTS` grant their temp HP
-    directly onto `Character.temporary_hit_points` at this same moment."""
+    directly onto `Character.temporary_hit_points` at this same moment.
+    Neither applies to a feat like Heftiger Angriff (no resource pool, no
+    temp HP), so those dicts simply have no entry for its id and both checks
+    are no-ops for it."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -974,6 +987,10 @@ def activate_effect(
         ability = db.get(BaseClassAbility, body.source_id)
         if ability is None or not ability.is_persistent_effect:
             raise HTTPException(status_code=422, detail="Not a persistent-effect class ability")
+    elif body.source_type == "feat":
+        feat = db.get(BaseFeat, body.source_id)
+        if feat is None or not feat.is_persistent_effect:
+            raise HTTPException(status_code=422, detail="Not a persistent-effect feat")
     else:
         if db.get(BaseCondition, body.source_id) is None:
             raise HTTPException(status_code=422, detail="Unknown condition")

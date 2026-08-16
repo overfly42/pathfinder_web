@@ -421,17 +421,21 @@ class SpellbookAdd(BaseModel):
 class EffectActivate(BaseModel):
     """Body for `POST /api/characters/{id}/effects` — activates a persistent
     effect on a character (roadmap slice 5). `source_type` selects which
-    catalog `source_id` resolves against; for "spell"/"class_ability" the
-    referenced row must have `is_persistent_effect=True`; "condition" only
-    needs to exist in `BaseCondition`. Whether this specific character
-    actually knows/has that spell/ability isn't checked here — that's
+    catalog `source_id` resolves against; for "spell"/"class_ability"/"feat"
+    the referenced row must have `is_persistent_effect=True`; "condition"
+    only needs to exist in `BaseCondition`. Whether this specific character
+    actually knows/has that spell/ability/feat isn't checked here — that's
     roadmap slice 6's "legality checks" (explicitly deferred, see
     roadmap.md), not this slice. `level` and the countdown fields are supplied
     by the player since nothing in the data model can derive them (see
     `models.effect.CharacterEffect`'s docstring) — all optional, so a simple
-    "until removed" effect can omit every one."""
+    "until removed" effect can omit every one. "feat" (2026-08-16, e.g.
+    Heftiger Angriff) reuses this same generic activation flow rather than a
+    parallel one — `BaseFeat.default_duration_rounds` only pre-fills the
+    frontend's duration field, `duration_remaining` here is still whatever
+    the player actually submits."""
 
-    source_type: Literal["spell", "class_ability", "condition"]
+    source_type: Literal["spell", "class_ability", "condition", "feat"]
     source_id: UUID
     level: int | None = None
     incubation_remaining: int | None = None

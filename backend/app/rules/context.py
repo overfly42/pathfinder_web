@@ -57,3 +57,14 @@ class CharacterContext:
     # handler needs (e.g. Kampfrausch's rounds/day, `rules/classes/
     # barbarian.py`) that nothing else on this dataclass already carries.
     level_counts_by_root_id: dict[UUID, int] = field(default_factory=dict)
+    # How many times this character has picked each race-scoped
+    # favored-class-bonus `BaseClassOptionChoice` id over their whole career
+    # (`CharacterClassOption` rows with `group_key == "favored_class_bonus"`,
+    # same "count, not membership" shape `granted_ability_ids` uses since a
+    # pick can recur every favored level) — the one raw input a handler whose
+    # daily allowance an ARG racial favored-class bonus augments needs (e.g.
+    # Entfesselter Barbar's Kampfrausch rounds/day, `rules/classes/
+    # barbarian.py`) that nothing else here carries. `rules/
+    # favored_class_bonuses.py`'s own `HANDLERS` still owns *converting* a
+    # pick count into a bonus value; this field only supplies the raw count.
+    favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)

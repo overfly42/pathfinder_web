@@ -29,6 +29,16 @@ import './CharacterSheetPage.css';
 // backing database row — gear/slot mutations for them stay local-only (nothing to write to).
 const FIXTURE_CHARACTER_IDS = new Set(['1', '2']);
 
+// Aktionen-panel card tag by source type, for the activation modal opened via `handleActionClick`
+// below — 'gear' never reaches this map (handled separately, no modal). Mirrors the tag each
+// `sourceType` gets when picked from the Effekte panel's own picker (`RealEffectsPanel.tsx`).
+const ACTIVATABLE_ACTION_TAGS: Record<NonNullable<ActionOption['sourceType']>, string> = {
+  spell: 'Zauber',
+  class_ability: 'Klassenfähigkeit',
+  feat: 'Talent',
+  gear: '',
+};
+
 export function CharacterSheetPage() {
   const { currentCharacterId, nameOverrides } = useAppState();
   const { character: rawCharacter, setCharacter, loading, error, refetch } = useCharacter(currentCharacterId);
@@ -405,10 +415,10 @@ export function CharacterSheetPage() {
     setPicked(null);
   }
 
-  // Aktionen-panel cards route to one of two existing flows: spell/class-ability entries open the
-  // same activation modal the Effekte panel's own picker uses; gear entries have no player-supplied
-  // values to ask for, so they fire straight through to the use/toggle endpoint (backend `sheet.py`'s
-  // `_build_actions` already decided which of the two per entry via `gearActionKind`).
+  // Aktionen-panel cards route to one of two existing flows: spell/class-ability/feat entries open
+  // the same activation modal the Effekte panel's own picker uses; gear entries have no player-
+  // supplied values to ask for, so they fire straight through to the use/toggle endpoint (backend
+  // `sheet.py`'s `_build_actions` already decided which of the two per entry via `gearActionKind`).
   function handleActionClick(action: ActionOption) {
     if (!action.sourceType || !action.sourceId) return; // mock/fixture card, never wired
     if (action.sourceType === 'gear') {
@@ -422,7 +432,8 @@ export function CharacterSheetPage() {
       name: action.name,
       description: action.description,
       icon: action.icon,
-      tag: action.sourceType === 'spell' ? 'Zauber' : 'Klassenfähigkeit',
+      tag: ACTIVATABLE_ACTION_TAGS[action.sourceType],
+      defaultDurationRounds: action.defaultDurationRounds,
     });
   }
 
@@ -534,6 +545,7 @@ export function CharacterSheetPage() {
               conditionsCatalog={conditionsCatalog}
               activatableSpells={character.activatableSpells}
               activatableClassAbilities={character.activatableClassAbilities}
+              activatableFeats={character.activatableFeats}
               externalClassAbilities={character.externalClassAbilities}
               search={effectsSearch}
               onSearchChange={setEffectsSearch}
