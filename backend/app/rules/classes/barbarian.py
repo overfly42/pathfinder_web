@@ -18,7 +18,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
-from ..modifiers import Modifier, ModifierTarget, SkillNote
+from ..modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from ..progression import ability_mod
 from ..skill_ids import (
     AKROBATIK_SKILL_ID,
@@ -52,6 +52,31 @@ BARBAR_ENTFESSELTER_ROOT_CLASS_ID = UUID("332f742d-d2a1-5375-8bff-0924f92d2b9d")
 BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID = UUID("b311443b-a086-52ae-a079-d31880638921")
 
 KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID = UUID("ad985f6f-3b03-5861-bccf-a016ebaba4ec")
+
+# Entfesselter Barbar's "Bestientotem, Schwächeres" Kampfrauschkraft
+# (`base_class_ability_grants.json` id 3de886d8-…, option-choice-gated —
+# `_granted_class_ability_ids` in `sheet.py` only counts it when actually
+# picked). Grants two primary claw attacks, 1W6 slashing each. Not in
+# `HANDLERS` below: it produces a `NaturalAttack`, not a `Modifier`, so it
+# lives in this module's own `NATURAL_ATTACK_HANDLERS` instead (merged into
+# `rules/handlers.py`'s registry of the same name via `rules/classes/
+# __init__.py`, same "each family owns its own slice" pattern `HANDLERS`
+# already uses).
+BESTIENTOTEM_SCHWAECHERES_ABILITY_ID = UUID("694f425e-d5f9-55d7-978e-4f7e50296dec")
+
+
+def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | None:
+    """Unlike Reißzähne's racial bite (always present once granted), a rage
+    power only manifests while actually raging — same `context.active_effects`
+    "instances" check `_kampfrausch_entfesselter_barbar` below uses for its
+    own flat Modifiers, since both keys off the same Kampfrausch activation
+    (`KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID`), not this ability's own
+    id (Bestientotem itself has no separate on/off state, only Kampfrausch
+    does)."""
+    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
+    if not instances:
+        return None
+    return NaturalAttack(name="Klauen", count=2, damage_dice="1W6", damage_type="H")
 
 
 def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier]:
@@ -212,4 +237,11 @@ TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
 # when it ends (`routers/characters.py`'s `_expire_effect`).
 ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar_end,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `NATURAL_ATTACK_HANDLERS`
+# — class-granted natural weapon attacks only (see
+# `_bestientotem_schwaecheres` above).
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+    BESTIENTOTEM_SCHWAECHERES_ABILITY_ID: _bestientotem_schwaecheres,
 }

@@ -66,6 +66,21 @@ Kurzfassung als Einstiegspunkt:
 - [x] Barbar — vollständig gegen `prd.5footstep.de` importiert (Kampfrausch,
       Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
       `todos_history.md`.
+- [ ] Rassengröße (Klein/Mittelgroß/...) nicht modelliert — `BaseRace` hat
+      kein Size-Feld; `sheet.py`s AC/KMB/KMD nehmen fest Mittelgroß an
+      (siehe `sheet.py`s Moduldocstring). Sollte, analog zum
+      `rules/speed.py`-Präzedenzfall (Bewegungsrate wurde bewusst von einer
+      `BaseRace.speed`-Spalte zu `BaseRaceAbility` + `RaceAbilityGrant` +
+      Handler umgebaut, siehe dessen Docstring), als Rassenfähigkeit
+      modelliert werden (z. B. „Größe: Klein"/„Größe: Mittelgroß" als
+      `BaseRaceAbility`-Zeilen, jede Rasse grant per `RaceAbilityGrant`
+      genau eine), nicht als neue Spalte. Betrifft AC/Angriffsbonus (+1/-1
+      klein/groß), KMB/KMD, vermutlich Fertigkeiten (Verstecken/Tragkraft),
+      und Naturangriffs-Schadenswürfel (z. B. Klauen 1W6→1W4 bei
+      Kleinwüchsigen). Aufgeworfen 2026-08-16 im Zuge der
+      Naturangriffe-Planung (Halb-Ork-Biss/Bestientotem-Klauen für
+      Herkulina) — bewusst zurückgestellt, da klassenübergreifend (AC/KMB/
+      KMD/Naturangriffe gemeinsam), nicht Teil des Naturangriffe-Plans.
 
 ## Handler-Migration zu `CharacterContext` — noch offen
 

@@ -30,15 +30,19 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
-from ..modifiers import Modifier, SkillNote
+from ..modifiers import Modifier, NaturalAttack, SkillNote
 from .barbarian import DAILY_LIMITS as _BARBARIAN_DAILY_LIMITS
 from .barbarian import HANDLERS as _BARBARIAN_HANDLERS
+from .barbarian import NATURAL_ATTACK_HANDLERS as _BARBARIAN_NATURAL_ATTACK_HANDLERS
 from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
+}
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+    **_BARBARIAN_NATURAL_ATTACK_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above — see `rules/handlers.py`'s

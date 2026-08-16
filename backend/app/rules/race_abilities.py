@@ -52,7 +52,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from .context import CharacterContext
-from .modifiers import Modifier, ModifierTarget
+from .modifiers import Modifier, ModifierTarget, NaturalAttack
 
 # attribute=None means the player picks which attribute at character
 # creation (e.g. Human's "Anpassungsfähig") — see module docstring above for
@@ -72,6 +72,15 @@ EINSCHUECHTERND = UUID("342e6626-6d77-47d5-a129-3a3ccc017088")
 # `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill
 # Einschüchternd's Volksbonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
+
+# Halb-Ork's "Reißzähne" alternate racial trait (`race_ability_grants.json`,
+# `is_alternate=True`; replaces "Orkische Wildheit" per
+# `race_ability_replacements.json`) — a primary natural bite attack, 1W4
+# piercing. Not in `HANDLERS` below: it produces a `NaturalAttack`, not a
+# `Modifier`, so it lives in this module's own `NATURAL_ATTACK_HANDLERS`
+# instead (merged into `rules/handlers.py`'s registry of the same name,
+# same "each family owns its own slice" pattern `HANDLERS` already uses).
+REISSZAEHNE_ABILITY_ID = UUID("91b06165-05ad-47b7-9732-18bdf36e1536")
 
 
 def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value: int) -> list[Modifier]:
@@ -101,6 +110,15 @@ def _skill_bonus(context: CharacterContext, *, source: str, skill_id: str, value
     ]
 
 
+def _reisszaehne(context: CharacterContext) -> NaturalAttack:
+    # Unconditional, same reasoning as `_attribute_bonus` above — a racial
+    # trait's natural attack (unlike Bestientotem's rage-power claws,
+    # `rules/classes/barbarian.py`) is always present once granted, not
+    # gated on any active effect.
+    del context
+    return NaturalAttack(name="Biss", count=1, damage_dice="1W4", damage_type="S")
+
+
 # Select by UUID, then call the looked-up function (with the caller's
 # `CharacterContext`) to get its Modifier list — no separate schema column,
 # no text parsing. `target_id=None` (flex, see module docstring) is the
@@ -122,4 +140,11 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERND: functools.partial(
         _skill_bonus, source="Einschüchternd", skill_id=_EINSCHUECHTERN_SKILL_ID, value=2
     ),
+}
+
+# This module's own slice of `rules/handlers.py`'s merged
+# `NATURAL_ATTACK_HANDLERS` — race-granted natural weapon attacks only (see
+# `REISSZAEHNE_ABILITY_ID` above).
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+    REISSZAEHNE_ABILITY_ID: _reisszaehne,
 }

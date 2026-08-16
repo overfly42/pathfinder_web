@@ -96,6 +96,34 @@ class SkillNote:
     detail: str = ""
 
 
+@dataclass(frozen=True)
+class NaturalAttack:
+    """A bite/claw/etc.-style natural weapon attack a race or class ability
+    grants (e.g. Halb-Ork's Reißzähne, Entfesselter Barbar's
+    Bestientotem-Klauen) — sibling to `Modifier`/`SkillNote`, not a
+    `Modifier`: it isn't a bonus to fold into an existing stat, it's a whole
+    extra attack-roll/damage-roll line `sheet.py`'s `_build_natural_attacks`
+    turns into a `WeaponAttack`-shaped entry so it renders in the sheet's
+    existing "Waffen" section alongside equipped-weapon attacks. Dice/type/
+    count are fixed per ability (no size scaling yet — `BaseRace` has no
+    size field, same "honest simplification" the rest of the sheet already
+    documents, see todos.md's "Rassengröße"). Whether a manufactured weapon
+    is wielded (full vs. half BAB/Str) is resolved uniformly by
+    `_build_natural_attacks` itself, not per handler — but a handler *does*
+    still take `CharacterContext`, because not every natural attack is
+    unconditionally present: a rage power's claws (Entfesselter Barbar's
+    Bestientotem) only manifest while actually raging
+    (`context.active_effects`), unlike a racial bite (always present)
+    — the same "return nothing if the condition isn't met" shape
+    `HANDLERS` entries already use, just returning `NaturalAttack | None`
+    instead of `list[Modifier]`."""
+
+    name: str
+    count: int
+    damage_dice: str
+    damage_type: str
+
+
 def stack(modifiers: list[Modifier]) -> int:
     total = 0
     best_by_type: dict[str, int] = {}

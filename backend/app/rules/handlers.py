@@ -96,14 +96,16 @@ from uuid import UUID
 
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
 from .classes import HANDLERS as _CLASS_HANDLERS
+from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import HANDLERS as _FEAT_HANDLERS
-from .modifiers import Modifier, SkillNote
+from .modifiers import Modifier, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
+from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -128,6 +130,17 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
 # with the same shape would merge in here the same way.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_CLASS_DAILY_LIMITS,
+}
+
+# Which bite/claw/etc.-style natural weapon attack an ability id grants, or
+# `None` if it doesn't currently manifest (e.g. a rage power's claws while
+# not raging — see `NaturalAttack`'s own docstring) — `sheet.py`'s
+# `_build_natural_attacks`, folded into the same "Waffen" section
+# `_build_weapon_attacks` renders. Not part of `HANDLERS` above: a
+# `NaturalAttack` (`rules/modifiers.py`), not a `Modifier`.
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+    **_RACE_NATURAL_ATTACK_HANDLERS,
+    **_CLASS_NATURAL_ATTACK_HANDLERS,
 }
 
 # How much temporary HP activating an ability id grants

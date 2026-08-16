@@ -100,6 +100,39 @@ def race_skill_modifiers(db: Session, race_id: UUID) -> list[Modifier]:
     return modifiers
 
 
+def effective_race_ability_ids(db: Session, race_id: UUID, chosen_ability_ids: set[UUID]) -> set[UUID]:
+    """Which race ability ids a character actually has: every base
+    (non-alternate) grant, minus whichever base ids a chosen alternate swaps
+    away, plus the chosen alternates themselves (`chosen_ability_ids` —
+    a character's own `CharacterRacialChoice.ability_id`s, both the flex
+    ability-score pick and any flavor alt-trait swap). Closes the gap
+    `race_skill_modifiers`'s docstring already flags for its own SKILL-only
+    scope (a chosen alt-trait's mechanical effect was never resolved
+    anywhere, only its *name* shown via `Character.alt_traits`) — first real
+    consumer is `sheet.py`'s race-ability display and natural-attack lookup,
+    both of which need the character's actual trait set, not the race's
+    unconditional default one `race_ability_score_mods`/`race_skill_modifiers`
+    still use."""
+    base_ids = {
+        grant.ability_id
+        for grant in db.scalars(
+            select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
+        ).all()
+    }
+    if chosen_ability_ids:
+        replaced_ids = {
+            replacement.replaces_ability_id
+            for replacement in db.scalars(
+                select(RaceAbilityReplacement).where(
+                    RaceAbilityReplacement.base_race_id == race_id,
+                    RaceAbilityReplacement.ability_id.in_(chosen_ability_ids),
+                )
+            ).all()
+        }
+        base_ids -= replaced_ids
+    return base_ids | chosen_ability_ids
+
+
 def resolve_flex_ability_id(db: Session, race_id: UUID, attribute: str) -> UUID | None:
     """Which alternate ability row grants +2 to `attribute` as this race's
     flex bonus, via the same `RaceAbilityGrant`/`RaceAbilityReplacement`

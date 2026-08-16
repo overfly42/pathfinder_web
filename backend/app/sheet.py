@@ -60,17 +60,16 @@ from .models import (
     BaseWeaponSpecialAbility,
     Character,
     CharacterGear,
-    RaceAbilityGrant,
 )
 from .routers.characters import _class_def
-from .routers.races import race_ability_score_mods, race_skill_modifiers
+from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
 from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM_SLOT
 from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
-from .rules.handlers import DAILY_LIMITS, character_modifiers, situational_skill_notes
+from .rules.handlers import DAILY_LIMITS, NATURAL_ATTACK_HANDLERS, character_modifiers, situational_skill_notes
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
@@ -177,8 +176,21 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
+    race_ability_ids = effective_race_ability_ids(
+        db, character.race_id, {choice.ability_id for choice in character.racial_choices}
+    )
     weapon_attacks = _build_weapon_attacks(
         items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus
+    ) + _build_natural_attacks(
+        items,
+        gear_by_slot,
+        race_ability_ids,
+        granted_ability_ids,
+        context,
+        bab,
+        str_mod,
+        melee_attack_bonus,
+        melee_damage_bonus,
     )
 
     return {
@@ -231,7 +243,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "feats": _build_feats(db, character),
         "traits": _described(db, BaseTrait, character.trait_ids),
         "classFeatures": _build_class_features(db, granted_ability_ids),
-        "raceAbilities": _build_race_abilities(db, character.race_id),
+        "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
         "spellsKnown": _build_spell_grades(db, character, "used"),
@@ -600,11 +612,16 @@ def _build_class_features(db: Session, granted_ability_ids: Counter[UUID]) -> li
     return _described(db, BaseClassAbility, list(granted_ability_ids))
 
 
-def _build_race_abilities(db: Session, race_id: UUID) -> list[dict]:
-    grants = db.scalars(
-        select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
-    ).all()
-    return _described(db, BaseRaceAbility, [grant.ability_id for grant in grants])
+def _build_race_abilities(db: Session, race_ability_ids: set[UUID]) -> list[dict]:
+    """`race_ability_ids` is `build_character_sheet`'s own
+    `effective_race_ability_ids(...)` result — the character's *actual*
+    trait set (base grants minus whichever a chosen alternate swapped away,
+    plus the chosen alternates themselves), not every base grant
+    unconditionally. Fixes a pre-existing gap: this used to query
+    `RaceAbilityGrant` directly by `race_id` alone, so a chosen alt-trait
+    (e.g. Halb-Ork's Reißzähne) never showed here and the trait it replaced
+    (Orkische Wildheit) incorrectly still did."""
+    return _described(db, BaseRaceAbility, list(race_ability_ids))
 
 
 def _favored_class_bonus_race_choices(
@@ -1280,6 +1297,81 @@ def _build_weapon_attacks(
                 "name": item.name,
                 "attackBonus": "/".join(_fmt(bonus) for bonus in attack_bonuses),
                 "damage": " + ".join(damage_parts) if damage_parts else "—",
+            }
+        )
+    return results
+
+
+def _build_natural_attacks(
+    items: dict[UUID, BaseItem],
+    gear_by_slot: dict[str, CharacterGear],
+    race_ability_ids: set[UUID],
+    class_ability_ids: Counter[UUID],
+    context: CharacterContext,
+    bab: int,
+    str_mod: int,
+    melee_attack_bonus: int,
+    melee_damage_bonus: int,
+) -> list[dict]:
+    """Bite/claw-style natural weapon attacks a character's race/class
+    abilities grant (e.g. Halb-Ork's Reißzähne, Entfesselter Barbar's
+    Bestientotem-Klauen, both `rules/handlers.py`'s `NATURAL_ATTACK_HANDLERS`)
+    — appended to `_build_weapon_attacks`'s own list by
+    `build_character_sheet` so both render in the sheet's one "Waffen"
+    section; `WeaponAttack`'s shape is generic enough for either source, no
+    frontend change needed.
+
+    PF1e RAW: a natural weapon attack a character can make on its own (no
+    manufactured weapon in either weapon slot) rolls at full BAB and full
+    Str-to-damage — a "primary" natural attack. The moment any manufactured
+    weapon is wielded (`hauptwaffe`/`nebenwaffe`), every natural attack
+    becomes secondary instead: BAB-5 on the attack roll, only half (rounded
+    down, never for an already-negative Str mod — same convention
+    `_weapon_damage_str_mod` uses) Str-to-damage — regardless of which
+    "hand" the natural weapon itself uses; even a bite becomes secondary
+    once a sword is in hand. Applied uniformly to every natural attack the
+    character has, not resolved per-source against each other — PF1e's FAQ
+    ruling on stacking multiple *simultaneously primary* natural-attack
+    sources (e.g. a racial bite granted alongside a rage power's claws)
+    deliberately isn't modeled, a known simplification (see todos.md's
+    "Rassengröße" entry for the sibling simplification on size-scaled
+    damage dice).
+
+    `melee_attack_bonus`/`melee_damage_bonus` (`build_character_sheet`'s
+    already-stacked ATTACK/DAMAGE modifiers, e.g. Kampfrausch's flat +2)
+    apply the same way they do to melee weapon attacks — rage's bonus
+    covers natural weapons too under RAW.
+
+    Not every granted ability's natural attack is unconditionally present:
+    a rage power's claws (Entfesselter Barbar's Bestientotem) only manifest
+    while actually raging, so its handler reads `context.active_effects`
+    and returns `None` otherwise — same reasoning `_kampfrausch_entfesselter_barbar`
+    already applies to its own flat Modifiers. A racial bite (Reißzähne)
+    ignores `context` entirely and is always present once granted."""
+    wields_weapon = any(
+        (gear_row := gear_by_slot.get(slot)) is not None and items[gear_row.item_id].category == "weapon"
+        for slot in _WEAPON_HAND_LABELS
+    )
+    attack_bonus = bab + str_mod + melee_attack_bonus - (5 if wields_weapon else 0)
+    damage_str_mod = str_mod if str_mod < 0 or not wields_weapon else str_mod // 2
+    flat_damage = damage_str_mod + melee_damage_bonus
+
+    ability_ids = sorted(set(race_ability_ids) | set(class_ability_ids), key=str)
+    results = []
+    for ability_id in ability_ids:
+        handler = NATURAL_ATTACK_HANDLERS.get(ability_id)
+        if handler is None:
+            continue
+        attack = handler(context)
+        if attack is None:
+            continue
+        results.append(
+            {
+                "key": f"natural-{ability_id}",
+                "hand": "Naturangriff",
+                "name": attack.name,
+                "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
+                "damage": f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}",
             }
         )
     return results
