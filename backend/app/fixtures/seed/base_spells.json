@@ -610,5 +610,12 @@
     "name": "Meteoritenschwarm",
     "school": "Hervorrufung",
     "description": "Vier explodierende Kugeln verursachen jeweils 6W6 Feuerschaden."
+  },
+  {
+    "id": "d347b9be-f11d-41c8-bb46-6a0469dbffef",
+    "name": "Auf Wasser gehen",
+    "school": "Verwandlung",
+    "description": "Der Verwandelte kann auf Flüssigkeiten laufen, als handle es sich um einen festen Untergrund. Er kann Matsch, Öl, Schnee, Treibsand, fließendes Wasser, Eis, selbst Lava gefahrlos überqueren, da seine Füße 2,50 cm bis 5 cm über der Oberfläche schweben. Kreaturen, die flüssige Lava überqueren, erleiden aber immer noch Schaden aufgrund der großen Hitze unter ihnen. Die Betroffenen können laufen, rennen, Sturmangriffe ausführen oder sich sonst wie über die Oberfläche bewegen, als handle es sich um normalen Untergrund. Wird der Zauber unter Wasser gewirkt (oder wenn das Ziel zum Teil oder komplett unter der Oberfläche der jeweiligen Flüssigkeit ist), wird das Ziel pro Runde 18 m weit an die Oberfläche getragen, bis es auf dieser stehen kann.",
+    "is_persistent_effect": true
   }
 ]

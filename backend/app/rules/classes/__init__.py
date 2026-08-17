@@ -11,8 +11,9 @@ concern that already keeps `base_class_abilities.json` split from
 easy to find, easy to blame.
 
 This module only merges every class file's own `HANDLERS`/`DAILY_LIMITS`/
-`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS` into one dict apiece,
-the same merge-only role `rules/handlers.py` plays for every family —
+`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`/
+`WEAPON_BONUS_DAMAGE_HANDLERS` into one dict apiece, the same merge-only role
+`rules/handlers.py` plays for every family —
 `rules/handlers.py` imports this package's dicts, not each class file
 individually, so a new class module only needs registering once, here.
 
@@ -37,12 +38,16 @@ from .barbarian import NATURAL_ATTACK_HANDLERS as _BARBARIAN_NATURAL_ATTACK_HAND
 from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
+from .barbarian import WEAPON_BONUS_DAMAGE_HANDLERS as _BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
 }
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     **_BARBARIAN_NATURAL_ATTACK_HANDLERS,
+}
+WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str, str] | None]] = {
+    **_BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above — see `rules/handlers.py`'s

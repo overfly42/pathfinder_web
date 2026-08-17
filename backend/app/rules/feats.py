@@ -10,6 +10,7 @@ literal, hand-frozen id matching the row in
 by name/description text.
 """
 
+import functools
 from collections.abc import Callable
 from uuid import UUID
 
@@ -18,6 +19,10 @@ from .modifiers import Modifier, ModifierTarget
 from .progression import ability_mod
 
 EINSCHUECHTERNDE_KRAFT = UUID("73238862-9538-590c-b498-0d96e1ae9b43")
+
+# `base_feats.json`'s "Eisenhaut" row id (Halb-Ork/Ork/Zwerg racial feat,
+# "Natürlicher Rüstungsbonus von +1 auf RK").
+EISENHAUT = UUID("bddd2053-a03a-5206-83e7-2e6966686c4c")
 
 # `base_feats.json`'s "Heftiger Angriff" (Power Attack) row id.
 HEFTIGER_ANGRIFF = UUID("4696cb39-3218-4f95-9d61-d0cef28b4ac0")
@@ -45,6 +50,19 @@ def _einschuechternde_kraft(context: CharacterContext) -> list[Modifier]:
             target_id=_EINSCHUECHTERN_SKILL_ID,
         )
     ]
+
+
+def _natural_armor_bonus(context: CharacterContext, *, source: str, value: int) -> list[Modifier]:
+    # Unconditional (a flat racial feat bonus never depends on anything
+    # about the character it's granted to), same reasoning as
+    # `race_abilities.py`'s `_attribute_bonus`. `type="natural"` is its own
+    # stacking bucket (`rules/modifiers.py`'s `stack()`): a second source of
+    # natural armor (another feat, a racial trait) would cap at the higher
+    # of the two rather than adding, while a spell granting an *enhancement*
+    # bonus to natural armor (`type="enhancement"`, once one exists) stacks
+    # on top of this normally, since it's a different type.
+    del context
+    return [Modifier(source=source, type="natural", value=value, target=ModifierTarget.AC)]
 
 
 def power_attack_bonus(bab: int) -> tuple[int, int]:
@@ -84,4 +102,5 @@ def power_attack_bonus(bab: int) -> tuple[int, int]:
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
+    EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
 }

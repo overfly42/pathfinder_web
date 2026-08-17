@@ -171,3 +171,39 @@ class CharacterGearSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_weapon_special_abilities.id")
     )
+
+
+class BaseItemGrantedSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Which spells a `BaseItem` keeps its wearer permanently under the
+    effect of while equipped (e.g. Brustplatte des Freibeuters ->
+    permanently "Auf Wasser gehen") — composition-only catalog data, same
+    convention as `CharacterGearSpecialAbility`/`BaseClassSpell`: *what* an
+    item grants is data, *what the spell actually does* is resolved by
+    `rules.handlers`/`EFFECT_HANDLERS` off the spell's own id like any other
+    spell effect, keyed by `spell_id`, not by this row.
+
+    A join table rather than a single nullable FK on `BaseItem` itself
+    (contrast `BaseItem.granted_ability`/`ability_bonus`) because a single
+    named magic item can carry more than one such spell (a ring granting
+    both, say, `Wasseratmung` and `Auf Wasser gehen`), unlike the
+    attribute-bonus family where one item only ever grants one bonus.
+
+    Not tracked via `CharacterEffect`/`character.effects` — that table
+    models player-toggled, duration-countdown instances (roadmap slice 5);
+    this is unconditional and un-cancelable for as long as the item stays
+    equipped, with no duration to count down, so `sheet.py` derives it
+    fresh from the equipped-gear set on every sheet build instead (see
+    `_build_item_granted_effects`) rather than storing a row that would
+    need to be created/deleted in lockstep with equip/unequip.
+
+    `note` is optional item-specific rider text (e.g. a restriction or
+    variance from the plain spell) appended to the spell's own catalog
+    description for display — null when the spell's own description
+    already covers everything relevant (the common case)."""
+
+    __tablename__ = "base_item_granted_spells"
+    __table_args__ = (UniqueConstraint("item_id", "spell_id"),)
+
+    item_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_items.id"))
+    spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)

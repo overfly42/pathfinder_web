@@ -100,6 +100,7 @@ from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
+from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_HANDLERS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import HANDLERS as _FEAT_HANDLERS
@@ -141,6 +142,18 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     **_RACE_NATURAL_ATTACK_HANDLERS,
     **_CLASS_NATURAL_ATTACK_HANDLERS,
+}
+
+# An extra (dice, damage-type) pair a granted ability id adds to melee
+# weapon damage while active, or `None` if it doesn't currently apply (e.g.
+# Elementare Kampfhaltung only while raging) — `sheet.py`'s
+# `_build_weapon_attacks`. Not part of `HANDLERS` above, same reasoning as
+# `NATURAL_ATTACK_HANDLERS`: a damage die, not a flat int `stack()` can fold
+# in. Only class abilities contribute today (`rules/classes`'s own merge) —
+# a future race ability or feat with the same shape would merge in here the
+# same way.
+WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str, str] | None]] = {
+    **_CLASS_WEAPON_BONUS_DAMAGE_HANDLERS,
 }
 
 # How much temporary HP activating an ability id grants

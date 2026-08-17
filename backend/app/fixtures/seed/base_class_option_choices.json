@@ -2245,5 +2245,153 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "id": "88a5c969-09e5-45b8-b57a-009e8dad7292",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Bezauberung"
+  },
+  {
+    "id": "162619b9-3e6b-4319-bb91-99557746bdb7",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Glück"
+  },
+  {
+    "id": "200ef342-9e62-48ca-ae31-950f0aa9bff6",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Heilen"
+  },
+  {
+    "id": "beee66f0-a914-47c6-80e8-fcea9254bbda",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Hexenblick"
+  },
+  {
+    "id": "130842d6-31fc-4123-bacf-2b0cc3fe3c8b",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Hexenflug"
+  },
+  {
+    "id": "5e6e2103-5625-4224-8f9a-a9493578b4d6",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Hexenzirkel"
+  },
+  {
+    "id": "808465d4-a8e4-4475-b3a3-cd264f54a4ab",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Hexentrank"
+  },
+  {
+    "id": "83f891d6-b9ba-478c-8d93-61f8e36cc7a1",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Kichern"
+  },
+  {
+    "id": "25610543-8b4c-48e8-a151-7d0d70f31881",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Pesthauch"
+  },
+  {
+    "id": "0c5fb224-051a-43fd-92a2-d55052d7aedd",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Schlummer"
+  },
+  {
+    "id": "c97053c7-6f18-42f4-b456-583f2e4a64e5",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Schutzzeichen"
+  },
+  {
+    "id": "216fa0d6-bc9a-4f90-b03b-2b5b1036522b",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Unglück"
+  },
+  {
+    "id": "02d16039-4908-4c9f-b328-35a9c96aa0b3",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Verkleiden"
+  },
+  {
+    "id": "679b88dd-9138-4fbc-9b9c-2226810fa48b",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Zungen"
+  },
+  {
+    "id": "2ed85d35-3422-4af4-b93c-47d152d67470",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Agonie",
+    "min_level": 10
+  },
+  {
+    "id": "12d91599-c54b-4a57-b1f7-c8dd8c9523b1",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Albträume",
+    "min_level": 10
+  },
+  {
+    "id": "c245c6f3-bef7-4076-bd7a-59b825ee28e4",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Hexenauge",
+    "min_level": 10
+  },
+  {
+    "id": "332366ad-7bf3-42bd-ba4e-defbb57601af",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Mächtiges Heilen",
+    "min_level": 10
+  },
+  {
+    "id": "3f4dedd7-9738-4e79-84be-582ae85a7785",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Vergeltung",
+    "min_level": 10
+  },
+  {
+    "id": "a16bae34-b4da-454a-8502-d7aadabd9e21",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Vision",
+    "min_level": 10
+  },
+  {
+    "id": "3d97e24c-c6ab-4177-8e5a-f8c0d9143748",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Wachspuppe",
+    "min_level": 10
+  },
+  {
+    "id": "90882764-06cf-4e8d-8018-8f3645aae9e7",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Wetterkontrolle",
+    "min_level": 10
+  },
+  {
+    "id": "86270b53-49d9-42f2-9605-a3007ff48af3",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Erzwungene Wiedergeburt",
+    "min_level": 18
+  },
+  {
+    "id": "1167bdd1-3700-4859-8dc3-6b38a6555b36",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Ewiger Schlaf",
+    "min_level": 18
+  },
+  {
+    "id": "bef4d8f7-3379-4cdc-848f-9e734cdda5de",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Gabe des Lebens",
+    "min_level": 18
+  },
+  {
+    "id": "1f4fefa5-29d0-4aa1-926d-a0b4196aaf33",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Naturkatastrophe",
+    "min_level": 18
+  },
+  {
+    "id": "f305c87c-c54c-4472-885c-ddb8ffe03405",
+    "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "name": "Todesfluch",
+    "min_level": 18
   }
 ]

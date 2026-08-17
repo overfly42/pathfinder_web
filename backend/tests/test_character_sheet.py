@@ -362,14 +362,16 @@ def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, d
 
     body = client.get(f"/api/characters/{character_id}").json()
     skills_by_key = {s["key"]: s for s in body["skills"]}
-    # CH mod (-1) + class skill bonus (+3, Waldläufer) + ST mod (+3) = +5.
-    assert skills_by_key[einschuechtern_id]["value"] == "+5"
+    # No ranks invested, so Einschüchtern being a Waldläufer class skill
+    # contributes nothing (PF1e's +3 class-skill bonus only applies once at
+    # least 1 rank is invested — `sheet.py`'s `_build_skills`, `class_bonus`).
+    # CH mod (-1) + ST mod (+3) = +2.
+    assert skills_by_key[einschuechtern_id]["value"] == "+2"
 
     breakdown = skills_by_key[einschuechtern_id]["breakdown"]
     assert {"label": "Attributsbonus (CHA)", "value": -1} in breakdown
-    assert {"label": "Klassenfertigkeit", "value": 3} in breakdown
     assert {"label": "Einschüchternde Kraft", "value": 3} in breakdown
-    assert sum(entry["value"] for entry in breakdown) == 5
+    assert sum(entry["value"] for entry in breakdown) == 2
 
 
 def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
@@ -391,12 +393,14 @@ def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
 
     body = client.get(f"/api/characters/{character_id}").json()
     skills_by_key = {s["key"]: s for s in body["skills"]}
-    # CH mod (-1) + class skill bonus (+3, Waldläufer) + racial (+2) = +4.
-    assert skills_by_key[einschuechtern_id]["value"] == "+4"
+    # No ranks invested, so the Waldläufer class-skill bonus doesn't apply
+    # (same reasoning as `test_einschuechternde_kraft_adds_str_mod_to_intimidate`
+    # above). CH mod (-1) + racial (+2) = +1.
+    assert skills_by_key[einschuechtern_id]["value"] == "+1"
 
     breakdown = skills_by_key[einschuechtern_id]["breakdown"]
     assert {"label": "Einschüchternd", "value": 2} in breakdown
-    assert sum(entry["value"] for entry in breakdown) == 4
+    assert sum(entry["value"] for entry in breakdown) == 1
 
 
 def test_armor_class_breakdown_sums_to_armor_class(client: TestClient, db_session: Session) -> None:

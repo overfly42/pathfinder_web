@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.seed.item_seed import seed_items
+from app.seed.item_seed import seed_item_granted_spells, seed_items
+from app.seed.spell_seed import seed_spells
 from app.seed.weapon_ability_seed import seed_weapon_abilities
 
 from test_characters import _character_payload, _create_user, _elf_race_id, _item_id
@@ -20,7 +21,7 @@ def test_list_items_is_database_backed(client: TestClient, db_session: Session) 
     assert response.status_code == 200
     items = response.json()
 
-    assert len(items) == 507
+    assert len(items) == 508
     assert all({"id", "name", "category", "price", "acBonus", "maxDexBonus"} <= set(item) for item in items)
 
     dolch = next(i for i in items if i["name"] == "Dolch")
@@ -132,6 +133,28 @@ def test_equip_item_wrong_category_for_slot_is_rejected(client: TestClient, db_s
 
     response = client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": turmschild_id})
     assert response.status_code == 422
+
+
+def test_equip_item_with_granted_spell_shows_unremovable_active_effect(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    brustplatte_id = _item_id(client, db_session, "Brustplatte des Freibeuters")
+    seed_spells(db_session)  # base_item_granted_spells.spell_id FKs into base_spells
+    seed_item_granted_spells(db_session)
+
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": brustplatte_id, "quantity": 1})
+    response = client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": brustplatte_id})
+    assert response.status_code == 200
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    granted = next(e for e in sheet["activeEffects"] if "Auf Wasser gehen" in e["name"])
+    assert granted["removable"] is False
+    assert granted["durationRemaining"] is None
+
+    # Unequipping the item makes the derived effect disappear again.
+    response = client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": None})
+    assert response.status_code == 200
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert not any("Auf Wasser gehen" in e["name"] for e in sheet["activeEffects"])
 
 
 def test_equip_unowned_item_is_rejected(client: TestClient, db_session: Session) -> None:

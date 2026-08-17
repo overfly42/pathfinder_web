@@ -407,5 +407,23 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Hexe",
+    "skillPointsBase": 2,
+    "spellType": "arcane-prepared",
+    "classSkills": [
+      "beruf",
+      "einschuechtern",
+      "fliegen",
+      "handwerk",
+      "heilkunde",
+      "umd",
+      "wissen_arkanes",
+      "wissen_die_ebenen",
+      "wissen_geschichte",
+      "wissen_natur",
+      "zauberkunde"
+    ]
   }
 ]

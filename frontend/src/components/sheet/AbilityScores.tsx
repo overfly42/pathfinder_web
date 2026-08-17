@@ -1,3 +1,4 @@
+import { formatBreakdown } from '../../lib/breakdown';
 import type { AbilityScore } from '../../types/character';
 
 export function AbilityScores({ abilities }: { abilities: AbilityScore[] }) {
@@ -6,8 +7,8 @@ export function AbilityScores({ abilities }: { abilities: AbilityScore[] }) {
       {abilities.map((ability) => (
         <div className="ability" key={ability.key}>
           <div className="name">{ability.label}</div>
-          <div className="score">{ability.score}</div>
-          <div className="mod">{ability.mod}</div>
+          <div className="score" title={formatBreakdown(ability.breakdown)}>{ability.score}</div>
+          <div className="mod" title={formatBreakdown(ability.breakdown)}>{ability.mod}</div>
           {ability.damage > 0 && (
             <div className="penalty" title="Schaden/Entzug/Verbrennung — heilt separat von der Ursache">
               -{ability.damage}

@@ -7,6 +7,11 @@ export interface AbilityScore {
    *  penalty stays visible even though nothing removes it when its source effect is cured (see
    *  roadmap.md §5's open item; always 0 today, no handler writes to it yet). */
   damage: number;
+  /** What moved `score` away from its race/gear/ability-damage baseline — a feat/trait/active-
+   *  effect bonus or penalty (e.g. Erschöpft's -2 ST/GE). Absent when nothing did; the baseline
+   *  itself isn't itemized further (race/flex/gear/damage collapse into one "Basis" line), same
+   *  "only what's worth showing" scope `SkillEntry.breakdown` already keeps. */
+  breakdown?: BreakdownEntry[];
 }
 
 export interface StatEntry {
@@ -267,6 +272,10 @@ export interface ActiveEffect {
    *  including this same ability once its own pool is exhausted and it's no longer active. */
   dailyLimitRemaining: number | null;
   dailyLimitTotal: number | null;
+  /** `false` for an effect derived from equipped gear (e.g. an item that permanently grants a
+   *  spell's effect while worn) — there is no underlying row to delete, it goes away on its own
+   *  when the item is unequipped, so the seal hides its remove button for these. */
+  removable: boolean;
 }
 
 export interface Character {

@@ -18,6 +18,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
+from ..effects import ERSCHOPFT_CONDITION_ID
 from ..favored_class_bonuses import ENTFESSELTER_BARBAR as ENTFESSELTER_BARBAR_FCB_CHOICE_ID
 from ..favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from ..modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
@@ -66,6 +67,36 @@ KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID = UUID("ad985f6f-3b03-5861-bccf-a016e
 # already uses).
 BESTIENTOTEM_SCHWAECHERES_ABILITY_ID = UUID("694f425e-d5f9-55d7-978e-4f7e50296dec")
 
+# Entfesselter Barbar's "Elementare Kampfhaltung" Kampfrauschkraft
+# (`base_class_abilities.json` id d80a2280-…, option-choice-gated the same
+# way as Bestientotem above). PRD text: the barbarian picks one energy type
+# (Elektrizität/Feuer/Kälte/Säure) when taking this stance; melee attacks
+# deal +1 point of that type, rising to 1W6 at 8th level; from 12th level,
+# critical hits deal an extra 1W10 (2W10/3W10 on a x3/x4-crit weapon) of the
+# same type. Two deliberate simplifications, chosen 2026-08-17 to keep this
+# a same-depth-as-Bestientotem handler rather than a new cross-cutting
+# feature:
+# - No player choice of energy type is modeled yet (`BaseClassOptionChoice`
+#   has no sub-choice mechanism for class abilities the way `BaseFeat.
+#   sub_choice_type`/`CharacterFeat.chosen_*` do for feats) — the type is a
+#   fixed placeholder (`_ENERGY_TYPE` below), same "known gap" pattern as
+#   e.g. `BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`'s unmodeled armor-weight
+#   gating. A real chosen-type sub-pick is future work, not started here.
+# - The 12th-level crit bonus isn't modeled: nothing in this app computes
+#   critical-hit-only damage anywhere (`rules/weapon_abilities.py`'s module
+#   docstring — the ~90 weapon special abilities take the same stance, crit
+#   effects are left for the player to apply at the table), and this
+#   ability's crit bonus additionally needs the wielded weapon's own crit
+#   multiplier, which isn't parsed out of `BaseItem.critical`'s raw string
+#   anywhere either. Only the flat on-hit part (1 / 1W6) is computed.
+ELEMENTARE_KAMPFHALTUNG_ABILITY_ID = UUID("d80a2280-25f5-52e6-add7-7f216989a163")
+
+# Placeholder energy type until a real per-character choice exists (see
+# `ELEMENTARE_KAMPFHALTUNG_ABILITY_ID`'s docstring above) — Feuer chosen
+# arbitrarily, same as `weapon_abilities.py`'s own hand-picked types for its
+# 8 flat on-hit energy abilities.
+_ELEMENTARE_KAMPFHALTUNG_ENERGY_TYPE = "Feuer"
+
 
 def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | None:
     """Unlike Reißzähne's racial bite (always present once granted), a rage
@@ -79,6 +110,25 @@ def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | Non
     if not instances:
         return None
     return NaturalAttack(name="Klauen", count=2, damage_dice="1W6", damage_type="H")
+
+
+def _elementare_kampfhaltung_damage(context: CharacterContext) -> tuple[str, str] | None:
+    """Flat on-hit melee damage die Elementare Kampfhaltung adds while
+    raging (see `ELEMENTARE_KAMPFHALTUNG_ABILITY_ID`'s docstring for what's
+    deliberately not modeled) — same rage-gated shape as
+    `_bestientotem_schwaecheres` above (only manifests while
+    `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` is active), returning
+    `None` otherwise. "1 zusätzlicher Schadenspunkt ... Mit der 8. Stufe
+    steigt dieser Schaden auf 1W6" — a level-scaled *replacement*, not an
+    additive stack, so this returns exactly one die/type pair, scaled by
+    this class's own levels (`BARBAR_ENTFESSELTER_ROOT_CLASS_ID`), same
+    scoping `_kampfrausch_entfesselter_barbar_rounds_per_day` uses."""
+    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
+    if not instances:
+        return None
+    barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
+    dice = "1W6" if barbar_level >= 8 else "1"
+    return (dice, _ELEMENTARE_KAMPFHALTUNG_ENERGY_TYPE)
 
 
 def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier]:
@@ -147,15 +197,15 @@ def _kampfrausch_entfesselter_barbar_temp_hp(context: CharacterContext) -> int:
     return 2 * sum(context.level_counts_by_root_id.values())
 
 
-ERSCHOPFT_CONDITION_ID = UUID("cb149263-435d-52f1-93c5-72fb0a01ff85")
-
-
 def _kampfrausch_entfesselter_barbar_end(context: CharacterContext) -> tuple[UUID, int]:
     """"Der Barbar kann seinen Kampfrausch als Freie Aktion beenden und
     erhält sodann für 1 Minute den Zustand Erschöpft" — a fixed 10-round
     (1-minute) Fatigued condition regardless of how long the rage lasted
     (contrast plain Barbar's own Kampfrausch, whose fatigue instead scales
-    with rounds raged — a different id, out of scope here, see roadmap.md)."""
+    with rounds raged — a different id, out of scope here, see roadmap.md).
+    `ERSCHOPFT_CONDITION_ID` itself now lives in `rules/effects.py` (its own
+    `-2 ST/GE` handler is there too) — imported here rather than redefined,
+    since it's a generic condition, not a Barbar-specific one."""
     del context
     return (ERSCHOPFT_CONDITION_ID, 10)
 
@@ -255,4 +305,14 @@ ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
 # `_bestientotem_schwaecheres` above).
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     BESTIENTOTEM_SCHWAECHERES_ABILITY_ID: _bestientotem_schwaecheres,
+}
+
+# This class's slice of `rules/handlers.py`'s merged
+# `WEAPON_BONUS_DAMAGE_HANDLERS` — an extra (dice, damage-type) pair a
+# granted ability id adds to melee weapon damage while active, or `None` if
+# it doesn't currently apply (same "return nothing if the condition isn't
+# met" shape `NATURAL_ATTACK_HANDLERS` above already uses). Not a
+# `Modifier`: it's a damage die, not a flat int `stack()` can fold in.
+WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str, str] | None]] = {
+    ELEMENTARE_KAMPFHALTUNG_ABILITY_ID: _elementare_kampfhaltung_damage,
 }

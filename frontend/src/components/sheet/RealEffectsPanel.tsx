@@ -35,7 +35,11 @@ function ActiveEffectSeal({ effect, onRemove, onSaveResult }: ActiveEffectSealPr
   const isFrequencyTracked = effect.frequencyRounds != null;
 
   let ribbon: string;
-  if (isFrequencyTracked) {
+  if (!effect.removable) {
+    // Item-granted (`_build_item_granted_effects` on the backend): stays on for as long as the
+    // gear is equipped, no duration to count down and nothing here to remove independently.
+    ribbon = 'Solange ausgerüstet';
+  } else if (isFrequencyTracked) {
     ribbon = `Rettungswurf in ${effect.nextCheckIn ?? 0} ${effect.nextCheckIn === 1 ? 'Rd.' : 'Rd.'}`;
   } else if (effect.durationRemaining != null) {
     ribbon = `${effect.durationRemaining} ${effect.durationRemaining === 1 ? 'Runde' : 'Runden'}`;
@@ -51,7 +55,9 @@ function ActiveEffectSeal({ effect, onRemove, onSaveResult }: ActiveEffectSealPr
 
   return (
     <div className="seal" id={`effect-active-${effect.id}`}>
-      <button type="button" className="seal-remove" title="Entfernen" onClick={() => onRemove(effect.id)}>✕</button>
+      {effect.removable && (
+        <button type="button" className="seal-remove" title="Entfernen" onClick={() => onRemove(effect.id)}>✕</button>
+      )}
       <div className="seal-blob buff">
         <div className="glyph">{iconForActiveEffect(effect)}</div>
         {effect.level != null && <div className="amount">Stf {effect.level}</div>}

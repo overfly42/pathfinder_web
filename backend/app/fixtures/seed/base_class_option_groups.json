@@ -208,5 +208,12 @@
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
     "max_choices": 20
+  },
+  {
+    "id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
+    "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "key": "hexerei",
+    "label": "Hexerei",
+    "max_choices": 11
   }
 ]

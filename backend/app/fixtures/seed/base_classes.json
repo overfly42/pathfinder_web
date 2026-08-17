@@ -206,5 +206,18 @@
     "ref_save": false,
     "wil_save": false,
     "skill_points_base": 4
+  },
+  {
+    "id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "name": "Hexe",
+    "hit_dice": 6,
+    "arch_class_of": null,
+    "casting_ability": "IN",
+    "spell_tradition": "arcane",
+    "bab_progression": 0.5,
+    "fort_save": false,
+    "ref_save": false,
+    "wil_save": true,
+    "skill_points_base": 2
   }
 ]

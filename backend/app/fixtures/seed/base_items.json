@@ -6115,5 +6115,15 @@
     "slot": "ring",
     "weight_lb": null,
     "description": "Dieser einfache Platinring wirft drei Mal pro Tag auf Befehl die nächsten neun Zaubergrade, die gegen den Ringträger gewirkt werden, automatisch zurück auf den Wirker. Diese Eigenschaft funktioniert wie der Zauber Zauber zurückwerfen."
+  },
+  {
+    "id": "56e7bfc0-104e-4680-91c3-fd94ffbfd8f2",
+    "name": "Brustplatte des Freibeuters",
+    "category": "armor",
+    "price": 23850.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 3,
+    "weight_lb": "30 Pfd.",
+    "description": "Diese Brustplatte +1 besteht aus einem glänzenden, bernsteinfarbenen Metall und wurde mit schwachen Wellen- und Wassermotiven geschmückt. Sie erlaubt ihrem Träger, permanent die Effekte von Auf Wasser gehen zu nutzen."
   }
 ]

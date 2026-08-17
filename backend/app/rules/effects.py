@@ -23,6 +23,33 @@ from collections.abc import Callable
 from uuid import UUID
 
 from .context import CharacterContext
-from .modifiers import Modifier
+from .modifiers import Modifier, ModifierTarget
 
-EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {}
+# "Erschöpft" (Fatigued, `base_conditions.json` row cb149263-…) — granted
+# automatically when Entfesselter Barbar's Kampfrausch ends
+# (`rules/classes/barbarian.py`'s `_kampfrausch_entfesselter_barbar_end`,
+# which imports this id) as well as activatable directly like any other
+# condition. PRD text: "-2 auf Stärke und Geschicklichkeit"; the run/charge
+# ban isn't modeled — no action-economy engine exists anywhere in this
+# codebase to gate against, same "narrative only" scope every other
+# condition currently has (`todos.md`'s "Effekt-Handler-Inventar").
+ERSCHOPFT_CONDITION_ID = UUID("cb149263-435d-52f1-93c5-72fb0a01ff85")
+
+
+def _erschoepft(context: CharacterContext) -> list[Modifier]:
+    """Doesn't scale with instance count — same "self-scoped toggle,
+    presence not sum" reasoning `rules/classes/barbarian.py`'s
+    `_kampfrausch_entfesselter_barbar` documents for its own flat bonus:
+    being Erschöpft from two sources at once isn't worse than from one."""
+    instances = [e for e in context.active_effects if e.source_id == ERSCHOPFT_CONDITION_ID]
+    if not instances:
+        return []
+    return [
+        Modifier(source="Erschöpft", type="untyped", value=-2, target=ModifierTarget.SCORE, target_id="ST"),
+        Modifier(source="Erschöpft", type="untyped", value=-2, target=ModifierTarget.SCORE, target_id="GE"),
+    ]
+
+
+EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    ERSCHOPFT_CONDITION_ID: _erschoepft,
+}

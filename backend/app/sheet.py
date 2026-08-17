@@ -52,6 +52,7 @@ from .models import (
     BaseCondition,
     BaseFeat,
     BaseItem,
+    BaseItemGrantedSpell,
     BaseRace,
     BaseRaceAbility,
     BaseSkill,
@@ -71,7 +72,13 @@ from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLER
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from .rules.feats import HEFTIGER_ANGRIFF, power_attack_bonus
-from .rules.handlers import DAILY_LIMITS, NATURAL_ATTACK_HANDLERS, character_modifiers, situational_skill_notes
+from .rules.handlers import (
+    DAILY_LIMITS,
+    NATURAL_ATTACK_HANDLERS,
+    WEAPON_BONUS_DAMAGE_HANDLERS,
+    character_modifiers,
+    situational_skill_notes,
+)
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
@@ -103,20 +110,6 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     race_mods = race_ability_score_mods(db, character.race_id)
     effective_scores = full_effective_ability_scores(db, character, race_mods)
     ability_damage = ability_damage_totals(character)
-    ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
-
-    total_level = character.level
-    hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level)
-    # Legacy characters created before HP was computed at all may still have
-    # a null damage_taken (see Character.damage_taken's docstring) — treated
-    # as undamaged. `hp.current` (remaining HP) is derived here, not stored;
-    # only damage is persisted.
-    damage_taken = character.damage_taken if character.damage_taken is not None else 0
-    hp_current = hp_max - damage_taken
-
-    str_mod = ability_mods["ST"]
-    dex_mod = ability_mods["GE"]
-    bab = character.bab
 
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
@@ -169,6 +162,50 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     groups = group_by_target(all_modifiers + gear_ac_modifiers)
     stacked = {key: stack(group) for key, group in groups.items()}
 
+    # A SCORE-target Modifier (e.g. Erschöpft's -2 ST/GE, `rules/effects.py`)
+    # only reaches `stacked` above, not `effective_scores` itself — race/flex/
+    # gear/ability-damage adjustments are already baked into `effective_scores`
+    # before `context` is even built (`rules/effective_scores.py`), so an
+    # active-effect penalty needs its own fold-in step here, applied before
+    # `ability_mods`/HP/str_mod/dex_mod are derived from it below so every
+    # downstream consumer (saves, skills, attacks, CMB/CMD, HP) sees the
+    # penalized score, not the pre-effect one.
+    #
+    # `pre_effect_scores` is captured *before* that fold-in purely so the
+    # "abilities" section below can show a value-origin tooltip for whichever
+    # penalty/bonus actually moved the score (same `breakdown`/`formatBreakdown`
+    # pattern `armorClassBreakdown`/`SkillEntry.breakdown` already use) — race/
+    # gear/ability-damage stay a single opaque "Basis" line (not itemized
+    # further, since `full_effective_ability_scores` doesn't expose those
+    # separately either) while feat/trait/active-effect contributions
+    # (`contributing()` on the SCORE group) get their own labeled line.
+    pre_effect_scores = dict(effective_scores)
+    ability_score_breakdowns: dict[str, list[dict]] = {}
+    for ability in effective_scores:
+        contributing_score_mods = contributing(groups.get((ModifierTarget.SCORE, ability), []))
+        if contributing_score_mods:
+            ability_score_breakdowns[ability] = [
+                {"label": "Basis", "value": pre_effect_scores[ability]},
+                *({"label": m.source, "value": m.value} for m in contributing_score_mods),
+            ]
+        bonus = stacked.get((ModifierTarget.SCORE, ability), 0)
+        if bonus:
+            effective_scores[ability] += bonus
+    ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
+
+    total_level = character.level
+    hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level)
+    # Legacy characters created before HP was computed at all may still have
+    # a null damage_taken (see Character.damage_taken's docstring) — treated
+    # as undamaged. `hp.current` (remaining HP) is derived here, not stored;
+    # only damage is persisted.
+    damage_taken = character.damage_taken if character.damage_taken is not None else 0
+    hp_current = hp_max - damage_taken
+
+    str_mod = ability_mods["ST"]
+    dex_mod = ability_mods["GE"]
+    bab = character.bab
+
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
     armor_class = 10 + capped_dex_mod + stacked.get((ModifierTarget.AC, None), 0)
     armor_class_breakdown = _ac_breakdown(capped_dex_mod, groups)
@@ -183,7 +220,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         db, character.race_id, {choice.ability_id for choice in character.racial_choices}
     )
     weapon_attacks = _build_weapon_attacks(
-        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context
+        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
+        granted_ability_ids,
     ) + _build_natural_attacks(
         items,
         gear_by_slot,
@@ -216,6 +254,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "score": effective_scores[ability],
                 "mod": _fmt(ability_mods[ability]),
                 "damage": ability_damage.get(ability, 0),
+                **({"breakdown": ability_score_breakdowns[ability]} if ability in ability_score_breakdowns else {}),
             }
             for ability in ("ST", "GE", "KO", "IN", "WE", "CH")
         ],
@@ -256,7 +295,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "spellbook": _build_spell_grades(db, character, "prepared"),
         "actions": _build_actions(db, character, granted_ability_ids, gear),
         "effectsActive": [],
-        "activeEffects": _build_active_effects(db, character, context),
+        "activeEffects": _build_active_effects(db, character, context)
+        + _build_item_granted_effects(db, items, gear_by_slot),
         "activatableSpells": _build_activatable_spells(db, character),
         "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
         "activatableFeats": _build_activatable_feats(db, character),
@@ -488,7 +528,11 @@ def _build_skills(
     for skill in skills:
         ranks = skill_ranks.get(skill.id, 0)
         ab_mod = ability_mods.get(skill.ability, 0)
-        class_bonus = 3 if skill.id in class_skill_ids else 0
+        # PF1e RAW: the +3 class-skill bonus only applies once at least 1 rank
+        # is invested — a class skill with 0 ranks is still untrained/no
+        # better than a cross-class skill (`ranks` is 0 for a skill with no
+        # `CharacterSkillRank` row, filtered in above `skill_ranks`).
+        class_bonus = 3 if ranks and skill.id in class_skill_ids else 0
         # Unconditional feat/race/class-ability skill bonuses (e.g.
         # Einschüchternde Kraft's ST modifier on Einschüchtern,
         # `rules/feats.py`; Halb-Ork's Einschüchternd, `race_skill_modifiers`
@@ -1081,6 +1125,67 @@ def _build_active_effects(db: Session, character: Character, context: CharacterC
                 "successesRequired": effect.successes_required,
                 "dailyLimitRemaining": max(0, remaining) if remaining is not None else None,
                 "dailyLimitTotal": DAILY_LIMITS[effect.source_id](context) if remaining is not None else None,
+                # Every real `CharacterEffect` was itself put there by a player action (cast,
+                # activated, applied), so it can always be taken away the same way — `False` is
+                # reserved for `_build_item_granted_effects`' synthetic entries below, which have
+                # no row to delete in the first place.
+                "removable": True,
+            }
+        )
+    return result
+
+
+def _build_item_granted_effects(db: Session, items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear]) -> list[dict]:
+    """Synthesizes an `activeEffects`-shaped entry (see `_build_active_effects`)
+    for every equipped item that permanently keeps its wearer under a spell's
+    effect (`BaseItemGrantedSpell`, e.g. Brustplatte des Freibeuters ->
+    permanently "Auf Wasser gehen") — derived fresh from the equipped-gear
+    set on every sheet build rather than stored as a `CharacterEffect` row:
+    unlike every other active effect, this one has no duration to count down
+    and can't be independently canceled while the item stays equipped, so
+    there is nothing for a stored row to actually track (see
+    `BaseItemGrantedSpell`'s own docstring). `removable: False` is the
+    frontend's cue to hide the seal's remove button for these.
+
+    `id` is the `BaseItemGrantedSpell` catalog row's own id — stable across
+    sheet builds (unlike a freshly minted id per call), and there is at most
+    one equipped item per slot, so no per-character collision risk."""
+    if not items:
+        return []
+    equipped_item_ids = {gear_row.item_id for gear_row in gear_by_slot.values()}
+    if not equipped_item_ids:
+        return []
+    grants = db.scalars(
+        select(BaseItemGrantedSpell).where(BaseItemGrantedSpell.item_id.in_(equipped_item_ids))
+    ).all()
+    if not grants:
+        return []
+    spells = {
+        row.id: row for row in db.scalars(select(BaseSpell).where(BaseSpell.id.in_({g.spell_id for g in grants}))).all()
+    }
+    result = []
+    for grant in grants:
+        spell = spells.get(grant.spell_id)
+        item = items.get(grant.item_id)
+        if spell is None or item is None:
+            continue
+        result.append(
+            {
+                "id": str(grant.id),
+                "sourceType": "spell",
+                "sourceId": str(spell.id),
+                "name": f"{spell.name} ({item.name})",
+                "conditionType": None,
+                "level": None,
+                "incubationRemaining": None,
+                "durationRemaining": None,
+                "frequencyRounds": None,
+                "nextCheckIn": None,
+                "successesCurrent": 0,
+                "successesRequired": None,
+                "dailyLimitRemaining": None,
+                "dailyLimitTotal": None,
+                "removable": False,
             }
         )
     return result
@@ -1304,6 +1409,25 @@ def _power_attack_effect(
     return attack_penalty, _grip_scaled(damage_bonus, hands, is_off_hand)
 
 
+def _class_weapon_bonus_damage(
+    class_ability_ids: Counter[UUID], context: CharacterContext
+) -> list[tuple[str, str]]:
+    """Resolves `rules/handlers.py`'s `WEAPON_BONUS_DAMAGE_HANDLERS` against
+    a character's granted class abilities — shared by `_build_weapon_attacks`
+    (manufactured weapons) and `_build_natural_attacks` (claws/bites/...),
+    since a rage power's extra elemental damage (e.g. Elementare
+    Kampfhaltung while raging) is a property of the character's melee
+    attacks in general, not of whichever weapon happens to be equipped —
+    RAW doesn't distinguish "wielding a weapon" from "attacking unarmed/with
+    natural weapons" for this kind of bonus."""
+    return [
+        bonus
+        for ability_id in class_ability_ids
+        if (handler := WEAPON_BONUS_DAMAGE_HANDLERS.get(ability_id)) is not None
+        and (bonus := handler(context)) is not None
+    ]
+
+
 def _build_weapon_attacks(
     items: dict[UUID, BaseItem],
     gear_by_slot: dict[str, CharacterGear],
@@ -1314,6 +1438,7 @@ def _build_weapon_attacks(
     melee_attack_bonus: int,
     melee_damage_bonus: int,
     context: CharacterContext,
+    class_ability_ids: Counter[UUID],
 ) -> list[dict]:
     """Computed attack-bonus/damage-dice readout for whatever's equipped in
     the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
@@ -1342,8 +1467,17 @@ def _build_weapon_attacks(
     `context` only feeds Heftiger Angriff's attack/damage trade-off while
     actually activated (`_power_attack_effect`) — melee only, same reasoning
     as `melee_attack_bonus`/`melee_damage_bonus` above (Power Attack is
-    explicitly a *melee* attack/damage trade-off, GRW S. 124)."""
+    explicitly a *melee* attack/damage trade-off, GRW S. 124).
+
+    `class_ability_ids` (`build_character_sheet`'s `granted_ability_ids`,
+    same argument `_build_natural_attacks` already takes) resolves
+    `rules/handlers.py`'s `WEAPON_BONUS_DAMAGE_HANDLERS` — a granted class
+    ability's own extra melee damage die while active (e.g. Elementare
+    Kampfhaltung's energy damage while raging), same shape as gear's own
+    `specialAbilities`-sourced `bonusDamage` just below, computed once here
+    since it doesn't vary per weapon slot."""
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
+    class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
         gear_row = gear_by_slot.get(slot_key)
@@ -1375,6 +1509,8 @@ def _build_weapon_attacks(
             if item.damage_type:
                 piece += f" {item.damage_type}"
             damage_parts.append(piece)
+            if not is_ranged:
+                damage_parts.extend(f"{dice} {damage_type}" for dice, damage_type in class_bonus_damage)
 
         entry = gear_entries_by_item_id.get(str(gear_row.item_id))
         for ability in (entry or {}).get("specialAbilities", []):
@@ -1440,7 +1576,12 @@ def _build_natural_attacks(
     while actually raging, so its handler reads `context.active_effects`
     and returns `None` otherwise — same reasoning `_kampfrausch_entfesselter_barbar`
     already applies to its own flat Modifiers. A racial bite (Reißzähne)
-    ignores `context` entirely and is always present once granted."""
+    ignores `context` entirely and is always present once granted.
+
+    A granted class ability's own extra melee damage die (e.g. Elementare
+    Kampfhaltung's energy damage while raging) applies here too, via the
+    same `_class_weapon_bonus_damage` helper `_build_weapon_attacks` uses —
+    RAW doesn't limit that kind of bonus to manufactured weapons."""
     wields_weapon = any(
         (gear_row := gear_by_slot.get(slot)) is not None and items[gear_row.item_id].category == "weapon"
         for slot in _WEAPON_HAND_LABELS
@@ -1458,6 +1599,7 @@ def _build_natural_attacks(
     damage_str_mod = str_mod if str_mod < 0 or not wields_weapon else str_mod // 2
     flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
 
+    class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
     ability_ids = sorted(set(race_ability_ids) | set(class_ability_ids), key=str)
     results = []
     for ability_id in ability_ids:
@@ -1467,12 +1609,14 @@ def _build_natural_attacks(
         attack = handler(context)
         if attack is None:
             continue
+        damage_parts = [f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}"]
+        damage_parts.extend(f"{dice} {damage_type}" for dice, damage_type in class_bonus_damage)
         result = {
             "key": f"natural-{ability_id}",
             "hand": "Naturangriff",
             "name": attack.name,
             "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
-            "damage": f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}",
+            "damage": " + ".join(damage_parts),
         }
         if power_attack is not None:
             result["note"] = "Heftiger Angriff aktiv"

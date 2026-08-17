@@ -245,7 +245,15 @@ Rateinhalt). Noch keine einzige Zeile klassifiziert oder verdrahtet:
 - [ ] Blind
 - [ ] Blutung
 - [ ] Entkräftet
-- [ ] Erschöpft
+- [x] Erschöpft (2026-08-17, `rules/effects.py`'s `EFFECT_HANDLERS[ERSCHOPFT_CONDITION_ID]`
+      — -2 ST/GE as `Modifier`s targeting `ModifierTarget.SCORE`; the
+      Rennen-/Sturmangriff-Verbot stays narrative-only, no action-economy
+      engine exists to gate against. Fixing this also uncovered that
+      `sheet.py` computed `ability_mods`/HP/str_mod/dex_mod *before*
+      `context`/`stacked` existed, so no SCORE-target effect Modifier could
+      ever have reached them — reordered so score-derived values are
+      computed after `stacked` folds active-effect SCORE penalties into
+      `effective_scores`)
 - [ ] Erschüttert
 - [ ] Fasziniert
 - [ ] Geblendet

@@ -16,7 +16,7 @@ def test_list_spells_is_database_backed(client: TestClient, db_session: Session)
     assert response.status_code == 200
     spells = response.json()
 
-    assert len(spells) == 102
+    assert len(spells) == 103
     assert all({"id", "name", "school", "description"} <= set(spell) for spell in spells)
     magic_missile = next(s for s in spells if s["name"] == "Magisches Geschoss")
     assert magic_missile["school"] == "Hervorrufung"

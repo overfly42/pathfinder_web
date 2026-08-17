@@ -3049,5 +3049,155 @@
     "id": "06ced308-8185-5bf2-882a-3b3ed4ad518a",
     "name": "Halb-Ork (Waldläufer)",
     "description": "Der Tiergefährte des Waldläufers erhält einen zusätzlichen TP. Sollte der Halb-Ork jemals seinen Tiergefährten wechseln, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
+  },
+  {
+    "id": "d1a504fc-8b64-43b1-aa97-8f4af733f6b2",
+    "name": "Hexerei",
+    "description": "Hexen erlernen einige magische Fähigkeiten, die Hexereien genannt werden. Diese verleihen ihnen weitere Fähigkeiten oder schwächen ihre Feinde. Auf der 1. Stufe erhält die Hexe eine Hexerei ihrer Wahl. Sie erhält eine weitere Hexerei auf der 2. Stufe und dann auf jeder weiteren geraden Stufe als Hexe. Eine Hexe kann jede Hexerei nur einmal auswählen. Sofern nicht anders vermerkt, stellt der Gebrauch einer Hexerei eine Standard-Aktion dar, welche keinen Gelegenheitsangriff provoziert. Der SG des Rettungswurfs, um einer Hexerei zu widerstehen, beträgt 10 + ½ Stufe als Hexe + IN-Modifikator der Hexe. Ab der 10. Stufe kann die Hexe statt einer Hexerei eine Mächtige Hexerei wählen, ab der 18. Stufe statt einer Hexerei eine Hohe Hexerei."
+  },
+  {
+    "id": "2fb2dc8a-3422-479a-8c05-ebf8535ef9fd",
+    "name": "Bezauberung",
+    "description": "(ÜF) Die Hexe kann ein Tier oder eine humanoide Kreatur innerhalb von 9 m bezaubern, indem sie lockende und beruhigende Worte verwendet. Dies verbessert die Einstellung des Tieres oder der humanoiden Kreatur um einen Schritt, als wäre der Hexe ein erfolgreicher Fertigkeitswurf auf Diplomatie gelungen. Der Effekt hält für eine Anzahl von Runden in Höhe ihres IN-Modifikators an. Ein erfolgreicher Willenswurf hebt die Wirkung auf. Eine Kreatur kann innerhalb eines Tages nur einmal zum Ziel dieser Fähigkeit werden. Ab der 8. Stufe verbessert sich die Einstellung der Zielkreatur um zwei Schritte. Dies ist ein geistesbeeinflussender Effekt."
+  },
+  {
+    "id": "37902f3f-0db1-4fc3-9847-e30ceef70c1a",
+    "name": "Glück",
+    "description": "(ÜF) Die Hexe kann einer Kreatur innerhalb von 9 m für 1 Runde Glück bringen. Das Ziel kann einmal pro Runde auf dieses Glück zurückgreifen und einen Attributs-, Angriffs-, Rettungs- oder Fertigkeitswurf wiederholen und das bessere Ergebnis nehmen. Das Ziel muss sich entscheiden, von dieser Fähigkeit Gebrauch zu machen, ehe es den ersten Wurf macht. Ab der 8. und 16. Stufe wird die Dauer dieser Hexerei um jeweils 1 Runde verlängert. Sobald eine Kreatur von dieser Hexerei einmal profitiert hat, kann sie dies erst 24 Stunden später wieder.",
+    "is_persistent_effect": true,
+    "activation_scope": "both"
+  },
+  {
+    "id": "e288bd77-9e9a-48ec-8d54-d6e2ecd88a7e",
+    "name": "Heilen",
+    "description": "(ÜF) Die Hexe kann die Verletzungen derjenigen lindern, die sie berührt. Dies wirkt wie Leichte Wunden heilen mit der Stufe der Hexe als Zauberstufe. Ein Wesen kann von dieser Fähigkeit nur einmal innerhalb von 24 Stunden profitieren. Ab der 5. Stufe wirkt diese Hexerei wie Mittelschwere Wunden heilen."
+  },
+  {
+    "id": "0f687b96-659e-4149-af51-ad7d815fbf18",
+    "name": "Hexenblick",
+    "description": "(ÜF) Die Hexe kann einen Gegner, der sich innerhalb von 9 m zu ihr befindet und den sie sehen kann, mit Zweifel erfüllen. Das Ziel erhält nach Wahl der Hexe einen Malus von -2 auf einen der folgenden Werte bzw. Würfe: RK, Attributs-, Angriffs-, Rettungs- oder Fertigkeitswürfe. Diese Hexerei hält für eine Anzahl von Runden in Höhe ihres IN-Modifikators +3. Ein erfolgreicher Willenswurf senkt die Dauer auf 1 Runde. Dies ist ein geistesbeeinflussender Effekt. Ab der 8. Stufe steigt der Malus auf -4."
+  },
+  {
+    "id": "8b91e686-aa8c-4b0b-b57d-3bca93860f0c",
+    "name": "Hexenflug",
+    "description": "(ÜF) Während die Hexe an Macht gewinnt, wird sie immer leichter, bis sie schließlich fliegen kann. Ab der 1. Stufe kann die Hexe beliebig oft Federfall einsetzen und erhält einen Volksbonus von +4 auf ihre Fertigkeitswürfe für Schwimmen. Ab der 3. Stufe kann sie einmal täglich Schweben einsetzen. Ab der 5. Stufe kann sie täglich für eine Anzahl von Minuten in Höhe ihrer Stufe als Hexe fliegen (wie der gleichnamige Zauber). Diese Minuten müssen nicht aufeinander folgen, werden aber in Einheiten von jeweils 1 Minute abgerechnet. Eine Hexe kann diese Hexerei nur auf sich selbst anwenden.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "da66f5d7-7e57-4f11-bd05-9c29b41da3a1",
+    "name": "Hexenzirkel",
+    "description": "(AF) Die Hexe gilt als eine Vettel hinsichtlich des Beitrittes zu einem Hexenzirkel. Der Zirkel muss mindestens über eine Vettel verfügen. Wann immer sich die Hexe innerhalb von 9 m Entfernung zu einer anderen Hexe mit dieser Hexerei befindet, kann sie die Aktion Jemand-anderem-helfen dazu verwenden, um der anderen Hexe einen Bonus von +1 auf ihre Zauberstufe für eine Runde zu verleihen. Dieser Bonus zählt bei den Zaubern und allen Hexereien der anderen Hexe."
+  },
+  {
+    "id": "da0d2aad-4561-4eab-b43d-fbcb806eed8c",
+    "name": "Hexentrank",
+    "description": "(AF) Die Hexe erhält Trank brauen als Bonustalent und einen Innewohnenden Bonus von +4 auf ihre Fertigkeitswürfe für Handwerk (Alchemie)."
+  },
+  {
+    "id": "84c1ff1b-99a6-470f-bd29-4a5b91b56e36",
+    "name": "Kichern",
+    "description": "(ÜF) Die Hexe kann als Bewegungsaktion ein irres Kichern von sich geben. Bei jeder Kreatur innerhalb von 9 m, die unter der Wirkung der Hexerei Agonie, Bezauberung, Hexenblick, Glück oder Unglück der Hexe steht, steigt die Dauer der jeweiligen Hexerei um 1 Runde."
+  },
+  {
+    "id": "ac85220e-32c2-4fd0-b71b-03c08761ead7",
+    "name": "Pesthauch",
+    "description": "(ÜF) Die Hexe kann ein Tier, eine Pflanzenkreatur oder ein Stück Land verfluchen, wodurch das Ziel verdorrt und stirbt. Ein Gebiet zu verpesten dauert 1 Runde, während der die Hexe und ihr Vertrauter sich mit dem Ziel in Kontakt befinden müssen. Ein so verpestetes Stück Land beginnt einen Tag später allmählich zu sterben, bis alle Pflanzen in dem Gebiet im Laufe der nächsten Wochen eingehen. In diesem Gebiet wird nichts mehr wachsen, solange der darauf lastende Fluch anhält. Die Hexe kann ein Gebiet mit einem Radius in Höhe ihrer Stufe als Hexe x 3 m verpesten. Den Pesthauch über eine Kreatur zu bringen ist eine Standard-Aktion, die einen Berührungsangriff im Nahkampf erfordert. Wenn diese Fähigkeit auf ein Tier oder eine Pflanze angewandt wird, erhält die Kreatur den folgenden Fluch: Pesthauch - Art Fluch; Rettungswurf Willen, halbiert; Frequenz 1/Tag; Effekt 1 KO-Schaden. Beide Ausführungen dieses Fluches können durch Fluch brechen oder ähnliche Magie aufgehoben werden. Der SG zum Brechen des Fluches entspricht dem SG des Rettungswurfes. Die Hexe kann immer nur einen Pesthauch gleichzeitig wirken. Sollte sie einen weiteren Pesthauch wirken, endet der erste augenblicklich."
+  },
+  {
+    "id": "8a05091d-731c-4f8b-8487-5027198f7bcf",
+    "name": "Schlummer",
+    "description": "(ÜF) Die Hexe kann eine Kreatur innerhalb von 9 m in einen tiefen magischen Schlaf fallen lassen wie durch den gleichnamigen Zauber Schlaf. Dem Ziel steht ein Willenswurf zu, um der Wirkung zu widerstehen. Sollte dieser Rettungswurf scheitern, schläft es für eine Anzahl von Runden in Höhe der Stufe der Hexe ein. Diese Hexerei kann ein Ziel mit beliebigen TW betreffen. Das Ziel wird nicht durch Lärm oder Licht aufgeweckt, andere können es aber mit einer Standard-Aktion aufwecken. Die Wirkung der Hexerei endet, sobald die Kreatur Schaden nimmt. Unabhängig vom Erfolg des Rettungswurfes, kann das Ziel für die nächsten 24 Stunden nicht erneut mit dieser Hexerei belegt werden."
+  },
+  {
+    "id": "dbc64573-8e0d-48d1-881a-e3753881df4e",
+    "name": "Schutzzeichen",
+    "description": "(ÜF) Die Hexe kann eine Kreatur mit einem Schutzzeichen belegen. Die geschützte Kreatur erhält einen Ablenkungsbonus von +2 auf ihre RK und einen Resistenzbonus von +2 auf ihre Rettungswürfe. Der Schutz hält an, bis die geschützte Kreatur getroffen wird oder ihr ein Rettungswurf missglückt. Die Hexe spürt, wenn ein von ihr gewirkter Schutz endet. Sie kann immer nur eine Kreatur schützen. Sollte sie auf ein anderes Wesen ein Schutzzeichen wirken, endet die Wirkung des vorherigen Schutzzeichens augenblicklich. Die Hexe kann sich nicht selbst schützen. Ab der 8. und 16. Stufe steigt der Bonus jeweils um weitere +1."
+  },
+  {
+    "id": "45e267f4-7d6f-42a5-88f5-b4df4fb20f4f",
+    "name": "Unglück",
+    "description": "(ÜF) Die Hexe kann einer Kreatur innerhalb von 9 m für eine Runde Pech bringen. Wenn Ziel einen Attributs-, Angriffs-, Rettungs- oder Fertigkeitswurf macht, muss es zwei Mal würfeln und das schlechtere Ergebnis nehmen. Ein erfolgreicher Willenswurf hebt diese Hexerei auf. Ab der 8. und 16. Stufe wird die Dauer dieser Hexerei um jeweils 1 Runde verlängert. Diese Fähigkeit betrifft alle Würfe des Zieles während ihrer Wirkungsdauer. Sobald eine Kreatur einmal mit dieser Hexerei belegt wurde, kann sie in den nächsten 24 Stunden nicht erneut davon betroffen werden."
+  },
+  {
+    "id": "422c4a93-1c52-4b2b-9df4-8dd09b64d5fd",
+    "name": "Verkleiden",
+    "description": "(ÜF) Die Hexe kann täglich ihr Aussehen für eine Anzahl von Stunden in Höhe ihrer Stufe als Hexe verändern, so als würde sie Selbstverwandlung wirken. Diese Stunden müssen nicht aufeinander folgen, werden aber in Einheiten von jeweils 1 Stunde abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "fbebca0e-20bf-4206-a8d2-f1490709444c",
+    "name": "Zungen",
+    "description": "(ÜF) Die Hexe kann täglich jede gesprochene Sprache für eine Anzahl von Minuten in Höhe ihrer Stufe als Hexe verstehen (wie unter dem gleichnamigen Zauber Sprachen verstehen). Die Dauer muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute berechnet. Ab der 5. Stufe kann die Hexe diese Fähigkeit verwenden, um jede Sprache zu sprechen wie unter dem Zauber Zungen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "0e397a27-4850-41e7-8d4a-74281aa0a6f4",
+    "name": "Agonie",
+    "description": "(ÜF) Mit dieser Hexerei kann die Hexe eine Kreatur innerhalb von 18 m starke Schmerzen zufügen. Das Ziel leidet unter Übelkeit für eine Anzahl von Runden in Höhe ihrer Stufe als Hexe. Ein Zähigkeitswurf hebt den Effekt auf. Das Ziel kann jede Runde einen neuen Rettungswurf versuchen, bis dieser ihm gelingt. Ein Ziel kann innerhalb von 24 Stunden nur einmal mit dieser Hexerei belegt werden."
+  },
+  {
+    "id": "4edec097-eb5c-430d-bac3-6344a9767e9a",
+    "name": "Albträume",
+    "description": "(ÜF) Indem sie grauenvolle Mächte anruft, kann die Hexe eine Kreatur innerhalb von 18 m verhexen, so dass ihr Schlaf von schrecklichen Albträumen geplagt wird. Sobald das Ziel zu schlafen versucht, wirkt diese Fähigkeit wie der Zauber Albtraum. Ein Willenswurf hebt den Effekt auf. Sollte er misslingen, steht dem Ziel jede Nacht ein weiterer Wurf zu, oder es findet keine Ruhe."
+  },
+  {
+    "id": "8ab617f7-b89e-4039-8d87-df0fdcc11c16",
+    "name": "Hexenauge",
+    "description": "(ÜF) Die Hexe kann ein magisches Auge erschaffen, durch das sie sehen kann. Dies funktioniert wie der Zauber Arkanes Auge. Sollte die Hexe über die Hexerei Hexenzirkel verfügen, können alle Hexen innerhalb von 3 m, die ebenfalls diese Hexerei besitzen, durch das Auge blicken. Die Hexe die dieses Hexenauge erschaffen hat, behält jedoch die Kontrolle darüber. Die Hexe kann dieses Auge für eine Anzahl von Minuten in Höhe ihrer Stufe als Hexe einsetzen. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute abgerechnet.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "ff16d97e-8b5c-4170-b18d-b5f3f9ca6e2f",
+    "name": "Mächtiges Heilen",
+    "description": "(ÜF) Die Hexe kann durch die Anrufung unheimlicher Mächte bei Berührung selbst die furchtbarsten Wunden heilen. Dies funktioniert wie Schwere Wunden heilen mit der Zauberstufe der Hexe. Eine Kreatur kann alle 24 Stunden nur einmal von dieser Fähigkeit profitieren. Ab der 15. Stufe wirkt diese Hexerei wie Kritische Wunden heilen."
+  },
+  {
+    "id": "2995bb4b-caf8-491a-a38a-cd8dfbf945a9",
+    "name": "Vergeltung",
+    "description": "(ÜF) Die Hexe kann den Fluch der Vergeltung über ein Ziel innerhalb von 18 m legen, der furchtbare Wunden über den Leib des Zieles aufbrechen lässt, wann immer es einem anderen Wesen Schaden zufügt. Wenn das Ziel einem anderen Wesen im Nahkampf Schaden zufügt, nimmt es selbst den halben Schaden (abgerundet). Dieser Schaden umgeht alle Resistenzen, Immunitäten oder Schadensreduzierung, welche die Kreatur besitzt. Der Effekt hält für eine Anzahl von Runden in Höhe ihres IN-Modifikator an. Ein Willenswurf hebt die Wirkung auf."
+  },
+  {
+    "id": "112b3219-ab00-40bb-8b0d-c06697b575c0",
+    "name": "Vision",
+    "description": "(ÜF) Die Hexe kann einer Kreatur, welche sie berührt, einen Blick in die Zukunft gewähren. Dies dauert 1 Minute, welche die Hexe und das Ziel in Kontakt bleiben müssen. Nach dieser Zeit erhält das Ziel ein kurzes Bild der maximal 1 Jahr entfernten Zukunft nach Maßgabe des SL. Dabei handelt es sich nur um eine mögliche Zukunft, was solche Visionen recht unzuverlässig macht. Die meisten Visionen tendieren zu der Gesinnung der Hexe. Visionen einer chaotisch bösen Hexe zeigen oftmals Szenen voller Tod und Zerstörung, während jene einer neutral guten Hexe zu eher fröhlichen Ereignissen oder Gelegenheiten neigen. Einer Kreatur kann keine neue Vision zuteilwerden, solange die alte sich nicht erfüllt hat oder abgewendet wurde. Die Hexe kann diese Fähigkeit nicht auf sich selbst anwenden. Unwilligen Kreaturen steht ein Willenswurf zu, um dem Effekt zu widerstehen."
+  },
+  {
+    "id": "bbf9da0b-d734-43fc-a555-3297bdb67ada",
+    "name": "Wachspuppe",
+    "description": "(ÜF) Die Hexe kann mit einer Vollen Aktion ein kleines und grobes Duplikat aus Wachs einer Kreatur innerhalb von 9 m in ihrer Sichtlinie anfertigen. Sobald das Abbild fertiggestellt ist, steht dem Ziel ein Willenswurf zu, bei dessen Misslingen die Hexe ein wenig Kontrolle über die Kreatur erhält. Wenn sie von dieser Kontrolle Gebrauch macht, steht der Kreatur ein erneuter Willenswurf zu, um den Effekt zu beenden. Dies geschieht, wenn die Hexe am Zug ist und behindert nicht die Aktionen der Kreatur während ihres Zuges. Bevor es zu schmelzen beginnt, kann die Hexe das Abbild für eine Anzahl von Aktionen in Höhe ihres IN-Modifikators benutzen. Als Standard-Aktion kann sie die Kreatur eines der folgenden Dinge tun lassen: Die volle Bewegungsrate in eine Richtung ihrer Wahl zurücklegen, sich selbst mit jeder Waffe angreifen, die die Kreatur in Händen hält (dieser Angriff trifft automatisch), sich auf den Boden legen oder alles fallen lassen. Alternativ kann sie auch eine der Anwendungen verwenden, um das Abbild zu foltern, so dass die Kreatur während ihres Zuges sowohl wankt, wie auch unter Übelkeit leidet. Sobald die Kreatur einen Rettungswurf gegen den Effekt schafft, ist sie für 24 Stunden dagegen immun. Dies ist ein Bezauberungseffekt (Zwang)."
+  },
+  {
+    "id": "b1344dc2-f097-4edb-935d-41d2a04bad0b",
+    "name": "Wetterkontrolle",
+    "description": "(ÜF) Die Hexe kann ein Mal täglich Wetterkontrolle wirken. Sie benötigt dafür aber eine Stunde an Vorbereitungszeit, während der sie singt, tanzt und mit ihrem Vertrauten spricht."
+  },
+  {
+    "id": "7a5ad458-78eb-4c16-89c7-3162d9359ffc",
+    "name": "Erzwungene Wiedergeburt",
+    "description": "(ÜF) Die Hexe bewirkt, dass eine Kreatur innerhalb von 9 m stirbt und augenblicklich in einem neuen Körper wiedergeboren wird (wie der Zauber Wiedergeburt). Egal ob der Rettungswurf gegen diese Fähigkeit erfolgreich war oder nicht, eine Kreatur kann innerhalb von 24 Stunden nur einmal von dieser Fähigkeit betroffen werden."
+  },
+  {
+    "id": "c6ee5f94-179b-4d1c-9d1c-36a8e140d188",
+    "name": "Ewiger Schlaf",
+    "description": "(ÜF) Die Hexe kann durch eine Berührung eine Kreatur in dauerhaften Schlaf versetzen. Der Kreatur steht ein Willenswurf zu, um dem Effekt zu widerstehen. Sollte der Rettungswurf misslingen, schläft die Kreatur ein und kann nicht mehr auf natürlichem Wege aufgeweckt werden. Der Effekt kann nur durch den Zauber Wunsch oder ähnlicher Magie aufgehoben werden - oder indem man die Hexe tötet. Die Hexe kann mit dieser Fähigkeit Essen oder Trinken vergiften, so dass jeder, der es zu sich nimmt, den Rettungswurf machen muss oder dauerhaft einschläft. Sie kann immer nur eine Anwendung dieses Giftes bereit haben, welches seine Wirkung jedoch verliert, sollte es nicht innerhalb von 1 Minute eingenommen werden. Egal ob der Rettungswurf gegen diese Fähigkeit erfolgreich war oder nicht, eine Kreatur kann innerhalb von 24 Stunden nur einmal von dieser Fähigkeit betroffen werden."
+  },
+  {
+    "id": "f7ed8fd6-8f49-481e-95e6-d07ef8e09ae9",
+    "name": "Gabe des Lebens",
+    "description": "(ÜF) Einmal täglich kann die Hexe als Volle Aktion eine tote Kreatur berühren und wieder ins Leben zurückrufen. Dies funktioniert wie der Zauber Auferstehung, erfordert jedoch keine Materialkomponenten."
+  },
+  {
+    "id": "db60216b-7572-41e6-8b09-ecb6191944cd",
+    "name": "Naturkatastrophe",
+    "description": "(ÜF) Die Hexe ruft durch diese Hexerei die Naturgewalten an, um ein Gebiet zu verwüsten. Dies funktioniert wie die Zauber Sturm der Vergeltung in Verbindung mit Erdbeben, zu dem es in der zweiten Runde des Effektes kommt (während Säure vom Himmel regnet). Die Hexe muss sich während der Dauer des Effektes konzentrieren. Wird sie in ihrer Konzentration unterbrochen, endet der Effekt augenblicklich. Die Hexe kann diese Fähigkeit nur einmal täglich anwenden."
+  },
+  {
+    "id": "25c47cab-26a3-4499-954d-a43b42a8e968",
+    "name": "Todesfluch",
+    "description": "(ÜF) Diese mächtige Hexerei hält das Herz einer Kreatur an, so dass sie binnen weniger Momente stirbt. Die Reichweite der Hexerei beträgt 9 m. Der verfluchten Kreatur steht ein Willenswurf zu, um dem Effekt zu widerstehen. Bei einem Fehlschlag ist die Kreatur in der ersten Runde der Wirkung erschöpft. Sollte ihr in der dritten Runde kein Zähigkeitswurf gelingen, stirbt sie augenblicklich. Kreaturen, denen der erste Rettungswurf misslingt, der zweite jedoch gelingt, bleiben erschöpft und nehmen 4W6 Schadenspunkte + 1 Schadenspunkt pro Stufe der Hexe. Sollte die Hexe, welche den Todesfluch eingesetzt hat, getötet werden, endet die Wirkung, wohingegen die Zustände Ermüdung und Erschöpfung bestehen bleiben. Eine Kreatur kann innerhalb von 24 Stunden nur einmal Ziel eines Todesfluches werden."
   }
 ]

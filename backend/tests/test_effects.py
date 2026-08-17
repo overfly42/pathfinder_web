@@ -516,7 +516,11 @@ def test_kampfrausch_daily_pool_shared_across_activations_and_auto_ends(
         sheet = client.get(f"/api/characters/{character_id}").json()
         assert kampfrausch_entry(sheet)["description"] == f"{expected_remaining} von 4 Runden heute übrig"
 
-    assert sheet["armorClass"] == baseline_ac
+    # Erschöpft's own -2 GE (`rules/effects.py`) drops the Dex mod by 1, so AC
+    # settles one point *below* the pre-rage baseline, not back at it —
+    # Kampfrausch's -2 AC penalty is gone, but its automatic Erschöpft
+    # follow-up now has a real numeric effect of its own.
+    assert sheet["armorClass"] == baseline_ac - 1
     assert sheet["hp"]["temporary"] == 0
 
     # Pool exhausted: reactivating the same day is rejected.
@@ -555,7 +559,9 @@ def test_kampfrausch_manual_end_preserves_pool_and_grants_erschoepft(
     assert response.status_code == 204
 
     sheet = client.get(f"/api/characters/{character_id}").json()
-    assert sheet["armorClass"] == baseline["armorClass"]
+    # Same -1 as the auto-end test above: Erschöpft's -2 GE (`rules/effects.py`)
+    # drops Dex mod by 1, so AC lands one point below the pre-rage baseline.
+    assert sheet["armorClass"] == baseline["armorClass"] - 1
     assert sheet["hp"]["temporary"] == 0
     erschoepft = next(e for e in sheet["activeEffects"] if e["sourceId"] == ERSCHOPFT_CONDITION_ID)
     assert erschoepft["durationRemaining"] == 10
