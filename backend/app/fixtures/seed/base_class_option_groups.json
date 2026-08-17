@@ -215,5 +215,12 @@
     "key": "hexerei",
     "label": "Hexerei",
     "max_choices": 11
+  },
+  {
+    "id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "key": "favored_class_bonus",
+    "label": "Bevorzugte Klasse",
+    "max_choices": 20
   }
 ]

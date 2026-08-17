@@ -59,13 +59,16 @@ from .modifiers import Modifier, ModifierTarget, NaturalAttack
 # how that choice is modeled/persisted.
 ABILITY_GE_PLUS2 = UUID("8e4cf2e6-4510-4aa9-b2bb-9be8b47b0332")
 ABILITY_IN_PLUS2 = UUID("dc5ec0fe-68ce-47e0-9d61-4a86f8f2e651")
+ABILITY_IN_MINUS2 = UUID("900f8f27-d0d8-43ec-a8a8-8e2473e8b2c8")
 ABILITY_KO_MINUS2 = UUID("f98fed0e-f32b-46c7-8575-34875bbab69a")
 ABILITY_KO_PLUS2 = UUID("9a2bf962-3eee-41d6-acef-972fc4b65ec0")
 ABILITY_WE_PLUS2 = UUID("f4278c92-0328-476d-818a-ae0ce9e0aaef")
+ABILITY_WE_MINUS2 = UUID("71cd3345-96eb-4b2d-9d43-365a4d25af77")
 ABILITY_CH_MINUS2 = UUID("15891f93-77b5-4ee2-85c2-3486fc7365e5")
 ABILITY_CH_PLUS2 = UUID("1dfff0e2-95a6-4635-a76e-639a2dab82af")
 ABILITY_ST_MINUS2 = UUID("8ccc99e8-00c5-4245-8fb0-73d7fcd5bbdb")
 ABILITY_ST_PLUS2 = UUID("04d2de62-ece9-4345-be84-cf8bf00d94dd")
+ABILITY_ST_PLUS4 = UUID("c73e6c2e-6d66-459e-8789-bd5510d2a155")
 ABILITY_ANY_PLUS2 = UUID("2756eef0-10f0-42d4-a6d4-10f0b44ec4be")
 
 EINSCHUECHTERND = UUID("342e6626-6d77-47d5-a129-3a3ccc017088")
@@ -129,13 +132,16 @@ def _reisszaehne(context: CharacterContext) -> NaturalAttack:
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ABILITY_GE_PLUS2: functools.partial(_attribute_bonus, attribute="GE", value=2),
     ABILITY_IN_PLUS2: functools.partial(_attribute_bonus, attribute="IN", value=2),
+    ABILITY_IN_MINUS2: functools.partial(_attribute_bonus, attribute="IN", value=-2),
     ABILITY_KO_MINUS2: functools.partial(_attribute_bonus, attribute="KO", value=-2),
     ABILITY_KO_PLUS2: functools.partial(_attribute_bonus, attribute="KO", value=2),
     ABILITY_WE_PLUS2: functools.partial(_attribute_bonus, attribute="WE", value=2),
+    ABILITY_WE_MINUS2: functools.partial(_attribute_bonus, attribute="WE", value=-2),
     ABILITY_CH_MINUS2: functools.partial(_attribute_bonus, attribute="CH", value=-2),
     ABILITY_CH_PLUS2: functools.partial(_attribute_bonus, attribute="CH", value=2),
     ABILITY_ST_MINUS2: functools.partial(_attribute_bonus, attribute="ST", value=-2),
     ABILITY_ST_PLUS2: functools.partial(_attribute_bonus, attribute="ST", value=2),
+    ABILITY_ST_PLUS4: functools.partial(_attribute_bonus, attribute="ST", value=4),
     ABILITY_ANY_PLUS2: functools.partial(_attribute_bonus, attribute=None, value=2),
     EINSCHUECHTERND: functools.partial(
         _skill_bonus, source="Einschüchternd", skill_id=_EINSCHUECHTERN_SKILL_ID, value=2

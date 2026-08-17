@@ -550,5 +550,17 @@
     "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
     "group_id": null,
     "minimum_bab": 6
+  },
+  {
+    "id": "9990bf84-e1a0-5ebb-9ed8-12a532ab433c",
+    "feat_id": "77c5e11b-ce1b-51af-aac9-e833a001a5ba",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "df1b4ad5-e0e7-55e9-9aaa-3931055c046f",
+    "feat_id": "b6f03329-696e-5b9e-805d-ba501a5a585f",
+    "group_id": null,
+    "minimum_bab": 1
   }
 ]

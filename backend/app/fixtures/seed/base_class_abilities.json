@@ -3199,5 +3199,70 @@
     "id": "25c47cab-26a3-4499-954d-a43b42a8e968",
     "name": "Todesfluch",
     "description": "(ÜF) Diese mächtige Hexerei hält das Herz einer Kreatur an, so dass sie binnen weniger Momente stirbt. Die Reichweite der Hexerei beträgt 9 m. Der verfluchten Kreatur steht ein Willenswurf zu, um dem Effekt zu widerstehen. Bei einem Fehlschlag ist die Kreatur in der ersten Runde der Wirkung erschöpft. Sollte ihr in der dritten Runde kein Zähigkeitswurf gelingen, stirbt sie augenblicklich. Kreaturen, denen der erste Rettungswurf misslingt, der zweite jedoch gelingt, bleiben erschöpft und nehmen 4W6 Schadenspunkte + 1 Schadenspunkt pro Stufe der Hexe. Sollte die Hexe, welche den Todesfluch eingesetzt hat, getötet werden, endet die Wirkung, wohingegen die Zustände Ermüdung und Erschöpfung bestehen bleiben. Eine Kreatur kann innerhalb von 24 Stunden nur einmal Ziel eines Todesfluches werden."
+  },
+  {
+    "id": "e87ea93a-6c2b-5f47-9b59-de46a7e88f41",
+    "name": "Ork (Barbar)",
+    "description": "Addiere +1 Runde zur Anzahl der täglichen Runden an Kampfrausch."
+  },
+  {
+    "id": "5a8a603b-e71c-5fee-80c4-2792af7b2e5e",
+    "name": "Ork (Druide)",
+    "description": "Addiere +1/2 auf den Schaden der natürlichen Angriffe des Tiergefährten des Druiden."
+  },
+  {
+    "id": "b452d300-fddc-5c76-8f19-7c6b1c66a42f",
+    "name": "Ork (Hexe)",
+    "description": "Addiere einen Zauber der Zauberliste der Hexe zum Hexenvertrauten. Der Grad dieses Zaubers muss niedriger sein als der höchstgradigste Hexenzauber, den die Hexe wirken kann. Sollte die Hexe jemals ihren Vertrauten ersetzen, kennt auch der neue Vertraute diese Bonuszauber."
+  },
+  {
+    "id": "c6198a68-018d-5baf-ba84-ad86380b0987",
+    "name": "Ork (Kämpfer)",
+    "description": "Addiere +2 auf den effektiven Konstitutionswert des Kämpfers, um zu bestimmen, wann er aufgrund negativer Trefferpunkte stirbt."
+  },
+  {
+    "id": "ab723581-9af8-5797-868b-59bc30bb78c2",
+    "name": "Ork (Waldläufer)",
+    "description": "Addiere +1 TP zu den Trefferpunkten des Tiergefährten des Waldläufers. Sollte er jemals seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
+  },
+  {
+    "id": "f36430d1-5d17-5b8c-84dc-ba277c6c9fa4",
+    "name": "Konstitutionsabhängig",
+    "description": "Ein Narbiger Hexendoktor benutzt als Zauberattribut Konstitution anstelle von Intelligenz. Ebenso bestimmt er die Effekte seiner Hexereien anhand seiner Konstitution anstelle seiner Intelligenz."
+  },
+  {
+    "id": "2c8c7b27-9ba6-5c40-8c6b-db23456d263f",
+    "name": "Hexennarbe",
+    "description": "Wenn ein Narbiger Hexendoktor eine Hexerei erlernt, muss er ein Symbol in seine Hautritzen ritzen oder brennen, um diese Hexerei darzustellen. Er kann diese Narbe mit gewöhnlichen oder magischen Mitteln verbergen, sie aber nicht dauerhaft entfernen."
+  },
+  {
+    "id": "db429b11-8ae6-5de5-9964-b8abaa1318d7",
+    "name": "Fetischmaske",
+    "description": "(ÜF) Mit der 1. Stufe geht ein Narbiger Hexendoktor eine Bindung mit einer Holzmaske ein. Wenn er an Macht gewinnt, wird diese Maske aufgrund der Bindung stetig hässlicher und grotesker, da sie den selbstzugefügten Schmerz aufnimmt, welcher in seine Magie eingeflochten ist. Seine Zauber entstammen den Einsichten, welche ihm sein Schutzherr verleiht, während er die Schnitte, Verbrennungen und anderen Verstümmelungen erträgt, die er sich selbst zufügt. Die Fetischmaske funktioniert hinsichtlich Vorbereiten und Erhalten von Zaubern wie ein Hexenvertrauter. Ein Narbiger Hexendoktor kommuniziert nicht täglich mit seinem Vertrauten, um seine Zauber vorzubereiten, sondern hängt die Maske an eine Wand, einen Ast oder eine andere Oberfläche und meditiert über die Schmerzen, die sie repräsentiert. Wenn ein Narbiger Hexendoktor seine Fetischmaske trägt, erhält er einen Situationsbonus von +2 auf Fertigkeitswürfe für Einschüchtern und Heilkunde und einen Bonus von +2 auf Rettungswürfe gegen Effekte der Kategorie Schmerz oder die Schmerzen hervorrufen. Sollte die Maske zerstört werden, kann der Narbige Hexendoktor eine neue Fetischmaske anfertigen, welche fast sofort das schockierende Aussehen ihres Vorgängers annimmt. Dies kostet dasselbe an Gold und Zeit wie das Ersetzen eines toten Hexenvertrauten. Mit der 5. Stufe erlangt ein Narbiger Hexendoktor die Fähigkeit, seine Maske mit magischen Eigenschaften zu versehen, als besäße er das Talent Wundersamen Gegenstand herstellen. Dieses Klassenmerkmal funktioniert ansonsten wie Hexenvertrauter und ersetzt dieses Klassenmerkmal."
+  },
+  {
+    "id": "b9265b35-3c94-5349-803f-9d0630327786",
+    "name": "Narbenschild",
+    "description": "(ÜF) Mit der 1. Stufe erlernt ein Narbiger Hexendoktor, wie er seine verunstaltete Haut verhärten kann. Er erhält einen Verzauberungsbonus auf seinen natürlichen Rüstungsbonus in Höhe seiner ½ Klassenstufe (Minimum +1). Er kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Hexenstufe einsetzen. Diese Minuten müssen nicht zusammenhängend sein, die Wirkungsdauer wird aber in Einheiten zu jeweils 1 Minute abgerechnet. Dieses Klassenmerkmal ersetzt die Hexerei, welche eine Hexe mit der 1. Stufe erhält."
+  },
+  {
+    "id": "5e07818f-c396-5413-b3de-36a2c0c06364",
+    "name": "Ausweichschritt",
+    "description": "(AF) Mit der 2. Stufe erlernt ein Raufbold, wie er seinen Gegnern entgehen kann, wenn diese auf seine Kampfmanöver reagieren. Er erhält einen Ausweichbonus von +1 auf seine RK gegen im Rahmen eines Kampfmanövers selbstprovozierte Gelegenheitsangriffe. Dieser Bonus steigt um +1 pro weitere vier Stufen jenseits der 2. Stufe. Dieses Klassenmerkmal ersetzt Tapferkeit."
+  },
+  {
+    "id": "c1ba5604-a19c-5abc-87ff-01f9c26680ce",
+    "name": "Manövertraining",
+    "description": "(AF) Mit der 5. Stufe wird ein Raufbold zum Meister der Schmutzigen Tricks. Er erhält einen Bonus von +2 auf Kampfmanöverwürfe für Schmutzige Tricks und einen Bonus von +2 auf seine KMV gegen Schmutzige Tricks. Dieses Klassenmerkmal ersetzt Waffentraining 1."
+  },
+  {
+    "id": "f1a32985-c430-5d64-9679-80bde7ca840a",
+    "name": "Schneller Trick",
+    "description": "(AF) Mit der 9. Stufe hat ein Raufbold seine Schmutzigen Tricks derart perfektioniert, dass er ein solches Kampfmanöver als Angriff statt als Standard-Aktion ausführen kann. Dieses Klassenmerkmal ersetzt Waffentraining 2."
+  },
+  {
+    "id": "2951188c-52e7-50d5-88c1-d177569b72c5",
+    "name": "Zweifacher Trick",
+    "description": "(AF) Mit der 13. Stufe kann ein Raufbold mit einem Kampfmanöver für Schmutzige Tricks seinem Ziel zwei unterschiedliche Zustände zufügen. Jeder davon benötigt eine eigene Aktion, um ihn aufzuheben. Mit der 17. Stufe kann er drei unterschiedliche Zustände zufügen. Dieses Klassenmerkmal ersetzt Waffentraining 3 und 4."
   }
 ]

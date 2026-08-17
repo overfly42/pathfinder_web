@@ -578,9 +578,10 @@ Slice-Arbeit.
       Klasse nach der anderen (nicht als Bulk-Ersetzung), gegen
       `prd.5footstep.de` (deutsches PF1e-SRD) als Quelle:
   Alle bisher gegen die Quelle geprüften und korrigierten Rassen/Klassen
-  (Mensch, Halbling, Halb-Ork, Elf; Kämpfer inkl. Zwei-Waffen-Kämpfer/
-  Schildkämpfer, Waldläufer, Magier, Hexenmeister, Schurke, Mystiker,
-  Kleriker, Barde, Entfesselter Barbar, Barbar; diverse Nachträge zu
+  (Mensch, Halbling, Halb-Ork, Elf, Ork; Kämpfer inkl. Zwei-Waffen-Kämpfer/
+  Schildkämpfer/Raufbold, Waldläufer, Magier, Hexenmeister, Schurke,
+  Mystiker, Kleriker, Barde, Entfesselter Barbar, Barbar, Hexes
+  Ork-Archetyp Narbiger Hexendoktor; diverse Nachträge zu
   Options-Gruppen/Talentpools) sind archiviert in `todos_history.md`. Noch
   offen:
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal

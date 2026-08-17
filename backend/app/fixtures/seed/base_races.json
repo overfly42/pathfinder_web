@@ -22,5 +22,11 @@
     "code": "elf",
     "name": "Elf",
     "short_description": "+2 GES, +2 INT, −2 KON; Dämmersicht; Elfenmagie; Elfische Immunität; Waffenvertrautheit."
+  },
+  {
+    "id": "3d007d77-60e2-4f01-b682-8a3a129a49da",
+    "code": "ork",
+    "name": "Ork",
+    "short_description": "+4 STÄ, −2 IN, −2 WE, −2 CHA; Dunkelsicht; Lichtempfindlichkeit; Wildheit; Waffenvertrautheit."
   }
 ]

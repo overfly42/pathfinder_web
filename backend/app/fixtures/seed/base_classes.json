@@ -219,5 +219,31 @@
     "ref_save": false,
     "wil_save": true,
     "skill_points_base": 2
+  },
+  {
+    "id": "6342fa16-030a-5789-b670-66d1e87bd487",
+    "name": "Narbiger Hexendoktor",
+    "hit_dice": null,
+    "arch_class_of": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "51a8b1ef-8458-56dd-9738-3fae8ede0462",
+    "name": "Raufbold",
+    "hit_dice": null,
+    "arch_class_of": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

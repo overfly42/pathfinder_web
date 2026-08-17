@@ -413,5 +413,65 @@
     "id": "9073e851-075a-4d18-a86b-0a7fadd47e33",
     "name": "Wüstenläufer",
     "description": "Erhält einen Volksbonus von +4 auf Konstitutions- und Zähigkeitswürfe gegen Erschöpfung, Ermüdung und andere Nachteile durch Rennen, Gewaltmärsche, Hunger, Durst oder heiße/kalte Umgebungen. Dieses Volksmerkmal ersetzt Elfenmagie."
+  },
+  {
+    "id": "c73e6c2e-6d66-459e-8789-bd5510d2a155",
+    "name": "+4 auf Stärke",
+    "description": "+4 auf Stärke."
+  },
+  {
+    "id": "900f8f27-d0d8-43ec-a8a8-8e2473e8b2c8",
+    "name": "-2 auf Intelligenz",
+    "description": "-2 auf Intelligenz."
+  },
+  {
+    "id": "71cd3345-96eb-4b2d-9d43-365a4d25af77",
+    "name": "-2 auf Weisheit",
+    "description": "-2 auf Weisheit."
+  },
+  {
+    "id": "15891f93-77b5-4ee2-85c2-3486fc7365e5",
+    "name": "-2 auf Charisma",
+    "description": "-2 auf Charisma."
+  },
+  {
+    "id": "313b33b4-9e3f-4b77-a6ee-6b64e9dd5510",
+    "name": "Ork (Unterart)",
+    "description": "Orks sind Humanoide der Unterart Ork."
+  },
+  {
+    "id": "105c39ed-5e6b-4f9c-b2fa-d34e2a33c670",
+    "name": "Lichtempfindlichkeit",
+    "description": "Orks sind im hellen Sonnenlicht und dem Wirkungsradius von Tageslicht geblendet."
+  },
+  {
+    "id": "c22e9e02-b756-4dcb-85a5-e05882034027",
+    "name": "Waffenvertrautheit (Orks)",
+    "description": "Ist geübt im Umgang mit der Zweihändigen Axt und dem Krummschwert und behandelt jede Waffe, die als orkisch bezeichnet wird, als Kriegswaffe."
+  },
+  {
+    "id": "c99b58d6-e782-4934-b315-36ae31fb7342",
+    "name": "Wildheit",
+    "description": "Kann bei Bewusstsein bleiben und sogar noch weiterkämpfen, wenn die Trefferpunkte unter 0 TP fallen. Bei 0 TP oder weniger ist der Charakter wankend und verliert pro Runde den üblichen 1 TP."
+  },
+  {
+    "id": "9da791dd-edd6-4d84-ae97-2494b37acfe4",
+    "name": "Bestialisch",
+    "description": "Erhält Überlebenskunst als Klassenfertigkeit und einen Volksbonus von +1 auf Nahkampfwaffenangriffe und -schadenswürfe, wenn er sich im negativen Trefferpunktebereich befindet. Dieses Volksmerkmal ersetzt Waffenvertrautheit und Sprachen."
+  },
+  {
+    "id": "f9cc6a0d-7fd7-44ee-b0ae-8a75894eb3b0",
+    "name": "Besudelt",
+    "description": "Erhält einen Volksbonus von +2 auf Rettungswürfe gegen Kränkelnd, Übelkeit und Krankheit. Dieses Volksmerkmal ersetzt Wildheit."
+  },
+  {
+    "id": "487e7964-3812-4297-af19-ed74a8d7d968",
+    "name": "Schnüffler",
+    "description": "Erhält eine schwächere Version der Fähigkeit Geruchssinn – die Reichweite beträgt nur die Hälfte. Dieses Volksmerkmal ersetzt Waffenvertrautheit und Wildheit."
+  },
+  {
+    "id": "7f163f65-01bf-46cc-86d4-e0e1d5bb95ec",
+    "name": "Sonnenanbeter",
+    "description": "Erleidet einen Malus von -2 auf alle Fernkampfangriffswürfe. Dieses Volksmerkmal ersetzt Lichtempfindlichkeit."
   }
 ]

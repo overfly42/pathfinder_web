@@ -1396,5 +1396,17 @@
     "feat_id": "2b2036dc-86d3-533b-b63b-bab0367f4d34",
     "group_id": null,
     "required_feat_id": "1cdce090-d233-5ce7-b060-a90c70429446"
+  },
+  {
+    "id": "27b4e482-8f22-5d37-9caf-6b3b39f17299",
+    "feat_id": "77c5e11b-ce1b-51af-aac9-e833a001a5ba",
+    "group_id": null,
+    "required_feat_id": "83419823-fd94-4ef4-b44e-e3645cc88bbc"
+  },
+  {
+    "id": "e403a1a0-9dae-5402-8cbc-5f1befb19c4c",
+    "feat_id": "6aa309aa-6a95-5a3b-bd5e-26af72385e6b",
+    "group_id": null,
+    "required_feat_id": "4696cb39-3218-4f95-9d61-d0cef28b4ac0"
   }
 ]

@@ -117,5 +117,19 @@
     "group_id": null,
     "skill_id": "0f6a271e-7eda-4d06-bdf8-8148a2c947ff",
     "minimum_ranks": 5
+  },
+  {
+    "id": "b03c674e-be6c-5c72-91cd-d039100f9baa",
+    "feat_id": "d230fae3-3729-5ee1-b8ff-3d1171091520",
+    "group_id": null,
+    "skill_id": "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "7f4dbab9-c5e8-5c06-a73c-183028985ed6",
+    "feat_id": "6aa309aa-6a95-5a3b-bd5e-26af72385e6b",
+    "group_id": null,
+    "skill_id": "6d850adc-a635-418f-8d72-e7dcbb878225",
+    "minimum_ranks": 1
   }
 ]

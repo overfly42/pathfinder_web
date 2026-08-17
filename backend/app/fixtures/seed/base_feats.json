@@ -2282,5 +2282,68 @@
     "description": "Irgendwie machst du mehr Schaden, wenn du hektisch versuchst, deinen Gegnern aus dem Weg zu gehen.",
     "type": "combat",
     "prerequisite_text": "Verzweiflungsschlag,  Umsichtiger Kämpfer, GAB +6,  Halbling."
+  },
+  {
+    "id": "77c5e11b-ce1b-51af-aac9-e833a001a5ba",
+    "name": "Blöße geben",
+    "description": "Du kannst einen Gegner zu einem Angriff verleiten und dann einen mächtigen Gegenangriff führen. Als Bewegungsaktion kannst du deine Verteidigung für einen angrenzenden Gegner offen lassen. Sollte der Gegner dich während seines nächsten Zuges angreifen, erhält er einen Bonus von +4 auf seinen Angriffswurf. Egal ob er trifft oder nicht, kannst du als Augenblickliche Aktion einen einzelnen Nahkampfangriff mit einem Bonus von +2 auf den Angriffswurf gegen ihn ausführen.",
+    "type": "combat",
+    "prerequisite_text": "Abhärtung, GAB +1, Ork."
+  },
+  {
+    "id": "eee5b55c-fb65-56f2-bd4f-297961a692f8",
+    "name": "Blut kochen lassen",
+    "description": "Du kannst eine Energiewelle entfesseln, welche Orks in einen Blutrausch treibt. Wenn du Energie fokussierst, kannst du anstelle des normalen Effekts Orks bis zum Beginn deines nächsten Zuges einen Bonus auf Waffenschadens- und Kritische-Treffer-Bestätigungswürfe verleihen. Dieser Bonus entspricht der Anzahl an Würfeln, die du beim Energie fokussieren nutzt. Auf andere Kreaturen im Wirkungsbereich entfaltet dein Energie fokussieren den normalen Effekt.",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal Energie fokussieren, Ork."
+  },
+  {
+    "id": "d230fae3-3729-5ee1-b8ff-3d1171091520",
+    "name": "Einschüchternder Schlag",
+    "description": "Du kannst mit einem einfachen Schlag deinen Gegner leichter einschüchtern. Du kannst als Standard-Aktion einen Nahkampfangriff mit einem Malus von -2 auf den Angriffswurf ausführen; solltest du deinem Gegner dabei Schaden zufügen, kannst du als Freie Aktion einen Fertigkeitswurf für Einschüchtern ablegen, um diesen Gegner zu demoralisieren.",
+    "type": "combat",
+    "prerequisite_text": "Einschüchtern 1 Fertigkeitsrang, Ork."
+  },
+  {
+    "id": "07c7d252-4746-5524-9e46-c706b36b26d7",
+    "name": "Einzelkind",
+    "description": "Du bist so zäh und bösartig, dass du den Rest deines Wurfes noch im Mutterleib getötet und verspeist hast. Wenn du einen Gegner mit einem Nahkampfangriff tötest oder bewusstlos schlägst, erhältst du temporäre Trefferpunkte in Höhe deines KO-Bonus (Minimum 1) bis zum Beginn deines nächsten Zuges. Dein Gegner darf dabei nicht hilflos sein oder weniger als die Hälfte deiner Trefferwürfel besitzen.",
+    "type": "general",
+    "prerequisite_text": "Ork."
+  },
+  {
+    "id": "4f6f45d1-b2a7-575b-9cee-dadcd7b60af3",
+    "name": "Entschlossener Wüter",
+    "description": "Während du dich im Kampfrausch befindest, befreist du dich schnell von jeder Angst. Wenn du dich im Kampfrausch befindest, während du einem Furchteffekt unterliegst, der einen Rettungswurf gestattet, kannst du zu Beginn jedes deiner Züge einen neuen Rettungswurf gegen diesen Furchteffekt ablegen. Gelingt der Rettungswurf, endet der Furchteffekt.",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal Kampfrausch, Ork."
+  },
+  {
+    "id": "6aa309aa-6a95-5a3b-bd5e-26af72385e6b",
+    "name": "Fallenbrecher",
+    "description": "Du zertrümmerst Fallen, statt sie zu entschärfen. Du kannst versuchen, eine Falle zu entschärfen, indem du sie mit einer Nahkampfwaffe triffst, anstelle einen Fertigkeitswurf für Mechanismus ausschalten auszuführen. Führe als Volle Aktion einen Nahkampfangriff gegen einen RK-Wert in Höhe des Mechanismus-ausschalten-SG der Falle aus. Verfehlst du, löst dies die Falle aus. Triffst du, dann würfle den Schaden aus; sollte dieser wenigstens die Hälfte des Mechanismus-ausschalten-SG der Falle betragen, entschärfst du die Falle, andernfalls löst du sie aus. Du kannst dies nur bei nichtmagischen Fallen versuchen. Du musst in der Lage sein, einen Teil der Falle mit deinem Angriff zu erreichen, um dieses Talent einzusetzen. Der SL kann festlegen, dass manche Fallen gegen dieses Talent immun sind.",
+    "type": "general",
+    "prerequisite_text": "Heftiger Angriff, Mechanismus ausschalten 1 Fertigkeitsrang, Ork."
+  },
+  {
+    "id": "04a4701d-9ccf-543e-b5f2-582927fa9640",
+    "name": "Nachtragender Kämpfer",
+    "description": "Du verspürst großen Zorn auf jeden, der es wagt dich anzugreifen. Diese Wut verleiht deinen Angriffen Kraft. Du erhältst einen Moralbonus von +1 auf Angriffs- und Schadenswürfe gegen jede Kreatur, die dich im aktuellen Kampf angegriffen hat.",
+    "type": "combat",
+    "prerequisite_text": "Ork."
+  },
+  {
+    "id": "b6f03329-696e-5b9e-805d-ba501a5a585f",
+    "name": "Orkische Waffenexpertise",
+    "description": "Du kannst mit den Lieblingswaffen der Orks mehr ausrichten. Wenn du dieses Talent wählst, wähle auch einen der folgenden Vorteile. Wenn du eine Waffe führst, die „Ork“ im Namen trägt, erhältst du den Vorteil, sofern du auch im Umgang mit dieser Waffe geübt bist: Mörder: Erhalte einen Kompetenzbonus von +2 auf Angriffswürfe zum Bestätigen Kritischer Treffer. Schinder: Erhalte einen Bonus von +1 auf Schadenswürfe gegen Kreaturen, die mindestens eine Größenkategorie kleiner sind als du. Schläger: Verursache mit der Waffe +1 Punkt nichttödlichen Schadens. Trickser: Erhalte einen Bonus von +2 auf eine Art Kampfmanöver, das du mit dieser Waffe ausführen kannst. Verteidiger: Erhalte einen Schildbonus von +1 auf deine RK (oder von +2, so du eine Zweihandwaffe führst). Zauberstörer: Addiere +3 auf den SG des Konzentrationswurfs eines Gegners, der im von dir bedrohten Bereich zaubern will; du musst dazu um die Position des Gegners wissen und zu einem Gelegenheitsangriff in der Lage sein. Dieses Talent ist wirkungslos, wenn du mit der benutzten Waffe nicht geübt bist. Speziell: Du kannst dieses Talent mehrmals wählen, musst dich aber immer für andere Vorteile entscheiden. Du kannst nur einen dieser Vorteile pro Runde einsetzen, die Wahl erfolgt als Freie Aktion zu Beginn deiner Runde.",
+    "type": "combat",
+    "prerequisite_text": "GAB +1, Ork."
+  },
+  {
+    "id": "89ac7ad2-7a0c-562e-a44a-45b2e8273913",
+    "name": "Wilder Angriff",
+    "description": "Deine Wildheit überkommt dich schnell, ist aber kurzlebig. Wenn du auf 0 TP oder weniger fällst, verlierst du jetzt pro Runde 2 TP, bist aber nicht wankend. Solltest du dich in einem Kampfrausch befinden, verlierst du nur 1 TP pro Runde.",
+    "type": "general",
+    "prerequisite_text": "Volksmerkmal Wildheit, Ork."
   }
 ]

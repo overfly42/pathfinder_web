@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "d35470b1-8db7-580b-b04e-e05558b1c215",
+    "feat_id": "eee5b55c-fb65-56f2-bd4f-297961a692f8",
+    "group_id": null,
+    "ability_id": "8a562605-e6d6-5093-88ea-20b50de6e597"
+  },
+  {
+    "id": "f9a0cfaa-b18e-58cc-9faa-c33108c85470",
+    "feat_id": "4f6f45d1-b2a7-575b-9cee-dadcd7b60af3",
+    "group_id": "492ee7aa-41c3-5f61-ba9a-94e30798859a",
+    "ability_id": "e9414145-7bff-5900-8e07-9174cf937346"
+  },
+  {
+    "id": "9624ecc8-5406-550e-8cae-f8d47e144fe4",
+    "feat_id": "4f6f45d1-b2a7-575b-9cee-dadcd7b60af3",
+    "group_id": "492ee7aa-41c3-5f61-ba9a-94e30798859a",
+    "ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
+  }
+]

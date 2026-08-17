@@ -2393,5 +2393,45 @@
     "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
     "name": "Todesfluch",
     "min_level": 18
+  },
+  {
+    "id": "bb5d2ece-b8e5-51e5-85d3-4f3233b0387e",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "Ork (Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "3a4f258f-0a67-5e92-835d-c260ca6239dc",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "Ork (Druide)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "57aa2489-a1ad-56f9-864a-e332ca89c067",
+    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "name": "Ork (Hexe)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "0b16c46a-bb5a-5e9f-8681-31ae25ea6fea",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "Ork (Kämpfer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "af331aea-194f-5a57-8458-c1b1bc496c9f",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "Ork (Waldläufer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
   }
 ]

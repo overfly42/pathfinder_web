@@ -958,3 +958,69 @@ each item was checked off), in original order.
         Tiefe wie jede andere Klasse. Beide Skripte idempotent geprüft (Diff
         stabil nach zweitem Lauf); alle 150 Backend-Tests grün nach dem
         Import.
+  - [x] **Ork** (Quelle: <http://prd.5footstep.de/AusbauregelnIIIVoelker/UngewoehnlicheVoelker/Orks>,
+        drei Import-Skripte, 2026-08-17): neue, bisher nicht spielbare Rasse
+        auf expliziten Nutzerwunsch hinzugefügt (nicht die Korrektur eines
+        Platzhalters wie bei den vier vorherigen Rassen) — von Anfang an
+        gegen die Quelle transkribiert, deren Seite selbst per `curl`/
+        `iconv`/`html2text` abgerufen wurde (WebFetch scheiterte an einem
+        TLS-Zertifikatsfehler des Wikis).
+
+        Schritt 1 (`backend/scripts/import_ork.py`): Rasse + Volksmerkmale +
+        4 Alternativmerkmale (Bestialisch, Besudelt, Schnüffler,
+        Sonnenanbeter) + Bevorzugte-Klassen-Optionen für 5 der 7 auf der
+        Quellseite genannten Klassen (Barbar, Druide, Hexe, Kämpfer,
+        Waldläufer — Alchemist/Ritter übersprungen, keine `BaseClass`-Zeile
+        vorhanden, gleiches Vorgehen wie beim Halb-Ork-Import). Orks feste
+        (nicht freie) Attributsboni +4 STÄ/−2 IN/−2 WE/−2 CHA brauchten drei
+        neue Katalogzeilen/Handler in `rules/race_abilities.py`
+        (`ABILITY_ST_PLUS4`, `ABILITY_IN_MINUS2`, `ABILITY_WE_MINUS2`) sowie
+        die bislang fehlende Katalogzeile zum bereits vorhandenen
+        `ABILITY_CH_MINUS2`-Handler (dessen Konstante existierte schon,
+        aber keine Rasse hatte sie bisher genutzt). Ein echter Bug beim
+        ersten Lauf gefunden und korrigiert: das Skript legte pro Klasse
+        eine neue `favored_class_bonus`-`BaseClassOptionGroup` an, obwohl
+        Halb-Orks Import diese Gruppe für dieselben Klassen bereits angelegt
+        hatte (`UNIQUE(base_class_id, key)`) — behoben, indem eine
+        vorhandene Gruppe wiederverwendet wird und nur die neue,
+        rassengebundene `BaseClassOptionChoice` hinzukommt.
+
+        Schritt 2 (`backend/scripts/import_ork_archetypes.py`): zwei
+        Volksarchetypen. „Narbiger Hexendoktor" (Hexe) — Fetischmaske
+        ersetzt offiziell den Hexenvertrauten, der aber in diesem
+        Datenmodell gar nicht als eigene `BaseClassAbilityGrant`-Zeile
+        existiert (nur in Fließtext anderer Fähigkeiten erwähnt); mangels
+        einer zu ersetzenden Zeile bleibt Fetischmaske (wie
+        Konstitutionsabhängig/Hexennarbe) ohne `BaseClassAbilityReplacement`
+        stehen. Narbenschild ersetzt dagegen real die Stufe-1-„Hexerei"-Zeile.
+        „Raufbold" (Kämpfer) — die deutsche Quellseite behauptet, Ausweichschritt
+        ersetze „Entrinnen"; Kämpfer hat aber gar kein Klassenmerkmal dieses
+        Namens (weder in diesem Datenmodell noch im echten PF1e-Regelwerk).
+        Gegen die offizielle englische Quelle geprüft (d20pfsrd/aonprd, das
+        Archetyp heißt dort „Dirty Fighter") und bestätigt: Sidestep „replaces
+        bravery" — hier also korrekt an Tapferkeit angebunden (Wiki-
+        Transkriptionsfehler, kein Modellierungsfehler). Zweifacher Trick
+        ersetzt sowohl Waffentraining 3 als auch 4 über zwei
+        `BaseClassAbilityReplacement`-Zeilen auf dieselbe Fähigkeit.
+
+        Schritt 3 (`backend/scripts/import_ork_feats.py`): alle 9
+        rassenspezifischen Talente. Die deutsche Quellseite nennt keine
+        Talenttypen (Kampf/Allgemein/...) — jedes einzeln gegen den
+        offiziellen englischen Namen/Typ auf der ARG-Ork-Seite geprüft
+        (Blöße geben = Reverse-Feint/Kampf, Blut kochen lassen = Foment the
+        Blood/Allgemein, Einschüchternder Schlag = Bullying Blow/Kampf,
+        Einzelkind = Born Alone/Allgemein, Entschlossener Wüter = Resolute
+        Rager/Allgemein, Fallenbrecher = Trap Wrecker/Allgemein,
+        Nachtragender Kämpfer = Grudge Fighter/Kampf, Orkische
+        Waffenexpertise = Orc Weapon Expertise/Kampf, Wilder Angriff =
+        Ferocious Action/Allgemein) — dabei auch jede Voraussetzungszeile
+        gegen die englische Quelle bestätigt. „Entschlossener Wüter"
+        braucht das Klassenmerkmal Kampfrausch, das als zwei getrennte
+        `BaseClassAbility`-Zeilen existiert (Barbar/Entfesselter Barbar) —
+        über eine gemeinsame `group_id` ODER-verknüpft.
+
+        Umfang bewusst eingeschränkt (Nutzerentscheidung): die Seite listet
+        zusätzlich neue Ausrüstung, eine Waffeneigenschaft, einen
+        Wundersamen Gegenstand und vier neue Zauber („Neue Volksregeln") —
+        nicht importiert, kann bei Bedarf separat nachgezogen werden. Keine
+        neue Berechnungslogik über die drei neuen Attributs-Handler hinaus.
