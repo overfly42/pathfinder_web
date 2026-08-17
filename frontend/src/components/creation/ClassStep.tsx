@@ -1,7 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react';
 import type { ClassRow, CreationDraft } from '../../types/creationDraft';
-import type { ClassOptionGroup, CreationOptions } from '../../types/creationOptions';
+import type { CreationOptions } from '../../types/creationOptions';
 import { createId } from '../../lib/id';
+import { availableOptionGroups } from '../../lib/classOptions';
 import { classDef, totalLevel } from '../../lib/creationCalculations';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
@@ -9,27 +10,6 @@ interface ClassStepProps {
   draft: CreationDraft;
   options: CreationOptions;
   setDraft: Dispatch<SetStateAction<CreationDraft>>;
-}
-
-/** Which of a class's option groups are legal to pick from at `level`, each
- *  with its own effective cap for *this* level — a one-time group
- *  (`occurrenceLevels` empty, e.g. domain/bloodline/school) always shows with
- *  its full `max`; a recurring group (Kampfrauschkraft/Trick/Offenbarung)
- *  only shows once its first occurrence is reached, capped at however many
- *  occurrences have been reached so far (not the group's lifetime `max`).
- *  Pure display filtering over backend-computed data — `_validate_options`
- *  on the backend is what actually enforces this, see `ClassOptionGroup`'s
- *  docstring. */
-function availableOptionGroups(
-  groups: ClassOptionGroup[],
-  level: number,
-): (ClassOptionGroup & { effectiveMax: number })[] {
-  return groups
-    .map((g) => ({
-      ...g,
-      effectiveMax: g.occurrenceLevels.length === 0 ? g.max : g.occurrenceLevels.filter((l) => l <= level).length,
-    }))
-    .filter((g) => g.effectiveMax > 0);
 }
 
 export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
@@ -103,7 +83,12 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
         {draft.classRows.map((row) => {
           const cls = classDef(options, row.className);
           const archetypeChoices = (cls?.archetypes ?? []).filter((a) => a !== 'Keiner');
-          const groups = availableOptionGroups(cls?.optionGroups ?? [], row.level);
+          const groups = availableOptionGroups(
+            cls?.optionGroups ?? [],
+            row.level,
+            row.archetypes,
+            cls?.archetypeOptionOverrides ?? {},
+          );
           return (
             <div className="class-row-wrap" key={row.id}>
               <div className="class-row">
@@ -144,7 +129,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
                       key={g.key}
                       label={g.label}
                       max={g.effectiveMax}
-                      choices={g.choices}
+                      choices={g.availableChoiceNames}
                       selected={row.options[g.key] ?? []}
                       onToggle={(choice) => toggleClassOption(row.id, g.key, choice, g.effectiveMax)}
                     />

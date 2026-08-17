@@ -23,11 +23,22 @@ export interface RaceOption {
   alt: RaceAltTrait[];
 }
 
+export interface ClassOptionChoice {
+  name: string;
+  /** Minimum level in this root class required to pick this specific named
+   *  choice — e.g. a Hexe's Major/Grand Hexes need class level 10/18 (`null`
+   *  for a choice with no threshold beyond the group's own occurrence gate).
+   *  Backend-enforced (`_validate_options`'s own `min_level` check); the
+   *  frontend uses it purely to avoid listing a choice the current row level
+   *  can't legally take yet — see `ClassStep.tsx`'s `availableOptionGroups`. */
+  minLevel: number | null;
+}
+
 export interface ClassOptionGroup {
   key: string;
   label: string;
   max: number;
-  choices: string[];
+  choices: ClassOptionChoice[];
   /** Levels (in this root class) at which one more occurrence of this group
    *  opens up, e.g. Kampfrauschkraft's `[2, 4, 6, ..., 20]` — empty for a
    *  one-time creation-time pick (domain/bloodline/school), which is always
@@ -47,6 +58,15 @@ export interface ClassDef {
   spellType: SpellType;
   classSkills: string[];
   optionGroups: ClassOptionGroup[];
+  /** archetype name -> option group key -> occurrence levels that
+   *  archetype's own class-feature replacements remove from that group
+   *  (e.g. Ork's Narbiger Hexendoktor archetype removes Hexe's level-1
+   *  `hexerei` occurrence, since its own Narbenschild ability replaces that
+   *  grant) — sparse, only present where an archetype actually changes
+   *  something. `ClassStep.tsx`'s `availableOptionGroups` applies this once
+   *  an archetype is selected for a class row; `_validate_options` on the
+   *  backend enforces the same thing server-side. */
+  archetypeOptionOverrides: Record<string, Record<string, number[]>>;
   /** Which levels of this class grant a bonus feat slot (e.g. Kämpfer's 1st
    *  and every even level) — real data from `base_class_ability_grants`, not
    *  a hardcoded class name; see `featMax` in `creationCalculations.ts`. */

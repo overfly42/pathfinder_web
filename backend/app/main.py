@@ -19,7 +19,7 @@ from .models import (
     Character,
 )
 from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
-from .rules.class_options import ability_ids_by_name, group_occurrence_levels
+from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .sheet import build_character_history, build_character_progression, build_character_sheet
 
@@ -192,9 +192,11 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     roots_by_id = {root.id: root for root in roots}
 
     archetype_names_by_root_id: dict = {}
+    archetypes_by_root_id: dict = {}
     for row in all_base_classes:
         if row.arch_class_of is not None:
             archetype_names_by_root_id.setdefault(row.arch_class_of, []).append(row.name)
+            archetypes_by_root_id.setdefault(row.arch_class_of, []).append(row)
     for names in archetype_names_by_root_id.values():
         names.sort()
 
@@ -208,18 +210,44 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     for row in class_skills:
         skill_ids_by_root_id.setdefault(row.base_class_id, []).append(str(row.skill_id))
 
-    choice_names_by_group_id: dict = {}
+    # Each choice carries its own `minLevel` (2026-08-17, `BaseClassOptionChoice.
+    # min_level`) alongside its name — e.g. a Hexe's Major/Grand Hexes need
+    # class level 10/18 respectively, same threshold `_validate_options`
+    # already enforces server-side. `ClassStep.tsx`/`ClassLevelStep.tsx` use
+    # this to only ever render choices the character-row's current level
+    # actually qualifies for, instead of listing every choice a group will
+    # ever offer across a whole career.
+    choices_by_group_id: dict = {}
     for choice in db.scalars(select(BaseClassOptionChoice)).all():
-        choice_names_by_group_id.setdefault(choice.group_id, []).append(choice.name)
+        choices_by_group_id.setdefault(choice.group_id, []).append(
+            {"name": choice.name, "minLevel": choice.min_level}
+        )
     ability_ids_by_name_map = ability_ids_by_name(db)
     option_groups_by_root_id: dict = {}
-    for group in db.scalars(select(BaseClassOptionGroup)).all():
+    # archetype name -> group key -> occurrence levels that archetype's own
+    # BaseClassAbilityReplacement rows remove (2026-08-17, e.g. Ork's
+    # Narbiger Hexendoktor archetype replaces Hexe's level-1 "Hexerei" grant
+    # with its own Narbenschild, so the level-1 occurrence of the `hexerei`
+    # group is no longer available once that archetype is chosen). Sparse -
+    # only populated where an archetype actually changes something, most
+    # archetypes contribute nothing here (their replaced features aren't
+    # tied to any option group at all, e.g. Raufbold's Waffentraining/
+    # Tapferkeit swaps are automatic class features, not player choices).
+    # `/api/classes` stays archetype-agnostic otherwise (one payload for
+    # every character), so this is exposed as a delta the frontend applies
+    # once a specific archetype is actually selected for a class row -
+    # `ClassStep.tsx`'s `availableOptionGroups` is what actually applies it;
+    # `_validate_options` (`routers/characters.py`) enforces the same thing
+    # server-side via `group_occurrence_levels`'s own `replaced_grant_ids`.
+    archetype_option_overrides_by_root_id: dict = {}
+    for group in db.scalars(select(BaseClassOptionGroup).order_by(BaseClassOptionGroup.key)).all():
+        occurrence_levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
         option_groups_by_root_id.setdefault(group.base_class_id, []).append(
             {
                 "key": group.key,
                 "label": group.label,
                 "max": group.max_choices,
-                "choices": choice_names_by_group_id.get(group.id, []),
+                "choices": choices_by_group_id.get(group.id, []),
                 # Empty for a one-time creation-time pick (domain/bloodline/
                 # school - always available); non-empty for a recurring pick
                 # (Kampfrauschkraft/Trick/Offenbarung) - the levels (in this
@@ -230,9 +258,23 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                 # many picks are legal so far - `_validate_options`
                 # (`routers/characters.py`) is what actually enforces both,
                 # server-side, using this exact same function.
-                "occurrenceLevels": group_occurrence_levels(db, group, ability_ids_by_name_map),
+                "occurrenceLevels": occurrence_levels,
             }
         )
+        if not occurrence_levels:
+            continue
+        for archetype in archetypes_by_root_id.get(group.base_class_id, []):
+            replaced = archetype_replaced_grant_ids(db, {archetype.id})
+            if not replaced:
+                continue
+            archetype_levels = group_occurrence_levels(
+                db, group, ability_ids_by_name_map, replaced_grant_ids=replaced
+            )
+            removed_levels = sorted(set(occurrence_levels) - set(archetype_levels))
+            if removed_levels:
+                archetype_option_overrides_by_root_id.setdefault(group.base_class_id, {}).setdefault(
+                    archetype.name, {}
+                )[group.key] = removed_levels
 
     bonus_feat_levels_by_root_id: dict = {}
     bonus_feat_grants = db.scalars(
@@ -257,6 +299,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["archetypes"] = ["Keiner", *archetype_names_by_root_id.get(root_id, [])] if root_id else ["Keiner"]
         class_def["classSkills"] = skill_ids_by_root_id.get(root_id, []) if root_id else []
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
+        class_def["archetypeOptionOverrides"] = (
+            archetype_option_overrides_by_root_id.get(root_id, {}) if root_id else {}
+        )
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
         class_def["castingAbility"] = root.casting_ability if root else None
         class_def["spellTradition"] = root.spell_tradition if root else None

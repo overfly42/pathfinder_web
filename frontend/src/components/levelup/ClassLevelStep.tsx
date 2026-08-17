@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { CharacterProgression } from '../../types/characterProgression';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
+import { availableOptionGroups } from '../../lib/classOptions';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassLevelStepProps {
@@ -119,20 +120,31 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
               />
             ) : null;
           })()}
-          {newClassDef && newClassDef.optionGroups.length > 0 && (
-            <div className="class-options">
-              {newClassDef.optionGroups.map((g) => (
-                <OptionGroupPicker
-                  key={g.key}
-                  label={g.label}
-                  max={g.max}
-                  choices={g.choices}
-                  selected={target.options[g.key] ?? []}
-                  onToggle={(choice) => toggleNewClassOption(g.key, choice, g.max)}
-                />
-              ))}
-            </div>
-          )}
+          {newClassDef && (() => {
+            // A brand-new multiclass entry always starts at level 1 (see the
+            // "Stufe 1" label above) — `availableOptionGroups` (shared with
+            // `ClassStep.tsx`) both caps each group to its level-1 occurrence
+            // count (instead of the group's lifetime `max`) and drops any
+            // occurrence a chosen archetype has already replaced (e.g. Ork's
+            // Narbiger Hexendoktor archetype removing Hexe's level-1
+            // `hexerei` pick), plus filters `choices` by each choice's own
+            // `minLevel`.
+            const groups = availableOptionGroups(newClassDef.optionGroups, 1, target.archetypes, newClassDef.archetypeOptionOverrides);
+            return groups.length > 0 ? (
+              <div className="class-options">
+                {groups.map((g) => (
+                  <OptionGroupPicker
+                    key={g.key}
+                    label={g.label}
+                    max={g.effectiveMax}
+                    choices={g.availableChoiceNames}
+                    selected={target.options[g.key] ?? []}
+                    onToggle={(choice) => toggleNewClassOption(g.key, choice, g.effectiveMax)}
+                  />
+                ))}
+              </div>
+            ) : null;
+          })()}
         </div>
       )}
     </>

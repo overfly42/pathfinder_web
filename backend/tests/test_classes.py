@@ -161,3 +161,35 @@ def test_list_classes_exposes_waldlaeufer_class_skills_from_real_data(client: Te
         "Wissen (Natur)",
         "Zauberkunde",
     }
+
+
+def test_hexe_hexerei_choices_carry_min_level_and_narbiger_hexendoktor_overrides_level_1(
+    client: TestClient, db_session: Session
+) -> None:
+    """Regression test (2026-08-17, reported while adding Ork's Narbiger
+    Hexendoktor archetype): a level-1 Hexe must not be offered Major/Grand
+    Hexes (real class level 10/18) as pickable choices, and a Hexe who has
+    taken Narbiger Hexendoktor must not be offered a level-1 `hexerei` pick
+    at all, since that archetype's own Narbenschild ability already replaced
+    it — see `ClassStep.tsx`'s `availableOptionGroups` (frontend) and
+    `_validate_options` (backend, `test_recurring_option_groups.py`'s
+    `test_narbiger_hexendoktor_*` for the actual server-side enforcement)."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    response = client.get("/api/classes")
+    assert response.status_code == 200
+    classes = {c["name"]: c for c in response.json()}
+    hexe = classes["Hexe"]
+
+    assert "Narbiger Hexendoktor" in hexe["archetypes"]
+
+    hexerei = next(g for g in hexe["optionGroups"] if g["key"] == "hexerei")
+    choices_by_name = {c["name"]: c["minLevel"] for c in hexerei["choices"]}
+    assert choices_by_name["Bezauberung"] is None  # a regular 1st-level hex
+    assert choices_by_name["Agonie"] == 10  # a Major Hex
+    assert choices_by_name["Todesfluch"] == 18  # a Grand Hex
+
+    assert hexerei["occurrenceLevels"][0] == 1
+    assert hexe["archetypeOptionOverrides"]["Narbiger Hexendoktor"]["hexerei"] == [1]

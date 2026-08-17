@@ -37,7 +37,7 @@ from ..models import (
     User,
 )
 from ..rules.context import CharacterContext
-from ..rules.class_options import ability_ids_by_name, group_occurrence_levels
+from ..rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
 from ..rules.effective_scores import full_effective_ability_scores
@@ -182,6 +182,7 @@ def _validate_options(
     character_level: int,
     already_chosen_ids: set[UUID] | None = None,
     race_id: UUID | None = None,
+    archetype_ids: set[UUID] | None = None,
 ) -> None:
     """Validates submitted option-group choices (e.g. Kleriker's `domain`)
     against `base_class_option_groups`/`base_class_option_choices` — real
@@ -235,10 +236,24 @@ def _validate_options(
     error message needed. `None` (the default, used by every existing
     caller) only excludes choices that are themselves race-scoped; a choice
     with `race_id=None` (every non-favored-class-bonus choice today) is
-    always included regardless."""
+    always included regardless.
+
+    `archetype_ids` (2026-08-17) is this root class's already-chosen
+    archetype `BaseClass` ids (empty/omitted when none chosen) — passed to
+    `group_occurrence_levels` as `replaced_grant_ids`
+    (`rules.class_options.archetype_replaced_grant_ids`) so an occurrence an
+    archetype has swapped out (e.g. Ork's Narbiger Hexendoktor archetype
+    replacing Hexe's level-1 "Hexerei" grant with its own Narbenschild) no
+    longer counts as reached — a character with that archetype submitting a
+    choice for that group at level 1 is rejected the same way as submitting
+    one before the group's first *unreplaced* occurrence, instead of being
+    silently accepted for a slot that was never actually granted. Mirrors
+    `/api/classes`' `archetypeOptionOverrides`, which the creation/level-up
+    UI applies for display so the two never drift."""
     groups = db.scalars(select(BaseClassOptionGroup).where(BaseClassOptionGroup.base_class_id == root.id)).all()
     groups_by_key = {group.key: group for group in groups}
     ability_ids_by_name_map = ability_ids_by_name(db)
+    replaced_grant_ids = archetype_replaced_grant_ids(db, archetype_ids or set())
 
     # First pass: resolve every group's real choice rows and validate that
     # the group/choice names themselves exist, building one global
@@ -276,7 +291,9 @@ def _validate_options(
         choices_by_name = choices_by_name_by_group[group_key]
         if len(choices) > group.max_choices:
             raise HTTPException(status_code=422, detail=f"Too many choices for option group '{group_key}'")
-        occurrence_levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
+        occurrence_levels = group_occurrence_levels(
+            db, group, ability_ids_by_name_map, replaced_grant_ids=replaced_grant_ids
+        )
         if occurrence_levels and choices:
             reached = [level for level in occurrence_levels if level <= character_level]
             if not reached:
@@ -328,8 +345,15 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     for selection, root in zip(body.classes, roots):
         level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
 
-    for selection, root in zip(body.classes, roots):
-        _validate_options(db, root, selection.options, level_by_root_id[root.id], race_id=body.race_id)
+    for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
+        _validate_options(
+            db,
+            root,
+            selection.options,
+            level_by_root_id[root.id],
+            race_id=body.race_id,
+            archetype_ids={a.id for a in archetypes},
+        )
 
     if spent_points(body.ability_scores) > body.point_budget:
         raise HTTPException(status_code=422, detail="Ability scores exceed the chosen point-buy budget")
@@ -1325,7 +1349,14 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         existing_level_options["favored_class_bonus"] = [body.favored_class_bonus]
 
     if is_new_class:
-        _validate_options(db, receiving_root, body.target.options, receiving_class_level, race_id=character.race_id)
+        _validate_options(
+            db,
+            receiving_root,
+            body.target.options,
+            receiving_class_level,
+            race_id=character.race_id,
+            archetype_ids={a.id for a in new_archetypes},
+        )
 
     if not is_valid_rolled_hit_points(receiving_root.hit_dice, body.hit_points):
         raise HTTPException(status_code=422, detail=f"hit_points must be between 1 and {receiving_root.hit_dice}")
@@ -1361,6 +1392,15 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 )
             ).all()
         )
+        # This character's already-chosen archetype(s) for the receiving
+        # root class, if any — `Character.classes`' own docstring: archetype
+        # choice lives on `class_memberships` (one row per root-or-archetype
+        # `BaseClass` id the character has), not per level.
+        current_archetype_ids = {
+            membership.base_class_id
+            for membership in character.class_memberships
+            if membership.base_class.arch_class_of == receiving_root.id
+        }
         _validate_options(
             db,
             receiving_root,
@@ -1368,6 +1408,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             receiving_class_level,
             already_chosen_ids,
             race_id=character.race_id,
+            archetype_ids=current_archetype_ids,
         )
 
     seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)

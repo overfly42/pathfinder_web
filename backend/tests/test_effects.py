@@ -268,7 +268,13 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
 
     grant = db_session.scalar(
         select(BaseClassAbilityGrant).where(
-            BaseClassAbilityGrant.base_class_id == level.base_class_id, BaseClassAbilityGrant.level <= 1
+            BaseClassAbilityGrant.base_class_id == level.base_class_id,
+            BaseClassAbilityGrant.level <= 1,
+            # Unconditionally granted only — a choice-gated grant (e.g. a
+            # favored-class-bonus option the character never actually picked,
+            # `option_choice_id` not null) isn't really on this character, so
+            # mutating it wouldn't show up as activatable later in this test.
+            BaseClassAbilityGrant.option_choice_id.is_(None),
         )
     )
     ability = db_session.get(BaseClassAbility, grant.ability_id)
@@ -312,7 +318,13 @@ def test_sheet_lists_actions_from_activatable_sources(client: TestClient, db_ses
 
     grant = db_session.scalar(
         select(BaseClassAbilityGrant).where(
-            BaseClassAbilityGrant.base_class_id == level.base_class_id, BaseClassAbilityGrant.level <= 1
+            BaseClassAbilityGrant.base_class_id == level.base_class_id,
+            BaseClassAbilityGrant.level <= 1,
+            # Unconditionally granted only — a choice-gated grant (e.g. a
+            # favored-class-bonus option the character never actually picked,
+            # `option_choice_id` not null) isn't really on this character, so
+            # mutating it wouldn't show up as activatable later in this test.
+            BaseClassAbilityGrant.option_choice_id.is_(None),
         )
     )
     ability = db_session.get(BaseClassAbility, grant.ability_id)
@@ -375,7 +387,13 @@ def test_sheet_class_ability_activation_scope_filtering(client: TestClient, db_s
 
     grant = db_session.scalar(
         select(BaseClassAbilityGrant).where(
-            BaseClassAbilityGrant.base_class_id == level.base_class_id, BaseClassAbilityGrant.level <= 1
+            BaseClassAbilityGrant.base_class_id == level.base_class_id,
+            BaseClassAbilityGrant.level <= 1,
+            # Unconditionally granted only — a choice-gated grant (e.g. a
+            # favored-class-bonus option the character never actually picked,
+            # `option_choice_id` not null) isn't really on this character, so
+            # mutating it wouldn't show up as activatable later in this test.
+            BaseClassAbilityGrant.option_choice_id.is_(None),
         )
     )
     granted_self_only = db_session.get(BaseClassAbility, grant.ability_id)

@@ -103,3 +103,73 @@ def test_kampfrauschkraft_capped_at_occurrences_reached_not_lifetime_max(
         ),
     )
     assert response.status_code == 201
+
+
+def test_narbiger_hexendoktor_rejects_a_level_1_hexerei_pick(client: TestClient, db_session: Session) -> None:
+    """Ork's Narbiger Hexendoktor archetype (2026-08-17) replaces Hexe's
+    level-1 "Hexerei" grant with its own Narbenschild — a character who has
+    taken this archetype has zero `hexerei` occurrences reached at level 1,
+    not one, so submitting a hex pick must be rejected the same way as a
+    level-1 Entfesselter Barbar submitting a Kampfrauschkraft pick above,
+    not silently accepted for a slot that was never actually granted."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Hexe",
+                    "level": 1,
+                    "archetypes": ["Narbiger Hexendoktor"],
+                    "options": {"hexerei": ["Bezauberung"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 422
+    assert "hexerei" in response.json()["detail"]
+
+
+def test_narbiger_hexendoktor_allowed_with_no_hexerei_pick_at_level_1(
+    client: TestClient, db_session: Session
+) -> None:
+    """Companion to the rejection test above: submitting *no* hexerei pick
+    at level 1 is fine — Narbenschild is an automatic ability, not something
+    that leaves the character short a class feature."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Hexe", "level": 1, "archetypes": ["Narbiger Hexendoktor"]}],
+        ),
+    )
+    assert response.status_code == 201
+
+
+def test_hexe_without_archetype_still_gets_a_level_1_hexerei_pick(client: TestClient, db_session: Session) -> None:
+    """Control for the two tests above: a plain Hexe (no archetype) still
+    has a real level-1 `hexerei` occurrence — the exclusion only applies
+    once Narbiger Hexendoktor is actually chosen."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Hexe", "level": 1, "options": {"hexerei": ["Bezauberung"]}}],
+        ),
+    )
+    assert response.status_code == 201
