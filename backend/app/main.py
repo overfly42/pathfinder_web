@@ -21,7 +21,12 @@ from .models import (
 from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
-from .sheet import build_character_history, build_character_progression, build_character_sheet
+from .sheet import (
+    build_character_history,
+    build_character_progression,
+    build_character_sheet,
+    build_favored_class_bonus_options,
+)
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
@@ -241,6 +246,21 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     # server-side via `group_occurrence_levels`'s own `replaced_grant_ids`.
     archetype_option_overrides_by_root_id: dict = {}
     for group in db.scalars(select(BaseClassOptionGroup).order_by(BaseClassOptionGroup.key)).all():
+        # "favored_class_bonus" (2026-08-18) is deliberately excluded from
+        # this generic, checkbox-style option-group payload: it isn't tied
+        # to any recurring BaseClassAbility grant (group_occurrence_levels
+        # would return [] for it, treating it as an always-available,
+        # 20-choice one-time pick — wrong, since it's actually "exactly one
+        # required, race-filtered pick per level in the favored class", a
+        # different shape ClassStep.tsx's OptionGroupPicker can't express),
+        # and it also needs the two universal "hp"/"skill" values that
+        # aren't BaseClassOptionChoice rows at all. The creation wizard's
+        # dedicated favored-class-bonus picker uses
+        # `GET /api/favored-class-bonus-options` instead (`sheet.py`'s
+        # `build_favored_class_bonus_options`, same helpers the level-up
+        # wizard's HitPointsStep.tsx already relies on).
+        if group.key == "favored_class_bonus":
+            continue
         occurrence_levels = group_occurrence_levels(db, group, ability_ids_by_name_map)
         option_groups_by_root_id.setdefault(group.base_class_id, []).append(
             {
@@ -324,6 +344,23 @@ def get_abilities() -> list:
 @app.get("/api/point-buy-costs")
 def get_point_buy_costs() -> dict:
     return load_fixture("point_buy_costs.json")
+
+
+@app.get("/api/favored-class-bonus-options")
+def get_favored_class_bonus_options(
+    base_class_name: str, race_id: UUID, db: Annotated[Session, Depends(get_db)]
+) -> dict:
+    """Which favored-class-bonus values (`"options"`) and short chip labels
+    (`"shortLabels"`) are legal for one class+race combination — "hp"/"skill"
+    plus this race's own Advanced Race Guide alternates (currently only
+    Halb-Ork/Ork have any, see `scripts/import_favored_class_bonus_halbork.py`
+    and its Ork counterpart). Lets the creation wizard's `ClassStep.tsx` offer
+    the same picker the level-up wizard's `HitPointsStep.tsx` already has for
+    every later level, for the character's 1st-level favored-class bonus
+    (`base_class_name` is always `classRows[0]`, the favored class per
+    `create_character`'s `favored_root_id` rule)."""
+    root = characters.resolve_root_class(db, base_class_name)
+    return build_favored_class_bonus_options(db, root.id, race_id)
 
 
 @app.get("/api/effects")

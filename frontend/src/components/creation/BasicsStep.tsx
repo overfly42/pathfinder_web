@@ -19,6 +19,7 @@ export function BasicsStep({ draft, options, setDraft }: BasicsStepProps) {
       raceId: id,
       flexAbility: id !== prev.raceId ? null : prev.flexAbility,
       altTraits: id !== prev.raceId ? [] : prev.altTraits,
+      favoredClassBonus: id !== prev.raceId ? null : prev.favoredClassBonus,
     }));
   }
 

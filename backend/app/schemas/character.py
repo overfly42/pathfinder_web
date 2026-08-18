@@ -102,6 +102,16 @@ class CharacterCreate(BaseModel):
     # 2..total_level, one entry each, each between 1 and that die's max,
     # inclusive.
     hit_points: dict[str, int] = {}
+    # Player-chosen favored-class bonus ("hp" | "skill" | a race+class-
+    # specific BaseClassOptionChoice name, see LevelUp.favored_class_bonus)
+    # for every level the character starts in their favored class (the root
+    # of the first entry in `classes` — see `create_character`'s
+    # `favored_root_id`), keyed by level number as a string, same reasoning
+    # as `hit_points`. Unlike `hit_points`, level 1 is included: PF1e grants
+    # this bonus starting at 1st level too, it's just never a *rolled* HP
+    # value there. Validated server-side against exactly the favored-class
+    # levels among 1..total_level.
+    favored_class_bonus: dict[str, str] = {}
     ability_scores: dict[str, int]
     point_budget: Literal[10, 15, 20, 25]
     flex_ability: str | None = None

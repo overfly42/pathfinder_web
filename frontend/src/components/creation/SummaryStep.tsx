@@ -109,6 +109,16 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
               </div>
             ))
           )}
+          <div className="sb-line">
+            <span>Bevorzugte Klasse — Bonus (1. Stufe)</span>
+            <span className="val">
+              {draft.favoredClassBonus === 'hp'
+                ? '+1 Trefferpunkt'
+                : draft.favoredClassBonus === 'skill'
+                  ? '+1 Fertigkeitsrang'
+                  : draft.favoredClassBonus ?? '— noch nicht gewählt —'}
+            </span>
+          </div>
         </div>
 
         <div className="summary-block">

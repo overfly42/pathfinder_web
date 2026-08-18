@@ -18,6 +18,7 @@ def _create_character(client: TestClient, db_session: Session, user_id: str, nam
             "user_id": user_id,
             "race_id": race_id,
             "classes": [{"class_name": "Kämpfer", "level": 1}],
+            "favored_class_bonus": {"1": "hp"},
             "ability_scores": DEFAULT_ABILITY_SCORES,
             "point_budget": 20,
         },

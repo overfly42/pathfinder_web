@@ -33,6 +33,13 @@ export interface CreationDraft {
   flexAbility: AbilityKey | null;
   altTraits: string[];
   classRows: ClassRow[];
+  /** 1st-level favored-class bonus ("hp" | "skill" | a race+class-specific
+   *  Advanced Race Guide alternate choice name) for `classRows[0]` — the
+   *  favored class, per `create_character`'s "the root of the first
+   *  submitted class is favored by default" rule. `null` until chosen;
+   *  reset whenever that row's class or the character's race changes,
+   *  since a race-scoped alternate choice may no longer be legal. */
+  favoredClassBonus: string | null;
   abilityScores: Record<AbilityKey, number>;
   pointBudget: PointBudget;
   skillRanks: Record<string, number>;

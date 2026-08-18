@@ -37,7 +37,12 @@ from ..models import (
     User,
 )
 from ..rules.context import CharacterContext
-from ..rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
+from ..rules.class_options import (
+    ability_ids_by_name,
+    archetype_replaced_grant_ids,
+    favored_class_bonus_race_choices,
+    group_occurrence_levels,
+)
 from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
 from ..rules.effective_scores import full_effective_ability_scores
@@ -336,6 +341,10 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         raise HTTPException(status_code=422, detail="Unknown race_id")
 
     roots = [resolve_root_class(db, selection.class_name) for selection in body.classes]
+    # The root of the first submitted class is favored by default — matches
+    # the class picker's row order, not something the wizard asks for yet
+    # (see `character.class_memberships` below, where this is persisted).
+    favored_root_id = roots[0].id
     archetypes_per_selection = [
         [resolve_archetype(db, root, name) for name in selection.archetypes]
         for selection, root in zip(body.classes, roots)
@@ -388,12 +397,18 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
     # Player-entered HP roll for every level except the character's very
     # first (always maxed automatically) - see CharacterCreate.hit_points.
+    # Also tracks which levels fall in the favored class (every level of a
+    # `ClassSelection` whose root is `favored_root_id`), for the
+    # favored_class_bonus validation right below.
     hit_dice_by_level: dict[int, int] = {}
+    favored_levels: set[int] = set()
     running_level_for_hit_dice = 0
     for selection, root in zip(body.classes, roots):
         for _ in range(selection.level):
             running_level_for_hit_dice += 1
             hit_dice_by_level[running_level_for_hit_dice] = root.hit_dice
+            if root.id == favored_root_id:
+                favored_levels.add(running_level_for_hit_dice)
 
     submitted_hit_points: dict[int, int] = {}
     for level_str, value in body.hit_points.items():
@@ -412,6 +427,34 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         if not is_valid_rolled_hit_points(hit_dice, value):
             raise HTTPException(
                 status_code=422, detail=f"hit_points for level {level_num} must be between 1 and {hit_dice}"
+            )
+
+    # Player-chosen favored-class bonus per favored-class level — same
+    # "hp"/"skill"/race-scoped-alternate values `level_up_character` accepts
+    # for `LevelUp.favored_class_bonus`, see CharacterCreate.favored_class_bonus.
+    submitted_favored_bonus: dict[int, str] = {}
+    for level_str, value in body.favored_class_bonus.items():
+        try:
+            level_num = int(level_str)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid favored_class_bonus level '{level_str}'") from exc
+        submitted_favored_bonus[level_num] = value
+
+    if set(submitted_favored_bonus) != favored_levels:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "favored_class_bonus must include exactly one entry for each favored-class level "
+                f"({sorted(favored_levels)})"
+            ),
+        )
+    favored_choice_by_name = {
+        choice.name: choice for choice in favored_class_bonus_race_choices(db, favored_root_id, body.race_id)
+    }
+    for level_num, value in submitted_favored_bonus.items():
+        if value not in ("hp", "skill") and value not in favored_choice_by_name:
+            raise HTTPException(
+                status_code=422, detail=f"Invalid favored_class_bonus '{value}' for level {level_num}"
             )
 
     race_mods = race_ability_score_mods(db, body.race_id)
@@ -433,7 +476,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
 
         race_skill_bonus = 1 if race_grants_bonus_skill_point_per_level(db, body.race_id, seen_replaced_ability_ids) else 0
-        budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"), race_skill_bonus)
+        favored_skill_bonus_total = sum(1 for value in submitted_favored_bonus.values() if value == "skill")
+        budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"), race_skill_bonus) + favored_skill_bonus_total
         if sum(body.skill_ranks.values()) > budget:
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
@@ -542,9 +586,6 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     for selection in body.gear:
         character.gear.append(CharacterGear(item_id=selection.item_id, quantity=selection.quantity))
 
-    # The root of the first submitted class is favored by default — matches
-    # the class picker's row order, not something the wizard asks for yet.
-    favored_root_id = roots[0].id
     seen_root_ids: set[UUID] = set()
     seen_archetype_ids_by_root: dict[UUID, set[UUID]] = {}
 
@@ -553,9 +594,22 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
         for _ in range(selection.level):
             running_level += 1
-            hit_points = root.hit_dice if running_level == 1 else submitted_hit_points[running_level]
+            base_hit_points = root.hit_dice if running_level == 1 else submitted_hit_points[running_level]
+            favored_bonus = submitted_favored_bonus.get(running_level)
+            hit_points = base_hit_points + (1 if favored_bonus == "hp" else 0)
             last_level_row = CharacterLevel(level=running_level, base_class_id=root.id, hit_points=hit_points)
             character.levels.append(last_level_row)
+            if favored_bonus is not None and favored_bonus not in ("hp", "skill"):
+                choice_row = favored_choice_by_name[favored_bonus]
+                character.class_options.append(
+                    CharacterClassOption(
+                        base_class_id=favored_root_id,
+                        group_key="favored_class_bonus",
+                        choice=favored_bonus,
+                        choice_id=choice_row.id,
+                        level=last_level_row,
+                    )
+                )
         for group_key, choices in selection.options.items():
             for choice in choices:
                 choice_row = db.scalar(

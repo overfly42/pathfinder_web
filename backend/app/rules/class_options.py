@@ -22,7 +22,13 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ..models import BaseClassAbility, BaseClassAbilityGrant, BaseClassAbilityReplacement, BaseClassOptionGroup
+from ..models import (
+    BaseClassAbility,
+    BaseClassAbilityGrant,
+    BaseClassAbilityReplacement,
+    BaseClassOptionChoice,
+    BaseClassOptionGroup,
+)
 
 
 def ability_ids_by_name(db: Session) -> dict[str, list[UUID]]:
@@ -93,3 +99,28 @@ def group_occurrence_levels(
             if grant.id not in excluded
         }
     )
+
+
+def favored_class_bonus_race_choices(
+    db: Session, favored_root_id: UUID | None, race_id: UUID | None
+) -> list[BaseClassOptionChoice]:
+    """This class's own race-scoped favored-class-bonus alternates (e.g.
+    Half-Ork Barbar's "Halb-Ork (Barbar)", `scripts/
+    import_favored_class_bonus_halbork.py`) — never includes "hp"/"skill",
+    which aren't `BaseClassOptionChoice` rows at all (see `routers/
+    characters.py`'s `create_character`/`level_up_character`). Empty
+    without a favored class. Shared by `sheet.py`'s wizard-facing
+    `_favored_class_bonus_*` read helpers and `routers/characters.py`'s
+    creation-time validation (write side) so both agree on exactly the same
+    race-scoped choice set instead of drifting apart."""
+    if favored_root_id is None:
+        return []
+    return db.scalars(
+        select(BaseClassOptionChoice)
+        .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+        .where(
+            BaseClassOptionGroup.base_class_id == favored_root_id,
+            BaseClassOptionGroup.key == "favored_class_bonus",
+            BaseClassOptionChoice.race_id.is_(None) | (BaseClassOptionChoice.race_id == race_id),
+        )
+    ).all()

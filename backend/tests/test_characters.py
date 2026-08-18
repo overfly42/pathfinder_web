@@ -100,6 +100,21 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
     seed_class_abilities(db_session)
     classes = overrides.get("classes", [{"class_name": "Waldläufer", "level": 1}])
     total_level = sum(selection["level"] for selection in classes)
+
+    # Every level whose class_name matches the first submitted class (the
+    # favored class, see create_character's favored_root_id) - mirrors that
+    # same function's own favored_levels computation, string-matched since
+    # a `classes` entry's class_name is always a root class name (never an
+    # archetype, resolve_root_class rejects those).
+    favored_class_name = classes[0]["class_name"]
+    favored_levels: list[int] = []
+    running_level = 0
+    for selection in classes:
+        for _ in range(selection["level"]):
+            running_level += 1
+            if selection["class_name"] == favored_class_name:
+                favored_levels.append(running_level)
+
     payload = {
         "name": "Elyra",
         "user_id": user_id,
@@ -110,6 +125,11 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
         # in-range for any class's hit die), overridable by tests that care
         # about the actual HP total.
         "hit_points": {str(level): 1 for level in range(2, total_level + 1)},
+        # Favored-class bonus for every level in the favored class (see
+        # CharacterCreate.favored_class_bonus) - the universal "+1 HP" pick
+        # by default, overridable by tests that care about the actual value
+        # (e.g. a race-scoped alternate bonus).
+        "favored_class_bonus": {str(level): "hp" for level in favored_levels},
         "ability_scores": DEFAULT_ABILITY_SCORES,
         "point_budget": 20,
     }
@@ -141,9 +161,11 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     assert body["flex_ability"] is None
 
     # Waldläufer (d10, full BAB, good fort/ref, poor will) at char level 1,
-    # max HP for the character's first level, Elf's -2 KO (13 -> 11, mod 0).
+    # max HP for the character's first level (10), + 1 favored-class HP
+    # bonus (_character_payload's default level-1 favored_class_bonus pick),
+    # Elf's -2 KO (13 -> 11, mod 0).
     sheet = client.get(f"/api/characters/{body['id']}").json()
-    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 0}
+    assert sheet["hp"] == {"current": 11, "max": 11, "temporary": 0}
 
 
 def test_create_character_with_unknown_race_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -204,10 +226,12 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
     # count, summed - not the total level against one averaged progression
     # (requirements_v2.md §2). Char level 1 (Kämpfer's 1st) auto-maxes its
     # d10 (10); the other two rolls are the player-entered values above (6,
-    # 5). Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is just the
-    # level sum: 10+6+5=21.
+    # 5); Kämpfer is the favored class (classes[0]), so both its levels (1
+    # and 2) also get _character_payload's default +1 HP favored-class
+    # bonus. Elf's -2 KO (13 -> 11) is a +0 modifier, so total HP is
+    # (10+1)+(6+1)+5=23.
     sheet = client.get(f"/api/characters/{body['id']}").json()
-    assert sheet["hp"] == {"current": 21, "max": 21, "temporary": 0}
+    assert sheet["hp"] == {"current": 23, "max": 23, "temporary": 0}
 
 
 def test_create_character_missing_hit_points_for_a_higher_level_is_rejected(
@@ -1210,25 +1234,26 @@ def test_delete_character_with_a_racial_choice_does_not_crash(client: TestClient
 def test_adjust_hp_damage_and_heal(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    # Waldläufer (d10) at level 1 is always auto-maxed; Elf's -2 KO (13 -> 11) is a +0
-    # modifier, so hp_max == 10.
+    # Waldläufer (d10) at level 1 is always auto-maxed (10) + 1 favored-class
+    # HP bonus (_character_payload's default level-1 pick); Elf's -2 KO
+    # (13 -> 11) is a +0 modifier, so hp_max == 11.
     created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -4})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 4
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 6, "max": 10, "temporary": 0}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 7, "max": 11, "temporary": 0}
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 2})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 2
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 8, "max": 10, "temporary": 0}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 9, "max": 11, "temporary": 0}
 
 
 def test_adjust_hp_damage_is_capped_at_negative_con_score_death_floor(
     client: TestClient, db_session: Session
 ) -> None:
-    # Same character as test_adjust_hp_damage_and_heal: hp_max == 10, effective
+    # Same character as test_adjust_hp_damage_and_heal: hp_max == 11, effective
     # KO == 11 (Elf's -2 applied to base 13) — PF1e RAW death floor is -con
     # score, so current HP should bottom out at -11, not 0.
     user_id = _create_user(client)
@@ -1237,7 +1262,7 @@ def test_adjust_hp_damage_is_capped_at_negative_con_score_death_floor(
 
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -100})
     assert response.status_code == 200
-    assert response.json()["damage_taken"] == 21
+    assert response.json()["damage_taken"] == 22
     assert client.get(f"/api/characters/{created['id']}").json()["hp"]["current"] == -11
 
 
@@ -1249,13 +1274,13 @@ def test_adjust_hp_healing_past_max_is_wasted(client: TestClient, db_session: Se
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": 5})
     assert response.status_code == 200
     assert response.json()["damage_taken"] == 0
-    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 10, "max": 10, "temporary": 0}
+    assert client.get(f"/api/characters/{created['id']}").json()["hp"] == {"current": 11, "max": 11, "temporary": 0}
 
 
 def test_adjust_hp_temporary_hit_points_absorb_damage_before_real_hp(
     client: TestClient, db_session: Session
 ) -> None:
-    # Same character as test_adjust_hp_damage_and_heal: hp_max == 10.
+    # Same character as test_adjust_hp_damage_and_heal: hp_max == 11.
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     created = client.post("/api/characters", json=_character_payload(user_id, race_id, db_session)).json()
@@ -1264,7 +1289,7 @@ def test_adjust_hp_temporary_hit_points_absorb_damage_before_real_hp(
     assert response.status_code == 200
     assert response.json()["temporary_hit_points"] == 5
     sheet = client.get(f"/api/characters/{created['id']}").json()
-    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 5}
+    assert sheet["hp"] == {"current": 11, "max": 11, "temporary": 5}
 
     # 3 damage is fully absorbed by the temporary pool, real HP untouched.
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -3})
@@ -1272,7 +1297,7 @@ def test_adjust_hp_temporary_hit_points_absorb_damage_before_real_hp(
     assert response.json()["temporary_hit_points"] == 2
     assert response.json()["damage_taken"] == 0
     sheet = client.get(f"/api/characters/{created['id']}").json()
-    assert sheet["hp"] == {"current": 10, "max": 10, "temporary": 2}
+    assert sheet["hp"] == {"current": 11, "max": 11, "temporary": 2}
 
     # 5 more damage: drains the remaining 2 temporary HP, the other 3 spills onto real HP.
     response = client.patch(f"/api/characters/{created['id']}/hp", json={"delta": -5})
@@ -1280,7 +1305,7 @@ def test_adjust_hp_temporary_hit_points_absorb_damage_before_real_hp(
     assert response.json()["temporary_hit_points"] == 0
     assert response.json()["damage_taken"] == 3
     sheet = client.get(f"/api/characters/{created['id']}").json()
-    assert sheet["hp"] == {"current": 7, "max": 10, "temporary": 0}
+    assert sheet["hp"] == {"current": 8, "max": 11, "temporary": 0}
 
     # Real healing never refills/changes the temporary pool.
     client.patch(f"/api/characters/{created['id']}/hp", json={"temporary_hit_points": 4})

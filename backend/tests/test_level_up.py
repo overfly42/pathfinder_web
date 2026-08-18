@@ -70,9 +70,11 @@ def test_level_up_persists_new_level_on_existing_class(client: TestClient, db_se
     assert body["classes"] == [{"class_name": "Waldläufer", "level": 2, "archetypes": [], "is_favored": True, "options": {}}]
 
     sheet = client.get(f"/api/characters/{character_id}").json()
-    # Level 1 (auto-maxed d10) + rolled 6 + 1 favored-class HP bonus, no CON
-    # mod (KO 13 -> +1, elf -2 KO -> 11 -> +0).
-    assert sheet["hp"]["max"] == 17
+    # Level 1 (auto-maxed d10 + 1 favored-class HP bonus, _character_payload's
+    # default level-1 pick) + rolled 6 + 1 more favored-class HP bonus (this
+    # level-up's own pick, _level_up_payload's default), no CON mod (KO 13 ->
+    # +1, elf -2 KO -> 11 -> +0).
+    assert sheet["hp"]["max"] == 18
 
 
 def test_level_up_rejects_hit_points_out_of_range(client: TestClient, db_session: Session) -> None:

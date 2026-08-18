@@ -64,6 +64,7 @@ from .models import (
 )
 from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
+from .rules.class_options import favored_class_bonus_race_choices
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
@@ -672,40 +673,16 @@ def _build_race_abilities(db: Session, race_ability_ids: set[UUID]) -> list[dict
     return _described(db, BaseRaceAbility, list(race_ability_ids))
 
 
-def _favored_class_bonus_race_choices(
-    db: Session, favored_root_id: UUID | None, race_id: UUID
-) -> list[BaseClassOptionChoice]:
-    """This class's own race-scoped favored-class-bonus alternates (e.g.
-    Half-Ork Barbar's "Halb-Ork (Barbar)",
-    `scripts/import_favored_class_bonus_halbork.py`) — never includes
-    "hp"/"skill", which aren't `BaseClassOptionChoice` rows at all (see
-    `routers/characters.py`'s `level_up_character`). Empty without a
-    favored class. Shared by `_favored_class_bonus_options` (names, for the
-    wizard's pick list) and `_favored_class_bonus_descriptions` (name ->
-    rules text, for the wizard's summary step) so both read the same query
-    once instead of each re-deriving it."""
-    if favored_root_id is None:
-        return []
-    return db.scalars(
-        select(BaseClassOptionChoice)
-        .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
-        .where(
-            BaseClassOptionGroup.base_class_id == favored_root_id,
-            BaseClassOptionGroup.key == "favored_class_bonus",
-            BaseClassOptionChoice.race_id.is_(None) | (BaseClassOptionChoice.race_id == race_id),
-        )
-    ).all()
-
-
 def _favored_class_bonus_options(db: Session, favored_root_id: UUID | None, race_id: UUID) -> list[str]:
     """Which values are currently legal for `LevelUp.favored_class_bonus`
     for this character's one favored class — "hp"/"skill" (the two stable
     literals every class offers) plus this class's own race-scoped
-    alternates. The level-up wizard renders this list directly — no
-    client-side race filtering needed, same reasoning `race_skill_modifiers`'s
-    docstring gives for keeping composition-vs-character-scoped filtering
-    server-side."""
-    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    alternates (`favored_class_bonus_race_choices`, shared with
+    `routers/characters.py`'s creation-time validation). The level-up wizard
+    renders this list directly — no client-side race filtering needed, same
+    reasoning `race_skill_modifiers`'s docstring gives for keeping
+    composition-vs-character-scoped filtering server-side."""
+    choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
     return ["hp", "skill", *(choice.name for choice in choices)]
 
 
@@ -717,7 +694,7 @@ def _favored_class_bonus_descriptions(db: Session, favored_root_id: UUID | None,
     picking e.g. "Halb-Ork (Barbar)" saw no indication anywhere of what that
     choice actually does) show the real rules text instead of just the bare
     catalog name."""
-    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
     descriptions_by_choice_id = _ability_descriptions_by_choice_id(db, [choice.id for choice in choices])
     return {choice.name: descriptions_by_choice_id.get(choice.id, "") for choice in choices}
 
@@ -731,8 +708,22 @@ def _favored_class_bonus_short_labels(db: Session, favored_root_id: UUID | None,
     itself for a choice with no short label yet, so a future race's
     alternates still render *something* before this dict is filled in for
     them."""
-    choices = _favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
     return {choice.name: FAVORED_CLASS_BONUS_SHORT_LABELS.get(choice.id, choice.name) for choice in choices}
+
+
+def build_favored_class_bonus_options(db: Session, base_class_id: UUID, race_id: UUID) -> dict:
+    """Public entry point for `GET /api/favored-class-bonus-options` — the
+    creation wizard's equivalent of `build_character_progression`'s
+    `favoredClassBonusOptions`/`favoredClassBonusShortLabels`, keyed by an
+    explicit base_class_id + race_id instead of an existing `Character` row,
+    since creation has neither yet. Lets `ClassStep.tsx` offer the very same
+    hp/skill/race-scoped-alternate picker `HitPointsStep.tsx` already uses
+    at level-up, for the character's 1st-level favored-class bonus."""
+    return {
+        "options": _favored_class_bonus_options(db, base_class_id, race_id),
+        "shortLabels": _favored_class_bonus_short_labels(db, base_class_id, race_id),
+    }
 
 
 def _ability_descriptions_by_choice_id(db: Session, choice_ids: list[UUID]) -> dict[UUID, str]:

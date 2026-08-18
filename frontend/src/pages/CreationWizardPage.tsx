@@ -97,6 +97,11 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte im Schritt „Talente" für jedes markierte Talent eine Wahl treffen (Waffe/Fertigkeit/Schule).');
         return;
       }
+      if (!draft.favoredClassBonus) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Klasse" den Bonus der bevorzugten Klasse für die 1. Stufe wählen.');
+        return;
+      }
 
       setSubmitState('submitting');
       try {
@@ -110,6 +115,7 @@ export function CreationWizardPage() {
             archetypes: row.archetypes,
             options: row.options,
           })),
+          favored_class_bonus: { '1': draft.favoredClassBonus },
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,
