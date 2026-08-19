@@ -28,6 +28,14 @@ class BaseSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # is usable untrained and belongs on the sheet even at 0 ranks — see
     # `sheet.py`'s `_build_skills`.
     trained_only: Mapped[bool] = mapped_column(Boolean, default=False)
+    # The "Hintergrundfertigkeiten" alternate rule's fixed skill list
+    # (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
+    # Hintergrundfertigkeiten): Auftreten, Beruf, Handwerk, Mit Tieren
+    # umgehen, Schätzen, Wissen (Adel/Baukunst/Geographie/Geschichte).
+    # Meaningless unless `Character.use_background_skills` is set — see
+    # that column's docstring and `rules/skill_points.py`'s
+    # `background_skill_points_total`.
+    is_background: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class BaseClassSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):

@@ -30,6 +30,12 @@ export interface CharacterProgression {
    *  tell whether a race's skill-point-per-level bonus (e.g. Human's
    *  Geschult) was traded away; see `raceGrantsSkillBonusPerLevel`. */
   altTraits: string[];
+  /** Whether this character uses the "Hintergrundfertigkeiten" alternate
+   *  rule (+2 skill ranks per level, spendable only on background skills) —
+   *  a one-time choice made at creation, never resubmitted at level-up (see
+   *  `Character.use_background_skills`'s docstring). Absent for the two
+   *  hardcoded mock fixtures, which predate this field — treat as `false`. */
+  useBackgroundSkills?: boolean;
   skillRanks: Record<string, number>;
   spellsKnown: Record<string, string[]>;
   /** Values currently legal for a favored-class-bonus level-up pick —

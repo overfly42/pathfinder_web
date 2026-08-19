@@ -91,6 +91,10 @@ export interface SkillDef {
   id: string;
   name: string;
   ability: AbilityKey;
+  /** Part of the "Hintergrundfertigkeiten" alternate rule's fixed list
+   *  (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten)
+   *  — only relevant when `useBackgroundSkills` is on. */
+  isBackground: boolean;
 }
 
 export type FeatSubChoiceType = 'weapon' | 'skill' | 'spell_school' | null;

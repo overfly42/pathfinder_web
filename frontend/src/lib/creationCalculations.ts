@@ -165,6 +165,49 @@ export function skillPointsSpent(draft: CreationDraft): number {
   return Object.values(draft.skillRanks).reduce((sum, ranks) => sum + (ranks || 0), 0);
 }
 
+/** Mirrors the backend's `rules/skill_points.py::background_skill_points_total`;
+ *  keep both in sync. 2 ranks per character level, never modified by Int mod
+ *  or any race/class bonus — only meaningful when `draft.useBackgroundSkills`
+ *  is on (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten). */
+export function backgroundSkillPointsTotal(draft: CreationDraft): number {
+  return 2 * totalLevel(draft);
+}
+
+/** Ranks spent so far, split into background-skill (`SkillDef.isBackground`)
+ *  vs. regular ("adventure") skills — the split `skillPointsRemaining` needs
+ *  to apply the "Hintergrundfertigkeiten" overflow rule. */
+export function skillPointsSpentByCategory(
+  draft: CreationDraft,
+  options: CreationOptions,
+): { background: number; regular: number } {
+  const backgroundIds = new Set(options.skills.filter((skill) => skill.isBackground).map((skill) => skill.id));
+  let background = 0;
+  let regular = 0;
+  for (const [skillId, ranks] of Object.entries(draft.skillRanks)) {
+    if (backgroundIds.has(skillId)) background += ranks || 0;
+    else regular += ranks || 0;
+  }
+  return { background, regular };
+}
+
+/** Regular ("adventure") skill points still available, mirrors the backend's
+ *  `_skill_ranks_exceed_budget` (routers/characters.py): with
+ *  `useBackgroundSkills` off, `backgroundBudget` is 0 and this is a plain
+ *  `regularBudget - spent`. With it on, background-skill ranks draw from
+ *  `backgroundBudget` first — only the excess beyond it competes with
+ *  regular-skill ranks for `regularBudget`; background points that go
+ *  unspent are simply lost, never covering a regular skill. */
+export function skillPointsRemaining(
+  draft: CreationDraft,
+  options: CreationOptions,
+  regularBudget: number,
+  backgroundBudget: number,
+): number {
+  const { background, regular } = skillPointsSpentByCategory(draft, options);
+  const overflow = Math.max(0, background - backgroundBudget);
+  return regularBudget - (regular + overflow);
+}
+
 export function skillBonus(draft: CreationDraft, options: CreationOptions, skillKey: string, ability: AbilityKey): number {
   const ranks = draft.skillRanks[skillKey] || 0;
   const abMod = abilityMod(totalAbility(draft, options, ability));

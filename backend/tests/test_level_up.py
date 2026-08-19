@@ -248,6 +248,41 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
     assert response.status_code == 422
 
 
+BACKGROUND_SKILL_NAMES = [
+    "Auftreten", "Beruf", "Handwerk", "Mit Tieren umgehen", "Schätzen",
+    "Wissen (Adel)", "Wissen (Baukunst)", "Wissen (Geographie)", "Wissen (Geschichte)",
+]
+
+
+def test_level_up_background_skills_flag_persists_from_creation(client: TestClient, db_session: Session) -> None:
+    """`use_background_skills` is a one-time creation choice
+    (models/character.py's docstring) - never resubmitted at level-up, but
+    still enforced there. A level-2 Elf Waldläufer gains a regular delta of
+    7 (skillPointsBase 6 + Elf's +1 INT mod) and, with the flag on, a
+    background delta of 2 (`background_skill_points_total`); all 9
+    background skills at 1 new rank each spends 9, over the regular delta
+    alone but within the combined 9 once the overflow draws on it."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Waldläufer")
+    background_skill_ids = {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+
+    with_flag_id = _create_level_n_character(
+        client, db_session, race_id, "Waldläufer", 1, use_background_skills=True
+    )
+    response = client.post(
+        f"/api/characters/{with_flag_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, skill_ranks=background_skill_ids),
+    )
+    assert response.status_code == 201
+
+    without_flag_id = _create_level_n_character(client, db_session, race_id, "Waldläufer", 1)
+    response = client.post(
+        f"/api/characters/{without_flag_id}/level-up",
+        json=_level_up_payload(base_class_id, 5, skill_ranks=background_skill_ids),
+    )
+    assert response.status_code == 422
+
+
 def test_level_up_allows_investing_more_than_one_rank_in_a_previously_untrained_skill(
     client: TestClient, db_session: Session
 ) -> None:

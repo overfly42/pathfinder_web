@@ -51,7 +51,7 @@ from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, rac
 from ..rules.handlers import ON_END, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
-from ..rules.skill_points import race_grants_bonus_skill_point_per_level
+from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
 from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
 from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
@@ -125,6 +125,37 @@ def _skill_points_total(
         total += max(1, root.skill_points_base + int_mod) * selection.level
         total_level += selection.level
     return total + race_bonus_per_level * total_level
+
+
+def _skill_ranks_exceed_budget(
+    db: Session,
+    skill_ranks: dict[str, int],
+    regular_budget: int,
+    background_budget: int,
+    use_background_skills: bool,
+) -> bool:
+    """Whether `skill_ranks` (skill id string -> ranks, already validated as
+    real skill ids by the caller) spends more than is available. Without
+    `use_background_skills`, this is the original single-pool check
+    (`background_budget` unused). With it on, ranks in `BaseSkill.is_background`
+    skills draw from `background_budget` first; only the overflow beyond it —
+    plus every rank in a non-background skill — competes for
+    `regular_budget`. `background_budget` itself has no independent cap
+    beyond that overflow rule: background points that go unspent are simply
+    lost, and they can never cover a non-background skill (http://prd.
+    5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten)."""
+    if not use_background_skills:
+        return sum(skill_ranks.values()) > regular_budget
+
+    background_ids = set(db.scalars(select(BaseSkill.id).where(BaseSkill.is_background.is_(True))).all())
+    background_spent = sum(
+        ranks for skill_id_str, ranks in skill_ranks.items() if UUID(skill_id_str) in background_ids
+    )
+    regular_spent = sum(
+        ranks for skill_id_str, ranks in skill_ranks.items() if UUID(skill_id_str) not in background_ids
+    )
+    overflow = max(0, background_spent - background_budget)
+    return regular_spent + overflow > regular_budget
 
 
 def _feat_max(
@@ -478,7 +509,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         race_skill_bonus = 1 if race_grants_bonus_skill_point_per_level(db, body.race_id, seen_replaced_ability_ids) else 0
         favored_skill_bonus_total = sum(1 for value in submitted_favored_bonus.values() if value == "skill")
         budget = _skill_points_total(body.classes, roots, _effective_ability_mod("IN"), race_skill_bonus) + favored_skill_bonus_total
-        if sum(body.skill_ranks.values()) > budget:
+        background_budget = background_skill_points_total(total_level) if body.use_background_skills else 0
+        if _skill_ranks_exceed_budget(db, body.skill_ranks, budget, background_budget, body.use_background_skills):
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
     if body.feats:
@@ -578,6 +610,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         ability_score_we=body.ability_scores["WE"],
         ability_score_ch=body.ability_scores["CH"],
         point_budget=body.point_budget,
+        use_background_skills=body.use_background_skills,
     )
     if flex_ability_id is not None:
         character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
@@ -1481,7 +1514,14 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         - _skill_points_total(classes_before, roots_before, _effective_ability_mod("IN"), race_skill_bonus)
         + favored_skill_bonus
     )
-    if sum(body.skill_ranks.values()) > skill_budget_delta:
+    background_budget_delta = (
+        background_skill_points_total(new_total_level) - background_skill_points_total(new_total_level - 1)
+        if character.use_background_skills
+        else 0
+    )
+    if _skill_ranks_exceed_budget(
+        db, body.skill_ranks, skill_budget_delta, background_budget_delta, character.use_background_skills
+    ):
         raise HTTPException(status_code=422, detail="skill_ranks exceed the skill points gained at this level")
 
     valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())

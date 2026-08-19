@@ -3,210 +3,245 @@
     "id": "61a2cb21-fcda-4a2d-8fb5-8ed12133c648",
     "name": "Akrobatik",
     "ability": "GE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "086ec4b0-0439-45fe-8291-af9b24118500",
     "name": "Fingerfertigkeit",
     "ability": "GE",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "7a0d8500-cd5a-40a0-95fe-6dc9289994f5",
     "name": "Entfesselungskunst",
     "ability": "GE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "432bdbaa-0286-4203-a117-1dbc4d68056b",
     "name": "Heimlichkeit",
     "ability": "GE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "ea28d7f8-2b92-42aa-93c9-89dd78987f09",
     "name": "Reiten",
     "ability": "GE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "6d850adc-a635-418f-8d72-e7dcbb878225",
     "name": "Mechanismus ausschalten",
     "ability": "GE",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7",
     "name": "Klettern",
     "ability": "ST",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "e5fa3283-96aa-49ee-8836-ba3062bae32d",
     "name": "Schwimmen",
     "ability": "ST",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
     "name": "Auftreten",
     "ability": "CH",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": true
   },
   {
     "id": "144fa65e-50ce-4eb7-b861-177692a86858",
     "name": "Bluffen",
     "ability": "CH",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "b72e7417-7ae3-4ce1-8d8c-5c5a378c602c",
     "name": "Diplomatie",
     "ability": "CH",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf",
     "name": "Einschüchtern",
     "ability": "CH",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "2e44f1b6-401d-4aab-b185-2e06f4e7eba8",
     "name": "Mit Tieren umgehen",
     "ability": "CH",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   },
   {
     "id": "22c5835f-bdd0-415c-a0cd-23899325e702",
     "name": "Verkleiden",
     "ability": "CH",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "7446d67a-7bc2-4455-877b-591500769be2",
     "name": "Magischen Gegenstand benutzen",
     "ability": "CH",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "a6246060-6731-498c-b6d3-3ff72876aa27",
     "name": "Heilkunde",
     "ability": "WE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "3d5d4e5f-c749-4346-a53b-2006bca05abb",
     "name": "Wahrnehmung",
     "ability": "WE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "1b9fe08d-09e0-46c8-8772-dd573cab6fff",
     "name": "Überlebenskunst",
     "ability": "WE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "9a4debc2-0c8f-4461-9a37-bd667d8535ee",
     "name": "Motiv erkennen",
     "ability": "WE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "f5624a2e-59b2-400b-84e6-a0310daba26b",
     "name": "Handwerk",
     "ability": "IN",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": true
   },
   {
     "id": "042a33bd-ac38-403f-b8aa-d4cfeb4db3c3",
     "name": "Sprachenkunde",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "8532ffd7-4849-4b27-b10b-1fd0c84b7ebe",
     "name": "Zauberkunde",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "0aa605c7-5afe-47cb-99df-ad187775333f",
     "name": "Wissen (Arkanes)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "0f6a271e-7eda-4d06-bdf8-8148a2c947ff",
     "name": "Wissen (Natur)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "11de822f-9662-476b-9023-d86989ab9d49",
     "name": "Wissen (Religion)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "00e69f3e-86ef-4771-9bfe-e242cafee156",
     "name": "Wissen (Lokales)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "7cf08043-8422-400c-88de-960f094fe9e6",
     "name": "Beruf",
     "ability": "WE",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   },
   {
     "id": "cf1d814d-0811-4a88-b5d2-bca393c2fb74",
     "name": "Wissen (Baukunst)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   },
   {
     "id": "960179c4-5aed-4352-8b84-bd78a8c3a10e",
     "name": "Wissen (Gewölbekunde)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "86843d3f-57ee-4bdf-8ede-f5aed34d818c",
     "name": "Wissen (Geographie)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   },
   {
     "id": "a71cd8ed-15b2-4594-9819-0e320071513c",
     "name": "Fliegen",
     "ability": "GE",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": false
   },
   {
     "id": "791a87d6-c13a-4f44-bde4-fb39a46a462b",
     "name": "Schätzen",
     "ability": "IN",
-    "trained_only": false
+    "trained_only": false,
+    "is_background": true
   },
   {
     "id": "c530f23b-ef37-4530-90b3-d9d6ad225ac2",
     "name": "Wissen (Adel)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   },
   {
     "id": "80b9c08a-4cef-40d1-b446-caefccbff302",
     "name": "Wissen (Die Ebenen)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": false
   },
   {
     "id": "3870a249-e599-45b6-b19c-bfe38dc3d84f",
     "name": "Wissen (Geschichte)",
     "ability": "IN",
-    "trained_only": true
+    "trained_only": true,
+    "is_background": true
   }
 ]

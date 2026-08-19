@@ -5,6 +5,31 @@ Architektur-/Anforderungsentscheidungen als auch konkrete Lücken in den
 bestehenden UI-Mocks. Ersetzt `offene_punkte_ui_mocks.md` (Inhalt unten
 übernommen).
 
+## Alternativregeln — Entscheidungen
+
+- [ ] **Hintergrundfertigkeiten** (`prd.5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten`):
+      2 zusätzliche Fertigkeitsränge pro Charakterstufe (kein Int-Mod), nur
+      ausgebbar auf eine feste Liste ("Hintergrundfertigkeiten": Auftreten,
+      Beruf, Handwerk, Mit Tieren umgehen, Schätzen, Wissen (Adel), Wissen
+      (Baukunst), Wissen (Geographie), Wissen (Geschichte)) — normale
+      Fertigkeitspunkte dürfen weiterhin zusätzlich in diese Fertigkeiten
+      fließen, nur nicht umgekehrt. Klassenfertigkeiten-Status unverändert;
+      Rang-Cap pro Fertigkeit bleibt ≤ Charakterstufe.
+      2026-08-19 entschieden: Aktivierung als **Wahl bei Charaktererstellung**
+      (Boolean-Flag am Charakter, analog zu Alternative Traits/Favored-Class-
+      Bonus — gilt danach fix für alle künftigen Level-ups dieses Charakters),
+      nicht "immer an" und nicht als globale App-Einstellung, da es dafür noch
+      kein Campaign/Party-Entity gibt. Umsetzung: `BaseSkill.is_background`
+      (neue Spalte + Fixture-Flag für die 9 Skills oben),
+      `Character.use_background_skills` (neue Spalte), zweites Budget "2 ×
+      Stufe" in `rules/skill_points.py`/`creationCalculations.ts`, Overflow-
+      Validierung in `routers/characters.py` (Erstellung + Level-up) statt
+      einem einzelnen Pool, zweite Budget-Anzeige in `SkillsStep.tsx` + Level-
+      up-Skill-UI. Die zwei neuen Fertigkeiten der Regel (Kunstfertigkeit,
+      Spezialwissen) sind bewusst **nicht** Teil dieser Entscheidung — eigener,
+      größerer Scope (neue Skill-Katalogeinträge + automatische
+      Klassenfertigkeit für alle mit Auftreten/Handwerk als Klassenfertigkeit).
+
 ## Architektur- & Anforderungs-Checkliste
 
 Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:

@@ -346,6 +346,7 @@ def build_character_progression(character: Character, db: Session) -> dict:
         # bonus (e.g. Human's Geschult) was traded away, same "replaces"
         # check creation's own skillPointsTotal does.
         "altTraits": character.alt_traits,
+        "useBackgroundSkills": character.use_background_skills,
         "skillRanks": character.skill_ranks,
         "spellsKnown": spells_known,
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),

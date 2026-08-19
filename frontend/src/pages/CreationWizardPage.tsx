@@ -120,6 +120,7 @@ export function CreationWizardPage() {
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,
           alt_traits: draft.altTraits,
+          use_background_skills: draft.useBackgroundSkills,
           skill_ranks: draft.skillRanks,
           feats: featSelectionsForSubmission(draft, opts),
           trait_ids: draft.traits,

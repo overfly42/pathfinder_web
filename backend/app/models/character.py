@@ -75,6 +75,18 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # kept alongside the scores for display/audit, not re-validated on read.
     point_budget: Mapped[int] = mapped_column(Integer)
 
+    # Whether this character uses the "Hintergrundfertigkeiten" alternate
+    # rule (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
+    # Hintergrundfertigkeiten: +2 skill ranks per character level, spendable
+    # only on `BaseSkill.is_background` skills — see todos.md's "2026-08-19"
+    # entry for why this is a per-character creation-time choice rather than
+    # always-on or a global setting). Set once at creation
+    # (`CharacterCreate.use_background_skills`), never changed afterward —
+    # every later level-up (`rules/skill_points.py`'s
+    # `background_skill_points_total`, `routers/characters.py`'s skill-ranks
+    # validation) reads this stored flag rather than re-accepting it.
+    use_background_skills: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+
     racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
     levels: Mapped[list["CharacterLevel"]] = relationship(
         order_by="CharacterLevel.level", cascade="all, delete-orphan"

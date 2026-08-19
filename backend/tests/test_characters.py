@@ -704,6 +704,99 @@ def test_create_character_with_unknown_skill_id_is_rejected(client: TestClient, 
     assert response.status_code == 422
 
 
+BACKGROUND_SKILL_NAMES = [
+    "Auftreten", "Beruf", "Handwerk", "Mit Tieren umgehen", "Schätzen",
+    "Wissen (Adel)", "Wissen (Baukunst)", "Wissen (Geographie)", "Wissen (Geschichte)",
+]
+
+
+def test_create_character_background_skills_allow_overflow_into_regular_budget(
+    client: TestClient, db_session: Session
+) -> None:
+    """http://prd.5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten:
+    with `use_background_skills` on, a level-1 Elf Waldläufer has a regular
+    budget of 7 (skillPointsBase 6 + Elf's +1 INT mod) and a background
+    budget of 2 (flat, `background_skill_points_total`). All 9 background
+    skills at 1 rank each (level cap at level 1) spends 9 - more than the
+    regular budget alone allows, but within 7 regular + 2 background once
+    the 7-rank overflow beyond the background budget draws on the regular
+    one (`_skill_ranks_exceed_budget`)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    skill_ranks = {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+        ),
+    )
+    assert response.status_code == 201
+    assert response.json()["use_background_skills"] is True
+
+
+def test_create_character_background_skills_still_enforce_combined_budget(
+    client: TestClient, db_session: Session
+) -> None:
+    """Same setup as the overflow test above (7 regular + 2 background = 9
+    total), plus one more rank in an adventure skill - now 10 spent, over
+    the combined budget even with `use_background_skills` on."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    skill_ranks = {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+    skill_ranks[_skill_id(client, db_session, "Klettern")] = 1
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_background_skill_points_cannot_cover_adventure_skills(
+    client: TestClient, db_session: Session
+) -> None:
+    """The alternate rule is one-directional: background skill points can
+    never be spent on adventure skills, even with `use_background_skills`
+    on. A level-1 Elf Waldläufer's regular budget is 7; 8 adventure skills
+    at 1 rank each overspends it regardless of the unused 2-point
+    background budget."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    adventure_skill_names = [
+        "Akrobatik", "Fingerfertigkeit", "Entfesselungskunst", "Heimlichkeit", "Reiten", "Mechanismus ausschalten",
+        "Klettern", "Schwimmen",
+    ]
+    skill_ranks = {_skill_id(client, db_session, name): 1 for name in adventure_skill_names}
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_background_skill_tag_is_inert_without_opting_in(
+    client: TestClient, db_session: Session
+) -> None:
+    """Without `use_background_skills` (the default), `BaseSkill.is_background`
+    changes nothing - the same 9-skill spend the overflow test above accepts
+    is rejected here by the plain single-pool budget (7)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    skill_ranks = {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, skill_ranks=skill_ranks),
+    )
+    assert response.status_code == 422
+
+
 def test_create_character_persists_feats_on_highest_level(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)

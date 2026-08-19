@@ -19,6 +19,18 @@ from ..models import RaceAbilityGrant
 RACE_SKILLED_ABILITY_ID = UUID("6aeda00f-a761-4f4e-b943-d770c0018d07")
 
 
+def background_skill_points_total(character_level: int) -> int:
+    """2 skill ranks per character level, spendable only on
+    `BaseSkill.is_background` skills — the "Hintergrundfertigkeiten"
+    alternate rule (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
+    Hintergrundfertigkeiten). Unlike `_skill_points_total`
+    (routers/characters.py), this is never modified by the Intelligence
+    modifier or any race/class bonus — the PRD is explicit that it isn't.
+    Only meaningful when `Character.use_background_skills` is set; callers
+    pass 0 for `character_level` (or skip calling this) otherwise."""
+    return 2 * character_level
+
+
 def race_grants_bonus_skill_point_per_level(db: Session, race_id: UUID, replaced_ability_ids: set[UUID]) -> bool:
     """Whether this race's default (non-alternate) grants include the
     Skilled ability, and the character didn't trade it away for an

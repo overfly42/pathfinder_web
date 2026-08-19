@@ -120,6 +120,13 @@ class CharacterCreate(BaseModel):
     # `routers/races.py`'s `resolve_alt_trait` and persisted as
     # `CharacterRacialChoice` rows — same table as `flex_ability`.
     alt_traits: list[str] = []
+    # Opt-in to the "Hintergrundfertigkeiten" alternate rule (+2 skill ranks
+    # per level, spendable only on `BaseSkill.is_background` skills) — a
+    # one-time creation-time choice, persisted on `Character` and never
+    # resubmitted at level-up (see that column's docstring in
+    # models/character.py, and todos.md's "2026-08-19" entry for why it's
+    # per-character rather than always-on or global).
+    use_background_skills: bool = False
     # skill_id (string, since UUID keys aren't valid JSON object keys) ->
     # ranks. Collapsed onto the highest CharacterLevel row being created —
     # see CharacterSkillRank's docstring for why creation doesn't split this
@@ -533,6 +540,7 @@ class CharacterRead(BaseModel):
     point_budget: int
     flex_ability: str | None
     alt_traits: list[str]
+    use_background_skills: bool
     skill_ranks: dict[str, int]
     feats: list[FeatSelection]
     trait_ids: list[UUID]

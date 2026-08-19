@@ -1,7 +1,7 @@
 import type { AbilityKey } from '../types/abilities';
 import type { CharacterProgression } from '../types/characterProgression';
 import type { LevelUpTarget } from '../types/levelUpDraft';
-import type { ClassDef, RaceOption } from '../types/creationOptions';
+import type { ClassDef, RaceOption, SkillDef } from '../types/creationOptions';
 
 export function getOldTotalLevel(progression: CharacterProgression): number {
   return progression.classes.reduce((sum, c) => sum + c.level, 0);
@@ -105,4 +105,48 @@ export function raceGrantsSkillBonusPerLevel(progression: CharacterProgression, 
     alt?.replaces.forEach((t) => replaced.add(t));
   }
   return race.traits.some((t) => t.name === 'Geschult') && !replaced.has('Geschult');
+}
+
+/** A level-up always adds exactly one character level, so the
+ *  "Hintergrundfertigkeiten" background-skill budget granted this level is
+ *  always the flat +2 — mirrors the backend's
+ *  `rules/skill_points.py::background_skill_points_total` delta
+ *  (`routers/characters.py`'s `background_budget_delta`). Only meaningful
+ *  when `progression.useBackgroundSkills` is set. */
+export function backgroundSkillPointsForThisLevel(): number {
+  return 2;
+}
+
+/** New ranks picked this level-up, split into background-skill
+ *  (`SkillDef.isBackground`) vs. regular ("adventure") skills — same split
+ *  creation's `skillPointsSpentByCategory` computes, just against
+ *  `LevelUpDraft.skillIncreases` instead of a full skill-rank map. */
+export function skillIncreasesByCategory(
+  skillIncreases: Record<string, number>,
+  skills: SkillDef[],
+): { background: number; regular: number } {
+  const backgroundIds = new Set(skills.filter((skill) => skill.isBackground).map((skill) => skill.id));
+  let background = 0;
+  let regular = 0;
+  for (const [skillId, ranks] of Object.entries(skillIncreases)) {
+    if (backgroundIds.has(skillId)) background += ranks || 0;
+    else regular += ranks || 0;
+  }
+  return { background, regular };
+}
+
+/** Regular ("adventure") skill points still available this level-up —
+ *  mirrors creation's `skillPointsRemaining` / the backend's
+ *  `_skill_ranks_exceed_budget` (routers/characters.py): background-skill
+ *  ranks draw from `backgroundBudget` first, only the excess competes with
+ *  regular-skill ranks for `regularBudget`. */
+export function skillPointsRemainingForLevelUp(
+  skillIncreases: Record<string, number>,
+  skills: SkillDef[],
+  regularBudget: number,
+  backgroundBudget: number,
+): number {
+  const { background, regular } = skillIncreasesByCategory(skillIncreases, skills);
+  const overflow = Math.max(0, background - backgroundBudget);
+  return regularBudget - (regular + overflow);
 }

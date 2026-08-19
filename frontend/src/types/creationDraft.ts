@@ -42,6 +42,11 @@ export interface CreationDraft {
   favoredClassBonus: string | null;
   abilityScores: Record<AbilityKey, number>;
   pointBudget: PointBudget;
+  /** Opt-in to the "Hintergrundfertigkeiten" alternate rule (+2 skill ranks
+   *  per level, spendable only on background skills, see `SkillDef.isBackground`)
+   *  — a one-time creation-time choice, persisted server-side and never
+   *  resubmitted at level-up (`CharacterProgression.useBackgroundSkills`). */
+  useBackgroundSkills: boolean;
   skillRanks: Record<string, number>;
   /** Chosen feat ids (BaseFeat.id), not names. */
   feats: string[];
