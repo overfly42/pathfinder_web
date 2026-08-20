@@ -96,7 +96,7 @@
   {
     "id": "2249f151-0809-4c55-80cc-76920111782e",
     "name": "Ausweichen",
-    "description": "Du bist besonders geschickt darin, Angriffen auszuweichen. Du erhältst +1 auf die Rüstungsklasse gegen Angriffe eines einzelnen von dir gewählten Gegners.",
+    "description": "Deine Ausbildung und deine Reflexe ermöglichen es dir, schnell auf Angriffe deiner Gegner zu reagieren. Du erhältst einen Ausweichbonus von +1 auf deine RK. Eine Bedingung, die dich deinen GE-Bonus auf die RK verlieren lässt, lässt dich auch den Bonus dieses Talents verlieren.",
     "type": "combat",
     "prerequisite_text": "GE 13"
   },

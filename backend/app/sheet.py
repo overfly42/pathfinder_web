@@ -78,6 +78,7 @@ from .rules.handlers import (
     NATURAL_ATTACK_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
     character_modifiers,
+    granted_ability_modifiers,
     situational_skill_notes,
 )
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
@@ -142,18 +143,25 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # granted-ability ids are deliberately excluded there, see its
     # docstring) — plus a race's own SKILL-target grants (`race_skill_modifiers`,
     # e.g. Halb-Ork's Einschüchternd — SCORE/SPEED already have their own
-    # dedicated path, see that function's docstring) and gear's own AC bonus
-    # (armor/shield `ac_bonus`, any slot's `enhancement`). Combined into one
-    # raw list *before* stacking, not stacked separately per source and
-    # added: two same-type bonuses (e.g. a composition "armor" bonus and a
-    # gear "armor" bonus) must not both apply, and `stack()` can only enforce
-    # that within a single call (`rules/modifiers.py`'s `stack_by_target`
-    # docstring). Grouped by target once here and threaded into
-    # AC/saves/speed/skills below as plain dict lookups rather than each one
-    # re-filtering/re-stacking.
+    # dedicated path, see that function's docstring), granted class
+    # abilities' own AC-target grants (`granted_ability_modifiers`, e.g.
+    # Bestientotem's natural armor bonus — the same per-grant path
+    # `class_speed_bonus` uses for SPEED, generalized), and gear's own AC
+    # bonus (armor/shield `ac_bonus`, any slot's `enhancement`). Combined
+    # into one raw list *before* stacking, not stacked separately per source
+    # and added: two same-type bonuses (e.g. a composition "armor" bonus and
+    # a gear "armor" bonus) must not both apply, and `stack()` can only
+    # enforce that within a single call (`rules/modifiers.py`'s
+    # `stack_by_target` docstring). Grouped by target once here and threaded
+    # into AC/saves/speed/skills below as plain dict lookups rather than
+    # each one re-filtering/re-stacking.
     items, gear_by_slot = _gear_lookup(db, character)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
-    all_modifiers = character_modifiers(context) + race_skill_modifiers(db, character.race_id)
+    all_modifiers = (
+        character_modifiers(context)
+        + race_skill_modifiers(db, character.race_id)
+        + granted_ability_modifiers(context, target=ModifierTarget.AC)
+    )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
     # (the summed total per target, what AC/saves/speed/skills actually add

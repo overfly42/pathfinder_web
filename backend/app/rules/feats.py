@@ -27,6 +27,16 @@ EISENHAUT = UUID("bddd2053-a03a-5206-83e7-2e6966686c4c")
 # `base_feats.json`'s "Heftiger Angriff" (Power Attack) row id.
 HEFTIGER_ANGRIFF = UUID("4696cb39-3218-4f95-9d61-d0cef28b4ac0")
 
+# `base_feats.json`'s "Ausweichen" (Dodge) row id (GRW S. 119). Description
+# corrected 2026-08-20 from a stale D&D-3.5-style "single chosen opponent"
+# text to the real PF1e GRW wording ("Ausweichbonus +1 auf RK" — a universal
+# dodge bonus, not opponent-specific), confirmed against the full permalink
+# text at prd.5footstep.de/Permalink?page_id=1285 (`scripts/README.md`'s §2
+# workflow): "Du erhältst einen Ausweichbonus von +1 auf deine RK. Eine
+# Bedingung, die dich deinen GE-Bonus auf die RK verlieren lässt, lässt dich
+# auch den Bonus dieses Talents verlieren."
+AUSWEICHEN = UUID("2249f151-0809-4c55-80cc-76920111782e")
+
 # `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill this
 # feat's bonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
@@ -63,6 +73,21 @@ def _natural_armor_bonus(context: CharacterContext, *, source: str, value: int) 
     # on top of this normally, since it's a different type.
     del context
     return [Modifier(source=source, type="natural", value=value, target=ModifierTarget.AC)]
+
+
+def _ausweichen(context: CharacterContext) -> list[Modifier]:
+    """GRW S. 119: "Du erhältst einen Ausweichbonus von +1 auf deine RK."
+    `type="dodge"` (`rules/modifiers.py`'s `ALWAYS_STACKS`) — a dodge bonus
+    always stacks with everything, including another dodge bonus, unlike
+    `_natural_armor_bonus`'s `type="natural"` above. The clause tying this
+    bonus to the same conditions that suppress a Dex bonus to AC (flat-
+    footed, immobilized, ...) isn't modeled: this app has no flat-footed/
+    immobilized state anywhere (`sheet.py`'s AC computation applies
+    `capped_dex_mod` unconditionally), same "known gap" pattern
+    `BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`'s unmodeled armor-weight gating
+    documents — so the bonus applies unconditionally here too."""
+    del context
+    return [Modifier(source="Ausweichen", type="dodge", value=1, target=ModifierTarget.AC)]
 
 
 def power_attack_bonus(bab: int) -> tuple[int, int]:
@@ -103,4 +128,5 @@ def power_attack_bonus(bab: int) -> tuple[int, int]:
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
+    AUSWEICHEN: _ausweichen,
 }

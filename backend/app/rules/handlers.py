@@ -104,7 +104,7 @@ from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import HANDLERS as _FEAT_HANDLERS
-from .modifiers import Modifier, NaturalAttack, SkillNote
+from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
@@ -204,10 +204,49 @@ def character_modifiers(context: CharacterContext) -> list[Modifier]:
     `granted_ability_ids` through it too would silently drop that
     per-grant repetition. Once a granted-ability id needs a non-SCORE/
     non-SPEED effect, its resolution should move to a repeat-count-aware
-    caller of `resolve_ids` alongside `class_speed_bonus`, not into this
-    flat pass."""
+    caller of `resolve_ids` alongside `class_speed_bonus` — see
+    `granted_ability_modifiers` below, its generalization to any other
+    single target."""
     ids = context.feat_ids | context.trait_ids | {effect.source_id for effect in context.active_effects}
     return resolve_ids(ids, context)
+
+
+def granted_ability_modifiers(context: CharacterContext, *, target: ModifierTarget) -> list[Modifier]:
+    """The non-SCORE/non-SPEED counterpart `character_modifiers`'s own
+    docstring points to: same repeat-count-aware per-grant resolution
+    `rules/speed.py`'s `class_speed_bonus` already does for SPEED (a
+    handler called once per qualifying grant, not once per distinct id, so
+    a granted ability shared by two grants on a multiclassed character
+    stacks correctly), generalized to any other single `target` a granted
+    class ability might affect — e.g. `rules/classes/barbarian.py`'s
+    Bestientotem (AC). Callers filter to one `target` at a time (rather
+    than this returning every target at once) so each caller can fold the
+    result into that target's own existing `Modifier` list before a single
+    `stack()` pass, same "combine before stacking, not stack separately and
+    add" reasoning `sheet.py`'s `_build_sheet` docstring gives for
+    `gear_ac_modifiers` — not called for SPEED itself, which already has
+    its own dedicated `class_speed_bonus` path.
+
+    Skips any id also present among `context.active_effects`' own source
+    ids: an ability that's both a granted class ability *and* directly
+    activatable (e.g. Kampfrausch itself, granted at level 1 and then
+    toggled on/off) is already resolved once by `character_modifiers`'s
+    active-effects branch — resolving it again here via
+    `granted_ability_ids` would double its Modifiers (e.g. Kampfrausch's
+    -2 AC counted twice). Bestientotem-style abilities that merely *read*
+    `context.active_effects` to gate their own output (rather than being
+    an active-effect source themselves) are unaffected by this skip."""
+    active_effect_ids = {effect.source_id for effect in context.active_effects}
+    modifiers: list[Modifier] = []
+    for ability_id, count in context.granted_ability_ids.items():
+        if ability_id in active_effect_ids:
+            continue
+        handler = HANDLERS.get(ability_id)
+        if handler is None:
+            continue
+        for _ in range(count):
+            modifiers.extend(m for m in handler(context) if m.target == target)
+    return modifiers
 
 
 def situational_skill_notes(context: CharacterContext) -> list[SkillNote]:

@@ -67,6 +67,20 @@ KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID = UUID("ad985f6f-3b03-5861-bccf-a016e
 # already uses).
 BESTIENTOTEM_SCHWAECHERES_ABILITY_ID = UUID("694f425e-d5f9-55d7-978e-4f7e50296dec")
 
+# Entfesselter Barbar's "Bestientotem" Kampfrauschkraft (mid tier;
+# `base_class_option_choices.json` id 206ceefa-…, `min_level: 6`,
+# `requires_choice_id` pointing at Bestientotem, Schwächeres above — so it's
+# only ever a character's granted ability once the lesser tier already is).
+# PRD text: "Der Barbar erhält einen Bonus von +1 auf seine natürliche
+# Rüstung. Dieser Bonus steigt um weitere +1 pro 4 Barbarenstufen." Read as
+# "+1 more for every four barbarian levels beyond the level it's first
+# available (6th)" — the same "beyond the prerequisite level" convention
+# real-book rage powers of this shape use, not a flat `level // 4` that
+# would put the first increase at a level unrelated to when the power is
+# actually gained. Unlike Bestientotem, Schwächeres's `NaturalAttack`, this
+# is a flat AC bonus, so it's a `HANDLERS`/`Modifier` entry below instead.
+BESTIENTOTEM_ABILITY_ID = UUID("a26e564e-295b-5c25-be44-4a75ee3ce486")
+
 # Entfesselter Barbar's "Elementare Kampfhaltung" Kampfrauschkraft
 # (`base_class_abilities.json` id d80a2280-…, option-choice-gated the same
 # way as Bestientotem above). PRD text: the barbarian picks one energy type
@@ -110,6 +124,24 @@ def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | Non
     if not instances:
         return None
     return NaturalAttack(name="Klauen", count=2, damage_dice="1W6", damage_type="H")
+
+
+def _bestientotem(context: CharacterContext) -> list[Modifier]:
+    """Same rage-gated shape as `_bestientotem_schwaecheres` above (only
+    manifests while `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` is active
+    — Entfesselter Barbar rage powers work continuously while raging,
+    `import_entfesselter_barbar.py`'s module docstring), scaled by this
+    class's own levels the same way `_elementare_kampfhaltung_damage`
+    below is. `type="natural"`: a second source of natural armor (e.g.
+    `feats.py`'s Eisenhaut) caps at the higher of the two rather than
+    adding, same convention that module's `_natural_armor_bonus`
+    documents."""
+    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
+    if not instances:
+        return []
+    barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
+    bonus = 1 + max(0, barbar_level - 6) // 4
+    return [Modifier(source="Bestientotem", type="natural", value=bonus, target=ModifierTarget.AC)]
 
 
 def _elementare_kampfhaltung_damage(context: CharacterContext) -> tuple[str, str] | None:
@@ -269,6 +301,7 @@ def _wilder_seemann_notes(context: CharacterContext) -> list[SkillNote]:
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(fast_movement, meters=3),
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar,
+    BESTIENTOTEM_ABILITY_ID: _bestientotem,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `SITUATIONAL_SKILL_HANDLERS`
