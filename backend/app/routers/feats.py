@@ -1,18 +1,61 @@
 from typing import Annotated
+from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import BaseFeat
+from ..models import BaseFeat, Character
+from ..rules.effective_scores import full_effective_ability_scores
+from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
+from ..sheet import granted_class_ability_ids
+from .races import race_ability_score_mods
 
 router = APIRouter(prefix="/api/feats", tags=["feats"])
 
 
+def _character_prereq_state(db: Session, character: Character) -> CharacterPrereqState:
+    """Assembles `CharacterPrereqState` from whichever subsystem already
+    owns each raw value — same "gather from existing owners, don't
+    re-derive" shape `routers/characters.py`'s `_ability_context` uses for
+    its own smaller `CharacterContext`."""
+    race_mods = race_ability_score_mods(db, character.race_id)
+    effective_scores = full_effective_ability_scores(db, character, race_mods)
+    level_counts_by_root_id: dict[UUID, int] = {}
+    for lvl in character.levels:
+        level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
+    return CharacterPrereqState(
+        ability_scores=effective_scores,
+        bab=character.bab,
+        feat_ids=frozenset(character.feat_ids),
+        granted_ability_ids=frozenset(granted_class_ability_ids(db, character, level_counts_by_root_id)),
+        level_counts_by_root_id=level_counts_by_root_id,
+        race_id=character.race_id,
+        skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
+    )
+
+
 @router.get("")
-def list_feats(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
+def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | None = None) -> list[dict]:
     feats = db.scalars(select(BaseFeat).order_by(BaseFeat.name)).all()
+
+    # Unfiltered when no character is given (e.g. character-creation's own
+    # picker, where ability scores/class aren't settled yet to check
+    # against) — same "additive, backward-compatible" shape as every other
+    # optional query param in this codebase. With a character, reduce to
+    # only the feats whose prerequisites (`base_feat_required_*`) it
+    # currently meets — level-up's own feat step (`routers/feats.py`'s
+    # caller, `useLevelUpOptions.ts`) passes this so the picker only ever
+    # shows a legal choice.
+    if character_id is not None:
+        character = db.get(Character, character_id)
+        if character is None:
+            raise HTTPException(status_code=404, detail="Character not found")
+        state = _character_prereq_state(db, character)
+        allowed = eligible_feat_ids(db, (feat.id for feat in feats), state)
+        feats = [feat for feat in feats if feat.id in allowed]
+
     return [
         {
             "id": str(feat.id),

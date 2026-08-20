@@ -17,7 +17,7 @@ just documentation of the target shape.
 Composition (which ability ids a given character actually has) stays
 resolved separately per source — race grants are unconditional
 (`routers/races.py`), class grants are level/archetype/option-gated and
-repeat-count-aware (`sheet.py`'s `_granted_class_ability_ids`, `rules/speed.py`'s
+repeat-count-aware (`sheet.py`'s `granted_class_ability_ids`, `rules/speed.py`'s
 `class_speed_bonus`) — since those gating rules differ by source and have
 nothing to do with computing an effect. Only the "what does this ability id
 compute" half is shared here.
@@ -66,7 +66,7 @@ Three scopes a conditional bonus's *trigger* can take, and how each is modeled:
    file (`rules/classes/<class>.py`) and merged in via `rules/classes`, same
    pipeline `HANDLERS` already uses. Composition gating (does this character
    actually have the ability right now) is already fully resolved upstream
-   by `sheet.py`'s `_granted_class_ability_ids` before it ever reaches this
+   by `sheet.py`'s `granted_class_ability_ids` before it ever reaches this
    registry — a handler here only computes magnitude, the same division of
    labor `HANDLERS` keeps.
 2. **Only with a specific talent (feat)**: the *same* `SITUATIONAL_SKILL_HANDLERS`
@@ -199,7 +199,7 @@ def character_modifiers(context: CharacterContext) -> list[Modifier]:
     a handler once *per qualifying grant*, not once per distinct id — a
     class ability shared by two grants on a multiclassed character (e.g.
     Barbar/Entfesselter Barbar's shared "Schnelle Bewegung" id, see
-    `sheet.py`'s `_granted_class_ability_ids` docstring) must stack twice.
+    `sheet.py`'s `granted_class_ability_ids` docstring) must stack twice.
     This function's `ability_ids` are a plain deduplicated `set`, so routing
     `granted_ability_ids` through it too would silently drop that
     per-grant repetition. Once a granted-ability id needs a non-SCORE/

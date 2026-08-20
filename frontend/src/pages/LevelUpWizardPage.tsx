@@ -36,7 +36,7 @@ export function LevelUpWizardPage() {
   const { characterId = '1' } = useParams();
   const { progression: fetchedProgression, loading: progressionLoading, error: progressionError } =
     useCharacterProgression(characterId);
-  const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions();
+  const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions(characterId);
   const [draft, setDraft] = useState<LevelUpDraft | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [submitState, setSubmitState] = useState<SubmitState>('idle');

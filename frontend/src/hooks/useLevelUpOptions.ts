@@ -11,8 +11,13 @@ interface UseLevelUpOptionsResult {
 }
 
 /** Fetches only the reference-data resources the level-up wizard needs, in parallel
- *  (not pointBuyCosts — creation-only). Mirrors useCreationOptions.ts. */
-export function useLevelUpOptions(): UseLevelUpOptionsResult {
+ *  (not pointBuyCosts — creation-only). Mirrors useCreationOptions.ts.
+ *  `characterId` scopes `/api/feats` to that character's currently eligible
+ *  feats (prerequisites checked server-side against the character's current,
+ *  pre-level-up state — a same-level ability-score increase can't yet unlock
+ *  a same-level feat's own score prerequisite, a known simplification) so
+ *  LevelFeatStep only ever offers a legal choice. */
+export function useLevelUpOptions(characterId: string): UseLevelUpOptionsResult {
   const [options, setOptions] = useState<LevelUpOptions | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +29,7 @@ export function useLevelUpOptions(): UseLevelUpOptionsResult {
 
     Promise.all([
       apiGet<ClassDef[]>('/api/classes'),
-      apiGet<FeatDef[]>('/api/feats'),
+      apiGet<FeatDef[]>(`/api/feats?character_id=${encodeURIComponent(characterId)}`),
       apiGet<SkillDef[]>('/api/skills'),
       apiGet<AbilityDef[]>('/api/abilities'),
       apiGet<Record<string, SpellDef[]>>('/api/spells-by-class'),
@@ -48,7 +53,7 @@ export function useLevelUpOptions(): UseLevelUpOptionsResult {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [characterId]);
 
   return { options, loading, error };
 }

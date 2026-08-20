@@ -64,7 +64,9 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
     assert abilities_by_key["KO"]["score"] == DEFAULT_ABILITY_SCORES["KO"] - 2
 
     dex_mod = int(abilities_by_key["GE"]["mod"])
-    assert body["armorClass"] == 10 + dex_mod
+    # +1 from Ausweichen (dodge bonus, always stacks) — the character's only
+    # other AC source (`_feat_selection(ausweichen_id)` above).
+    assert body["armorClass"] == 10 + dex_mod + 1
     assert body["initiative"] == abilities_by_key["GE"]["mod"]
 
     assert body["hp"]["current"] == body["hp"]["max"]

@@ -46,7 +46,7 @@ def archetype_replaced_grant_ids(db: Session, archetype_ids: Collection[UUID]) -
     """Every root-class `BaseClassAbilityGrant` id superseded by one of
     `archetype_ids` (`BaseClassAbilityReplacement.replaces_grant_id`) — the
     same "which grants has this archetype swapped out" lookup `sheet.py`'s
-    `_granted_class_ability_ids` already does for the character-sheet
+    `granted_class_ability_ids` already does for the character-sheet
     display, reused here so `group_occurrence_levels` can apply the same
     exclusion to an option group's occurrence-level *count* (2026-08-17):
     an archetype whose own ability replaces a root class's only grant for an

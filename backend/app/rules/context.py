@@ -34,7 +34,7 @@ class CharacterContext:
     trait_ids: frozenset[UUID] = frozenset()
     # A `Counter`, not a `frozenset`: some class abilities are granted more
     # than once at different levels and each repetition has independent
-    # mechanical weight (`sheet.py`'s `_granted_class_ability_ids` docstring
+    # mechanical weight (`sheet.py`'s `granted_class_ability_ids` docstring
     # — e.g. Seeräuber's Wilder Seemann, `rules/classes/barbarian.py`), so a
     # handler reading its own id's count off this field (same pattern
     # `rules/speed.py`'s `class_speed_bonus` already used before this field

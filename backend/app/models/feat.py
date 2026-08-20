@@ -74,9 +74,9 @@ class BaseFeatRequiredFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     other requirement (grouped or not) for that feat. A character satisfies
     the feat's prerequisites iff it satisfies every distinct group_id value
     (treating each null-group row as its own singleton group) and satisfies
-    each group by matching at least one row in it. Not evaluated anywhere
-    yet — see `BaseFeatRequiredBab`'s note on why (no prerequisite-checking
-    code exists yet, slice 6 territory)."""
+    each group by matching at least one row in it. Evaluated by
+    `rules/feat_prerequisites.py` (roadmap.md Slice 6, 2026-08-20), wired
+    into `GET /api/feats`'s optional `character_id` filter."""
 
     __tablename__ = "base_feat_required_feats"
 
@@ -143,10 +143,8 @@ class BaseFeatRequiredAbilityScore(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
 
 class BaseFeatRequiredBab(Base, UUIDPrimaryKeyMixin, TimestampMixin):
-    """Data-only for now: nothing in the codebase computes a character's
-    base attack bonus yet (no combat-stats calculator exists), so this
-    requirement kind cannot be evaluated until that lands — a future slice 6
-    concern, not something to fake here. See `BaseFeatRequiredFeat.group_id`
+    """Evaluated against `Character.bab` by `rules/feat_prerequisites.py`
+    (roadmap.md Slice 6, 2026-08-20). See `BaseFeatRequiredFeat.group_id`
     for OR-group semantics."""
 
     __tablename__ = "base_feat_required_babs"

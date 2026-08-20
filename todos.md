@@ -64,6 +64,14 @@ Kurzfassung als Einstiegspunkt:
       Improvisations-Malus zu vermeiden) — `CharacterGear` ist bisher nur an
       die AC-Berechnung angebunden, keine Verbindung zu Fertigkeitswürfen
       existiert. `roadmap.md`.
+- [ ] Rüstungsmalus (Armor Check Penalty) fehlt komplett — `BaseItem` hat für
+      Rüstung/Schild nur `ac_bonus`/`max_dex_bonus` (`models/item.py`s
+      Docstring nennt explizit nur diese zwei als "echte" Felder), kein
+      Rüstungsmalus-Feld; `sheet.py`s `_build_skills` zieht entsprechend
+      nichts ab. Betroffen wären u. a. Akrobatik, Klettern, Schwimmen,
+      Heimlichkeit — aktuell werden diese bei getragener Rüstung zu hoch
+      berechnet. Aufgeworfen 2026-08-20 beim Review von Herkulinas
+      Brustplatte des Freibeuters.
 - [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
       `roadmap.md`.
 - [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.

@@ -116,7 +116,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
-    granted_ability_ids = _granted_class_ability_ids(db, character, level_counts_by_root_id)
+    granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
 
     # The character's raw `CharacterContext` (`rules/context.py`) — built
     # once here, fully populated, and threaded into every handler family
@@ -589,7 +589,7 @@ def _build_skills(
     return result
 
 
-def _granted_class_ability_ids(
+def granted_class_ability_ids(
     db: Session, character: Character, level_counts_by_root_id: dict[UUID, int]
 ) -> Counter[UUID]:
     """Which `BaseClassAbility` ids this character actually has, resolved

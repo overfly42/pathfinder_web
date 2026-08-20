@@ -58,7 +58,7 @@ KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID = UUID("ad985f6f-3b03-5861-bccf-a016e
 
 # Entfesselter Barbar's "Bestientotem, Schwächeres" Kampfrauschkraft
 # (`base_class_ability_grants.json` id 3de886d8-…, option-choice-gated —
-# `_granted_class_ability_ids` in `sheet.py` only counts it when actually
+# `granted_class_ability_ids` in `sheet.py` only counts it when actually
 # picked). Grants two primary claw attacks, 1W6 slashing each. Not in
 # `HANDLERS` below: it produces a `NaturalAttack`, not a `Modifier`, so it
 # lives in this module's own `NATURAL_ATTACK_HANDLERS` instead (merged into
@@ -270,7 +270,7 @@ def _wilder_seemann_notes(context: CharacterContext) -> list[SkillNote]:
     repeated-grant shape as core Barbar's Schadensreduzierung), so the
     count of this ability's own currently-met grants
     (`context.granted_ability_ids[SEERAEUBER_WILDER_SEEMANN_ABILITY_ID]`,
-    already resolved by `sheet.py`'s `_granted_class_ability_ids`) *is* the
+    already resolved by `sheet.py`'s `granted_class_ability_ids`) *is* the
     total +1-per-grant bonus, no separate scaling formula needed.
 
     Only called at all when this id is actually one of the character's

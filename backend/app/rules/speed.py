@@ -109,7 +109,7 @@ def class_speed_bonus(context: CharacterContext) -> int:
     """Total land-speed bonus (meters) from this character's actually-granted
     class abilities (`context.granted_ability_ids` — a `Counter`, already
     resolved against level count/archetype/option picks by `sheet.py`'s
-    `_granted_class_ability_ids` before it's placed on `context`). The
+    `granted_class_ability_ids` before it's placed on `context`). The
     handler is called once per qualifying grant, not once per distinct
     ability id, so a repeatedly-granted fast-movement feature stacks
     correctly (see `fast_movement`'s docstring).

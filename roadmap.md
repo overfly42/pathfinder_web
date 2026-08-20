@@ -1256,11 +1256,25 @@ entirely, not a category here.
       happens, at which point the recipe above applies unchanged.
 
 ### 6. Possible actions / legality checks
-- [ ] Scope narrowly first: e.g. "can this spell be prepared/cast right
+- [x] Scope narrowly first: e.g. "can this spell be prepared/cast right
       now," "does this feat's prerequisites check out" — as checks added to
       existing endpoints, not a new generic legality framework.
 - [ ] Depends on slices 3 (feats/spells data) and 5 (effects) being at least
       thin-complete.
+- [x] Feat prerequisites (2026-08-20): `rules/feat_prerequisites.py`
+      evaluates all seven `BaseFeatRequired*` tables (ability score, BAB,
+      class level, class ability, required feat, race, skill — including
+      their `group_id` OR-group semantics) against a character's current
+      raw state. Wired into `GET /api/feats` as an optional `character_id`
+      query param (backward-compatible; omitted for character-creation's
+      own picker, whose ability scores/class aren't settled yet to check
+      against) — the level-up wizard's feat step (`useLevelUpOptions.ts` →
+      `LevelFeatStep.tsx`) passes it so the picker only ever shows a legal
+      choice. Known simplification: checked against the character's
+      current, pre-level-up state, so a same-level ability-score increase
+      can't yet unlock a same-level feat's own score prerequisite.
+      "Can this spell be prepared/cast right now" (the other half of this
+      slice's original scope) is still open.
 
 ### 7. Level-up — thin (done 2026-08-04, pulled forward ahead of slices 5/6)
 Pulled forward ahead of Effects/Actions per the "Beispielcharakter" gaps
