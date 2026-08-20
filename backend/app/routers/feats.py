@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import BaseFeat, Character
+from ..models import BaseClassAbilityGrantedFeat, BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
 from ..sheet import granted_class_ability_ids
@@ -25,11 +25,24 @@ def _character_prereq_state(db: Session, character: Character) -> CharacterPrere
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
+    granted_ability_ids = frozenset(granted_class_ability_ids(db, character, level_counts_by_root_id))
+    # Proficiency-granting class abilities (e.g. "Umgang mit Waffen und
+    # Rüstungen") count the same as literally holding the matching
+    # proficiency feat for prerequisite purposes — see
+    # `BaseClassAbilityGrantedFeat`'s docstring — so a downstream feat's
+    # `BaseFeatRequiredFeat` row (e.g. Medium Armor Proficiency requiring
+    # Light) is satisfied without spending a pick on a proficiency the
+    # character's class already grants for free.
+    granted_feat_ids = {
+        row.feat_id
+        for row in db.scalars(select(BaseClassAbilityGrantedFeat))
+        if row.ability_id in granted_ability_ids
+    }
     return CharacterPrereqState(
         ability_scores=effective_scores,
         bab=character.bab,
-        feat_ids=frozenset(character.feat_ids),
-        granted_ability_ids=frozenset(granted_class_ability_ids(db, character, level_counts_by_root_id)),
+        feat_ids=frozenset(character.feat_ids) | granted_feat_ids,
+        granted_ability_ids=granted_ability_ids,
         level_counts_by_root_id=level_counts_by_root_id,
         race_id=character.race_id,
         skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},

@@ -333,3 +333,30 @@ class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     )
     source_grade: Mapped[int | None] = mapped_column(Integer, nullable=True)
     min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+
+class BaseClassAbilityGrantedFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """`ability_id` inherently confers `feat_id`, automatically and for free
+    — distinct from `BaseClassAbilityFeatOption`, which models a *slot* the
+    character spends a bonus-feat pick on (counted by `rules/feat_slots.py`'s
+    `base_feat_count`, recorded as an ordinary `CharacterFeat` the player
+    chose into). A weapon/armor proficiency class feature (e.g. "Umgang mit
+    Waffen und Rüstungen") isn't a slot — every character with that ability
+    just has the proficiency, no pick and no feat-count cost involved — so it
+    needs its own always-on grant, not a one-candidate `FeatOption` row.
+
+    Read by `routers/feats.py`'s `_character_prereq_state`, which folds
+    `feat_id` into the character's effective `feat_ids` for every ability in
+    `granted_ability_ids` — so a class-granted proficiency satisfies a
+    downstream feat's `BaseFeatRequiredFeat` prerequisite (e.g. "Umgang mit
+    Rüstungen (mittelschwere)" requiring "Umgang mit Rüstungen (leichte)")
+    the same way actually having taken that feat would, without a character
+    needing to spend a pick on a proficiency their class already grants.
+    Archetypes that narrow a class's proficiencies (e.g. Seeräuber dropping
+    medium armor) simply have fewer rows under their own replacement
+    `ability_id` than the base class's — no extra "revoke" concept needed."""
+
+    __tablename__ = "base_class_ability_granted_feats"
+
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    feat_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"))
