@@ -225,7 +225,7 @@
     "name": "Narbiger Hexendoktor",
     "hit_dice": null,
     "arch_class_of": "2ac0bd62-8800-4db8-9395-22b4391a9646",
-    "casting_ability": null,
+    "casting_ability": "KO",
     "spell_tradition": null,
     "bab_progression": null,
     "fort_save": null,

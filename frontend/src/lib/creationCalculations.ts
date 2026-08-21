@@ -228,6 +228,26 @@ export function spellcastingClasses(draft: CreationDraft, options: CreationOptio
   return result;
 }
 
+/** Archetypes chosen for a given class name — read off the first `classRows`
+ *  entry with that name (a class's archetype choice is one pick shared
+ *  across every row of it, not per-row). */
+export function archetypesForClass(draft: CreationDraft, className: string): string[] {
+  return draft.classRows.find((r) => r.className === className)?.archetypes ?? [];
+}
+
+/** The casting ability actually in effect once the row's chosen archetype(s)
+ *  are factored in: an archetype's own override when it has one (Hexe's
+ *  Narbiger Hexendoktor casts on KO instead of IN — `ClassDef.
+ *  archetypeCastingAbility`), else the class's own `castingAbility`. Mirrors
+ *  the backend's `_resolve_casting_ability`; keep both in sync. */
+export function effectiveCastingAbility(cls: ClassDef, archetypeNames: string[]): AbilityKey | null {
+  for (const name of archetypeNames) {
+    const override = cls.archetypeCastingAbility[name];
+    if (override) return override;
+  }
+  return cls.castingAbility;
+}
+
 /** Alt-trait names of the selected race that are currently chosen and therefore replace a base trait. */
 export function replacedTraitNames(draft: CreationDraft, options: CreationOptions): Set<string> {
   const race = selectedRace(draft, options);

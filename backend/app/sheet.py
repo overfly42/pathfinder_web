@@ -302,7 +302,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "weaponAttacks": weapon_attacks,
         "equipmentSlots": equipment_slots,
         "spellbook": _build_spell_grades(db, character, "prepared"),
-        "actions": _build_actions(db, character, granted_ability_ids, gear),
+        "actions": _build_actions(db, character, granted_ability_ids, gear, context),
         "effectsActive": [],
         "activeEffects": _build_active_effects(db, character, context)
         + _build_item_granted_effects(db, items, gear_by_slot),
@@ -911,19 +911,20 @@ def _build_activatable_class_abilities(
 
 
 def _build_actions(
-    db: Session, character: Character, granted_ability_ids: Counter[UUID], gear: list[dict]
+    db: Session, character: Character, granted_ability_ids: Counter[UUID], gear: list[dict], context: CharacterContext
 ) -> list[dict]:
     """Aktionen panel (roadmap slice 6, thin cut) — only the subset of
     already-activatable data this character has: persistent-effect spells
     known, persistent-effect class abilities granted (self/both scope only —
     `externalClassAbilities` represents what *other* characters can receive
     from this one, not this character's own action), persistent-effect feats
-    (2026-08-16, e.g. Heftiger Angriff), and activatable gear. No action-cost
-    data exists anywhere in the schema, so `tag` is always `None` rather than
-    a guessed value; no usable-now/legality filtering either (a thick-pass
-    follow-up) — every activatable-flagged entry is listed, with remaining
-    charges/uses folded honestly into its description text instead of
-    hidden.
+    (2026-08-16, e.g. Heftiger Angriff), discrete once-a-day class abilities
+    with no duration to track (2026-08-20, e.g. Erneuerte Lebenskraft — see
+    below), and activatable gear. No action-cost data exists anywhere in the
+    schema, so `tag` is always `None` rather than a guessed value; no
+    usable-now/legality filtering either (a thick-pass follow-up) — every
+    activatable-flagged entry is listed, with remaining charges/uses folded
+    honestly into its description text instead of hidden.
 
     `sourceType`/`sourceId` (and, for gear, `gearActionKind`) let the
     frontend route a click without re-deriving what an entry is: spell/
@@ -994,6 +995,35 @@ def _build_actions(
                 "defaultDurationRounds": feat.default_duration_rounds,
             }
             for feat in feats
+        ]
+
+    # Discrete once-a-day class abilities with no duration to track as a `CharacterEffect`
+    # (`ERNEUERTE_LEBENSKRAFT_ABILITY_ID`'s docstring) — a granted ability id registered in
+    # `DAILY_LIMITS` but *not* flagged `is_persistent_effect` (that flag already covers Kampfrausch
+    # above). `usesRemainingToday`/`usesPerDay` mirror the gear loop's own fields below so the
+    # frontend can disable the card the same way once the daily use is spent, resetting with
+    # everything else in `DAILY_LIMITS` on the next `advance-time`/`rest` call.
+    daily_limited_granted_ids = [ability_id for ability_id in granted_ability_ids if ability_id in DAILY_LIMITS]
+    if daily_limited_granted_ids:
+        instant_abilities = db.scalars(
+            select(BaseClassAbility).where(
+                BaseClassAbility.id.in_(daily_limited_granted_ids),
+                BaseClassAbility.is_persistent_effect.is_(False),
+            )
+        ).all()
+        actions += [
+            {
+                "id": f"ability-use-{ability.id}",
+                "icon": "⚔️",
+                "name": ability.name,
+                "tag": None,
+                "description": ability.description,
+                "sourceType": "class_ability",
+                "sourceId": str(ability.id),
+                "usesRemainingToday": max(0, remaining_today(db, character, context, ability.id) or 0),
+                "usesPerDay": DAILY_LIMITS[ability.id](context),
+            }
+            for ability in instant_abilities
         ]
 
     for entry in gear:

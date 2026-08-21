@@ -16,7 +16,16 @@ class BaseSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `is_persistent_effect` (roadmap slice 5) marks spells that create a
     tracked `CharacterEffect` row when cast — most spells are instantaneous
     (damage, a single save-or-nothing) and don't; buffs/debuffs with a real
-    duration (Vergrößern Person, Person betäuben) do."""
+    duration (Vergrößern Person, Person betäuben) do.
+
+    `casting_time`/`range`/`target_or_area`/`duration`/`saving_throw`/
+    `spell_resistance` are the PRD stat-block fields (Zeitaufwand/Reichweite/
+    Ziel-Effekt-Bereich/Wirkungsdauer/Rettungswurf/Zauberresistenz) — free
+    text, not structured, since PF1e phrases them too irregularly to be
+    worth decomposing further (e.g. `range` mixes fixed distances with
+    formulas like "Nah (7,50 m + 1,50 m/2 Stufen)"). All nullable: a spell
+    that's just a "funktioniert wie X, außer ..." variant of a base spell
+    often has no stat block of its own on its PRD page at all."""
 
     __tablename__ = "base_spells"
 
@@ -24,6 +33,12 @@ class BaseSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     school: Mapped[str] = mapped_column(String(64))
     description: Mapped[str] = mapped_column(Text)
     is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
+    casting_time: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    range: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    target_or_area: Mapped[str | None] = mapped_column(Text, nullable=True)
+    duration: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    saving_throw: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    spell_resistance: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
 
 class BaseSpellComponent(Base, UUIDPrimaryKeyMixin, TimestampMixin):

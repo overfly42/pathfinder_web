@@ -293,6 +293,10 @@
   cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
 }
 .option-card:hover { border-color: var(--brass); background: rgba(179,137,63,0.14); }
+/* A spent daily-limited action (`ActionOption.usesRemainingToday` reaching 0, e.g. Erneuerte
+   Lebenskraft) — grayed out and non-interactive until the next "+1 Tag"/rest resets it. */
+.option-card:disabled { opacity: 0.5; cursor: not-allowed; }
+.option-card:disabled:hover { border-color: var(--parchment-shadow); background: rgba(255,255,255,0.32); }
 /* Gear toggle currently on (CharacterGear.is_active) — the only place this state is visible, since
    toggling never creates a CharacterEffect row / "Aktive Effekte" entry. Green mirrors the
    .seal-blob.buff convention used for positive/active state elsewhere on this page. */

@@ -111,6 +111,25 @@ ELEMENTARE_KAMPFHALTUNG_ABILITY_ID = UUID("d80a2280-25f5-52e6-add7-7f216989a163"
 # 8 flat on-hit energy abilities.
 _ELEMENTARE_KAMPFHALTUNG_ENERGY_TYPE = "Feuer"
 
+# Entfesselter Barbar's "Erneuerte Lebenskraft" Kampfrauschkraft
+# (`base_class_abilities.json` id a84efac5-…, granted via this class's own
+# `kampfrauschkraft`-group option choice 6cb45be3-…, `min_level: 4`). PRD
+# text: heal 1W8 + KO-Modifikator TP as a standard action, +1W8 per 4
+# barbarian levels beyond 4th (max 5W8 at 20th), usable once per day.
+#
+# Unlike every other rage power above, this isn't a passive stat bonus while
+# raging — it's a discrete, instantaneous action whose die roll the player
+# resolves themselves (this app never rolls dice anywhere, same convention
+# `rules/weapon_abilities.py`'s module docstring documents for weapon-ability
+# damage). The only thing actually computable here is *that* it's limited to
+# once per day, so it only gets a `DAILY_LIMITS` entry below, not a
+# `HANDLERS` one. Surfaced on the character sheet as an "Aktuelle Optionen"
+# action (`sheet.py`'s `_build_actions`) that spends the daily use via
+# `routers/characters.py`'s `use_class_ability` — the class-ability
+# counterpart to gear's own `/use` endpoint — since it has no duration to
+# track as a `CharacterEffect` the way Kampfrausch itself does.
+ERNEUERTE_LEBENSKRAFT_ABILITY_ID = UUID("a84efac5-b0f6-521f-accb-067a1195a556")
+
 
 def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | None:
     """Unlike Reißzähne's racial bite (always present once granted), a rage
@@ -222,6 +241,14 @@ def _kampfrausch_entfesselter_barbar_rounds_per_day(context: CharacterContext) -
     return con_mod + 2 + 2 * barbar_level + fcb_bonus
 
 
+def _erneuerte_lebenskraft_uses_per_day(context: CharacterContext) -> int:
+    """Flat once per day — `min_level: 4` is already enforced when the power
+    is picked (`BaseClassOptionChoice.min_level`), nothing here scales with
+    level the way Kampfrausch's own rounds/day does."""
+    del context
+    return 1
+
+
 def _kampfrausch_entfesselter_barbar_temp_hp(context: CharacterContext) -> int:
     """"2 temporäre Trefferpunkte pro Trefferwürfel" — Hit Dice, here taken
     as total character level (this app's existing simplification, same one
@@ -317,6 +344,7 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
 # fixed), same locality convention as `HANDLERS` above.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar_rounds_per_day,
+    ERNEUERTE_LEBENSKRAFT_ABILITY_ID: _erneuerte_lebenskraft_uses_per_day,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `TEMP_HP_GRANTS` — how

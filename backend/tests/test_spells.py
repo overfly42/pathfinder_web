@@ -16,7 +16,7 @@ def test_list_spells_is_database_backed(client: TestClient, db_session: Session)
     assert response.status_code == 200
     spells = response.json()
 
-    assert len(spells) == 103
+    assert len(spells) == 632
     assert all({"id", "name", "school", "description"} <= set(spell) for spell in spells)
     magic_missile = next(s for s in spells if s["name"] == "Magisches Geschoss")
     assert magic_missile["school"] == "Hervorrufung"
@@ -31,7 +31,16 @@ def test_spells_by_class_groups_by_root_class_with_grades(client: TestClient, db
     assert response.status_code == 200
     by_class = response.json()
 
-    assert set(by_class) == {"Magier", "Hexenmeister", "Barde", "Mystiker"}
+    assert set(by_class) == {
+        "Magier",
+        "Hexenmeister",
+        "Barde",
+        "Mystiker",
+        "Kleriker",
+        "Hexe",
+        "Waldläufer",
+        "Druide",
+    }
     magier = by_class["Magier"]
     assert all({"id", "name", "grade"} <= set(s) for s in magier)
     schild = next(s for s in magier if s["name"] == "Schild")

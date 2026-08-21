@@ -1,12 +1,13 @@
 import type { Dispatch, SetStateAction } from 'react';
-import type { AbilityKey } from '../../types/abilities';
 import type { CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import {
   abilityMod,
   arcanePreparedBudget,
+  archetypesForClass,
   classDef,
   classTotalLevel,
+  effectiveCastingAbility,
   spellGradeBudgetAtLevel,
   spellcastingClasses,
   totalAbility,
@@ -56,7 +57,8 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
         if (cls.spellType === 'arcane-prepared') {
           const cantrips = spells.filter((s) => s.grade === 0);
           const nonCantrips = spells.filter((s) => s.grade !== 0 && String(s.grade) in gradeBudget);
-          const mod = cls.castingAbility ? abilityMod(totalAbility(draft, options, cls.castingAbility as AbilityKey)) : 0;
+          const castingAbility = effectiveCastingAbility(cls, archetypesForClass(draft, className));
+          const mod = castingAbility ? abilityMod(totalAbility(draft, options, castingAbility)) : 0;
           const budget = arcanePreparedBudget(level, mod);
           const nonCantripSelected = selected.filter((id) => cantrips.every((c) => c.id !== id));
 

@@ -108,6 +108,19 @@ def resolve_archetype(db: Session, root: BaseClass, archetype_name: str) -> Base
     return variant
 
 
+def _resolve_casting_ability(root: BaseClass, archetypes: list[BaseClass]) -> str | None:
+    """The casting ability actually in effect for this class-taken: an
+    archetype's own `casting_ability` when it sets one (Hexe's Narbiger
+    Hexendoktor casts on KO instead of IN — see `BaseClass.
+    effective_casting_ability`), else the root's. Mirrors that model
+    property but works off already-loaded rows instead of triggering a
+    fresh `.root`/lazy-load traversal per spell-budget check."""
+    for archetype in archetypes:
+        if archetype.casting_ability is not None:
+            return archetype.casting_ability
+    return root.casting_ability
+
+
 def _skill_points_total(
     classes: list[ClassSelection], roots: list[BaseClass], int_mod: int, race_bonus_per_level: int = 0
 ) -> int:
@@ -380,6 +393,11 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         [resolve_archetype(db, root, name) for name in selection.archetypes]
         for selection, root in zip(body.classes, roots)
     ]
+    # For _resolve_casting_ability below (arcane-prepared spellbook budget) -
+    # keyed by root id since that's how body.spell_ids addresses a class.
+    archetypes_by_root_id: dict[UUID, list[BaseClass]] = {
+        root.id: archetypes for root, archetypes in zip(roots, archetypes_per_selection)
+    }
 
     level_by_root_id: dict[UUID, int] = {}
     for selection, root in zip(body.classes, roots):
@@ -588,7 +606,8 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         raise HTTPException(
                             status_code=422, detail=f"Grade {grade_by_spell_id[spell_id]} not yet accessible for {root.name}"
                         )
-                casting_ability_mod = _effective_ability_mod(root.casting_ability) if root.casting_ability else 0
+                casting_ability = _resolve_casting_ability(root, archetypes_by_root_id.get(base_class_id, []))
+                casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
                 budget = arcane_prepared_budget(class_level, casting_ability_mod)
                 if len(non_grade0) > budget:
                     raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
@@ -971,6 +990,33 @@ def toggle_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
         raise HTTPException(status_code=422, detail="This item cannot be toggled active/inactive")
 
     gear_row.is_active = not gear_row.is_active
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/class-abilities/{ability_id}/use", response_model=CharacterRead)
+def use_class_ability(character_id: UUID, ability_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Consumes one use of a discrete N/day class ability registered in
+    `DAILY_LIMITS` that has no duration to track as a `CharacterEffect`
+    (e.g. Entfesselter Barbar's Erneuerte Lebenskraft, an instantaneous
+    once-per-day self-heal) — the class-ability counterpart to `use_gear`'s
+    simple `uses_remaining_today` decrement. Ones that *do* have a duration
+    (Kampfrausch) stay activated via `POST .../effects` instead, whose own
+    daily-limit consumption happens through `advance_time`'s round-by-round
+    ticking, not here."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    context = _ability_context(db, character)
+    remaining = remaining_today(db, character, context, ability_id)
+    if remaining is None:
+        raise HTTPException(status_code=422, detail="This ability has no daily-use limit")
+    if remaining <= 0:
+        raise HTTPException(status_code=422, detail="No uses remaining today")
+    record_usage(db, character, ability_id, 1, context)
+
     db.commit()
     db.refresh(character)
     return character
@@ -1406,6 +1452,22 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         new_archetypes = [resolve_archetype(db, receiving_root, name) for name in body.target.archetypes]
         is_new_class = True
 
+    # This class-taken's archetype(s), for _resolve_casting_ability below
+    # (arcane-prepared spellbook budget) — a brand-new class-taken uses what
+    # was just submitted; an existing one already has its archetype choice
+    # on class_memberships (one row per root-or-archetype BaseClass id),
+    # not per level, so it's read from there regardless of whether this
+    # level-up submits any existing_level_options at all.
+    receiving_archetypes = (
+        new_archetypes
+        if is_new_class
+        else [
+            membership.base_class
+            for membership in character.class_memberships
+            if membership.base_class.arch_class_of == receiving_root.id
+        ]
+    )
+
     classes_after, roots_after = _apply_target_to_selections(classes_before, roots_before, receiving_root, is_new_class)
     receiving_class_level = next(
         selection.level for selection, root in zip(classes_after, roots_after) if root.id == receiving_root.id
@@ -1479,15 +1541,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 )
             ).all()
         )
-        # This character's already-chosen archetype(s) for the receiving
-        # root class, if any — `Character.classes`' own docstring: archetype
-        # choice lives on `class_memberships` (one row per root-or-archetype
-        # `BaseClass` id the character has), not per level.
-        current_archetype_ids = {
-            membership.base_class_id
-            for membership in character.class_memberships
-            if membership.base_class.arch_class_of == receiving_root.id
-        }
+        current_archetype_ids = {a.id for a in receiving_archetypes}
         _validate_options(
             db,
             receiving_root,
@@ -1608,9 +1662,8 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 raise HTTPException(
                     status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {receiving_root.name}"
                 )
-            casting_ability_mod = (
-                _effective_ability_mod(receiving_root.casting_ability) if receiving_root.casting_ability else 0
-            )
+            casting_ability = _resolve_casting_ability(receiving_root, receiving_archetypes)
+            casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
             budget = arcane_prepared_budget(receiving_class_level, casting_ability_mod)
             known_non_grade0 = sum(
                 1

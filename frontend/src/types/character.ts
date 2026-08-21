@@ -177,6 +177,14 @@ export interface ActionOption {
    *  `ConditionCatalogEntry.defaultDurationRounds` plays for conditions; the player can still
    *  override it. */
   defaultDurationRounds?: number | null;
+  /** Present for a discrete once-a-day action with no duration to track as an active effect: a
+   *  `sourceType: 'class_ability'` entry with no `gearActionKind` (e.g. Erneuerte Lebenskraft) —
+   *  a click opens `UseAbilityModal` and confirming calls `PATCH .../class-abilities/{id}/use`
+   *  instead of the duration-form `ActivateEffectModal` other class-ability cards use. Reset to
+   *  `usesPerDay` by the same "+1 Tag"/rest calls that clear every other `DAILY_LIMITS` pool. The
+   *  card is disabled once this reaches 0. */
+  usesRemainingToday?: number | null;
+  usesPerDay?: number | null;
 }
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';

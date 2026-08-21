@@ -5,6 +5,7 @@ from app.models import Character
 from app.seed.class_seed import seed_classes
 from test_characters import (
     DEFAULT_ABILITY_SCORES,
+    _cantrip_ids,
     _character_payload,
     _create_user,
     _elf_race_id,
@@ -423,7 +424,7 @@ def test_level_up_spontaneous_caster_grants_new_spell_when_grade_budget_grows(
 def test_level_up_arcane_prepared_new_spell_within_and_over_grade(client: TestClient, db_session: Session) -> None:
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
-    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    cantrips = _cantrip_ids(client, "Magier")
 
     character_id_a = _create_level_n_character(
         client, db_session, race_id, "Magier", 1, spell_ids={base_class_id: cantrips}

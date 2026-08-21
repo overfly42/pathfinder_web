@@ -19,6 +19,7 @@ import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
 import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/RealEffectsPanel';
 import { ActivateEffectModal, type AvailableEntry } from '../components/sheet/ActivateEffectModal';
+import { UseAbilityModal } from '../components/sheet/UseAbilityModal';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
 import type { ActionOption, ConditionType, Effect, EffectsView } from '../types/character';
 import type { SearchEntry } from '../search/types';
@@ -62,6 +63,10 @@ export function CharacterSheetPage() {
   // Lifted out of RealEffectsPanel so ActionsPanel can trigger the same modal for a spell/class
   // ability action card, not just the Effekte panel's own picker.
   const [picked, setPicked] = useState<AvailableEntry | null>(null);
+  // Aktionen-panel card for a discrete once-a-day class ability with no duration to track
+  // (`ActionOption.usesRemainingToday`, e.g. Erneuerte Lebenskraft) — separate from `picked` above
+  // since it opens `UseAbilityModal`, not `ActivateEffectModal`.
+  const [usingAbility, setUsingAbility] = useState<ActionOption | null>(null);
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -425,6 +430,11 @@ export function CharacterSheetPage() {
       handleGearAction(action.sourceId, action.gearActionKind ?? 'use');
       return;
     }
+    if (action.usesRemainingToday != null) {
+      if (action.usesRemainingToday <= 0) return; // card should already be disabled, belt and suspenders
+      setUsingAbility(action);
+      return;
+    }
     setPicked({
       domId: `action-${action.id}`,
       sourceType: action.sourceType,
@@ -442,6 +452,19 @@ export function CharacterSheetPage() {
     setEffectError(null);
     try {
       await apiPatch(`/api/characters/${currentCharacterId}/gear/${itemId}/${kind}`);
+      refetch();
+    } catch {
+      setEffectError('Aktion konnte nicht ausgeführt werden.');
+    }
+  }
+
+  async function handleConfirmUseAbility() {
+    const action = usingAbility;
+    setUsingAbility(null);
+    if (!action?.sourceId || !isRealCharacter) return;
+    setEffectError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/class-abilities/${action.sourceId}/use`);
       refetch();
     } catch {
       setEffectError('Aktion konnte nicht ausgeführt werden.');
@@ -581,6 +604,23 @@ export function CharacterSheetPage() {
         characterLevel={character.level}
         onCancel={() => setPicked(null)}
         onActivate={handleActivateAndClose}
+      />
+
+      <UseAbilityModal
+        entry={
+          usingAbility && usingAbility.sourceId
+            ? {
+                sourceId: usingAbility.sourceId,
+                name: usingAbility.name,
+                description: usingAbility.description,
+                icon: usingAbility.icon,
+                usesRemainingToday: usingAbility.usesRemainingToday ?? 0,
+                usesPerDay: usingAbility.usesPerDay ?? 0,
+              }
+            : null
+        }
+        onCancel={() => setUsingAbility(null)}
+        onConfirm={handleConfirmUseAbility}
       />
     </div>
   );

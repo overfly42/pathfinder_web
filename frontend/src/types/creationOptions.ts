@@ -75,6 +75,14 @@ export interface ClassDef {
    *  `null` for non-casters. */
   castingAbility: AbilityKey | null;
   spellTradition: 'arcane' | 'divine' | null;
+  /** archetype name -> casting ability, sparse (only present where an
+   *  archetype actually overrides its parent's, e.g. Hexe's Narbiger
+   *  Hexendoktor casts on KO instead of IN — see `BaseClass.
+   *  effective_casting_ability` on the backend). Look this up first when a
+   *  class row has that archetype selected, falling back to `castingAbility`
+   *  otherwise — same "delta the frontend applies once selected" shape as
+   *  `archetypeOptionOverrides`. */
+  archetypeCastingAbility: Record<string, AbilityKey>;
   /** level (stringified) -> grade (stringified) -> known-spell cap, or
    *  `null` for arcane-prepared classes (grade-*presence*, not count, is the
    *  gate there — see `rules/spells.py` on the backend). Mirrors

@@ -32,9 +32,14 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # `'divine'`, the axis `BaseSpellComponent` keys off of) — null for
     # non-casters. Real columns rather than another `classes.json` field,
     # unlike `spellType`/etc.: these are new, and the intent going forward is
-    # fewer fixtures, not more. Only ever set on root rows, same reasoning as
-    # `hit_dice` (an archetype doesn't change its parent's casting ability or
-    # tradition).
+    # fewer fixtures, not more. Usually only set on root rows (an archetype
+    # doesn't normally change its parent's casting ability or tradition,
+    # same reasoning as `hit_dice`) — but unlike `hit_dice`, this one has a
+    # real exception: Hexe's Narbiger Hexendoktor (Scarred Witch Doctor)
+    # archetype casts on KO instead of IN. So an archetype row *can* set its
+    # own non-null value here, which `effective_casting_ability` prefers
+    # over the root's; a null archetype value still falls back to root,
+    # covering every archetype that doesn't change this.
     casting_ability: Mapped[str | None] = mapped_column(String(2), nullable=True)
     spell_tradition: Mapped[str | None] = mapped_column(String(16), nullable=True)
     # BAB/save progression (readme.md's ER diagram: `float bab_progression`,
@@ -70,11 +75,11 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     @property
     def effective_casting_ability(self) -> str | None:
-        return self.root.casting_ability
+        return self.casting_ability if self.casting_ability is not None else self.root.casting_ability
 
     @property
     def effective_spell_tradition(self) -> str | None:
-        return self.root.spell_tradition
+        return self.spell_tradition if self.spell_tradition is not None else self.root.spell_tradition
 
 
 class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

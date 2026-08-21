@@ -198,10 +198,19 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
 
     archetype_names_by_root_id: dict = {}
     archetypes_by_root_id: dict = {}
+    # Sparse, only populated where an archetype actually overrides its
+    # parent's casting ability (e.g. Hexe's Narbiger Hexendoktor casts on KO
+    # instead of IN, see BaseClass.effective_casting_ability) — same "delta
+    # the frontend applies once that archetype is selected" shape as
+    # archetype_option_overrides_by_root_id below, not a full per-archetype
+    # class_def.
+    archetype_casting_ability_by_root_id: dict = {}
     for row in all_base_classes:
         if row.arch_class_of is not None:
             archetype_names_by_root_id.setdefault(row.arch_class_of, []).append(row.name)
             archetypes_by_root_id.setdefault(row.arch_class_of, []).append(row)
+            if row.casting_ability is not None:
+                archetype_casting_ability_by_root_id.setdefault(row.arch_class_of, {})[row.name] = row.casting_ability
     for names in archetype_names_by_root_id.values():
         names.sort()
 
@@ -321,6 +330,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["optionGroups"] = option_groups_by_root_id.get(root_id, []) if root_id else []
         class_def["archetypeOptionOverrides"] = (
             archetype_option_overrides_by_root_id.get(root_id, {}) if root_id else {}
+        )
+        class_def["archetypeCastingAbility"] = (
+            archetype_casting_ability_by_root_id.get(root_id, {}) if root_id else {}
         )
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
         class_def["castingAbility"] = root.casting_ability if root else None

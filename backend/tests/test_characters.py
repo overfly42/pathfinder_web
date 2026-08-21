@@ -94,6 +94,17 @@ def _spells_by_class(client: TestClient, db_session: Session, class_name: str) -
     return base_class_id, name_to_id
 
 
+def _cantrip_ids(client: TestClient, class_name: str) -> list[str]:
+    """All grade-0 spell ids for a class, straight off `/api/spells-by-class`
+    (call after `_spells_by_class` has already seeded). An arcane-prepared
+    spellbook (Magier) must contain every grade-0 spell on its list, not a
+    fixed sample — same real PF1e rule that `create_character` enforces —
+    so tests need the full, current set rather than a couple of hardcoded
+    names that happened to be the entire cantrip list before the PRD import."""
+    by_class = client.get("/api/spells-by-class").json()
+    return [s["id"] for s in by_class[class_name] if s["grade"] == 0]
+
+
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
     seed_classes(db_session)  # base_class_option_groups/base_class_ability_grants FK into base_classes
     seed_class_options(db_session)
@@ -1473,7 +1484,7 @@ def test_create_character_persists_arcane_prepared_spellbook_with_all_cantrips(
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
 
-    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    cantrips = _cantrip_ids(client, "Magier")
     grade1_picks = [spells["Magisches Geschoss"], spells["Schild"]]
     ability_scores = dict(DEFAULT_ABILITY_SCORES, IN=14)  # +2 mod -> budget 2+2=4
     response = client.post(
@@ -1517,7 +1528,7 @@ def test_create_character_rejects_arcane_prepared_over_budget(client: TestClient
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
 
-    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    cantrips = _cantrip_ids(client, "Magier")
     # Elf grants +2 IN (mod +1) -> budget 2+1=3 grade-1 picks; submitting 4.
     grade1_picks = [
         spells["Magisches Geschoss"],
@@ -1545,7 +1556,7 @@ def test_create_character_rejects_arcane_prepared_inaccessible_grade(
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
 
-    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    cantrips = _cantrip_ids(client, "Magier")
     # Nebelwolke is grade 2, not accessible until class level 3.
     response = client.post(
         "/api/characters",
@@ -1603,7 +1614,7 @@ def _magier_character(client: TestClient, db_session: Session, extra_grade1: lis
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     base_class_id, spells = _spells_by_class(client, db_session, "Magier")
-    cantrips = [spells["Licht"], spells["Kleiner Trick"], spells["Widerstand"]]
+    cantrips = _cantrip_ids(client, "Magier")
     picked = cantrips + (extra_grade1 or [spells["Magisches Geschoss"]])
     created = client.post(
         "/api/characters",
