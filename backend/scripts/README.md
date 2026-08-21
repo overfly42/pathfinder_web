@@ -236,6 +236,41 @@ Script: `build_conditions_seed.py` → `../app/fixtures/seed/base_conditions.jso
 (79 rows: 33 conditions + 35 poisons + 11 diseases), loaded via
 `app.seed.condition_seed` (same upsert-by-id pattern as `trait_seed.py`).
 
+## 7. Spell index + per-page stat blocks → `base_spells`/`base_class_spells`
+
+Same two-step shape as talente (§1 bulk index, §2 per-page full text), plus
+a §4-style build step, but for `/ZauberIndex`:
+
+- `import_zauber_prd.py` → `../app/fixtures/imported/zauber_prd_import.json`
+  (1901 unique spells across every sourcebook, from
+  `/cache/prd_datatable__zauber.txt`; per-class grade columns keyed by PRD
+  class name, not yet matched against `base_classes`).
+- `fetch_zauber_prd_details.py` → `../app/fixtures/imported/zauber_prd_details.json`
+  (one page fetch per spell for the stat block — Schule/Zeitaufwand/
+  Komponenten/Reichweite/Ziel-Effekt-Bereich/Wirkungsdauer/Rettungswurf/
+  Zauberresistenz — plus full prose; ~1900 requests, so resumable: reruns
+  skip ids already in the output file and merge in only what's missing, with
+  a checkpoint save every 50 fetches in case of interruption).
+- `build_spells_seed.py` → `../app/fixtures/seed/base_spells.json` +
+  `base_class_spells.json`, scoped to spells accessible to a class currently
+  modeled with a `spell_tradition` (same "only currently relevant" call as
+  §4's race/class filter). **Same restore-before-rerun pitfall as §4**: its
+  reconciliation step's input is the seed files it writes, so
+  `git checkout -- ../app/fixtures/seed/base_spells.json
+  ../app/fixtures/seed/base_class_spells.json` before rerunning during
+  iteration, or a second run reconciles against its own prior output instead
+  of the original hand-seeded rows.
+
+**Known quirk:** not every spell page restates its own `Schule:` line — a
+"funktioniert wie {Basiszauber}" variant (e.g. "Ameisenstärke,
+Gemeinschaftliche") or a mythic "Legendäre {Basiszauber}" addendum (Ausbauregeln
+V: Legenden) can have no stat block at all beyond prose, which would leave
+`school` empty. `build_spells_seed.py` falls back to the bulk index's own
+`school` column in that case (it's always populated there) rather than
+seeding an empty string — an earlier version didn't, and an empty-string
+"school" broke `/api/spell-schools`'s distinct-school list (used by the
+Zauberfokus feat's sub-choice picker), since `sorted()` puts `""` first.
+
 ## Finding a class/section's page path
 
 `/{Book}/Klassen/{ClassSlug}` — book prefix matches the left nav on any PRD

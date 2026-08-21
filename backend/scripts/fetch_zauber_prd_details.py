@@ -1,13 +1,18 @@
-"""Fetch each Grundregelwerk spell's own PRD page and parse its stat block
-(Zeitaufwand/Komponenten/Reichweite/Ziel-Effekt-Bereich/Wirkungsdauer/
-Rettungswurf/Zauberresistenz) plus full prose description — none of which is
-in the bulk `/cache/prd_datatable__zauber.txt` index (see
-`import_zauber_prd.py`'s docstring and scripts/README.md §2's pattern for
-feats, extended here to a more regular, labeled stat block instead of free
-prerequisite prose).
+"""Fetch every spell's own PRD page (all sourcebooks, not just Grundregelwerk)
+and parse its stat block (Zeitaufwand/Komponenten/Reichweite/Ziel-Effekt-
+Bereich/Wirkungsdauer/Rettungswurf/Zauberresistenz) plus full prose
+description — none of which is in the bulk `/cache/prd_datatable__zauber.txt`
+index (see `import_zauber_prd.py`'s docstring and scripts/README.md §2's
+pattern for feats, extended here to a more regular, labeled stat block
+instead of free prerequisite prose).
 
-Input: `../app/fixtures/imported/zauber_prd_import.json` (§1's bulk import),
-filtered to `source == "Grundregelwerk"` and deduped by id.
+Input: `../app/fixtures/imported/zauber_prd_import.json` (§1's bulk import,
+all sourcebooks), deduped by id (a spell reprinted across sourcebooks keeps
+only its first occurrence, same quirk as talente).
+
+Resumable: if `--output` already exists, ids already present in it are
+skipped (not re-fetched) and the new results are merged in — safe to
+interrupt and rerun across ~1900 spells' worth of requests.
 
 Each spell page repeats the same `<div id="page" class="page">...` container
 as a feat page. Right after the title, the stat block is one labeled line
@@ -170,11 +175,16 @@ def main() -> None:
     args = parser.parse_args()
 
     imported = json.loads((IMPORTED_DIR / "zauber_prd_import.json").read_text(encoding="utf-8"))
-    grundregelwerk = [row for row in imported if row["source"] == "Grundregelwerk"]
 
-    seen_ids: set[str] = set()
+    output_path = Path(args.output)
+    existing_results: list[dict] = []
+    if output_path.exists():
+        existing_results = json.loads(output_path.read_text(encoding="utf-8"))
+    already_fetched_ids = {row["id"] for row in existing_results}
+
+    seen_ids: set[str] = set(already_fetched_ids)
     deduped = []
-    for row in grundregelwerk:
+    for row in imported:
         if row["id"] in seen_ids:
             continue
         seen_ids.add(row["id"])
@@ -183,7 +193,7 @@ def main() -> None:
     if args.limit:
         deduped = deduped[: args.limit]
 
-    results = []
+    results = list(existing_results)
     failures = []
     for i, row in enumerate(deduped, start=1):
         try:
@@ -214,9 +224,12 @@ def main() -> None:
         results.append({"id": row["id"], "name": row["name"], "prd_id": row["prd_id"], **fields})
         if i % 50 == 0 or i == len(deduped):
             print(f"  {i}/{len(deduped)}")
+            # Checkpoint periodically so an interrupted run keeps its progress
+            # (the resumability described in the module docstring).
+            output_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
         time.sleep(args.delay)
 
-    Path(args.output).write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    output_path.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"Wrote {len(results)} spell detail rows to {args.output}")
     if failures:

@@ -1,21 +1,31 @@
 """Turns the PRD spell import (`zauber_prd_import.json`'s per-class grades +
-`zauber_prd_details.json`'s Grundregelwerk stat blocks) into DB-shaped seed
-data for `base_spells`/`base_class_spells`, scoped to Grundregelwerk spells
-accessible to at least one of the 8 classes currently modeled with a
-`spell_tradition` (Barde, Druide, Hexenmeister, Kleriker, Magier, Mystiker,
-Waldläufer, Hexe) — same "only currently relevant" scoping call as
-`build_feats_seed.py`'s race/class-mention filter. Of 623 fetched
-Grundregelwerk spells, 3 (Heiliges Schwert, Reittier heilen, Waffe weihen)
-are Paladin-only and dropped, since Paladin has no `spell_tradition` yet.
+`zauber_prd_details.json`'s per-spell stat blocks, now fetched for every
+sourcebook, not just Grundregelwerk) into DB-shaped seed data for
+`base_spells`/`base_class_spells`, scoped to spells accessible to at least
+one of the 8 classes currently modeled with a `spell_tradition` (Barde,
+Druide, Hexenmeister, Kleriker, Magier, Mystiker, Waldläufer, Hexe) — same
+"only currently relevant" scoping call as `build_feats_seed.py`'s
+race/class-mention filter. Of 1901 fetched spells, 235 have grades only for
+classes with no `spell_tradition` yet (Paladin, Alchemist, Inquisitor,
+Kampfmagus, Hexenmeister's psychic-book siblings, ...) and are dropped.
 
-Reconciles against the 103 already hand-seeded `base_spells.json` rows so
-existing ids (and any `character_spells`/`base_class_spells` rows pointing
-at them) stay stable: 88 match the PRD's canonical name exactly; 3 more use
-a non-canonical translation (`RECONCILE_BY_NAME`, found by comparing
-descriptions — e.g. "Command"'s old blurb, "Zwingt einem Ziel für eine Runde
-ein einzelnes Wort-Kommando auf.", is unmistakably the PRD's "Befehl"). The
-other 12 existing spells (Kleiner Trick, Widerstand, Reinigen, Farbenstrahl,
-Sprung, "Unsichtbare Hand: Diener", Beschwichtigen, Verzaubern, Tarnung,
+A spell page that never restates its own school — a "funktioniert wie
+{Basiszauber}" variant, or a mythic "Legendäre {Basiszauber}" addendum with
+no stat block at all — leaves `detail["school_text"]` unset even though the
+bulk index's own `school` column always has it; `school_text or imp["school"]`
+below falls back to that rather than seeding an empty-string school (which
+broke `/api/spell-schools`, whose distinct-school list feeds the Zauberfokus
+feat's sub-choice picker).
+
+Reconciles against the 103 originally hand-seeded `base_spells.json` rows
+(from before the PRD import existed at all) so existing ids (and any
+`character_spells`/`base_class_spells` rows pointing at them) stay stable:
+88 match the PRD's canonical name exactly; 3 more use a non-canonical
+translation (`RECONCILE_BY_NAME`, found by comparing descriptions — e.g.
+"Command"'s old blurb, "Zwingt einem Ziel für eine Runde ein einzelnes
+Wort-Kommando auf.", is unmistakably the PRD's "Befehl"). The other 12
+existing spells (Kleiner Trick, Widerstand, Reinigen, Farbenstrahl, Sprung,
+"Unsichtbare Hand: Diener", Beschwichtigen, Verzaubern, Tarnung,
 Furchtlosigkeit, Heiliger Schild, Waffensegen) have no confident PRD match
 and are left untouched rather than guessed at — **note "Reinigen" in
 particular looks mislabeled**: its existing description ("Gibt eine leise
@@ -23,6 +33,14 @@ Ahnung, wie eine bevorstehende Aufgabe zu meistern ist.") is Guidance's
 effect, not Purify Food and Drink's, but that's a pre-existing data issue,
 not something this script's reconciliation should silently paper over by
 merging it into the wrong PRD spell.
+
+**Its output ids are deterministic, but one input isn't — restore
+`base_spells.json`/`base_class_spells.json` from git before rerunning**, same
+pitfall as `build_feats_seed.py`'s README-documented one: the reconciliation
+step's input is those two seed files themselves, so a second run without
+restoring first reconciles against its own already-merged output (a much
+larger name set) instead of the original 103-row hand seed, which can shift
+which id a name resolves to.
 
 Every reconciled/new spell's `school` is overwritten with the PRD's own
 term, which incidentally fixes some pre-existing inconsistency in the hand
@@ -133,10 +151,16 @@ def main() -> None:
             spell_id = detail["id"]
 
         old_row = existing_by_id.get(spell_id)
+        # Some spell pages (a "funktioniert wie {Basiszauber}" variant with no
+        # restated stat block, or a mythic "Legendäre {Basiszauber}" addendum
+        # with no stat block at all) never hit a "Schule:" line, so
+        # fetch_zauber_prd_details.py's per-page parse leaves school_text
+        # unset even though the bulk index's own `school` column has it.
+        school_text = detail.get("school_text") or imp.get("school")
         spell_row = {
             "id": spell_id,
             "name": name,
-            "school": primary_school(detail.get("school_text")),
+            "school": primary_school(school_text),
             "description": detail["full_description"],
             "casting_time": detail.get("casting_time"),
             "range": detail.get("range"),
