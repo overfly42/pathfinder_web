@@ -1,62 +1,1322 @@
 [
   {
-    "id": "35cfd6db-90fe-4679-9e40-41df59954619",
-    "name": "Scharfsinnige Beobachterin",
-    "description": "Du bemerkst Details, die anderen entgehen. Du erhältst einen Bonus von +1 auf Wahrnehmungs- und Sinneskunde-Proben, und Wahrnehmung wird zu einer Klassenfertigkeit für dich.",
-    "area": "social"
-  },
-  {
-    "id": "85b91c12-b1ad-4367-b946-42b5670cc826",
-    "name": "Kind des Waldes",
-    "description": "Du bist mit Wald und Wildnis aufgewachsen. Du erhältst einen Bonus von +1 auf Überlebenskunst-Proben, und Überlebenskunst wird zu einer Klassenfertigkeit für dich.",
-    "area": "region"
-  },
-  {
-    "id": "2f202b5a-4cdb-4a7c-859c-24f99a4f2999",
-    "name": "Geborene Anführerin",
-    "description": "Deine natürliche Ausstrahlung inspiriert andere. Du erhältst einen Bonus von +1 auf Diplomatie-Proben, und Diplomatie wird zu einer Klassenfertigkeit für dich.",
-    "area": "social"
-  },
-  {
-    "id": "cb44141d-2ddc-44bb-ba0c-d31309851d5a",
-    "name": "Kindheit auf der Straße",
-    "description": "Du hast in den Gassen einer Stadt überlebt. Du erhältst einen Bonus von +1 auf Fingerfertigkeit-Proben, und Fingerfertigkeit wird zu einer Klassenfertigkeit für dich.",
-    "area": "general"
-  },
-  {
-    "id": "97c08aa9-6695-43b5-a86a-babb86053a20",
-    "name": "Magische Ahnung",
-    "description": "Du hast früh Kontakt mit Magie gehabt. Du erhältst einen Bonus von +1 auf Zauberkunde-Proben, und Zauberkunde wird zu einer Klassenfertigkeit für dich.",
-    "area": "magic"
-  },
-  {
-    "id": "8fc9e389-dc08-4104-8af5-2e02584e331e",
-    "name": "Ausgezeichneter Ruf",
-    "description": "Dein guter Ruf eilt dir voraus. Du erhältst einen Bonus von +1 auf Bluffen-Proben, und Bluffen wird zu einer Klassenfertigkeit für dich.",
-    "area": "social"
-  },
-  {
-    "id": "31173923-48b6-4f0d-b9ef-692b3889cd14",
-    "name": "Reaktionsschnell",
-    "description": "Du reagierst außergewöhnlich schnell auf Gefahr. Du erhältst einen Bonus von +2 auf einen Initiativewurf pro Tag.",
-    "area": "combat"
-  },
-  {
-    "id": "4072e76f-cd6e-441e-8cca-73b9a01bf603",
-    "name": "Gläubige Seele",
-    "description": "Dein Glaube stärkt dich in schweren Momenten. Du erhältst einen Bonus von +1 auf Willenswürfe.",
+    "id": "23b4dfe3-34bd-5315-99c6-0e68cf3171f3",
+    "name": "Disziplinierter Gläubiger",
+    "description": "Wo ein schwächerer Wille nachgeben würde, behältst du einen klaren Kopf. Du erhältst einen Wesenszugbonus von +2 auf Rettungswürfe gegen Bezauberungs- und Zwangseffekte.",
     "area": "faith"
   },
   {
-    "id": "fb5ed7fa-265c-46fd-8a9e-31b8799dca8f",
-    "name": "Tapferer Verteidiger",
-    "description": "Du kämpfst unbeirrt, wenn du Verbündete beschützt. Du erhältst einen Bonus von +1 auf Angriffswürfe gegen Gegner, die einen benachbarten Verbündeten im laufenden Kampf bereits getroffen haben.",
+    "id": "a733171d-a18e-5517-9178-b42da57c4658",
+    "name": "Eidgebunden",
+    "description": "Du hast einen heiligen Eid geschworen, den du dickschädelig verfolgst. Einmal am Tag kannst du einen Rettungswurf gegen einen Bezauberungs- oder Zwangseffekt wiederholen. Du musst das zweite Ergebnis behalten, selbst wenn es schlechter sein sollte.",
+    "area": "faith"
+  },
+  {
+    "id": "f45627ee-e495-5440-b31d-1054378e869b",
+    "name": "Eifernder Krieger",
+    "description": "Dein Eifer ist eine Gefahr für die Anhänger „niederer“ Religionen. Wenn du den Richtspruch Zerstörung aktiviert hast, erhältst du einen Wesenszugbonus von +1 auf Schadenswürfe bei Angriffen auf Gegner, die göttliche Zauber wirken können und dabei eine andere Gottheit verehren als du.",
+    "area": "faith"
+  },
+  {
+    "id": "9df0ea64-bc92-5f71-82f5-5d1e88bbd260",
+    "name": "Ermutigender Begleiter",
+    "description": "Die Nähe deines Eidolons stärkt deinen Mut. Du erhältst einen Wesenszugbonus von +2 gegen Furchteffekte, solange dein Eidolon nicht weiter als 9 m von dir entfernt ist.",
+    "area": "faith"
+  },
+  {
+    "id": "6fa06b43-f26c-5e28-9aaa-78340a2f4b7d",
+    "name": "Furchtloser Trotz",
+    "description": "Wenn du deine Ängste überwindest, wirst du zur Geißel deiner Feinde. Du erhältst einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Furchteffekte. Sollte dir ein Rettungswurf gegen einen solchen Effekt gelingen, erhältst du für 1 Runde einen Wesenszugbonus von +1 auf Angriffswürfe gegen deine Erzfeinde.",
+    "area": "faith"
+  },
+  {
+    "id": "989fc3d7-a149-5cd8-8762-dc0cdbd8c04e",
+    "name": "Geburtsmal",
+    "description": "Du wurdest mit einem seltsamen Geburtsmal geboren, das sehr dem Heiligen Symbol jenes Gottes ähnelt, den zu verehren du im späteren Leben beschließt. Dieses Geburtsmal kann dir als göttlicher Fokus für das Wirken von Zaubern dienen. Als physische Manifestation deines Glaubens erhöht es außerdem deine Hingabe an deinen Gott. Du erhältst einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Verzauberung und Zwangeffekte.",
+    "area": "faith"
+  },
+  {
+    "id": "f0ccb44d-0f31-5e37-b45b-6a4ec209009d",
+    "name": "Geistersinn",
+    "description": "Du bist derart auf die Geisterwelt eingestimmt, dass du dich von ihren Angehörigen kaum überraschen lässt. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Wahrnehmung, um nicht überrascht zu werden und um unsichtbare oder körperlose Kreaturen zu entdecken.",
+    "area": "faith"
+  },
+  {
+    "id": "4eb86645-3afc-53f7-a05e-668579717201",
+    "name": "Gelehrter des Großen Jenseits",
+    "description": "Als Kind lagen deine Interessen nicht in aktuellen Ereignissen oder dem Weltlichen – du hast dich schon immer fehl am Platz gefühlt, als seist du ins falsche Zeitalter hinein geboren worden. Diskussionen über das Große Jenseits und historische Ereignisse dominierst du mit Leichtigkeit. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Geschichte) und Wissen (Die Ebenen). Eine dieser beiden Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "faith"
+  },
+  {
+    "id": "74b7cd19-def5-5485-8e83-b96dbe336f01",
+    "name": "Geschulter Inquisitor",
+    "description": "Deine zusätzliche Ausbildung ermöglicht es dir, die Stärken und Schwächen der Feinde deines Glaubens zu erkennen. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Wissen (Die Ebenen) und Wissen (Religion), um Fähigkeiten und Schwächen von Kreaturen zu identifizieren.",
+    "area": "faith"
+  },
+  {
+    "id": "71c1f90e-bff6-5f8a-8e06-de59941b0055",
+    "name": "Gesegnet",
+    "description": "Ein Vertreter des Göttlichen wacht über dich und folgt deinem Ruf. Einmal am Tag erhältst du für 1 Runde als Schnelle Aktion einen Wesenszugbonus von +1 auf alle Rettungswürfe.",
+    "area": "faith"
+  },
+  {
+    "id": "db519a84-1f59-50be-ae19-1ddc6a4fc647",
+    "name": "Göttliche Berührung",
+    "description": "Als Kind warst du einer starken Quelle göttlicher Energie ausgesetzt, entweder weil du unter dem richtigen kosmischen Zeichen geboren wurdest, oder weil eines deiner Elternteile ein begabter Heiler war. Du kannst eine sterbende Kreatur mit einer Standard-Aktion automatisch stabilisieren, einfach nur, indem du sie berührst.",
+    "area": "faith"
+  },
+  {
+    "id": "94864a41-0b3f-5ef4-8958-e9c57f7c660e",
+    "name": "Göttliche Verbindung",
+    "description": "Deine Geburt war besonders schmerzvoll und schwierig für deine Mutter. Es erforderte mächtige göttliche Magie um dein Überleben zu sichern. Vielleicht hat deine Mutter selbst nicht überlebt. Aus diesem Grund erfüllt dich diese Magie seit deinen frühen Jahren. Daher fällt dir heute das Fokussieren von göttlicher Energie leichter als den meisten anderen. Wann immer du Energie fokussierst, erhältst du einen Wesenszugbonus von +1 auf den SG von dir fokussierter Energie.",
+    "area": "faith"
+  },
+  {
+    "id": "52f2d03f-9dea-513a-9247-72bfc74a73f4",
+    "name": "Hüter kämpferischen Wissens",
+    "description": "Du trägst entweder einen heiligen Text deiner Schule, deines Tempels oder deines Klosters bei dir oder hast ihn auswendig gelernt. Die Weisheit dieses Textes verleiht dir Einsichten, welche deine Angriffe verheerender machen. Du erhältst einen Wesenszugbonus von +2 auf Bestätigungswürfe für Kritische Treffer mit Waffenlosen Schlägen und Mönchswaffen.",
+    "area": "faith"
+  },
+  {
+    "id": "6619c62d-2884-5201-a31d-6253feee51bd",
+    "name": "Inspiriert",
+    "description": "Eine positive Kraft, Philosophie oder göttliche Präsenz erfüllt dich mit Hoffnung und Inspiration. Würfle einmal am Tag bei einem Attributs- oder Fertigkeitswurf als Freie Aktion zwei Mal und behalte das bessere Ergebnis.",
+    "area": "faith"
+  },
+  {
+    "id": "2d98d8d6-0770-5d8b-a369-0e84ba807cb4",
+    "name": "Ketzerische Vergangenheit",
+    "description": "Du wurdest mit ketzerischen Ansichten aufgezogen, die es dir nicht nur schwer machen, die meisten religiösen Glaubensrichtungen zu akzeptieren, sondern die dich mit dem Umstand haben leben lassen, dass du und alle die du liebst, häufig wie Aussätzige behandelt wurden. Als Resultat hast du religiösen Lehren den Rücken zugekehrt. Solange du keine Stufe in einer Klasse besitzt, die die Fähigkeit besitzt göttliche Zauber zu wirken, erhältst du einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen göttliche Zauber.",
+    "area": "faith"
+  },
+  {
+    "id": "6b8eb782-425d-5215-981e-ffb76bf07592",
+    "name": "Leuchtfeuer des Glaubens",
+    "description": "Du führst die Macht deines Glaubens mit Kraft und Klarheit. Einmal am Tag kannst du als Freie Aktion deine effektive Zauberstufe als um 2 höher behandeln, wenn du eine Domänen- oder Inquisitionsfähigkeit benutzt oder einen deiner Domänenzauber wirkst.",
+    "area": "faith"
+  },
+  {
+    "id": "46cb24d7-2402-56b4-85be-36259d9f41ce",
+    "name": "Liebling des Schicksals",
+    "description": "Das Schicksal wacht über dich. Jeder auf dich wirkende Glücksbonus ist um +1 verstärkt.",
+    "area": "faith"
+  },
+  {
+    "id": "782e7e12-9c98-5b71-a282-4a5114a979b5",
+    "name": "Omen",
+    "description": "Du bist der Überbringer eines künftigen Ereignisses. Egal ob es sich um Gutes oder Schlechtes dabei handelt, umgibt dich eine unheimliche Ausstrahlung. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Einschüchtern, zudem ist Einschüchtern für dich stets eine Klassenfertigkeit. Einmal am Tag kannst du versuchen, einen Gegner als Schnelle Aktion zu demoralisieren.",
+    "area": "faith"
+  },
+  {
+    "id": "8b21e46f-9f7c-58b6-af08-da7d51592766",
+    "name": "Pfleger",
+    "description": "Als das Kind eines Pflanzenkundigen oder Gehilfen in einem Tempelhospital musstest du oft bei der Pflege von Kranken und Verwundeten aushelfen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Heilkunde. Heilkunde ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "faith"
+  },
+  {
+    "id": "ae38c495-944e-560d-82c8-3b71b3ff0031",
+    "name": "Planares Verständnis",
+    "description": "Du hattest schon immer ein intuitives Verständnis für die Ebenen und ihre Bewohner. Du kannst bei Fertigkeitswürfen für Wissen (Die Ebenen) anstelle deines IN-Modifikators deinen CH-Modifikator verwenden.",
+    "area": "faith"
+  },
+  {
+    "id": "65330173-06a0-5d01-952a-3c1bd3a06d74",
+    "name": "Prinzipientreu",
+    "description": "Du hältst dich an einen strengen Verhaltenskodex, welcher alle deine Entscheidungen und Handlungen bestimmt. Du erhältst einen Malus von -2 auf Fertigkeitswürfe für Bluffen und einen Wesenszugbonus von +2 auf Rettungswürfe gegen Bezauberungs-, Gefühls- und Zwangseffekte.",
+    "area": "faith"
+  },
+  {
+    "id": "e3490894-5ece-5dcd-b515-f9aa9f3afd0c",
+    "name": "Prophezeit",
+    "description": "Deine Geburt wurde in den Prophezeiungen angekündigt. Wer mit deiner Legende vertraut ist, betrachtet dich mit Ehrfurcht und Angst. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Diplomatie und Einschüchtern gegenüber jemandem, der mit dir oder deinem Ruf vertraut ist.",
+    "area": "faith"
+  },
+  {
+    "id": "bf87eeba-ced2-59eb-85c6-d26372a9cfad",
+    "name": "Religiös aufgeschlossen",
+    "description": "Dein Mentor, die Person, die dir in frühen Jahren den Glauben näher brachte, lehrte dich, dass sich die Quelle deiner göttlichen Magie nicht von der Quelle einer anderen Religion unterscheidet. Diese Philosophie macht es dir einfacher, mit Andersgläubigen interagieren, die deine Sichtweise nicht teilen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Diplomatie. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "faith"
+  },
+  {
+    "id": "4c795279-e14d-56cb-a0ae-27ea12bd0a50",
+    "name": "Tempelkind",
+    "description": "Du hast lange in einem Tempel deiner Stadt gedient, und hast dabei nicht nur viele Gebräuche der Adligen übernommen, sondern du hast auch viele Stunden damit zugebracht in der Bibliothek deinen Glauben zu studieren. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Adel) und Wissen (Religion). Eine dieser beiden Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "faith"
+  },
+  {
+    "id": "1b1743c3-e761-5847-8d60-148f99bec22e",
+    "name": "Treue über den Tod hinaus",
+    "description": "Du und dein Eidolon scheinen sich eine Verbindung zu teilen, welche mehrere Leben umfasst. Dein Eidolon behandelt seinen effektiven Konstitutionswert zum Bestimmen, wann es aufgrund negativer Trefferpunkte auf seine Heimatebene zurückgeschickt wird, als um 2 Punkte höher. Ferner erhält es einen Wesenszugbonus von +1 auf Willenswürfe gegen Verzauberung.",
+    "area": "faith"
+  },
+  {
+    "id": "8f274954-c567-5eb1-bf1e-0eb0eafa4d62",
+    "name": "Unauffälliger Wanderer",
+    "description": "Deine Streifzüge bleiben oft unbemerkt. Versucht jemand, mittels Diplomatie über dich an Informationen zu gelangen, erleidet er einen Malus von -1 auf den Fertigkeitswurf. Du erhältst einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Ausspähen- und Gedankenleseneffekte, welche Rettungswürfe gestatten.",
+    "area": "faith"
+  },
+  {
+    "id": "75b2c17c-460d-504a-b93b-a2941e640bac",
+    "name": "Unermüdlicher Rächer",
+    "description": "Du jagst deine Feinde unermüdlich. Wenn du einen deiner Erzfeinde verfolgst, beträgt der SG für KO-Würfe zum Vermeiden von tödlichem Schaden während Eilmärschen 10+1 pro Stunde statt 10+2 pro Stunde.",
+    "area": "faith"
+  },
+  {
+    "id": "7cf31288-0a5b-5b19-81a5-2badb05d91bd",
+    "name": "Unerschütterlicher Glaube",
+    "description": "Du wurdest in einer Gegend geboren, in der dein Glaube nicht verbreitet ist. Dennoch hast du ihn nie aufgegeben. Dein stetes Bemühen, deinen eigenen Glauben zu bewahren, geben deiner Überzeugung zusätzliche Kraft. Du erhältst einen Wesenszugbonus von +1 auf deine Willenswürfe.",
+    "area": "faith"
+  },
+  {
+    "id": "4a755ed2-4eb5-5a8b-8e9f-0de2bc6eb3c6",
+    "name": "Verächtlicher Verteidiger",
+    "description": "Du bist widerstandsfähig gegen die Magie anderer Religionen. Du erhältst einen Wesenszugbonus von +2 auf alle Willenswürfe gegen göttliche Zauber von Zauberkundigen, welche andere Gottheiten als du verehren.",
+    "area": "faith"
+  },
+  {
+    "id": "a5b70471-6fd1-5f4e-a9c6-acaa85a519b2",
+    "name": "Verehrer der Natur",
+    "description": "Dein Glaube an die natürliche Welt oder einen Gott der Natur macht es dir leicht, artverwandte Konzepte aufzugreifen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Geografie) und Wissen (Natur). Eine dieser beiden Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "faith"
+  },
+  {
+    "id": "0dd0b679-756c-58be-ab74-2ef4e13c8153",
+    "name": "Wiedergeboren",
+    "description": "Du hast bereits als jemand – oder etwas – anderes gelebt. Leben und Tod sind für dich ein ewiger Kreis, so dass du den Tod nicht fürchtest. Du erhältst einen Wesenszugbonus von +2 auf Rettungswürfe gegen Furcht- und Todeseffekte.",
+    "area": "faith"
+  },
+  {
+    "id": "b7a73b47-7aa9-5f1d-8cfc-90aa15f0262c",
+    "name": "Anatom",
+    "description": "Du hast die Natur der Anatomie studiert, entweder als Student an einer Universität oder als Lehrling eines Bestatters oder Nekromanten. Du weißt wohin du zielen musst, um lebenswichtige Organe zu treffen. Du erhältst einen Wesenszugbonus von +1 auf alle Würfe zur Bestätigung von Kritischen Treffern.",
     "area": "combat"
   },
   {
-    "id": "94bf56ed-b065-4ab4-ae2c-b09b99a9a4a5",
-    "name": "Weltgewandt",
-    "description": "Reisen und Handel sind dir vertraut. Du erhältst einen Bonus von +1 auf Menschenkenntnis-Proben, und Menschenkenntnis wird zu einer Klassenfertigkeit für dich.",
-    "area": "campaign"
+    "id": "93e23276-fa3b-5471-b3bf-ecf4510137eb",
+    "name": "Auf die leichte oder harte Tour",
+    "description": "Du bist begabt im Überwäl tigen deiner Gegner. Wenn du einen Erzfeind mit einer Waffe angreifst, welche tödlichen Schaden verursacht, und du nichttödlichen Schaden zufügen willst, unterliegt dein Angriffswurf nur einem Malus von -2 statt -4.",
+    "area": "combat"
+  },
+  {
+    "id": "9445e40a-8775-5835-b635-0dcaa477db5d",
+    "name": "Aufmerksam im Kampf",
+    "description": "Man kann dich nur schwer täuschen und du durchschaust die meisten Finten. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Motiv erkennen. Dieser Wesenszugbonus steigt auf +2, wenn es darum geht, eine Finte im Kampf zu kontern.",
+    "area": "combat"
+  },
+  {
+    "id": "c31f78a0-8ff4-5dbb-9b25-77c1aeb47389",
+    "name": "Blutdurstig",
+    "description": "Du hast einen bösartigen Zug an dir. Nichts ist für dich befriedigender, als warmes Blut an deinen Händen und auf deiner Klinge. Wenn du mit einem Angriff einen Gegner auf 0 TP oder weniger reduzierst oder einen Kritischen Treffer bestätigst, verursachst du 1 zusätzlichen Schadenspunkt. Der Zusatzschaden ist ein Wesenszugbonus und unterliegt dem Multiplikator für Kritische Treffer deiner Waffe.",
+    "area": "combat"
+  },
+  {
+    "id": "e5546c50-98eb-518d-9264-9679e5f8a3c6",
+    "name": "Blutswächter",
+    "description": "Du bist entschlossen, Angehörige deiner Familie zu verteidigen. Wenn du die Aktion Jemand anderem helfen nutzt, um einem Mitglied deiner Familie einen Bonus auf die RK zu geben, steigt dieser Bonus um +2. Dieser Anstieg ist ein Wesenszugbonus und daher nicht kumulativ mit Boni, welche eventuell andere Familienmitglieder diesem Angehörigen verleihen. Dieser Wesenszug hat keinen Effekt, falls du Jemand anderem helfen nutzt, um einem Familienmitglied einen Bonus auf seinen nächsten Angriffswurf zu verleihen.",
+    "area": "combat"
+  },
+  {
+    "id": "374feac8-8a83-59bd-a906-da1257b23b49",
+    "name": "Brudermörder",
+    "description": "Dein eigenes Volk ist dein Erzfeind. Du erhältst einen Wesenszugbonus von +1 auf Bestätigungswürfe für Kritische Treffer gegen Erzfeinde deiner eigenen Kreaturenunterart und auf Fertigkeitswürfe für Überlebenskunst, um die Spuren solcher Kreaturen zu finden und ihnen zu folgen.",
+    "area": "combat"
+  },
+  {
+    "id": "eb1c7f2f-8a01-56f5-a4fa-6291bbd20dc2",
+    "name": "Drangsaliert",
+    "description": "Als Kind wurdest du oft drangsaliert. Heute bist du allzeit bereit, dich mit den Fäusten zu verteidigen, wenn sich ein Feind nähert. Du erhältst einen Wesenszugbonus von +1 auf Gelegenheitsangriffe mit unbewaffneten Angriffen. Bedenke, dass dieser Wesenszug nicht die Fähigkeit gewährt, Gelegenheitsangriffe mit deinen unbewaffneten Angriffen durchzuführen – du benötigst eine Stufe als Mönch, das Talent Verbesserter Unbewaffneter Angriff oder eine andere, ähnliche Kraft, um aus diesem Wesenszug Nutzen zu ziehen. Dies kann dich jedoch nicht davon abhalten, diesen Wesenszug zu wählen. Du wirst jedoch erst zu einem späteren Zeitpunkt in der Lage sein, ihn einzusetzen.",
+    "area": "combat"
+  },
+  {
+    "id": "ce71b6e0-1dbe-5340-9d0f-f64fd4fb9952",
+    "name": "Eiskalt berechnend",
+    "description": "Du bist ein Meister darin, Erzfeinde auszutricksen, die deinem eigenen Volk angehören oder Verwandte deines Volkes sind. Du erhältst einen Wesenszugbonus von +1 auf Angriffswürfe gegen Erzfeinde, welche derselben Kreaturenunterart angehören wie du.",
+    "area": "combat"
+  },
+  {
+    "id": "35d9bd01-ca00-56ed-8d18-533be0a306db",
+    "name": "Entschlossener Verteidiger",
+    "description": "Wenn ein Gefährte zu Boden geht, kämpfst du härter. Du erhältst einen Wesenszugbonus von +1 auf Angriffswürfe und Würfe zum Überwinden von Zauberresistenz, während du dich angrenzend zu einem sterbenden oder außer Gefecht gesetzten Verbündeten, Tiergefährten, Eidolon, Vertrauten oder Reittier befindest.",
+    "area": "combat"
+  },
+  {
+    "id": "5c2a97a8-e16c-5bd4-b7c3-fed1ef301b6c",
+    "name": "Erzürnender Bann",
+    "description": "Wenn dir deine Magie genommen wird, kämpfst du härter. Du erhältst einen Wesenszugbonus von +1 auf Angriffs- und Schadenswürfe, während du dich in einem Gebiet von Antimagie auf hältst, z.B. einem Antimagischen Feld. Du erhältst diesen Bonus zudem für 1 Runde, nachdem du zum Ziel einesflächendeckenden oder gezielten Magie bannen -Zaubers geworden bist, egal ob bei dir Zauber und magische Effekte gebannt wurden oder nicht.",
+    "area": "combat"
+  },
+  {
+    "id": "7d0008fc-76bf-58f2-827d-d476ac071148",
+    "name": "Fechter",
+    "description": "Als Jugendlicher verbrachtest du viele Stunden mit dem Training an der Klinge. Du hast entweder bei von deinen Eltern bezahlten Lehrmeistern Lektionen in der vornehmen Kunst des Fechtens erhalten oder wurdest von einem gesetzlosen Fechter unter seine Fittiche genommen, der sich einem Leben des Verbrechens gewidmet hat. Du erhältst einen Wesenszugbonus von +1 auf Gelegenheitsangriffe, die du mit Dolchen, Schwertern und ähnlichen Klingenwaffen durchführst.",
+    "area": "combat"
+  },
+  {
+    "id": "b759a810-7faf-56d6-badc-ed239e941665",
+    "name": "Feldprediger",
+    "description": "Du bist begabt darin, Verbündete in der Hitze der Schlacht zu unterstützen. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Heilkunde, um sterbende Kreaturen zu stabilisieren. Wenn du die Aktion Jemand anderem helfen nutzt, um einem Verbündeten einen Bonus beim nächsten Angriffswurf zu verschaffen, steigt dieser Bonus um +1.",
+    "area": "combat"
+  },
+  {
+    "id": "42462fad-2465-5188-b02e-423fa4ea30d3",
+    "name": "Flinkes Wiesel",
+    "description": "Das Aufwachsen in einer rauen Nachbarschaft oder gefährlichen Umgebung hat deine Sinne geschärft. Du erhältst einen Wesenszugbonus von +1 auf Reflexwürfe.",
+    "area": "combat"
+  },
+  {
+    "id": "a9199b1a-dd0b-577b-aec9-1e2a66fdd41e",
+    "name": "Geschickter Jäger",
+    "description": "Wenn du beobachtest und abwartest, ehe du angreifst, triffst du zielsicherer. Du erhältst einen Wesenszugbonus von +1 auf Angriffswürfe gegen Erzfeinde, wenn solche Angriffe als Teil einer Vorbereiteten Aktion erfolgen.",
+    "area": "combat"
+  },
+  {
+    "id": "b840d5c7-c0bd-5560-b233-373395cd74ef",
+    "name": "Gläubiger Jäger",
+    "description": "Die Götter lächeln dir zu, wenn du einen Erzfeind schwer verletzt. Wenn du einen Kritischen Treffer bei einem Erzfeind bestätigst, kannst du die Wirkungsdauer eines auf dich einwirkenden göttlichen Zaubers um 1 Runde verlängern. Dies ist bei mehreren Kritischen Treffern kumulativ. Göttliche Zauber mit einer Wirkungsdauer von Augenblicklich können auf diese Weise nicht verlängert werden.",
+    "area": "combat"
+  },
+  {
+    "id": "a1d13094-d490-537d-8147-9edeeaacc622",
+    "name": "Innerer Zorn",
+    "description": "In deinem Herzen brennt ein nicht zu löschendes Feuer. Du erhältst einen Wesenszugbonus von +1 auf den Schaden bei Gegnern, die nur von dir bedroht werden.",
+    "area": "combat"
+  },
+  {
+    "id": "c1bc9cd4-ef12-52de-b996-7398272c12e2",
+    "name": "Kampfdarsteller",
+    "description": "Deine Ausbildung hat dich zu einem Schaukämpfer gemacht. Wenn du ein Mönchsbonustalent erhältst, kannst du stattdessen ein Schaukampftalent wählen, dessen Voraussetzungen du erfüllst.",
+    "area": "combat"
+  },
+  {
+    "id": "90021da2-6a71-582e-861a-20f26b21e4f7",
+    "name": "Kampfstil der Tierwelt",
+    "description": "Dein Wissen um die Natur beeinflusst deinen Kampfstil und dein Kampfstil verleiht dir Einsichten in das Wesen der Natur. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Wissen (Natur) und Wissen (Natur) ist für dich stets eine Klassenfertigkeit. Du kannst Fertigkeitswürfe für Wissen (Natur) ungeübt ablegen, wenn es um Tiere geht, für die du über passende Stiltalente verfügst.",
+    "area": "combat"
+  },
+  {
+    "id": "1c53bed7-c5b5-5880-a4ec-f454679cb0be",
+    "name": "Kleines Ziel",
+    "description": "Größeren Gegnern fällt es schwer, dich zu treffen. Du erhältst einen Ausweichenbonus von +1 auf deine RK gegenüber Gegnern, die zu deinen Erzfeinden gehören und zugleich wenigstens zwei Größenkategorien größer sind als du.",
+    "area": "combat"
+  },
+  {
+    "id": "7ebbffd6-d305-5ba8-ac57-94bc6c07a4c0",
+    "name": "Lauter Knall",
+    "description": "Entweder beherrschst du das perfekte Timing oder es liegt an deiner Entschlossenheit, dass das Donnern deiner Feuerwaffe deine Gegner erschreckt. Wenn du schießt, erhältst du einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Einschüchtern für 1 Runde gegen jene, die den Schuss gehört haben.",
+    "area": "combat"
+  },
+  {
+    "id": "864f759b-3537-50d9-9565-f3777893b086",
+    "name": "Mörder",
+    "description": "Deinen ersten Mord hast du in sehr jungen Jahren begangen. Dabei hast du erkannt, dass du der Natur des Krieges und des Mordens zugeneigt bist. Du empfindest entweder besonderen Stolz an einem gut ausgeführten Hieb oder bösartiges Vergnügen, wenn du die Klinge in einer Wunde drehst, um größtmöglichen Schmerz zu verursachen. Du verursachst zusätzlichen Schaden in Höhe des Modifikators für Kritischen Schaden deiner Waffe, wenn du einen Kritischen Treffer erzielst. Dieser zusätzliche Schaden wird zu dem Gesamtschaden addiert, jedoch nicht mit diesem multipliziert. Der zusätzliche Schaden ist ein Wesenszugbonus.",
+    "area": "combat"
+  },
+  {
+    "id": "0291a9e1-2492-555c-bb19-35c54b034af8",
+    "name": "Neuwertig",
+    "description": "Beschädigte Feuerwaffen sind für dich keine Probleme, sondern Herausforderungen. Wenn du erstmals versuchst, den Zustand Beschädigt von deiner ersten Feuerwaffe zu entfernen und sie zu einer [Meisterarbeit] aufzuwerten, kostet dies dich nur 150 GM statt 300 GM. Zudem erleidest du beim Umgang mit beschädigten Feuerwaffen oder solchen, die behandelt werden, als seien sie beschädigt, nur einen Malus von -1 anstatt der üblichen -2.",
+    "area": "combat"
+  },
+  {
+    "id": "bbd0da3e-07e6-5d9f-807b-3d7075e62cf1",
+    "name": "Reaktionsschnell",
+    "description": "Als Kind wurdest du oft drangsaliert, doch eine offensive Antwort hast du nie wirklich hervorgebracht. Stattdessen lerntest du, unvorhersehbare Angriffe zu erahnen und schnell auf Gefahren zu reagieren. Du erhältst einen Wesenszugbonus von +2 auf deine Initiativewürfe.",
+    "area": "combat"
+  },
+  {
+    "id": "78955ffd-c304-51e0-bc5a-196847b99dc3",
+    "name": "Rüstungsspezialist",
+    "description": "Du trägst eine Rüstung, solange du dich erinnern kannst, entweder als Teil deiner Ausbildung, um der Knappe eines Ritters zu werden, oder einfach weil du einen Helden nachahmen wolltest. Die Rüstung deiner Kindheit hat natürlich keinen wirklichen Schutz geboten, war aber ebenso schwer und behindernd, so dass du daran gewohnt bist, dich einigermaßen anmutig in solchen Rüstungen zu bewegen. Wenn du eine Rüstung trägst, wird der Rüstungsmalus um 1 reduziert, bis zu einem Minimum von 0.",
+    "area": "combat"
+  },
+  {
+    "id": "f6908ed3-0c0e-54e3-84a3-a5c5a66cec6a",
+    "name": "Sauberer Lauf",
+    "description": "Dank deines Könnens im Umgang mit Feuerwaffen kannst du diese auch schneller reparieren. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Handwerk (Alchemie) und Handwerk (Waffen) und benötigst nur 30 Minuten, um den Zustand Beschädigt von einer Feuerwaffe zu entfernen.",
+    "area": "combat"
+  },
+  {
+    "id": "3b616aa0-6163-52ed-84bf-d3a452e450bb",
+    "name": "Schützenwildheit",
+    "description": "Selbst wenn die Lage aussichtslos ist, schießt du weiter. Sollten deine Trefferpunkte unter 0 fallen, du dadurch aber nicht stirbst, kannst du dich verhalten, als wärst du kampfunfähig statt tot (entsprechend dem Talent Unverwüstlich). Du kannst deine Aktionen aber nur zum Ziehen einer Feuerwaffe, Nachladen einer Feuerwaffe und zum Angreifen mit einer Feuerwaffe einsetzen. Solltest du über das Talent Unverwüstlich verfügen, kannst du zudem deinen WE-Modifikator anstatt deines KO-Modifikators nutzen, um zu bestimmen, wie weit du in die negativen Trefferpunkte fallen darfst, ehe du stirbst.",
+    "area": "combat"
+  },
+  {
+    "id": "937bbb6b-e59b-503e-822b-1aad5d2de121",
+    "name": "Schwarzpulverschneid",
+    "description": "Dein Selbstvertrauen wächst, wenn du Zauber unterbrichst. Einmal am Tag kannst du 1 Schneidpunkt zurückerlangen, indem du das Wirken eines Zaubers mit einem Feuerwaffenangriff unterbrichst.",
+    "area": "combat"
+  },
+  {
+    "id": "fe1a4fcc-2ffa-5b0c-abad-11c7f2576623",
+    "name": "Schwarzpulversegen",
+    "description": "Solange du eine Feuerwaffe in der Hand hast, hast du nichts zu befürchten. Du erhältst dann einen Wesenszugbonus von +2 auf alle Rettungswürfe gegen Flüche, Furcht- und Emotionseffekte.",
+    "area": "combat"
+  },
+  {
+    "id": "aadb5800-e3b8-5e5c-a64a-dbb3f3fb2c4d",
+    "name": "Schwarzpulverwagemut",
+    "description": "Du bist besonders erfolgreich, wenn du Schützentricks nutzt. Einmal am Tag kannst du einen Angriffswurf wiederholen, wenn dieser Teil eines Schützentricks gewesen ist. Du musst aber das zweite Ergebnis behalten, selbst wenn es schlechter sein sollte.",
+    "area": "combat"
+  },
+  {
+    "id": "d93e4336-2ede-5279-84e7-85cb81cbdda8",
+    "name": "Taktische Voraussicht",
+    "description": "Du weißt, wie man unvorbereitete Gegner am besten bekämpft. Du erhältst einen Wesenszugbonus von +1 auf Initiativewürfe. Ferner erhältst du einmal am Tag im Rahmen eines Gelegenheitsangriffs einen Wesenszugbonus von +2 auf diesen Angriffswurf.",
+    "area": "combat"
+  },
+  {
+    "id": "873cefa0-e3e3-5ed5-8139-13130434e36b",
+    "name": "Tollkühn",
+    "description": "Du neigst zu voreiligem Handeln und missachtest oft deine eigene Sicherheit, während du dich über das Schlachtfeld bewegst. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Akrobatik und Akrobatik ist für dich immer eine Klassenfertigkeit.",
+    "area": "combat"
+  },
+  {
+    "id": "c3832b3c-4117-5fb6-9b61-ac6d6faf0b72",
+    "name": "Tollkühne Verachtung",
+    "description": "Du fürchtest keine minderwertigen Waffen. Wenn du Gelegenheitsangriffe durch das Abfeuern einer Feuerwaffe provozierst, erhältst du einen Wesenszugbonus von +1 auf den provozierenden Angriffswurf.",
+    "area": "combat"
+  },
+  {
+    "id": "359ece14-2e88-5adb-9a8d-b6e7f6a876dc",
+    "name": "Trotzige Entschlossenheit",
+    "description": "Manchen gefällt nicht, dass du dich für Feuerwaffen entschieden hast, doch ihr Hohn stärkt nur deine Entschlossenheit. Du erhältst einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Bezauberungs- und Zwangseffekte. Ferner erhältst du einmal am Tag 1 Schneidpunkt zurück, nachdem dir ein Rettungswurf gegen einen solchen Effekt gelungen ist.",
+    "area": "combat"
+  },
+  {
+    "id": "e7bfadf2-24be-5784-960b-1e745a8499c8",
+    "name": "Überlebensgroß",
+    "description": "Durch eine Feuerwaffe in der Hand wirst du zu einer gewaltigen Bedrohung. Wenn du zugleich Einschüchtern einsetzt, wirst du behandelt, als wärst du um eine Größenkategorie größer.",
+    "area": "combat"
+  },
+  {
+    "id": "6bbc9a31-c063-5878-8aad-6d7950ec74a0",
+    "name": "Überraschungswaffe",
+    "description": "Du bist gut darin, mit Gegenständen zu kämpfen, die nicht zu den traditionellen Waffen gehören. Du erhältst einen Wesenszugbonus von +2 auf Angriffswürfe mit improvisierten Waffen.",
+    "area": "combat"
+  },
+  {
+    "id": "bd7aca7c-ef46-5f65-9456-efc777107c73",
+    "name": "Unfairer Kämpfer",
+    "description": "Ohne die Hilfe deiner Geschwister, eines Freund oder Gefährten hättest du deine Kindheit nicht überlebt. Du konntest immer darauf zählen, dass eure Feinde lange genug abgelenkt wurden, so dass du ein wenig mehr austeilen konntest, als dir unter normalen Umständen möglich gewesen wäre. Heutzutage kann dieser Gefährte ein anderer Spielercharakter oder ein befreundeter NSC sein. Wenn du einen Feind mit deinem Angriff triffst, während du ihn in die Zange nimmst, verursachst du 1 zusätzlichen Schadenspunkt (dieser Schaden wird auf deinen Grundschaden addiert und wird bei einem Kritischen Treffer ebenfalls multipliziert). Dieser zusätzliche Schaden ist ein Wesenszugbonus.",
+    "area": "combat"
+  },
+  {
+    "id": "415f369d-2846-5518-a05f-c22ae5d2b2fc",
+    "name": "Unlöschbarer Zorn",
+    "description": "Wenn du schwer verletzt bist, kämpfst du entschlossener und konzentrierter. Wenn gegen dich ein Kritischer Treffer bestätigt wird, erhältst du für 1 Runde einen Wesenszugbonus von +1 auf Angriffswürfe.",
+    "area": "combat"
+  },
+  {
+    "id": "a96868c5-5c44-5c05-acad-f96be239d03a",
+    "name": "Verborgene Hand",
+    "description": "Du triffst zielsicher mit verborgenen Waffen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Fingerfertigkeit, um leichte Waffen zu verbergen, und einen Wesenszugbonus von +1 auf Angriffswürfe mit einer leichten Waffe während einer Überraschungsrunde.",
+    "area": "combat"
+  },
+  {
+    "id": "051822ad-86b3-51d7-a9cd-97cc77c6706c",
+    "name": "Wagemutig",
+    "description": "Deine Kindheit war brutal. Du konntest nur durch die Kraft deines Willens bestehen und aufgrund der Überzeugung, dass, egal wie hart die Dinge werden würden, du mit einem klaren Kopf alles überstehen kannst. Du erhältst einen Wesenszugbonus von +2 auf deine Rettungswürfe gegen Furchteffekte.",
+    "area": "combat"
+  },
+  {
+    "id": "563427f3-316c-5652-a8bc-3402f938d9a5",
+    "name": "Widerstandsfähig",
+    "description": "Das Aufwachsen in einer gewalttätigen Nachbarschaft oder in den unversühnlichen Wäldern zwang dich oft dazu, dich von Nahrung und Wasser aus zweifelhaften Quellen zu ernähren. Als Resultat hast du eine besondere Widerstandsfähigkeit entwickelt und erhältst einen Wesenszugbonus von +1 auf deine Zähigkeitswürfe.",
+    "area": "combat"
+  },
+  {
+    "id": "f778917a-8f6e-586f-8e5a-4dbe8411574d",
+    "name": "Akribische Mixtur",
+    "description": "Deine große Sorgfalt macht deine Bomben und Extrakte mächtiger. Einmal am Tag kannst du einen Wesenszugbonus von +2 auf den SG einer geworfenen Bombe addieren oder die Wirkungsdauer eines von dir getrunkenen Extraktes um 2 Runden verlängern. Dies wirkt nicht auf Extrakte mit einer Wirkungsdauer von Augenblicklich.",
+    "area": "magic"
+  },
+  {
+    "id": "16e063a3-b508-5b68-a4a3-58c02b876eb0",
+    "name": "Akribischer Trankbrauer",
+    "description": "Du weiß, dass man die Rezepturen von Zaubertränken präzise genau befolgen soll. Du erhältst einen Wesenszugbonus von +2 auf alle Fertigkeitswürfe für Handwerk (Alchemie) und auf alle Fertigkeitswürfe für Zauberkunde zum Brauen von Zaubertränken.",
+    "area": "magic"
+  },
+  {
+    "id": "2e646ec3-022c-5102-8720-ac26e12e66df",
+    "name": "Alchemistische Intuition",
+    "description": "Du hast häufige Geistesblitze hinsichtlich alchemistischer Prozesse und Substanzen. Du kannst einmal am Tag als Freie Aktion einen Wesenszugbonus in Höhe deines CH-Modifikators (Minimum 0) auf einen Fertigkeitswurf für Handwerk (Alchemie) erhalten. Du kannst diesen Bonus nutzen, nachdem du den Wurf ausgeführt hast, und so eventuell einen Fehlschlag in einen Erfolg umwandeln.",
+    "area": "magic"
+  },
+  {
+    "id": "b783608f-9fdb-54af-b268-c309800f54e5",
+    "name": "Anhaltende Verwandlung",
+    "description": "Du hast das Geheimnis stabiler Verwandlungen entdeckt. Alle Verwandlungszauber, welche du auf dich selbst wirkst, haben eine um 2 Runden verlängerte Wirkungsdauer.",
+    "area": "magic"
+  },
+  {
+    "id": "b29f005b-a2c3-5c05-a954-385b7a12b2bc",
+    "name": "Anhaltendes Mutagen",
+    "description": "Aufgrund besonderer Ausbildung, deiner einzigartigen Körperchemie oder einem entdeckten alchemistischen Geheimnis hält die Wirkung deiner Mutagene länger an. Die Boni und Mali deiner Mutagene wirken für 1 zusätzliche Minute pro Alchemistenstufe.",
+    "area": "magic"
+  },
+  {
+    "id": "90b5430e-8920-56a7-8b96-8bbc8f309c23",
+    "name": "Arkane Aufladung",
+    "description": "Dein kämpferisches Geschick kann deine arkane Kraft stärken. Einmal am Tag erhältst du 1 Punkt deines arkanen Vorrats zurück, wenn du einen Kritischen Treffer mit einer Waffe bestätigst. Du kannst auf diese Weise nicht dein Maximum an Arkanen Vorratspunkten überschreiten.",
+    "area": "magic"
+  },
+  {
+    "id": "175f932e-4630-5838-89d4-c9a25f60595f",
+    "name": "Arkanes Temperament",
+    "description": "Du hast schnelle Reaktionen und bist hochkonzentriert. Du erhältst einen Wesenszugbonus von +1 auf Initiative und Konzentrationswürfe.",
+    "area": "magic"
+  },
+  {
+    "id": "85da6733-462f-552f-a816-cb480dd3dfcc",
+    "name": "Autodidakt",
+    "description": "Da du dir vieles selbst beibringst, musst du alle Schriften studieren, die dir in die Hände fallen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Sprachenkunde zum Entziffern unbekannter Sprachen. Sprachenkunde ist für dich stets eine Klassenfertigkeit. Ferner erhältst du einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Zauberkunde, um magische Schriftrollen zu entziffern.",
+    "area": "magic"
+  },
+  {
+    "id": "b4c5c6a1-f264-5358-8ae1-2022c8a4ea42",
+    "name": "Begabter Adept",
+    "description": "Dein Interesse an Magie wurde ausgelöst, als du mit ansahst, wie ein Zauber auf besonders dramatische Weise gewirkt wurde. Vielleicht warst du dabei sogar selbst körperlich oder mental betroffen. Dieser frühe Kontakt mit Magie machte es dir leichter, selbst ähnliche Magie zu wirken. Wähle einen Zauber, wenn du dich für diesen Wesenszug entscheidest. Wann immer du diesen Zauber wirkst, manifestieren sich seine Effekte, und deine Zauberstufe wird bei diesem um +1 erhöht.",
+    "area": "magic"
+  },
+  {
+    "id": "a558dbe7-0d63-5183-bc8a-7cff0e0b8dd4",
+    "name": "Besessen",
+    "description": "Du wurdest – oder bist es immer noch – von einer anderen Wesenheit besessen, welche dir zuweilen Zugang zu ihrem Wissen erlaubt. Einmal am Tag kannst du einen Fertigkeitswurf für eine Wissensfertigkeit ablegen, selbst wenn du in dieser nicht geübt bist und es normalerweise nicht möglich ist, diese Fertigkeit ungeübt anzuwenden. Solltest du diese Fertigkeit normalerweise ungeübt nutzen können, erhältst du einen Wesenszugbonus von +2 auf den Fertigkeitswurf.",
+    "area": "magic"
+  },
+  {
+    "id": "dc1937eb-d37e-53cc-b753-92b417b40f74",
+    "name": "Bindungsschub",
+    "description": "Einmal am Tag kannst du einen stärke- oder konstitutionsbasierenden Fertigkeitswurf mit dem Attributsmodifikator deines Eidolons anstelle deines eigenen ab legen. Dein Eidolon darf sich dazu nicht weiter als 9 m von dir entfernt auf derselben Existenzebene befinden.",
+    "area": "magic"
+  },
+  {
+    "id": "f7faaa3c-38db-568c-8154-8491ad6641c7",
+    "name": "Erdberührt",
+    "description": "Du besitzt eine Affinität für das Element der Erde. Du erhältst SR 1/- gegen Kreaturen und Angriffe der Kategorie Erde.",
+    "area": "magic"
+  },
+  {
+    "id": "fcf189b2-2dc8-550d-8ca4-c519977954e8",
+    "name": "Explosive Energie",
+    "description": "Du hast das Geheimnis entdeckt, wie du die Energie mancher Zauber verstärken kannst. Einmal am Tag kannst du als Freie Aktion einen Zauber mit explosiver Energie aufladen, welcher Elektrizitäts-, Feuer-, Kälte- oder Säureschaden verursacht. Dieser Zauber verursacht dann +1W4 Schadenspunkte derselben Energieart.",
+    "area": "magic"
+  },
+  {
+    "id": "747d9f41-627a-5f8c-aa77-0b972bb32469",
+    "name": "Flammenberührt",
+    "description": "Du besitzt eine Affinität für elementares Feuer. Du erhältst SR 1/- gegen Kreaturen und Angriffe der Kategorie Feuer.",
+    "area": "magic"
+  },
+  {
+    "id": "97fdf138-aee5-5157-973b-bded10d80438",
+    "name": "Flexible Magie",
+    "description": "Einmal am Tag kannst du als Schnelle Aktion einen vor bereiteten Kampfmaguszauber des 1., 2. oder 3. Grades vergessen, um 1 Punkt deines Arkanen Vorrats zurückzuerlangen. Du kannst auf diese Weise nicht das Maximum deiner Arkanen Vorratspunkte überschreiten.",
+    "area": "magic"
+  },
+  {
+    "id": "f5a594bc-a429-587e-918c-b607caf20212",
+    "name": "Fokussierter Verstand",
+    "description": "Deine Kindheit wurde von Unterrichtsstunden (sei es musikalisch oder akademisch) oder ei-nem schrecklichen Leben zu Hause dominiert, was dich darin übte, Ablenkungen auszuschließen, um dich ganz auf die vor dir liegenden Aufgaben konzentrieren zu können. Du erhältst einen Wesenszugbonus von +2 auf Konzentrationswürfe.",
+    "area": "magic"
+  },
+  {
+    "id": "f3b945f5-5745-57ba-bc7f-44441967403a",
+    "name": "Gefährliche Neugier",
+    "description": "Du warst schon immer von Magie fasziniert, wahrscheinlich, weil du das Kind eines Magiers oder Priesters warst. Du hast dich oft in das Labor oder den Schrein deiner Eltern geschlichen, um mit Zauberkomponenten und magischen Apparaturen herum zu experimentieren. Oft hast du einigen Schaden angerichtet und deinen Eltern Kopfschmerzen bereitet. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Magischen Gegenstand benutzen. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "magic"
+  },
+  {
+    "id": "11a7b798-0db5-58bd-8348-efe528e5f9a0",
+    "name": "Geschwisterband",
+    "description": "Zwischen dir und einem Geschwisterteil besteht eine fast mystische Verbindung. Wähle hierfür ein Geschwisterteil aus. Einmal am Tag kannst du einen gescheiterten Rettungswurf wiederholen, sofern sich dieser Geschwisterteil nicht weiter als 9 m entfernt befindet. Solltet ihr Zwillinge oder Mehrlinge sein, erhältst du einen Wesenszugbonus von +2 auf den neuen Rettungswurf. Dein Geschwisterteil muss aber auch bereit sein, dir diesen neuen Wurf zuzugestehen. Sollte dir der Rettungswurf misslingen, seid ihr beide für 1 Runde Benommen.",
+    "area": "magic"
+  },
+  {
+    "id": "c01224ce-55b9-5cc7-a83d-ded57c7bcf76",
+    "name": "Heckenmagier",
+    "description": "Du warst eine Zeitlang bei einem Handwerker in der Ausbildung, der häufig magische Gegenstände herstellte. Er lehrte dich viele nützliche Kniffe und Methoden zur Kostenersparnis. Wann immer du einen magischen Gegenstand herstellst, reduzierst du die GM-Kosten für die Herstellung dieses Gegenstandes um 5%.",
+    "area": "magic"
+  },
+  {
+    "id": "110f2a31-039b-584e-b1a9-b971d105d192",
+    "name": "Heiße Bomben",
+    "description": "Du kennst das Geheimnis der Herstellung heißbrennender Bomben. Alle deine Bomben, welche Feuerschaden verursachen, erzeugen 1 zusätzlichen Punkt Feuerschaden bei einem direkten Treffer pro 2W6 Punkte Feuergrundschaden (Minimum 1 Punkt). Dieser zusätzliche Schaden wird nicht auf den Flächenschaden der Bombe addiert.",
+    "area": "magic"
+  },
+  {
+    "id": "e48ca459-ca6c-562d-85b6-bf3bc2450368",
+    "name": "Höhere Berufung",
+    "description": "Du bist davon überzeugt, geboren zu sein, um ein höheres Ziel zu erreichen. Du erhältst einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Todeseffekte und einen Wesenszugbonus von +1 auf Konstitutionswürfe, um dich zu stabilisieren, wenn du im Sterben liegst.",
+    "area": "magic"
+  },
+  {
+    "id": "ed893286-312f-56c8-8a02-017fa4f5bb2b",
+    "name": "Instabiles Mutagen",
+    "description": "Du hast ein Geheimnis entdeckt oder erlangt, wie du deine Mutagene instabiler und zugleich wirksamer machen kannst. Du kannst einmal am Tag ein instabiles Mutagen herstellen. Dieses entspricht größtenteils einem normalen Mutagen, erhält zusätzlich aber einen Vor- oder Nachteil. Würfle diesen mit 1W6 aus:",
+    "area": "magic"
+  },
+  {
+    "id": "f457fb73-9117-5353-8b32-0ac155c44b4e",
+    "name": "Interdisziplinäres Können",
+    "description": "Deine Beschäftigung mit Magie hat dir Einsichten in das korrekte Wirken bestimmter Zauber verschafft. Einmal am Tag kannst du einen vorbereiteten Zauber, welcher zu den Kampfmagier- und Magierzaubern gehört, mit einem Bonus von +1 auf deine effektive Zauberstufe wirken.",
+    "area": "magic"
+  },
+  {
+    "id": "bada0901-4a56-54f1-8347-b8912428ce79",
+    "name": "Interdisziplinares Wissen",
+    "description": "Einmal am Tag kannst du einen Extrakt, welcher als Alchemistenformel und als Magierzauber gewirkt werden kann, behandeln, als wäre deine effektive Zauberstufe um +1 höher.",
+    "area": "magic"
+  },
+  {
+    "id": "e9f29d44-245c-5c60-ae24-0a9ddf253c26",
+    "name": "Intuition des Ausgestoßenen",
+    "description": "Du kannst die Motive anderer erkennen und mittels dieses Verständnisses deine Magie gegen Bannmagie stärken. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Motiv erkennen, zudem ist Motiv erkennen für dich stets eine Klassenfertigkeit. Ferner erhältst du einen Bonus von +1 auf die effektive Zauberstufe deiner magischen Effekte, wenn jemand oder etwas diese zu bannen versucht.",
+    "area": "magic"
+  },
+  {
+    "id": "31d554ea-e77b-5c7b-8c46-3dc8d5cfbf5a",
+    "name": "Klassisch geschult",
+    "description": "Dein Unterricht in Kindheitstagen oder deine Lehrzeit konzentrierte sich unmittelbar auf die direkte Anwendung von Magie. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Zauberkunde. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "magic"
+  },
+  {
+    "id": "caadba30-fd24-5f76-8978-263ee4b310c7",
+    "name": "Können vortäuschen",
+    "description": "Du bist begabt darin, deine wahren Fähigkeiten zu verbergen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Bluffen und auf Magischen Gegenstand benutzen, um Klassenmerkmale vorzutäuschen.",
+    "area": "magic"
+  },
+  {
+    "id": "8d20225c-6030-5681-bf80-4412195a6f10",
+    "name": "Komponentenlose Zauberei",
+    "description": "Du hast gelernt, beim Wirken einiger Zauber auf geringwertige Materialkomponenten zu verzichten. Wähle eine Schule der Magie, wenn du diesen Wesenszug wählst. Du kannst Zauber dieser Schule wirken, als besäßest du das Talent Materialkomponentenlos zaubern.",
+    "area": "magic"
+  },
+  {
+    "id": "1464faa3-bbd1-598f-ac81-92e903ae9384",
+    "name": "Kundiger Zauberwirker",
+    "description": "Einmal am Tag kannst du einen Erkenntniszauber mit einem Bonus von +1 auf deine effektive Zauberstufe wirken. Ferner erhältst du einen Wesenszugbonus von +1 auf Fertigkeitswürfe für eine Wissensfertigkeit, sofern diese mit deiner Blutlinie in Verbindung steht (d.h. sofern deine Blutlinie dir eine Wissensfertigkeit als zusätzliche Klassenfertigkeit verschafft).",
+    "area": "magic"
+  },
+  {
+    "id": "f69811d7-6ec5-5e26-a98c-fef1665f8c2c",
+    "name": "Latente Energieresistenz",
+    "description": "Aufgrund deiner Jugend oder magischer Experimente bist du überraschend resistent gegen Energieangriffe. Jede Art von Energieresistenz, über die du verfügst, steigt um +2 Punkte. Energieresistenz, über die du nicht verfügst, sind hiervon nicht betroffen.",
+    "area": "magic"
+  },
+  {
+    "id": "fbe7f660-92d6-5bc6-95f0-7f301abe3a7e",
+    "name": "Luftberührt",
+    "description": "Du besitzt eine Affinität für das Element der Luft. Du erhältst SR 1/- gegen Kreaturen und Angriffe der Kategorie Luft.",
+    "area": "magic"
+  },
+  {
+    "id": "46908edb-07be-5a22-b257-64fe6df3acd3",
+    "name": "Machtvolle Blutlinie",
+    "description": "Deine erste Blutlinie ist besonders stark. Deine effektive Hexenmeisterstufe erhält hinsichtlich der Bestimmung der Effekte der Blutlinienfähigkeit der 1. Stufe einen Bonus von +1.",
+    "area": "magic"
+  },
+  {
+    "id": "b899779e-993f-5ee1-a4df-528b0e804f4a",
+    "name": "Magische Abstammung",
+    "description": "Einer deiner Elternteile war ein begabter Zauberkundiger, der nicht nur häufig Metamagie einsetzte, sondern auch viele magische Gegenstände entwickelte und vielleicht sogar einen oder zwei neue Zauber erschuf. Du hast einen Bruchteil dieser Genialität geerbt. Wähle einen Zauber, wenn du dich für diesen Wesenszug entscheidest. Wenn du metamagische Talente auf diesen Zauber anwendest, senke seinen Grad um -1, um den durch die Metamagie veränderten Grad zu ermitteln.",
+    "area": "magic"
+  },
+  {
+    "id": "8241a659-d0af-5b3f-a7f0-fe39f2c20e74",
+    "name": "Machtvolle Präsenz",
+    "description": "Dein Eidolon und deine Verbindung zu ihm verunsichern andere. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Einschüchtern. Letzteres ist für dich stets eine Klassenfertigkeit. Wenn dein Eidolon sich innerhalb von 9 m Entfernung auf derselben Existenzebene befindet und einer größeren Größenkategorie angehört als du, kannst du seinen Größenmodifikator bei allen Fertigkeitswürfen für Einschüchtern nutzen, die du ausführst.",
+    "area": "magic"
+  },
+  {
+    "id": "2e3422a8-559d-53d6-9621-d7d746ec9f73",
+    "name": "Magische Gabe",
+    "description": "Entweder durch angeborenes Talent, die Laune der Götter oder obsessive Studien seltsamer Bücher hast du den Einsatz eines Zaubers gemeistert. Wähle einen Zauber des 0. Grades. Du kannst diesen Zauber einmal pro Tag als Zauberähnliche Fähigkeit wirken. Diese Zauberähnliche Fähigkeit wird auf deiner höchsten Stufe als Zauberkundiger gewirkt. Wenn du keine Zauberstufe besitzt, wirkt er auf der 1. Zauberstufe. Der Rettungswurf gegen die Zauberähnliche Fähigkeit basiert auf Charisma.",
+    "area": "magic"
+  },
+  {
+    "id": "e3b04f4a-c0d4-5398-940d-289702ce98b5",
+    "name": "Magischer Forscher",
+    "description": "Dich dürstet es nach Wissen über die Welt, welches du aus erster Hand erlangen willst. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Wissen (Geschichte) und Wissen (Gewölbe). Du erhältst ferner einen Bonus von +1 auf deine effektive Zauberstufe bei allen Beschwörungszaubern der Unterschule der Teleportation.",
+    "area": "magic"
+  },
+  {
+    "id": "638f2ce3-b14e-5794-93d8-b7d0d870e32b",
+    "name": "Magisches Geschick",
+    "description": "Du wurdest entweder vollständig oder teilweise von einer magischen Kreatur aufgezogen, entweder nachdem sie dich in den Wäldern ausgesetzt gefunden hatte, oder weil deine Eltern dich häufig in der Obhut eines magischen Dieners zurückgelassen hatten. Diese konstante Berührung mit Magie ließ dich ihre Mysterien leicht verstehen, selbst wenn du deine Konzentration anderen Aufgaben zuwendest. Wähle eine Klasse, wenn du dich für diesen Wesenszug entscheidest. Deine Zauberstufe in dieser Klasse erhält einen Wesenszugbonus von +2, solange dieser Bonus deine Zauberstufe nicht über deine gegenwärtigen Trefferwürfel hinaus erhöht.",
+    "area": "magic"
+  },
+  {
+    "id": "547a9f17-0e3f-51e4-8416-a4a259ef966f",
+    "name": "Mathematisches Wunderkind",
+    "description": "Mathematik ist dir schon immer leicht gefallen. Du warst schon immer in der Lage die Mathematik in der materiellen und auch magischen Welt zu „sehen“. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Arkanes) und Wissen (Baukunst). Eine dieser Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "magic"
+  },
+  {
+    "id": "f0dec4a1-d5d4-5108-8540-1a3d8535eba4",
+    "name": "Präzise Behandlung",
+    "description": "Du behandelst Patienten mit Klarheit und Kalkulation. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Heilkunde und kannst bei Würfen für Heilkunde anstelle deines WE-Modifikators deinen IN-Modifikator verwenden.",
+    "area": "magic"
+  },
+  {
+    "id": "94d8961f-8bc9-54b1-89fc-eaa6074373d0",
+    "name": "Pragmatischer Anwender",
+    "description": "Manche bekommen dank ihrer Sturheit heraus, wie magische Gegenstände benutzt werden. Dein Ansatz ist weitaus pragmatischer. Du kannst bei Fertigkeitswürfen für Magischen Gegenstand benutzen anstelle deines CH-Modifikators deinen IN-Modifikator verwenden.",
+    "area": "magic"
+  },
+  {
+    "id": "d248a161-e3a9-5b22-a9d4-d8daa8d6c01f",
+    "name": "Schüler der Alchemie",
+    "description": "Du bist begabt im Erschaffen alche mistischer Gegenstände. Du erhältst einen Wesenszugbonus von +2 auf alle Fertigkeitswürfe für Handwerk (Alchemie), um alchemistische Gegenstände herzustellen. Sollte dir ein entsprechender Handwerkswurf um 5 oder mehr misslingen, zerstörst du die Rohstoffe nicht und musst die Kosten nicht erneut aufwenden, solange du keine natürliche 1 würfelst.",
+    "area": "magic"
+  },
+  {
+    "id": "ebb4c9cf-836d-50a0-89b7-227ac22591e2",
+    "name": "Skeptiker",
+    "description": "Während deiner Jugend warst du häufig von magischen Effekten umgeben. Du hast erkannt, dass viele von ihnen eigentlich nur aus Rauch, Spiegeln und anderen Taschenspielertricks bestanden. Du erhältst einen Wesenszugbonus von +2 auf alle Rettungswürfe gegen Illusionen.",
+    "area": "magic"
+  },
+  {
+    "id": "dd540fe1-d802-590c-94f2-b002b9ccacd1",
+    "name": "Stärke des Blutes",
+    "description": "Du kannst einen deiner Blutlinienzauber mit zusätzlicher Macht versehen. Einmal am Tag erhältst du als Freie Aktion einen Wesenszugbonus von +1 auf den SG des Rettungswurfes eines deiner Blutlinienbonuszauber.",
+    "area": "magic"
+  },
+  {
+    "id": "0e4252fa-0cdb-57cf-8ef2-2a672fe7b1bc",
+    "name": "Stärkere Verbindung",
+    "description": "Die Verbindung zwischen dir und deinem Eidolon ist stärker, als dies normalerweise der Fall ist. Die aktuellen und maximalen Trefferpunkte deines Eidolons werden erst halbiert, wenn zwischen euch 33 m oder mehr liegen. Sie werden erst auf ¼ reduziert, wenn zwischen euch 330 m oder mehr liegen. Alle anderen Aspekte des Klassenmerkmals Lebensband bleiben unverändert.",
+    "area": "magic"
+  },
+  {
+    "id": "a6904963-cf66-5008-a412-f52fe2090680",
+    "name": "Sturmberührt",
+    "description": "Du besitzt eine Affinität für elementare Elektrizität und Blitze. Du erhältst SR 1/- gegen Kreaturen und Angriffe der Kategorie Elektrizität.",
+    "area": "magic"
+  },
+  {
+    "id": "46b8589f-3577-58c6-926c-451dfe30664f",
+    "name": "Ungesehene Magie",
+    "description": "Du kannst einen Blutlinienzauber mit einer einzelnen Geste entfesseln. Du kannst einmal am Tag einen Blutlinienzauber wirken, als besäßest du das Talent Gestenlos zaubern. Der Grad des Zauber wird dabei nicht durch diesen Wesenszug modifiziert.",
+    "area": "magic"
+  },
+  {
+    "id": "182eff24-ee62-5d07-8eda-d5a5d7ca0a5f",
+    "name": "Verzweifelte Entschlossenheit",
+    "description": "Du kannst Zauber selbst unter den widrigsten Umständen wirken. Du erhältst einen Wesenszugbonus von +1 auf Konzentrationswürfe. Dieser Wesenszugbonus steigt auf +4, wenn du dich im Ringkampf oder Haltegriff befindest, bei heftigen Wetterbedingungen oder wenn du verstrickt bist.",
+    "area": "magic"
+  },
+  {
+    "id": "3f29d40f-fed5-5636-a4d8-a653ff33da4d",
+    "name": "Verzweifelte Geschwindigkeit",
+    "description": "Dein Eidolon ist sehr beweglich in einer dir nicht verfügbaren Fortbewegungsart. Es erhält einen Verbesserungsbonus von +1,50 m bei einer Bewegungsart, die du nicht besitzt, z.B. Klettern oder Schwimmen. Sollte es noch keine solche Bewegungsart besitzen, kannst du diesen Wesenszugbonus später anwenden, wenn es über eine Evolution die Voraussetzungen erfüllt. Wenn der Bonus einmal mit einer Bewegungsart verbunden wurde, kann er später nicht mehr auf eine andere angewendet werden.",
+    "area": "magic"
+  },
+  {
+    "id": "4b76d1f3-680e-5db4-9b7e-2db7047f68ca",
+    "name": "Waffenmagie",
+    "description": "Du besitzt eine angeborene Begabung für die Nutzung magischer Waffen und von Waffen, welche magisch werden können. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Handwerk zur Herstellung von magischen Waffen und Meisterarbeiten. Wenn du deine Klassenfähigkeit Arkaner Vorrat nutzt, um einer Waffe einen Verbesserungsbonus zu verleihen, besteht dieser Bonus nicht für 1, sondern für 2 Minuten.",
+    "area": "magic"
+  },
+  {
+    "id": "abb8c61c-66dc-5710-8f51-8e745c7d0347",
+    "name": "Wasserberührt",
+    "description": "Du besitzt eine Affinität für elementares Wasser. Du erhältst SR 1/- gegen Kreaturen und Angriffe der Kategorie Wasser.",
+    "area": "magic"
+  },
+  {
+    "id": "6ad732ff-cb6f-5b0c-b02c-b7737de8dd23",
+    "name": "Widerstandsfähige Magie",
+    "description": "Dank deiner hohen Willenskraft ist deine Magie schwerer zu bannen. Du erhältst einen Bonus von +1 auf deine effektive Zauberstufe, wenn jemand einen deiner Zauber zu bannen versucht.",
+    "area": "magic"
+  },
+  {
+    "id": "bda76bcd-b4b5-53d3-b301-8ce9b2b71ec7",
+    "name": "Zauberschmied",
+    "description": "Zu deiner Ausbildung gehörten recht früh zeitige Studien der Eigenschaften und Erschaffung magischer Gegenstände. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Schätzen und einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Handwerk bei der Erschaffung magischer Gegenstände.",
+    "area": "magic"
+  },
+  {
+    "id": "5678a4ea-79ca-5cc5-b66b-fa79a7f3238f",
+    "name": "Zögerlicher Zauberlehrling",
+    "description": "Deine Ausbildung verleiht dir Wissen um das Arkane. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Arkanes) und giltst als in dieser Fertigkeit geübt, selbst wenn du bislang vielleicht keine Fertigkeitsränge in sie investiert haben solltest.",
+    "area": "magic"
+  },
+  {
+    "id": "00979ffa-ed8c-5f14-9233-1093dc572616",
+    "name": "Adoptiert",
+    "description": "Du wurdest von jemandem adoptiert und erzogen, der nicht aus deinem ursprünglichen Volk stammt, und wuchst in einer dir fremden Gesellschaft auf. Als Resultat hast du einen Wesenszug (Volk) von deinen Adoptiveltern aufgegriffen und kannst ihn vom entsprechenden Volk deiner Adoptiveltern wählen.",
+    "area": "social"
+  },
+  {
+    "id": "238dbb64-33f1-5628-bf7a-9426bdd77dd7",
+    "name": "Agent der Wahrheit",
+    "description": "Du bist begabt darin, wichtige Informationen von unwichtigen zu trennen. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Diplomatie zum Sammeln von Informationen und alle Fertigkeitswürfe für Wissen (Lokales). Letzteres ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "e10ff9ed-68a4-5715-b12b-db32b3201c1b",
+    "name": "Akrobatisch",
+    "description": "Da du von Kindesbeinen an trainiert hast, bist du zu waghalsigen Taten imstande. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Akrobatik und erleidest nur einen Malus von -2 anstelle der üblichen -5, wenn du Klettern einsetzt, um schnell zu klettern.",
+    "area": "social"
+  },
+  {
+    "id": "446a3fae-e5df-5300-94b9-f751e0f24305",
+    "name": "Beeindruckender Abkömmling",
+    "description": "Der Ruf deiner Blutlinie verleiht dir einen gewissen ängstlichen Respekt. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Einschüchtern. Sollte deine Blutlinie mit einer bestimmten Kreaturenart verbunden sein, steigt der Bonus auf +2 bei Interaktionen mit Vertretern dieser Art.",
+    "area": "social"
+  },
+  {
+    "id": "8b17eb40-3e3d-59e2-b95a-ea6d591b4606",
+    "name": "Begabt",
+    "description": "Du bist ein meisterhafter Musiker, Schauspieler oder Geschichtenerzähler. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für eine Auftretenfertigkeit deiner Wahl. Auftreten ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "8dd486d4-f852-5b1c-8ec9-5e5de35ebddc",
+    "name": "Charmeur",
+    "description": "Du bist mit gutem Aussehen gesegnet und davon abhängig, dass andere dich attraktiv finden. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Bluffen oder Diplomatie gegenüber einem Charakter, der sich körperlich von dir angezogen fühlt (oder fühlen könnte), sowie einen Wesenszugbonus von +1 auf den SG aller sprachabhängigen Zauber, die du auf solche Charaktere oder Kreaturen wirkst.",
+    "area": "social"
+  },
+  {
+    "id": "b180804e-9a6e-54ff-a4d0-0d01de1ede49",
+    "name": "Ehrgeizig",
+    "description": "Du strahlst in der Gegenwart von mächtigeren Personen großes Selbstvertrauen aus, was nicht immer klug oder gerechtfertigt ist. Du erhältst einen Wesenszug von +4 auf Fertigkeitswürfe für Diplomatie, um Kreaturen zu beeinflussen, welche über mindestens 5 Trefferwürfel mehr verfügen als du.",
+    "area": "social"
+  },
+  {
+    "id": "3d4b3765-156a-59a3-83b1-986e40277f48",
+    "name": "Einfacher Schüler",
+    "description": "Während deiner Zeit im Kloster hast du dich mit einem Beruf oder einem Handwerk befasst. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für einen Beruf oder ein Handwerk deiner Wahl.",
+    "area": "social"
+  },
+  {
+    "id": "eebf8994-0d8c-5ffd-a65b-4a2bd422a0be",
+    "name": "Einfluss",
+    "description": "Deine gesellschaftliche Position verleiht dir besondere Einsichten oder sorgt dafür, dass andere dir mit Achtung oder sogar Ehrfurcht begegnen. Wähle eine der folgenden Fertigkeiten: Diplomatie, Einschüchtern oder Motiv erkennen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für diese Fertigkeit und sie ist stets eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "190e277d-4e46-5b89-bf77-4217f505ae3c",
+    "name": "Einschüchternder Intellekt",
+    "description": "Dein messerscharfer Intellekt und deine spitzen Bemerkungen können Egos rasch verletzen. Einschüchtern ist für dich stets eine Klassenfertigkeit. Du kannst bei Fertigkeitswürfen für Einschüchtern anstelle deines CH-Modifikators deinen IN-Modifikator verwenden.",
+    "area": "social"
+  },
+  {
+    "id": "be4da5e8-b735-5d3f-b9fe-ce7a16e9538a",
+    "name": "Erzfeind kennen",
+    "description": "Du weißt so manches über deine größten Feinde. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für jene Wissensfertigkeit, die mit deinem ersten Erzfeind korrespondiert. Diese Wissensfertigkeit ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "f60116ee-ee59-543f-858f-dc94074a73ed",
+    "name": "Freund in jedem Ort",
+    "description": "Du findest rasch Freunde, die dich mit Informationen versorgen, egal wo du bist. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Wissen (Lokales) und Diplomatie. Eine dieser Fertigkeiten (deine Wahl) ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "cb32c77c-2440-527e-95d1-353e577151c8",
+    "name": "Geborener Anführer",
+    "description": "Du warst oft in Positionen, in denen andere zu dir aufsahen. Du kannst dich deutlich an ein Ereignis in deiner frühen Kindheit erinnern, bei dem du mehrere andere Kinder anführtest, um ein Ziel zu erreichen, das zu erreichen für jeden Einzelnen von euch unmöglich war. Alle Gefolgsleute, Anhänger oder herbeigezauberte Kreaturen unter deiner Führung erhalten einen Moralbonus von +1 auf ihre Willenswürfe, um geistesbeeinflussenden Effekten widerstehen zu können. Wenn du jemals das Talent Anführer wählst, erhältst du einen Wesenszugbonus von +1 auf deinen Wert in Anführen.",
+    "area": "social"
+  },
+  {
+    "id": "4f819805-f0c1-57b1-9c75-3c2f8c904bcf",
+    "name": "Gewöhnlich",
+    "description": "Das einzige Außergewöhnliche an dir ist dein völlig gewöhnliches Äußere. Du wirkst nicht beeindruckend und die meisten Leute vergessen dein Gesicht rasch wieder. Du erhältst einen Wesenszugbonus von +4 auf Fertigkeitswürfe für Heimlichkeit, wenn du versuchst, dich in einer Menge zu verbergen.",
+    "area": "social"
+  },
+  {
+    "id": "48404bfb-306d-532c-bf4b-18cc5bee5574",
+    "name": "Händler",
+    "description": "Du hast ein Leben als Händler geführt und Waren gekauft und verkauft. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Motiv erkennen und Schätzen, wenn du um den Preis von Waren feilschst. Schätzen ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "bea112de-cabf-56e9-939e-84d73e5d15f3",
+    "name": "Handwerkerkind",
+    "description": "Du hast bei Handwerkern gelernt – vielleicht deinen Eltern -, die viel von ihrem Handwerk verstanden. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für eine Handwerksfertigkeit deiner Wahl.",
+    "area": "social"
+  },
+  {
+    "id": "7d513737-f499-5720-98da-42df6fb77584",
+    "name": "Klosterkundiger",
+    "description": "Du besitzt eine Leidenschaft für die Geschichte und Neuigkeiten hinsichtlich klösterlicher Kampfstile. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Lokales) oder Wissen (Geschichte) – du musst dich für eine Fertigkeit entscheiden. Diese ist zudem für dich stets eine Klassenfertigkeit. Ferner erhältst du einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Diplomatie zum Sammeln von Informationen über Personen mit Klassenstufen als Mönch.",
+    "area": "social"
+  },
+  {
+    "id": "6b9577b3-5356-55f0-9399-0dff77dec9a8",
+    "name": "Krimineller",
+    "description": "Du hast deine Jugend mit Diebstählen und Räubereien verbracht, um dich durchzuschlagen. Wähle eine der folgenden Fertigkeiten: Einschüchtern, Fingerfertigkeit oder Mechanismus ausschalten. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für diese Fertigkeit und sie ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "3be94c89-9842-555c-8679-d1c67416c806",
+    "name": "Lebenslange Schufterei",
+    "description": "Du führst ein körperlich beanspruchendes Leben und arbeitest lange Stunden für einen Meister oder um ein Geschäft aufrechtzuerhalten. Harte körperliche Arbeit hat dich an Körper und Geist abgehärtet. Du erhältst einen Wesenszugbonus von +1 auf Zähigkeitswürfe.",
+    "area": "social"
+  },
+  {
+    "id": "fb476e90-381a-510e-9931-60ace384bd01",
+    "name": "Linguistische Begabung",
+    "description": "Du kannst mit Externaren sprechen. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Sprachenkunde und beherrschst zu Spielbeginn eine zusätzliche Sprache neben denen, die du aufgrund von Volkszugehörigkeit und hoher Intelligenz beherrscht. Nutze dazu folgende Liste: Abyssisch, Aqual, Celestisch, Ignal, Infernalisch, Proteanisch oder Terral.",
+    "area": "social"
+  },
+  {
+    "id": "47fa24d9-ac2a-5a10-8041-86ef7406706d",
+    "name": "Mentor",
+    "description": "Ein Tutor oder Privatlehrer hat dir deine Kunst, deinen Beruf oder dein Handwerk beigebracht. Durch diese Ausbildung wurdest du befähigt, anderen etwas beizubringen und sie anzuleiten. Wähle eine Auftreten-, Berufs- oder Handwerksfertigkeit. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für diese Fertigkeit. Du erhältst zudem einen Wesenszugbonus von +1 auf Fertigkeitswürfe im Rahmen der Aktion Jemand anderem helfen.",
+    "area": "social"
+  },
+  {
+    "id": "ffec74fe-71d8-5ebb-a88b-eae7b42350f8",
+    "name": "Misstrauisch",
+    "description": "In einem frühen Alter musstest du feststellen, dass jemand, dem du vertraut hast (vielleicht ein älteres Geschwister- oder ein Elternteil) dich oft angelogen hat. Es wurde über etwas gelogen, das du als gegeben hingenommen hattest. Dies hat schnell dazu geführt, dass du die Behauptungen anderer stets in Frage stellst. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Motiv erkennen. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "e7e666e0-186d-5ebb-8ea2-29bc15509bfa",
+    "name": "Planarer Diplomat",
+    "description": "Deine Beziehung zu deinem Eidolon verleiht dir einen gewissen Ruf bei anderen Externaren. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Diplomatie gegenüber Externaren. Diplomatie ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "5bf29dde-fc18-5408-890d-740473367cea",
+    "name": "Rache an der Natur",
+    "description": "Du erhältst einen Wesenszugbonus von +2 auf alle Fertigkeitswürfe für Einschüchtern gegenüber Kreaturen der Unterarten Feenwesen, Pflanze oder Tier. Einschüchtern ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "fbfc9266-fc5d-5b4d-8240-e55a0cbc9068",
+    "name": "Reiche Eltern",
+    "description": "Du wurdest in eine reiche Familie hineingeboren, vielleicht sogar in die Adelsschicht. Obwohl du dich so oder so dem Leben eines Abenteurers gewidmet hättest, durftest du einen einmaligen Vorteil zugunsten deiner anfänglichen Finanzen genießen, so dass sich dein Startgeld auf 900 GM erhöht.",
+    "area": "social"
+  },
+  {
+    "id": "1e451e37-11fc-53c9-93d6-25178ebd126e",
+    "name": "Rotwelsch",
+    "description": "Du bist zwischen Dieben und Halunken aufgewachsen. Als Resultat verwundern dich weder ihre ungewöhnlichen Jargon-Ausdrücke, noch ihre Redewendungen. Jeder, der einen Fertigkeitswurf auf Bluffen macht, um dir eine geheime Botschaft zukommen zu lassen, erhält einen Bonus von +5 auf seinen Fertigkeitswurf. Wenn du versuchst, eine geheime Botschaft mit einem Fertigkeitswurf auf Motiv erkennen zu entschlüsseln, erhältst du für diesen Versuch einen Wesenszugbonus von +5.",
+    "area": "social"
+  },
+  {
+    "id": "822dca66-f879-5404-905f-f7c3cf0f1557",
+    "name": "Schläger",
+    "description": "Du bist in einer Umgebung aufgewachsen, in der die Schwachen ignoriert wurden und häufig auf Drohungen und Gewalt zurückgreifen mussten, um gehört zu werden. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Einschüchtern. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "72b24f6b-02e1-543b-971b-59d8902619aa",
+    "name": "Schlagfertig",
+    "description": "Als Kind hattest du ein Händchen dafür, in Ärger zu geraten. Aus diesem Grund hast du schon früh eine flinke Zunge entwickelt. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Bluffen. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "032dbca7-43b2-516b-87bb-2914ab9ebc09",
+    "name": "Söldner",
+    "description": "Alles hat seinen Preis und du feilschst gern. Du erhältst einen Wesenszugbonus von +2 auf Fertigkeitswürfe für Diplomatie, Einschüchtern und Motiv erkennen, wenn es gilt, die Bezahlung für eine Queste oder eine deiner Dienstleistungen auszuhandeln.",
+    "area": "social"
+  },
+  {
+    "id": "bfcab38f-30f4-532f-a040-294bc4fc90eb",
+    "name": "Straßenkind",
+    "description": "Du bist in den Straßen einer Großstadt aufgewachsen. Daher hast du ein Händchen für Taschendiebstahl und das Verstecken von kleinen Gegenständen am Körper entwickelt. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Fingerfertigkeit. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "bf72af48-3e0d-5ab8-97fe-7f43196b4c08",
+    "name": "Sucher",
+    "description": "Du bist stets auf der Suche nach Belohnungen und Gefahren. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wahrnehmung. Letzteres ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "986a8e87-bff7-50c3-89d9-3a3dcaaa28fd",
+    "name": "Tierbund",
+    "description": "Du besitzt eine enge Bindung zu Tieren. Du er hältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Mit Tieren umgehen und Reiten. Eine dieser Fertigkeiten (deine Wahl) ist stets eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "e46b23d7-e968-502f-a0f2-4f4e22690f88",
+    "name": "Trauererfüllt",
+    "description": "Verlust und starke Gefühle sind dir nicht fremd. Du erhältst einen Wesenszug von +2 auf alle Rettungswürfe gegen Gefühlszauber und -effekte.",
+    "area": "social"
+  },
+  {
+    "id": "08cdb42a-1e6e-5482-96b4-c0ddf502e9fa",
+    "name": "Unberechenbar",
+    "description": "Deine Handlungen wirken auf andere oft zufällig und chaotisch, allerdings besitzt dein Wahnsinn Methode. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Bluffen. Bluffen ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "9b82c689-f5e0-5723-a7db-c4ec43879e0b",
+    "name": "Uneheliches Kind",
+    "description": "Du wurdest unehelich geboren. Du warst stets ein Außenseiter innerhalb der Gesellschaft und deiner eigenen Familie. Diese Perspektive hat deine Menschenkenntnis geschärft. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Motiv erkennen. Motiv erkennen ist zudem stets eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "e867e27f-6c50-5325-bdb7-f28202c73417",
+    "name": "Unermüdliche Logik",
+    "description": "Dein neugieriger Verstand kann selbst die kompliziertesten Probleme lösen. Einmal am Tag kannst du für einen intelligenzbasierenden Fertigkeitswurf oder bei einem Intelligenzwurf zwei Mal würfeln und das bessere Ergebnis behalten.",
+    "area": "social"
+  },
+  {
+    "id": "c66e3325-0d89-5352-9b11-91580d563847",
+    "name": "Verarmt",
+    "description": "Deine Kindheit war hart, denn deine Eltern mussten auf jede Kupfermünze achten. Der Hunger war dein ständiger Begleiter, und du musstest häufig von der Hand in den Mund leben oder in der freien Wildnis schlafen. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Überlebenskunst. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "social"
+  },
+  {
+    "id": "3ffe66ee-18e3-525b-9fdf-5cdd506754a9",
+    "name": "Verborgener Schüler",
+    "description": "Du wurdest in der Kunst der Spionage ausgebildet und bist imstande, Botschaften zu übermitteln und dich auf Aufträge zu konzentrieren. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Bluffen, um geheime Botschaften zu übermitteln, sowie einen Wesenszugbonus von +1 auf Rettungswürfe gegen Bezauberungs- und Zwangseffekte.",
+    "area": "social"
+  },
+  {
+    "id": "8f2aa265-1caa-5da5-b6b8-6891969d9387",
+    "name": "Vertrauenswürdig",
+    "description": "Die Leute glauben dir schnell. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe, um jemanden zu täuschen. Du erhältst zudem einen Fertigkeitsbonus von +1 auf Fertigkeitswürfe für Diplomatie; Letzteres ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "ac082898-50cc-5191-a5c5-537296ff3a77",
+    "name": "Waidmann",
+    "description": "Du wurdest ausgebildet, alle Teile eines Tieres sorgfältig und genau zu verwerten. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Beruf (Fallensteller) oder Beruf (Gerber) und kannst für diese Fertigkeiten Würfe ablegen, selbst wenn du in ihnen ungeübt sein solltest. Ferner riskierst du nicht, dich selbst zu vergiften, wenn du mit dem Gift einer giftigen Kreatur hantierst oder es aufträgst.",
+    "area": "social"
+  },
+  {
+    "id": "a432d1c5-1a5a-5301-a33e-a5b6dc5da7df",
+    "name": "Waise",
+    "description": "Du bist von deinen leiblichen Eltern getrennt aufgewachsen und musstest lernen, auf dich selbst aufzupassen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Überlebenskunst. Überlebenskunst ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "90d6944e-6b39-5ca2-81a1-60e9b1a43f2e",
+    "name": "Weitgereister Gesandter",
+    "description": "Deine Reisen durch die Wildnis haben dir Kenntnisse verliehen, wie du ihre Gefahren überleben und mit ihren Bewohnern kommunizieren kannst. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Sprachenkunde und Überlebenskunst. Sprachenkunde ist zudem für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "4751a8a1-aeb9-5f40-bd5c-491619aae9e6",
+    "name": "Welterfahren",
+    "description": "Du verfügst über eine ungewöhnliche Bandbreite an Lebenserfahrung – mehr als andere Angehörigen deines Volkes, deiner Kultur oder deiner Alterskategorie. Einmal am Tag kannst du, wenn du einen Fertigkeitswurf für eine ungeübte Fertigkeit ablegst, zwei Mal würfeln und das bessere Ergebnis verwenden.",
+    "area": "social"
+  },
+  {
+    "id": "87e93ec4-b635-5dbc-b766-4c15d5572a43",
+    "name": "Wilder",
+    "description": "Du wurdest in den ungezähmten Landen fern der Zivilisation geboren und bist dort aufgewachsen. Unter brutalen Humanoiden und wilden Bestien hast du gelernt, die Elemente zu überleben. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Natur) und einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Überlebenskunst, um dich in der Wildnis zurechtzufinden. Wissen (Natur) ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "0ed59b5e-73ba-5201-a282-0ffd72f6b612",
+    "name": "Zivilisiert",
+    "description": "Du kennst dich mit den örtlichen Gesetzen, Gebräuchen und in der Politik aus. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wissen (Adel) und Wissen (Lokales). Wissen (Lokales) ist für dich stets eine Klassenfertigkeit.",
+    "area": "social"
+  },
+  {
+    "id": "739cfbfc-abd3-5cef-a6b5-19363e4cdc95",
+    "name": "Bürgerwehrveteran (Stadt oder Dorf)",
+    "description": "Deine erste berufliche Tätigkeit bestand darin, bei der zivilen Bürgerwehr deines Heimatortes zu dienen. Was du beim täglichen Drill und dem Schutz deiner Mitbürger gelernt hast, hat dir spezielle Einblicke ins militärische Leben verliehen. Wähle eine der folgenden Fertigkeiten: Beruf (Soldat), Reiten oder Überlebenskunst. Du erhältst einen Wesenszugbonus von +1 auf die erwählte Fertigkeit. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "region"
+  },
+  {
+    "id": "6d892fae-8656-5dc4-a72d-b81525be5f6b",
+    "name": "Finsterlandebewohner (Unterirdisch)",
+    "description": "Du wurdest unter der Erde geboren und bist dort mit wenig oder gar keinem hellen Licht aufgewachsen. Deine Chance, ein Ziel aufgrund von Tarnung oder Vollständiger Tarnung bei gewöhnlicher oder magischer Dunkelheit zu verfehlen, sinkt um 10%. Solltest du plötzlich hellem Licht ausgesetzt sein, bist du für 1 Runde geblendet.",
+    "area": "region"
+  },
+  {
+    "id": "d490cef3-58eb-5209-ad40-a0ef298c1d43",
+    "name": "Flussratte (Marsch oder Fluss)",
+    "description": "Du hast zu schwimmen gelernt, kaum dass du laufen konntest. In deiner Jugend ließ dich eine Gruppe Flusspiraten mit einem Messer zwischen den Zähnen in Flüssen und Kanälen schwimmen, so dass du die Ankerseile von Handelsschiffen durchtrennen konntest. Du erhältst einen Wesenszugbonus von +1 auf Schadenswürfe mit einem Dolch und auf deine Fertigkeitswürfe für Schwimmen. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "region"
+  },
+  {
+    "id": "e797b83e-9860-5fcf-b799-5af78f482a55",
+    "name": "Grenzlandbewohner (Grenzregion)",
+    "description": "Das harte Leben am Rand der Zivilisation hat dafür gesorgt, dass du einfallsreich und erf inderisch bist, dich aber auch mit einem ans Paranoide grenzenden Selbsterhaltungstrieb versehen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Wahrnehmung und einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Überlebenskunst, um dich in der Wildnis zurechtzufinden und dort zu überleben.",
+    "area": "region"
+  },
+  {
+    "id": "545be11b-2825-54d8-83ad-c88b4b714ec0",
+    "name": "Hochlandbewohner (Hügel oder Gebirge)",
+    "description": "Du wurdest in rauen und steinigen Ödlanden oder Hügeln geboren und bist dort aufgewachsen. Du hast gelernt, den Raubtieren, Monstern und schlimmeren auszuweichen, was durch die Hochlande streift. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Heimlichkeit. Diese Fertigkeit ist zudem immer eine Klassen fertigkeit für dich. Der Bonus steigt auf +2 in felsigen Gegenden oder Gebirgen.",
+    "area": "region"
+  },
+  {
+    "id": "0e4713ac-73c5-5f1f-aa6d-95b976619dcf",
+    "name": "Landstreicher (Stadt)",
+    "description": "Du bist unter den Ausgestoßenen und Gesetzlosen der Gesellschaft aufgewachsen und hast gelernt, in einer städtischen Umgebung nach Nahrung zu suchen und zu überleben. Wähle eine der folgenden Fertigkeiten: Entfesselungskunst, Fingerfertigkeit oder Mechanismus ausschalten. Du erhältst einen Wesenszugbonus von +1 auf die erwählte Fertigkeit. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "region"
+  },
+  {
+    "id": "7d8d838d-6f23-58c3-b385-7e11a49e1dfe",
+    "name": "Stammläufer (Wald)",
+    "description": "Du hast viel Zeit damit verbracht, zwischen glitschigen Baumstämmen hin- und her zu springen, während sie auf dem Fluss dem Markt entgegenrauschten. Dabei hast du erlernt, dein Gleichgewicht zu halten. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Akrobatik und deine KMV, um Versuchen, dich zu Fall zu bringen zu widerstehen.",
+    "area": "region"
+  },
+  {
+    "id": "e3326888-efd9-5875-bb51-0eae53d0716c",
+    "name": "Steppenkind (Ebenen)",
+    "description": "Du wurdest in gemäßigten Hügeln oder Savannen geboren und bist dort aufgewachsen. Du hast in deiner Jugend viel Zeit damit verbracht, das weite Land zu erforschen und viele seiner Geheimnisse in Erfahrung gebracht. Wähle eine der folgenden Fertigkeiten: Mit Tieren umgehen, Reiten oder Wissen (Natur). Du erhältst einen Wesenszugbonus von +1 auf die erwählte Fertigkeit. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "region"
+  },
+  {
+    "id": "4299ba80-14d3-5f0f-acc9-1051a556d633",
+    "name": "Tundrakind (Tundra oder kalte Regionen)",
+    "description": "Du würdest in den kalten Ödlanden im hohen Norden oder tiefsten Süden geboren und bist dort aufgewachsen. Du bist an niedrige Temperaturen gewöhnt und erhältst einen Wesenszugbonus von +4 auf alle Rettungswürfe, um den Auswirkungen von Kälte zu widerstehen, und einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Kälteeffekte.",
+    "area": "region"
+  },
+  {
+    "id": "8c947cce-1d46-5bf8-959f-9466c4be139a",
+    "name": "Wasserkind (Küste oder Insel)",
+    "description": "Du bist am Wasser zuhause. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Schwimmen und kannst beim Schwimmen stets 10 nehmen.",
+    "area": "region"
+  },
+  {
+    "id": "4e4f64bd-aee3-5ff2-87da-42cc10fa15d7",
+    "name": "Wüstenkind (Wüste)",
+    "description": "Du wurdest in der felsigen Wüste geboren und bist dort aufgewachsen. Du bist an hohe Temperaturen gewöhnt und erhältst einen Wesenszugbonus von +4 auf alle Rettungswürfe, um den Auswirkungen von Hitze zu widerstehen, und einen Wesenszugbonus von +1 auf alle Rettungswürfe gegen Feuereffekte.",
+    "area": "region"
+  },
+  {
+    "id": "94f889ab-4e76-56fa-8edf-b78830f7270f",
+    "name": "Dämonenjäger (RB)",
+    "description": "Du wurdest von der Kirche aufgezogen (egal ob du ihr gegenwärtig angehörst oder nicht) und konzentrierst deine indoktrinierte Begeisterung in erster Linie auf die Vernichtung von Dämonen. Du erhältst einen Wesenszugbonus von +3 auf deine Fertigkeitswürfe für Wissen (Die Ebenen) hinsichtlich Dämonen und einen Wesenszugbonus von +2 auf deine Willenswürfe gegen geistesbeeinflussende Zauber und Effekte durch Dämonen.",
+    "area": "religion"
+  },
+  {
+    "id": "0abf1787-a502-546d-aecc-afd539db59b4",
+    "name": "Augen und Ohren der Stadt (RN)",
+    "description": "Zu deiner religiösen Ausbildung gehörte auch der Dienst bei der Wache einer großen Stadt. Deine wichtigste Pflicht bestand darin, auf der Stadtmauer zu wachen. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Wahrnehmung. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "religion"
+  },
+  {
+    "id": "536743f0-c70a-5c7a-ac95-fca39e85cf56",
+    "name": "Tempeldirne (CG)",
+    "description": "Du hast in einem Tempel als Tempelprostituierte gearbeitet, daher weißt du zu schmeicheln, zu gefallen und (am wichtigsten) zuzuhören. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Motiv erkennen und Diplomatie um Informationen zu sammeln. Eine diese Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "religion"
+  },
+  {
+    "id": "e92c24e9-d5df-5095-83c4-1429afe0e341",
+    "name": "Flamme der Dämmerblume (NG)",
+    "description": "Du wurdest entweder erzogen, dich selbst als Klinge in den Diensten deiner Götting zu betrachten, oder hast diese Bürde freiwillig auf dich genommen. Immer wenn du einen Kritischen Treffer mit einem Krummsäbel erzielst, verursachst du 2 zusätzliche Punkte Feuerschaden beim Ziel.",
+    "area": "religion"
+  },
+  {
+    "id": "2cfdacd4-7c83-5c15-96fc-9fe05ff0572f",
+    "name": "Frommer Krieger (RG)",
+    "description": "Seit deiner Kindheit wurdes du von einem militärischen Klerikerorden ausgebildet. Du bist den Lehren deines Gottes ergeben und bereit, diese Lehren mit Gewalt zu verbreiten. Du erhältst einen Wesenszugbonus von +1 auf den Schaden von Nahkampfwaffen, wenn du einen göttlichen Zauber wirkst, der Waffen betrifft.",
+    "area": "religion"
+  },
+  {
+    "id": "5789efbb-7389-57b4-a2eb-deb83c0cd3cb",
+    "name": "Geduldiger Optimist (RG)",
+    "description": "Du weißt, dass alles einmal endet, und bist daran gewohnt, auch den dickköpfigsten Gläubigen durch wiederholtes Vorbringen von Argumenten zu überzeugen. Du erhältst einen Wesenszugbonus von +2 auf deine Fertigkeitswürfe für Diplomatie, um feindselige oder unfreundlich gesonnene Kreaturen zu beeinflussen. Solltest du dabei scheitern, steht dir ein einmaliger zweiter Versuch zu.",
+    "area": "religion"
+  },
+  {
+    "id": "94035978-edbf-5384-9a6a-0d40ae770cd5",
+    "name": "Jäger der Untoten (N)",
+    "description": "Seit deiner Kindheit wurdest du in den Glaubensgrundsätzen deines Gottes unterrichtet. Du betrachtest Untote als Abscheulichkeiten, die vernichtet werden müssen, so dass ihre Seelen ins Jenseits reisen können, um dort gerichtet zu werden. Du erhältst einen Wesenszugbonus von +1auf Waffenschaden gegen Untote.",
+    "area": "religion"
+  },
+  {
+    "id": "68882a98-ca39-5cfe-923e-3f3987528f47",
+    "name": "Kind der Natur (N)",
+    "description": "Du wurdest gesegnet, dich in der Wildnis so wohl zu fühlen wie daheim. Du erhältst einen Wesenszugbonus von +2 auf deine Fertigkeitswürfe für Überlebenskunst, um Nahrung und Wasser zu finden, sowie einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Wissen (Natur). Eine dieser Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "religion"
+  },
+  {
+    "id": "14169a02-a1c6-5771-beca-00141fce2272",
+    "name": "Leichenfresser (NB)",
+    "description": "Dein Glaube ermutigt dich, perversem Hunger nachzugeben, so dass du selbst einige der finstersten Tabus ignorierst. Du erhältst einen Wesenszugbonus von +2 auf Zähigkeitswürfe gegen Krankheit und kannst dich ohne negative Nebeneffekte von verwesendem Fleisch ernähren.",
+    "area": "religion"
+  },
+  {
+    "id": "9c00fbfb-487a-54b4-8e40-ef466b5c22b2",
+    "name": "Leid ist Freud (RB)",
+    "description": "Du hast eine Spur der dunklen Wahrheiten gefunden, welche in Fleisch und Blut verborgen liegen. Du erhältst einen Wesenszugbonus von +1 auf Zähigkeits- und Willenswürfe, wenn du unter die Hälfte deiner maximalen Trefferpunkte reduziert bist.",
+    "area": "religion"
+  },
+  {
+    "id": "ef878cb1-b4dd-51d5-a631-0df5dee7d980",
+    "name": "Magie ist Leben (N)",
+    "description": "Dein Glaube an die Magie erlaubt dir, die Energie jedes gegen dich eingesetzten Zaubereffektes zu nutzen, um dich vor dem Tod zu bewahren. Solange du unter der Wirkung eines Zaubers stehst, erhältst du einen Wesenszugbonus von +2 auf deine Rettungswürfe gegen Todeseffekte. Solltest du in den negativen Trefferpunktebereich fallen, während du unter der Wirkung eines Zaubers stehst, stabilisierst du automatisch.",
+    "area": "religion"
+  },
+  {
+    "id": "588fdba7-f483-5ec9-a589-b7f753c7fa4c",
+    "name": "Monsterstimme (CB)",
+    "description": "Dein Glauben lässt dich die Macht und Wunder erkennen, welche selbst die schrecklichsten Abscheulichkeiten verkörpern. Du kannst einmal am Tag Mit Tieren sprechen wirken. Wenn du diesen Zauber wirkst, kannst du normal mit Tieren sprechen, aber auch mit Aberrationen und magischen Bestien mit einer Intelligenz von 2 oder niedriger.",
+    "area": "religion"
+  },
+  {
+    "id": "a5e501a2-75c5-5c37-9dd9-a92f957307e8",
+    "name": "Musikalisches Gehör (NG)",
+    "description": "In deiner Jugend hast du zahllose Stunden damit verbracht, in einem Tempel deines Gottes der wunderbaren Musikern und Sängern zu lauschen. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für eine Art von Auftreten (deine Wahl) und einen Wesenszugbonus von +2 auf deine Fertigkeitswürfe für Wissen (Lokales) hinsichtlich der örtlichen Kunst- oder Musikszene.",
+    "area": "religion"
+  },
+  {
+    "id": "327e4d26-cd7e-5a21-8f4d-02654904b640",
+    "name": "Personifizierte Weisheit (RN)",
+    "description": "Stunden der Meditation über innere Perfektion und das Wesen von Stärke und Geschwindigkeit ermöglichen es dir, deine Gedanken auf Dinge zu konzentrieren, zu denen dein Körper normalerweise nicht fähig wäre. Wähle eine auf Stärke, Geschicklichkeit oder Konstitution basierende Fertigkeit. Du benutzt fortan bei dieser Fertigkeit deinen Weisheits-Modifikator anstatt des normalerweise damit verbundenen Modifikators. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "religion"
+  },
+  {
+    "id": "49f9c3e4-c108-5080-9fe5-66b74ef8efd9",
+    "name": "Schattengeflüster (NB)",
+    "description": "Du neigst dazu, die Geheimnisse anderer zu erkennen. Du erhältst einen Wesenszugbonus von +1 auf Fertig keitswürfe für Wissen (Lokales) und einen Wesenszugbonus von +2 auf Fertigkeits würfe für Einschüchtern, um Gegner zu demoralisieren.",
+    "area": "religion"
+  },
+  {
+    "id": "1dcbdcc4-67f9-5ae7-9167-c4c2da092069",
+    "name": "Schlachtenveteran (CN)",
+    "description": "Du hast an zahlreichen Kämpfen teilgenommen und jedes Mal die Gegenwart deines Gottes gespürt, welche deinen Schwertarm leitete. Dadurch bist du imstande innerhalb eines Herzschlags zu handeln. Du erhältst einen Wesenszugbonus von +1 auf deine Initiativewürfe. Wenn du während einer Überraschungsrunde handeln kannst, kannst du als Freie Aktion eine Waffe ziehen, nicht aber einen Trank zu dir nehmen oder einen magischen Gegenstand benutzen.",
+    "area": "religion"
+  },
+  {
+    "id": "56f7c981-ab39-5a09-8b4d-5dc08c82f412",
+    "name": "Schmiedewächter (RG)",
+    "description": "Zu den heiligen Pflichten deines Gottes gehört es, die Gläubigen zu beschützen, von großen Handwerkern und Strategen der Vergangenheit zu lernen und sich gegen dunkle Zeiten zu wappnen. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Wissen (Baukunst) und Wissen (Geschichte). Eine dieser Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "religion"
+  },
+  {
+    "id": "6f18bace-c7e5-51a4-891b-91907460f3b4",
+    "name": "Standhafter Trinker (CG)",
+    "description": "Die heiligen Gebräue deines Gottes beflügeln deinen Geist und geben dir Kraft, geistigen Angriffen zu widerstehen. Wenn du alkoholische Getränke zu dir nimmst, erhältst du für 1 Stunde einen Wesenszugbonus von +2 auf deine Rettungswürfe gegen geistesbeeinflussende Effekte.",
+    "area": "religion"
+  },
+  {
+    "id": "51e13ab1-f437-549b-b2a4-4db9319e031d",
+    "name": "Sternenkind (CG)",
+    "description": "Dein Gott hat deine Reiselust gespürt und dir versprochen, dass du stehst den Weg nach Hause finden würdest. Du weißt stets, wo Norden ist und erhältst einen Wesenszugbonus von +4 auf deine Fertigkeitswürfe für Überlebenskunst, um dich nicht zu verlaufen.",
+    "area": "religion"
+  },
+  {
+    "id": "0c56d17d-b262-5c8b-83cc-5ddd38f430b9",
+    "name": "Verheerender Zorn (CB)",
+    "description": "Deine Wildheit ist verheerend und schadet zuweilen sogar deinen eigenen Waffen. Einmal am Tag kannst du, nachdem du einen Gegner mit einer Nahkampfwaffe getroffen hast, deinen ST-Modifikator auf den Schadenswurf ein weiteres Mal addieren (dies ist keine Verdopplung des ST-Modif ikators wie bei Nutzung einer zweihändigen Waffe). Dabei besteht eine Chance von 25%, dass deine Waffe den Zustand Beschädigt erhält.",
+    "area": "religion"
+  },
+  {
+    "id": "a29cf50f-763e-5c03-8b0a-2588ce9a38e3",
+    "name": "Krieger der alten Schule",
+    "description": "(Nur für Elfen wählbar.) Als Kind hast du lange an Kampfübungen teilgenommen, und auch wenn dies nach all der Zeit nur noch eine dumpfe Erinnerung ist, bist du immer noch begabt darin, rasch auf Schwierigkeiten zu reagieren. Du erhältst einen Wesenszugbonus von +2 auf deine Initiativewürfe.",
+    "area": "race"
+  },
+  {
+    "id": "3f93f10c-461f-5e4c-8df0-34e5d8a607e2",
+    "name": "Verlassen",
+    "description": "(Nur für Elfen wählbar.) Du hast den größten Teil deines Lebens außerhalb der traditionellen elfischen Gesellschaft verbracht, daher weißt du, dass die Welt grausam und gefährlich sein kann und den Schwachen nicht vergibt. Du erhältst einen Wesenszugbonus von +1 auf deine Zähigkeitswürfe.",
+    "area": "race"
+  },
+  {
+    "id": "44b6b7fd-053b-5a3c-ae6d-0f40b61ef3c1",
+    "name": "Tierfreund",
+    "description": "(Nur für Gnome wählbar.) Du bist seit langer Zeit ein Freund der Tiere und fühlst dich in ihrer Nähe sicherer. Du erhältst einen Wesenszugbonus von +1 auf deine Willenswürfe, solange sich innerhalb von 9 m ein dir gegenüber mindestens gleichgültig gesinntes Tier aufhält (sehr klein oder größer). Außerdem ist Umgang mit Tieren immer eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "b642d787-d0e7-5474-b772-46d3056da8ec",
+    "name": "Tunichtgut",
+    "description": "(Nur für Gnome wählbar.) Dein ganzes Leben hast du bereits versucht gesellschaftlichen Konventionen deinen Daumen aufzudrücken. Daher bist du stolz auf deine Zusammenstöße mit dem Gesetz – trotz des ganzen Unfugs, den du bisher betrieben hast, wurdest du nie erwischt. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Entfesselungskunst und deine Initiativewürfe.",
+    "area": "race"
+  },
+  {
+    "id": "b5218d93-5e80-560d-b822-5aede82db203",
+    "name": "Elfische Reflexe",
+    "description": "(Nur für Halb-Elfen wählbar.) Eines deiner Elternteile gehört zu einem Stamm wilder Elfen und du hast einen Teil seiner schnellen Reflexe geerbt. Du erhältst einen Wesenszugbonus von +2 auf deine Initiativewürfe.",
+    "area": "race"
+  },
+  {
+    "id": "40a697ed-fd4e-50f0-a25d-2ecfb65c9970",
+    "name": "Gescheiterter Lehrling",
+    "description": "(Nur für Halb-Elfen wählbar.) Als Kind wurdest du von deinen Eltern zu einem abgelegenen Magierturm geschickt, um als Lehrling die arkanen Künste zu erlernen. Unglücklicherweise hattest du kein arkanes Talent, auch wenn du viel über Zauber gelernt hast und wie man ihnen widersteht. Du erhältst einen Wesenszugbonus von +1 auf deine Rettungswürfe gegen arkane Zauber.",
+    "area": "race"
+  },
+  {
+    "id": "bbe1d50f-ba39-5428-a0c9-d193f3287207",
+    "name": "Freiheitskämpfer",
+    "description": "(Nur für Halblinge wählbar.) Deine Eltern verbargen entflohene Sklaven in ihrem Haus und die Geschichten, die du von ihnen gehört hast, erfüllen dich mit einer tiefen Verachtung für Sklaverei. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeits-und Angriffswürfe, um einer Gefangennahme zu entkommen oder einem Sklaven bei der Flucht zu verhelfen. Außerdem ist Entfesselungskunst immer eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "c8939883-0953-576b-90f2-e203928a147e",
+    "name": "Gut informiert",
+    "description": "(Nur für Halblinge wählbar.) Dir ist es wichtig, jeden zu kennen und zu allem Kontakt zu halten. Du besuchst die besten Schenken, nimmst an den richtigen Ereignissen teil und hilfst jedem, der Hilfe benötigt. Deshalb erhältst du einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Diplomatie um Informationen zu sammeln und auf deine Fertigkeitswürfe für Wissen (Lokales). Eine dieser Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "race"
+  },
+  {
+    "id": "0461a633-7394-588b-ac07-d0fb9821809f",
+    "name": "Ausgestoßener",
+    "description": "(Nur für Halb-Orks wählbar.) Du wurdest aufgrund deiner Abstammung bisher aus jedem Ort gejagt und bist daher inzwischen recht fähig darin, fern aller anderen zu überleben. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Überlebenskunst. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "96cee883-8daf-52c1-abc0-01c5fd2e19b4",
+    "name": "Fast menschlich",
+    "description": "(Nur für Halb-Orks wählbar.) Du bist menschenähnlich genug, um dich als reinblütiger Mensch ausgeben zu können. Du erhältst einen Wesenszugbonus von +4 auf Fertigkeitswürfe für Verkleiden, um als Mensch durchzugehen. Verkleiden ist für dich stets eine Klassenfertigkeit.",
+    "area": "race"
+  },
+  {
+    "id": "aba47cb8-12e1-5365-95e8-598bd47524a4",
+    "name": "Rohling",
+    "description": "(Nur für Halb-Orks wählbar.) Du hast für einen Verbrecherfürsten entweder als rangniederer Vollstrecker oder als Wache gearbeitet und bist begabt darin, Leute abzuschrecken. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Einschüchtern. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "af5b7565-dfd8-54c9-8852-3ae2712efc4a",
+    "name": "Rüpel",
+    "description": "(Nur für Halb-Orks wählbar.) Während deiner Kindheit musstest du um jedes Stück Eigentum und jeden Brocken Nahrung kämpfen. Dies hat dich wachsam und gemein gemacht. Du erhältst einen Wesenszugbonus von +1 auf alle Fertigkeitswürfe für Einschüchtern, um Gegner zu demoralisieren, und auf alle Fertigkeitswürfe für Wahrnehmung, um nicht überrascht zu werden.",
+    "area": "race"
+  },
+  {
+    "id": "7f1d93d1-6282-5121-a054-c126fb700216",
+    "name": "Ruinenkenner",
+    "description": "(Nur für Menschen wählbar.) Seitdem du laufen und sprechen kannst, haben dich die Ruinen uralter Zivilisationen fasziniert. Daher verfügst du über besondere Einsichten in Geographie sowie Erfahrungen beim Erforschen vergessener Orte. Du erhältst einen Wesenszugbonus von +1 auf deine Fertigkeitswürfe für Wissen (Geographie) und Wissen (Gewölbekunde). Eine dieser Fertigkeiten ist zudem immer eine Klassenfertigkeit für dich (nach Wahl).",
+    "area": "race"
+  },
+  {
+    "id": "f248b17c-eaa9-5aa9-843a-558e886ee97f",
+    "name": "Weltreisender",
+    "description": "(Nur für Menschen wählbar.) Deine Familie hat die Welt ausgiebig bereist. Du hast Dutzende von Kulturen gesehen und die Vielfältigkeit zu schätzen gelernt, die die Welt zu bieten hat. Wähle eine der folgenden Fertigkeiten: Diplomatie, Motiv erkennen oder Wissen (Lokales). Du erhältst einen Wesenszugbonus von +1 auf die erwählte Fertigkeit. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "3b66b716-2b0b-5f2e-9343-3d8e04ecaa5d",
+    "name": "Goldschnüffler",
+    "description": "(Nur für Zwerge wählbar.) Deine scharfen Sinne führen dich zu verborgenen Schätzen. Du erhältst einen Wesenszugbonus von +2 auf deine Fertigkeitswürfe für Wahrnehmung in Bezug auf Metalle, Juwelen und Edelsteine.",
+    "area": "race"
+  },
+  {
+    "id": "6405458b-6002-5b87-8034-5eac2638efc4",
+    "name": "Meisterbrauer",
+    "description": "(Nur für Zwerge wählbar.) Deine Familie hat die Geheimnisse zwergischer Braukunst mit sich in fremde Länder genommen. Dadurch beherrschst du zwar ebenfalls dieses Handwerk, aber zugleich misstrauen dir zwergische Puristen. Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für Beruf (Brauer) und Handwerk (Alchemie). Du erleidest zugleich aber auch einen Malus von -1 auf Fertigkeitswürfe für Diplomatie, um die Einstellung von Zwergen zu verändern, die wissen, dass deine Familie Geheimnisse der Braukunst mit Nichtzwergen geteilt hat.",
+    "area": "race"
+  },
+  {
+    "id": "459103de-5610-541a-8e7b-422d9d81f072",
+    "name": "Tunnelkämpfer",
+    "description": "(Nur für Zwerge wählbar.) Höhlen und Tunnel sind dein zweites Zuhause. Wenn du dich unter der Erde befindest, erhältst du einen Wesenszugbonus von +2 auf deine Initiativewürfe und einen Wesenszugbonus von +1 auf Schadenswürfe mit Waffen bei Kritischen Treffern (dieser Schaden wird bei einem Kritischen Treffer multipliziert).",
+    "area": "race"
+  },
+  {
+    "id": "89f68431-7cc8-5147-b477-f29dfec6c981",
+    "name": "Drachenblütig",
+    "description": "Vor langer Zeit vermischte sich das Blut deiner Ahnen mit dem von Drachen. Wähle eine der folgenden Optionen: Wesenszugbonus von +1 auf Fertigkeitswürfe für Wahrnehmung, Dämmersicht oder Wesenszugbonus von +2 auf Rettungswürfe gegen Lähmung oder Schlaf.",
+    "area": "race"
+  },
+  {
+    "id": "459b6399-2006-5949-9537-d4157d2ba840",
+    "name": "Scheusalsblütig",
+    "description": "Das Blut von Scheusalen bef leckt deinen Stammbaum, auch wenn man es vielleicht kaum bemerkt. Wähle eine der folgenden Fertigkeiten: Bluffen, Einschüchtern oder Wissen (Die Ebenen). Du erhältst einen Wesenszugbonus von +1 auf Fertigkeitswürfe für die gewählte Fertigkeit und die gewählte Fertigkeit ist stets eine Klassenfertigkeit für dich.",
+    "area": "race"
+  },
+  {
+    "id": "6f73ffbe-c059-5bd2-a3af-89a76ba6e098",
+    "name": "Todesgezeichnet",
+    "description": "Irgendwann wurdest du von der Bef le ckung der Untoten berührt und erlangtest dabei einige ihrer Verteidigungsfähigkeiten. Du erhältst entweder einen Wesenszugbonus von +1 auf Zähigkeitswürfe oder einen Wesenszugbonus von +2 auf Rettungswürfe gegen geistesbeeinflussende Effekte (deine Wahl).",
+    "area": "race"
   }
 ]

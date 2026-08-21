@@ -271,6 +271,64 @@ seeding an empty string — an earlier version didn't, and an empty-string
 "school" broke `/api/spell-schools`'s distinct-school list (used by the
 Zauberfokus feat's sub-choice picker), since `sorted()` puts `""` first.
 
+## 8. Wesenszüge (traits) prose page → `BaseTrait` seed rows directly
+
+`build_traits_seed.py` is the same direct fetch-into-seed shape as
+§6/`build_conditions_seed.py` (`BaseTrait` only has `name`/`description`/
+`area`, so no cross-catalog resolution step is needed), applied to a single
+prose page:
+
+```
+http://prd.5footstep.de/AusbauregelnIVKampagnen/Charakterhintergrund/Wesenszuege
+```
+
+Structurally this page nests `h3`/`h4`/`h5` category headers (four
+"Grundwesenszüge" groups — Glaube/Kampf/Magie/Sozial — plus "Wesenszüge
+(Regional)"/"(Religion)"/"(Volk)", the last one further split per race and a
+sibling "Blutlinie" subsection), each containing one `<p class="auto"
+id="...">...<strong>{Name}:</strong> {description}</p>` block per trait —
+same shape as §2/§6's prose entries.
+
+**Known quirk:** every category/race subsection opens with an intro
+sentence (e.g. "Nur Elfen können diese Wesenszüge wählen:") inside a `<p>`
+that WackoWiki never closes before the first trait's own nested `<p>`
+starts. A naive parse that anchors `<strong>` at the start of the outer
+paragraph's match therefore silently drops the *first* trait of every
+subsection — the intro sentence is what's at the start, not the trait name.
+Fixed by `re.search`ing for the first `<strong>...</strong>` anywhere in the
+paragraph body instead of requiring it at the start.
+
+**Encoding correction (applies to every script in this file, not just this
+one):** this page's own `<meta>` tag and this document's general guidance
+above both say `iso-8859-1`, but at least one entry ("Eifernder Krieger")
+contains a cp1252-only byte (a German „curly quote", 0x93) that strict
+`iso-8859-1` decodes into a C1 control character instead of the actual
+character — verified against the raw response bytes. `cp1252` is a superset
+of `iso-8859-1` for every other byte observed on this site, so decoding as
+`cp1252` instead is strictly a fix, not a behavior change, for content that
+stays within true `iso-8859-1`. Not (yet) back-verified against every other
+script's already-fetched output in this directory — if a future script's
+output turns up stray `\x80`–`\x9f` characters, this is almost certainly why.
+
+**`area` mapping:** the four "Grundwesenszüge" groups map directly
+(Glaube→`faith`, Kampf→`combat`, Magie→`magic`, Sozial→`social`);
+"Wesenszüge (Regional)" reuses the pre-existing `region` tag. Two new tags:
+`religion` for "Wesenszüge (Religion)" (deity/alignment-specific traits —
+PF1e's Additional Traits/Ultimate Campaign rules treat these as their own
+trait type, not a Glaube subtype, for the one-trait-per-area rule) and
+`race` for "Wesenszüge (Volk)" (the 7 per-race subsections plus the sibling
+"Blutlinie" heritage subsection, which isn't itself race-restricted but is
+grouped with the race traits on the source page). `BaseTrait` has no field
+for "only choosable by race X" — the 7 per-race subsections' restriction
+(stated once, in the subsection's own intro sentence, not per trait) is
+preserved by prefixing each of those traits' descriptions with "(Nur für
+{Rasse} wählbar.)" instead of being silently dropped.
+
+Script: `build_traits_seed.py` → `../app/fixtures/seed/base_traits.json`
+(220 rows, replacing the 10 hand-written placeholder traits that shipped
+before this import), loaded via `app.seed.trait_seed` (same upsert-by-id
+pattern as `build_conditions_seed.py`).
+
 ## Finding a class/section's page path
 
 `/{Book}/Klassen/{ClassSlug}` — book prefix matches the left nav on any PRD

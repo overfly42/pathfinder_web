@@ -1128,7 +1128,7 @@ def test_create_character_persists_traits_on_highest_level(client: TestClient, d
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     reaktionsschnell_id = _trait_id(client, db_session, "Reaktionsschnell")
-    weltgewandt_id = _trait_id(client, db_session, "Weltgewandt")
+    adoptiert_id = _trait_id(client, db_session, "Adoptiert")
 
     response = client.post(
         "/api/characters",
@@ -1137,17 +1137,17 @@ def test_create_character_persists_traits_on_highest_level(client: TestClient, d
             race_id,
             db_session,
             classes=[{"class_name": "Waldläufer", "level": 3}],
-            trait_ids=[reaktionsschnell_id, weltgewandt_id],
+            trait_ids=[reaktionsschnell_id, adoptiert_id],
         ),
     )
     assert response.status_code == 201
     body = response.json()
-    assert set(body["trait_ids"]) == {reaktionsschnell_id, weltgewandt_id}
+    assert set(body["trait_ids"]) == {reaktionsschnell_id, adoptiert_id}
 
     character = db_session.get(Character, body["id"])
     highest_level = max(character.levels, key=lambda level: level.level)
     traits = db_session.scalars(select(CharacterTrait).where(CharacterTrait.level_id == highest_level.id)).all()
-    assert {str(t.trait_id) for t in traits} == {reaktionsschnell_id, weltgewandt_id}
+    assert {str(t.trait_id) for t in traits} == {reaktionsschnell_id, adoptiert_id}
 
 
 def test_create_character_with_more_than_two_traits_is_rejected(client: TestClient, db_session: Session) -> None:
@@ -1155,7 +1155,7 @@ def test_create_character_with_more_than_two_traits_is_rejected(client: TestClie
     race_id = _elf_race_id(client, db_session)
     trait_ids = [
         _trait_id(client, db_session, name)
-        for name in ["Reaktionsschnell", "Weltgewandt", "Gläubige Seele"]
+        for name in ["Reaktionsschnell", "Adoptiert", "Disziplinierter Gläubiger"]
     ]
 
     response = client.post(
@@ -1195,9 +1195,9 @@ def test_create_character_with_two_traits_from_the_same_area_is_rejected(
 ) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
-    # "Reaktionsschnell" and "Tapferer Verteidiger" are both "combat" traits.
+    # "Reaktionsschnell" and "Anatom" are both "combat" traits.
     reaktionsschnell_id = _trait_id(client, db_session, "Reaktionsschnell")
-    verteidiger_id = _trait_id(client, db_session, "Tapferer Verteidiger")
+    verteidiger_id = _trait_id(client, db_session, "Anatom")
 
     response = client.post(
         "/api/characters",
