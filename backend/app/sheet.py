@@ -965,6 +965,12 @@ def _build_actions(
                 BaseClassAbility.activation_scope.in_(["self", "both"]),
             )
         ).all()
+        # `requires_active_ability_id` (e.g. a Kampfrauschkraft only usable while
+        # Kampfrausch is active) hides the action entirely rather than showing it
+        # disabled — same reasoning as the daily-limited block below.
+        abilities = [
+            a for a in abilities if a.requires_active_ability_id is None or context.has_active(a.requires_active_ability_id)
+        ]
         actions += [
             {
                 "id": f"ability-{ability.id}",
@@ -1011,6 +1017,13 @@ def _build_actions(
                 BaseClassAbility.is_persistent_effect.is_(False),
             )
         ).all()
+        # Same `requires_active_ability_id` gate as the persistent-effect block above —
+        # e.g. Erneuerte Lebenskraft only appears while Kampfrausch is active.
+        instant_abilities = [
+            a
+            for a in instant_abilities
+            if a.requires_active_ability_id is None or context.has_active(a.requires_active_ability_id)
+        ]
         actions += [
             {
                 "id": f"ability-use-{ability.id}",

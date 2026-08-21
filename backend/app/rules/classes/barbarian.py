@@ -139,8 +139,7 @@ def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | Non
     (`KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID`), not this ability's own
     id (Bestientotem itself has no separate on/off state, only Kampfrausch
     does)."""
-    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
-    if not instances:
+    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
         return None
     return NaturalAttack(name="Klauen", count=2, damage_dice="1W6", damage_type="H")
 
@@ -155,8 +154,7 @@ def _bestientotem(context: CharacterContext) -> list[Modifier]:
     `feats.py`'s Eisenhaut) caps at the higher of the two rather than
     adding, same convention that module's `_natural_armor_bonus`
     documents."""
-    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
-    if not instances:
+    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
         return []
     barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
     bonus = 1 + max(0, barbar_level - 6) // 4
@@ -174,8 +172,7 @@ def _elementare_kampfhaltung_damage(context: CharacterContext) -> tuple[str, str
     additive stack, so this returns exactly one die/type pair, scaled by
     this class's own levels (`BARBAR_ENTFESSELTER_ROOT_CLASS_ID`), same
     scoping `_kampfrausch_entfesselter_barbar_rounds_per_day` uses."""
-    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
-    if not instances:
+    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
         return None
     barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
     dice = "1W6" if barbar_level >= 8 else "1"
@@ -208,8 +205,7 @@ def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier
     instances (filtered from `context.active_effects` by this ability's id)
     is active, rather than summing per row the way e.g. ability damage
     would."""
-    instances = [e for e in context.active_effects if e.source_id == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID]
-    if not instances:
+    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
         return []
     return [
         Modifier(source="Kampfrausch", type="untyped", value=-2, target=ModifierTarget.AC),

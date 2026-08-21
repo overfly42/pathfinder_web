@@ -107,7 +107,17 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     is, not gated by ownership; `"both"` — usable on the owner as well as
     others (Barde's Lied des Mutes/Lied der Größe/Lied des Heldenmuts name
     the Barde as an eligible target alongside allies). `None` for every
-    ability where `is_persistent_effect` is `False`."""
+    ability where `is_persistent_effect` is `False`.
+
+    `requires_active_ability_id` (self-referencing, same shape as
+    `BaseClass.arch_class_of` above): `None` (default) means this ability
+    has no activation prerequisite; when set, this ability only counts
+    (appears as usable/active/listed) while a `CharacterEffect` sourced from
+    *that other* ability id is currently active on the character. Generic on
+    purpose, not specific to rage — e.g. Entfesselter Barbar's Kampfrauschkräfte
+    (Erneuerte Lebenskraft, Bestientotem, ...) set this to their own class's
+    Kampfrausch id, since PRD text is explicit that rage powers only work
+    while raging (`rules/classes/barbarian.py`)."""
 
     __tablename__ = "base_class_abilities"
 
@@ -115,6 +125,9 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     description: Mapped[str] = mapped_column(Text)
     is_persistent_effect: Mapped[bool] = mapped_column(Boolean, default=False)
     activation_scope: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    requires_active_ability_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_abilities.id"), nullable=True
+    )
 
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):

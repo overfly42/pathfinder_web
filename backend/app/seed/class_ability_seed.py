@@ -67,7 +67,16 @@ def _upsert(db: Session, model: type, row: dict) -> None:
 
 def seed_class_abilities(db: Session) -> None:
     for row in _load("base_class_abilities.json"):
-        _upsert(db, BaseClassAbility, row)
+        _upsert(
+            db,
+            BaseClassAbility,
+            {
+                **row,
+                "requires_active_ability_id": (
+                    UUID(row["requires_active_ability_id"]) if row.get("requires_active_ability_id") else None
+                ),
+            },
+        )
     db.flush()
 
     for row in _load("base_class_ability_grants.json"):

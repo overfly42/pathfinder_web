@@ -2376,7 +2376,8 @@
   {
     "id": "d80a2280-25f5-52e6-add7-7f216989a163",
     "name": "Elementare Kampfhaltung",
-    "description": "(ÜF) Wenn der Barbar diese Kampfhaltung einnimmt, wählt er eine Energieart (Elektrizität, Feuer, Kälte oder Säure). Seine Nahkampfangriffe verursachen 1 zusätzlichen Schadenspunkt der gewählten Energieart. Mit der 8. Stufe steigt dieser Schaden auf 1W6. Mit der 12. Stufe verursachen die Kritischen Treffer des Barbaren zusätzliche 1W10 Energieschadenspunkte derselben Art (2W10 bei Waffen die bei einem Kritischen Treffer dreifachen Schaden verursachen, bzw. 3W10 bei Waffen die bei einem Kritischen Treffer vierfachen Schaden verursachen). Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung."
+    "description": "(ÜF) Wenn der Barbar diese Kampfhaltung einnimmt, wählt er eine Energieart (Elektrizität, Feuer, Kälte oder Säure). Seine Nahkampfangriffe verursachen 1 zusätzlichen Schadenspunkt der gewählten Energieart. Mit der 8. Stufe steigt dieser Schaden auf 1W6. Mit der 12. Stufe verursachen die Kritischen Treffer des Barbaren zusätzliche 1W10 Energieschadenspunkte derselben Art (2W10 bei Waffen die bei einem Kritischen Treffer dreifachen Schaden verursachen, bzw. 3W10 bei Waffen die bei einem Kritischen Treffer vierfachen Schaden verursachen). Dies ist eine Kampfrauschkraft der Kategorie Kampfhaltung.",
+    "requires_active_ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
   },
   {
     "id": "f43179b3-72ff-5d9b-aef0-145c3ecf4fd0",
@@ -2401,7 +2402,8 @@
   {
     "id": "a84efac5-b0f6-521f-accb-067a1195a556",
     "name": "Erneuerte Lebenskraft",
-    "description": "(AF) Der Barbar kann bei sich selbst als Standard-Aktion 1W8 + KO-Modifikator Trefferpunkte heilen. Pro jeweils 4 Stufen, die der Barbar jenseits der 4. Barbarenstufe besitzt, heilt er bei sich weitere 1W8 TP (maximal 5W8 mit der 20. Stufe). Diese Kampfrauschkraft kann nur einmal am Tag eingesetzt werden."
+    "description": "(AF) Der Barbar kann bei sich selbst als Standard-Aktion 1W8 + KO-Modifikator Trefferpunkte heilen. Pro jeweils 4 Stufen, die der Barbar jenseits der 4. Barbarenstufe besitzt, heilt er bei sich weitere 1W8 TP (maximal 5W8 mit der 20. Stufe). Diese Kampfrauschkraft kann nur einmal am Tag eingesetzt werden.",
+    "requires_active_ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
   },
   {
     "id": "c11be660-dfca-52fb-aec0-c5c1daf49724",
@@ -2838,12 +2840,14 @@
   {
     "id": "694f425e-d5f9-55d7-978e-4f7e50296dec",
     "name": "Bestientotem, Schwächeres",
-    "description": "(ÜF) Der Barbar erhält zwei Klauenangriffe. Diese Angriffe sind Primärangriffe und werden mit dem vollen Grund-Angriffsbonus ausgeführt. Die Klauen verursachen 1W6 Punkte Hiebschaden (1W4 falls klein) zuzüglich des ST-Modifikators des Barbaren."
+    "description": "(ÜF) Der Barbar erhält zwei Klauenangriffe. Diese Angriffe sind Primärangriffe und werden mit dem vollen Grund-Angriffsbonus ausgeführt. Die Klauen verursachen 1W6 Punkte Hiebschaden (1W4 falls klein) zuzüglich des ST-Modifikators des Barbaren.",
+    "requires_active_ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
   },
   {
     "id": "a26e564e-295b-5c25-be44-4a75ee3ce486",
     "name": "Bestientotem",
-    "description": "(ÜF) Der Barbar erhält einen Bonus von +1 auf seine natürliche Rüstung. Dieser Bonus steigt um weitere +1 pro 4 Barbarenstufen."
+    "description": "(ÜF) Der Barbar erhält einen Bonus von +1 auf seine natürliche Rüstung. Dieser Bonus steigt um weitere +1 pro 4 Barbarenstufen.",
+    "requires_active_ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
   },
   {
     "id": "21649bfa-845d-56bb-aa8b-8cf18f646aff",

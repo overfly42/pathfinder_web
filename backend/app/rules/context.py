@@ -68,3 +68,12 @@ class CharacterContext:
     # favored_class_bonuses.py`'s own `HANDLERS` still owns *converting* a
     # pick count into a bonus value; this field only supplies the raw count.
     favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)
+
+    def has_active(self, ability_id: UUID) -> bool:
+        """Whether `active_effects` contains at least one instance sourced
+        from `ability_id` — the one check `BaseClassAbility.
+        requires_active_ability_id`-gated abilities need (e.g. a rage power
+        only manifesting while Kampfrausch is active,
+        `rules/classes/barbarian.py`), factored out so every such handler
+        doesn't re-filter `active_effects` itself."""
+        return any(e.source_id == ability_id for e in self.active_effects)

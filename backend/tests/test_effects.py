@@ -466,6 +466,52 @@ def test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_
     assert raging["hp"]["temporary"] == 2
 
 
+def test_erneuerte_lebenskraft_action_hidden_until_raging(client: TestClient, db_session: Session) -> None:
+    """`BaseClassAbility.requires_active_ability_id` gate (`sheet.py`'s
+    `_build_actions`) — Erneuerte Lebenskraft is RAW only usable while
+    raging, so it must be absent from "Aktuelle Optionen" until Kampfrausch
+    is actually active, and disappear again once the rage effect ends."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Entfesselter Barbar",
+                    "level": 4,
+                    "options": {"kampfrauschkraft": ["Erneuerte Lebenskraft"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    def _erneuerte_lebenskraft_action() -> dict | None:
+        sheet = client.get(f"/api/characters/{character_id}").json()
+        return next((a for a in sheet["actions"] if a["name"] == "Erneuerte Lebenskraft"), None)
+
+    assert _erneuerte_lebenskraft_action() is None
+
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    )
+    assert activation.status_code == 201
+
+    action = _erneuerte_lebenskraft_action()
+    assert action is not None
+    assert action["sourceType"] == "class_ability"
+    assert action["usesRemainingToday"] == 1
+
+    client.delete(f"/api/characters/{character_id}/effects/{activation.json()['id']}")
+    assert _erneuerte_lebenskraft_action() is None
+
+
 def _create_entfesselter_barbar(client: TestClient, db_session: Session) -> str:
     """A real Entfesselter Barbar (unlike `test_items.py`'s generic
     `_create_character`, a level-1 Waldläufer) — Kampfrausch must actually be
