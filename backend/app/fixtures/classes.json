@@ -425,5 +425,72 @@
       "wissen_natur",
       "zauberkunde"
     ]
+  },
+  {
+    "name": "Kampfmagus",
+    "skillPointsBase": 2,
+    "spellType": "arcane-prepared",
+    "classSkills": [
+      "beruf",
+      "einschuechtern",
+      "fliegen",
+      "handwerk",
+      "klettern",
+      "umd",
+      "reiten",
+      "schwimmen",
+      "wissen_arkanes",
+      "wissen_die_ebenen",
+      "wissen_gewoelbekunde",
+      "zauberkunde"
+    ],
+    "optionGroups": [
+      {
+        "key": "arkanum",
+        "label": "Arkanum",
+        "max": 6,
+        "choices": [
+          "Arkane Genauigkeit",
+          "Ausgedehnte Studien",
+          "Bannender Schlag",
+          "Direkte Berührung",
+          "Eiliger Angriff",
+          "Gestenlose Magie",
+          "Konzentration",
+          "Kritischer Schlag",
+          "Lautlose Magie",
+          "Maximierte Magie",
+          "Meisterliche Manöver",
+          "Reflexion",
+          "Schnelle Magie",
+          "Verstärkte Magie",
+          "Vertrauter",
+          "Vorratsschlag",
+          "Zauberabwehr",
+          "Zauberforschung",
+          "Zauberstabmeisterschaft",
+          "Zauberstabträger",
+          "Anhaftender Vorratsschlag",
+          "Anhaltender Schmerz",
+          "Arkanes Bollwerk",
+          "Arkane Klinge",
+          "Arkaner Umhang",
+          "Ausdauernde Klinge",
+          "Ätherklinge",
+          "Donnernder Vorratsschlag",
+          "Exakter Schlag",
+          "Gesinnungsklinge",
+          "Mächtiges Arkanes Bollwerk",
+          "Überschlagender Vorratsschlag",
+          "Verderbensklinge",
+          "Vorausschauende Verteidigung",
+          "Vorausschauender Angriff",
+          "Zauberbrecher",
+          "Zauberstörer",
+          "Zeptermeisterschaft",
+          "Zepterträger"
+        ]
+      }
+    ]
   }
 ]

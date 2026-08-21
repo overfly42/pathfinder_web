@@ -1318,5 +1318,11 @@
     "name": "Todesgezeichnet",
     "description": "Irgendwann wurdest du von der Bef le ckung der Untoten berührt und erlangtest dabei einige ihrer Verteidigungsfähigkeiten. Du erhältst entweder einen Wesenszugbonus von +1 auf Zähigkeitswürfe oder einen Wesenszugbonus von +2 auf Rettungswürfe gegen geistesbeeinflussende Effekte (deine Wahl).",
     "area": "race"
+  },
+  {
+    "id": "d190edc6-d19d-5db8-8eb6-3a38fb1eea1c",
+    "name": "Gewitztes Wortspiel",
+    "description": "Wähle eine charismabasierte Fertigkeit. Du legst Fertigkeitswürfe für diese Fertigkeit mit deinem IN-Modifikator anstelle deines CH-Modifikators ab.",
+    "area": "social"
   }
 ]

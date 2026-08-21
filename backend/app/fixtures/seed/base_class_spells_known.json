@@ -4135,5 +4135,670 @@
     "level": 20,
     "grade": 6,
     "count": 5
+  },
+  {
+    "id": "28818949-7daf-5b44-9eb4-86e1487188f6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 1,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "66999ef9-0638-5611-9ead-740bbaaf37a6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 1,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "46189162-a8cd-5d6e-8e31-16644fc7a904",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 2,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "92d58bba-e623-58a3-bfe8-c2e283443ad7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 2,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "d05c0732-087e-5012-9fe5-28eb3eb0fcee",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 3,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "985d9613-61c7-5e3a-9080-2893151982cd",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 3,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "9b866ba9-019b-5d97-b24b-fcadf2155615",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "c20d58f6-ebf4-5505-afeb-f27b23be0c1d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "11e51e6c-8ab0-57d4-879e-d44144cb9dbc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "1d8f9ff3-cfe6-51e3-876a-2d4b1fa2fb84",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "ea52d194-923a-5bf9-ba11-11d7208661d0",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "619fb7a3-6d10-5ff3-9b7c-71e97bbd1597",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "035dab5c-6b47-597e-a261-3b4972e49481",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "dead2278-3b3e-53cd-aba7-e831b8509077",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "95fbbc55-d6fd-5b7f-93c0-ce03cd7cd528",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "ccb60cb5-6e28-5a3f-9702-233fd84813ae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "fe816f73-2af5-54da-afc6-21782ef60959",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "5450f340-a142-5514-b8b8-1288b063106a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "60d9cec8-a9ae-562a-baf1-c7d737495766",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "f76796ed-b664-5d26-a166-8e2973c941e1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "5462877b-9b3c-5a61-9d8f-3b9dcc784272",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "1b424f88-87db-5f2c-b060-32729ebb1744",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "65f17275-f191-544c-ae0d-f730fd7adbf7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "18fd7446-677f-5e6e-90a3-98b2ee5a1fb0",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "f0d64cbd-0d29-5b66-9cb5-cbe2502317dd",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "88e6239e-f0af-50cd-b466-fe5d239d7749",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "a19ba24f-f229-50f5-b85e-e14a4fc1e328",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "aff083be-cf59-5804-b06c-f0492f7d1f24",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "6794e9ec-a762-5341-a047-dd42ef784b49",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "03cdaf4e-2c75-59cc-9376-30976234c7f2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "486e8c79-81c7-5cb6-9c01-b13a725f50c4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "42c78d12-ee9e-5137-9de5-7f7fb4014c31",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "760ca310-3783-5719-bfe6-1a50b27624ae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "ca8d3867-d573-5b5a-9873-35f77ed9d850",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "a1730617-a0d2-5213-b7a4-45cbd15330a8",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "ad9443b0-128a-5015-a310-16614a87c28e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "16832f16-b566-5b73-9b65-47778eb55242",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "eb1885bb-294b-5218-8894-c907c73c6daa",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "a3a097bf-905d-5df3-8f6c-53e561c646e2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "714a8320-0ad8-5bb0-8bc3-616a8bccd19d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "f5beab55-b25b-50c6-9b5e-47e59db17f73",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "cdafe1f7-25a5-5532-ad0a-37b34484ce77",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "743415a4-8e98-5f2d-9d38-d2fd5edfd3a7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "4e1816a7-8453-5ba0-a019-61e8b49a60e3",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "7a854bc8-a648-50a9-9709-ff41738e1f4a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "22ae1b6b-4526-5352-b98b-e61e598e3629",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "c4103079-687d-59ef-8f0a-8ab862e74563",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "24de877d-3ae6-58d9-b980-f62b002360f4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "4b6ba3ff-edf3-5ad2-b394-a26f2c5a02d4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "33a73ea2-6703-533d-9e97-dbab8b04845e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "f51a05f4-aeec-5d36-b35c-190c4107f187",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "c5618f8e-9e93-5ff6-b4e3-ca1e19d2177d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "2dd8d31c-b80f-5783-9cf9-3f2e6231f9e1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "b40e9c14-8389-5ec4-99b5-166aebc560a2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "0c0b95a3-2364-5e93-bef0-1930aedb2323",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "1700193b-046b-5e79-8041-1e4cf75ceb3e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "7e1040da-ba98-5b38-9827-49418e7a0d44",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "137ccb25-e3fa-5c23-8b4d-66c13b7e0c94",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "a81e8a44-e39e-5904-9d75-e3aa48aa679a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "2748e286-adca-5cc8-bbc3-9a51971f32cc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "bce34daf-bff1-5cc3-b84a-3f3b9560de98",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "8ec78859-594d-5b76-b545-2790b2b542bc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "27bf3ad6-427d-557c-9f27-cb83d3e283f4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "adaddb0e-1321-556b-bf6d-73172ffc7f3c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "813a9a25-01e0-5b22-a968-43082c92a85c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "ffbd1f10-72b3-592d-8333-2c1386f8da35",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "899cebbc-73c8-5170-a4bd-63a9ed451868",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 6,
+    "count": null
+  },
+  {
+    "id": "ffdc661d-c70c-5a56-a1e7-6de5b6f19914",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "030c79a5-dc51-5456-8678-ff87a7ef8d07",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "c959fe08-4b79-5b0d-8f94-18f0738b2bef",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "40e9eb95-48af-5cd5-8716-0b0545fb7310",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "d4019ca5-d104-556a-a504-dfdd5080940d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "2aac5115-7fee-5815-81df-1f84357430c6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "0d0321e6-d05a-5cc9-b245-57b1a04e6336",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 6,
+    "count": null
+  },
+  {
+    "id": "d2335788-4a69-5568-ac65-51c7d6ade88f",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "e95479a3-a09a-552c-99a3-3233285f6c67",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "56b61df3-09ea-5369-a9c4-9ab14c5014e6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "b22caebf-e31b-5711-b244-71b40608f8a1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "ca1d1a55-e543-5dc5-a2e7-5cb8b3703c3b",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "a8ea1c15-24de-5d59-aeb5-73431c102500",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "154052ba-5709-5745-8c6f-1731c54ece47",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 6,
+    "count": null
+  },
+  {
+    "id": "be46c3cd-5e5c-59f9-8f76-2fca1cd5d46f",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "e6073781-12f5-5acc-8da7-5d8bde44749c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "a1e54f78-b7fa-58bd-9cc9-b424bcd47dc1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "206880f8-92f8-515c-ac68-88b1212a3d44",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "a10d5778-9fe6-5702-8895-464915d54fdb",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "084b3545-1f7d-5132-a9d2-6ab10f9d516d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "4c5541aa-a51c-5757-bfc1-b6490d8dc62c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 6,
+    "count": null
+  },
+  {
+    "id": "4a073849-2f62-5efb-a4e7-63a70d7185a4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 0,
+    "count": null
+  },
+  {
+    "id": "d10e33d8-4c44-5a22-bd22-6a9172a0ad5b",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 1,
+    "count": null
+  },
+  {
+    "id": "69d1a093-068c-52f8-9610-2f8bfeeca6ba",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 2,
+    "count": null
+  },
+  {
+    "id": "92cf3844-f985-5f0f-aafa-44921246d90c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 3,
+    "count": null
+  },
+  {
+    "id": "c7de7714-8b92-5650-ba41-cba2f24b4eae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 4,
+    "count": null
+  },
+  {
+    "id": "bf3d45c5-75d3-5869-ba63-e93694b66b9a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 5,
+    "count": null
+  },
+  {
+    "id": "d2989345-3182-506a-929c-11b2fe4098a6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 6,
+    "count": null
   }
 ]

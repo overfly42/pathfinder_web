@@ -1341,5 +1341,65 @@
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "skill_id": "8532ffd7-4849-4b27-b10b-1fd0c84b7ebe",
     "option_choice_id": null
+  },
+  {
+    "id": "2aac92d9-3028-52e1-ac16-03fa76b8753b",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6"
+  },
+  {
+    "id": "28f166e4-e8ea-572c-b131-ca3c1e66626c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
+  },
+  {
+    "id": "b116f0bc-d168-54ef-8098-3ed395f9c9de",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "a71cd8ed-15b2-4594-9819-0e320071513c"
+  },
+  {
+    "id": "ab3391a6-e968-51e1-ad67-f875b5917b06",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b"
+  },
+  {
+    "id": "7e3cd3ff-3600-5cb2-b5fd-54ea89a277f0",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7"
+  },
+  {
+    "id": "2d601eb8-bbfe-5c4d-91d5-c4cd9bee9063",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "7446d67a-7bc2-4455-877b-591500769be2"
+  },
+  {
+    "id": "59846493-cfe0-5772-8159-253031aa0f03",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "ea28d7f8-2b92-42aa-93c9-89dd78987f09"
+  },
+  {
+    "id": "bda3fec6-6deb-5619-9b34-366ec4be02db",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "e5fa3283-96aa-49ee-8836-ba3062bae32d"
+  },
+  {
+    "id": "21860964-f678-5841-9953-62f866d5ec22",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "0aa605c7-5afe-47cb-99df-ad187775333f"
+  },
+  {
+    "id": "799fe3ec-e817-5021-a0e4-e63eb45faf36",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "80b9c08a-4cef-40d1-b446-caefccbff302"
+  },
+  {
+    "id": "969b1b2c-9ceb-5386-97aa-58632cb60374",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "960179c4-5aed-4352-8b84-bd78a8c3a10e"
+  },
+  {
+    "id": "8363d058-3a2c-5703-a9b4-971dd2289151",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "skill_id": "8532ffd7-4849-4b27-b10b-1fd0c84b7ebe"
   }
 ]

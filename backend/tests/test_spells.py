@@ -40,6 +40,7 @@ def test_spells_by_class_groups_by_root_class_with_grades(client: TestClient, db
         "Hexe",
         "Waldläufer",
         "Druide",
+        "Kampfmagus",
     }
     magier = by_class["Magier"]
     assert all({"id", "name", "grade"} <= set(s) for s in magier)

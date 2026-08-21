@@ -776,5 +776,29 @@
     "feat_type": null,
     "feat_id": "eb99fd9f-8e1d-518a-a567-deaa40218bfc",
     "min_level": 10
+  },
+  {
+    "id": "9a4d7c7b-c9bb-5917-bf94-24f4f71f5c62",
+    "ability_id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
+    "option_choice_id": null,
+    "feat_type": "combat",
+    "feat_id": null,
+    "min_level": null
+  },
+  {
+    "id": "125ea7f1-475a-5492-8f54-d05f7520dd78",
+    "ability_id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
+    "option_choice_id": null,
+    "feat_type": "metamagic",
+    "feat_id": null,
+    "min_level": null
+  },
+  {
+    "id": "0b1ab837-bdda-5017-bbe4-6b80a0701ba5",
+    "ability_id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
+    "option_choice_id": null,
+    "feat_type": "item_creation",
+    "feat_id": null,
+    "min_level": null
   }
 ]

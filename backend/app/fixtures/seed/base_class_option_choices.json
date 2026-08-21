@@ -2433,5 +2433,437 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "24b8226a-9193-5703-9174-3ba1ed57c260",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Arkane Genauigkeit",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "5919befa-b057-5b08-9469-5c9d572e7751",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Ausgedehnte Studien",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ea890569-52d5-5b36-8929-dad9d22d153a",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Bannender Schlag",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "acd58432-8ce0-5311-be5a-db66857f5a7b",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Direkte Berührung",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "60f6a03e-a1c4-5b99-b571-52be374ceb80",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Eiliger Angriff",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "4d1bf2af-e0f2-54f6-b7fe-3fee033ac634",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Gestenlose Magie",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "72fc37b6-ec27-5dc5-b3b5-ea760de924bb",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Konzentration",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ecada4a8-729c-5def-88e6-43f9611f9408",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Kritischer Schlag",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "e108bfd8-54e7-5e42-89b9-fda4b078651d",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Lautlose Magie",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "cf913b59-e67a-5257-bead-ace7eb9e3a35",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Maximierte Magie",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "2e1b60a8-9e7e-59a9-9508-6a105d89dd5a",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Meisterliche Manöver",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "b2833d1a-f423-5e35-890b-1e3bc0afbade",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Reflexion",
+    "min_level": 15,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "896292ff-38bf-58b3-80b0-60146ebaf132",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Schnelle Magie",
+    "min_level": 15,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ca701b03-c673-59ee-8e93-88d4a5dab992",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Verstärkte Magie",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "b817bccf-ab73-5979-a1f9-4babf1d39ca5",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Vertrauter",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "4b8ecf29-1abb-507a-88da-4b8c04286c30",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Vorratsschlag",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "3c4fd535-0412-58a4-98cb-e74e5afe7013",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberabwehr",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "304d6acd-1e93-5868-bb10-2baa7ddfd39e",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberforschung",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "efcc2099-b235-5b9c-96ee-5073eb0c82e5",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberstabmeisterschaft",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "e179bc82-fa46-5600-b7d2-393ab7c0481c",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberstabträger",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "73b873fc-d9ba-5eb8-9a4b-eef39d00ac91",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Anhaftender Vorratsschlag",
+    "min_level": 9,
+    "requires_choice_id": "4b8ecf29-1abb-507a-88da-4b8c04286c30",
+    "race_id": null
+  },
+  {
+    "id": "edc093dc-ecd8-5529-9f3f-bea6d0663c2d",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Anhaltender Schmerz",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ffccde4b-6b93-5640-851f-78e1c4124081",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Arkanes Bollwerk",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "3b5b2f3a-f479-5ea4-b5c6-8ca668d9f80e",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Arkane Klinge",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "07ab4f7c-50db-5227-9445-dd0963421995",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Arkaner Umhang",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "31adafb9-a01d-52c0-9e55-e00677f1ed3e",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Ausdauernde Klinge",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "d3d470da-0127-5682-a19a-c8cce450eae1",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Ätherklinge",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "55b8e855-b950-5188-a2c5-5c279fd82d0b",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Donnernder Vorratsschlag",
+    "min_level": 6,
+    "requires_choice_id": "4b8ecf29-1abb-507a-88da-4b8c04286c30",
+    "race_id": null
+  },
+  {
+    "id": "cdb39747-5235-5b29-bad4-edfcb5988795",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Exakter Schlag",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ee454927-4277-5469-a059-709882016f10",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Gesinnungsklinge",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "002ba614-2025-57c3-9d8a-a09aea3162f4",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Mächtiges Arkanes Bollwerk",
+    "min_level": 12,
+    "requires_choice_id": "ffccde4b-6b93-5640-851f-78e1c4124081",
+    "race_id": null
+  },
+  {
+    "id": "2467281d-b4dd-56cf-8a34-08c771f216f0",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Überschlagender Vorratsschlag",
+    "min_level": 12,
+    "requires_choice_id": "4b8ecf29-1abb-507a-88da-4b8c04286c30",
+    "race_id": null
+  },
+  {
+    "id": "96680f04-b5f7-5dfe-8d5a-e85759f09ef0",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Verderbensklinge",
+    "min_level": 15,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "d524a9ca-3f07-5e6b-8c3a-31b97264ba61",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Vorausschauende Verteidigung",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "52c69232-8546-52a7-af3d-d680c3dea24b",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Vorausschauender Angriff",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "0a72b3b4-3657-5eb8-a5dd-3c9c71caad96",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberbrecher",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "4615e8ab-d469-5c80-8f21-bc71096985c9",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zauberstörer",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "e01de8ef-66d2-52d6-abfc-6ee0e1f74cdd",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zeptermeisterschaft",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "bf923f51-e7c0-5573-b2f1-efc6597da259",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Zepterträger",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "09ce230a-f25b-589b-8d71-17a262120d8a",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "Elf (Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "b91d657d-62c7-5e1c-919a-8042ad8d8e29",
+    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
+    "name": "Elf (Entfesselter Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "3e24c5e3-3660-556a-a93e-94e4fc1279e3",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "Elf (Barde)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "0990b9a2-2461-5f4d-9871-fea995ea05c4",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "Elf (Druide)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4074a3e2-12e7-5874-a55c-00b79587591e",
+    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "name": "Elf (Hexe)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "e7408b35-84a0-530e-9070-6c0ed7f53a87",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "Elf (Hexenmeister)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "d6d123a0-aed4-5b28-b3a3-bbe7ba2533f8",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "Elf (Kämpfer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "46c70602-dd37-579c-9074-0b0f59e006b7",
+    "group_id": "f3bace47-10af-541c-bf89-56d4f699db99",
+    "name": "Elf (Kampfmagus)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "e91f9ce5-7ba6-5e8e-b3b4-968c3f38ad9a",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "Elf (Kleriker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "71aa44c4-a6f5-5e93-8299-c95f49eada8f",
+    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
+    "name": "Elf (Magier)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "5966619f-b6fe-58e4-9a26-031b6e724839",
+    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
+    "name": "Elf (Mönch)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "ae770270-89c3-5869-bdcb-36e60eae9b1a",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "Elf (Mystiker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "3c5f4c36-72c2-5528-b40c-edee85f35545",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "Elf (Paladin)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4e7f562f-bbdb-5098-bd7a-364b96d4e1a9",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "Elf (Schurke)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4b918da6-4745-5ebf-9028-eb50f3331ac5",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "Elf (Waldläufer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
   }
 ]

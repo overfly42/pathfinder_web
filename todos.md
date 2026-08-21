@@ -96,9 +96,42 @@ Kurzfassung als Einstiegspunkt:
       sind fraktioniert, z. B. +1/4 oder +1/6, und brauchen zusätzlich
       persistenten Akkumulations-Zustand pro Charakter über mehrere Stufen
       hinweg).
+      **Stand 2026-08-21**: der rassenspezifische Teil (auf `race_id`
+      gescopte `BaseClassOptionChoice`-Einträge je Klasse, ein gemeinsam
+      genutztes `favored_class_bonus`-`BaseClassOptionGroup` pro Klasse) ist
+      inzwischen kein Plan mehr, sondern für drei Völker importiert: Halb-Ork
+      (`scripts/import_favored_class_bonus_halbork.py`, 13 Klassen), Ork
+      (`scripts/import_ork.py`, 5 Klassen inkl. Hexe) und Elf
+      (`scripts/import_favored_class_bonus_elf.py`, 15 Klassen inkl.
+      Kampfmagus und Entfesselter Barbar). `hp`/`skill` bleiben weiterhin die
+      zwei hartcodierten Literale (noch nicht zu universellen Katalogeinträgen
+      migriert, siehe `rules/favored_class_bonuses.py`s Docstring). Offen:
+      Zwerg/Gnom/Halbling/Halbelf/Mensch haben noch keine ARG-Alternativen;
+      `rules/favored_class_bonuses.py`s `HANDLERS`/`SHORT_LABELS` kennen
+      bisher nur Halb-Orks Einträge (numerische Wirkung) — Orks und Elfs
+      15+5 neue Choice-IDs fallen serverseitig auf reine Anzeige (Pick-Count
+      + Beschreibungstext) zurück, kein Bug, sondern derselbe dokumentierte
+      "kein Handler = nur Flavor"-Fallback wie bei Mönch/Mystiker.
 - [x] Barbar — vollständig gegen `prd.5footstep.de` importiert (Kampfrausch,
       Kampfrauschkräfte, Klassenschale, Klassenfertigkeiten-Fix), siehe
       `todos_history.md`.
+- [x] Kampfmagus (Magus) — 2026-08-21 als komplett neue Klasse gegen
+      `http://prd.5footstep.de/AusbauregelnMagie/Kampfmagus` (Klassenschale,
+      17 Klassenmerkmale, 39 Arkana als `arkanum`-Optionsgruppe, Bonustalent)
+      und `http://prd.5footstep.de/AusbauregelnIIKampf/Archetypen/Kampfmagus`
+      (die vier Archetypen Kensai/Seelenschmied/Skirnir/Zauberstreiter)
+      importiert — `scripts/import_kampfmagus.py` und
+      `scripts/import_kampfmagus_archetypes.py`. `base_class_spells.json`
+      dabei nicht neu von Hand transkribiert, sondern aus dem bereits
+      gefetchten `zauber_prd_import.json` zurückbefüllt (280 von 311
+      PRD-gelisteten Kampfmagus-Zaubern trafen auf existierende
+      `base_spells.json`-Zeilen; die 31 fehlenden sind derselbe Klassenlücken-Typ
+      wie Kleriker/Mystiker/Bardes eigene unvollständige Zauberlisten). Bewusst
+      offen gelassen (siehe beider Skripte eigene Docstrings): die 31
+      fehlenden Zauber, „Vermindertes Zauberwirken" (kein Schema-Feld für
+      Zauberplätze pro Tag bei arkanen Zauberkundigen mit Zauberbuch), und die
+      archetypspezifischen Arkana-Einschränkungen (kein `archetype_id`-Feld
+      auf `BaseClassOptionChoice`).
 - [ ] Rassengröße (Klein/Mittelgroß/...) nicht modelliert — `BaseRace` hat
       kein Size-Feld; `sheet.py`s AC/KMB/KMD nehmen fest Mittelgroß an
       (siehe `sheet.py`s Moduldocstring). Sollte, analog zum

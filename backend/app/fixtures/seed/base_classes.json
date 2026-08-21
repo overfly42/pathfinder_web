@@ -245,5 +245,70 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "name": "Kampfmagus",
+    "hit_dice": 8,
+    "arch_class_of": null,
+    "casting_ability": "IN",
+    "spell_tradition": "arcane",
+    "bab_progression": 0.75,
+    "fort_save": true,
+    "ref_save": false,
+    "wil_save": true,
+    "skill_points_base": 2
+  },
+  {
+    "id": "df1bccb3-f546-52bd-9152-082cb950d988",
+    "name": "Kensai",
+    "hit_dice": null,
+    "arch_class_of": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "39d9fbb6-a6fb-5672-bfa4-67d7c9e1dbff",
+    "name": "Seelenschmied",
+    "hit_dice": null,
+    "arch_class_of": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "bef1037e-3a8e-5354-bd50-fd50fec3baa6",
+    "name": "Skirnir",
+    "hit_dice": null,
+    "arch_class_of": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "ee3ebf08-a8d3-5e9f-aa07-706d5296429d",
+    "name": "Zauberstreiter",
+    "hit_dice": null,
+    "arch_class_of": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]
