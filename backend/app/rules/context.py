@@ -68,12 +68,30 @@ class CharacterContext:
     # favored_class_bonuses.py`'s own `HANDLERS` still owns *converting* a
     # pick count into a bonus value; this field only supplies the raw count.
     favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)
+    # `BaseClassAbility.requires_active_ability_id` for every one of this
+    # character's granted abilities that has it set (`sheet.py`'s
+    # `build_character_sheet`, one query alongside the one that already
+    # resolves `granted_ability_ids`) — lets `requirement_met` below answer
+    # "is ability X's prerequisite currently satisfied" generically, so
+    # `rules/handlers.py`'s granted-ability dispatch loops (`granted_ability_modifiers`,
+    # `situational_skill_notes`, `sheet.py`'s `NATURAL_ATTACK_HANDLERS`/
+    # `WEAPON_BONUS_DAMAGE_HANDLERS` loops) can skip calling a gated ability's
+    # handler at all, instead of every such handler re-checking `has_active`
+    # on its own hardcoded "what gates me" id.
+    requires_active_ability_id: dict[UUID, UUID] = field(default_factory=dict)
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced
-        from `ability_id` — the one check `BaseClassAbility.
-        requires_active_ability_id`-gated abilities need (e.g. a rage power
-        only manifesting while Kampfrausch is active,
-        `rules/classes/barbarian.py`), factored out so every such handler
-        doesn't re-filter `active_effects` itself."""
+        from `ability_id`."""
         return any(e.source_id == ability_id for e in self.active_effects)
+
+    def requirement_met(self, ability_id: UUID) -> bool:
+        """Whether `ability_id`'s own `requires_active_ability_id` (if any)
+        is currently satisfied — `True` when it has no requirement at all.
+        Doesn't apply to an ability gating *itself* (e.g. Kampfrausch's own
+        handler only runs while its own effect is active in the first
+        place, see `rules/handlers.py`'s `granted_ability_modifiers`
+        docstring) — only to one ability requiring some *other* ability's
+        effect."""
+        required_id = self.requires_active_ability_id.get(ability_id)
+        return required_id is None or self.has_active(required_id)

@@ -71,13 +71,14 @@ BESTIENTOTEM_SCHWAECHERES_ABILITY_ID = UUID("694f425e-d5f9-55d7-978e-4f7e50296de
 # `base_class_option_choices.json` id 206ceefa-…, `min_level: 6`,
 # `requires_choice_id` pointing at Bestientotem, Schwächeres above — so it's
 # only ever a character's granted ability once the lesser tier already is).
-# PRD text: "Der Barbar erhält einen Bonus von +1 auf seine natürliche
-# Rüstung. Dieser Bonus steigt um weitere +1 pro 4 Barbarenstufen." Read as
-# "+1 more for every four barbarian levels beyond the level it's first
-# available (6th)" — the same "beyond the prerequisite level" convention
-# real-book rage powers of this shape use, not a flat `level // 4` that
-# would put the first increase at a level unrelated to when the power is
-# actually gained. Unlike Bestientotem, Schwächeres's `NaturalAttack`, this
+# PRD text: "Im Kampfrausch erhält der Barbar einen Bonus von +1 auf seine
+# natürliche Rüstung. Dieser Bonus steigt um weitere +1 für jeweils vier
+# Stufen des Barbaren." `min_level: 6` only gates *selecting* the power (same
+# as every other rage power here) — the scaling itself has no "beyond 6th"
+# offset the way the real-book English version does, it's a flat `barbar_level
+# // 4` off the barbarian's total level (6th level, the earliest this power
+# can even be taken, already lands on the PRD's stated +1; +2 at 8th, +3 at
+# 12th, ...). Unlike Bestientotem, Schwächeres's `NaturalAttack`, this
 # is a flat AC bonus, so it's a `HANDLERS`/`Modifier` entry below instead.
 BESTIENTOTEM_ABILITY_ID = UUID("a26e564e-295b-5c25-be44-4a75ee3ce486")
 
@@ -133,31 +134,26 @@ ERNEUERTE_LEBENSKRAFT_ABILITY_ID = UUID("a84efac5-b0f6-521f-accb-067a1195a556")
 
 def _bestientotem_schwaecheres(context: CharacterContext) -> NaturalAttack | None:
     """Unlike Reißzähne's racial bite (always present once granted), a rage
-    power only manifests while actually raging — same `context.active_effects`
-    "instances" check `_kampfrausch_entfesselter_barbar` below uses for its
-    own flat Modifiers, since both keys off the same Kampfrausch activation
-    (`KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID`), not this ability's own
-    id (Bestientotem itself has no separate on/off state, only Kampfrausch
-    does)."""
-    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
-        return None
+    power only manifests while actually raging — enforced generically by
+    this ability's own `BaseClassAbility.requires_active_ability_id`
+    (pointing at `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID`, set in
+    `base_class_abilities.json`), which `sheet.py`'s `NATURAL_ATTACK_HANDLERS`
+    dispatch loop already checks via `context.requirement_met` before ever
+    calling this handler — so no rage check is needed here."""
     return NaturalAttack(name="Klauen", count=2, damage_dice="1W6", damage_type="H")
 
 
 def _bestientotem(context: CharacterContext) -> list[Modifier]:
-    """Same rage-gated shape as `_bestientotem_schwaecheres` above (only
-    manifests while `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` is active
-    — Entfesselter Barbar rage powers work continuously while raging,
-    `import_entfesselter_barbar.py`'s module docstring), scaled by this
-    class's own levels the same way `_elementare_kampfhaltung_damage`
-    below is. `type="natural"`: a second source of natural armor (e.g.
-    `feats.py`'s Eisenhaut) caps at the higher of the two rather than
-    adding, same convention that module's `_natural_armor_bonus`
-    documents."""
-    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
-        return []
+    """Same rage-gated shape as `_bestientotem_schwaecheres` above — its own
+    `requires_active_ability_id` is enforced by `rules/handlers.py`'s
+    `granted_ability_modifiers` before this handler is ever called, so no
+    rage check is needed here — scaled by this class's own levels the same
+    way `_elementare_kampfhaltung_damage` below is. `type="natural"`: a
+    second source of natural armor (e.g. `feats.py`'s Eisenhaut) caps at the
+    higher of the two rather than adding, same convention that module's
+    `_natural_armor_bonus` documents."""
     barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
-    bonus = 1 + max(0, barbar_level - 6) // 4
+    bonus = barbar_level // 4
     return [Modifier(source="Bestientotem", type="natural", value=bonus, target=ModifierTarget.AC)]
 
 
@@ -165,15 +161,13 @@ def _elementare_kampfhaltung_damage(context: CharacterContext) -> tuple[str, str
     """Flat on-hit melee damage die Elementare Kampfhaltung adds while
     raging (see `ELEMENTARE_KAMPFHALTUNG_ABILITY_ID`'s docstring for what's
     deliberately not modeled) — same rage-gated shape as
-    `_bestientotem_schwaecheres` above (only manifests while
-    `KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID` is active), returning
-    `None` otherwise. "1 zusätzlicher Schadenspunkt ... Mit der 8. Stufe
-    steigt dieser Schaden auf 1W6" — a level-scaled *replacement*, not an
-    additive stack, so this returns exactly one die/type pair, scaled by
+    `_bestientotem_schwaecheres` above (`requires_active_ability_id` already
+    enforced by `sheet.py`'s `_class_weapon_bonus_damage` before this runs,
+    no rage check needed here). "1 zusätzlicher Schadenspunkt ... Mit der 8.
+    Stufe steigt dieser Schaden auf 1W6" — a level-scaled *replacement*, not
+    an additive stack, so this returns exactly one die/type pair, scaled by
     this class's own levels (`BARBAR_ENTFESSELTER_ROOT_CLASS_ID`), same
     scoping `_kampfrausch_entfesselter_barbar_rounds_per_day` uses."""
-    if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
-        return None
     barbar_level = context.level_counts_by_root_id.get(BARBAR_ENTFESSELTER_ROOT_CLASS_ID, 0)
     dice = "1W6" if barbar_level >= 8 else "1"
     return (dice, _ELEMENTARE_KAMPFHALTUNG_ENERGY_TYPE)
@@ -204,7 +198,17 @@ def _kampfrausch_entfesselter_barbar(context: CharacterContext) -> list[Modifier
     flat bonus applies once whenever at least one of *this handler's own*
     instances (filtered from `context.active_effects` by this ability's id)
     is active, rather than summing per row the way e.g. ability damage
-    would."""
+    would.
+
+    Unlike Bestientotem/Elementare Kampfhaltung above, this handler keeps
+    its own `has_active` check rather than relying on `context.
+    requirement_met`: Kampfrausch doesn't have a `requires_active_ability_id`
+    pointing at some *other* ability — it gates on its *own* active/inactive
+    state, which is a structurally different thing (`granted_ability_modifiers`'s
+    docstring explains why this id is still looked up via `context.
+    granted_ability_ids` — granted at level 1 — even while not currently
+    raging, only skipping when it's *already* resolved via the active-effects
+    branch)."""
     if not context.has_active(KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID):
         return []
     return [

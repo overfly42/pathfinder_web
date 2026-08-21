@@ -118,6 +118,23 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
     granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
 
+    # `requires_active_ability_id` for whichever of this character's granted
+    # abilities actually have it set (most don't — `.is_not(None)` keeps this
+    # dict small) — feeds `CharacterContext.requirement_met`, the one query
+    # every rage-power-shaped ability (Erneuerte Lebenskraft, Bestientotem,
+    # ...) needs instead of each handler hardcoding what gates it.
+    requires_active_ability_id: dict[UUID, UUID] = {}
+    if granted_ability_ids:
+        requires_active_ability_id = {
+            row.id: row.requires_active_ability_id
+            for row in db.scalars(
+                select(BaseClassAbility).where(
+                    BaseClassAbility.id.in_(list(granted_ability_ids)),
+                    BaseClassAbility.requires_active_ability_id.is_not(None),
+                )
+            ).all()
+        }
+
     # The character's raw `CharacterContext` (`rules/context.py`) — built
     # once here, fully populated, and threaded into every handler family
     # below rather than each one re-deriving its own slice of character
@@ -136,6 +153,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         gear_item_ids=frozenset(g.item_id for g in character.gear),
         level_counts_by_root_id=level_counts_by_root_id,
         favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
+        requires_active_ability_id=requires_active_ability_id,
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -1466,7 +1484,8 @@ def _class_weapon_bonus_damage(
     return [
         bonus
         for ability_id in class_ability_ids
-        if (handler := WEAPON_BONUS_DAMAGE_HANDLERS.get(ability_id)) is not None
+        if context.requirement_met(ability_id)
+        and (handler := WEAPON_BONUS_DAMAGE_HANDLERS.get(ability_id)) is not None
         and (bonus := handler(context)) is not None
     ]
 
@@ -1646,6 +1665,8 @@ def _build_natural_attacks(
     ability_ids = sorted(set(race_ability_ids) | set(class_ability_ids), key=str)
     results = []
     for ability_id in ability_ids:
+        if not context.requirement_met(ability_id):
+            continue
         handler = NATURAL_ATTACK_HANDLERS.get(ability_id)
         if handler is None:
             continue

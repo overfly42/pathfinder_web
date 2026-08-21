@@ -235,11 +235,17 @@ def granted_ability_modifiers(context: CharacterContext, *, target: ModifierTarg
     `granted_ability_ids` would double its Modifiers (e.g. Kampfrausch's
     -2 AC counted twice). Bestientotem-style abilities that merely *read*
     `context.active_effects` to gate their own output (rather than being
-    an active-effect source themselves) are unaffected by this skip."""
+    an active-effect source themselves) are unaffected by this skip — they
+    instead rely on `context.requirement_met`, checked next: a granted
+    ability whose `BaseClassAbility.requires_active_ability_id` isn't
+    currently satisfied (e.g. Bestientotem while not raging) is skipped
+    here too, so its own handler never needs to re-check that itself."""
     active_effect_ids = {effect.source_id for effect in context.active_effects}
     modifiers: list[Modifier] = []
     for ability_id, count in context.granted_ability_ids.items():
         if ability_id in active_effect_ids:
+            continue
+        if not context.requirement_met(ability_id):
             continue
         handler = HANDLERS.get(ability_id)
         if handler is None:
@@ -267,6 +273,8 @@ def situational_skill_notes(context: CharacterContext) -> list[SkillNote]:
     trigger_ids: set[UUID] = set(context.granted_ability_ids) | context.feat_ids | context.trait_ids
     notes: list[SkillNote] = []
     for trigger_id in trigger_ids:
+        if not context.requirement_met(trigger_id):
+            continue
         handler = SITUATIONAL_SKILL_HANDLERS.get(trigger_id)
         if handler is not None:
             notes.extend(handler(context))

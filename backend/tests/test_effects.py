@@ -466,6 +466,51 @@ def test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_
     assert raging["hp"]["temporary"] == 2
 
 
+def test_bestientotem_natural_armor_bonus_scales_with_barbarian_level(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_bestientotem` (`rules/classes/barbarian.py`) — PRD text ("Im
+    Kampfrausch erhält der Barbar einen Bonus von +1 auf seine natürliche
+    Rüstung. Dieser Bonus steigt um weitere +1 für jeweils vier Stufen des
+    Barbaren.") scales off the barbarian's *total* level with no "beyond
+    6th" offset the real-book English version has — `min_level: 6` only
+    gates selecting the power. Regression test for a bug where the handler
+    used `1 + max(0, level - 6) // 4` (would give +0 at 6th level) instead
+    of the correct flat `level // 4` (+1 at 6th, matching the PRD's stated
+    starting bonus)."""
+    race_id = _elf_race_id(client, db_session)
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            _create_user(client),
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Entfesselter Barbar",
+                    "level": 6,
+                    "options": {"kampfrauschkraft": ["Bestientotem, Schwächeres", "Bestientotem"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID},
+    )
+    assert activation.status_code == 201
+
+    raging_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+    # Kampfrausch's own -2 AC penalty plus Bestientotem's +1 natural armor
+    # (6th-level barbarian: 6 // 4 = 1) nets to -1.
+    assert raging_ac == baseline_ac - 1
+
+
 def test_erneuerte_lebenskraft_action_hidden_until_raging(client: TestClient, db_session: Session) -> None:
     """`BaseClassAbility.requires_active_ability_id` gate (`sheet.py`'s
     `_build_actions`) — Erneuerte Lebenskraft is RAW only usable while
