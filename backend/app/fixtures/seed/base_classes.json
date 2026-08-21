@@ -247,19 +247,6 @@
     "skill_points_base": null
   },
   {
-    "id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "name": "Kampfmagus",
-    "hit_dice": 8,
-    "arch_class_of": null,
-    "casting_ability": "IN",
-    "spell_tradition": "arcane",
-    "bab_progression": 0.75,
-    "fort_save": true,
-    "ref_save": false,
-    "wil_save": true,
-    "skill_points_base": 2
-  },
-  {
     "id": "df1bccb3-f546-52bd-9152-082cb950d988",
     "name": "Kensai",
     "hit_dice": null,
@@ -310,5 +297,18 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "name": "Kampfmagus",
+    "hit_dice": 8,
+    "arch_class_of": null,
+    "casting_ability": "IN",
+    "spell_tradition": "arcane",
+    "bab_progression": 0.75,
+    "fort_save": true,
+    "ref_save": false,
+    "wil_save": true,
+    "skill_points_base": 2
   }
 ]

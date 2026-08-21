@@ -11,7 +11,7 @@ def test_list_traits_is_database_backed(client: TestClient, db_session: Session)
     assert response.status_code == 200
     traits = response.json()
 
-    assert len(traits) == 220
+    assert len(traits) == 221
     assert all({"id", "name", "description", "area"} <= set(trait) for trait in traits)
 
     reaktionsschnell = next(t for t in traits if t["name"] == "Reaktionsschnell")

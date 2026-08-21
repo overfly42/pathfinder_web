@@ -2435,6 +2435,126 @@
     "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
   },
   {
+    "id": "09ce230a-f25b-589b-8d71-17a262120d8a",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "Elf (Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "b91d657d-62c7-5e1c-919a-8042ad8d8e29",
+    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
+    "name": "Elf (Entfesselter Barbar)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "3e24c5e3-3660-556a-a93e-94e4fc1279e3",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "Elf (Barde)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "0990b9a2-2461-5f4d-9871-fea995ea05c4",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "Elf (Druide)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4074a3e2-12e7-5874-a55c-00b79587591e",
+    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "name": "Elf (Hexe)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "e7408b35-84a0-530e-9070-6c0ed7f53a87",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "Elf (Hexenmeister)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "d6d123a0-aed4-5b28-b3a3-bbe7ba2533f8",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "Elf (Kämpfer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "46c70602-dd37-579c-9074-0b0f59e006b7",
+    "group_id": "f3bace47-10af-541c-bf89-56d4f699db99",
+    "name": "Elf (Kampfmagus)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "e91f9ce5-7ba6-5e8e-b3b4-968c3f38ad9a",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "Elf (Kleriker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "71aa44c4-a6f5-5e93-8299-c95f49eada8f",
+    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
+    "name": "Elf (Magier)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "5966619f-b6fe-58e4-9a26-031b6e724839",
+    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
+    "name": "Elf (Mönch)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "ae770270-89c3-5869-bdcb-36e60eae9b1a",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "Elf (Mystiker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "3c5f4c36-72c2-5528-b40c-edee85f35545",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "Elf (Paladin)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4e7f562f-bbdb-5098-bd7a-364b96d4e1a9",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "Elf (Schurke)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
+    "id": "4b918da6-4745-5ebf-9028-eb50f3331ac5",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "Elf (Waldläufer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
+  },
+  {
     "id": "24b8226a-9193-5703-9174-3ba1ed57c260",
     "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
     "name": "Arkane Genauigkeit",
@@ -2745,125 +2865,5 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": null
-  },
-  {
-    "id": "09ce230a-f25b-589b-8d71-17a262120d8a",
-    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
-    "name": "Elf (Barbar)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "b91d657d-62c7-5e1c-919a-8042ad8d8e29",
-    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
-    "name": "Elf (Entfesselter Barbar)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "3e24c5e3-3660-556a-a93e-94e4fc1279e3",
-    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
-    "name": "Elf (Barde)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "0990b9a2-2461-5f4d-9871-fea995ea05c4",
-    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
-    "name": "Elf (Druide)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "4074a3e2-12e7-5874-a55c-00b79587591e",
-    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
-    "name": "Elf (Hexe)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "e7408b35-84a0-530e-9070-6c0ed7f53a87",
-    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
-    "name": "Elf (Hexenmeister)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "d6d123a0-aed4-5b28-b3a3-bbe7ba2533f8",
-    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
-    "name": "Elf (Kämpfer)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "46c70602-dd37-579c-9074-0b0f59e006b7",
-    "group_id": "f3bace47-10af-541c-bf89-56d4f699db99",
-    "name": "Elf (Kampfmagus)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "e91f9ce5-7ba6-5e8e-b3b4-968c3f38ad9a",
-    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
-    "name": "Elf (Kleriker)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "71aa44c4-a6f5-5e93-8299-c95f49eada8f",
-    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
-    "name": "Elf (Magier)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "5966619f-b6fe-58e4-9a26-031b6e724839",
-    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
-    "name": "Elf (Mönch)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "ae770270-89c3-5869-bdcb-36e60eae9b1a",
-    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
-    "name": "Elf (Mystiker)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "3c5f4c36-72c2-5528-b40c-edee85f35545",
-    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
-    "name": "Elf (Paladin)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "4e7f562f-bbdb-5098-bd7a-364b96d4e1a9",
-    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
-    "name": "Elf (Schurke)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
-  },
-  {
-    "id": "4b918da6-4745-5ebf-9028-eb50f3331ac5",
-    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
-    "name": "Elf (Waldläufer)",
-    "min_level": null,
-    "requires_choice_id": null,
-    "race_id": "45790090-5c8f-494e-aefc-b1d3963c169f"
   }
 ]

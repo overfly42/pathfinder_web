@@ -3270,6 +3270,261 @@
     "description": "(AF) Mit der 13. Stufe kann ein Raufbold mit einem Kampfmanöver für Schmutzige Tricks seinem Ziel zwei unterschiedliche Zustände zufügen. Jeder davon benötigt eine eigene Aktion, um ihn aufzuheben. Mit der 17. Stufe kann er drei unterschiedliche Zustände zufügen. Dieses Klassenmerkmal ersetzt Waffentraining 3 und 4."
   },
   {
+    "id": "c7790b93-5d98-50f8-b796-b3b282a44cdd",
+    "name": "Vermindertes Zauberwirken",
+    "description": "Ein Kensai besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
+  },
+  {
+    "id": "1022bc94-7324-5fb0-883a-ed80726277e0",
+    "name": "Umgang mit Waffen und Rüstungen (Kensai)",
+    "description": "Ein Kensai ist geübt im Umgang mit Einfachen Waffen und einer einzelnen Kriegswaffe oder Exotischen Waffe seiner Wahl. Ein Kensai ist nicht geübt im Umgang mit Rüstungen oder Schilden und erleidet die normale Patzerchance bei arkanen Zaubern, wenn er Kampfmaguszauber in Rüstung wirkt. Dieses Klassenmerkmal ersetzt Umgang mit Waffen und Rüstungen."
+  },
+  {
+    "id": "ebb8db2d-2caa-54c4-8a78-9131f0b44e1d",
+    "name": "Gewitzte Verteidigung",
+    "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai das Klassenmerkmal Gewitzte Verteidigung, wenn er seine ausgewählte Waffe führt. Dies ist identisch mit dem Klassenmerkmal der Duellanten-Prestigeklasse; er ist bei der Wahl seiner ausgewählten Waffe aber nicht eingeschränkt."
+  },
+  {
+    "id": "5ddd070b-8770-54bd-ba62-6788374554ce",
+    "name": "Waffenfokus (Kensai)",
+    "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai Waffenfokus mit seiner ausgewählten Waffe."
+  },
+  {
+    "id": "4d470f31-bea9-5557-910a-33372a4cab74",
+    "name": "Perfekter Schlag",
+    "description": "(AF) Mit Beginn der 4. Stufe kann ein Kensai, welcher mit seiner ausgewählten Waffe sein Ziel trifft, 1 Punkt seines Arkanen Vorrats einsetzen, um den Waffenschaden zu maximieren; zusätzlicher Schaden wie Präzisionsschaden, Schaden aufgrund Kritischer Treffer sowie magischer Waffeneigenschaften oder Zauberschlag wird aber normal ausgewürfelt. Sollte der Kensai einen Kritischen Treffer bestätigen, kann er stattdessen 2 Punkte seines Arkanen Vorrats einsetzen, um den Kritischen Schadensmultiplikator seiner Waffe um 1 zu erhöhen. Dieses Klassenmerkmal ersetzt Zauberrückruf."
+  },
+  {
+    "id": "70a7da82-969f-57f7-8f81-8c35345085c8",
+    "name": "Kämpferausbildung (Kensai)",
+    "description": "(AF) Hinsichtlich der Voraussetzungen für Talente hat ein Kensai mit Beginn der 7. Stufe eine effektive Kämpferstufe in Höhe seiner Stufe als Kampfmagus -3. Sollte er über Stufen als Kämpfer verfügen, so sind diese kumulativ. Er erhält den Vorteil solcher Talente aber nur im Umgang mit seiner ausgewählten Waffe. Dieses Klassenmerkmal ersetzt Wissensvorrat."
+  },
+  {
+    "id": "3c7a71ed-318e-5cae-8423-feb38f1add0a",
+    "name": "Iaijutsu",
+    "description": "(AF) Mit Beginn der 7. Stufe addiert ein Kensai neben seinem GE-Modifikator auch seinen IN-Modifikator auf seine Initiativewürfe (Minimum 0). Ein Kensai kann mit seiner bevorzugten Waffe auch Gelegenheitsangriffe ausführen, wenn er sich auf dem falschen Fuß befindet, und seine bevorzugte Waffe mit einer Freien Aktion ziehen, wenn dies Teil des Gelegenheitsangriffes ist. Dieses Klassenmerkmal ersetzt das Klassenmerkmal Mittelschwere Rüstung."
+  },
+  {
+    "id": "de8cc6f0-6af5-5fbf-af13-7339a9d8e05a",
+    "name": "Kritische Perfektion",
+    "description": "(AF) Mit Beginn der 9. Stufe addiert ein Kensai bei seiner bevorzugten Waffe seinen IN-Bonus (Minimum 0) auf Bestätigungswürfe für Kritische Treffer. Ferner behandelt er seine Stufe als Kampfmagus anstatt seinen Grundangriffsbonus als Voraussetzung für das Talent Kritischer-Treffer-Fokus und alle Talente, für welche dieses Talent eine Voraussetzung ist - nur bei der bevorzugten Waffe des Kensai. Dieses Klassenmerkmal ersetzt das Arkanum, welches ein Kampfmagus mit der 9. Stufe erhält."
+  },
+  {
+    "id": "45d7db7f-5f40-5cd7-b329-664e53007181",
+    "name": "Überlegene Reflexe",
+    "description": "(AF) Mit Beginn der 11. Stufe kann ein Kensai in einer Runde eine Anzahl von Gelegenheitsangriffen in Höhe seines IN-Modifikators ausführen (Minimum 1). Dieser Effekt ist kumulativ mit dem Talent Kampfreflexe. Dieses Klassenmerkmal ersetzt Verbesserter Zauberrückruf."
+  },
+  {
+    "id": "eb74ea27-f159-5f45-80c7-f7bf87b7139f",
+    "name": "Iaijutsu-Fokus",
+    "description": "(AF) Mit Beginn der 13. Stufe kann ein Kensai stets während einer Überraschungsrunde handeln und seine Waffe mit einer Schnellen Aktion ziehen, auch wenn er als auf dem Falschen Fuß erwischt gilt. Während einer Überraschungsrunde oder wenn er einen Gegner auf dem falschen Fuß erwischt, addiert er seinen IN-Modifikator auf seine Schadenswürfe mit seiner ausgewählten Waffe (Minimum 0). Dieses Klassenmerkmal ersetzt Schwere Rüstung."
+  },
+  {
+    "id": "cf32d741-1b64-58ec-ae74-0f24f23e206f",
+    "name": "Iaijutsu-Meister",
+    "description": "(AF) Mit Beginn der 19. Stufe wird der Initiativewurf eines Kensai immer automatisch als natürliche 20 behandelt und er gilt niemals als Überrascht. Dieses Klassenmerkmal ersetzt Mächtiger Zugang zu Zaubern."
+  },
+  {
+    "id": "efa4f9bd-3f1d-5053-abf6-a6890a98ae44",
+    "name": "Waffenmeisterschaft (Kensai)",
+    "description": "(AF) Mit Beginn der 20. Stufe erhält ein Kensai Waffenmeisterschaft mit seiner bevorzugten Waffe. Dies entspricht dem Klassenmerkmal des Kämpfers. Dieses Klassenmerkmal ersetzt Wahrer Kampfmagus."
+  },
+  {
+    "id": "e2b15d6b-5804-5814-a4e9-38618a953645",
+    "name": "Vermindertes Zauberwirken",
+    "description": "Ein Seelenschmied besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
+  },
+  {
+    "id": "eba08b94-754f-5312-bd0c-1292b3d6cc6c",
+    "name": "Arkane Bindung (Seelenschmied)",
+    "description": "(ÜF) Mit Beginn der 1. Stufe erhält ein Seelenschmied eine Waffe als Gegenstand einer Arkanen Verbindung. Dieses Klassenmerkmal ist identisch mit dem Klassenmerkmal des Magiers, allerdings kann der Seelenschmied nur mit einer Waffe eine Bindung eingehen, nicht mit einem Vertrauten oder Gegenstand."
+  },
+  {
+    "id": "8356ac71-7792-5dac-949f-4afc1985fa1d",
+    "name": "Kampfzauberei (Seelenschmied)",
+    "description": "(ÜF) Ein Seelenschmied kann das Klassenmerkmal Kampfzauberei nur einsetzen, wenn er seine gebundene Waffe führt."
+  },
+  {
+    "id": "adadc0c4-1712-5638-83de-800c3ac8be30",
+    "name": "Zauberschlag (Seelenschmied)",
+    "description": "(ÜF) Ein Seelenschmied kann das Klassenmerkmal Zauberschlag nur einsetzen, wenn er seine gebundene Waffe führt."
+  },
+  {
+    "id": "445b2550-8226-595e-bf7d-d86e3e18eabd",
+    "name": "Bindung festigen",
+    "description": "(ÜF) Mit Beginn der 4. Stufe kann ein Seelenschmied 1 Punkt seines Arkanen Vorrats aufwenden, um die Härte und Trefferpunkte seines gebundenen Gegenstandes in Höhe seiner Stufe als Kampfmagus zu erhöhen. Diese Trefferpunkte halten an, bis sie verbraucht werden oder der Seelenschmied wieder Zauber vorbereitet. Mehrere Anwendungen dieser Fähigkeit sind nicht mit sich selbst kumulativ. Dieses Klassenmerkmal ersetzt Zauberrückruf."
+  },
+  {
+    "id": "d823529f-42a2-52f0-953c-9238bc08c69e",
+    "name": "Meisterschmied",
+    "description": "(AF) Ein Seelenschmied addiert seine Stufe als Kampfmagus als Bonus auf seine Fertigkeitswürfe für Handwerk, um Waffen, Schilde und Rüstungen herzustellen (auch beim Talent Magische Waffen und Rüstungen herstellen). Mit Beginn der 7. Stufe legt ein Seelenschmied 1/10 des Preises von Waffen, Schilden und Rüstungen zugrunde, um die Herstellungsdauer nichtmagischer Gegenstände zu berechnen, und benötigt nur die Hälfte der Zeit, um magische Waffen und Rüstungen zu verzaubern. Dieses Klassenmerkmal ersetzt Wissensvorrat."
+  },
+  {
+    "id": "a9cc8f59-1ab8-583e-b62f-ab9d3bbfa0f4",
+    "name": "Umschmieden",
+    "description": "(ÜF) Indem er 1 Punkt seines Arkanen Vorrats einsetzt, kann ein Seelenschmied mit Beginn der 11. Stufe mit einer Standard-Aktion bei einem beschädigten Gegenstand durch Berührung eine Anzahl von Trefferpunkten in Höhe seiner Stufe als Kampfmagus wiederherstellen. Um einen zerstörten Gegenstand zu reparieren, benötigt er 1 Minute und Materialien im Wert von ¼ des Verkaufswertes des Gegenstandes und stellt ihn mit 1 TP wieder her; um die Verzauberungen eines zerstörten magischen Gegenstandes wiederherzustellen, muss er zusätzliche Punkte seines Arkanen Vorrats in Höhe der Zauberstufe des Gegenstandes einsetzen (mit einer temporären negativen Stufe, deren Höhe von der Zauberstufe des Gegenstandes im Vergleich zu seiner eigenen abhängt, außer bei seiner gebundenen Waffe). Dieses Klassenmerkmal ersetzt Verbesserter Zauberrückruf."
+  },
+  {
+    "id": "beaf7186-45d1-5771-97e2-d37e29bd7f61",
+    "name": "Zerstörerischer Gegenschlag",
+    "description": "(ÜF) Mit Beginn der 16. Stufe provoziert ein Gegner, der einen magischen Gegenstand innerhalb des Bedrohungsbereichs des Seelenschmieds aktiviert, einen Gelegenheitsangriff durch diesen - entweder gegen das Ziel oder gegen den Gegenstand, um ihn zu zerschmettern (dessen Effekte dann aufgehoben werden). Dieses Klassenmerkmal ersetzt Gegenschlag."
+  },
+  {
+    "id": "861aa7de-a08a-5079-bb2b-41ce3bd85ae1",
+    "name": "Augenblickliche Wiederherstellung",
+    "description": "(ÜF) Mit Beginn der 19. Stufe kann ein Seelenschmied mit einer Berührung einen zerstörten Gegenstand mit einer Standard-Aktion wiederherstellen, ohne dabei einen Gelegenheitsangriff zu provozieren. Dieses Klassenmerkmal ersetzt Mächtiger Zugang zu Zaubern."
+  },
+  {
+    "id": "f98136ce-2c0e-5a96-8515-9af3689442df",
+    "name": "Vermindertes Zauberwirken",
+    "description": "Ein Skirnir besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
+  },
+  {
+    "id": "2075f156-deff-53c7-8e56-621bb308e1eb",
+    "name": "Arkane Verbindung (Skirnir)",
+    "description": "(ÜF) Mit Beginn der 1. Stufe erhält ein Skirnir einen Schild (keinen Turmschild) als Gegenstand einer Arkanen Verbindung. Dieses Klassenmerkmal ist identisch mit dem Klassenmerkmal des Magiers, allerdings kann der Skirnir nur mit einem Schild eine Bindung eingehen, nicht mit einem Vertrauten oder Gegenstand."
+  },
+  {
+    "id": "d4c8f0ac-5853-5300-b706-f1d6b0fb005e",
+    "name": "Arkaner Vorrat (Skirnir)",
+    "description": "Mit Beginn der 1. Stufe kann ein Skirnir seinen Arkanen Vorrat nutzen, um auch seinem Schild (statt nur einer Waffe) einen Verbesserungsbonus zu verleihen - die Kosten hierfür werden separat bezahlt. Ab der 5. Stufe kann er seinen Schild zudem mit den folgenden besonderen Eigenschaften versehen: Belebung, Geschosse anziehend, Geschossabwehr, Schmettern, Blendend, Bollwerk (jedes), Zauberresistenz (jede)."
+  },
+  {
+    "id": "4761206b-be83-5705-bd13-f8f0a74cfcf4",
+    "name": "Schild des Skirnirs",
+    "description": "(AF) Mit Beginn der 1. Stufe ist ein Skirnir geübt im Umgang mit allen Schilden, auch Turmschilden. Er unterliegt keiner arkanen Patzerchance, wenn er beim Wirken von Kampfmaguszaubern einen Schild trägt. Hinsichtlich schildbezogener Talente besitzt der Skirnir eine effektive Kämpferstufe in Höhe seiner Stufe als Kampfmagus. Dieses Klassenmerkmal ersetzt Kampfzauberei."
+  },
+  {
+    "id": "109ab86c-2fe4-514e-a9ee-96f744f6a651",
+    "name": "Zauberschlag (Skirnir)",
+    "description": "(ÜF) Mit Beginn der 1. Stufe kann ein Skirnir die Fähigkeit Zauberschlag auch mit einem Schildstoß statt einer Waffe einsetzen."
+  },
+  {
+    "id": "3ee8cc11-dce3-5d8c-8abc-661e07379806",
+    "name": "Schildvorrat",
+    "description": "(AF) Mit Beginn der 4. Stufe kann ein Skirnir mit einer Freien Aktion 1 Punkt seines Arkanen Vorrats einsetzen, um beim defensiven Zaubern seinen Schildbonus auf die RK (ohne eventuelle Verbesserungsboni) auf seine Konzentrationswürfe hinzuzuaddieren. Er kann ferner jedes Vorratsschlag-Arkanum in Verbindung mit einem Berührungsangriff oder einem Schildstoß mit seinem Schild nutzen. Dieses Klassenmerkmal ersetzt Zauberrückruf."
+  },
+  {
+    "id": "544b4ac6-2077-5b08-b6a4-a02fbcc29480",
+    "name": "Zaubertragender Schild",
+    "description": "(ÜF) Mit Beginn der 7. Stufe kann ein Skirnir mit einer Standard-Aktion einen Kampfmaguszauber in seinem Schild einlagern, indem er pro Grad des Zaubers 1 Punkt seines Arkanen Vorrats einsetzt. Dies funktioniert wie die Waffeneigenschaft Zauberspeicher, wird aber nur bei einem erfolgreichen Schildstoß aktiviert und ist nicht auf Zauber des maximal 3. Grades beschränkt. Dieses Klassenmerkmal ersetzt Wissensvorrat."
+  },
+  {
+    "id": "2228fe8f-a0a0-534b-8a34-ba7aae5184df",
+    "name": "Geschützte Kampfzauberei",
+    "description": "(ÜF) Mit Beginn der 8. Stufe erhält ein Skirnir das Klassenmerkmal Kampfzauberei, jedoch nur, wenn er seinen mit ihm verbundenen Schild führt. Ein Skirnir kann seine Schildhand für die Gestik von Kampfmaguszaubern nutzen, gibt dabei aber bis zum Beginn seines nächsten Zuges seinen Schildbonus auf RK auf (außer bei einer Tartsche). Mit Beginn der 14. Stufe erlangt er die Vorteile von Verbesserte Kampfzauberei; mit Beginn der 19. Stufe behält er seinen Schildbonus auf RK auch bei Kampfzauberei mit Schild. Dieses Klassenmerkmal ersetzt Verbesserte Kampfzauberei, Mächtige Kampfzauberei und Mächtiger Zugang zu Zaubern."
+  },
+  {
+    "id": "f773d4d2-6cef-5305-9c7a-e49e0a6422e5",
+    "name": "Mächtiger Zaubertragender Schild",
+    "description": "(ÜF) Mit Beginn der 16. Stufe kann ein Skirnir einen gespeicherten Zauber mit einer Augenblicklichen Aktion aktivieren, nachdem er im Kampf getroffen wurde, und ihn auf sich selbst oder die Kreatur wirken, die ihn getroffen hat. Dieses Klassenmerkmal ersetzt Gegenschlag."
+  },
+  {
+    "id": "5e2c5e9e-1915-556d-a902-3aee007af2d7",
+    "name": "Vermindertes Zauberwirken",
+    "description": "Ein Zauberstreiter besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
+  },
+  {
+    "id": "70c6887d-8d61-56c5-ae76-4a5ece0e406f",
+    "name": "Zauberschlag im Fernkampf",
+    "description": "(AF) Mit Beginn der 4. Stufe kann ein Zauberstreiter einen Fernkampfzauber, der auf ein einzelnes Ziel mit einem Berührungsangriff wirkt, mit einer Fernkampfwaffe übermitteln - selbst wenn der Zauber normalerweise mehrere Ziele betreffen kann, kommt nur ein einzelnes Geschoss, Strahl oder ein Effekt zur Anwendung. Mit Beginn der 11. Stufe kann ein Zauberstreiter, der so einen Zauber mit mehreren möglichen Zielen übermittelt, mit jedem Angriff im Rahmen eines Vollen Angriffs einen weiteren Strahl, eine Linie oder einen Effekt übermitteln (bis zum Maximum, das der Zauber erlaubt); jeder Effekt, der nicht in derselben Runde genutzt wird, ist verloren. Dieses Klassenmerkmal ersetzt Zauberrückruf und Verbesserter Zauberrückruf."
+  },
+  {
+    "id": "f49807d7-ad37-5764-90a0-270be574bdfd",
+    "name": "Waffentraining (Zauberstreiter)",
+    "description": "(AF) Mit Beginn der 6. Stufe erhält ein Zauberstreiter das Klassenmerkmal Waffentraining (entspricht dem gleichnamigen Klassenmerkmal des Kämpfers). Alle weiteren sechs Stufen als Kampfmagus fügt er eine zusätzliche Waffengruppe hinzu (bis zu einem Maximum von 3 Gruppen auf der 18. Stufe); mit jeder weiteren Waffengruppe steigen die Boni auf Angriffs- und Schadenswürfe bei den bereits gewählten Gruppen um zusätzlich +1. Dieses Klassenmerkmal ersetzt die Arkana, welche der Kampfmagus ansonsten mit der 6., 12. und 18. Stufe erhält."
+  },
+  {
+    "id": "4e0f5de3-2f9d-56b7-817e-826f88b01426",
+    "name": "Kämpferausbildung (Zauberstreiter)",
+    "description": "(AF) Mit Beginn der 7. Stufe hat ein Zauberstreiter eine effektive Kämpferstufe in Höhe seiner Kampfmagusstufe -3 hinsichtlich der Qualifikation für Talente. Ab der 10. Stufe behandelt er seine Stufen als Kampfmagus als Kämpferstufen hinsichtlich der Kämpferausbildung. Sollte er über Stufen als Kämpfer verfügen, so sind diese kumulativ. Dieses Klassenmerkmal ersetzt Wissensvorrat und die Kämpferausbildung, die der Kampfmagus auf der 10. Stufe erlangt."
+  },
+  {
+    "id": "3db16fa6-b3a6-593c-bc65-417d09c70a82",
+    "name": "Rüstungstraining",
+    "description": "(AF) Mit Beginn der 8. Stufe erhält ein Zauberstreiter Rüstungstraining wie das gleichnamige Klassenmerkmal des Kämpfers. Mit der 14. Stufe erhält er Rüstungstraining 2. Dieses Klassenmerkmal ersetzt Verbesserte Kampfzauberei und Mächtige Kampfzauberei."
+  },
+  {
+    "id": "adf2cb39-0224-57e5-874c-d5f5dee725cc",
+    "name": "Rüstungsmeisterschaft (Zauberstreiter)",
+    "description": "(AF) Mit Beginn der 20. Stufe erhält ein Zauberstreiter in Rüstung SR 5/-. Dieses Klassenmerkmal ersetzt Wahrer Kampfmagus."
+  },
+  {
+    "id": "cc62a9a2-f477-5600-9138-ec9b9bd87147",
+    "name": "Elf (Barbar)",
+    "description": "Addiere +1 auf die Grundbewegungsrate des Barbaren. Im Kampf wirkt sich dies nur aus, falls der Barbar diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
+  },
+  {
+    "id": "5f9ec23b-18ad-5bd2-a600-62b3b796394f",
+    "name": "Elf (Entfesselter Barbar)",
+    "description": "Addiere +1 auf die Grundbewegungsrate des Barbaren. Im Kampf wirkt sich dies nur aus, falls der Barbar diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
+  },
+  {
+    "id": "93b99c2b-374c-57aa-8f5c-a73195807d86",
+    "name": "Elf (Barde)",
+    "description": "Addiere +1 auf die KMV des Barden gegen Entwaffnen."
+  },
+  {
+    "id": "b55cb5dc-07b1-5855-b313-553ca81b3b30",
+    "name": "Elf (Druide)",
+    "description": "Addiere +1/3 auf den natürlichen Rüstungsbonus des Druiden in Tiergestalt."
+  },
+  {
+    "id": "b84133ed-6bd3-5026-8933-25a39c4c00e7",
+    "name": "Elf (Hexe)",
+    "description": "Füge einen Hexenzauber von der Liste der Hexenzauber den dem Hexenvertrauten bekannten Zaubern hinzu. Der Grad dieses Zaubers muss niedriger sein als der dem Vertrauten bekannte Höchstgrad. Sollte die Hexe jemals ihren Vertrauten ersetzen, kennt der neue Vertraute diese Bonuszauber."
+  },
+  {
+    "id": "e661fba8-b882-5221-95f4-7d0c799f78b2",
+    "name": "Elf (Hexenmeister)",
+    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche normalerweise (3 + CH-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Hexenmeister addiert +1/2 tägliche Anwendung dieser Kraft."
+  },
+  {
+    "id": "0e7293e6-d9a1-5678-89dc-20abba8bc266",
+    "name": "Elf (Kämpfer)",
+    "description": "Addiere +1 auf die KMV des Kämpfers gegen Entwaffnen und Zerschmettern."
+  },
+  {
+    "id": "6285e896-1513-5898-bd85-9535eb769e69",
+    "name": "Elf (Kampfmagus)",
+    "description": "Der Kampfmagus erhält 1/6 eines neuen Kampfmagusarkanums."
+  },
+  {
+    "id": "d7a5f4ef-a7d4-54cb-9e15-3d0aa6d6b9e7",
+    "name": "Elf (Kleriker)",
+    "description": "Wähle eine Domänenkraft der 1. Stufe, welche normalerweise (3 + WE-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Kleriker addiert +1/2 tägliche Anwendung dieser Kraft."
+  },
+  {
+    "id": "6755b053-9cb9-50f2-8311-09c4639438a2",
+    "name": "Elf (Magier)",
+    "description": "Wähle eine Kraft der arkanen Schule der 1. Stufe, welche normalerweise (3 + IN-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Magier addiert +1/2 tägliche Anwendung dieser Kraft."
+  },
+  {
+    "id": "9e8e3839-6a1e-543d-99e6-1723f361eff0",
+    "name": "Elf (Mönch)",
+    "description": "Addiere +1 auf die Grundbewegungsrate des Mönchs. Im Kampf wirkt sich dies nur aus, falls der Mönch diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
+  },
+  {
+    "id": "bffeebf8-ab28-59cc-8f1c-dc67382ecad4",
+    "name": "Elf (Mystiker)",
+    "description": "Addiere +1/2 auf die Stufe des Mystikers, um die Effekte einer Offenbarung zu bestimmen."
+  },
+  {
+    "id": "0ad7c8d6-e068-5c61-affb-4822a942bc02",
+    "name": "Elf (Paladin)",
+    "description": "Addiere +1/2 Trefferpunkt zur Fähigkeit Handauflegen, egal ob diese zum Heilen oder Schädigen genutzt wird."
+  },
+  {
+    "id": "9adb96e6-6ce3-565c-b4ef-3ed3c46aa519",
+    "name": "Elf (Schurke)",
+    "description": "Addiere +1 auf die Zahl, welche der Schurke täglich einen Zaubertrick oder Zauber des 1. Grades nutzen kann, den er über den Schurkentrick Höhere Magie oder Niedere Magie erlangt hat. Er kann Höhere Magie nicht öfter am Tag einsetzen als Niedere Magie und muss natürlich über den entsprechenden Schurkentrick verfügen, um diese Option wählen zu können."
+  },
+  {
+    "id": "516a048e-c3e9-5a39-afdc-a838a5806f79",
+    "name": "Elf (Waldläufer)",
+    "description": "Wähle eine der folgenden Waffen: Kurzbogen, Kurzschwert, Langbogen, Langschwert, Rapier oder eine Waffe mit Elfisch im Namen. Addiere +1/2 auf Kritische Bestätigungswürfe mit dieser Waffe (Maximalbonus +4). Dieser Bonus ist nicht kumulativ mit Kritischer-Treffer-Fokus."
+  },
+  {
     "id": "4ac14c5f-25da-5500-b850-8a1505182a19",
     "name": "Umgang mit Waffen und Rüstungen",
     "description": "Der Kampfmagus ist im Umgang mit allen einfachen Waffen und Kriegswaffen geübt. Er ist außerdem im Tragen leichter Rüstung geübt. Er kann Kampfmaguszauber wirken, während er eine leichte Rüstung trägt, ohne dabei einen arkanen Patzer zu riskieren. Wie andere arkane Zauberkundige riskiert er einen arkanen Patzer, wenn er mittelschwere oder schwere Rüstung oder einen Schild trägt und der Zauber Gestik als Komponente besitzt. Ein Kampfmagus, der Stufen in mehreren Klassen besitzt, besitzt bei arkanen Zaubern anderer Klassen die übliche Chance eines arkanen Patzers."
@@ -3553,260 +3808,5 @@
     "id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
     "name": "Bonustalent",
     "description": "Auf der 5. Stufe und dann alle weiteren sechs Stufen als Kampfmagus (11., 17.) erhält ein Kampfmagus 1 Bonustalent. Dabei muss es sich um ein Talent aus der Kategorie Kampf, Metamagie oder Erschaffung von Gegenständen handeln, dessen Voraussetzungen der Kampfmagus erfüllen muss."
-  },
-  {
-    "id": "c7790b93-5d98-50f8-b796-b3b282a44cdd",
-    "name": "Vermindertes Zauberwirken",
-    "description": "Ein Kensai besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
-  },
-  {
-    "id": "1022bc94-7324-5fb0-883a-ed80726277e0",
-    "name": "Umgang mit Waffen und Rüstungen (Kensai)",
-    "description": "Ein Kensai ist geübt im Umgang mit Einfachen Waffen und einer einzelnen Kriegswaffe oder Exotischen Waffe seiner Wahl. Ein Kensai ist nicht geübt im Umgang mit Rüstungen oder Schilden und erleidet die normale Patzerchance bei arkanen Zaubern, wenn er Kampfmaguszauber in Rüstung wirkt. Dieses Klassenmerkmal ersetzt Umgang mit Waffen und Rüstungen."
-  },
-  {
-    "id": "ebb8db2d-2caa-54c4-8a78-9131f0b44e1d",
-    "name": "Gewitzte Verteidigung",
-    "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai das Klassenmerkmal Gewitzte Verteidigung, wenn er seine ausgewählte Waffe führt. Dies ist identisch mit dem Klassenmerkmal der Duellanten-Prestigeklasse; er ist bei der Wahl seiner ausgewählten Waffe aber nicht eingeschränkt."
-  },
-  {
-    "id": "5ddd070b-8770-54bd-ba62-6788374554ce",
-    "name": "Waffenfokus (Kensai)",
-    "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai Waffenfokus mit seiner ausgewählten Waffe."
-  },
-  {
-    "id": "4d470f31-bea9-5557-910a-33372a4cab74",
-    "name": "Perfekter Schlag",
-    "description": "(AF) Mit Beginn der 4. Stufe kann ein Kensai, welcher mit seiner ausgewählten Waffe sein Ziel trifft, 1 Punkt seines Arkanen Vorrats einsetzen, um den Waffenschaden zu maximieren; zusätzlicher Schaden wie Präzisionsschaden, Schaden aufgrund Kritischer Treffer sowie magischer Waffeneigenschaften oder Zauberschlag wird aber normal ausgewürfelt. Sollte der Kensai einen Kritischen Treffer bestätigen, kann er stattdessen 2 Punkte seines Arkanen Vorrats einsetzen, um den Kritischen Schadensmultiplikator seiner Waffe um 1 zu erhöhen. Dieses Klassenmerkmal ersetzt Zauberrückruf."
-  },
-  {
-    "id": "70a7da82-969f-57f7-8f81-8c35345085c8",
-    "name": "Kämpferausbildung (Kensai)",
-    "description": "(AF) Hinsichtlich der Voraussetzungen für Talente hat ein Kensai mit Beginn der 7. Stufe eine effektive Kämpferstufe in Höhe seiner Stufe als Kampfmagus -3. Sollte er über Stufen als Kämpfer verfügen, so sind diese kumulativ. Er erhält den Vorteil solcher Talente aber nur im Umgang mit seiner ausgewählten Waffe. Dieses Klassenmerkmal ersetzt Wissensvorrat."
-  },
-  {
-    "id": "3c7a71ed-318e-5cae-8423-feb38f1add0a",
-    "name": "Iaijutsu",
-    "description": "(AF) Mit Beginn der 7. Stufe addiert ein Kensai neben seinem GE-Modifikator auch seinen IN-Modifikator auf seine Initiativewürfe (Minimum 0). Ein Kensai kann mit seiner bevorzugten Waffe auch Gelegenheitsangriffe ausführen, wenn er sich auf dem falschen Fuß befindet, und seine bevorzugte Waffe mit einer Freien Aktion ziehen, wenn dies Teil des Gelegenheitsangriffes ist. Dieses Klassenmerkmal ersetzt das Klassenmerkmal Mittelschwere Rüstung."
-  },
-  {
-    "id": "de8cc6f0-6af5-5fbf-af13-7339a9d8e05a",
-    "name": "Kritische Perfektion",
-    "description": "(AF) Mit Beginn der 9. Stufe addiert ein Kensai bei seiner bevorzugten Waffe seinen IN-Bonus (Minimum 0) auf Bestätigungswürfe für Kritische Treffer. Ferner behandelt er seine Stufe als Kampfmagus anstatt seinen Grundangriffsbonus als Voraussetzung für das Talent Kritischer-Treffer-Fokus und alle Talente, für welche dieses Talent eine Voraussetzung ist - nur bei der bevorzugten Waffe des Kensai. Dieses Klassenmerkmal ersetzt das Arkanum, welches ein Kampfmagus mit der 9. Stufe erhält."
-  },
-  {
-    "id": "45d7db7f-5f40-5cd7-b329-664e53007181",
-    "name": "Überlegene Reflexe",
-    "description": "(AF) Mit Beginn der 11. Stufe kann ein Kensai in einer Runde eine Anzahl von Gelegenheitsangriffen in Höhe seines IN-Modifikators ausführen (Minimum 1). Dieser Effekt ist kumulativ mit dem Talent Kampfreflexe. Dieses Klassenmerkmal ersetzt Verbesserter Zauberrückruf."
-  },
-  {
-    "id": "eb74ea27-f159-5f45-80c7-f7bf87b7139f",
-    "name": "Iaijutsu-Fokus",
-    "description": "(AF) Mit Beginn der 13. Stufe kann ein Kensai stets während einer Überraschungsrunde handeln und seine Waffe mit einer Schnellen Aktion ziehen, auch wenn er als auf dem Falschen Fuß erwischt gilt. Während einer Überraschungsrunde oder wenn er einen Gegner auf dem falschen Fuß erwischt, addiert er seinen IN-Modifikator auf seine Schadenswürfe mit seiner ausgewählten Waffe (Minimum 0). Dieses Klassenmerkmal ersetzt Schwere Rüstung."
-  },
-  {
-    "id": "cf32d741-1b64-58ec-ae74-0f24f23e206f",
-    "name": "Iaijutsu-Meister",
-    "description": "(AF) Mit Beginn der 19. Stufe wird der Initiativewurf eines Kensai immer automatisch als natürliche 20 behandelt und er gilt niemals als Überrascht. Dieses Klassenmerkmal ersetzt Mächtiger Zugang zu Zaubern."
-  },
-  {
-    "id": "efa4f9bd-3f1d-5053-abf6-a6890a98ae44",
-    "name": "Waffenmeisterschaft (Kensai)",
-    "description": "(AF) Mit Beginn der 20. Stufe erhält ein Kensai Waffenmeisterschaft mit seiner bevorzugten Waffe. Dies entspricht dem Klassenmerkmal des Kämpfers. Dieses Klassenmerkmal ersetzt Wahrer Kampfmagus."
-  },
-  {
-    "id": "e2b15d6b-5804-5814-a4e9-38618a953645",
-    "name": "Vermindertes Zauberwirken",
-    "description": "Ein Seelenschmied besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
-  },
-  {
-    "id": "eba08b94-754f-5312-bd0c-1292b3d6cc6c",
-    "name": "Arkane Bindung (Seelenschmied)",
-    "description": "(ÜF) Mit Beginn der 1. Stufe erhält ein Seelenschmied eine Waffe als Gegenstand einer Arkanen Verbindung. Dieses Klassenmerkmal ist identisch mit dem Klassenmerkmal des Magiers, allerdings kann der Seelenschmied nur mit einer Waffe eine Bindung eingehen, nicht mit einem Vertrauten oder Gegenstand."
-  },
-  {
-    "id": "8356ac71-7792-5dac-949f-4afc1985fa1d",
-    "name": "Kampfzauberei (Seelenschmied)",
-    "description": "(ÜF) Ein Seelenschmied kann das Klassenmerkmal Kampfzauberei nur einsetzen, wenn er seine gebundene Waffe führt."
-  },
-  {
-    "id": "adadc0c4-1712-5638-83de-800c3ac8be30",
-    "name": "Zauberschlag (Seelenschmied)",
-    "description": "(ÜF) Ein Seelenschmied kann das Klassenmerkmal Zauberschlag nur einsetzen, wenn er seine gebundene Waffe führt."
-  },
-  {
-    "id": "445b2550-8226-595e-bf7d-d86e3e18eabd",
-    "name": "Bindung festigen",
-    "description": "(ÜF) Mit Beginn der 4. Stufe kann ein Seelenschmied 1 Punkt seines Arkanen Vorrats aufwenden, um die Härte und Trefferpunkte seines gebundenen Gegenstandes in Höhe seiner Stufe als Kampfmagus zu erhöhen. Diese Trefferpunkte halten an, bis sie verbraucht werden oder der Seelenschmied wieder Zauber vorbereitet. Mehrere Anwendungen dieser Fähigkeit sind nicht mit sich selbst kumulativ. Dieses Klassenmerkmal ersetzt Zauberrückruf."
-  },
-  {
-    "id": "d823529f-42a2-52f0-953c-9238bc08c69e",
-    "name": "Meisterschmied",
-    "description": "(AF) Ein Seelenschmied addiert seine Stufe als Kampfmagus als Bonus auf seine Fertigkeitswürfe für Handwerk, um Waffen, Schilde und Rüstungen herzustellen (auch beim Talent Magische Waffen und Rüstungen herstellen). Mit Beginn der 7. Stufe legt ein Seelenschmied 1/10 des Preises von Waffen, Schilden und Rüstungen zugrunde, um die Herstellungsdauer nichtmagischer Gegenstände zu berechnen, und benötigt nur die Hälfte der Zeit, um magische Waffen und Rüstungen zu verzaubern. Dieses Klassenmerkmal ersetzt Wissensvorrat."
-  },
-  {
-    "id": "a9cc8f59-1ab8-583e-b62f-ab9d3bbfa0f4",
-    "name": "Umschmieden",
-    "description": "(ÜF) Indem er 1 Punkt seines Arkanen Vorrats einsetzt, kann ein Seelenschmied mit Beginn der 11. Stufe mit einer Standard-Aktion bei einem beschädigten Gegenstand durch Berührung eine Anzahl von Trefferpunkten in Höhe seiner Stufe als Kampfmagus wiederherstellen. Um einen zerstörten Gegenstand zu reparieren, benötigt er 1 Minute und Materialien im Wert von ¼ des Verkaufswertes des Gegenstandes und stellt ihn mit 1 TP wieder her; um die Verzauberungen eines zerstörten magischen Gegenstandes wiederherzustellen, muss er zusätzliche Punkte seines Arkanen Vorrats in Höhe der Zauberstufe des Gegenstandes einsetzen (mit einer temporären negativen Stufe, deren Höhe von der Zauberstufe des Gegenstandes im Vergleich zu seiner eigenen abhängt, außer bei seiner gebundenen Waffe). Dieses Klassenmerkmal ersetzt Verbesserter Zauberrückruf."
-  },
-  {
-    "id": "beaf7186-45d1-5771-97e2-d37e29bd7f61",
-    "name": "Zerstörerischer Gegenschlag",
-    "description": "(ÜF) Mit Beginn der 16. Stufe provoziert ein Gegner, der einen magischen Gegenstand innerhalb des Bedrohungsbereichs des Seelenschmieds aktiviert, einen Gelegenheitsangriff durch diesen - entweder gegen das Ziel oder gegen den Gegenstand, um ihn zu zerschmettern (dessen Effekte dann aufgehoben werden). Dieses Klassenmerkmal ersetzt Gegenschlag."
-  },
-  {
-    "id": "861aa7de-a08a-5079-bb2b-41ce3bd85ae1",
-    "name": "Augenblickliche Wiederherstellung",
-    "description": "(ÜF) Mit Beginn der 19. Stufe kann ein Seelenschmied mit einer Berührung einen zerstörten Gegenstand mit einer Standard-Aktion wiederherstellen, ohne dabei einen Gelegenheitsangriff zu provozieren. Dieses Klassenmerkmal ersetzt Mächtiger Zugang zu Zaubern."
-  },
-  {
-    "id": "f98136ce-2c0e-5a96-8515-9af3689442df",
-    "name": "Vermindertes Zauberwirken",
-    "description": "Ein Skirnir besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
-  },
-  {
-    "id": "2075f156-deff-53c7-8e56-621bb308e1eb",
-    "name": "Arkane Verbindung (Skirnir)",
-    "description": "(ÜF) Mit Beginn der 1. Stufe erhält ein Skirnir einen Schild (keinen Turmschild) als Gegenstand einer Arkanen Verbindung. Dieses Klassenmerkmal ist identisch mit dem Klassenmerkmal des Magiers, allerdings kann der Skirnir nur mit einem Schild eine Bindung eingehen, nicht mit einem Vertrauten oder Gegenstand."
-  },
-  {
-    "id": "d4c8f0ac-5853-5300-b706-f1d6b0fb005e",
-    "name": "Arkaner Vorrat (Skirnir)",
-    "description": "Mit Beginn der 1. Stufe kann ein Skirnir seinen Arkanen Vorrat nutzen, um auch seinem Schild (statt nur einer Waffe) einen Verbesserungsbonus zu verleihen - die Kosten hierfür werden separat bezahlt. Ab der 5. Stufe kann er seinen Schild zudem mit den folgenden besonderen Eigenschaften versehen: Belebung, Geschosse anziehend, Geschossabwehr, Schmettern, Blendend, Bollwerk (jedes), Zauberresistenz (jede)."
-  },
-  {
-    "id": "4761206b-be83-5705-bd13-f8f0a74cfcf4",
-    "name": "Schild des Skirnirs",
-    "description": "(AF) Mit Beginn der 1. Stufe ist ein Skirnir geübt im Umgang mit allen Schilden, auch Turmschilden. Er unterliegt keiner arkanen Patzerchance, wenn er beim Wirken von Kampfmaguszaubern einen Schild trägt. Hinsichtlich schildbezogener Talente besitzt der Skirnir eine effektive Kämpferstufe in Höhe seiner Stufe als Kampfmagus. Dieses Klassenmerkmal ersetzt Kampfzauberei."
-  },
-  {
-    "id": "109ab86c-2fe4-514e-a9ee-96f744f6a651",
-    "name": "Zauberschlag (Skirnir)",
-    "description": "(ÜF) Mit Beginn der 1. Stufe kann ein Skirnir die Fähigkeit Zauberschlag auch mit einem Schildstoß statt einer Waffe einsetzen."
-  },
-  {
-    "id": "3ee8cc11-dce3-5d8c-8abc-661e07379806",
-    "name": "Schildvorrat",
-    "description": "(AF) Mit Beginn der 4. Stufe kann ein Skirnir mit einer Freien Aktion 1 Punkt seines Arkanen Vorrats einsetzen, um beim defensiven Zaubern seinen Schildbonus auf die RK (ohne eventuelle Verbesserungsboni) auf seine Konzentrationswürfe hinzuzuaddieren. Er kann ferner jedes Vorratsschlag-Arkanum in Verbindung mit einem Berührungsangriff oder einem Schildstoß mit seinem Schild nutzen. Dieses Klassenmerkmal ersetzt Zauberrückruf."
-  },
-  {
-    "id": "544b4ac6-2077-5b08-b6a4-a02fbcc29480",
-    "name": "Zaubertragender Schild",
-    "description": "(ÜF) Mit Beginn der 7. Stufe kann ein Skirnir mit einer Standard-Aktion einen Kampfmaguszauber in seinem Schild einlagern, indem er pro Grad des Zaubers 1 Punkt seines Arkanen Vorrats einsetzt. Dies funktioniert wie die Waffeneigenschaft Zauberspeicher, wird aber nur bei einem erfolgreichen Schildstoß aktiviert und ist nicht auf Zauber des maximal 3. Grades beschränkt. Dieses Klassenmerkmal ersetzt Wissensvorrat."
-  },
-  {
-    "id": "2228fe8f-a0a0-534b-8a34-ba7aae5184df",
-    "name": "Geschützte Kampfzauberei",
-    "description": "(ÜF) Mit Beginn der 8. Stufe erhält ein Skirnir das Klassenmerkmal Kampfzauberei, jedoch nur, wenn er seinen mit ihm verbundenen Schild führt. Ein Skirnir kann seine Schildhand für die Gestik von Kampfmaguszaubern nutzen, gibt dabei aber bis zum Beginn seines nächsten Zuges seinen Schildbonus auf RK auf (außer bei einer Tartsche). Mit Beginn der 14. Stufe erlangt er die Vorteile von Verbesserte Kampfzauberei; mit Beginn der 19. Stufe behält er seinen Schildbonus auf RK auch bei Kampfzauberei mit Schild. Dieses Klassenmerkmal ersetzt Verbesserte Kampfzauberei, Mächtige Kampfzauberei und Mächtiger Zugang zu Zaubern."
-  },
-  {
-    "id": "f773d4d2-6cef-5305-9c7a-e49e0a6422e5",
-    "name": "Mächtiger Zaubertragender Schild",
-    "description": "(ÜF) Mit Beginn der 16. Stufe kann ein Skirnir einen gespeicherten Zauber mit einer Augenblicklichen Aktion aktivieren, nachdem er im Kampf getroffen wurde, und ihn auf sich selbst oder die Kreatur wirken, die ihn getroffen hat. Dieses Klassenmerkmal ersetzt Gegenschlag."
-  },
-  {
-    "id": "5e2c5e9e-1915-556d-a902-3aee007af2d7",
-    "name": "Vermindertes Zauberwirken",
-    "description": "Ein Zauberstreiter besitzt pro Zaubergrad einen Zauberplatz weniger. Sollte dies die tägliche Anzahl der verfügbaren Zauber eines Grades auf 0 reduzieren, kann er nur dann Zauber dieses Grades wirken, wenn er Bonuszauber aufgrund seiner Intelligenz für diesen Grad erhält."
-  },
-  {
-    "id": "70c6887d-8d61-56c5-ae76-4a5ece0e406f",
-    "name": "Zauberschlag im Fernkampf",
-    "description": "(AF) Mit Beginn der 4. Stufe kann ein Zauberstreiter einen Fernkampfzauber, der auf ein einzelnes Ziel mit einem Berührungsangriff wirkt, mit einer Fernkampfwaffe übermitteln - selbst wenn der Zauber normalerweise mehrere Ziele betreffen kann, kommt nur ein einzelnes Geschoss, Strahl oder ein Effekt zur Anwendung. Mit Beginn der 11. Stufe kann ein Zauberstreiter, der so einen Zauber mit mehreren möglichen Zielen übermittelt, mit jedem Angriff im Rahmen eines Vollen Angriffs einen weiteren Strahl, eine Linie oder einen Effekt übermitteln (bis zum Maximum, das der Zauber erlaubt); jeder Effekt, der nicht in derselben Runde genutzt wird, ist verloren. Dieses Klassenmerkmal ersetzt Zauberrückruf und Verbesserter Zauberrückruf."
-  },
-  {
-    "id": "f49807d7-ad37-5764-90a0-270be574bdfd",
-    "name": "Waffentraining (Zauberstreiter)",
-    "description": "(AF) Mit Beginn der 6. Stufe erhält ein Zauberstreiter das Klassenmerkmal Waffentraining (entspricht dem gleichnamigen Klassenmerkmal des Kämpfers). Alle weiteren sechs Stufen als Kampfmagus fügt er eine zusätzliche Waffengruppe hinzu (bis zu einem Maximum von 3 Gruppen auf der 18. Stufe); mit jeder weiteren Waffengruppe steigen die Boni auf Angriffs- und Schadenswürfe bei den bereits gewählten Gruppen um zusätzlich +1. Dieses Klassenmerkmal ersetzt die Arkana, welche der Kampfmagus ansonsten mit der 6., 12. und 18. Stufe erhält."
-  },
-  {
-    "id": "4e0f5de3-2f9d-56b7-817e-826f88b01426",
-    "name": "Kämpferausbildung (Zauberstreiter)",
-    "description": "(AF) Mit Beginn der 7. Stufe hat ein Zauberstreiter eine effektive Kämpferstufe in Höhe seiner Kampfmagusstufe -3 hinsichtlich der Qualifikation für Talente. Ab der 10. Stufe behandelt er seine Stufen als Kampfmagus als Kämpferstufen hinsichtlich der Kämpferausbildung. Sollte er über Stufen als Kämpfer verfügen, so sind diese kumulativ. Dieses Klassenmerkmal ersetzt Wissensvorrat und die Kämpferausbildung, die der Kampfmagus auf der 10. Stufe erlangt."
-  },
-  {
-    "id": "3db16fa6-b3a6-593c-bc65-417d09c70a82",
-    "name": "Rüstungstraining",
-    "description": "(AF) Mit Beginn der 8. Stufe erhält ein Zauberstreiter Rüstungstraining wie das gleichnamige Klassenmerkmal des Kämpfers. Mit der 14. Stufe erhält er Rüstungstraining 2. Dieses Klassenmerkmal ersetzt Verbesserte Kampfzauberei und Mächtige Kampfzauberei."
-  },
-  {
-    "id": "adf2cb39-0224-57e5-874c-d5f5dee725cc",
-    "name": "Rüstungsmeisterschaft (Zauberstreiter)",
-    "description": "(AF) Mit Beginn der 20. Stufe erhält ein Zauberstreiter in Rüstung SR 5/-. Dieses Klassenmerkmal ersetzt Wahrer Kampfmagus."
-  },
-  {
-    "id": "cc62a9a2-f477-5600-9138-ec9b9bd87147",
-    "name": "Elf (Barbar)",
-    "description": "Addiere +1 auf die Grundbewegungsrate des Barbaren. Im Kampf wirkt sich dies nur aus, falls der Barbar diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
-  },
-  {
-    "id": "5f9ec23b-18ad-5bd2-a600-62b3b796394f",
-    "name": "Elf (Entfesselter Barbar)",
-    "description": "Addiere +1 auf die Grundbewegungsrate des Barbaren. Im Kampf wirkt sich dies nur aus, falls der Barbar diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
-  },
-  {
-    "id": "93b99c2b-374c-57aa-8f5c-a73195807d86",
-    "name": "Elf (Barde)",
-    "description": "Addiere +1 auf die KMV des Barden gegen Entwaffnen."
-  },
-  {
-    "id": "b55cb5dc-07b1-5855-b313-553ca81b3b30",
-    "name": "Elf (Druide)",
-    "description": "Addiere +1/3 auf den natürlichen Rüstungsbonus des Druiden in Tiergestalt."
-  },
-  {
-    "id": "b84133ed-6bd3-5026-8933-25a39c4c00e7",
-    "name": "Elf (Hexe)",
-    "description": "Füge einen Hexenzauber von der Liste der Hexenzauber den dem Hexenvertrauten bekannten Zaubern hinzu. Der Grad dieses Zaubers muss niedriger sein als der dem Vertrauten bekannte Höchstgrad. Sollte die Hexe jemals ihren Vertrauten ersetzen, kennt der neue Vertraute diese Bonuszauber."
-  },
-  {
-    "id": "e661fba8-b882-5221-95f4-7d0c799f78b2",
-    "name": "Elf (Hexenmeister)",
-    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche normalerweise (3 + CH-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Hexenmeister addiert +1/2 tägliche Anwendung dieser Kraft."
-  },
-  {
-    "id": "0e7293e6-d9a1-5678-89dc-20abba8bc266",
-    "name": "Elf (Kämpfer)",
-    "description": "Addiere +1 auf die KMV des Kämpfers gegen Entwaffnen und Zerschmettern."
-  },
-  {
-    "id": "6285e896-1513-5898-bd85-9535eb769e69",
-    "name": "Elf (Kampfmagus)",
-    "description": "Der Kampfmagus erhält 1/6 eines neuen Kampfmagusarkanums."
-  },
-  {
-    "id": "d7a5f4ef-a7d4-54cb-9e15-3d0aa6d6b9e7",
-    "name": "Elf (Kleriker)",
-    "description": "Wähle eine Domänenkraft der 1. Stufe, welche normalerweise (3 + WE-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Kleriker addiert +1/2 tägliche Anwendung dieser Kraft."
-  },
-  {
-    "id": "6755b053-9cb9-50f2-8311-09c4639438a2",
-    "name": "Elf (Magier)",
-    "description": "Wähle eine Kraft der arkanen Schule der 1. Stufe, welche normalerweise (3 + IN-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Magier addiert +1/2 tägliche Anwendung dieser Kraft."
-  },
-  {
-    "id": "9e8e3839-6a1e-543d-99e6-1723f361eff0",
-    "name": "Elf (Mönch)",
-    "description": "Addiere +1 auf die Grundbewegungsrate des Mönchs. Im Kampf wirkt sich dies nur aus, falls der Mönch diese Option fünf Mal (oder ein Mehrfaches von Fünf) gewählt hat. Dieser Bonus ist kumulativ mit dem Klassenmerkmal Schnelle Bewegung und unterliegt denselben Bedingungen."
-  },
-  {
-    "id": "bffeebf8-ab28-59cc-8f1c-dc67382ecad4",
-    "name": "Elf (Mystiker)",
-    "description": "Addiere +1/2 auf die Stufe des Mystikers, um die Effekte einer Offenbarung zu bestimmen."
-  },
-  {
-    "id": "0ad7c8d6-e068-5c61-affb-4822a942bc02",
-    "name": "Elf (Paladin)",
-    "description": "Addiere +1/2 Trefferpunkt zur Fähigkeit Handauflegen, egal ob diese zum Heilen oder Schädigen genutzt wird."
-  },
-  {
-    "id": "9adb96e6-6ce3-565c-b4ef-3ed3c46aa519",
-    "name": "Elf (Schurke)",
-    "description": "Addiere +1 auf die Zahl, welche der Schurke täglich einen Zaubertrick oder Zauber des 1. Grades nutzen kann, den er über den Schurkentrick Höhere Magie oder Niedere Magie erlangt hat. Er kann Höhere Magie nicht öfter am Tag einsetzen als Niedere Magie und muss natürlich über den entsprechenden Schurkentrick verfügen, um diese Option wählen zu können."
-  },
-  {
-    "id": "516a048e-c3e9-5a39-afdc-a838a5806f79",
-    "name": "Elf (Waldläufer)",
-    "description": "Wähle eine der folgenden Waffen: Kurzbogen, Kurzschwert, Langbogen, Langschwert, Rapier oder eine Waffe mit Elfisch im Namen. Addiere +1/2 auf Kritische Bestätigungswürfe mit dieser Waffe (Maximalbonus +4). Dieser Bonus ist nicht kumulativ mit Kritischer-Treffer-Fokus."
   }
 ]

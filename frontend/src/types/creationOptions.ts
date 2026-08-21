@@ -125,6 +125,12 @@ export interface TraitDef {
   /** Plain categorization tag (e.g. "combat", "social", "campaign") — a
    *  character may take at most one trait per area, see `TraitsStep.tsx`. */
   area: string;
+  /** Non-null means this trait needs a one-off skill sub-choice at creation,
+   *  restricted to skills whose own `SkillDef.ability` matches this value
+   *  (Gewitztes Wortspiel: "CH") — same shape as `FeatDef.subChoiceType`,
+   *  sized for traits' one sub-choice kind (a skill) instead of feats'
+   *  three. `null` (every other trait) means no sub-choice is needed. */
+  skillChoiceAbility: string | null;
 }
 
 export interface AbilityDef {

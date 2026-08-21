@@ -1206,6 +1206,74 @@ def test_create_character_with_two_traits_from_the_same_area_is_rejected(
     assert response.status_code == 422
 
 
+def test_create_character_requires_skill_choice_for_gewitztes_wortspiel(
+    client: TestClient, db_session: Session
+) -> None:
+    """`BaseTrait.skill_choice_ability` (set on "Gewitztes Wortspiel"):
+    taking the trait without a matching `trait_skill_choices` entry is
+    rejected, same as an open-choice feat missing its sub-choice
+    (`_validate_trait_skill_choice`, `routers/characters.py`)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    trait_id = _trait_id(client, db_session, "Gewitztes Wortspiel")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, trait_ids=[trait_id]),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_non_charisma_skill_for_gewitztes_wortspiel(
+    client: TestClient, db_session: Session
+) -> None:
+    """"Wähle eine charismabasierte Fertigkeit" — Klettern (ST-based) is not
+    a legal `trait_skill_choices` value for this trait."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    trait_id = _trait_id(client, db_session, "Gewitztes Wortspiel")
+    klettern_id = _skill_id(client, db_session, "Klettern")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            trait_ids=[trait_id],
+            trait_skill_choices={trait_id: klettern_id},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_persists_gewitztes_wortspiel_skill_choice(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    trait_id = _trait_id(client, db_session, "Gewitztes Wortspiel")
+    bluffen_id = _skill_id(client, db_session, "Bluffen")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            trait_ids=[trait_id],
+            trait_skill_choices={trait_id: bluffen_id},
+        ),
+    )
+    assert response.status_code == 201
+
+    character = db_session.get(Character, response.json()["id"])
+    highest_level = max(character.levels, key=lambda level: level.level)
+    trait = db_session.scalars(select(CharacterTrait).where(CharacterTrait.level_id == highest_level.id)).one()
+    assert str(trait.trait_id) == trait_id
+    assert str(trait.chosen_skill_id) == bluffen_id
+
+
 def test_create_character_persists_gear(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)

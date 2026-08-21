@@ -83,6 +83,25 @@ export function featSelectionsForSubmission(draft: CreationDraft, options: Creat
   });
 }
 
+/** Builds `CharacterCreate.trait_skill_choices` from `draft.traits`/
+ *  `draft.traitSkillChoices` — only an entry for a chosen trait whose
+ *  `TraitDef.skillChoiceAbility` isn't null (the backend rejects a stray
+ *  entry for a trait that doesn't take one, `_validate_trait_skill_choice`),
+ *  same "empty submission unless a chosen trait actually needs a sub-choice"
+ *  reasoning as `featSelectionsForSubmission`. */
+export function traitSkillChoicesForSubmission(draft: CreationDraft, options: CreationOptions): Record<string, string> {
+  const traitById = new Map(options.traits.map((t) => [t.id, t]));
+  const result: Record<string, string> = {};
+  for (const traitId of draft.traits) {
+    const trait = traitById.get(traitId);
+    const skillChoice = draft.traitSkillChoices[traitId];
+    if (trait?.skillChoiceAbility && skillChoice) {
+      result[traitId] = skillChoice;
+    }
+  }
+  return result;
+}
+
 export function classDef(options: CreationOptions, className: string) {
   return options.classes.find((c) => c.name === className);
 }

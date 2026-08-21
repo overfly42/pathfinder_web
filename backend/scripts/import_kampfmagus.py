@@ -49,15 +49,18 @@ precedent every other class-import script documents:
   grades only for classes with no spell_tradition yet (..., Kampfmagus, ...)
   and are dropped." Now that Kampfmagus has a `spell_tradition`, this
   script's `main()` backfills `base_class_spells.json` straight from that
-  already-fetched import data (311 spells tagged `Kampfmagus`, 280 of which
+  already-fetched import data (311 spells tagged `Kampfmagus`, 306 of which
   already have a `base_spells.json` row from the classes that already
-  existed when `build_spells_seed.py` ran) instead of hand-transcribing the
-  prose spell list — no re-fetch needed, no new spell rows invented. The 31
-  Kampfmagus-only spells that got dropped by that earlier run (e.g.
-  "Ablenkung", "Dimensionstür", the three Elementargestalt tiers, several
-  Ausbauregeln: Magie-only spells) stay unseeded, same class of gap as
-  Kleriker's/Mystiker's own deferred spell lists — a `build_spells_seed.py`
-  rerun/extension, not this script's job.
+  existed when `build_spells_seed.py` ran — matched by id first, falling
+  back to name for the 26 whose id changed under `build_spells_seed.py`'s
+  own id-stability reconciliation, see the matching code's own comment)
+  instead of hand-transcribing the prose spell list — no re-fetch needed, no
+  new spell rows invented. Only 5 Kampfmagus-only spells (Defensive
+  Entladung, Energiewurfhaken, Peitschenklinge, Zaubereffekt rauben,
+  Ätherische Fäuste — all from books beyond the Grundregelwerk) have no
+  match at all and stay unseeded, same class of gap as Kleriker's/Mystiker's
+  own deferred spell lists — a `build_spells_seed.py` rerun/extension, not
+  this script's job.
 - No `BaseClassAbilitySpellOption`/repeat-selection enforcement for
   Meisterliche Manöver or Zauberforschung (both explicitly repeatable per
   their own text) - same "nothing models 'may be picked more than once' yet"
@@ -983,8 +986,27 @@ def main() -> None:
     # base_class_spells.json: backfill from the PRD's own already-fetched
     # per-class grade data (see this script's docstring) rather than
     # hand-parsing this page's prose spell list.
+    #
+    # Matched by id first, falling back to name (2026-08-22, found via a
+    # "Schild" spot-check): base_spells.json's 103 originally hand-seeded
+    # rows were reconciled against this same zauber_prd_import.json by
+    # build_spells_seed.py, but that reconciliation *kept the old hand-seeded
+    # id* for every name match (its own docstring: "so existing ids ... stay
+    # stable") rather than adopting the PRD import's id — e.g. "Schild" is
+    # base_spells.json id 47eb5796... but zauber_prd_import.json's own row
+    # for the same real spell is id 197817ae... . Matching only by id (the
+    # first version of this script) therefore silently skipped every
+    # already-reconciled spell whose id changed underneath it — 26 of the
+    # original "31 skipped", confirmed by cross-checking Magier's own
+    # base_class_spells.json row for "Schild", which already points at the
+    # OLD id. Only 5 spells (Defensive Entladung, Energiewurfhaken,
+    # Peitschenklinge, Zaubereffekt rauben, Ätherische Fäuste) have no
+    # matching name in base_spells.json at all - those stay genuinely
+    # unseeded, same deferred-spell-list gap as before.
     spell_import = json.loads((IMPORTED / "zauber_prd_import.json").read_text(encoding="utf-8"))
-    existing_spell_ids = {s["id"] for s in load("base_spells.json")}
+    existing_spells = load("base_spells.json")
+    existing_spell_ids = {s["id"] for s in existing_spells}
+    existing_id_by_name = {s["name"]: s["id"] for s in existing_spells}
     class_spells = load("base_class_spells.json")
     class_spells[:] = [r for r in class_spells if r["base_class_id"] != KAMPFMAGUS_ID]
     matched = 0
@@ -993,14 +1015,15 @@ def main() -> None:
         grade = entry.get("grades_by_class", {}).get("Kampfmagus")
         if grade is None:
             continue
-        if entry["id"] not in existing_spell_ids:
+        spell_id = entry["id"] if entry["id"] in existing_spell_ids else existing_id_by_name.get(entry["name"])
+        if spell_id is None:
             skipped += 1
             continue
         class_spells.append(
             {
-                "id": uid("kampfmagus-spell", entry["id"]),
+                "id": uid("kampfmagus-spell", spell_id),
                 "base_class_id": KAMPFMAGUS_ID,
-                "spell_id": entry["id"],
+                "spell_id": spell_id,
                 "grade": grade,
             }
         )
@@ -1009,7 +1032,7 @@ def main() -> None:
 
     print("Kampfmagus class id:", KAMPFMAGUS_ID)
     print("Arkanum group id:", ARKANUM_GROUP_ID)
-    print(f"base_class_spells: {matched} matched, {skipped} skipped (not in base_spells.json yet)")
+    print(f"base_class_spells: {matched} matched, {skipped} skipped (no name/id match in base_spells.json)")
     print("Done.")
 
 

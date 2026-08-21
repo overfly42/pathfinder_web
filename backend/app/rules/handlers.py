@@ -108,6 +108,7 @@ from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
+from .traits import HANDLERS as _TRAIT_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_RACE_ABILITY_HANDLERS,
@@ -115,6 +116,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_EFFECT_HANDLERS,
     **_CLASS_HANDLERS,
     **_FEAT_HANDLERS,
+    **_TRAIT_HANDLERS,
 }
 
 # Scopes 1/2 of this module's own "SITUATIONAL_SKILL_HANDLERS" docstring

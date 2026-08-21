@@ -32,6 +32,12 @@ class CharacterContext:
     skill_ranks: dict[UUID, int] = field(default_factory=dict)
     feat_ids: frozenset[UUID] = frozenset()
     trait_ids: frozenset[UUID] = frozenset()
+    # trait id -> chosen skill id, for traits whose `BaseTrait.skill_choice_ability`
+    # is set (2026-08-21, "Gewitztes Wortspiel") — a handler keyed by one of
+    # those trait ids reads its own pick from here, same "raw composition
+    # input, not a computed value" reasoning as every other field on this
+    # dataclass. Empty for a character with no such trait.
+    trait_skill_choices: dict[UUID, UUID] = field(default_factory=dict)
     # A `Counter`, not a `frozenset`: some class abilities are granted more
     # than once at different levels and each repetition has independent
     # mechanical weight (`sheet.py`'s `granted_class_ability_ids` docstring

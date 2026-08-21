@@ -224,17 +224,17 @@
     "max_choices": 20
   },
   {
-    "id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "key": "arkanum",
-    "label": "Arkanum",
-    "max_choices": 6
-  },
-  {
     "id": "f3bace47-10af-541c-bf89-56d4f699db99",
     "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
     "max_choices": 20
+  },
+  {
+    "id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "key": "arkanum",
+    "label": "Arkanum",
+    "max_choices": 6
   }
 ]

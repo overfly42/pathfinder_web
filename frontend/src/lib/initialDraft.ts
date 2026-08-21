@@ -19,6 +19,7 @@ export function createInitialDraft(): CreationDraft {
     feats: [],
     featSubChoices: {},
     traits: [],
+    traitSkillChoices: {},
     spellSelections: {},
     gold: 0,
     gear: [],

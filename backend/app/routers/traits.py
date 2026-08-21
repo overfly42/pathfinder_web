@@ -14,6 +14,15 @@ router = APIRouter(prefix="/api/traits", tags=["traits"])
 def list_traits(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
     traits = db.scalars(select(BaseTrait).order_by(BaseTrait.name)).all()
     return [
-        {"id": str(trait.id), "name": trait.name, "description": trait.description, "area": trait.area}
+        {
+            "id": str(trait.id),
+            "name": trait.name,
+            "description": trait.description,
+            "area": trait.area,
+            # camelCase on the wire to match the frontend's `TraitDef.skillChoiceAbility`
+            # — same "backend picks the JSON shape a consumer wants" precedent as
+            # `routers/feats.py`'s `subChoiceType`.
+            "skillChoiceAbility": trait.skill_choice_ability,
+        }
         for trait in traits
     ]

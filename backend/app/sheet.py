@@ -148,6 +148,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
         feat_ids=frozenset(character.feat_ids),
         trait_ids=frozenset(character.trait_ids),
+        trait_skill_choices=character.trait_skill_choices,
         granted_ability_ids=granted_ability_ids,
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
@@ -310,7 +311,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, groups, context
         ),
         "feats": _build_feats(db, character),
-        "traits": _described(db, BaseTrait, character.trait_ids),
+        "traits": _build_traits(db, character),
         "classFeatures": _build_class_features(db, granted_ability_ids),
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
@@ -366,7 +367,7 @@ def build_character_progression(character: Character, db: Session) -> dict:
         ],
         "abilityScores": character.ability_scores,
         "feats": [entry["name"] for entry in _build_feats(db, character)],
-        "traits": [row["name"] for row in _described(db, BaseTrait, character.trait_ids)],
+        "traits": [row["name"] for row in _build_traits(db, character)],
         # Alternate-trait names (not the flex ability-score pick) - needed by
         # the level-up wizard to tell whether a race's skill-point-per-level
         # bonus (e.g. Human's Geschult) was traded away, same "replaces"
@@ -479,6 +480,43 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
             sub_choice_label = entry.chosen_spell_school
         name = f"{feat.name} ({sub_choice_label})" if sub_choice_label else feat.name
         result.append({"key": str(entry.id), "name": name, "description": feat.description})
+    return result
+
+
+def _build_traits(db: Session, character: Character) -> list[dict]:
+    """Like `_described`, but appends the chosen skill to a trait's name for
+    display (e.g. "Gewitztes Wortspiel (Bluffen)") when `CharacterTrait.
+    chosen_skill_id` is set — same reasoning and shape as `_build_feats`'s
+    own sub-choice label, sized for traits' one sub-choice kind."""
+    entries = [entry for level in character.levels for entry in level.traits]
+    if not entries:
+        return []
+
+    traits_by_id = {
+        trait.id: trait
+        for trait in db.scalars(select(BaseTrait).where(BaseTrait.id.in_({e.trait_id for e in entries}))).all()
+    }
+    skill_ids = {e.chosen_skill_id for e in entries if e.chosen_skill_id is not None}
+    skills_by_id = (
+        {skill.id: skill for skill in db.scalars(select(BaseSkill).where(BaseSkill.id.in_(skill_ids))).all()}
+        if skill_ids
+        else {}
+    )
+
+    result = []
+    for entry in entries:
+        trait = traits_by_id.get(entry.trait_id)
+        if trait is None:
+            continue
+        skill = skills_by_id.get(entry.chosen_skill_id) if entry.chosen_skill_id is not None else None
+        name = f"{trait.name} ({skill.name})" if skill is not None else trait.name
+        # "key" stays the trait's own id (unlike `_build_feats`'s per-pick
+        # `CharacterFeat.id`) — a trait can never be taken twice, so there's
+        # no ambiguity forcing a per-instance key, and `BaseTrait.id` is what
+        # every existing caller (`test_character_sheet.py`'s
+        # `{t["key"] for t in body["traits"]} == {trait_id}`,
+        # `buildSearchIndex.ts`) already expects.
+        result.append({"key": str(trait.id), "name": name, "description": trait.description})
     return result
 
 

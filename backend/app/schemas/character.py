@@ -142,6 +142,18 @@ class CharacterCreate(BaseModel):
     # race/class, unlike feats) — collapsed onto the highest CharacterLevel
     # row being created, same reasoning as feats.
     trait_ids: list[UUID] = []
+    # trait_id (string, since UUID keys aren't valid JSON object keys) ->
+    # chosen skill id, for traits whose `BaseTrait.skill_choice_ability` is
+    # set (2026-08-21, "Gewitztes Wortspiel") — additive/optional rather than
+    # folded into `trait_ids` itself (contrast `feats`' richer `FeatSelection`
+    # list): a trait can only ever be taken once, so a plain dict keyed by
+    # trait id is enough, same "dict keyed by stringified UUID" convention as
+    # `skill_ranks`/`spell_ids`. Empty (the default) for every trait that
+    # doesn't need a sub-choice. Validated server-side against `trait_ids`
+    # and each trait's own `skill_choice_ability` in `routers/characters.py`
+    # (same "can't check catalog data in a field validator" reasoning as
+    # `_validate_feat_sub_choice`).
+    trait_skill_choices: dict[str, UUID] = {}
     # base_class_id (string, since UUID keys aren't valid JSON object keys) ->
     # chosen spell ids, for spontaneous/arcane-prepared classes only (see
     # rules/spells.py) — grade-0 spells are mandatory-but-implicit for

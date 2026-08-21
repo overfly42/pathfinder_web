@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
-import { featSelectionsForSubmission, selectedRace, spellIdsForSubmission } from '../lib/creationCalculations';
+import {
+  featSelectionsForSubmission,
+  selectedRace,
+  spellIdsForSubmission,
+  traitSkillChoicesForSubmission,
+} from '../lib/creationCalculations';
 import { useCreationOptions } from '../hooks/useCreationOptions';
 import { useAppState } from '../state/AppStateContext';
 import { createInitialDraft } from '../lib/initialDraft';
@@ -97,6 +102,16 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte im Schritt „Talente" für jedes markierte Talent eine Wahl treffen (Waffe/Fertigkeit/Schule).');
         return;
       }
+      const traitById = new Map(opts.traits.map((t) => [t.id, t]));
+      const missingTraitSkillChoice = draft.traits.some((id) => {
+        const trait = traitById.get(id);
+        return trait?.skillChoiceAbility && !draft.traitSkillChoices[id];
+      });
+      if (missingTraitSkillChoice) {
+        setSubmitState('error');
+        setSubmitErrorMessage('Bitte im Schritt „Wesenszüge" für jeden markierten Wesenszug eine Fertigkeit wählen.');
+        return;
+      }
       if (!draft.favoredClassBonus) {
         setSubmitState('error');
         setSubmitErrorMessage('Bitte im Schritt „Klasse" den Bonus der bevorzugten Klasse für die 1. Stufe wählen.');
@@ -124,6 +139,7 @@ export function CreationWizardPage() {
           skill_ranks: draft.skillRanks,
           feats: featSelectionsForSubmission(draft, opts),
           trait_ids: draft.traits,
+          trait_skill_choices: traitSkillChoicesForSubmission(draft, opts),
           spell_ids: spellIdsForSubmission(draft, opts),
           gear: draft.gear.map((item) => ({ item_id: item.itemId, quantity: item.qty })),
         });

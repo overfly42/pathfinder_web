@@ -30,7 +30,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
 
   const skillLines = options.skills.filter((s) => (draft.skillRanks[s.id] || 0) > 0);
   const featById = new Map(options.feats.map((f) => [f.id, f]));
-  const traitNameById = new Map(options.traits.map((t) => [t.id, t.name]));
+  const traitById = new Map(options.traits.map((t) => [t.id, t]));
   const itemNameById = new Map(options.items.map((i) => [i.id, i.name]));
   const skillNameById = new Map(options.skills.map((s) => [s.id, s.name]));
 
@@ -51,6 +51,18 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
             ? subChoice
             : undefined;
     return label ? `${feat.name} (${label})` : feat.name;
+  }
+
+  // Appends the chosen skill to a trait's display name (e.g. "Gewitztes
+  // Wortspiel (Bluffen)") — same reasoning and formatting as `featLabel`,
+  // sized for traits' one sub-choice kind (see backend/app/sheet.py's
+  // `_build_traits`).
+  function traitLabel(traitId: string): string {
+    const trait = traitById.get(traitId);
+    if (!trait) return traitId;
+    const skillChoice = draft.traitSkillChoices[traitId];
+    const label = skillChoice ? skillNameById.get(skillChoice) : undefined;
+    return label ? `${trait.name} (${label})` : trait.name;
   }
 
   const optionLines: { label: string; value: string }[] = [];
@@ -176,7 +188,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
             {draft.traits.length === 0 ? (
               <span className="selected-empty">Keine Wesenszüge gewählt.</span>
             ) : (
-              draft.traits.map((id) => <span className="chip active" key={id}>{traitNameById.get(id) ?? id}</span>)
+              draft.traits.map((id) => <span className="chip active" key={id}>{traitLabel(id)}</span>)
             )}
           </div>
         </div>

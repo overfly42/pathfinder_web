@@ -57,6 +57,11 @@ export interface CreationDraft {
    *  `feats` that need one. */
   featSubChoices: Record<string, string>;
   traits: string[];
+  /** trait_id -> chosen skill id, for traits whose `TraitDef.skillChoiceAbility`
+   *  isn't null (Gewitztes Wortspiel -> a CH-based skill id) — see
+   *  `TraitsStep.tsx`. Only ever holds entries for traits currently in
+   *  `traits` that need one, same convention as `featSubChoices`. */
+  traitSkillChoices: Record<string, string>;
   /** spellSelections: base_class_id -> chosen spell ids (grade-0 spells for
    *  arcane-prepared classes are mandatory-but-implicit, not stored here —
    *  see `spellIdsForSubmission` in creationCalculations.ts). */

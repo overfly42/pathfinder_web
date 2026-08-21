@@ -1323,6 +1323,7 @@
     "id": "d190edc6-d19d-5db8-8eb6-3a38fb1eea1c",
     "name": "Gewitztes Wortspiel",
     "description": "Wähle eine charismabasierte Fertigkeit. Du legst Fertigkeitswürfe für diese Fertigkeit mit deinem IN-Modifikator anstelle deines CH-Modifikators ab.",
-    "area": "social"
+    "area": "social",
+    "skill_choice_ability": "CH"
   }
 ]

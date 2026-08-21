@@ -376,6 +376,46 @@ def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, d
     assert sum(entry["value"] for entry in breakdown) == 2
 
 
+def test_gewitztes_wortspiel_uses_int_instead_of_cha_for_chosen_skill(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/traits.py`'s first `HANDLERS` entry: "Gewitztes Wortspiel"
+    (Clever Wordplay) - the chosen skill's value uses the IN modifier
+    instead of the CH modifier it would normally use, expressed as the delta
+    between the two on top of the skill's own normal CH-based value."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)  # doesn't touch IN/CH
+
+    bluffen_id = _skill_id(client, db_session, "Bluffen")
+    trait_id = _trait_id(client, db_session, "Gewitztes Wortspiel")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            trait_ids=[trait_id],
+            trait_skill_choices={trait_id: bluffen_id},
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    # No ranks invested, so Bluffen not being a Waldläufer class skill
+    # contributes nothing either way. CH mod (8 -> -1, Elf doesn't touch CH)
+    # + delta (effective IN mod, 10+2 Elf -> +1, minus CH mod -1 = +2) lands
+    # at the IN mod (+1) itself.
+    assert skills_by_key[bluffen_id]["value"] == "+1"
+
+    breakdown = skills_by_key[bluffen_id]["breakdown"]
+    assert {"label": "Attributsbonus (CHA)", "value": -1} in breakdown
+    assert {"label": "Gewitztes Wortspiel", "value": 2} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == 1
+
+
 def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
     client: TestClient, db_session: Session
 ) -> None:

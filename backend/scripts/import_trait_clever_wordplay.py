@@ -43,6 +43,10 @@ DESCRIPTION = (
     "IN-Modifikator anstelle deines CH-Modifikators ab."
 )
 AREA = "social"
+# "charismabasierte Fertigkeit" -> BaseTrait.skill_choice_ability (2026-08-21,
+# see that column's docstring): restricts the character's skill sub-choice to
+# BaseSkill rows whose own `ability == "CH"`.
+SKILL_CHOICE_ABILITY = "CH"
 
 
 def main() -> None:
@@ -51,7 +55,15 @@ def main() -> None:
 
     trait_id = str(uuid.uuid5(ID_NAMESPACE, NAME))
     traits[:] = [t for t in traits if t["id"] != trait_id]
-    traits.append({"id": trait_id, "name": NAME, "description": DESCRIPTION, "area": AREA})
+    traits.append(
+        {
+            "id": trait_id,
+            "name": NAME,
+            "description": DESCRIPTION,
+            "area": AREA,
+            "skill_choice_ability": SKILL_CHOICE_ABILITY,
+        }
+    )
 
     path.write_text(json.dumps(traits, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Clever Wordplay trait id:", trait_id)

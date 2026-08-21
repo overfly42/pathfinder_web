@@ -237,6 +237,19 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         return [entry.trait_id for level in self.levels for entry in level.traits]
 
     @property
+    def trait_skill_choices(self) -> dict[uuid.UUID, uuid.UUID]:
+        """`trait_id -> chosen_skill_id`, for every taken trait that actually
+        has one (`CharacterTrait.chosen_skill_id`, e.g. "Gewitztes
+        Wortspiel") — feeds `rules.context.CharacterContext.trait_skill_choices`
+        (`sheet.py`)."""
+        return {
+            entry.trait_id: entry.chosen_skill_id
+            for level in self.levels
+            for entry in level.traits
+            if entry.chosen_skill_id is not None
+        }
+
+    @property
     def spell_ids(self) -> dict[str, list[uuid.UUID]]:
         """Every spell known/in the spellbook, flattened across all levels and
         grouped by `base_class_id` (stringified — UUID keys aren't valid JSON
