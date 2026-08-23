@@ -37,6 +37,18 @@ HEFTIGER_ANGRIFF = UUID("4696cb39-3218-4f95-9d61-d0cef28b4ac0")
 # auch den Bonus dieses Talents verlieren."
 AUSWEICHEN = UUID("2249f151-0809-4c55-80cc-76920111782e")
 
+# `base_feats.json`'s "Waffenfinesse" (Weapon Finesse) row id. Not a
+# `HANDLERS` entry: it doesn't add a modifier, it swaps which ability score
+# (`Dex` instead of `Str`) an attack roll uses, and only for weapons the
+# catalog marks `BaseItem.is_light` (light weapons plus PF1e's named
+# exceptions — Rapier, Peitsche, Stachelkette, Elfisches Krummschwert — see
+# that field's docstring) — a per-weapon-slot decision `sheet.py`'s
+# `_build_weapon_attacks` has to make itself when it already knows which
+# weapon is equipped, same reasoning as `power_attack_bonus` below. Passive
+# (no `CharacterEffect` needed), unlike Heftiger Angriff: GRW gives it no
+# activation clause, just possession of the feat.
+WAFFENFINESSE = UUID("6f0fd239-157e-567a-b1d8-f5c4c529eeec")
+
 # `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill this
 # feat's bonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"

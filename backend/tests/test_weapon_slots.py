@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from test_characters import _character_payload, _create_user, _elf_race_id, _item_id
+from test_characters import _character_payload, _create_user, _elf_race_id, _feat_id, _feat_selection, _human_race_id, _item_id
 from test_items import _create_character, _weapon_ability_id
 
 
@@ -51,6 +51,71 @@ def test_equip_ranged_weapon_uses_dex_not_str_for_attack(client: TestClient, db_
     # sheet.py's _build_weapon_attacks docstring), so just the base die + damage type.
     assert weapon["attackBonus"] == "+3"
     assert weapon["damage"] == "1W8 S"
+
+
+def test_waffenfinesse_uses_dex_for_light_weapon_but_not_for_non_light(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    dolch_id = _item_id(client, db_session, "Dolch")  # one-handed, light
+    langschwert_id = _item_id(client, db_session, "Langschwert")  # one-handed, not light
+    waffenfinesse_id = _feat_id(client, db_session, "Waffenfinesse")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="CH",  # leaves ST 10 (mod +0) and GE 12 (mod +1) apart
+            feats=[_feat_selection(waffenfinesse_id)],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": dolch_id, "quantity": 1})
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+
+    _equip(client, character_id, "hauptwaffe", dolch_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # bab 1 + dex mod +1 (Waffenfinesse applies: Dolch is light) = +2.
+    assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+2"
+
+    _equip(client, character_id, "hauptwaffe", langschwert_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # bab 1 + str mod +0 (Langschwert isn't light, feat doesn't apply) = +1.
+    assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+1"
+
+
+def test_waffenfinesse_uses_dex_for_named_non_light_exception(client: TestClient, db_session: Session) -> None:
+    """Rapier isn't a light weapon by weight class (`hands` "one", not the
+    "Leichte Waffen" PRD subgroup) but is one of PF1e's named Waffenfinesse
+    exceptions, `BaseItem.is_light` True regardless (see that field's
+    docstring) — a separate case from the plain-light-weapon one above."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    rapier_id = _item_id(client, db_session, "Rapier")
+    waffenfinesse_id = _feat_id(client, db_session, "Waffenfinesse")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="CH",  # leaves ST 10 (mod +0) and GE 12 (mod +1) apart
+            feats=[_feat_selection(waffenfinesse_id)],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": rapier_id, "quantity": 1})
+
+    _equip(client, character_id, "hauptwaffe", rapier_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # bab 1 + dex mod +1 (Waffenfinesse's named exception applies to Rapier) = +2.
+    assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+2"
 
 
 def test_equip_two_handed_weapon_clears_nebenwaffe(client: TestClient, db_session: Session) -> None:

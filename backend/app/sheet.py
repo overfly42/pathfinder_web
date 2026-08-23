@@ -72,7 +72,7 @@ from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM
 from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
-from .rules.feats import HEFTIGER_ANGRIFF, power_attack_bonus
+from .rules.feats import HEFTIGER_ANGRIFF, WAFFENFINESSE, power_attack_bonus
 from .rules.handlers import (
     DAILY_LIMITS,
     NATURAL_ATTACK_HANDLERS,
@@ -1549,7 +1549,12 @@ def _build_weapon_attacks(
     for thrown weapons (PF1e RAW still adds Str to *damage* for those, not
     modeled here, see `_weapon_damage_str_mod`'s ranged-is-zero handling
     below) and for projectile weapons that add a capped Str bonus (composite
-    bows), also not modeled. `gear_entries` (this module's own already-built
+    bows), also not modeled. A melee weapon also uses Dex instead when the
+    character has Waffenfinesse (`rules/feats.py`'s `WAFFENFINESSE`) and
+    `BaseItem.is_light` is set on the equipped item (light weapons plus
+    PF1e's named non-light exceptions, see that field's docstring) — damage
+    still uses `str_mod` either way, since the feat only affects the attack
+    roll. `gear_entries` (this module's own already-built
     `_build_gear` output) is reused rather than re-querying
     `BaseWeaponSpecialAbility` a second time — its `specialAbilities` list
     already carries each ability's resolved `bonusDamage` (only the 8 flat
@@ -1592,7 +1597,12 @@ def _build_weapon_attacks(
         power_attack_penalty = power_attack[0] if power_attack is not None else 0
         power_attack_damage = power_attack[1] if power_attack is not None else 0
 
-        attack_ability_mod = dex_mod if is_ranged else str_mod + melee_attack_bonus
+        if is_ranged:
+            attack_ability_mod = dex_mod
+        elif WAFFENFINESSE in context.feat_ids and item.is_light:
+            attack_ability_mod = dex_mod + melee_attack_bonus
+        else:
+            attack_ability_mod = str_mod + melee_attack_bonus
         attack_bonuses = _iterative_attack_bonuses(
             bab, bab + attack_ability_mod + gear_row.enhancement + power_attack_penalty
         )

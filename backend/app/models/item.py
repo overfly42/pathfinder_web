@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import JSON, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Boolean, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -42,6 +42,17 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     from `weapon_group` above, which is a different taxonomy), and `special`
     is free-text property notes (e.g. "Nicht tödlich"). These are plain
     imported strings, not evaluated by any rule logic.
+
+    `is_light` (weapon only, backfilled by `backend/scripts/
+    backfill_weapon_is_light.py`) is not a literal weight-class flag — it's
+    scoped to exactly one question: does Waffenfinesse (`rules/feats.py`'s
+    `WAFFENFINESSE`, `sheet.py`'s `_build_weapon_attacks`) let Dex replace
+    Str on this weapon's attack roll. `True` for the PRD's "Leichte Waffen"
+    subgroup plus PF1e's named non-light exceptions (Rapier, Peitsche,
+    Stachelkette, Elfisches Krummschwert — RAW lets the feat apply to these
+    by name even though none of them is actually light), `False` for every
+    other classified weapon, `null` for the handful of rows with no PRD
+    `subgroup` at all.
 
     `hands` ("one"/"two", weapon only) is the one exception that *is*
     computed from (roadmap.md's Slice-4 weapon-slot item, 2026-08-11): which
@@ -103,6 +114,7 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     weapon_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
     special: Mapped[str | None] = mapped_column(String(255), nullable=True)
     hands: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    is_light: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     weight_lb: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
