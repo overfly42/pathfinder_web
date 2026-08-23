@@ -26,6 +26,21 @@ export interface DraftGearItem {
   price: number;
 }
 
+export interface SkillSpecializationEntry {
+  /** Local-only id (React keys/stepper callbacks) — not sent to the backend;
+   *  the backend identifies a row by skillId + specializationId/
+   *  customSpecialization instead (see `SkillRankSelection`). */
+  localId: string;
+  skillId: string;
+  /** Set when picked from `CreationOptions.skillSpecializations`; mutually
+   *  exclusive with `customSpecialization`. */
+  specializationId: string | null;
+  /** Set when the player typed a specialization not in the catalog;
+   *  mutually exclusive with `specializationId`. */
+  customSpecialization: string | null;
+  ranks: number;
+}
+
 export interface CreationDraft {
   name: string;
   gender: Gender;
@@ -47,7 +62,13 @@ export interface CreationDraft {
    *  — a one-time creation-time choice, persisted server-side and never
    *  resubmitted at level-up (`CharacterProgression.useBackgroundSkills`). */
   useBackgroundSkills: boolean;
+  /** Ranks for every skill except Handwerk/Beruf/Auftreten (`SkillDef.
+   *  hasSpecialization`) — those live in `skillSpecializations` instead,
+   *  since the same skill can appear more than once. */
   skillRanks: Record<string, number>;
+  /** One entry per specialization the player has added for a
+   *  `hasSpecialization` skill — see `SkillsStep.tsx`. */
+  skillSpecializations: SkillSpecializationEntry[];
   /** Chosen feat ids (BaseFeat.id), not names. */
   feats: string[];
   /** feat_id -> the chosen weapon/skill id or spell school string, for feats

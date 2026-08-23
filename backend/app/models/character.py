@@ -195,13 +195,48 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def skill_ranks(self) -> dict[str, int]:
         """Current ranks per skill, summed from every `CharacterSkillRank`
-        row across all levels — never stored as its own total (CLAUDE.md)."""
+        row across all levels — never stored as its own total (CLAUDE.md).
+
+        Deliberately collapses every specialization of a `has_specialization`
+        skill (Handwerk/Beruf/Auftreten) into one skill-level total. That's
+        correct for this property's actual consumers — feat prerequisites
+        (`rules/feat_prerequisites.py`) and `HANDLERS` skill-rank threshold
+        checks (`routers/feats.py`, `sheet.py`'s `CharacterContext`) — since
+        PF1e prerequisites are always phrased against the base skill, never a
+        specific specialization (matches this pass's decision to leave
+        Skill-Focus-style specialization targeting out of scope). Use
+        `skill_rank_details` instead for anything that needs the
+        per-specialization breakdown (the sheet, the level-up wizard)."""
         totals: dict[str, int] = {}
         for level in self.levels:
             for entry in level.skill_ranks:
                 key = str(entry.skill_id)
                 totals[key] = totals.get(key, 0) + entry.ranks
         return totals
+
+    @property
+    def skill_rank_details(self) -> list[dict]:
+        """Current ranks per (skill, specialization), summed from every
+        `CharacterSkillRank` row across all levels — the granular sibling of
+        `skill_ranks` (see that property's docstring for why the two don't
+        merge into one shape). Feeds `sheet.py`'s per-specialization skill
+        rows and `build_character_progression`'s `skillRankDetails` (what the
+        level-up wizard reads to pre-seed a character's existing
+        specializations as addable-to rows)."""
+        totals: dict[tuple[uuid.UUID, uuid.UUID | None, str | None], int] = {}
+        for level in self.levels:
+            for entry in level.skill_ranks:
+                key = (entry.skill_id, entry.specialization_id, entry.custom_specialization)
+                totals[key] = totals.get(key, 0) + entry.ranks
+        return [
+            {
+                "skill_id": skill_id,
+                "specialization_id": specialization_id,
+                "custom_specialization": custom_specialization,
+                "ranks": ranks,
+            }
+            for (skill_id, specialization_id, custom_specialization), ranks in totals.items()
+        ]
 
     @property
     def feat_ids(self) -> list[uuid.UUID]:
@@ -351,19 +386,44 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 class CharacterSkillRank(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Ranks granted to a skill by one specific `CharacterLevel` — an audit
     entry, not a running total. A character's current ranks in a skill is
-    always SUM(ranks) across these rows (see `Character.skill_ranks`),
-    computed rather than stored redundantly (CLAUDE.md). Multi-level
-    creation collapses onto the highest `CharacterLevel` row created in that
-    request (no per-level breakdown asked of the wizard); a later level-up
-    (roadmap slice 7) instead adds one new row per skill tied to the new
-    level, holding only that level's newly bought ranks — same table, same
-    insert shape, just a smaller delta."""
+    always SUM(ranks) across these rows (see `Character.skill_ranks`/
+    `skill_rank_details`), computed rather than stored redundantly
+    (CLAUDE.md). Multi-level creation collapses onto the highest
+    `CharacterLevel` row created in that request (no per-level breakdown
+    asked of the wizard); a later level-up (roadmap slice 7) instead adds
+    one new row per skill tied to the new level, holding only that level's
+    newly bought ranks — same table, same insert shape, just a smaller
+    delta.
+
+    Exactly one of `specialization_id`/`custom_specialization` is set when
+    `skill.has_specialization` is true (Handwerk/Beruf/Auftreten — PF1e RAW
+    requires a concrete specialization like "Beruf (Seemann)" before ranks
+    mean anything), and both are null otherwise. Validated server-side
+    (`routers/characters.py`'s `_validate_skill_specialization`), not by a DB
+    constraint — same split as `CharacterFeat.chosen_weapon_id`/
+    `chosen_skill_id`/`chosen_spell_school`. The widened
+    `UniqueConstraint` below has the same limitation that pattern already
+    accepts: Postgres treats `NULL` as distinct from `NULL`, so it doesn't by
+    itself stop two rows for the same non-specialized skill at the same
+    level — server-side validation is the real defense, not the constraint."""
 
     __tablename__ = "character_skill_ranks"
-    __table_args__ = (UniqueConstraint("level_id", "skill_id"),)
+    __table_args__ = (
+        UniqueConstraint(
+            "level_id",
+            "skill_id",
+            "specialization_id",
+            "custom_specialization",
+            name="character_skill_ranks_specialization_uq",
+        ),
+    )
 
     level_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("character_levels.id"))
     skill_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_skills.id"))
+    specialization_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_skill_specializations.id"), nullable=True
+    )
+    custom_specialization: Mapped[str | None] = mapped_column(String(255), nullable=True)
     ranks: Mapped[int] = mapped_column(Integer)
 
 

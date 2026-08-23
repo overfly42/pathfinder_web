@@ -60,7 +60,8 @@
     "name": "Auftreten",
     "ability": "CH",
     "trained_only": false,
-    "is_background": true
+    "is_background": true,
+    "has_specialization": true
   },
   {
     "id": "144fa65e-50ce-4eb7-b861-177692a86858",
@@ -137,7 +138,8 @@
     "name": "Handwerk",
     "ability": "IN",
     "trained_only": false,
-    "is_background": true
+    "is_background": true,
+    "has_specialization": true
   },
   {
     "id": "042a33bd-ac38-403f-b8aa-d4cfeb4db3c3",
@@ -186,7 +188,8 @@
     "name": "Beruf",
     "ability": "WE",
     "trained_only": true,
-    "is_background": true
+    "is_background": true,
+    "has_specialization": true
   },
   {
     "id": "cf1d814d-0811-4a88-b5d2-bca393c2fb74",

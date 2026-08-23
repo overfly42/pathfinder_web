@@ -1,5 +1,5 @@
 import { ABILITY_KEYS, type AbilityKey } from '../types/abilities';
-import type { CreationDraft, DraftGearItem } from '../types/creationDraft';
+import type { CreationDraft, DraftGearItem, SkillSpecializationEntry } from '../types/creationDraft';
 import type { ClassDef, CreationOptions, RaceOption } from '../types/creationOptions';
 
 export function abilityMod(score: number): number {
@@ -194,7 +194,9 @@ export function backgroundSkillPointsTotal(draft: CreationDraft): number {
 
 /** Ranks spent so far, split into background-skill (`SkillDef.isBackground`)
  *  vs. regular ("adventure") skills — the split `skillPointsRemaining` needs
- *  to apply the "Hintergrundfertigkeiten" overflow rule. */
+ *  to apply the "Hintergrundfertigkeiten" overflow rule. Budget pools are
+ *  per base skill, not per specialization, so `draft.skillSpecializations`
+ *  entries fold into the same two totals as `draft.skillRanks`. */
 export function skillPointsSpentByCategory(
   draft: CreationDraft,
   options: CreationOptions,
@@ -205,6 +207,10 @@ export function skillPointsSpentByCategory(
   for (const [skillId, ranks] of Object.entries(draft.skillRanks)) {
     if (backgroundIds.has(skillId)) background += ranks || 0;
     else regular += ranks || 0;
+  }
+  for (const entry of draft.skillSpecializations) {
+    if (backgroundIds.has(entry.skillId)) background += entry.ranks || 0;
+    else regular += entry.ranks || 0;
   }
   return { background, regular };
 }
@@ -232,6 +238,45 @@ export function skillBonus(draft: CreationDraft, options: CreationOptions, skill
   const abMod = abilityMod(totalAbility(draft, options, ability));
   const isClassSkill = classSkillSet(draft, options).has(skillKey);
   return ranks + abMod + (isClassSkill && ranks > 0 ? 3 : 0);
+}
+
+/** Same computation as `skillBonus`, sourced from one specialization entry's
+ *  own ranks instead of `draft.skillRanks[skillKey]` — each specialization
+ *  of a `hasSpecialization` skill is independently a class skill or not,
+ *  matching the backend's `sheet.py`'s `_build_skills` (PF1e RAW: the +3
+ *  class-skill bonus only applies once that specific specialization has
+ *  ≥1 rank). */
+export function skillSpecializationBonus(
+  draft: CreationDraft,
+  options: CreationOptions,
+  entry: SkillSpecializationEntry,
+  ability: AbilityKey,
+): number {
+  const abMod = abilityMod(totalAbility(draft, options, ability));
+  const isClassSkill = classSkillSet(draft, options).has(entry.skillId);
+  return entry.ranks + abMod + (isClassSkill && entry.ranks > 0 ? 3 : 0);
+}
+
+/** Builds `CharacterCreate.skill_ranks` (a `SkillRankSelection[]`) from both
+ *  `draft.skillRanks` (every non-`hasSpecialization` skill) and
+ *  `draft.skillSpecializations` (Handwerk/Beruf/Auftreten) — the backend
+ *  wants one flat list, this is where the two draft fields merge back into
+ *  it. Zero-rank entries are dropped, same "omit rather than send 0"
+ *  convention the backend's own validators document. */
+export function skillRankSelectionsForSubmission(draft: CreationDraft) {
+  return [
+    ...Object.entries(draft.skillRanks)
+      .filter(([, ranks]) => (ranks || 0) > 0)
+      .map(([skillId, ranks]) => ({ skill_id: skillId, ranks })),
+    ...draft.skillSpecializations
+      .filter((entry) => entry.ranks > 0)
+      .map((entry) => ({
+        skill_id: entry.skillId,
+        specialization_id: entry.specializationId,
+        custom_specialization: entry.customSpecialization,
+        ranks: entry.ranks,
+      })),
+  ];
 }
 
 /** Spellcasting class rows with a fixed, learnable spell list (arcane-prepared / spontaneous), deduped by class name. */

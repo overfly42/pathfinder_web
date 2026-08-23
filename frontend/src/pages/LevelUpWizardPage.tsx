@@ -1,6 +1,7 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { apiGet, apiPost } from '../api/client';
+import { createId } from '../lib/id';
 import { useCharacterProgression } from '../hooks/useCharacterProgression';
 import { useLevelUpOptions } from '../hooks/useLevelUpOptions';
 import { levelUpRequestBody } from '../lib/levelUpSubmission';
@@ -55,6 +56,13 @@ export function LevelUpWizardPage() {
         existingLevelOptionSelections: {},
         abilityIncrease: null,
         skillIncreases: {},
+        skillSpecializationIncreases: (progression.skillRankDetails ?? []).map((detail) => ({
+          localId: createId(),
+          skillId: detail.skillId,
+          specializationId: detail.specializationId,
+          customSpecialization: detail.customSpecialization,
+          newRanks: 0,
+        })),
         newFeat: null,
         newBonusFeat: null,
         featSubChoices: {},

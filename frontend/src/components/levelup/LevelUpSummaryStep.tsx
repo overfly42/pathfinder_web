@@ -66,6 +66,9 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
   const skillLines = options.skills.filter((s) => (draft.skillIncreases[s.id] || 0) > 0);
+  const specializationLines = draft.skillSpecializationIncreases.filter((e) => e.newRanks > 0);
+  const skillById = new Map(options.skills.map((s) => [s.id, s]));
+  const specializationNameById = new Map(options.skillSpecializations.map((s) => [s.id, s.name]));
 
   const isFavored =
     target.mode === 'existing' && (progression.classes.find((c) => c.id === target.classId)?.isFavored ?? false);
@@ -126,15 +129,30 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
 
         <div className="summary-block summary-full">
           <div className="sb-title">Neue Fertigkeitsränge</div>
-          {skillLines.length === 0 ? (
+          {skillLines.length === 0 && specializationLines.length === 0 ? (
             <div className="sb-line"><span>Keine neuen Ränge vergeben.</span></div>
           ) : (
-            skillLines.map((s) => (
-              <div className="sb-line" key={s.id}>
-                <span>{s.name}</span>
-                <span className="val">+{draft.skillIncreases[s.id]} Rang{draft.skillIncreases[s.id] > 1 ? 'e' : ''}</span>
-              </div>
-            ))
+            <>
+              {skillLines.map((s) => (
+                <div className="sb-line" key={s.id}>
+                  <span>{s.name}</span>
+                  <span className="val">+{draft.skillIncreases[s.id]} Rang{draft.skillIncreases[s.id] > 1 ? 'e' : ''}</span>
+                </div>
+              ))}
+              {specializationLines.map((entry) => {
+                const skill = skillById.get(entry.skillId);
+                if (!skill) return null;
+                const label = entry.specializationId
+                  ? specializationNameById.get(entry.specializationId) ?? '?'
+                  : entry.customSpecialization || '…';
+                return (
+                  <div className="sb-line" key={entry.localId}>
+                    <span>{skill.name} ({label})</span>
+                    <span className="val">+{entry.newRanks} Rang{entry.newRanks > 1 ? 'e' : ''}</span>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
 

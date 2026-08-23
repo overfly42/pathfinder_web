@@ -19,6 +19,7 @@ from test_characters import (
     _item_id,
     _race_id,
     _skill_id,
+    _to_skill_rank_selections,
     _trait_id,
 )
 
@@ -38,7 +39,7 @@ def test_character_sheet_has_full_shape(client: TestClient, db_session: Session)
             user_id,
             race_id,
             db_session,
-            skill_ranks={heimlichkeit_id: 1},
+            skill_ranks=_to_skill_rank_selections(client, db_session, {heimlichkeit_id: 1}),
             feats=[_feat_selection(ausweichen_id)],
             trait_ids=[reaktionsschnell_id],
             gear=[{"item_id": dolch_id, "quantity": 1}],

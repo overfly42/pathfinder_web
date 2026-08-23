@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SpellDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SkillSpecializationDef, SpellDef } from '../types/creationOptions';
 import type { ClassLevelOptions } from '../types/classLevelOptions';
 import type { LevelUpOptions } from '../types/levelUpOptions';
 
@@ -31,6 +31,7 @@ export function useLevelUpOptions(characterId: string): UseLevelUpOptionsResult 
       apiGet<ClassDef[]>('/api/classes'),
       apiGet<FeatDef[]>(`/api/feats?character_id=${encodeURIComponent(characterId)}`),
       apiGet<SkillDef[]>('/api/skills'),
+      apiGet<SkillSpecializationDef[]>('/api/skills/specializations'),
       apiGet<AbilityDef[]>('/api/abilities'),
       apiGet<Record<string, SpellDef[]>>('/api/spells-by-class'),
       apiGet<ClassLevelOptions>('/api/class-level-options'),
@@ -38,9 +39,11 @@ export function useLevelUpOptions(characterId: string): UseLevelUpOptionsResult 
       apiGet<string[]>('/api/spell-schools'),
       apiGet<RaceOption[]>('/api/races'),
     ])
-      .then(([classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools, races]) => {
+      .then(([classes, feats, skills, skillSpecializations, abilities, spellsByClass, classLevelOptions, items, spellSchools, races]) => {
         if (!cancelled) {
-          setOptions({ classes, feats, skills, abilities, spellsByClass, classLevelOptions, items, spellSchools, races });
+          setOptions({
+            classes, feats, skills, skillSpecializations, abilities, spellsByClass, classLevelOptions, items, spellSchools, races,
+          });
         }
       })
       .catch((err: Error) => {

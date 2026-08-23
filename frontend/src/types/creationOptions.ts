@@ -103,6 +103,20 @@ export interface SkillDef {
    *  (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten)
    *  — only relevant when `useBackgroundSkills` is on. */
   isBackground: boolean;
+  /** True only for Handwerk/Beruf/Auftreten — PF1e RAW requires picking a
+   *  concrete specialization ("Beruf (Seemann)") before ranks mean anything,
+   *  and a character can hold the same skill multiple times, once per
+   *  specialization. See `SkillSpecializationDef` and `SkillsStep.tsx`. */
+  hasSpecialization: boolean;
+}
+
+/** A suggested specialization for a `hasSpecialization` skill — a catalog
+ *  entry, not exhaustive: a player can also type a specialization not in
+ *  this list (see `SkillSpecializationEntry.customSpecialization`). */
+export interface SkillSpecializationDef {
+  id: string;
+  skillId: string;
+  name: string;
 }
 
 export type FeatSubChoiceType = 'weapon' | 'skill' | 'spell_school' | null;
@@ -162,6 +176,7 @@ export interface CreationOptions {
   feats: FeatDef[];
   traits: TraitDef[];
   skills: SkillDef[];
+  skillSpecializations: SkillSpecializationDef[];
   abilities: AbilityDef[];
   /** class name -> that class's spell list, sorted by grade then name.
    *  Only present for spontaneous/arcane-prepared classes (divine-prepared

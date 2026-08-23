@@ -52,6 +52,9 @@
 }
 .skill-row-pick.active { background: linear-gradient(160deg, rgba(224,189,117,0.3), rgba(179,137,63,0.12)); }
 .skill-row-pick:last-child { border-bottom: none; }
+/* Specialization rows (Handwerk/Beruf/Auftreten) get a 5th column for their
+   remove button — see LevelSkillsStep.tsx. */
+.skill-row-pick.has-remove { grid-template-columns: 1fr auto auto 46px 24px; }
 .skill-row-pick .sr-existing {
   font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-faint); text-align: right; white-space: nowrap;
 }

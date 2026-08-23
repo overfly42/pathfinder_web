@@ -131,6 +131,9 @@
   font-size: 13px;
 }
 .skill-row-edit:last-child { border-bottom: none; }
+/* Specialization rows (Handwerk/Beruf/Auftreten) get a 4th column for their
+   remove button — see SkillsStep.tsx. */
+.skill-row-edit.has-remove { grid-template-columns: 1fr auto 46px 24px; }
 @media (max-width: 640px) { .skill-row-edit { grid-template-columns: 1fr auto; } }
 .sr-name { color: var(--ink); }
 .sr-ability { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--ink-faint); margin-left: 4px; }

@@ -9,6 +9,7 @@ import {
   gearTotalValue,
   selectedRace,
   skillBonus,
+  skillSpecializationBonus,
   spellIdsForSubmission,
   totalAbility,
   totalLevel,
@@ -29,6 +30,9 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
   const gearValue = gearTotalValue(draft.gear);
 
   const skillLines = options.skills.filter((s) => (draft.skillRanks[s.id] || 0) > 0);
+  const specializationLines = draft.skillSpecializations.filter((e) => e.ranks > 0);
+  const skillById = new Map(options.skills.map((s) => [s.id, s]));
+  const specializationNameById = new Map(options.skillSpecializations.map((s) => [s.id, s.name]));
   const featById = new Map(options.feats.map((f) => [f.id, f]));
   const traitById = new Map(options.traits.map((t) => [t.id, t]));
   const itemNameById = new Map(options.items.map((i) => [i.id, i.name]));
@@ -155,19 +159,35 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
 
         <div className="summary-block summary-full">
           <div className="sb-title">Fertigkeiten</div>
-          {skillLines.length === 0 ? (
+          {skillLines.length === 0 && specializationLines.length === 0 ? (
             <div className="sb-line"><span>Keine Fertigkeitsränge vergeben.</span></div>
           ) : (
-            skillLines.map((s) => {
-              const ranks = draft.skillRanks[s.id] || 0;
-              const bonus = skillBonus(draft, options, s.id, s.ability);
-              return (
-                <div className="sb-line" key={s.id}>
-                  <span>{s.name} ({ranks} Rang)</span>
-                  <span className="val">{formatMod(bonus)}</span>
-                </div>
-              );
-            })
+            <>
+              {skillLines.map((s) => {
+                const ranks = draft.skillRanks[s.id] || 0;
+                const bonus = skillBonus(draft, options, s.id, s.ability);
+                return (
+                  <div className="sb-line" key={s.id}>
+                    <span>{s.name} ({ranks} Rang)</span>
+                    <span className="val">{formatMod(bonus)}</span>
+                  </div>
+                );
+              })}
+              {specializationLines.map((entry) => {
+                const skill = skillById.get(entry.skillId);
+                if (!skill) return null;
+                const label = entry.specializationId
+                  ? specializationNameById.get(entry.specializationId) ?? '?'
+                  : entry.customSpecialization || '…';
+                const bonus = skillSpecializationBonus(draft, options, entry, skill.ability);
+                return (
+                  <div className="sb-line" key={entry.localId}>
+                    <span>{skill.name} ({label}) ({entry.ranks} Rang)</span>
+                    <span className="val">{formatMod(bonus)}</span>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
 

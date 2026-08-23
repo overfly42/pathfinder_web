@@ -16,6 +16,7 @@ export function createInitialDraft(): CreationDraft {
     pointBudget: 20,
     useBackgroundSkills: false,
     skillRanks: {},
+    skillSpecializations: [],
     feats: [],
     featSubChoices: {},
     traits: [],

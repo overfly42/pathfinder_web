@@ -34,7 +34,7 @@ from .feat import (
 )
 from .item import BaseItem, BaseItemGrantedSpell, BaseWeaponSpecialAbility, CharacterGearSpecialAbility
 from .race import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
-from .skill import BaseClassSkill, BaseSkill
+from .skill import BaseClassSkill, BaseSkill, BaseSkillSpecialization
 from .spell import (
     BaseClassSpell,
     BaseClassSpellGrant,
@@ -65,6 +65,7 @@ __all__ = [
     "BaseClassOptionGroup",
     "BaseClassOptionChoice",
     "BaseSkill",
+    "BaseSkillSpecialization",
     "BaseClassSkill",
     "BaseFeat",
     "BaseFeatRequiredFeat",

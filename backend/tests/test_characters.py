@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -6,6 +8,7 @@ from app.models import (
     Character,
     CharacterFeat,
     CharacterGear,
+    CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
     CharacterTrait,
@@ -49,6 +52,31 @@ def _skill_id(client: TestClient, db_session: Session, name: str) -> str:
     seed_skills(db_session)
     skills = client.get("/api/skills").json()
     return next(s["id"] for s in skills if s["name"] == name)
+
+
+# Handwerk/Beruf/Auftreten - the has_specialization skills - can't be
+# submitted without a specialization (see SkillRankSelection); tests that
+# just want "any 1 rank in this skill" for budget-math purposes use a fixed
+# custom_specialization for these three, resolved via _to_skill_rank_selections.
+SPECIALIZATION_SKILL_NAMES = {"Auftreten", "Beruf", "Handwerk"}
+
+
+def _to_skill_rank_selections(
+    client: TestClient, db_session: Session, skill_ranks: dict[str, int]
+) -> list[dict]:
+    """Converts the old `{skill_id: ranks}` shape tests still build into the
+    `SkillRankSelection` list the API now expects, auto-attaching a
+    `custom_specialization` for any of Handwerk/Beruf/Auftreten present."""
+    specialization_skill_ids = {
+        _skill_id(client, db_session, name): name for name in SPECIALIZATION_SKILL_NAMES
+    }
+    selections = []
+    for skill_id, ranks in skill_ranks.items():
+        selection = {"skill_id": skill_id, "ranks": ranks}
+        if skill_id in specialization_skill_ids:
+            selection["custom_specialization"] = f"{specialization_skill_ids[skill_id]} (Test)"
+        selections.append(selection)
+    return selections
 
 
 def _feat_id(client: TestClient, db_session: Session, name: str) -> str:
@@ -608,7 +636,7 @@ def test_create_character_persists_skill_ranks_on_highest_level(client: TestClie
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 3}],
-            skill_ranks={klettern_id: 3, reiten_id: 2},
+            skill_ranks=_to_skill_rank_selections(client, db_session, {klettern_id: 3, reiten_id: 2}),
         ),
     )
     assert response.status_code == 201
@@ -638,7 +666,7 @@ def test_create_character_skill_ranks_exceeding_level_are_rejected(client: TestC
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            skill_ranks={klettern_id: 2},
+            skill_ranks=_to_skill_rank_selections(client, db_session, {klettern_id: 2}),
         ),
     )
     assert response.status_code == 422
@@ -666,7 +694,7 @@ def test_create_character_human_geschult_adds_one_skill_point_per_level(
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            skill_ranks=skill_ranks,
+            skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks),
         ),
     )
     assert response.status_code == 201
@@ -692,7 +720,7 @@ def test_create_character_skill_ranks_exceeding_budget_are_rejected(client: Test
             db_session,
             flex_ability="ST",
             classes=[{"class_name": "Waldläufer", "level": 1}],
-            skill_ranks=skill_ranks,
+            skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks),
         ),
     )
     assert response.status_code == 422
@@ -709,7 +737,128 @@ def test_create_character_with_unknown_skill_id_is_rejected(client: TestClient, 
             race_id,
             db_session,
             flex_ability="ST",
-            skill_ranks={"00000000-0000-0000-0000-000000000000": 1},
+            skill_ranks=_to_skill_rank_selections(client, db_session, {"00000000-0000-0000-0000-000000000000": 1}),
+        ),
+    )
+    assert response.status_code == 422
+
+
+def _skill_specialization_id(client: TestClient, db_session: Session, skill_name: str, specialization_name: str) -> str:
+    seed_skills(db_session)
+    skill_id = _skill_id(client, db_session, skill_name)
+    specializations = client.get("/api/skills/specializations").json()
+    return next(s["id"] for s in specializations if s["skillId"] == skill_id and s["name"] == specialization_name)
+
+
+def test_create_character_with_two_beruf_specializations(client: TestClient, db_session: Session) -> None:
+    """Handwerk/Beruf/Auftreten are has_specialization skills — a character
+    can hold the same base skill twice with independent rank totals, one per
+    specialization (a catalog pick and a custom one here)."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    beruf_id = _skill_id(client, db_session, "Beruf")
+    seemann_id = _skill_specialization_id(client, db_session, "Beruf", "Seemann")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            classes=[{"class_name": "Waldläufer", "level": 1}],
+            skill_ranks=[
+                {"skill_id": beruf_id, "specialization_id": seemann_id, "ranks": 1},
+                {"skill_id": beruf_id, "custom_specialization": "Kürschner", "ranks": 1},
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    rows = db_session.scalars(
+        select(CharacterSkillRank).where(CharacterSkillRank.skill_id == UUID(beruf_id))
+    ).all()
+    assert {
+        (str(r.specialization_id) if r.specialization_id else None, r.custom_specialization, r.ranks) for r in rows
+    } == {
+        (seemann_id, None, 1),
+        (None, "Kürschner", 1),
+    }
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    beruf_labels = {s["label"] for s in sheet["skills"] if s["label"].startswith("Beruf")}
+    assert beruf_labels == {"Beruf (Seemann)", "Beruf (Kürschner)"}
+
+
+def test_sheet_shows_pre_specialization_legacy_skill_ranks_without_dangling_none(
+    client: TestClient, db_session: Session
+) -> None:
+    """A `CharacterSkillRank` row with neither `specialization_id` nor
+    `custom_specialization` set can no longer be created via the API (see
+    `_validate_skill_specialization`), but real characters created before
+    this feature existed still have exactly this shape in the database.
+    `_build_skills` must show their invested ranks plainly ("Beruf"), not as
+    a dangling "Beruf (None)" — see the conversation this was found in."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    beruf_id = _skill_id(client, db_session, "Beruf")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, flex_ability="ST"),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    character = db_session.get(Character, character_id)
+    level = character.levels[0]
+    db_session.add(CharacterSkillRank(level_id=level.id, skill_id=UUID(beruf_id), ranks=2))
+    db_session.commit()
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    beruf_entries = [s for s in sheet["skills"] if s["label"] == "Beruf" or s["label"].startswith("Beruf (")]
+    assert len(beruf_entries) == 1
+    assert beruf_entries[0]["label"] == "Beruf"
+    # 2 ranks + Waldläufer's Beruf class-skill bonus (+3) + WE mod 0.
+    assert beruf_entries[0]["value"] == "+5"
+
+
+def test_create_character_specialization_skill_without_a_choice_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    beruf_id = _skill_id(client, db_session, "Beruf")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            skill_ranks=[{"skill_id": beruf_id, "ranks": 1}],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_non_specialization_skill_with_a_choice_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    klettern_id = _skill_id(client, db_session, "Klettern")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            skill_ranks=[{"skill_id": klettern_id, "custom_specialization": "Bäume", "ranks": 1}],
         ),
     )
     assert response.status_code == 422
@@ -739,7 +888,7 @@ def test_create_character_background_skills_allow_overflow_into_regular_budget(
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks)
         ),
     )
     assert response.status_code == 201
@@ -760,7 +909,7 @@ def test_create_character_background_skills_still_enforce_combined_budget(
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks)
         ),
     )
     assert response.status_code == 422
@@ -785,7 +934,7 @@ def test_create_character_background_skill_points_cannot_cover_adventure_skills(
     response = client.post(
         "/api/characters",
         json=_character_payload(
-            user_id, race_id, db_session, use_background_skills=True, skill_ranks=skill_ranks
+            user_id, race_id, db_session, use_background_skills=True, skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks)
         ),
     )
     assert response.status_code == 422
@@ -803,7 +952,7 @@ def test_create_character_background_skill_tag_is_inert_without_opting_in(
 
     response = client.post(
         "/api/characters",
-        json=_character_payload(user_id, race_id, db_session, skill_ranks=skill_ranks),
+        json=_character_payload(user_id, race_id, db_session, skill_ranks=_to_skill_rank_selections(client, db_session, skill_ranks)),
     )
     assert response.status_code == 422
 

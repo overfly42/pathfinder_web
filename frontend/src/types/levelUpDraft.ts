@@ -4,6 +4,16 @@ export type LevelUpTarget =
   | { mode: 'existing'; classId: string }
   | { mode: 'new'; className: string; archetypes: string[]; options: Record<string, string[]> };
 
+export interface LevelUpSkillSpecializationEntry {
+  /** Local-only id — see `SkillSpecializationEntry.localId` (creationDraft.ts). */
+  localId: string;
+  skillId: string;
+  specializationId: string | null;
+  customSpecialization: string | null;
+  /** *New* ranks added this level — delta semantics, same as `skillIncreases`. */
+  newRanks: number;
+}
+
 export interface LevelUpDraft {
   target: LevelUpTarget;
   /** Player-entered HP roll for this new level — never auto-maxed (a level-up
@@ -23,6 +33,10 @@ export interface LevelUpDraft {
    *  previously-untrained skill can legally take more than 1 new rank in
    *  one level-up — this isn't a boolean toggle. */
   skillIncreases: Record<string, number>;
+  /** One entry per Handwerk/Beruf/Auftreten specialization — existing ones
+   *  (pre-seeded from `CharacterProgression.skillRankDetails`, addable-to)
+   *  and any newly added this level-up. See `LevelSkillsStep.tsx`. */
+  skillSpecializationIncreases: LevelUpSkillSpecializationEntry[];
   newFeat: string | null;
   /** Fighter-only bonus combat feat granted on even levels, independent of newFeat. */
   newBonusFeat: string | null;

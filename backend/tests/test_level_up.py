@@ -1,7 +1,10 @@
+from uuid import UUID
+
 from fastapi.testclient import TestClient
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import Character
+from app.models import Character, CharacterSkillRank
 from app.seed.class_seed import seed_classes
 from test_characters import (
     DEFAULT_ABILITY_SCORES,
@@ -15,7 +18,9 @@ from test_characters import (
     _item_id,
     _race_id,
     _skill_id,
+    _skill_specialization_id,
     _spells_by_class,
+    _to_skill_rank_selections,
 )
 
 
@@ -220,7 +225,7 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
 
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 1}),
+        json=_level_up_payload(base_class_id, 5, skill_ranks=_to_skill_rank_selections(client, db_session, {skill_id: 1})),
     )
     assert response.status_code == 201
     assert response.json()["skill_ranks"][skill_id] == 1
@@ -244,7 +249,7 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
     ]
     response = client.post(
         f"/api/characters/{character_id_2}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks={sid: 1 for sid in other_skill_ids}),
+        json=_level_up_payload(base_class_id, 5, skill_ranks=_to_skill_rank_selections(client, db_session, {sid: 1 for sid in other_skill_ids})),
     )
     assert response.status_code == 422
 
@@ -265,7 +270,9 @@ def test_level_up_background_skills_flag_persists_from_creation(client: TestClie
     alone but within the combined 9 once the overflow draws on it."""
     race_id = _elf_race_id(client, db_session)
     base_class_id = _class_id(client, db_session, "Waldläufer")
-    background_skill_ids = {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+    background_skill_ids = _to_skill_rank_selections(
+        client, db_session, {_skill_id(client, db_session, name): 1 for name in BACKGROUND_SKILL_NAMES}
+    )
 
     with_flag_id = _create_level_n_character(
         client, db_session, race_id, "Waldläufer", 1, use_background_skills=True
@@ -302,7 +309,7 @@ def test_level_up_allows_investing_more_than_one_rank_in_a_previously_untrained_
 
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 3}),
+        json=_level_up_payload(base_class_id, 5, skill_ranks=_to_skill_rank_selections(client, db_session, {skill_id: 3})),
     )
     assert response.status_code == 201
     assert response.json()["skill_ranks"][skill_id] == 3
@@ -320,9 +327,51 @@ def test_level_up_rejects_skill_ranks_exceeding_the_new_character_level(
     # total ranks in one skill can never exceed the new character level (2).
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 5, skill_ranks={skill_id: 3}),
+        json=_level_up_payload(base_class_id, 5, skill_ranks=_to_skill_rank_selections(client, db_session, {skill_id: 3})),
     )
     assert response.status_code == 422
+
+
+def test_level_up_adds_ranks_to_an_existing_specialization_and_a_new_one(
+    client: TestClient, db_session: Session
+) -> None:
+    """Two specializations of the same has_specialization skill (Beruf) are
+    capped independently by character level — adding ranks to an existing
+    specialization and starting a brand-new one in the same level-up both
+    respect their own <= character level cap, not a shared per-skill one."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id = _class_id(client, db_session, "Waldläufer")
+    beruf_id = _skill_id(client, db_session, "Beruf")
+    seemann_id = _skill_specialization_id(client, db_session, "Beruf", "Seemann")
+
+    character_id = _create_level_n_character(
+        client,
+        db_session,
+        race_id,
+        "Waldläufer",
+        1,
+        skill_ranks=[{"skill_id": beruf_id, "specialization_id": seemann_id, "ranks": 1}],
+    )
+
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(
+            base_class_id,
+            5,
+            skill_ranks=[
+                {"skill_id": beruf_id, "specialization_id": seemann_id, "ranks": 1},
+                {"skill_id": beruf_id, "custom_specialization": "Schmied", "ranks": 2},
+            ],
+        ),
+    )
+    assert response.status_code == 201
+
+    rows = db_session.scalars(select(CharacterSkillRank).where(CharacterSkillRank.skill_id == UUID(beruf_id))).all()
+    totals: dict[tuple, int] = {}
+    for row in rows:
+        key = (row.specialization_id, row.custom_specialization)
+        totals[key] = totals.get(key, 0) + row.ranks
+    assert totals == {(UUID(seemann_id), None): 2, (None, "Schmied"): 2}
 
 
 def test_level_up_multiclass_into_a_new_class_with_archetype(client: TestClient, db_session: Session) -> None:
@@ -717,7 +766,10 @@ def test_level_up_favored_class_bonus_skill_adds_one_extra_skill_point(
     response = client.post(
         f"/api/characters/{character_id}/level-up",
         json=_level_up_payload(
-            base_class_id, 5, favored_class_bonus="skill", skill_ranks={sid: 1 for sid in skill_ids}
+            base_class_id,
+            5,
+            favored_class_bonus="skill",
+            skill_ranks=_to_skill_rank_selections(client, db_session, {sid: 1 for sid in skill_ids}),
         ),
     )
     assert response.status_code == 201
@@ -740,7 +792,10 @@ def test_level_up_favored_class_bonus_hp_does_not_grant_the_extra_skill_point(
     response = client.post(
         f"/api/characters/{character_id}/level-up",
         json=_level_up_payload(
-            base_class_id, 5, favored_class_bonus="hp", skill_ranks={sid: 1 for sid in skill_ids}
+            base_class_id,
+            5,
+            favored_class_bonus="hp",
+            skill_ranks=_to_skill_rank_selections(client, db_session, {sid: 1 for sid in skill_ids}),
         ),
     )
     assert response.status_code == 422

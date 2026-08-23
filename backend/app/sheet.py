@@ -56,6 +56,7 @@ from .models import (
     BaseRace,
     BaseRaceAbility,
     BaseSkill,
+    BaseSkillSpecialization,
     BaseSpell,
     BaseTrait,
     BaseWeaponSpecialAbility,
@@ -375,6 +376,20 @@ def build_character_progression(character: Character, db: Session) -> dict:
         "altTraits": character.alt_traits,
         "useBackgroundSkills": character.use_background_skills,
         "skillRanks": character.skill_ranks,
+        # Per-(skill, specialization) breakdown, so the level-up wizard can
+        # pre-seed an existing Handwerk/Beruf/Auftreten specialization
+        # ("bereits N Ränge") as its own addable-to row instead of collapsing
+        # every specialization of a skill into one number the way
+        # `skillRanks` above does.
+        "skillRankDetails": [
+            {
+                "skillId": str(entry["skill_id"]),
+                "specializationId": str(entry["specialization_id"]) if entry["specialization_id"] else None,
+                "customSpecialization": entry["custom_specialization"],
+                "ranks": entry["ranks"],
+            }
+            for entry in character.skill_rank_details
+        ],
         "spellsKnown": spells_known,
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonusDescriptions": _favored_class_bonus_descriptions(db, favored_root_id, character.race_id),
@@ -407,9 +422,16 @@ def build_character_history(character: Character, db: Session) -> list[dict]:
                 parts.append(f"Talent: {feat.name}")
         if level.ability_increase:
             parts.append(f"Attribut +1: {level.ability_increase}")
-        skill_names = [
-            skill.name for skill in (db.get(BaseSkill, entry.skill_id) for entry in level.skill_ranks) if skill
-        ]
+        skill_names = []
+        for entry in level.skill_ranks:
+            skill = db.get(BaseSkill, entry.skill_id)
+            if skill is None:
+                continue
+            specialization_label = entry.custom_specialization
+            if entry.specialization_id is not None:
+                specialization = db.get(BaseSkillSpecialization, entry.specialization_id)
+                specialization_label = specialization.name if specialization is not None else None
+            skill_names.append(f"{skill.name} ({specialization_label})" if specialization_label else skill.name)
         if skill_names:
             parts.append(f"Fertigkeiten: {', '.join(skill_names)}")
         for spell_entry in level.spells:
@@ -551,7 +573,27 @@ def _build_skills(
     groups: dict[tuple[ModifierTarget, str | None], list[Modifier]],
     context: CharacterContext,
 ) -> list[dict]:
-    skill_ranks = {UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items() if ranks > 0}
+    # Per-(skill, specialization) ranks, grouped by base skill id — a
+    # `has_specialization` skill (Handwerk/Beruf/Auftreten) fans out into one
+    # row per specialization the character actually has; every other skill
+    # still gets at most one row, same as before.
+    ranks_by_skill: dict[UUID, list[dict]] = defaultdict(list)
+    for entry in character.skill_rank_details:
+        if entry["ranks"] > 0:
+            ranks_by_skill[entry["skill_id"]].append(entry)
+
+    specialization_ids = {
+        entry["specialization_id"]
+        for rows in ranks_by_skill.values()
+        for entry in rows
+        if entry["specialization_id"] is not None
+    }
+    specialization_names = {
+        row.id: row.name
+        for row in db.scalars(
+            select(BaseSkillSpecialization).where(BaseSkillSpecialization.id.in_(specialization_ids))
+        ).all()
+    }
 
     # Every situational (never-folded-into-`value`) skill bonus this
     # character currently has, grouped by which skill it targets — scopes 1
@@ -581,33 +623,23 @@ def _build_skills(
             ).all()
         )
 
-    # Every skill usable untrained belongs on the sheet even at 0 ranks
-    # (PF1e core's "Trained Only" column, `BaseSkill.trained_only`) — a
-    # trained-only skill only shows up once ranks are actually invested.
-    skills = db.scalars(
-        select(BaseSkill).where(
-            (BaseSkill.trained_only.is_(False)) | (BaseSkill.id.in_(skill_ranks))
-        )
-    ).all()
-
-    result = []
-    for skill in skills:
-        ranks = skill_ranks.get(skill.id, 0)
+    def _skill_entry(skill: BaseSkill, ranks: int, label: str, key: str) -> dict:
         ab_mod = ability_mods.get(skill.ability, 0)
         # PF1e RAW: the +3 class-skill bonus only applies once at least 1 rank
         # is invested — a class skill with 0 ranks is still untrained/no
-        # better than a cross-class skill (`ranks` is 0 for a skill with no
-        # `CharacterSkillRank` row, filtered in above `skill_ranks`).
+        # better than a cross-class skill.
         class_bonus = 3 if ranks and skill.id in class_skill_ids else 0
         # Unconditional feat/race/class-ability skill bonuses (e.g.
         # Einschüchternde Kraft's ST modifier on Einschüchtern,
         # `rules/feats.py`; Halb-Ork's Einschüchternd, `race_skill_modifiers`
         # above) — 0 for every skill without such a handler, same "wired
         # ahead of the first producer" convention `ModifierTarget.SKILL` was
-        # declared under.
+        # declared under. Keyed by the base skill id, not this row's specific
+        # specialization — no handler targets one specialization yet (see
+        # roadmap.md's deferred follow-up for the Wilder Seemann note below).
         handler_bonus = stacked.get((ModifierTarget.SKILL, str(skill.id)), 0)
         base_value = ranks + ab_mod + class_bonus + handler_bonus
-        entry = {"key": str(skill.id), "label": skill.name, "value": _fmt(base_value)}
+        entry = {"key": key, "label": label, "value": _fmt(base_value)}
         # Value-origin tooltip: only the fixed components that actually
         # contributed (0-value ones dropped — a skill row is shown for every
         # untrained/non-class skill too, so most rows would otherwise carry
@@ -633,15 +665,49 @@ def _build_skills(
         # The note shows the full ready-to-roll total (this skill's base
         # value + the situational bonus), not just the isolated bonus — a
         # player wants one usable number, not a formula piece to add up
-        # themselves.
+        # themselves. Carried over onto every specialization row of a
+        # `has_specialization` skill (e.g. every Beruf specialization the
+        # character has gets the Wilder Seemann note, not just "Beruf
+        # (Seemann)" specifically) — same imprecision `notes_by_skill`
+        # already had before specializations existed, since no handler
+        # targets one specific specialization yet.
         notes = [
             f"{note.title}: {_fmt(base_value + note.value)} gesamt "
-            f"({skill.name} {_fmt(base_value)} + {note.modifier_label} {_fmt(note.value)}{note.detail})"
+            f"({label} {_fmt(base_value)} + {note.modifier_label} {_fmt(note.value)}{note.detail})"
             for note in notes_by_skill.get(skill.id, [])
         ]
         if notes:
             entry["note"] = "; ".join(notes)
-        result.append(entry)
+        return entry
+
+    result = []
+    for skill in db.scalars(select(BaseSkill).order_by(BaseSkill.name)).all():
+        if skill.has_specialization:
+            # No generic/"ungeübt" fallback row — a Handwerk/Beruf/Auftreten
+            # row only exists once a specialization has been picked and has
+            # at least 1 rank.
+            for row in ranks_by_skill.get(skill.id, []):
+                specialization_label = (
+                    specialization_names.get(row["specialization_id"])
+                    if row["specialization_id"] is not None
+                    else row["custom_specialization"]
+                )
+                # Ranks recorded before this feature existed have neither
+                # field set — show them plainly (no dangling "(None)") rather
+                # than losing the character's invested ranks off the sheet.
+                label = f"{skill.name} ({specialization_label})" if specialization_label else skill.name
+                key = f"{skill.id}#{row['specialization_id'] or row['custom_specialization'] or ''}"
+                result.append(_skill_entry(skill, row["ranks"], label, key))
+        else:
+            # Every skill usable untrained belongs on the sheet even at 0
+            # ranks (PF1e core's "Trained Only" column,
+            # `BaseSkill.trained_only`) — a trained-only skill only shows up
+            # once ranks are actually invested.
+            rows = ranks_by_skill.get(skill.id, [])
+            ranks = rows[0]["ranks"] if rows else 0
+            if skill.trained_only and not ranks:
+                continue
+            result.append(_skill_entry(skill, ranks, skill.name, str(skill.id)))
     return result
 
 

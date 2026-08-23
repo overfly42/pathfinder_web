@@ -42,7 +42,7 @@ class ClassSelection(BaseModel):
 class FeatSelection(BaseModel):
     """One feat pick, plus its sub-choice if `BaseFeat.sub_choice_type` calls
     for one (roadmap.md's "Talent-Sub-Wahl-Schema") — a list rather than a
-    dict keyed by `feat_id` (contrast `skill_ranks`/`spell_ids`) so an
+    dict keyed by `feat_id` (contrast `spell_ids`, still a flat dict) so an
     open-choice feat like Waffenfokus can legitimately appear more than once
     in the same submission, once per distinct weapon/skill/school. Exactly
     one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` may be
@@ -70,6 +70,41 @@ class FeatSelection(BaseModel):
         if sum(1 for value in chosen if value is not None) > 1:
             raise ValueError(
                 "a feat selection may set at most one of chosen_weapon_id/chosen_skill_id/chosen_spell_school"
+            )
+        return self
+
+
+class SkillRankSelection(BaseModel):
+    """One skill-rank entry — a list rather than a dict keyed by `skill_id`
+    (contrast the flat shape `spell_ids`/`trait_skill_choices` still use)
+    because a `has_specialization` skill (Handwerk/Beruf/Auftreten) can
+    legitimately appear more than once in the same submission, once per
+    distinct specialization — same "open choice, so a list" reasoning as
+    `FeatSelection`. Exactly one of `specialization_id`/`custom_specialization`
+    may be set; whether one is *required* (only when the referenced skill's
+    `has_specialization` is true) is catalog data, so it's checked
+    server-side (`routers/characters.py`'s `_validate_skill_specialization`),
+    not here — same split `FeatSelection`/`_validate_feat_sub_choice` use."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    skill_id: UUID
+    specialization_id: UUID | None = None
+    custom_specialization: str | None = None
+    ranks: int
+
+    @field_validator("custom_specialization")
+    @classmethod
+    def custom_specialization_must_not_be_blank(cls, value: str | None) -> str | None:
+        if value is not None and not value.strip():
+            raise ValueError("custom_specialization must not be blank")
+        return value
+
+    @model_validator(mode="after")
+    def at_most_one_specialization_choice(self) -> "SkillRankSelection":
+        if self.specialization_id is not None and self.custom_specialization is not None:
+            raise ValueError(
+                "a skill rank selection may set at most one of specialization_id/custom_specialization"
             )
         return self
 
@@ -127,11 +162,12 @@ class CharacterCreate(BaseModel):
     # models/character.py, and todos.md's "2026-08-19" entry for why it's
     # per-character rather than always-on or global).
     use_background_skills: bool = False
-    # skill_id (string, since UUID keys aren't valid JSON object keys) ->
-    # ranks. Collapsed onto the highest CharacterLevel row being created —
-    # see CharacterSkillRank's docstring for why creation doesn't split this
-    # per level the way a later level-up will.
-    skill_ranks: dict[str, int] = {}
+    # One entry per skill (or, for a has_specialization skill, per chosen
+    # specialization — see SkillRankSelection) with its total ranks.
+    # Collapsed onto the highest CharacterLevel row being created — see
+    # CharacterSkillRank's docstring for why creation doesn't split this per
+    # level the way a later level-up will.
+    skill_ranks: list[SkillRankSelection] = []
     # Chosen feats (+ sub-choice, see FeatSelection), capped server-side by
     # the base progression plus any race/class bonus feat slots (see
     # rules/feat_slots.py; mirrors the wizard's featMax in
@@ -210,9 +246,22 @@ class CharacterCreate(BaseModel):
 
     @field_validator("skill_ranks")
     @classmethod
-    def skill_ranks_must_not_be_negative(cls, value: dict[str, int]) -> dict[str, int]:
-        if any(ranks < 0 for ranks in value.values()):
+    def skill_ranks_must_not_be_negative(cls, value: list[SkillRankSelection]) -> list[SkillRankSelection]:
+        if any(selection.ranks < 0 for selection in value):
             raise ValueError("skill_ranks must not be negative")
+        return value
+
+    @field_validator("skill_ranks")
+    @classmethod
+    def skill_ranks_must_not_have_duplicate_selections(
+        cls, value: list[SkillRankSelection]
+    ) -> list[SkillRankSelection]:
+        seen = set()
+        for selection in value:
+            key = (selection.skill_id, selection.specialization_id, selection.custom_specialization)
+            if key in seen:
+                raise ValueError("skill_ranks must not contain the same skill+specialization more than once")
+            seen.add(key)
         return value
 
     @field_validator("feats")
@@ -326,16 +375,17 @@ class LevelUp(BaseModel):
     # instead, same as CharacterCreate.classes[].options.
     existing_level_options: dict[str, list[str]] = {}
     ability_increase: str | None = None
-    # skill_id (string, since UUID keys aren't valid JSON object keys) ->
-    # *new* ranks gained this level for that skill — same shape/semantics as
+    # One entry per skill/specialization (see SkillRankSelection) with its
+    # *new* ranks gained this level — same shape/semantics as
     # CharacterCreate.skill_ranks, just a delta instead of a total. Per PF1e
     # (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben: "Du
     # kannst nie mehr Ränge in einer Fertigkeit besitzen, als es deinen
-    # gesamten Trefferwürfeln entspricht"), the only cap on a single skill is
-    # total ranks <= character level — a skill with 0 prior ranks can
-    # legally receive more than 1 new rank in one level-up (e.g. catching up
-    # a long-neglected skill), not just +1.
-    skill_ranks: dict[str, int] = {}
+    # gesamten Trefferwürfeln entspricht"), the only cap on a single
+    # skill+specialization is total ranks <= character level — a
+    # skill/specialization with 0 prior ranks can legally receive more than 1
+    # new rank in one level-up (e.g. catching up a long-neglected skill), not
+    # just +1.
+    skill_ranks: list[SkillRankSelection] = []
     # 0–2 entries: a regular new feat slot (odd levels) and/or a class bonus
     # feat slot (e.g. Kämpfer), both validated/stored identically — the
     # backend never distinguishes "regular" vs "bonus", only the frontend UI
@@ -352,9 +402,22 @@ class LevelUp(BaseModel):
 
     @field_validator("skill_ranks")
     @classmethod
-    def skill_ranks_must_be_positive(cls, value: dict[str, int]) -> dict[str, int]:
-        if any(ranks <= 0 for ranks in value.values()):
+    def skill_ranks_must_be_positive(cls, value: list[SkillRankSelection]) -> list[SkillRankSelection]:
+        if any(selection.ranks <= 0 for selection in value):
             raise ValueError("skill_ranks must be positive (omit a skill rather than sending 0)")
+        return value
+
+    @field_validator("skill_ranks")
+    @classmethod
+    def skill_ranks_must_not_have_duplicate_selections(
+        cls, value: list[SkillRankSelection]
+    ) -> list[SkillRankSelection]:
+        seen = set()
+        for selection in value:
+            key = (selection.skill_id, selection.specialization_id, selection.custom_specialization)
+            if key in seen:
+                raise ValueError("skill_ranks must not contain the same skill+specialization more than once")
+            seen.add(key)
         return value
 
     @field_validator("feats")

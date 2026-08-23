@@ -1,0 +1,47 @@
+[
+  {
+    "id": "26b7398d-810a-42aa-8137-25734c9ad09b",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b",
+    "name": "Schmied"
+  },
+  {
+    "id": "1e9ffbc6-f5de-4e54-a638-c3556e940a0b",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b",
+    "name": "Tischler"
+  },
+  {
+    "id": "91380cce-03c6-436e-b95b-80444dab6567",
+    "skill_id": "f5624a2e-59b2-400b-84e6-a0310daba26b",
+    "name": "Alchemie"
+  },
+  {
+    "id": "bcd8db28-96ab-4753-8ef9-7ed13d8ca497",
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6",
+    "name": "Seemann"
+  },
+  {
+    "id": "384adaa8-1e9b-4b73-8c65-3a97f63ef68f",
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6",
+    "name": "Koch"
+  },
+  {
+    "id": "c5cda0c6-a35a-4a76-9bbc-0ed801332f44",
+    "skill_id": "7cf08043-8422-400c-88de-960f094fe9e6",
+    "name": "Händler"
+  },
+  {
+    "id": "6afe13dd-48e1-4d8c-98a9-45a0c32f9dcf",
+    "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
+    "name": "Gesang"
+  },
+  {
+    "id": "b31375d5-0c73-4981-8242-c82b004e0c84",
+    "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
+    "name": "Tanz"
+  },
+  {
+    "id": "65981ed1-8318-4850-9392-9391b1f3f792",
+    "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
+    "name": "Schauspiel"
+  }
+]

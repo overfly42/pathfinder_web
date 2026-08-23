@@ -13,6 +13,13 @@ export interface ClassProgressionEntry {
   isFavored: boolean;
 }
 
+export interface SkillRankDetail {
+  skillId: string;
+  specializationId: string | null;
+  customSpecialization: string | null;
+  ranks: number;
+}
+
 export interface HistoryEntry {
   id: string;
   date: string;
@@ -37,6 +44,13 @@ export interface CharacterProgression {
    *  hardcoded mock fixtures, which predate this field — treat as `false`. */
   useBackgroundSkills?: boolean;
   skillRanks: Record<string, number>;
+  /** Per-(skill, specialization) breakdown for Handwerk/Beruf/Auftreten —
+   *  the granular sibling of `skillRanks` (which collapses every
+   *  specialization of a skill into one number). Lets the level-up wizard
+   *  pre-seed each existing specialization as its own addable-to row
+   *  ("bereits N Ränge") instead of one merged total. Absent for the two
+   *  hardcoded mock fixtures, which predate this field. */
+  skillRankDetails?: SkillRankDetail[];
   spellsKnown: Record<string, string[]>;
   /** Values currently legal for a favored-class-bonus level-up pick —
    *  `"hp"`/`"skill"` plus this character's race+class-specific alternates

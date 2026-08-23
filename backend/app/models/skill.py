@@ -36,6 +36,33 @@ class BaseSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # that column's docstring and `rules/skill_points.py`'s
     # `background_skill_points_total`.
     is_background: Mapped[bool] = mapped_column(Boolean, default=False)
+    # True only for Handwerk/Beruf/Auftreten: PF1e RAW requires picking a
+    # concrete specialization ("Beruf (Seemann)") before ranks mean
+    # anything — a character can hold the same skill multiple times, once
+    # per specialization, each with its own rank total. See
+    # `CharacterSkillRank.specialization_id`/`custom_specialization` and
+    # `BaseSkillSpecialization` below.
+    has_specialization: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class BaseSkillSpecialization(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Suggested specializations for a `has_specialization` skill (Handwerk/
+    Beruf/Auftreten) — identity-only catalog rows, referenced by UUID from
+    `CharacterSkillRank.specialization_id` rather than by name, so a future
+    rule handler (`HANDLERS`-style, e.g. a class ability keyed to "Beruf
+    (Seemann)" specifically) or translation layer never has to string-match
+    a player-facing label. Same shape/reasoning as `BaseClassOptionChoice`.
+
+    This is a list of suggestions, not an exhaustive enum: a player can also
+    type a specialization that isn't here (`CharacterSkillRank.custom_specialization`,
+    free text) — nothing in PF1e bounds what a Craft/Profession/Perform
+    specialization can be."""
+
+    __tablename__ = "base_skill_specializations"
+    __table_args__ = (UniqueConstraint("skill_id", "name"),)
+
+    skill_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_skills.id"))
+    name: Mapped[str] = mapped_column(String(255))
 
 
 class BaseClassSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):

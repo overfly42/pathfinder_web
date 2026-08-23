@@ -4,6 +4,7 @@ import { apiPost } from '../api/client';
 import {
   featSelectionsForSubmission,
   selectedRace,
+  skillRankSelectionsForSubmission,
   spellIdsForSubmission,
   traitSkillChoicesForSubmission,
 } from '../lib/creationCalculations';
@@ -136,7 +137,7 @@ export function CreationWizardPage() {
           flex_ability: draft.flexAbility,
           alt_traits: draft.altTraits,
           use_background_skills: draft.useBackgroundSkills,
-          skill_ranks: draft.skillRanks,
+          skill_ranks: skillRankSelectionsForSubmission(draft),
           feats: featSelectionsForSubmission(draft, opts),
           trait_ids: draft.traits,
           trait_skill_choices: traitSkillChoicesForSubmission(draft, opts),

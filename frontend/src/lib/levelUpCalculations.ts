@@ -1,6 +1,6 @@
 import type { AbilityKey } from '../types/abilities';
 import type { CharacterProgression } from '../types/characterProgression';
-import type { LevelUpTarget } from '../types/levelUpDraft';
+import type { LevelUpSkillSpecializationEntry, LevelUpTarget } from '../types/levelUpDraft';
 import type { ClassDef, RaceOption, SkillDef } from '../types/creationOptions';
 
 export function getOldTotalLevel(progression: CharacterProgression): number {
@@ -120,10 +120,13 @@ export function backgroundSkillPointsForThisLevel(): number {
 /** New ranks picked this level-up, split into background-skill
  *  (`SkillDef.isBackground`) vs. regular ("adventure") skills — same split
  *  creation's `skillPointsSpentByCategory` computes, just against
- *  `LevelUpDraft.skillIncreases` instead of a full skill-rank map. */
+ *  `LevelUpDraft.skillIncreases` instead of a full skill-rank map. Budget
+ *  pools are per base skill, not per specialization, so
+ *  `specializationIncreases` entries fold into the same two totals. */
 export function skillIncreasesByCategory(
   skillIncreases: Record<string, number>,
   skills: SkillDef[],
+  specializationIncreases: LevelUpSkillSpecializationEntry[] = [],
 ): { background: number; regular: number } {
   const backgroundIds = new Set(skills.filter((skill) => skill.isBackground).map((skill) => skill.id));
   let background = 0;
@@ -131,6 +134,10 @@ export function skillIncreasesByCategory(
   for (const [skillId, ranks] of Object.entries(skillIncreases)) {
     if (backgroundIds.has(skillId)) background += ranks || 0;
     else regular += ranks || 0;
+  }
+  for (const entry of specializationIncreases) {
+    if (backgroundIds.has(entry.skillId)) background += entry.newRanks || 0;
+    else regular += entry.newRanks || 0;
   }
   return { background, regular };
 }
@@ -145,8 +152,25 @@ export function skillPointsRemainingForLevelUp(
   skills: SkillDef[],
   regularBudget: number,
   backgroundBudget: number,
+  specializationIncreases: LevelUpSkillSpecializationEntry[] = [],
 ): number {
-  const { background, regular } = skillIncreasesByCategory(skillIncreases, skills);
+  const { background, regular } = skillIncreasesByCategory(skillIncreases, skills, specializationIncreases);
   const overflow = Math.max(0, background - backgroundBudget);
   return regularBudget - (regular + overflow);
+}
+
+/** Same computation as `skillBonus`-style totals, sourced from one
+ *  specialization entry's existing + new ranks — `existingRanks` comes from
+ *  `CharacterProgression.skillRankDetails` (0 for a brand-new specialization
+ *  added this level-up), `entry.newRanks` from the draft. Mirrors the
+ *  backend's `sheet.py`'s per-specialization `class_bonus` (only applies
+ *  once *that* specialization has ≥1 total rank). */
+export function skillSpecializationBonusForLevelUp(
+  existingRanks: number,
+  entry: LevelUpSkillSpecializationEntry,
+  abilityMod: number,
+  isClassSkill: boolean,
+): number {
+  const totalRanks = existingRanks + entry.newRanks;
+  return totalRanks + abilityMod + (isClassSkill && totalRanks > 0 ? 3 : 0);
 }

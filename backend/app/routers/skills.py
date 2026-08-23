@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import BaseSkill
+from ..models import BaseSkill, BaseSkillSpecialization
 
 router = APIRouter(prefix="/api/skills", tags=["skills"])
 
@@ -14,6 +14,25 @@ router = APIRouter(prefix="/api/skills", tags=["skills"])
 def list_skills(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
     skills = db.scalars(select(BaseSkill).order_by(BaseSkill.name)).all()
     return [
-        {"id": str(skill.id), "name": skill.name, "ability": skill.ability, "isBackground": skill.is_background}
+        {
+            "id": str(skill.id),
+            "name": skill.name,
+            "ability": skill.ability,
+            "isBackground": skill.is_background,
+            "hasSpecialization": skill.has_specialization,
+        }
         for skill in skills
+    ]
+
+
+@router.get("/specializations")
+def list_skill_specializations(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
+    """Suggested specializations for `has_specialization` skills (Handwerk/
+    Beruf/Auftreten) — see `BaseSkillSpecialization`'s docstring. A player can
+    also type a specialization not in this list (`custom_specialization` on
+    the character-side skill rank)."""
+    specializations = db.scalars(select(BaseSkillSpecialization).order_by(BaseSkillSpecialization.name)).all()
+    return [
+        {"id": str(specialization.id), "skillId": str(specialization.skill_id), "name": specialization.name}
+        for specialization in specializations
     ]

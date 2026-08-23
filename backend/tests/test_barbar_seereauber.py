@@ -62,9 +62,12 @@ def test_class_features_apply_seereauber_replacements(client: TestClient, db_ses
     # (no medium-armor proficiency), not the base Entfesselter-Barbar text.
     assert "nicht mit Mittelschweren Rüstungen" in features_by_name["Umgang mit Waffen und Rüstungen"]
 
-    # "Beruf" is trained-only (`BaseSkill.trained_only`) and this character has
-    # no ranks in it, so it's correctly absent from the sheet entirely — same
-    # display rule as every other trained-only skill, not archetype-specific.
+    # "Beruf" has_specialization and this character never picked one, so it's
+    # correctly absent from the sheet entirely (no generic fallback row) —
+    # same display rule as every other has_specialization skill, not
+    # archetype-specific. Wilder Seemann's own note still shows on every
+    # Beruf specialization the character *does* have (none here) — see
+    # sheet.py's `_build_skills` docstring-level comment on that carry-over.
     skills_by_label = {s["label"]: s for s in body["skills"]}
     for label in ("Akrobatik", "Klettern", "Schwimmen", "Überlebenskunst"):
         note = skills_by_label[label].get("note", "")

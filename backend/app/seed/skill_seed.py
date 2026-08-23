@@ -1,5 +1,6 @@
-"""Populates `base_skills`/`base_class_skills` from
-`backend/app/fixtures/seed/base_skills.json` and `base_class_skills.json` —
+"""Populates `base_skills`/`base_skill_specializations`/`base_class_skills`
+from `backend/app/fixtures/seed/base_skills.json`,
+`base_skill_specializations.json`, and `base_class_skills.json` —
 DB-shaped, one file per table, explicit `id` on every row, same convention as
 `race_seed.py`/`class_seed.py`. Replaces the old frontend-shaped
 `backend/app/fixtures/skills.json` (superseded, not deleted) and
@@ -21,7 +22,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from ..models.skill import BaseClassSkill, BaseSkill
+from ..models.skill import BaseClassSkill, BaseSkill, BaseSkillSpecialization
 
 SEED_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "seed"
 
@@ -44,6 +45,11 @@ def _upsert(db: Session, model: type, row: dict) -> None:
 def seed_skills(db: Session) -> None:
     for row in _load("base_skills.json"):
         _upsert(db, BaseSkill, row)
+    db.flush()
+
+    for row in _load("base_skill_specializations.json"):
+        fields = {**row, "skill_id": UUID(row["skill_id"])}
+        _upsert(db, BaseSkillSpecialization, fields)
     db.flush()
 
     for row in _load("base_class_skills.json"):

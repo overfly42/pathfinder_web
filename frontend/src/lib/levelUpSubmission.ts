@@ -43,9 +43,19 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
     featSelection(draft.newBonusFeat, options, draft.featSubChoices),
   ].filter((selection): selection is FeatSelectionBody => selection !== null);
 
-  const skill_ranks = Object.fromEntries(
-    Object.entries(draft.skillIncreases).filter(([, newRanks]) => newRanks > 0),
-  );
+  const skill_ranks = [
+    ...Object.entries(draft.skillIncreases)
+      .filter(([, newRanks]) => newRanks > 0)
+      .map(([skillId, ranks]) => ({ skill_id: skillId, ranks })),
+    ...draft.skillSpecializationIncreases
+      .filter((entry) => entry.newRanks > 0)
+      .map((entry) => ({
+        skill_id: entry.skillId,
+        specialization_id: entry.specializationId,
+        custom_specialization: entry.customSpecialization,
+        ranks: entry.newRanks,
+      })),
+  ];
 
   const spell = receivingClassName && draft.newSpell
     ? (options.spellsByClass[receivingClassName] ?? []).find((s) => s.name === draft.newSpell)

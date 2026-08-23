@@ -19,6 +19,7 @@ from ..models import (
     BaseItem,
     BaseRace,
     BaseSkill,
+    BaseSkillSpecialization,
     BaseSpell,
     BaseTrait,
     BaseWeaponSpecialAbility,
@@ -68,6 +69,7 @@ from ..schemas.character import (
     GearUpdate,
     HpAdjust,
     LevelUp,
+    SkillRankSelection,
     SlotUpdate,
     SpellbookAdd,
 )
@@ -142,31 +144,30 @@ def _skill_points_total(
 
 def _skill_ranks_exceed_budget(
     db: Session,
-    skill_ranks: dict[str, int],
+    skill_ranks: list[SkillRankSelection],
     regular_budget: int,
     background_budget: int,
     use_background_skills: bool,
 ) -> bool:
-    """Whether `skill_ranks` (skill id string -> ranks, already validated as
-    real skill ids by the caller) spends more than is available. Without
-    `use_background_skills`, this is the original single-pool check
-    (`background_budget` unused). With it on, ranks in `BaseSkill.is_background`
-    skills draw from `background_budget` first; only the overflow beyond it —
-    plus every rank in a non-background skill — competes for
-    `regular_budget`. `background_budget` itself has no independent cap
-    beyond that overflow rule: background points that go unspent are simply
-    lost, and they can never cover a non-background skill (http://prd.
-    5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten)."""
+    """Whether `skill_ranks` (already validated as real skill ids by the
+    caller) spends more than is available. Without `use_background_skills`,
+    this is the original single-pool check (`background_budget` unused).
+    With it on, ranks in `BaseSkill.is_background` skills draw from
+    `background_budget` first; only the overflow beyond it — plus every rank
+    in a non-background skill — competes for `regular_budget`.
+    `background_budget` itself has no independent cap beyond that overflow
+    rule: background points that go unspent are simply lost, and they can
+    never cover a non-background skill (http://prd.
+    5footstep.de/Alternativregeln/Fertigkeiten/Hintergrundfertigkeiten).
+    Budget pools are per base skill, not per specialization — two
+    specializations of the same `has_specialization` skill draw from the
+    same pool, same as two plain skills would."""
     if not use_background_skills:
-        return sum(skill_ranks.values()) > regular_budget
+        return sum(selection.ranks for selection in skill_ranks) > regular_budget
 
     background_ids = set(db.scalars(select(BaseSkill.id).where(BaseSkill.is_background.is_(True))).all())
-    background_spent = sum(
-        ranks for skill_id_str, ranks in skill_ranks.items() if UUID(skill_id_str) in background_ids
-    )
-    regular_spent = sum(
-        ranks for skill_id_str, ranks in skill_ranks.items() if UUID(skill_id_str) not in background_ids
-    )
+    background_spent = sum(selection.ranks for selection in skill_ranks if selection.skill_id in background_ids)
+    regular_spent = sum(selection.ranks for selection in skill_ranks if selection.skill_id not in background_ids)
     overflow = max(0, background_spent - background_budget)
     return regular_spent + overflow > regular_budget
 
@@ -221,6 +222,27 @@ def _validate_feat_sub_choice(
         if selection.chosen_spell_school not in known_spell_schools:
             raise HTTPException(
                 status_code=422, detail=f"chosen_spell_school for '{feat.name}' is not a known spell school"
+            )
+
+
+def _validate_skill_specialization(db: Session, skill: BaseSkill, selection: SkillRankSelection) -> None:
+    """Enforces `BaseSkill.has_specialization` against one submitted
+    `SkillRankSelection` — same "catalog data declares what's needed, this
+    checks the submission against it" split as `_validate_feat_sub_choice`,
+    sized for skills' one sub-choice shape (a specialization, either a known
+    `BaseSkillSpecialization` or free text)."""
+    if not skill.has_specialization:
+        if selection.specialization_id is not None or selection.custom_specialization is not None:
+            raise HTTPException(status_code=422, detail=f"'{skill.name}' does not take a specialization")
+        return
+
+    if selection.specialization_id is None and selection.custom_specialization is None:
+        raise HTTPException(status_code=422, detail=f"'{skill.name}' requires a specialization")
+    if selection.specialization_id is not None:
+        specialization = db.get(BaseSkillSpecialization, selection.specialization_id)
+        if specialization is None or specialization.skill_id != skill.id:
+            raise HTTPException(
+                status_code=422, detail=f"specialization_id for '{skill.name}' is not a known specialization"
             )
 
 
@@ -533,16 +555,14 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         return ability_mod(effective_scores[ability])
 
     if body.skill_ranks:
-        valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
-        for skill_id_str, ranks in body.skill_ranks.items():
-            try:
-                skill_id = UUID(skill_id_str)
-            except ValueError as exc:
-                raise HTTPException(status_code=422, detail=f"Invalid skill id '{skill_id_str}'") from exc
-            if skill_id not in valid_skill_ids:
-                raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id_str}'")
-            if ranks > total_level:
-                raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' exceed character level")
+        skills_by_id = {skill.id: skill for skill in db.scalars(select(BaseSkill)).all()}
+        for selection in body.skill_ranks:
+            skill = skills_by_id.get(selection.skill_id)
+            if skill is None:
+                raise HTTPException(status_code=422, detail=f"Unknown skill id '{selection.skill_id}'")
+            _validate_skill_specialization(db, skill, selection)
+            if selection.ranks > total_level:
+                raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill.name}' exceed character level")
 
         race_skill_bonus = 1 if race_grants_bonus_skill_point_per_level(db, body.race_id, seen_replaced_ability_ids) else 0
         favored_skill_bonus_total = sum(1 for value in submitted_favored_bonus.values() if value == "skill")
@@ -731,9 +751,16 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     character.damage_taken = 0
 
     if last_level_row is not None:
-        for skill_id_str, ranks in body.skill_ranks.items():
-            if ranks > 0:
-                last_level_row.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=ranks))
+        for selection in body.skill_ranks:
+            if selection.ranks > 0:
+                last_level_row.skill_ranks.append(
+                    CharacterSkillRank(
+                        skill_id=selection.skill_id,
+                        specialization_id=selection.specialization_id,
+                        custom_specialization=selection.custom_specialization,
+                        ranks=selection.ranks,
+                    )
+                )
         for selection in body.feats:
             last_level_row.feats.append(
                 CharacterFeat(
@@ -1608,21 +1635,23 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     ):
         raise HTTPException(status_code=422, detail="skill_ranks exceed the skill points gained at this level")
 
-    valid_skill_ids = set(db.scalars(select(BaseSkill.id)).all())
-    existing_skill_ranks = character.skill_ranks
-    for skill_id_str, new_ranks in body.skill_ranks.items():
-        try:
-            skill_id = UUID(skill_id_str)
-        except ValueError as exc:
-            raise HTTPException(status_code=422, detail=f"Invalid skill id '{skill_id_str}'") from exc
-        if skill_id not in valid_skill_ids:
-            raise HTTPException(status_code=422, detail=f"Unknown skill id '{skill_id_str}'")
+    skills_by_id = {skill.id: skill for skill in db.scalars(select(BaseSkill)).all()}
+    existing_skill_ranks = {
+        (entry["skill_id"], entry["specialization_id"], entry["custom_specialization"]): entry["ranks"]
+        for entry in character.skill_rank_details
+    }
+    for selection in body.skill_ranks:
+        skill = skills_by_id.get(selection.skill_id)
+        if skill is None:
+            raise HTTPException(status_code=422, detail=f"Unknown skill id '{selection.skill_id}'")
+        _validate_skill_specialization(db, skill, selection)
         # Per PF1e (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben):
-        # the only cap on a single skill is total ranks <= character level -
-        # a previously-untrained skill may legally gain more than 1 new rank
-        # in one level-up, not just +1.
-        if existing_skill_ranks.get(skill_id_str, 0) + new_ranks > new_total_level:
-            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill_id_str}' would exceed character level")
+        # the only cap on a single skill/specialization is total ranks <=
+        # character level - a previously-untrained skill/specialization may
+        # legally gain more than 1 new rank in one level-up, not just +1.
+        key = (selection.skill_id, selection.specialization_id, selection.custom_specialization)
+        if existing_skill_ranks.get(key, 0) + selection.ranks > new_total_level:
+            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill.name}' would exceed character level")
 
     feat_budget_delta = _feat_max(db, character.race_id, classes_after, seen_replaced_ability_ids) - _feat_max(
         db, character.race_id, classes_before, seen_replaced_ability_ids
@@ -1763,8 +1792,15 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                     )
                 )
 
-    for skill_id_str, new_ranks in body.skill_ranks.items():
-        new_level.skill_ranks.append(CharacterSkillRank(skill_id=UUID(skill_id_str), ranks=new_ranks))
+    for selection in body.skill_ranks:
+        new_level.skill_ranks.append(
+            CharacterSkillRank(
+                skill_id=selection.skill_id,
+                specialization_id=selection.specialization_id,
+                custom_specialization=selection.custom_specialization,
+                ranks=selection.ranks,
+            )
+        )
     for selection in body.feats:
         new_level.feats.append(
             CharacterFeat(

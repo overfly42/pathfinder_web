@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiGet } from '../api/client';
-import type { AbilityDef, ClassDef, CreationOptions, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SpellDef, TraitDef } from '../types/creationOptions';
+import type { AbilityDef, ClassDef, CreationOptions, FeatDef, ItemCatalogEntry, RaceOption, SkillDef, SkillSpecializationDef, SpellDef, TraitDef } from '../types/creationOptions';
 
 interface UseCreationOptionsResult {
   options: CreationOptions | null;
@@ -28,15 +28,18 @@ export function useCreationOptions(): UseCreationOptionsResult {
       apiGet<FeatDef[]>('/api/feats'),
       apiGet<TraitDef[]>('/api/traits'),
       apiGet<SkillDef[]>('/api/skills'),
+      apiGet<SkillSpecializationDef[]>('/api/skills/specializations'),
       apiGet<AbilityDef[]>('/api/abilities'),
       apiGet<Record<string, SpellDef[]>>('/api/spells-by-class'),
       apiGet<Record<number, number>>('/api/point-buy-costs'),
       apiGet<ItemCatalogEntry[]>('/api/items'),
       apiGet<string[]>('/api/spell-schools'),
     ])
-      .then(([races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items, spellSchools]) => {
+      .then(([races, classes, feats, traits, skills, skillSpecializations, abilities, spellsByClass, pointBuyCosts, items, spellSchools]) => {
         if (!cancelled) {
-          setOptions({ races, classes, feats, traits, skills, abilities, spellsByClass, pointBuyCosts, items, spellSchools });
+          setOptions({
+            races, classes, feats, traits, skills, skillSpecializations, abilities, spellsByClass, pointBuyCosts, items, spellSchools,
+          });
         }
       })
       .catch((err: Error) => {
