@@ -9,6 +9,7 @@ from ..db import get_db
 from ..models import BaseClassAbilityGrantedFeat, BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
+from ..rules.handlers import HANDLERS
 from ..sheet import granted_class_ability_ids
 from .races import race_ability_score_mods
 
@@ -80,6 +81,11 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
             # JSON shape a consumer wants" precedent as `main.py`'s classes
             # endpoint (`skillPointsBase`, `bonusFeatLevels`, ...).
             "subChoiceType": feat.sub_choice_type,
+            # Whether `rules/feats.py` (via `rules/handlers.py`'s merged
+            # `HANDLERS`) actually computes this feat's effect, vs. it only
+            # ever showing as name/description text on the sheet — see
+            # CLAUDE.md's composition-vs-computation split.
+            "hasHandler": feat.id in HANDLERS,
         }
         for feat in feats
     ]

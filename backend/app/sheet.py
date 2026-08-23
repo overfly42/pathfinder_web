@@ -76,6 +76,7 @@ from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick
 from .rules.feats import HEFTIGER_ANGRIFF, WAFFENFINESSE, power_attack_bonus
 from .rules.handlers import (
     DAILY_LIMITS,
+    HANDLERS,
     NATURAL_ATTACK_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
     character_modifiers,
@@ -453,7 +454,10 @@ def _described(db: Session, model: type, ids: list[UUID]) -> list[dict]:
     if not ids:
         return []
     rows = db.scalars(select(model).where(model.id.in_(ids))).all()
-    return [{"key": str(row.id), "name": row.name, "description": row.description} for row in rows]
+    return [
+        {"key": str(row.id), "name": row.name, "description": row.description, "hasHandler": row.id in HANDLERS}
+        for row in rows
+    ]
 
 
 def _build_feats(db: Session, character: Character) -> list[dict]:
@@ -501,7 +505,14 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
         elif entry.chosen_spell_school is not None:
             sub_choice_label = entry.chosen_spell_school
         name = f"{feat.name} ({sub_choice_label})" if sub_choice_label else feat.name
-        result.append({"key": str(entry.id), "name": name, "description": feat.description})
+        result.append(
+            {
+                "key": str(entry.id),
+                "name": name,
+                "description": feat.description,
+                "hasHandler": feat.id in HANDLERS,
+            }
+        )
     return result
 
 
@@ -538,7 +549,14 @@ def _build_traits(db: Session, character: Character) -> list[dict]:
         # every existing caller (`test_character_sheet.py`'s
         # `{t["key"] for t in body["traits"]} == {trait_id}`,
         # `buildSearchIndex.ts`) already expects.
-        result.append({"key": str(trait.id), "name": name, "description": trait.description})
+        result.append(
+            {
+                "key": str(trait.id),
+                "name": name,
+                "description": trait.description,
+                "hasHandler": trait.id in HANDLERS,
+            }
+        )
     return result
 
 
@@ -921,6 +939,7 @@ def _build_favored_class_bonuses(db: Session, character: Character) -> list[dict
                 # number - the description is the whole answer, see
                 # `rules/favored_class_bonuses.py`'s own docstring.
                 "currentBonus": handler(count) if handler is not None else None,
+                "hasHandler": handler is not None,
             }
         )
     return result

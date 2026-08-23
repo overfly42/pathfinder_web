@@ -227,7 +227,11 @@ def _race_option(db: Session, race: BaseRace) -> dict:
             else:
                 mods[modifier.target_id] = modifier.value
         else:
-            traits.append({"name": ability.name, "desc": ability.description})
+            # `handler is not None` here means a real, computed effect that
+            # just isn't a SCORE modifier (e.g. a SKILL bonus resolved by
+            # `race_skill_modifiers`, or SPEED) — not the same as a purely
+            # flavor-only ability with no `HANDLERS` entry at all.
+            traits.append({"name": ability.name, "desc": ability.description, "hasHandler": handler is not None})
 
     alt: list[dict] = []
     for grant, ability in alt_grants:
@@ -247,7 +251,14 @@ def _race_option(db: Session, race: BaseRace) -> dict:
             # `resolve_flex_ability_id`), not a flavor alt-trait — surfaced
             # only via `flex` and the dedicated attribute picker, not here.
             continue
-        alt.append({"name": ability.name, "desc": ability.description, "replaces": replaces})
+        alt.append(
+            {
+                "name": ability.name,
+                "desc": ability.description,
+                "replaces": replaces,
+                "hasHandler": HANDLERS.get(ability.id) is not None,
+            }
+        )
 
     return {
         "id": str(race.id),

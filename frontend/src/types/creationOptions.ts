@@ -5,12 +5,17 @@ export type SpellType = 'none' | 'divine-prepared' | 'arcane-prepared' | 'sponta
 export interface RaceTrait {
   name: string;
   desc: string;
+  /** Whether the backend's `HANDLERS` registry actually computes this trait's
+   *  effect (a SKILL/SPEED modifier), vs. it only ever being flavor/name+desc
+   *  text with no mechanical effect applied anywhere. */
+  hasHandler: boolean;
 }
 
 export interface RaceAltTrait {
   name: string;
   desc: string;
   replaces: string[];
+  hasHandler: boolean;
 }
 
 export interface RaceOption {
@@ -117,6 +122,10 @@ export interface SkillSpecializationDef {
   id: string;
   skillId: string;
   name: string;
+  /** No handler family exists for specializations yet — always `false` today
+   *  (see `BaseSkillSpecialization`'s docstring on the backend for the
+   *  anticipated future case). */
+  hasHandler: boolean;
 }
 
 export type FeatSubChoiceType = 'weapon' | 'skill' | 'spell_school' | null;
@@ -130,6 +139,10 @@ export interface FeatDef {
    *  (e.g. Waffenfokus -> "weapon") — see `BaseFeat.sub_choice_type` on the
    *  backend. `null` for the common case of a feat with no further choice. */
   subChoiceType: FeatSubChoiceType;
+  /** Whether `rules/handlers.py`'s `HANDLERS` registry actually computes this
+   *  feat's effect, vs. it only ever showing as name/description text on the
+   *  sheet. */
+  hasHandler: boolean;
 }
 
 export interface TraitDef {
@@ -145,6 +158,7 @@ export interface TraitDef {
    *  sized for traits' one sub-choice kind (a skill) instead of feats'
    *  three. `null` (every other trait) means no sub-choice is needed. */
   skillChoiceAbility: string | null;
+  hasHandler: boolean;
 }
 
 export interface AbilityDef {

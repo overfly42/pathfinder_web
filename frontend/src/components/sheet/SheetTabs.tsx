@@ -12,12 +12,29 @@ const TABS: TabDef[] = [
   { key: 'spells', label: 'Zauber' },
 ];
 
+/** Marks an entry whose mechanical effect isn't computed anywhere on the sheet yet (no
+ *  `HANDLERS` entry on the backend) — the player has to remember/apply it themselves at the
+ *  table. Absent entirely once a handler exists, so it never claims "definitely flavor-only"
+ *  for something that just hasn't been implemented yet. */
+function NoHandlerBadge({ title }: { title: string }) {
+  return (
+    <span className="no-handler-badge" title={title}>
+      Nur Text
+    </span>
+  );
+}
+
 function DescribedList({ entries, idPrefix }: { entries: DescribedEntry[]; idPrefix: string }) {
   return (
     <>
       {entries.map((entry) => (
         <div className="trait-item" id={`${idPrefix}-${entry.key}`} key={entry.key}>
-          <div className="name">{entry.name}</div>
+          <div className="name">
+            {entry.name}
+            {!entry.hasHandler && (
+              <NoHandlerBadge title="Wird noch nicht automatisch berechnet — Wirkung selbst am Tisch anwenden." />
+            )}
+          </div>
           <div className="desc">{entry.description}</div>
         </div>
       ))}
@@ -80,6 +97,9 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
                     {entry.currentBonus !== null
                       ? `${entry.pickCount}× gewählt, aktueller Bonus: +${entry.currentBonus}`
                       : `${entry.pickCount}× gewählt`}
+                    {!entry.hasHandler && (
+                      <NoHandlerBadge title="Kein einzelner berechneter Bonus — Wirkung der Beschreibung entnehmen." />
+                    )}
                   </div>
                   <div className="desc">{entry.description}</div>
                 </div>

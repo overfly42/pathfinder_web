@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import BaseWeaponSpecialAbility
+from ..rules.weapon_abilities import HANDLERS
 
 router = APIRouter(prefix="/api/weapon-abilities", tags=["weapon-abilities"])
 
@@ -21,6 +22,11 @@ def list_weapon_abilities(db: Annotated[Session, Depends(get_db)]) -> list[dict]
             "applicableCategories": ability.applicable_categories,
             "restrictionNote": ability.restriction_note,
             "description": ability.description,
+            # Most abilities resolve through `_generic` (name/description only,
+            # see that module's docstring) — only the ids in its own `HANDLERS`
+            # (the togglable flat energy-damage abilities) get a distinct
+            # computed effect.
+            "hasHandler": ability.id in HANDLERS,
         }
         for ability in abilities
     ]

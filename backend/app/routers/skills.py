@@ -33,6 +33,15 @@ def list_skill_specializations(db: Annotated[Session, Depends(get_db)]) -> list[
     the character-side skill rank)."""
     specializations = db.scalars(select(BaseSkillSpecialization).order_by(BaseSkillSpecialization.name)).all()
     return [
-        {"id": str(specialization.id), "skillId": str(specialization.skill_id), "name": specialization.name}
+        {
+            "id": str(specialization.id),
+            "skillId": str(specialization.skill_id),
+            "name": specialization.name,
+            # No handler family exists yet for specializations — see this
+            # model's own docstring for the anticipated future case (a class
+            # ability keyed to a specific specialization like "Beruf
+            # (Seemann)"). Always False until one does.
+            "hasHandler": False,
+        }
         for specialization in specializations
     ]

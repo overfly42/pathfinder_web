@@ -47,6 +47,10 @@ export interface DescribedEntry {
   key: string;
   name: string;
   description: string;
+  /** Whether the backend's `HANDLERS` registry actually computes this
+   *  entry's mechanical effect, vs. it only ever being name/description
+   *  text with no effect applied anywhere on the sheet. */
+  hasHandler: boolean;
 }
 
 /** One race-scoped favored-class-bonus choice the character has picked at
@@ -242,6 +246,10 @@ export interface ConditionCatalogEntry {
   defaultDurationRounds: number | null;
   defaultFrequencyRounds: number | null;
   defaultSuccessesRequired: number | null;
+  /** See `todos.md`'s "Effekt-Handler-Inventar" — most conditions still only
+   *  have a classification decision pending, no `EFFECT_HANDLERS[id]` entry
+   *  yet. */
+  hasHandler: boolean;
 }
 
 /** A persistent-effect spell, class ability, or feat this character actually knows/has, minimal
