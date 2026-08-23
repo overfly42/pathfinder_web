@@ -1,5 +1,6 @@
 import { formatBreakdown } from '../../lib/breakdown';
 import type { Character, DescribedEntry } from '../../types/character';
+import { InfoButton } from '../primitives/InfoButton';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
 const TABS: TabDef[] = [
@@ -39,21 +40,21 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
         <TabBar tabs={TABS} active={activeTab} onChange={onTabChange} />
 
         <TabPanel active={activeTab} tabKey="skills">
-          {character.skills.map((skill) => (
-            <div className="skill-row" id={`skill-${skill.key}`} key={skill.key}>
-              <span>
-                {skill.label}
-                {skill.note && (
-                  <span className="skill-note" title={skill.note} aria-label={skill.note}>
-                    ⓘ
-                  </span>
-                )}
-              </span>
-              <span className="val" title={formatBreakdown(skill.breakdown)}>
-                {skill.value}
-              </span>
-            </div>
-          ))}
+          {character.skills.map((skill) => {
+            const breakdownText = formatBreakdown(skill.breakdown);
+            const infoContent =
+              [skill.note, breakdownText].filter(Boolean).join('\n\n') ||
+              'Keine weiteren Informationen verfügbar.';
+            return (
+              <div className="skill-row" id={`skill-${skill.key}`} key={skill.key}>
+                <span>
+                  {skill.label}
+                  <InfoButton label={skill.label} content={infoContent} />
+                </span>
+                <span className="val">{skill.value}</span>
+              </div>
+            );
+          })}
         </TabPanel>
 
         <TabPanel active={activeTab} tabKey="feats">

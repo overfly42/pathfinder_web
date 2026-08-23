@@ -1,4 +1,5 @@
 import type { StatEntry, WeaponAttack } from '../../types/character';
+import { InfoButton } from '../primitives/InfoButton';
 
 function StatGrid({ entries }: { entries: StatEntry[] }) {
   return (
@@ -38,11 +39,7 @@ export function SavesAndCombat({
               <div className="save" key={weapon.key}>
                 <span className="name">
                   {weapon.name} ({weapon.hand})
-                  {weapon.note && (
-                    <span className="skill-note" title={weapon.note} aria-label={weapon.note}>
-                      ⓘ
-                    </span>
-                  )}
+                  {weapon.note && <InfoButton label={weapon.name} content={weapon.note} />}
                 </span>
                 <span className="val">
                   Angriff {weapon.attackBonus} · Schaden {weapon.damage}
