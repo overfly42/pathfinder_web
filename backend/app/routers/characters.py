@@ -1,4 +1,5 @@
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Annotated
 from uuid import UUID
@@ -34,6 +35,7 @@ from ..models import (
     CharacterRacialChoice,
     CharacterSkillRank,
     CharacterSpell,
+    CharacterSpellPreparation,
     CharacterTrait,
     User,
 )
@@ -45,7 +47,12 @@ from ..rules.class_options import (
     group_occurrence_levels,
 )
 from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
-from ..rules.daily_limits import record_usage, remaining_today, reset_all as reset_daily_limits
+from ..rules.daily_limits import (
+    record_usage,
+    remaining_today,
+    reset_all as reset_daily_limits,
+    reset_spell_preparations,
+)
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
@@ -53,7 +60,7 @@ from ..rules.handlers import ON_END, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
-from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget
+from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget, total_spell_slots
 from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
@@ -72,6 +79,7 @@ from ..schemas.character import (
     SkillRankSelection,
     SlotUpdate,
     SpellbookAdd,
+    SpellPrepare,
 )
 from .races import race_ability_score_mods, race_has_flex, resolve_alt_trait, resolve_flex_ability_id
 
@@ -920,6 +928,204 @@ def remove_from_spellbook(character_id: UUID, spell_id: UUID, db: Annotated[Sess
     db.commit()
 
 
+def _character_ability_mods(db: Session, character: Character) -> dict[str, int]:
+    scores = full_effective_ability_scores(db, character, race_ability_score_mods(db, character.race_id))
+    return {ability: ability_mod(score) for ability, score in scores.items()}
+
+
+def _character_granted_ability_ids(db: Session, character: Character) -> Counter[UUID]:
+    """Which `BaseClassAbility` ids this character has granted (archetype
+    features included) — needed here just for `total_spell_slots`'s
+    `SPELL_SLOT_DELTA` check (e.g. Kensai's "Vermindertes Zauberwirken").
+    Deferred import: `sheet.py` itself imports `_class_def` from this
+    module, so a module-level import back the other way would be circular
+    (same reasoning `rules/daily_limits.py`'s own deferred import
+    documents)."""
+    from ..sheet import granted_class_ability_ids
+
+    level_counts_by_root_id: dict[UUID, int] = {}
+    for level in character.levels:
+        level_counts_by_root_id[level.base_class_id] = level_counts_by_root_id.get(level.base_class_id, 0) + 1
+    return granted_class_ability_ids(db, character, level_counts_by_root_id)
+
+
+def _resolve_prepared_class_spell(
+    db: Session, character: Character, base_class_id: UUID, spell_id: UUID
+) -> tuple[BaseClass, int, BaseClassSpell]:
+    """Shared prepare/cast validation: resolves the root class, the
+    character's level in it, and the `BaseClassSpell` row (for its grade) —
+    raising the same 422s `add_to_spellbook` already uses for an unknown
+    class/spell. Callers still need their own caster-type-specific legality
+    check (spellbook membership for arcane-prepared, grade-list membership
+    for divine-prepared)."""
+    root = db.get(BaseClass, base_class_id)
+    if root is None or root.arch_class_of is not None:
+        raise HTTPException(status_code=422, detail="Unknown base_class_id")
+    class_level = sum(1 for level in character.levels if level.base_class_id == root.id)
+    if class_level == 0:
+        raise HTTPException(status_code=422, detail="This character isn't taking that class")
+
+    class_spell = db.scalar(
+        select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.id, BaseClassSpell.spell_id == spell_id)
+    )
+    if class_spell is None:
+        raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
+    return root, class_level, class_spell
+
+
+@router.post("/{character_id}/spells/{spell_id}/prepare", response_model=CharacterRead)
+def prepare_spell(
+    character_id: UUID, spell_id: UUID, body: SpellPrepare, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """In-play "prepare a spell for today" (`requirements_v2.md` §2.2) —
+    arcane- and divine-prepared classes only (spontaneous casters have no
+    preparation step at all, out of scope here — see `rules/spells.py`'s
+    module docstring for the caster-type split). Preparing an
+    already-prepared spell again is legal PF1e (multiple copies of the same
+    spell can be prepared at once) and just increments its
+    `CharacterSpellPreparation.prepared_count`, as long as the grade's total
+    prepared count across every spell stays within `total_spell_slots`."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    root, class_level, class_spell = _resolve_prepared_class_spell(db, character, body.base_class_id, spell_id)
+    class_def = _class_def(root.name) or {}
+    spell_type = class_def.get("spellType")
+    if spell_type not in ("arcane-prepared", "divine-prepared"):
+        raise HTTPException(status_code=422, detail=f"{root.name} doesn't prepare spells this way")
+
+    if spell_type == "arcane-prepared":
+        known = any(
+            entry.base_class_id == root.id and entry.spell_id == spell_id
+            for level in character.levels
+            for entry in level.spells
+        )
+        if not known:
+            raise HTTPException(status_code=422, detail="Spell isn't in the spellbook")
+    elif class_spell.grade != 0 and class_spell.grade not in known_grades(db, root.id, class_level):
+        raise HTTPException(status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {root.name}")
+
+    casting_mod = _character_ability_mods(db, character).get(root.effective_casting_ability or "", 0)
+    granted_ability_ids = _character_granted_ability_ids(db, character)
+    # Same "fold a still-locked grade's bonus spell into the highest
+    # currently accessible grade" house rule `sheet.py` displays — must
+    # match exactly, or the sheet would show a cap the endpoint doesn't
+    # actually enforce (or vice versa).
+    accessible_grades = known_grades(db, root.id, class_level)
+    max_accessible_grade = max((g for g in accessible_grades if g >= 1), default=None)
+    slots = total_spell_slots(
+        db,
+        root.id,
+        class_level,
+        class_spell.grade,
+        casting_mod,
+        granted_ability_ids,
+        fold_higher_grades_into_this_one=(class_spell.grade == max_accessible_grade),
+    )
+    if slots is None:
+        raise HTTPException(status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {root.name}")
+
+    prep_rows = [row for row in character.spell_preparations if row.base_class_id == root.id]
+    grade_by_spell_id = (
+        {
+            row.spell_id: row.grade
+            for row in db.scalars(
+                select(BaseClassSpell).where(
+                    BaseClassSpell.base_class_id == root.id,
+                    BaseClassSpell.spell_id.in_([row.spell_id for row in prep_rows]),
+                )
+            ).all()
+        }
+        if prep_rows
+        else {}
+    )
+    prepared_at_grade = sum(
+        row.prepared_count for row in prep_rows if grade_by_spell_id.get(row.spell_id) == class_spell.grade
+    )
+    if prepared_at_grade >= slots:
+        raise HTTPException(status_code=422, detail=f"No free grade {class_spell.grade} slots left today")
+
+    row = next((row for row in prep_rows if row.spell_id == spell_id), None)
+    if row is None:
+        row = CharacterSpellPreparation(
+            character_id=character.id, base_class_id=root.id, spell_id=spell_id, prepared_count=0, used_count=0
+        )
+        db.add(row)
+    row.prepared_count += 1
+
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.delete("/{character_id}/spells/{spell_id}/prepare", status_code=204)
+def unprepare_spell(
+    character_id: UUID, spell_id: UUID, base_class_id: UUID, db: Annotated[Session, Depends(get_db)]
+) -> None:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    row = next(
+        (row for row in character.spell_preparations if row.base_class_id == base_class_id and row.spell_id == spell_id),
+        None,
+    )
+    if row is None:
+        raise HTTPException(status_code=404, detail="Spell isn't prepared")
+    if row.prepared_count <= row.used_count:
+        raise HTTPException(status_code=422, detail="Can't unprepare a copy that's already been cast today")
+
+    row.prepared_count -= 1
+    if row.prepared_count == 0:
+        db.delete(row)
+    db.commit()
+
+
+@router.post("/{character_id}/spells/{spell_id}/cast", response_model=CharacterRead)
+def cast_spell(
+    character_id: UUID, spell_id: UUID, body: SpellPrepare, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Consumes one prepared copy of a spell (`requirements_v2.md` §2.2's
+    "gewirkt/verbraucht" state) — 422 once every prepared copy of this spell
+    is already used today. **Grade-0 (cantrips) are the one exception, per
+    PF1e RAW**: a prepared cantrip is never expended — it can be cast any
+    number of times once it's prepared, so `used_count` is neither checked
+    nor incremented for it, only `prepared_count > 0`. Refund abilities
+    (Perle der Macht, Kampfmagus-Zauberrückruf) that let a *non-cantrip*
+    used slot be cast again are a later addition on top of this same
+    `CharacterSpellPreparation` row, not modeled yet."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    row = next(
+        (
+            row
+            for row in character.spell_preparations
+            if row.base_class_id == body.base_class_id and row.spell_id == spell_id
+        ),
+        None,
+    )
+    if row is None or row.prepared_count == 0:
+        raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
+
+    class_spell = db.scalar(
+        select(BaseClassSpell).where(
+            BaseClassSpell.base_class_id == body.base_class_id, BaseClassSpell.spell_id == spell_id
+        )
+    )
+    is_cantrip = class_spell is not None and class_spell.grade == 0
+    if not is_cantrip:
+        if row.used_count >= row.prepared_count:
+            raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
+        row.used_count += 1
+
+    db.commit()
+    db.refresh(character)
+    return character
+
+
 @router.post("/{character_id}/gear", response_model=CharacterRead, status_code=201)
 def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Depends(get_db)]) -> Character:
     """In-play "add to inventory" (roadmap slice 4) — unlike creation's
@@ -1106,6 +1312,7 @@ def rest(character_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Charact
                 gear_row.uses_remaining_today = item.uses_per_day
 
     reset_daily_limits(db, character)
+    reset_spell_preparations(db, character)
 
     db.commit()
     db.refresh(character)
@@ -1302,6 +1509,7 @@ def advance_time(
     remaining: list[CharacterEffect] = []
     if body.unit == "day":
         reset_daily_limits(db, character)
+        reset_spell_preparations(db, character)
         for effect in character.effects:
             if effect.frequency_rounds is None:
                 follow_up = _expire_effect(db, character, effect)

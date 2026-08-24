@@ -81,3 +81,14 @@ def reset_all(db: Session, character: Character) -> None:
     counterpart for class/race abilities)."""
     for usage in character.ability_usages:
         db.delete(usage)
+
+
+def reset_spell_preparations(db: Session, character: Character) -> None:
+    """Full rest/day-tick: every `CharacterSpellPreparation` row is deleted
+    outright, not zeroed — `requirements_v2.md` §2.2 is explicit that both
+    "verbraucht" and "vorbereitet" spells reset together, so a new day means
+    re-preparing from scratch, not keeping yesterday's selection with a
+    refreshed use count. Same lazy-default convention as `reset_all`: a
+    missing row means nothing prepared."""
+    for preparation in character.spell_preparations:
+        db.delete(preparation)

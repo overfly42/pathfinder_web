@@ -69,12 +69,31 @@ export interface SpellRef {
   name: string;
 }
 
+/** One spell's real prepared/cast state for the day (roadmap slice 6) —
+ *  `preparedCount` copies prepared, `usedCount` of those already cast; the
+ *  remaining castable copies are always `preparedCount - usedCount`. Shared
+ *  shape between `CastableSpellGrade` (cast bar) and `PreparableSpellGrade`
+ *  (spellbook prepare UI) — the same underlying `CharacterSpellPreparation`
+ *  row, just filtered/rendered differently per tab. */
+export type PreparedSpellRef = SpellRef & {
+  baseClassId: string;
+  preparedCount: number;
+  usedCount: number;
+  /** Spell's full description text, for the cast-confirmation popup (`CastSpellModal`). */
+  description: string;
+  /** Pre-formatted "V, S, M (...)" display string (`sheet.py`'s `_format_spell_components`) —
+   *  "—" when no `BaseSpellComponent` row exists for this spell/tradition yet. */
+  components: string;
+};
+
 export interface CastableSpellGrade {
   grade: number;
   locked: boolean;
   availableAtLevel?: number;
-  prepared?: number;
-  spells: (SpellRef & { used: boolean })[];
+  /** Total slots/day at this grade (class table + ability-modifier bonus) — absent for a
+   *  locked grade. */
+  perDay?: number;
+  spells: PreparedSpellRef[];
 }
 
 export interface PreparableSpellGrade {
@@ -82,8 +101,7 @@ export interface PreparableSpellGrade {
   locked: boolean;
   availableAtLevel?: number;
   perDay?: number;
-  maxPrepared?: number;
-  spells: (SpellRef & { prepared: boolean })[];
+  spells: PreparedSpellRef[];
 }
 
 /** Only set for the small set of flat on-hit energy abilities (Aufflammen/Blitz/Eis/Säure and their

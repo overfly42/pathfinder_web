@@ -25,9 +25,14 @@ not fabricated placeholder content:
   separately as `activeEffects`/`activatableSpells`/
   `activatableClassAbilities`/`externalClassAbilities`, see
   `_build_active_effects` below.
-- Per-day spell prepare/cast tracking (roadmap slice 6) — `spellsKnown`
-  (`used`) and `spellbook` (`prepared`) both list every known spell with
-  their tracking flag always `False`.
+- Per-day spell prepare/cast tracking (roadmap slice 6) is real for arcane-
+  and divine-prepared classes (`_build_prepared_spell_grades`). Spontaneous
+  casters (Barde/Hexenmeister/Mystiker) deliberately get no `spellsKnown`/
+  `spellbook` entries at all for now, rather than a stale placeholder — they
+  need a structurally different per-grade slot pool (no per-spell
+  "prepared" step, any known spell can fill any same-grade slot), not an
+  extension of the arcane-/divine-prepared shape above, so this is an honest
+  gap left for a follow-up rather than the old always-`False` placeholder.
 
 Likewise `armorClass`/`combat`'s CMB/CMD assume an unarmored, Medium
 creature: `BaseRace` has no size field yet, so no size modifier is applied
@@ -49,6 +54,7 @@ from .models import (
     BaseClassOptionGroup,
     BaseClassSkill,
     BaseClassSpell,
+    BaseClassSpellsKnown,
     BaseCondition,
     BaseFeat,
     BaseItem,
@@ -58,6 +64,7 @@ from .models import (
     BaseSkill,
     BaseSkillSpecialization,
     BaseSpell,
+    BaseSpellComponent,
     BaseTrait,
     BaseWeaponSpecialAbility,
     Character,
@@ -86,6 +93,7 @@ from .rules.handlers import (
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
+from .rules.spells import known_grades, total_spell_slots
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -263,6 +271,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         melee_attack_bonus,
         melee_damage_bonus,
     )
+    spellbook, spells_known = _build_prepared_spell_grades(
+        db, character, level_counts_by_root_id, ability_mods, granted_ability_ids
+    )
 
     return {
         "id": str(character.id),
@@ -318,11 +329,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
-        "spellsKnown": _build_spell_grades(db, character, "used"),
+        "spellsKnown": spells_known,
         "gear": gear,
         "weaponAttacks": weapon_attacks,
         "equipmentSlots": equipment_slots,
-        "spellbook": _build_spell_grades(db, character, "prepared"),
+        "spellbook": spellbook,
         "actions": _build_actions(db, character, granted_ability_ids, gear, context),
         "effectsActive": [],
         "activeEffects": _build_active_effects(db, character, context)
@@ -945,35 +956,167 @@ def _build_favored_class_bonuses(db: Session, character: Character) -> list[dict
     return result
 
 
-def _build_spell_grades(db: Session, character: Character, flag_name: str) -> list[dict]:
-    by_grade: dict[int, list[dict]] = {}
-    for base_class_id_str, spell_ids in character.spell_ids.items():
-        root = db.get(BaseClass, UUID(base_class_id_str))
-        if root is None or not spell_ids:
+def _build_prepared_spell_grades(
+    db: Session,
+    character: Character,
+    level_counts_by_root_id: dict[UUID, int],
+    ability_mods: dict[str, int],
+    granted_ability_ids: Counter[UUID],
+) -> tuple[list[dict], list[dict]]:
+    """Real prepared-spellcasting state (roadmap slice 6) for every arcane-
+    or divine-prepared class the character has — replaces the old
+    `_build_spell_grades` placeholder (both `used`/`prepared` hardcoded
+    `False`, no persistence, no slot cap, and silently skipped divine-
+    prepared classes entirely). Returns `(spellbook, spellsKnown)`:
+    `spellbook` is the full candidate list per grade (arcane-prepared: the
+    character's known spellbook, `CharacterSpell`; divine-prepared: the
+    class's whole spell list, `BaseClassSpell`, at accessible grades — no
+    spellbook, `requirements_v2.md` §2.2) with real `preparedCount`/
+    `usedCount` per spell, driving the "Zauberbuch" prepare UI; `spellsKnown`
+    is the same grades with `spells` filtered to `preparedCount > 0`,
+    driving the "Zauber" cast bar — one query pass feeds both. `perDay`
+    already reflects any archetype spell-slot reduction the character has
+    granted (e.g. Kampfmagus's Kensai, `rules/classes/kampfmagus.py`), via
+    `granted_ability_ids` -> `total_spell_slots`.
+
+    Locked (not-yet-accessible) grades are still included in `spellbook`
+    (`locked: True`, `availableAtLevel` the earliest future level a
+    `base_class_spells_known` row exists for that grade) so the prepare UI
+    can show what's coming, same shape the mock fixtures always used.
+
+    Doesn't merge across multiple simultaneously-prepared-caster classes on
+    the same character (a real but rare multiclass shape, e.g. Magier/
+    Kleriker) — each class's grades are appended independently, so two
+    classes sharing a grade number produce two separate entries rather than
+    one merged/conflicting `perDay`. Good enough for every single-
+    prepared-caster character this app has seeded so far; revisit if a real
+    dual-prepared-caster character needs it."""
+    spellbook: list[dict] = []
+
+    for base_class_id, class_level in level_counts_by_root_id.items():
+        root = db.get(BaseClass, base_class_id)
+        if root is None:
             continue
         class_def = _class_def(root.name) or {}
-        if class_def.get("spellType") not in ("spontaneous", "arcane-prepared"):
+        spell_type = class_def.get("spellType")
+        if spell_type not in ("arcane-prepared", "divine-prepared"):
             continue
 
-        grade_by_spell_id = {
-            row.spell_id: row.grade
-            for row in db.scalars(
-                select(BaseClassSpell).where(
-                    BaseClassSpell.base_class_id == root.id, BaseClassSpell.spell_id.in_(spell_ids)
-                )
-            ).all()
+        class_spell_rows = db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.id)).all()
+        grade_by_spell_id = {row.spell_id: row.grade for row in class_spell_rows}
+        all_grades = sorted({row.grade for row in class_spell_rows})
+        accessible_grades = known_grades(db, root.id, class_level)
+
+        if spell_type == "arcane-prepared":
+            candidate_ids = character.spell_ids.get(str(root.id), [])
+        else:
+            candidate_ids = [row.spell_id for row in class_spell_rows if row.grade in accessible_grades]
+        spells_by_id = {
+            spell.id: spell for spell in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(candidate_ids))).all()
         }
-        spells = {spell.id: spell for spell in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(spell_ids))).all()}
-        for spell_id in spell_ids:
-            spell = spells.get(spell_id)
+        prep_by_spell_id = {
+            row.spell_id: row for row in character.spell_preparations if row.base_class_id == root.id
+        }
+        components_by_spell_id = (
+            {
+                row.spell_id: row
+                for row in db.scalars(
+                    select(BaseSpellComponent).where(
+                        BaseSpellComponent.spell_id.in_(candidate_ids),
+                        BaseSpellComponent.tradition == root.effective_spell_tradition,
+                    )
+                ).all()
+            }
+            if candidate_ids
+            else {}
+        )
+
+        by_grade: dict[int, list[dict]] = defaultdict(list)
+        for spell_id in candidate_ids:
+            spell = spells_by_id.get(spell_id)
             if spell is None:
                 continue
             grade = grade_by_spell_id.get(spell_id, 0)
-            by_grade.setdefault(grade, []).append(
-                {"key": str(spell_id), "name": spell.name, flag_name: False}
+            prep = prep_by_spell_id.get(spell_id)
+            by_grade[grade].append(
+                {
+                    "key": str(spell_id),
+                    "name": spell.name,
+                    "baseClassId": str(root.id),
+                    "preparedCount": prep.prepared_count if prep is not None else 0,
+                    "usedCount": prep.used_count if prep is not None else 0,
+                    "description": spell.description,
+                    "components": _format_spell_components(components_by_spell_id.get(spell_id)),
+                }
             )
 
-    return [{"grade": grade, "locked": False, "spells": spells} for grade, spells in sorted(by_grade.items())]
+        unlock_level_by_grade: dict[int, int] = {}
+        for row in db.scalars(
+            select(BaseClassSpellsKnown).where(
+                BaseClassSpellsKnown.base_class_id == root.id, BaseClassSpellsKnown.grade.in_(all_grades)
+            )
+        ).all():
+            current = unlock_level_by_grade.get(row.grade)
+            if current is None or row.level < current:
+                unlock_level_by_grade[row.grade] = row.level
+
+        casting_mod = ability_mods.get(root.effective_casting_ability or "", 0)
+        # Highest grade currently *accessible* (not the class's theoretical
+        # max) — any ability-modifier bonus spell for a higher, still-locked
+        # grade folds down into this one instead of being discarded (house
+        # rule, `rules/spells.py`'s `folded_bonus_spells`).
+        max_accessible_grade = max((g for g in accessible_grades if g >= 1), default=None)
+        for grade in all_grades:
+            locked = grade not in accessible_grades
+            spells = sorted(by_grade.get(grade, []), key=lambda s: s["name"])
+            grade_entry: dict = {"grade": grade, "locked": locked, "spells": spells}
+            if locked:
+                grade_entry["availableAtLevel"] = unlock_level_by_grade.get(grade)
+            else:
+                grade_entry["perDay"] = total_spell_slots(
+                    db,
+                    root.id,
+                    class_level,
+                    grade,
+                    casting_mod,
+                    granted_ability_ids,
+                    fold_higher_grades_into_this_one=(grade == max_accessible_grade),
+                )
+            spellbook.append(grade_entry)
+
+    spellbook.sort(key=lambda g: g["grade"])
+    spells_known = []
+    for grade_entry in spellbook:
+        if grade_entry["locked"]:
+            continue
+        prepared_spells = [s for s in grade_entry["spells"] if s["preparedCount"] > 0]
+        if prepared_spells:
+            spells_known.append({**grade_entry, "spells": prepared_spells})
+    return spellbook, spells_known
+
+
+def _format_spell_components(component: BaseSpellComponent | None) -> str:
+    """"V, S, M (Fledermausguano und Schwefel)"-style display string for the
+    cast-confirmation popup — pre-formatted here rather than left to the
+    frontend since it's a fixed, small set of flags plus optional
+    descriptive text, the same "format for display in sheet.py" convention
+    every other stat-block-shaped field on this sheet already follows (e.g.
+    `_fmt`'s +/- signs). `None` (no `BaseSpellComponent` row for this
+    spell/tradition — not every PRD spell page restates its own component
+    line) renders as an explicit "—" rather than an empty string, so the
+    popup can't be mistaken for "no components" vs. "not seeded"."""
+    if component is None:
+        return "—"
+    parts = []
+    if component.verbal:
+        parts.append("V")
+    if component.somatic:
+        parts.append("S")
+    if component.material:
+        parts.append(f"M ({component.material_description})" if component.material_description else "M")
+    if component.focus:
+        parts.append(f"F ({component.focus_description})" if component.focus_description else "F")
+    return ", ".join(parts) if parts else "—"
 
 
 def _build_activatable_spells(db: Session, character: Character) -> list[dict]:

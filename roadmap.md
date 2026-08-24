@@ -1273,8 +1273,44 @@ entirely, not a category here.
       choice. Known simplification: checked against the character's
       current, pre-level-up state, so a same-level ability-score increase
       can't yet unlock a same-level feat's own score prerequisite.
-      "Can this spell be prepared/cast right now" (the other half of this
-      slice's original scope) is still open.
+- [x] "Can this spell be prepared/cast right now" (2026-08-24, arcane- and
+      divine-prepared classes): real `CharacterSpellPreparation` table
+      (`character_id`/`base_class_id`/`spell_id` → `prepared_count`/
+      `used_count`, multiple copies of the same spell allowed) plus
+      `POST`/`DELETE .../spells/{id}/prepare` and `POST .../spells/{id}/cast`
+      endpoints, enforcing a real daily slot cap
+      (`base_class_spells_known.spells_per_day` — newly seeded, was never
+      tracked before — plus the standard ability-modifier bonus-spells table,
+      `rules/spells.py`'s `total_spell_slots`). `rest`/`advance-time(day)`
+      clear all preparations (`rules/daily_limits.py`'s
+      `reset_spell_preparations`), matching `requirements_v2.md` §2.2's
+      "prepared and consumed both reset together." Found and fixed along the
+      way: divine-prepared classes (Kleriker/Druide/Waldläufer) had *no*
+      spell data on the sheet at all (`sheet.py` only ever handled
+      spontaneous/arcane-prepared) and no `base_class_spells_known` grade-gate
+      rows either — both fixed as part of the same pass
+      (`_build_prepared_spell_grades`, `build_spells_per_day_seed.py`).
+      Frontend (`SheetTabs.tsx`'s cast bar, `Spellbook.tsx`'s prepare stepper)
+      now calls these endpoints for real characters instead of only mutating
+      local state. Deliberately still open: spontaneous casters (Barde/
+      Hexenmeister/Mystiker) need a structurally different per-grade slot
+      pool with no preparation step, not an extension of this table; refund
+      abilities (Perle der Macht, Kampfmagus-Zauberrückruf) aren't wired to
+      it yet either. See `todos.md`'s Zauber-Endpunkte entry for the full
+      breakdown.
+      Two corrections after first review (2026-08-24): cantrips (grade 0)
+      are never expended in PF1e RAW once prepared — `cast_spell` now only
+      checks/increments `used_count` for grade ≥1. And Kampfmagus's four
+      archetypes (Kensai, Seelenschmied, Skirnir, Zauberstreiter) each grant
+      "Vermindertes Zauberwirken" (−1 spell slot per grade, floored at 0,
+      before the ability-modifier bonus) — previously inert (seeded as a
+      description-only ability, per `import_kampfmagus_archetypes.py`'s own
+      docstring, since nothing existed yet to hook it into); now computed
+      via a new `SPELL_SLOT_DELTA` handler family
+      (`rules/classes/kampfmagus.py`, merged through `rules/classes/__init__.py`
+      and `rules/handlers.py` the same three-tier way `DAILY_LIMITS` is),
+      read by `total_spell_slots` off the character's already-resolved
+      `granted_ability_ids`.
 
 ### 7. Level-up — thin (done 2026-08-04, pulled forward ahead of slices 5/6)
 Pulled forward ahead of Effects/Actions per the "Beispielcharakter" gaps

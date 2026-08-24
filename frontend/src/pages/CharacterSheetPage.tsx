@@ -20,8 +20,9 @@ import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
 import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/RealEffectsPanel';
 import { ActivateEffectModal, type AvailableEntry } from '../components/sheet/ActivateEffectModal';
 import { UseAbilityModal } from '../components/sheet/UseAbilityModal';
+import { CastSpellModal } from '../components/sheet/CastSpellModal';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { ActionOption, ConditionType, Effect, EffectsView } from '../types/character';
+import type { ActionOption, ConditionType, Effect, EffectsView, PreparedSpellRef } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import { ROUNDS_PER_UNIT } from '../lib/time';
 import './CharacterSheetPage.css';
@@ -55,6 +56,7 @@ export function CharacterSheetPage() {
   const [gearError, setGearError] = useState<string | null>(null);
   const [hpError, setHpError] = useState<string | null>(null);
   const [effectError, setEffectError] = useState<string | null>(null);
+  const [spellError, setSpellError] = useState<string | null>(null);
   // Lifted out of RealEffectsPanel (same reason skillsTab/inventoryTab are lifted here): a
   // global-search jump to a catalog entry that the panel's own filter is currently hiding
   // needs to reset that filter first, same as jumping to a skill needs to switch tabs first.
@@ -67,6 +69,9 @@ export function CharacterSheetPage() {
   // (`ActionOption.usesRemainingToday`, e.g. Erneuerte Lebenskraft) — separate from `picked` above
   // since it opens `UseAbilityModal`, not `ActivateEffectModal`.
   const [usingAbility, setUsingAbility] = useState<ActionOption | null>(null);
+  // Confirmation popup for the "Zauber" cast bar — clicking a prepared spell opens this instead of
+  // casting immediately, showing components/description before the player commits.
+  const [pendingCastSpell, setPendingCastSpell] = useState<{ grade: number; spell: PreparedSpellRef } | null>(null);
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -269,30 +274,94 @@ export function CharacterSheetPage() {
     }
   }
 
-  function handleToggleSpellCast(grade: number, spellKey: string) {
-    setCharacter((prev) => {
-      if (!prev) return prev;
-      const spellsKnown = prev.spellsKnown.map((g) =>
-        g.grade !== grade
-          ? g
-          : { ...g, spells: g.spells.map((s) => (s.key === spellKey ? { ...s, used: !s.used } : s)) },
-      );
-      return { ...prev, spellsKnown };
-    });
+  function handleRequestCastSpell(grade: number, spell: PreparedSpellRef) {
+    setPendingCastSpell({ grade, spell });
   }
 
-  function handleTogglePrepare(grade: number, spellKey: string) {
-    setCharacter((prev) => {
-      if (!prev) return prev;
-      const spellbook = prev.spellbook.map((g) => {
-        if (g.grade !== grade) return g;
-        const activeCount = g.spells.filter((s) => s.prepared).length;
-        const target = g.spells.find((s) => s.key === spellKey);
-        if (!target || (!target.prepared && activeCount >= (g.maxPrepared ?? Infinity))) return g;
-        return { ...g, spells: g.spells.map((s) => (s.key === spellKey ? { ...s, prepared: !s.prepared } : s)) };
+  async function handleConfirmCastSpell() {
+    const pending = pendingCastSpell;
+    setPendingCastSpell(null);
+    if (!pending) return;
+    const { grade, spell } = pending;
+
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellsKnown = prev.spellsKnown.map((g) =>
+          g.grade !== grade
+            ? g
+            : {
+                ...g,
+                spells: g.spells.map((s) => (s.key === spell.key ? { ...s, usedCount: s.usedCount + 1 } : s)),
+              },
+        );
+        return { ...prev, spellsKnown };
       });
-      return { ...prev, spellbook };
-    });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/spells/${spell.key}/cast`, {
+        base_class_id: spell.baseClassId,
+      });
+      refetch();
+    } catch {
+      setSpellError('Zauber konnte nicht gewirkt werden.');
+    }
+  }
+
+  async function handlePrepareSpell(grade: number, spellKey: string, baseClassId: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellbook = prev.spellbook.map((g) => {
+          if (g.grade !== grade) return g;
+          const preparedTotal = g.spells.reduce((sum, s) => sum + s.preparedCount, 0);
+          if (g.perDay != null && preparedTotal >= g.perDay) return g;
+          return {
+            ...g,
+            spells: g.spells.map((s) => (s.key === spellKey ? { ...s, preparedCount: s.preparedCount + 1 } : s)),
+          };
+        });
+        return { ...prev, spellbook };
+      });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/spells/${spellKey}/prepare`, { base_class_id: baseClassId });
+      refetch();
+    } catch {
+      setSpellError('Zauber konnte nicht vorbereitet werden.');
+    }
+  }
+
+  async function handleUnprepareSpell(grade: number, spellKey: string, baseClassId: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellbook = prev.spellbook.map((g) => {
+          if (g.grade !== grade) return g;
+          const target = g.spells.find((s) => s.key === spellKey);
+          if (!target || target.preparedCount <= target.usedCount) return g;
+          return {
+            ...g,
+            spells: g.spells.map((s) => (s.key === spellKey ? { ...s, preparedCount: s.preparedCount - 1 } : s)),
+          };
+        });
+        return { ...prev, spellbook };
+      });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiDelete(
+        `/api/characters/${currentCharacterId}/spells/${spellKey}/prepare?base_class_id=${baseClassId}`,
+      );
+      refetch();
+    } catch {
+      setSpellError('Vorbereitung konnte nicht entfernt werden.');
+    }
   }
 
   function handleAdvanceTime(unit: TimeUnit) {
@@ -314,24 +383,35 @@ export function CharacterSheetPage() {
         stillActive.push({ ...effect, durationRounds: remaining, durationLabel: `${remaining} ${remaining === 1 ? 'Runde' : 'Runden'}` });
       }
 
-      const spellsKnown =
+      // "+1 Tag" clears all spell preparations outright, not just cast/used state — matches the
+      // real backend's `reset_spell_preparations` (requirements_v2.md §2.2: prepared spells reset
+      // along with consumed ones, so a new day means re-preparing from scratch).
+      const spellbook =
         unit === 'day'
-          ? prev.spellsKnown.map((g) => ({ ...g, spells: g.spells.map((s) => ({ ...s, used: false })) }))
-          : prev.spellsKnown;
+          ? prev.spellbook.map((g) => ({
+              ...g,
+              spells: g.spells.map((s) => ({ ...s, preparedCount: 0, usedCount: 0 })),
+            }))
+          : prev.spellbook;
+      const spellsKnown = unit === 'day' ? prev.spellsKnown.map((g) => ({ ...g, spells: [] })) : prev.spellsKnown;
 
-      return { ...prev, effectsActive: stillActive, spellsKnown };
+      return { ...prev, effectsActive: stillActive, spellbook, spellsKnown };
     });
   }
 
-  /** Kurze Rast: renews spell slots and clears "bis Rast" effects without advancing any round
+  /** Kurze Rast: clears spell preparations and "bis Rast" effects without advancing any round
    *  counters, unlike "+1 Tag" which also ticks timed effects down (Requirement: rest vs. day-tick
    *  need to be distinguishable — see todos.md). */
   function handleShortRest() {
     setCharacter((prev) => {
       if (!prev) return prev;
       const effectsActive = prev.effectsActive.filter((effect) => effect.durationRounds !== null);
-      const spellsKnown = prev.spellsKnown.map((g) => ({ ...g, spells: g.spells.map((s) => ({ ...s, used: false })) }));
-      return { ...prev, effectsActive, spellsKnown };
+      const spellbook = prev.spellbook.map((g) => ({
+        ...g,
+        spells: g.spells.map((s) => ({ ...s, preparedCount: 0, usedCount: 0 })),
+      }));
+      const spellsKnown = prev.spellsKnown.map((g) => ({ ...g, spells: [] }));
+      return { ...prev, effectsActive, spellbook, spellsKnown };
     });
   }
 
@@ -377,11 +457,24 @@ export function CharacterSheetPage() {
     });
   }
 
+  // Local-state only, for both mock and real characters: the real endpoint (`POST
+  // .../spellbook`) needs a catalog `spell_id`, but this input is free-text name entry — wiring
+  // it up for real needs a spell search/autocomplete picker, a separate piece of work from the
+  // prepare/cast mechanics this page's other spell handlers now implement (see todos.md's
+  // existing note on this gap).
   function handleAddSpellToBook(grade: number, name: string) {
     setCharacter((prev) => {
       if (!prev) return prev;
       const spellbook = prev.spellbook.map((g) =>
-        g.grade !== grade ? g : { ...g, spells: [...g.spells, { key: createId(), name, prepared: false }] },
+        g.grade !== grade
+          ? g
+          : {
+              ...g,
+              spells: [
+                ...g.spells,
+                { key: createId(), name, baseClassId: '', preparedCount: 0, usedCount: 0, description: '', components: '' },
+              ],
+            },
       );
       return { ...prev, spellbook };
     });
@@ -539,8 +632,9 @@ export function CharacterSheetPage() {
             character={character}
             activeTab={skillsTab}
             onTabChange={setSkillsTab}
-            onToggleSpellCast={handleToggleSpellCast}
+            onCastSpell={handleRequestCastSpell}
           />
+          {spellError && <p style={{ color: '#e29a9a' }}>{spellError}</p>}
 
           {gearError && <p style={{ color: '#e29a9a' }}>{gearError}</p>}
           <InventoryTabs
@@ -553,7 +647,8 @@ export function CharacterSheetPage() {
             onRemoveGear={handleRemoveGear}
             onOpenItemDetail={setItemDetailId}
             onSlotChange={handleSlotChange}
-            onTogglePrepare={handleTogglePrepare}
+            onPrepareSpell={handlePrepareSpell}
+            onUnprepareSpell={handleUnprepareSpell}
             onAddSpellToBook={handleAddSpellToBook}
             onRemoveSpellFromBook={handleRemoveSpellFromBook}
           />
@@ -621,6 +716,22 @@ export function CharacterSheetPage() {
         }
         onCancel={() => setUsingAbility(null)}
         onConfirm={handleConfirmUseAbility}
+      />
+
+      <CastSpellModal
+        entry={
+          pendingCastSpell
+            ? {
+                name: pendingCastSpell.spell.name,
+                description: pendingCastSpell.spell.description,
+                components: pendingCastSpell.spell.components,
+                remaining: pendingCastSpell.spell.preparedCount - pendingCastSpell.spell.usedCount,
+                preparedCount: pendingCastSpell.spell.preparedCount,
+              }
+            : null
+        }
+        onCancel={() => setPendingCastSpell(null)}
+        onConfirm={handleConfirmCastSpell}
       />
     </div>
   );

@@ -510,6 +510,15 @@ class SpellbookAdd(BaseModel):
     spell_id: UUID
 
 
+class SpellPrepare(BaseModel):
+    """Body for `POST`/`DELETE .../spells/{spell_id}/prepare` and
+    `POST .../spells/{spell_id}/cast` — same shape as `SpellbookAdd`, but for
+    the in-play prepare/cast actions (`requirements_v2.md` §2.2's "vorbereitet"/
+    "gewirkt" states), not the permanent known-list/spellbook."""
+
+    base_class_id: UUID
+
+
 class EffectActivate(BaseModel):
     """Body for `POST /api/characters/{id}/effects` — activates a persistent
     effect on a character (roadmap slice 5). `source_type` selects which

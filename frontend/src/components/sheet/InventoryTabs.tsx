@@ -21,7 +21,8 @@ interface InventoryTabsProps {
   onRemoveGear: (id: string) => void;
   onOpenItemDetail: (id: string) => void;
   onSlotChange: (key: string, value: string) => void;
-  onTogglePrepare: (grade: number, spellKey: string) => void;
+  onPrepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
+  onUnprepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
   onAddSpellToBook: (grade: number, name: string) => void;
   onRemoveSpellFromBook: (grade: number, spellKey: string) => void;
 }
@@ -36,7 +37,8 @@ export function InventoryTabs({
   onRemoveGear,
   onOpenItemDetail,
   onSlotChange,
-  onTogglePrepare,
+  onPrepareSpell,
+  onUnprepareSpell,
   onAddSpellToBook,
   onRemoveSpellFromBook,
 }: InventoryTabsProps) {
@@ -64,7 +66,8 @@ export function InventoryTabs({
         <TabPanel active={activeTab} tabKey="spellbook">
           <Spellbook
             grades={character.spellbook}
-            onTogglePrepare={onTogglePrepare}
+            onPrepareSpell={onPrepareSpell}
+            onUnprepareSpell={onUnprepareSpell}
             onAddSpell={onAddSpellToBook}
             onRemoveSpell={onRemoveSpellFromBook}
           />

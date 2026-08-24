@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.models import Character
+from app.seed.spell_seed import seed_spells
 
 from test_characters import (
     DEFAULT_ABILITY_SCORES,
@@ -150,12 +151,9 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     # its own (Arkane Schule, Arkane Verbindung, ...), and Barbar now has its
     # own too (Kampfrausch, Schnelle Bewegung, ...), so none of those three
     # can stand in for "no class features" anymore.
-    create_response = client.post(
-        "/api/characters",
-        json=_character_payload(
-            user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}]
-        ),
-    )
+    payload = _character_payload(user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}])
+    seed_spells(db_session)  # base_class_spells_known FKs into base_classes, seeded just above; needed for spellbook below
+    create_response = client.post("/api/characters", json=payload)
     assert create_response.status_code == 201
     character_id = create_response.json()["id"]
 
@@ -167,8 +165,17 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     assert body["feats"] == []
     assert body["traits"] == []
     assert body["classFeatures"] == []
+    # spellsKnown stays empty (nothing prepared yet), but spellbook is no
+    # longer empty for a divine-prepared class now that real prepared-
+    # spellcasting is wired up (`sheet.py`'s `_build_prepared_spell_grades`)
+    # — Druide gets real grade-0/1 rows at level 1 (full 9-grade unlock
+    # table), each starting with 0 prepared copies.
     assert body["spellsKnown"] == []
-    assert body["spellbook"] == []
+    assert body["spellbook"] != []
+    grade0 = next(g for g in body["spellbook"] if g["grade"] == 0)
+    assert grade0["locked"] is False
+    assert grade0["spells"]
+    assert all(s["preparedCount"] == 0 for s in grade0["spells"])
     assert body["gear"] == []
 
 

@@ -39,6 +39,7 @@ from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 from .barbarian import WEAPON_BONUS_DAMAGE_HANDLERS as _BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS
+from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
@@ -64,4 +65,12 @@ ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
 }
 SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
     **_BARBARIAN_SITUATIONAL_SKILL_HANDLERS,
+}
+# Merged the same way, but a flat ability-id -> int map rather than a
+# handler `Callable` — every current entry is a fixed constant that never
+# depends on character state, so a `CharacterContext`-taking function would
+# just be unused indirection (see `rules/spells.py`'s `total_spell_slots`,
+# the one consumer).
+SPELL_SLOT_DELTA: dict[UUID, int] = {
+    **_KAMPFMAGUS_SPELL_SLOT_DELTA,
 }

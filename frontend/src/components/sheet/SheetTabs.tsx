@@ -1,5 +1,5 @@
 import { formatBreakdown } from '../../lib/breakdown';
-import type { Character, DescribedEntry } from '../../types/character';
+import type { Character, DescribedEntry, PreparedSpellRef } from '../../types/character';
 import { InfoButton } from '../primitives/InfoButton';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
@@ -46,10 +46,10 @@ interface SheetTabsProps {
   character: Character;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  onToggleSpellCast: (grade: number, spellKey: string) => void;
+  onCastSpell: (grade: number, spell: PreparedSpellRef) => void;
 }
 
-export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast }: SheetTabsProps) {
+export function SheetTabs({ character, activeTab, onTabChange, onCastSpell }: SheetTabsProps) {
   return (
     <>
       <div className="section-label">Fertigkeiten &amp; Fähigkeiten</div>
@@ -116,40 +116,48 @@ export function SheetTabs({ character, activeTab, onTabChange, onToggleSpellCast
           <div className="spell-hint">
             Vorbereitete Zauber des Tages · zum Wirken anklicken. Auswahl der Vorbereitung erfolgt im Zauberbuch (Ausrüstung).
           </div>
-          {character.spellsKnown.map((grade) => (
-            <div className="spell-tab-block" key={grade.grade}>
-              <div className={`spell-table-row${grade.locked ? ' locked' : ''}`}>
-                <span className="grade">Grad {grade.grade}</span>
-                {grade.locked ? (
-                  <>
-                    <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">—</span></div>
-                    <div className="stat"><span className="stat-label">Frei</span><span className="stat-val">—</span></div>
-                    <div className="stat"><span className="stat-label">Verfügbar ab</span><span className="stat-val">Stufe {grade.availableAtLevel}</span></div>
-                  </>
-                ) : (
-                  <>
-                    <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">{grade.prepared}</span></div>
-                    <div className="stat"><span className="stat-label">Frei</span><span className="stat-val">{grade.spells.filter((s) => !s.used).length}</span></div>
-                    <div className="stat"><span className="stat-label">Gewirkt</span><span className="stat-val">{grade.spells.filter((s) => s.used).length}</span></div>
-                  </>
+          {character.spellsKnown.map((grade) => {
+            const preparedTotal = grade.spells.reduce((sum, s) => sum + s.preparedCount, 0);
+            const usedTotal = grade.spells.reduce((sum, s) => sum + s.usedCount, 0);
+            return (
+              <div className="spell-tab-block" key={grade.grade}>
+                <div className={`spell-table-row${grade.locked ? ' locked' : ''}`}>
+                  <span className="grade">Grad {grade.grade}</span>
+                  {grade.locked ? (
+                    <>
+                      <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">—</span></div>
+                      <div className="stat"><span className="stat-label">Frei</span><span className="stat-val">—</span></div>
+                      <div className="stat"><span className="stat-label">Verfügbar ab</span><span className="stat-val">Stufe {grade.availableAtLevel}</span></div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">{preparedTotal}</span></div>
+                      <div className="stat"><span className="stat-label">Frei</span><span className="stat-val">{preparedTotal - usedTotal}</span></div>
+                      <div className="stat"><span className="stat-label">Gewirkt</span><span className="stat-val">{usedTotal}</span></div>
+                    </>
+                  )}
+                </div>
+                {!grade.locked && (
+                  <div className="chip-row spellprep">
+                    {grade.spells.map((spell) => {
+                      const remaining = spell.preparedCount - spell.usedCount;
+                      return (
+                        <button
+                          key={spell.key}
+                          type="button"
+                          disabled={remaining <= 0}
+                          className={`chip${remaining <= 0 ? ' used' : ''}`}
+                          onClick={() => onCastSpell(grade.grade, spell)}
+                        >
+                          {spell.name} ({remaining}/{spell.preparedCount})
+                        </button>
+                      );
+                    })}
+                  </div>
                 )}
               </div>
-              {!grade.locked && (
-                <div className="chip-row spellprep">
-                  {grade.spells.map((spell) => (
-                    <button
-                      key={spell.key}
-                      type="button"
-                      className={`chip${spell.used ? ' used' : ''}`}
-                      onClick={() => onToggleSpellCast(grade.grade, spell.key)}
-                    >
-                      {spell.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </TabPanel>
       </div>
     </>

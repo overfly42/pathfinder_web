@@ -99,6 +99,7 @@ from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
+from .classes import SPELL_SLOT_DELTA as _CLASS_SPELL_SLOT_DELTA
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_HANDLERS
 from .context import CharacterContext
@@ -133,6 +134,14 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
 # with the same shape would merge in here the same way.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_CLASS_DAILY_LIMITS,
+}
+
+# How much a granted ability id adjusts a class's base spells-per-day table
+# value by (e.g. a Kampfmagus archetype's "Vermindertes Zauberwirken", -1
+# per grade) — read by `rules/spells.py`'s `total_spell_slots`, applied
+# before the ability-modifier bonus. Only class abilities contribute today.
+SPELL_SLOT_DELTAS: dict[UUID, int] = {
+    **_CLASS_SPELL_SLOT_DELTA,
 }
 
 # Which bite/claw/etc.-style natural weapon attack an ability id grants, or

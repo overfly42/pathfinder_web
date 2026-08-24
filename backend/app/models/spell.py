@@ -105,6 +105,15 @@ class BaseClassSpellsKnown(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     level: Mapped[int] = mapped_column(Integer)
     grade: Mapped[int] = mapped_column(Integer)
     count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Real daily spell-slot count at this (class, level, grade) — the piece
+    # `build_arcane_prepared_spells_known_seed.py`'s docstring explicitly
+    # said this app didn't track yet. Unlike `count` (spontaneous casters'
+    # known-spell cap), this is populated for *every* prepared class (arcane
+    # and divine) as well as spontaneous ones — same row, disjoint-purpose
+    # columns, since both are already keyed by exactly `(base_class_id,
+    # level, grade)`. `rules/spells.py`'s `total_spell_slots` adds the
+    # ability-modifier bonus on top of this base value at read time.
+    spells_per_day: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseClassSpellGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -151,3 +160,41 @@ class CharacterSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
 
     spell: Mapped["BaseSpell"] = relationship()
+
+
+class CharacterSpellPreparation(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """How many copies of a spell a character has prepared *today*, and how
+    many of those have been cast today — the roadmap-slice-6 piece
+    `CharacterSpell` can't cover itself, since that table's own
+    `(level_id, base_class_id, spell_id)` uniqueness is about the permanent
+    known-list/spellbook and actively forbids more than one row per spell
+    (see that model's docstring). Preparing the same spell more than once a
+    day is legal in PF1e, so this is a *count* per `(character, base_class,
+    spell)` rather than one row per copy — a stepper's `+`/`-`, not N rows to
+    juggle. `grade` isn't stored here: it's a property of the `(base_class,
+    spell)` pair (`BaseClassSpell`), looked up the same way `sheet.py`
+    already does, not duplicated onto this row.
+
+    Arcane-prepared classes only allow `spell_id`s already in the
+    character's spellbook (`CharacterSpell`); divine-prepared classes allow
+    any spell on the class's full list at an accessible grade (no spellbook)
+    — see `routers/characters.py`'s `prepare_spell`. `used_count <=
+    prepared_count` is a routers-enforced invariant, not a DB constraint:
+    casting increments `used_count`, unpreparing is blocked once it would
+    drop `prepared_count` below `used_count`.
+
+    Rows are wiped outright (not zeroed) on a rest/day-tick
+    (`rules/daily_limits.py`'s `reset_spell_preparations`) — `requirements_v2.md`
+    §2.2 is explicit that prepared spells reset along with consumed ones, so
+    a new day means re-preparing from scratch, same "missing row means
+    nothing prepared" lazy-default convention `CharacterAbilityUsage` uses
+    for its own daily reset."""
+
+    __tablename__ = "character_spell_preparations"
+    __table_args__ = (UniqueConstraint("character_id", "base_class_id", "spell_id"),)
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
+    prepared_count: Mapped[int] = mapped_column(Integer, default=0)
+    used_count: Mapped[int] = mapped_column(Integer, default=0)

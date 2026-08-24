@@ -3,7 +3,8 @@ import type { PreparableSpellGrade } from '../../types/character';
 
 interface SpellbookProps {
   grades: PreparableSpellGrade[];
-  onTogglePrepare: (grade: number, spellKey: string) => void;
+  onPrepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
+  onUnprepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
   onAddSpell: (grade: number, name: string) => void;
   onRemoveSpell: (grade: number, spellKey: string) => void;
 }
@@ -33,15 +34,15 @@ function AddSpellRow({ grade, onAdd }: { grade: number; onAdd: (grade: number, n
   );
 }
 
-export function Spellbook({ grades, onTogglePrepare, onAddSpell, onRemoveSpell }: SpellbookProps) {
+export function Spellbook({ grades, onPrepareSpell, onUnprepareSpell, onAddSpell, onRemoveSpell }: SpellbookProps) {
   return (
     <>
       <div className="spell-hint">
-        Waldläuferzauber · göttlich, vorbereitend aus der vollen Klassenliste (kein Zauberbuch nötig). Auswahl gilt bis
-        zur nächsten Vorbereitung (z. B. nach Rast).
+        Zauberbuch · Zauber für den Tag vorbereiten (mehrfach möglich, bis zum Limit pro Grad). Zurückgesetzt bei +1 Tag.
       </div>
       {grades.map((grade) => {
-        const preparedCount = grade.spells.filter((s) => s.prepared).length;
+        const preparedTotal = grade.spells.reduce((sum, s) => sum + s.preparedCount, 0);
+        const atCap = grade.perDay != null && preparedTotal >= grade.perDay;
         return (
           <div className="spell-tab-block" key={grade.grade}>
             <div className={`spell-table-row${grade.locked ? ' locked' : ''}`}>
@@ -55,7 +56,7 @@ export function Spellbook({ grades, onTogglePrepare, onAddSpell, onRemoveSpell }
               ) : (
                 <>
                   <div className="stat"><span className="stat-label">Pro Tag</span><span className="stat-val">{grade.perDay}</span></div>
-                  <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">{preparedCount} / {grade.maxPrepared}</span></div>
+                  <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">{preparedTotal} / {grade.perDay}</span></div>
                   <div className="stat" />
                 </>
               )}
@@ -65,12 +66,26 @@ export function Spellbook({ grades, onTogglePrepare, onAddSpell, onRemoveSpell }
                 <div className="chip-row spellprep">
                   {grade.spells.map((spell) => (
                     <span key={spell.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <span className={`chip${spell.preparedCount > 0 ? ' active' : ''}`}>
+                        {spell.name} ({spell.preparedCount})
+                      </span>
                       <button
                         type="button"
-                        className={`chip${spell.prepared ? ' active' : ''}`}
-                        onClick={() => onTogglePrepare(grade.grade, spell.key)}
+                        className="gear-del"
+                        title="Vorbereitung entfernen"
+                        disabled={spell.preparedCount <= spell.usedCount}
+                        onClick={() => onUnprepareSpell(grade.grade, spell.key, spell.baseClassId)}
                       >
-                        {spell.name}
+                        −
+                      </button>
+                      <button
+                        type="button"
+                        className="gear-del"
+                        title="Vorbereiten"
+                        disabled={atCap}
+                        onClick={() => onPrepareSpell(grade.grade, spell.key, spell.baseClassId)}
+                      >
+                        +
                       </button>
                       <button
                         type="button"

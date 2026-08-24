@@ -1,1795 +1,4499 @@
 [
   {
+    "id": "67473f62-38da-5d16-bc16-f30a68f80794",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 1,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "448e632b-e0c2-54e6-8e7c-1ba330b4905a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 1,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "279e27f2-8fa2-5f09-a6ff-ee5fd0417db1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 2,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b7ccbd23-fd54-5fdf-b195-a9e4d494e9e9",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 2,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "d35f879c-4a73-5e4a-a911-4a508e7cddc4",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 3,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a91634ac-f252-5164-b67b-93ac5c0f50b7",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 3,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "ae57082e-5d4f-5403-aca4-d9f66b89c316",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 3,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "4b745218-f3dd-5d27-a508-3a86ea544e7b",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 4,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "551b27e2-0fbc-58e9-99bf-94ebe0198434",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 4,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "34d292e5-12ee-5b2b-b8ac-2196f2140738",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 4,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "d044c84f-8cc8-5a9f-bcda-39b6201bcb71",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 5,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2723217d-afba-5a16-857b-078f7185c163",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 5,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "14538155-cd8f-508e-9aac-9cb61ede30b1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 5,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "b9cb1a0a-3a31-5b5a-8925-fb0b7b94c641",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 5,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "b2505170-409a-59df-83d5-67a077201340",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 6,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b4ac0095-819a-5802-907e-e3d62c19b0e7",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 6,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "0fc16c2c-29f4-55ed-b87d-a4d774c69d99",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 6,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "08dd75d7-7a5e-5cd8-90d4-d2fd06f07b33",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 6,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "b48eb4d3-d222-559e-b979-fc84fc283395",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 7,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "126bf1ec-cc62-530a-8e72-d2813b1c2e15",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 7,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "41fb8725-ed29-5a64-aba2-e0352715a818",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 7,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "9d396408-23ac-5a7e-89e2-0ef63b64f3b9",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 7,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "ac164da3-3e6d-5eef-a028-8735fd761cc1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 7,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "e8a0d192-27ab-5e65-a962-3621f0e11f84",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 8,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d2f69542-0c37-5cb7-b134-673f29524b88",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 8,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "3b040da6-e34e-5a56-ac52-d04f6be59b26",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 8,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "85458bb9-9c71-5255-a8aa-dae7bb4b2db2",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 8,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3472b43d-66d7-5525-8348-23328d932a05",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 8,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "119a879c-6157-5ba0-95d3-5d214d8b9d91",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9a3bbdb6-3c95-55dd-8a9d-a37672c3be4a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "adf79fc7-8fc3-52c8-8928-12653ab5d5bf",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "90543caf-63a1-587f-b3a7-e42a1c1024b1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "c6e5c678-b284-5d9c-b416-48acdb2cde72",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "170043ba-4bd5-5d6e-8c3c-0cfe275f6793",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 9,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "d1bc7da1-7590-5f45-8961-9ff40d4bfc8b",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a3e69dc8-3bf9-56d5-aeab-90625fe71f65",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "685dc976-b7f4-5301-b23b-6412cb11199d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a286e84c-4470-56e7-9a8f-e1f0759b1425",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "73862edd-029a-54f6-8b28-ebb869f9aea9",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "950570ea-9e6c-5475-b304-21ce14c1db05",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 10,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "5010fbd4-bf50-58d7-a16f-69bf496937f9",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a8f3103d-59c1-5a57-9ffe-21ba448346ee",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "bf01d52d-94e1-5f99-acbc-27dfd17acb69",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "259dc185-4028-556b-a2ba-5e0c20cf081d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e76aedbf-dcec-52db-9433-81b14aee7a6f",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3095991b-1bf9-5b90-90af-0adb11e8400a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "ae578476-75ce-5913-893d-d15c89117aa2",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 11,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "a0aadf13-566a-5846-87ab-9712db11db06",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2bb4ce07-5331-5978-a1d9-b2154a037a78",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "5a65808c-3072-5d28-b8ab-0d186c262ae8",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "8c97786e-fee6-55d6-9d72-13af7dd4009c",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "5ee0141f-8561-5291-b1d5-a78bfda9a97d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "7a983b34-5701-55ec-91de-b2596cb55301",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "029d936a-4806-5c6c-b361-231989183794",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 12,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "913fb465-49c3-54aa-82ca-778684d43d78",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "936e5f85-0258-5ac0-8a0f-54123331be4e",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7f00061d-1464-53dc-ade6-cbde207310f5",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a4c702f1-9535-5a8b-abce-9ac4e2e88c22",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d6bf5b21-acbc-5be6-b221-7f3d85f54e8e",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4cfdce22-b070-5c8e-a577-1c389e3dae5a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3028801f-f107-52ea-8d43-5930ba65111c",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "6f00227e-57f5-56b6-8780-70fecf0f8e7a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 13,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "06461b39-38a8-57d1-a042-86af0dd99ad1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b4afe7e7-10b0-5a81-a45f-a0560fc02840",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "640e162b-b21f-513c-885d-ff9a39408c13",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d1752b96-cdcc-5cfd-81c3-7ecc67a290f6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "86ec1355-830d-59a3-911c-786583b3d1ff",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "14b82d9a-ee42-5fa8-a223-ad50df6d563f",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "c3a64ff4-50b0-5c7d-b905-1c38e3816620",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3c6b2596-82ac-5504-8a81-9975b3472654",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 14,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "f4852008-a70a-5391-a82a-9edeafc5c611",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "c63737c3-cf51-5362-9c6e-92dbe6db0b38",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1094cede-1184-5b3e-a875-69dd34e00f33",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "accf4d5b-41ad-54c8-bfd3-196018b995b0",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "515d46ab-096c-56d9-abcb-a65cbb549d38",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9f3a3519-7258-5a5b-9240-2a2c06c5c627",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d519ab92-cb41-5dd6-96c1-f10c8369b19f",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "1e294db2-6c9e-5713-be8e-78627a3ff5d6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "8456a693-ab8f-53fa-b0f0-c1e7d48ca467",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 15,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "d5064cfe-f88b-53ec-8f24-cf40477b2abb",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "8533aba3-4e67-5c72-b753-6e11ce7341f4",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "5285960e-0647-5db9-815a-49f130fa7031",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "43a4d40f-cb3f-5711-8a5c-a2f4a8176c91",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "0c8eda9b-3dda-590b-8b90-75d23784e2f6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "70047979-0573-5505-ab8c-c8224d5fc830",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "78178423-573a-5866-a10e-178610de1df6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "2550aea4-460e-5672-a19e-ba5bce74c3cc",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "d0640101-5235-55a6-b0f0-af00fe54bfe1",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 16,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "b9b8fe52-9e93-5fdd-b763-c0711cdaeef9",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "f9cc8bea-6ed3-5d26-90c7-55dcc1419c36",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "42bc2305-7c2b-5743-9d29-b2bf27f2224a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d56938e7-0694-5903-8cd3-90f0f22fc5f0",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "f13e0c5f-1f99-586a-b87f-1a5b9bc664e4",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "f21a8b1d-44d3-5db0-a282-bd7a5bb0fe26",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2cc444f0-5460-51c3-84f3-c87a70edc1b6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "0748d6ff-005c-59e1-ae5f-445d8847fb51",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "16d97879-44b0-517c-9bb9-98b1fffc3e3b",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "c55f4995-f9f2-515d-9995-894de49d2915",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 17,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "31580b1e-e5ad-50ca-9c25-49287e93698b",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "18f6dd32-d50e-5f16-9310-edc851a7775d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "6fbc0f43-646e-5673-9d6c-271550d3436f",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1db5de80-028e-55e6-bc08-3f7bcf2207d4",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e9f4a038-af52-5b8d-b941-7e2ac748262d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7bcc7c70-d8a7-5053-9d89-67de7eae51f6",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "29527083-aef0-58cc-a7c5-cbbc5dd5e98d",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "cdeabc75-1df2-5803-83b3-aad7a17b8902",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "2248a083-fc4d-5154-989f-2860c579d1ac",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "425d26c1-448a-5a99-8b19-d3e507614347",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 18,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "2d769a8c-ba6c-5410-b8a9-17c719b5a8df",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "29b590f8-9c2a-525b-b4aa-1aa2bb138ad5",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "331c8d5b-b989-56cc-aad4-1bb9da201507",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a74e1c34-075f-52b5-82bc-d123fdecd151",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "3a5f7a0f-703b-5180-955d-44a8f6354247",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "8a45a1cf-6e4e-5ce5-a470-5afc8ef8c37a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ad7c44f1-facd-5e34-afb5-473a2c47b60a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "eaf27d33-00e1-5f5b-b01a-0496684f056e",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b4f3d8f5-7014-5a7e-9b3f-619d7c915d9a",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "bde91ce2-6bc9-5fb6-86e8-b78c9f9bc8a7",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 19,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3ff3e4fa-36ff-5329-9cab-e8d73f615902",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ed1c7004-9f13-5913-9650-7aa705c0ef4e",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d74560d2-8454-5519-b068-a9219cfbf501",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "821e44bd-14d5-5479-89a8-6f34b987b4ee",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "f20605be-7d7b-5faf-9b82-e1b47656648c",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "fe8c149a-02ee-5cd1-a8a8-931106aab7d0",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4f46c138-0ea0-59d0-82b9-0ca0d09872f3",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "8c352a49-d157-58be-8763-d65c4d4789e2",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a52a8fe8-c4c4-5376-a391-50fe16645cb2",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "6a72ec3a-2cd3-5fd0-a202-dff76a528050",
+    "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
+    "level": 20,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ae76f3ac-11ee-56a7-8b85-f04b916f8f8c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 1,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "4642395a-f141-5126-938c-6b7351824a2c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 1,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "cfe5c86a-803e-5b41-9729-3d50d3bd296e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 2,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4dc2db84-fddf-53d5-bab3-939af481b8a1",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 2,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "81d1e76a-2db3-579c-a150-9267d5d77a25",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 3,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "49906025-f579-539f-bf1d-9e3d8c7e69aa",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 3,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "98aaa9d9-575d-5510-b84e-d1d8fa371577",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 3,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "c6353c8a-2842-50b4-bd77-6d940afeb853",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 4,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "58a86326-cc46-5ea2-bc78-9ef525fd579b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 4,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "8ac1b9a0-8c9f-5d81-9efd-32908fc003ae",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 4,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3c627eec-38de-52df-a2ac-90511bb2b79e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 5,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "de2409bb-ae32-5879-880b-269acc7fe4f0",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 5,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "99395acb-e072-5f1e-a2c8-764d709bf36e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 5,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "8f758498-5fe2-581b-86d5-3b0b37eebea7",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 5,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "6e306a85-1e10-5ddb-9640-ad38e8608225",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 6,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "96f71299-5e32-50ee-949d-df0e1e24f8e9",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 6,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "bfc4cbaf-a262-502a-a332-4185dfd31c8a",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 6,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "c6afe70c-e103-5326-a4bb-2d3f7320378d",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 6,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "c94a5641-3ae9-5749-9c75-914b4ff7ef40",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 7,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "96a53812-8a84-5cbc-bddc-578cce21b10b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 7,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "47c4df7a-1fb6-5221-b092-b76745258dd2",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 7,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "e1f3cb01-c60a-51e4-a029-ef6c6ee550cb",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 7,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "5780cf34-e5b7-5511-925f-a313ea4aafb3",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 7,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "33931ded-286f-5e16-aed7-eb214c308522",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 8,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1f9abe4e-b970-523b-9c69-a74d786019b4",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 8,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "69e34128-4441-5205-8c0c-49a08e74cb2d",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 8,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "ca7dc2cc-513c-5547-95e7-88f195c5fced",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 8,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3d20f3ae-1b96-51d4-97cb-bf4ffd27f0d7",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 8,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "40e75c93-9884-5515-8437-c866ac2c4ead",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "fa1f6455-b685-5e29-9d82-3aedebcd3ec8",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "5cb415fb-d5d8-5a32-9e01-52bba1d9c1ce",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "77b9efd7-9d3b-567c-9201-d7843c505886",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3b63fc67-4b46-5538-9b79-2c25063ae2fa",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3ced1a69-a560-5eff-b0d9-6324cda1048d",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 9,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "05a6a074-d21d-51f6-a834-14f89ced239a",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d42fa383-527b-5810-8404-795954a8b46f",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4a9dbb24-aabf-5fcc-8c1b-53d21989bcb7",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "bccd7b31-9a3e-5b27-a49f-68a3bfceb8d7",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "85ac58c4-f5c3-571b-b833-d5d2a2a5e1fe",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "fcdae5fe-47e2-5adf-8e8d-83084d42b18b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 10,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "a5787bef-d568-5892-8187-48613f3447ff",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "6a80fdc0-4ee9-54d8-859d-9a793674c188",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "66f81623-a06d-5842-a807-014ecf010fcd",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ac0603fa-b202-5783-ba58-563e2e0fd3d3",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "91cae3de-d879-502f-854a-1a0ae26a7740",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "82f1c5c6-530d-52dc-a192-c84c8c08e9cc",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "68d69840-9019-5758-a3d9-06a881d2af19",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 11,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "0c9be3c4-879f-5143-83db-841129d4fefd",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "33d3a301-0ae0-55bb-9419-87e0fa2325a8",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7d1b0b17-34b0-5eed-b451-13b40ae61c3a",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "08ac1f5d-3fb2-5947-8e23-544e087ad063",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "05edfbbb-2602-55f0-bd9d-bcaead718742",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "293c0184-3798-553f-acf8-d6a02a30ec23",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "95d59d28-599a-5c21-a7df-df364a0cb266",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 12,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "82528408-a154-5b88-88b4-fe8a3b6e3e78",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "fae1d55b-39f7-568c-adbd-105688506c9b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "530f297e-6bc6-5ad3-9665-adcd5fb482e7",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "31af5dfb-e553-5d81-8bca-c578d53062c1",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b9125953-02c8-57f1-ad6a-2b983270c703",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "632801aa-f71a-5855-9d4b-ac4242fcdff6",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "b6ef08f4-bb90-58ac-9d73-8317ae93df63",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "47f32861-71f4-5d4a-ae82-6562c4400e87",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 13,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "36090ceb-faf9-5e76-9628-4b21a16f59cf",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ef29a708-a328-544c-b10e-69ba723eef4e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9fc49a1f-2410-57ff-938d-b4f62fb3b803",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ef607b71-9451-5916-ae50-530cdd91161f",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "343c59ed-1a43-5692-abd2-4e1699998b45",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e3807934-ba97-500b-9da0-3eb166b8e012",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "a36597eb-23f1-5136-b05f-362935fabf3f",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "a91822d0-309d-5e9f-a57f-268e8f13eeb2",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 14,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "7e700860-7b18-544f-9901-7d14d2cc664a",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "23857f11-e926-5930-ad25-4c4150654297",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a5673c97-66a6-54d8-8568-3e11bf8e08c4",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "0bf10c64-2a3a-58fc-b105-20be2279bf81",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "332a3c27-03fa-59a4-8942-35550882cddc",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "026f3701-d549-55b8-bd44-180235722ed6",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "0ccc5de4-df18-5b3b-83c9-34594bf23679",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "d6023519-8274-52ae-9c93-458202e28445",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "4a1bc389-56ae-5cbc-adc4-be9e6f2ef23e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 15,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "5d77685c-72ec-5f02-871a-e0c4a6fc6f26",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d4803405-fa26-52fc-93e8-fa9f4623fec4",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9e87739f-9f6a-5d26-95bb-a3c5c0331bdc",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e3935c87-897b-522d-b864-a37569b83182",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "3596fc81-1e61-5cc0-9b3c-ba2ef3a6466c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "17ca8134-89e5-5a3c-b0ce-2fc0cf6d867c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "250dd82e-1dc1-5591-8d41-fcbe85900d82",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "9bdd422f-e549-5764-b20a-2f6450bbb692",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "628545bd-fb7f-5244-8d91-41a9b21644d9",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 16,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "6652887e-0c05-5eb5-b045-767dc8696148",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "95dc5355-5903-5970-9ce3-a7b235a86148",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "bf30de9e-59eb-5253-b725-4e730e98ba6b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9ff4cdc1-1e67-5ced-a81f-888ead8c43ed",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "24429137-8940-506d-86a1-fcd27c1f3d1c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "889524e3-f6ad-5098-8336-d23eb139ad25",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b8702519-050c-5f63-b57d-088e53fbbf5e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "29d33f40-47c1-5ebe-9120-bc9fd1096c22",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "81974777-c0fd-54b1-ae5f-dd5626c56b4d",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "1ff16ace-68e0-5caa-9b61-32d94a7538ae",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 17,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "8ce6e18c-b8f7-5605-bc63-19c67b2df87d",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "65fcca10-537d-561c-9f0c-ed781d53d9e1",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b6d9fe47-218e-5cf0-95b7-2bded5aa3ccb",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "22a635c2-c893-5e15-8cab-dbbb11e9c846",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4612fad0-9926-55d9-9c1b-8f88e61953c4",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "fca599d9-f708-5a5a-8071-7a5fd20b4ada",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "bdc195aa-df88-5136-9f44-ae705a9b17df",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d28c040c-693d-5c4a-a8ec-004ebb4dc9cc",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "6ac8a479-7b87-5606-819c-a7aa0f12f459",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3c7d2dd9-bd34-5718-9df9-cb7faf356212",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 18,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "a730a7b6-069d-54d7-bf1f-5c0747835155",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e07a5827-dd45-55da-9624-1d75af27485c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ec5b5dc2-4a89-5ba1-9721-79fc4abaaa0c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "cf728419-3ed3-50c9-a98d-dd0d94e08296",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e54c71fd-0944-5ab3-ad57-65a2a9958d8e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ea3a5248-620a-5dcc-89ab-09020cf8a6f3",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "6abbac7e-3b7e-569e-b6b9-67bdb93458f2",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "316800f5-a1dc-5280-a166-fad38cc8fac1",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2a8e5294-8df5-5c26-85ea-2d3c6e5b7f1b",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "3b9a407a-62c2-5b01-9114-112f1aa1c9d9",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 19,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "695f2054-1542-5908-8b38-cbef4111bd2e",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "209a9a79-25e2-5df9-b9e1-b0512d83a2fb",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "de80a1d0-a82e-5062-b9f2-2b8806b6eee2",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "64146015-ee65-5ea0-b34d-0ec406a7a182",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "17d4dfff-b6dc-57c6-add5-082a8531b7c6",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "163218eb-68d7-5c84-8993-6d76e8034061",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "fbfe42b9-0b0b-5f02-87ff-186f3419b0e1",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a4a77672-f71e-5329-8502-d1da66a7f7fd",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 7,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "6b4b5ece-c2d4-5977-8424-2bae1feba339",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 8,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "cf9bef1a-1090-572e-b837-623c1da8733c",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "level": 20,
+    "grade": 9,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
     "id": "4dc16fd8-6d40-5847-a540-5b89553f44f4",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 1,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "e414d14e-0fc3-50f1-81cf-0345dd6877e6",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 1,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "aa611d71-ab45-5396-b04e-34d7d4c9977a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 2,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6007b2f0-b1ab-57a0-8d8d-909731b56fe7",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 2,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "fa535c58-626a-5289-ab92-70ba9119d7a0",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 3,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "26d9a62b-8292-5374-a38b-6d3eb211e1d0",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 3,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "3b5ba63f-1443-5d0b-b8dc-bef8ffd77926",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 3,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "fa3b00d1-5a98-5ef6-b523-97bd867ae532",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 4,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1686d6de-9cb1-5db4-af49-1b98449cde59",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 4,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "31452727-d97b-58bf-baf1-da890a9620ca",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 4,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "d5687615-4fc6-5f6a-b4d2-3120ce42ce0b",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 5,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "f36fd730-745f-5392-926f-981d9500fcbb",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 5,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "fb82977b-542a-5f64-97e5-ad00ae565013",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 5,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "d4368719-59e8-5e86-85b9-8f40c48297fb",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 5,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "dbc04b1f-2acf-5699-98d1-a7ab148b80c0",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 6,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "f04bbc53-bac5-57d1-b4ed-8d83fab194b4",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 6,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "f42a5ea3-f077-54d0-af42-a657829bfdce",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 6,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "6bf9a17e-27cc-5b9f-8012-d0397e8fed67",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 6,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "ad0f493e-b740-584c-a0c7-26f5050579cc",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 7,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "73a59740-174c-5272-8d5d-34c71a0776de",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 7,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "fd5c9a4c-7e3b-5c27-9f9f-75ec9dab2b15",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 7,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "536b19df-2ce4-5601-b123-72aeed750bfa",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 7,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "dc85aacb-69a3-5d69-9d9a-f83112ee2366",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 7,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "3c145eab-2e85-54c7-b1b1-9f2e89a9fef2",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 8,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "a7a70f3a-794a-5f28-8dad-4345b6e87a7f",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 8,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6fb870e8-44f1-59fe-9b91-02b1a08a2c12",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 8,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "cc79ef32-35f6-5fcf-b549-b1fc81223490",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 8,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "9ea80782-8d2f-5e49-a038-ee7b5a29a773",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 8,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "12b3bcb0-44a2-5e6e-a899-98040e65cf88",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "3a1ea2e8-746d-5f28-b0df-0aea2b321101",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "fb6f7706-2324-56d5-ba99-2be2052ed76e",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6ae14680-f23c-5109-bfb0-e5557337d3f8",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "2f97c2b7-17c0-5450-96ba-9dd998b0642d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "df1bc5fa-32fb-597d-8835-fc9a0bff923f",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 9,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "9841ecd7-f46c-5397-bdaf-5b678f165d96",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "20591852-9307-5a03-b7d3-b846047fd460",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2414a920-3b6e-5938-887b-015db6d99483",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "d91e4bf3-2e7c-5065-af18-36627829176a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "018274a2-df94-52de-bb1a-88f490e078d9",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "9895589e-fb71-527d-9f09-d0fd0f833336",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 10,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "48c98f70-3933-54da-a88f-465e3d9facfc",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "5d3b8e0f-28ca-5daf-8458-d31ffe86626b",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6cedf626-13fc-50d6-a8ff-1854d0c91690",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "92eec7c2-2268-5cd8-920d-5020762a3bbc",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "5e99e8b1-480c-595c-b8f6-56069b9f7cf9",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "106ba6fb-bc4b-5919-9c48-0956cb78a852",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "8a6cc96b-6ba2-541c-b26c-02ae87afd17a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 11,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "fb3c9edb-52a4-517d-a47f-21a6ad5786b9",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "612fe69f-d76a-5320-ab6a-476c1b7c9adb",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "3cfad88c-6a9f-5e4c-94f1-2c0a1d1f6fb3",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4f948cb7-a382-5bc3-8f3b-043e4aa666fa",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "04cc9b5b-a343-5c28-8dc7-0760c50c1e79",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "d63670fd-a37f-55ae-ad6d-a827c482cddf",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "654fe912-6f60-54ba-bc3d-9da98449d015",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 12,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "00f5920b-5850-521c-86b4-8a94f31a3a32",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "48ef556e-61b3-5b42-a9fd-10ff3f664486",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "32b5d4f7-b4f7-5241-a98b-1ed0d21cba75",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9c65e33a-7802-5db1-a3d5-d4d3534bbce2",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2bdad615-9c5d-5306-9cc7-98c9e3a8d028",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4fff6b61-d6a0-5976-a743-d3ea87ac8d94",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "ee73c3be-b2ec-525e-9228-4fe9e7c4c36a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "bd50bb04-9d64-5b07-a306-d7fa70ee7065",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 13,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "b9c77b9a-ceda-5bda-8dec-b2fff1653aaf",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "ad457b55-93f0-50d0-bc38-103e18da32dd",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1d7cc4cd-dc48-5236-b6d7-e3d755b504ee",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "620f37b1-046f-510a-b2f9-30bccae16014",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "20a10cc7-0aa1-5895-8d1b-efd13684532f",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "d1193255-d359-5a9d-9827-79a75e6ed381",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "6928c0da-4428-5e47-9633-6c3abc5dc511",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "be4a5c4a-0e19-5030-99ba-a72b1f715dff",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 14,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "902a0835-f219-508d-8da4-cb120fa8cfcf",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "5fad33d6-5eab-5ee4-9e9e-d52faa3d094c",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "113b1dc1-348a-5c63-bdad-e261c78e7305",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "351adfff-0596-5688-91ce-1588654382e5",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "07721a91-57c7-5150-96b9-8ae0bc884345",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2f6c2b51-6ccb-5e75-96ce-b61daba01f7d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "7f5834ea-3ea3-5352-a415-068e2f97f36b",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "6857f00b-dba7-588d-bdce-6a8cb662f079",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "0ac12999-d93d-52be-b5d4-ee7e54fc004d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 15,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "ac05f06b-73b6-529e-b606-8b4925e5b497",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c54ad4c3-5b37-58f3-b321-fb96ae2aea30",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "17401461-6b09-54a5-827f-e44dd6ce35b9",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "832f21f6-c6c9-5d91-a791-2c8278dd637f",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "f886f274-04f8-5bdf-a637-ad723dd1433c",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "0e682799-c5f4-5263-949f-7a7ab0d5ed65",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c8be36c7-2372-579b-bd14-425482a517da",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "1fdd5664-d7c4-51c7-a601-16f862960879",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "491948bb-1a8f-5030-af72-eeb2580c83ca",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 16,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "d6377616-6e5f-538e-8211-2b6bd3bbb95b",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "64fa7488-04cb-5f72-a993-1f0e764378e6",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9bd8bb66-9f6c-50e3-9863-0d1fe3d27c0a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "df4509b4-86fc-50ad-9c29-d9b63953d5c7",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "618d65e4-00af-580f-a8b1-de3bca353adc",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "24e77013-74e9-5ace-9a84-5d864ef606b7",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "0e795e92-c45b-564f-a169-bfdfdcb33176",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2df7d46d-08b2-53c9-85b4-7e9f02dfa4a4",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "9874cf47-fef5-5c45-833c-e424bd27cfeb",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "959d30ad-c85e-502f-905a-b9e10d693387",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 17,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "34725c6c-544b-54b8-b4b4-030bee077add",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "e1514873-a40e-5556-a6ed-7edc23b3f91a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "78d109af-4088-5e4e-afec-eb41211c9c6a",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1494e939-ebcf-5691-b9d8-550008fc96be",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "7b5b4ca0-4913-5ec3-a942-56c8b3a5da69",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "a6451d6f-ce94-5290-871a-88fab82bcfc3",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2e67fe2f-eb3c-5f8e-9a62-2575009579b1",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "986b6a1c-bdb5-574d-a1a4-a2b09eb5dcc2",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "a624dea1-4940-5cbf-8097-7e5236c3d85c",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "a0580bcb-c9c6-5baa-9970-87cc670f7b15",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 18,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "304652af-5df2-5978-8f77-12acda8d0f3d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9bdf3463-36fd-5805-852e-4bc3477d2498",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "79f8c731-34c3-5e71-ad4b-c0bd74fd9a52",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "b4ff45c1-448d-520b-a369-b04bd66f0ac3",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "fffab81b-3f93-5bd3-991f-2d73f639e93d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "7b106ed5-e2cb-5cfe-ba64-756b26466c24",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "cbe7e669-816f-5044-b208-606ba33dc293",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c8042061-161c-5e67-aa5c-457f56f8bed5",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "8ea9dd52-1d64-567d-b314-c1a448b6d384",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "dc7cb245-7c9f-521b-a487-f18b5026cbaf",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 19,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "c4ef5a11-7895-5ede-92f3-19046c0c668d",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "0d4d9b70-476a-5157-9525-4e7b072194c8",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9baf2287-036c-564c-96a2-0b7bd9cd08cf",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "7c5c26ac-4fac-52f5-9d46-df09faeecc16",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9547ba9d-cb01-5bb5-88e4-ad0c09070047",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "b6d65422-da13-5361-a2b5-f2ced7a99917",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "8ca9759c-158f-5379-9ec6-db9e686f245f",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "eb450216-7f04-52c9-b020-a7a1783e027e",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "eba60067-e9d6-5b6f-b520-1915572b30c0",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "035bc74b-a26b-5cf2-863b-bbd1cc644b42",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "level": 20,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "dd56b6d1-31b9-5464-a437-2d96a6b5008b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 1,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "83338e39-0d6c-58a1-8d9d-70bc308f6d04",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 1,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "f4217d4b-cf77-5007-a7ae-0b7d40e34a7a",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 2,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "20de76bb-ed98-5f97-9b21-e6935e8c14c5",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 2,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "832044ce-ab87-53d8-abdd-95bc1eb48b4a",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 3,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "749397d5-b2f0-5f1f-ab8c-6656426aab83",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 3,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "5df79677-a77d-5664-abcb-13266a493312",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 3,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "4c06e8f9-f793-5425-9021-6c10edae6567",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 4,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "06ba94c2-6635-5590-9c4f-f7ff6d2e1666",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 4,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "d6b5d147-caa1-54da-8be6-72f38788e0af",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 4,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "0cd65a93-9353-50c5-8381-93a52b7ce00f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 5,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4cc6e597-ce8c-57cb-90c1-59ecc6b3f48b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 5,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "cc124083-f905-5bce-91ae-10db0ecf8912",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 5,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "67452a8f-f403-59e5-9f5a-b49492472c85",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 5,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "ae6eb244-4e05-5760-a56e-3339ea522b71",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 6,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "d7304f03-3d3d-5211-a85e-72244388435f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 6,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "3b6504f7-e7d4-5da4-a10b-326e0762d313",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 6,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "32ed6369-798a-5f0f-b3de-163cabd37486",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 6,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "d850cffe-4159-53cd-a926-6bd6137afe08",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 7,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "a9e37354-8a38-5c18-aa96-bf268733b7c0",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 7,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "dcdd469a-dc70-5bd8-baf3-c574902e33da",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 7,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "581c2913-052e-579a-969c-a8c5a93d68a0",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 7,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "ad07136e-c89e-52b4-8a7a-630e6b6c7857",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 7,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "65f30a99-8710-55f7-9bd9-0a0a8c1cf292",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 8,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1404881d-0696-52c8-a6b2-2a7fbb431831",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 8,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4bc5836e-9f38-59f9-8806-670f9f761b32",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 8,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "c6e0bdc3-91b1-5a5c-9d53-ab36894908ce",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 8,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "c4d426ec-cdc5-5028-bdc5-d6e0f962d501",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 8,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "a7593a03-92dd-599b-9390-b4b7fe327b91",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "19e949d2-ed91-5ade-b0fa-ed26d2e7a6e8",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6f40679f-192a-5a8a-a6b5-68079915b7f4",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1a7a0bef-fc94-5d06-a25f-824317dc73be",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "dd3d7c00-8916-5c68-97ad-31af62efb1bd",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "892dffbe-b7a2-5e62-826a-e1333e3624b2",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 9,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "06efbeaf-0c16-5769-8235-04381bc82382",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "b39d2002-56e9-519b-8ca5-e01876c7c846",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "18a7e00e-6429-5c72-81d4-d3091699e41f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "39c2bc32-e469-5b06-94c4-81918241f040",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "9e4338d6-4dc2-5e6f-8ba0-62d21bd81092",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "25e3bb91-c652-500a-b0ba-e03eab051f46",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 10,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "b932265f-69ff-5c74-949c-22ba95efa53c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1ac56770-3d7a-5807-8fec-f03c9485a4e0",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "58893696-0a29-5c63-81f5-55e62d350f53",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "cb550a86-9a7b-5444-b1cc-c94f0177ebd4",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "8754565d-a12a-5ec6-a52e-bea4ffe74b4b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "d9aea238-cc91-5957-9bda-a0482e37f10c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "824c2ddd-a80e-5992-bad1-82f39fe4c1c1",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 11,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "217021a1-351f-56be-96be-55b19adf3885",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4023ffe5-6af0-59ed-8f26-d34d092ba2b0",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "875b20be-3e67-54cb-bf9c-b85da80ce3ba",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "3d6fda5d-eb5e-5dde-b695-844192d37e3c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "162ab93a-ed02-5ef0-98f8-7755c3f55b52",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "e95b6832-a677-5c83-8c7c-0064b5a04be9",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "848581f1-e842-5bdf-aeee-c111a7a6a821",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 12,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "a4c22f15-c392-5942-b9ad-b0fdcd3c152b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "135a0478-b181-5976-aafb-1642447cc91b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9e5cc494-75f2-59b1-a968-efcd8c7649e2",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "aa627501-6d52-5fdd-9523-5abef390d13f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "59b3e4a7-685c-5460-9f26-2b3ac77649d1",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "4d087d8b-d51c-505c-976b-3141c39cd9ff",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "c1e330fa-28ec-5f4f-aadf-d946a5ba927f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "eedfdb3e-df0a-5f34-b237-cfcdccbe36de",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 13,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "7b76cc65-53a4-513e-917a-35d253a014ef",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "16fdd49f-63bf-5c76-89ab-37439edb0d7c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "d46b6d34-913d-5a7b-82d6-80d74c18793f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "ff1ca79b-6c64-5595-b39d-22e4bb4cc699",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "6c6fea85-2164-5a52-b19e-63755345d582",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "e43bba9f-f0e8-5b50-9a29-1e6395a2e213",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "77354120-9b26-5d38-a49c-3c07b179f463",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "b30d09b5-250e-530b-9ce5-5079c78f320c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 14,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "ca4af522-63fa-552c-b59a-7e9a7ef1e05e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "91de6821-3443-5721-bd20-7eb9d089a6c9",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "e8443aa1-f8b2-5968-a3ae-9809cb7ef411",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "063acdd0-8cdd-58c0-ba65-0377ad320644",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "b7d15176-90ed-5782-812d-76f072dda1d1",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "0714608c-4d95-5bff-b695-1c69155e13dc",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "fda8416f-5b36-5d1a-b70a-773f9ad6a0a5",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "43a4b87c-efe6-510b-85e8-f8bd7cfa861f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "218f3494-8091-5b18-abbf-10bae81fd977",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 15,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "3dc3efc2-2de3-5c26-abb7-db70c590a666",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "db93d128-769b-5ec4-81cc-fbcff1e28374",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "be1246df-fa6c-5a1f-94ad-2cddbebba4b0",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "572ef248-9dab-544f-bc64-b597efa39f7f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "45a679ab-1328-5a93-8a0d-fc4c7540e7c4",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2443a36b-9ab6-5473-95e0-18cfbb330c3d",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "7cb44fb0-6bb5-5667-bf7f-7c04106a95f3",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "1db6e66b-dc71-53de-955e-b0220cd46594",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "2707f4dd-0d61-543e-a059-54fa7ec9428e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 16,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "af66b90c-ca19-5dbd-b2ca-2a3388392b3f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "76c8be2e-4845-5ebb-ab97-510f100f2a71",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "a0c590d3-4a76-5d3d-b7f6-87314dfe7513",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c56ff1f2-4ec7-590c-aa16-9497e448ae36",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "02cebc8c-a9e6-57f8-bd72-8a647ac66ed3",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "35b1f9e1-5ee4-5c94-b1bb-5c5ce94c911f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "43e15288-4d24-5c7c-954e-b9d089992913",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "0ed7251b-fb8c-5544-b33d-7100c4a9198b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "399898d0-390d-5335-a146-5d1150e2e79b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "a2352b34-0781-5b9d-a069-7bcbdc191cc4",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 17,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 1
   },
   {
     "id": "1a7b12ab-c8b9-59f9-8879-d019ee746f3c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "557bf87e-c071-5850-9f67-76797e684b92",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "afa2a745-525d-50e2-a037-a42fa4f694b1",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "438d34d2-b42f-5a5b-9591-2859bc3cfc3f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c7bc850b-5319-5094-8efa-43d41eb1b748",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "1c508b09-56f7-5423-9b22-f56dd1dfbd5e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "cc7d8c7c-41db-51f8-ad54-7a3b9c3b612c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "ea1c03a4-9cea-530f-ba82-45dc53d2905f",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "966c0984-9856-5581-9fa0-4a12cffe766d",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "446ade62-2276-5d08-aacb-77b982c74c84",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 18,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 2
   },
   {
     "id": "7ded1fae-126c-5815-988a-a4ac61b34e83",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "ddb86d09-9199-5920-80a6-69b201a0fba8",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "755b1aa6-aabc-5a07-a4df-77441ed7f7ec",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2a5c6613-8347-5d62-96d3-05bbf978fb8c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "2358e514-dce4-5e4e-ba35-8911c1ac7458",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "03d9a9aa-04a9-5468-a585-89424d74bd72",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "210d0aa5-ea8b-5c03-84e5-d75097f58137",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "b3c58285-b993-5ec7-9e9e-fdd2e15def1e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "94406411-be9f-5ba8-9665-a3475472b671",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "2e1eb015-0404-5ffd-9541-bc7143898b5d",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 19,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "4180cec4-beee-5d31-8ac7-ef7ad05d6d6e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 0,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "11925a36-511a-5897-a599-d9f5b4d7e3ed",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 1,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "95de80f9-329e-5772-963e-26a9990fca2b",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 2,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "cd119851-3d28-57db-beab-1eb8300b252e",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 3,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "3be43a0e-b346-5c71-83f6-a910e1de11d8",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 4,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "acf4785f-c319-51ca-9a77-cec32d8fd6ea",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 5,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "ff425d71-e66e-5e7e-bfc7-87060076b9fa",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 6,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "9821a938-06ce-5cd5-a8f8-61c2c0dd361c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 7,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "f6c5d4d7-0a92-5ced-ad7f-27184dfd1fd9",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 8,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
   },
   {
     "id": "c4fba9a6-ccf2-521a-9473-53328c60131c",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "level": 20,
     "grade": 9,
-    "count": null
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "728211de-8834-54a1-b5bb-1a7acdcf3614",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 4,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 0
+  },
+  {
+    "id": "bd4b7161-5507-5575-9b5b-2fe2a48ee116",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 5,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "bff98117-4e3f-5558-be17-1021751f387e",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 6,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "880cb83e-1b51-595a-b416-e526d7e07218",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 7,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "015d3073-3bc6-5c00-bf79-7c5616acf9a6",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 7,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 0
+  },
+  {
+    "id": "7d3df47b-4ae6-5017-8373-e558f02623c4",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 8,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "2e643fce-3061-54de-b353-4347f4be23f9",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 8,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "794f752a-7607-5c10-8063-a5ddf61745e4",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 9,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "a5eb5b03-b78a-5d56-bbda-93a90488cc17",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 9,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "f10ac87a-bd6c-5af4-a132-80289b55fde3",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 10,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3a49c1e9-d911-58cf-aeee-e00605876eac",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 10,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "6c13fc56-d24a-5f87-9c8d-b7e9e77b0cfd",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 10,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 0
+  },
+  {
+    "id": "da3a3475-e104-5e9c-8952-42888abc6d40",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 11,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3106a36b-6558-5c03-a6e5-849c786d7cf8",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 11,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "72cd0060-37d1-5a90-b7b0-bc5c51134026",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 11,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "56fbe3ca-32be-51b3-8f6d-81816b86f9d2",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 12,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "4be9d7bf-7230-5fd0-8036-57679d56428c",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 12,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "fb2b998b-02d5-589c-b047-7d3b0b0eed85",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 12,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "9fde770a-4a12-5dfb-b78b-c6af4a7bba6c",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 13,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "ffc2ef21-eedf-5fa6-a93f-f7153207c879",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 13,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "dd977f3e-993c-5108-983a-0786cb780c9e",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 13,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "e38eb602-c56e-5cc6-9811-378fb0eba038",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 13,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 0
+  },
+  {
+    "id": "c1a1ab2a-df46-59d4-b492-08dca262a897",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 14,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "1ed46296-df1a-54a8-a75f-ec74563fb4d5",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 14,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "9f9150f1-942a-5b5d-b761-192ca8a62c2e",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 14,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "d0913105-e7ef-5ed7-b5d5-c14f4d23e98f",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 14,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "f2801b32-54eb-5f28-b43d-0b106cbad045",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 15,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "92c29cca-f27e-53c7-b327-634a0e20a54d",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 15,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "a29f72ac-256f-581e-8d97-e496e72684d6",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 15,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "2fbecc2f-f840-56e8-aeef-2822af40daa8",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 15,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "71c44267-0983-538d-aa00-a7d51a04944b",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 16,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "d33db36a-9007-5afc-aa20-d3dd3600e284",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 16,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "e37ee43e-7767-5135-916c-c207c4a45b1c",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 16,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3939d8fd-9123-50b4-b28b-3fec6c88e651",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 16,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "3af66a94-6232-55cb-b2fe-aea061ddabe5",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 17,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "58e25fbe-e785-5b76-a1cb-3278931b5757",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 17,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "a4cad527-900c-54a9-9580-e0e1d8d4c126",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 17,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "100f37a4-07a6-5f21-a624-98e29e263edf",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 17,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "54a6ab76-954e-539d-a528-1bd734be8183",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 18,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "28f5c290-a341-53bc-b5ca-b4b1165d5876",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 18,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "b672ffff-7928-502b-9659-3c4eb87881cc",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 18,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "bfed771b-cadd-5972-9f26-2f40f6b4b141",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 18,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "d98de843-20c5-5f9e-9c22-c3a016bb27c4",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 19,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1a3cf205-d72f-516c-a490-01b977350a98",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 19,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "2d6d8559-38b2-5b10-85c8-1ecb1d873815",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 19,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "fec5d8a6-50c6-5c84-9d76-da4c9db3297b",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 19,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "546aed8c-43ba-5b21-ae06-d2a865b12fda",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 20,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e06fbe1e-94b9-54ac-9dbc-aa2acb9a5221",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 20,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1dfcca5f-edba-564a-b352-0080e15938c8",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 20,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "4b1659b1-7c2f-532b-bb66-c42eef42ab74",
+    "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
+    "level": 20,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
   },
   {
     "id": "8d63be48-f21c-5126-b162-750bcf3719c9",
@@ -3472,6 +6176,766 @@
     "count": 3
   },
   {
+    "id": "28818949-7daf-5b44-9eb4-86e1487188f6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 1,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "66999ef9-0638-5611-9ead-740bbaaf37a6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 1,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "46189162-a8cd-5d6e-8e31-16644fc7a904",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 2,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "92d58bba-e623-58a3-bfe8-c2e283443ad7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 2,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "d05c0732-087e-5012-9fe5-28eb3eb0fcee",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 3,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "985d9613-61c7-5e3a-9080-2893151982cd",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 3,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "9b866ba9-019b-5d97-b24b-fcadf2155615",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "c20d58f6-ebf4-5505-afeb-f27b23be0c1d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "11e51e6c-8ab0-57d4-879e-d44144cb9dbc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 4,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "1d8f9ff3-cfe6-51e3-876a-2d4b1fa2fb84",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ea52d194-923a-5bf9-ba11-11d7208661d0",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "619fb7a3-6d10-5ff3-9b7c-71e97bbd1597",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 5,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "035dab5c-6b47-597e-a261-3b4972e49481",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "dead2278-3b3e-53cd-aba7-e831b8509077",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "95fbbc55-d6fd-5b7f-93c0-ce03cd7cd528",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 6,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "ccb60cb5-6e28-5a3f-9702-233fd84813ae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "fe816f73-2af5-54da-afc6-21782ef60959",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "5450f340-a142-5514-b8b8-1288b063106a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "60d9cec8-a9ae-562a-baf1-c7d737495766",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 7,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "f76796ed-b664-5d26-a166-8e2973c941e1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "5462877b-9b3c-5a61-9d8f-3b9dcc784272",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1b424f88-87db-5f2c-b060-32729ebb1744",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "65f17275-f191-544c-ae0d-f730fd7adbf7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 8,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "18fd7446-677f-5e6e-90a3-98b2ee5a1fb0",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "f0d64cbd-0d29-5b66-9cb5-cbe2502317dd",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "88e6239e-f0af-50cd-b466-fe5d239d7749",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "a19ba24f-f229-50f5-b85e-e14a4fc1e328",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 9,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "aff083be-cf59-5804-b06c-f0492f7d1f24",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "6794e9ec-a762-5341-a047-dd42ef784b49",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "03cdaf4e-2c75-59cc-9376-30976234c7f2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "486e8c79-81c7-5cb6-9c01-b13a725f50c4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "42c78d12-ee9e-5137-9de5-7f7fb4014c31",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 10,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "760ca310-3783-5719-bfe6-1a50b27624ae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "ca8d3867-d573-5b5a-9873-35f77ed9d850",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a1730617-a0d2-5213-b7a4-45cbd15330a8",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ad9443b0-128a-5015-a310-16614a87c28e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "16832f16-b566-5b73-9b65-47778eb55242",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 11,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "eb1885bb-294b-5218-8894-c907c73c6daa",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a3a097bf-905d-5df3-8f6c-53e561c646e2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "714a8320-0ad8-5bb0-8bc3-616a8bccd19d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "f5beab55-b25b-50c6-9b5e-47e59db17f73",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "cdafe1f7-25a5-5532-ad0a-37b34484ce77",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 12,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "743415a4-8e98-5f2d-9d38-d2fd5edfd3a7",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "4e1816a7-8453-5ba0-a019-61e8b49a60e3",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "7a854bc8-a648-50a9-9709-ff41738e1f4a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "22ae1b6b-4526-5352-b98b-e61e598e3629",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "c4103079-687d-59ef-8f0a-8ab862e74563",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "24de877d-3ae6-58d9-b980-f62b002360f4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 13,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "4b6ba3ff-edf3-5ad2-b394-a26f2c5a02d4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "33a73ea2-6703-533d-9e97-dbab8b04845e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "f51a05f4-aeec-5d36-b35c-190c4107f187",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c5618f8e-9e93-5ff6-b4e3-ca1e19d2177d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2dd8d31c-b80f-5783-9cf9-3f2e6231f9e1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "b40e9c14-8389-5ec4-99b5-166aebc560a2",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 14,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "0c0b95a3-2364-5e93-bef0-1930aedb2323",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "1700193b-046b-5e79-8041-1e4cf75ceb3e",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "7e1040da-ba98-5b38-9827-49418e7a0d44",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "137ccb25-e3fa-5c23-8b4d-66c13b7e0c94",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a81e8a44-e39e-5904-9d75-e3aa48aa679a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2748e286-adca-5cc8-bbc3-9a51971f32cc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 15,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "bce34daf-bff1-5cc3-b84a-3f3b9560de98",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "8ec78859-594d-5b76-b545-2790b2b542bc",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "27bf3ad6-427d-557c-9f27-cb83d3e283f4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "adaddb0e-1321-556b-bf6d-73172ffc7f3c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "813a9a25-01e0-5b22-a968-43082c92a85c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ffbd1f10-72b3-592d-8333-2c1386f8da35",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "899cebbc-73c8-5170-a4bd-63a9ed451868",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 16,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 1
+  },
+  {
+    "id": "ffdc661d-c70c-5a56-a1e7-6de5b6f19914",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "030c79a5-dc51-5456-8678-ff87a7ef8d07",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c959fe08-4b79-5b0d-8f94-18f0738b2bef",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "40e9eb95-48af-5cd5-8716-0b0545fb7310",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "d4019ca5-d104-556a-a504-dfdd5080940d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2aac5115-7fee-5815-81df-1f84357430c6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "0d0321e6-d05a-5cc9-b245-57b1a04e6336",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 17,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 2
+  },
+  {
+    "id": "d2335788-4a69-5568-ac65-51c7d6ade88f",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "e95479a3-a09a-552c-99a3-3233285f6c67",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "56b61df3-09ea-5369-a9c4-9ab14c5014e6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "b22caebf-e31b-5711-b244-71b40608f8a1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "ca1d1a55-e543-5dc5-a2e7-5cb8b3703c3b",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a8ea1c15-24de-5d59-aeb5-73431c102500",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "154052ba-5709-5745-8c6f-1731c54ece47",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 18,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 3
+  },
+  {
+    "id": "be46c3cd-5e5c-59f9-8f76-2fca1cd5d46f",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "e6073781-12f5-5acc-8da7-5d8bde44749c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a1e54f78-b7fa-58bd-9cc9-b424bcd47dc1",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "206880f8-92f8-515c-ac68-88b1212a3d44",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "a10d5778-9fe6-5702-8895-464915d54fdb",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "084b3545-1f7d-5132-a9d2-6ab10f9d516d",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "4c5541aa-a51c-5757-bfc1-b6490d8dc62c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 19,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 4
+  },
+  {
+    "id": "4a073849-2f62-5efb-a4e7-63a70d7185a4",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 0,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "d10e33d8-4c44-5a22-bd22-6a9172a0ad5b",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 1,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "69d1a093-068c-52f8-9610-2f8bfeeca6ba",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 2,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "92cf3844-f985-5f0f-aafa-44921246d90c",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 3,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c7de7714-8b92-5650-ba41-cba2f24b4eae",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 4,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "bf3d45c5-75d3-5869-ba63-e93694b66b9a",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 5,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
+    "id": "d2989345-3182-506a-929c-11b2fe4098a6",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "level": 20,
+    "grade": 6,
+    "count": null,
+    "spells_per_day": 5
+  },
+  {
     "id": "7878053d-c283-58f4-9c5c-8e73b43da226",
     "base_class_id": "d86ed793-9019-4df6-a004-ded7e21c760b",
     "level": 1,
@@ -4135,670 +7599,5 @@
     "level": 20,
     "grade": 6,
     "count": 5
-  },
-  {
-    "id": "28818949-7daf-5b44-9eb4-86e1487188f6",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 1,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "66999ef9-0638-5611-9ead-740bbaaf37a6",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 1,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "46189162-a8cd-5d6e-8e31-16644fc7a904",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 2,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "92d58bba-e623-58a3-bfe8-c2e283443ad7",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 2,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "d05c0732-087e-5012-9fe5-28eb3eb0fcee",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 3,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "985d9613-61c7-5e3a-9080-2893151982cd",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 3,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "9b866ba9-019b-5d97-b24b-fcadf2155615",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 4,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "c20d58f6-ebf4-5505-afeb-f27b23be0c1d",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 4,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "11e51e6c-8ab0-57d4-879e-d44144cb9dbc",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 4,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "1d8f9ff3-cfe6-51e3-876a-2d4b1fa2fb84",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 5,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "ea52d194-923a-5bf9-ba11-11d7208661d0",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 5,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "619fb7a3-6d10-5ff3-9b7c-71e97bbd1597",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 5,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "035dab5c-6b47-597e-a261-3b4972e49481",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 6,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "dead2278-3b3e-53cd-aba7-e831b8509077",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 6,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "95fbbc55-d6fd-5b7f-93c0-ce03cd7cd528",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 6,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "ccb60cb5-6e28-5a3f-9702-233fd84813ae",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 7,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "fe816f73-2af5-54da-afc6-21782ef60959",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 7,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "5450f340-a142-5514-b8b8-1288b063106a",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 7,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "60d9cec8-a9ae-562a-baf1-c7d737495766",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 7,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "f76796ed-b664-5d26-a166-8e2973c941e1",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 8,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "5462877b-9b3c-5a61-9d8f-3b9dcc784272",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 8,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "1b424f88-87db-5f2c-b060-32729ebb1744",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 8,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "65f17275-f191-544c-ae0d-f730fd7adbf7",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 8,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "18fd7446-677f-5e6e-90a3-98b2ee5a1fb0",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 9,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "f0d64cbd-0d29-5b66-9cb5-cbe2502317dd",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 9,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "88e6239e-f0af-50cd-b466-fe5d239d7749",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 9,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "a19ba24f-f229-50f5-b85e-e14a4fc1e328",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 9,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "aff083be-cf59-5804-b06c-f0492f7d1f24",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 10,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "6794e9ec-a762-5341-a047-dd42ef784b49",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 10,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "03cdaf4e-2c75-59cc-9376-30976234c7f2",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 10,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "486e8c79-81c7-5cb6-9c01-b13a725f50c4",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 10,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "42c78d12-ee9e-5137-9de5-7f7fb4014c31",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 10,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "760ca310-3783-5719-bfe6-1a50b27624ae",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 11,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "ca8d3867-d573-5b5a-9873-35f77ed9d850",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 11,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "a1730617-a0d2-5213-b7a4-45cbd15330a8",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 11,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "ad9443b0-128a-5015-a310-16614a87c28e",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 11,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "16832f16-b566-5b73-9b65-47778eb55242",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 11,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "eb1885bb-294b-5218-8894-c907c73c6daa",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 12,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "a3a097bf-905d-5df3-8f6c-53e561c646e2",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 12,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "714a8320-0ad8-5bb0-8bc3-616a8bccd19d",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 12,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "f5beab55-b25b-50c6-9b5e-47e59db17f73",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 12,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "cdafe1f7-25a5-5532-ad0a-37b34484ce77",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 12,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "743415a4-8e98-5f2d-9d38-d2fd5edfd3a7",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "4e1816a7-8453-5ba0-a019-61e8b49a60e3",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "7a854bc8-a648-50a9-9709-ff41738e1f4a",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "22ae1b6b-4526-5352-b98b-e61e598e3629",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "c4103079-687d-59ef-8f0a-8ab862e74563",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "24de877d-3ae6-58d9-b980-f62b002360f4",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 13,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "4b6ba3ff-edf3-5ad2-b394-a26f2c5a02d4",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "33a73ea2-6703-533d-9e97-dbab8b04845e",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "f51a05f4-aeec-5d36-b35c-190c4107f187",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "c5618f8e-9e93-5ff6-b4e3-ca1e19d2177d",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "2dd8d31c-b80f-5783-9cf9-3f2e6231f9e1",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "b40e9c14-8389-5ec4-99b5-166aebc560a2",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 14,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "0c0b95a3-2364-5e93-bef0-1930aedb2323",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "1700193b-046b-5e79-8041-1e4cf75ceb3e",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "7e1040da-ba98-5b38-9827-49418e7a0d44",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "137ccb25-e3fa-5c23-8b4d-66c13b7e0c94",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "a81e8a44-e39e-5904-9d75-e3aa48aa679a",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "2748e286-adca-5cc8-bbc3-9a51971f32cc",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 15,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "bce34daf-bff1-5cc3-b84a-3f3b9560de98",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "8ec78859-594d-5b76-b545-2790b2b542bc",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "27bf3ad6-427d-557c-9f27-cb83d3e283f4",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "adaddb0e-1321-556b-bf6d-73172ffc7f3c",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "813a9a25-01e0-5b22-a968-43082c92a85c",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "ffbd1f10-72b3-592d-8333-2c1386f8da35",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "899cebbc-73c8-5170-a4bd-63a9ed451868",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 16,
-    "grade": 6,
-    "count": null
-  },
-  {
-    "id": "ffdc661d-c70c-5a56-a1e7-6de5b6f19914",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "030c79a5-dc51-5456-8678-ff87a7ef8d07",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "c959fe08-4b79-5b0d-8f94-18f0738b2bef",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "40e9eb95-48af-5cd5-8716-0b0545fb7310",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "d4019ca5-d104-556a-a504-dfdd5080940d",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "2aac5115-7fee-5815-81df-1f84357430c6",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "0d0321e6-d05a-5cc9-b245-57b1a04e6336",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 17,
-    "grade": 6,
-    "count": null
-  },
-  {
-    "id": "d2335788-4a69-5568-ac65-51c7d6ade88f",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "e95479a3-a09a-552c-99a3-3233285f6c67",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "56b61df3-09ea-5369-a9c4-9ab14c5014e6",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "b22caebf-e31b-5711-b244-71b40608f8a1",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "ca1d1a55-e543-5dc5-a2e7-5cb8b3703c3b",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "a8ea1c15-24de-5d59-aeb5-73431c102500",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "154052ba-5709-5745-8c6f-1731c54ece47",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 18,
-    "grade": 6,
-    "count": null
-  },
-  {
-    "id": "be46c3cd-5e5c-59f9-8f76-2fca1cd5d46f",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "e6073781-12f5-5acc-8da7-5d8bde44749c",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "a1e54f78-b7fa-58bd-9cc9-b424bcd47dc1",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "206880f8-92f8-515c-ac68-88b1212a3d44",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "a10d5778-9fe6-5702-8895-464915d54fdb",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "084b3545-1f7d-5132-a9d2-6ab10f9d516d",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "4c5541aa-a51c-5757-bfc1-b6490d8dc62c",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 19,
-    "grade": 6,
-    "count": null
-  },
-  {
-    "id": "4a073849-2f62-5efb-a4e7-63a70d7185a4",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 0,
-    "count": null
-  },
-  {
-    "id": "d10e33d8-4c44-5a22-bd22-6a9172a0ad5b",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 1,
-    "count": null
-  },
-  {
-    "id": "69d1a093-068c-52f8-9610-2f8bfeeca6ba",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 2,
-    "count": null
-  },
-  {
-    "id": "92cf3844-f985-5f0f-aafa-44921246d90c",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 3,
-    "count": null
-  },
-  {
-    "id": "c7de7714-8b92-5650-ba41-cba2f24b4eae",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 4,
-    "count": null
-  },
-  {
-    "id": "bf3d45c5-75d3-5869-ba63-e93694b66b9a",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 5,
-    "count": null
-  },
-  {
-    "id": "d2989345-3182-506a-929c-11b2fe4098a6",
-    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
-    "level": 20,
-    "grade": 6,
-    "count": null
   }
 ]
