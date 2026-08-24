@@ -161,7 +161,17 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     assert response.status_code == 200
     body = response.json()
 
-    assert body["skills"] == []
+    # `skills` itself is never empty once `base_skills` is seeded — `sheet.py`'s
+    # `_build_skills` lists every catalog skill with its baseline
+    # ability-modifier value regardless of ranks invested (untrained skills
+    # are still usable in PF1e), unlike `feats`/`traits`/`classFeatures`
+    # below, which only list what the character actually has. "Nothing
+    # invested" instead shows as no skill carrying a "Ränge"/"Klassenfertigkeit"
+    # breakdown line (0 ranks, so no class-skill bonus applies either).
+    assert body["skills"]
+    assert not any(
+        b["label"] in ("Ränge", "Klassenfertigkeit") for entry in body["skills"] for b in entry.get("breakdown", [])
+    )
     assert body["feats"] == []
     assert body["traits"] == []
     assert body["classFeatures"] == []

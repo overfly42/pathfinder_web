@@ -4,6 +4,9 @@ from sqlalchemy.orm import Session
 from test_characters import _character_payload, _create_user, _elf_race_id, _feat_id, _feat_selection, _human_race_id, _item_id
 from test_items import _create_character, _weapon_ability_id
 
+KAMPFMAGUS = {"class_name": "Kampfmagus", "level": 1}
+KENSAI = {"class_name": "Kampfmagus", "level": 1, "archetypes": ["Kensai"]}
+
 
 def _equip(client: TestClient, character_id: str, slot_key: str, item_id: str | None) -> dict:
     response = client.put(f"/api/characters/{character_id}/slots/{slot_key}", json={"item_id": item_id})
@@ -224,3 +227,76 @@ def test_attack_bonus_shows_iterative_attacks_at_high_bab(client: TestClient, db
     sheet = client.get(f"/api/characters/{character_id}").json()
     # bab 6 + str mod 0 (Elf ST 10) = +6, second attack at +1.
     assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+6/+1"
+
+
+def _create_character_with_class(client: TestClient, db_session: Session, class_entry: dict) -> str:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    payload = _character_payload(
+        user_id, race_id, db_session, classes=[class_entry], flex_ability="CH"  # leaves ST 10 (mod +0) apart
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201, response.text
+    return response.json()["id"]
+
+
+def test_kampfmagus_proficient_with_martial_weapon_has_no_penalty(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character_with_class(client, db_session, KAMPFMAGUS)
+    langschwert_id = _item_id(client, db_session, "Langschwert")  # martial
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    _equip(client, character_id, "hauptwaffe", langschwert_id)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    # Kampfmagus is proficient with simple + martial weapons -> no malus.
+    # bab 0 (3/4 BAB progression at level 1) + str mod 0 (human ST 10) = +0.
+    assert weapon["attackBonus"] == "+0"
+    assert "note" not in weapon
+
+
+def test_kampfmagus_not_proficient_with_exotic_weapon_gets_attack_penalty(
+    client: TestClient, db_session: Session
+) -> None:
+    character_id = _create_character_with_class(client, db_session, KAMPFMAGUS)
+    bastardschwert_id = _item_id(client, db_session, "Bastardschwert")  # exotic
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": bastardschwert_id, "quantity": 1})
+    _equip(client, character_id, "hauptwaffe", bastardschwert_id)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    # bab 0 + str mod 0 - 4 (nicht geübt, Kampfmagus hat keine Kompetenz mit
+    # exotischen Waffen) = -4.
+    assert weapon["attackBonus"] == "-4"
+    assert weapon["note"] == "Nicht geübt (-4)"
+
+
+def test_kensai_proficient_with_simple_weapon_has_no_penalty(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character_with_class(client, db_session, KENSAI)
+    kampfstab_id = _item_id(client, db_session, "Kampfstab")  # simple
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": kampfstab_id, "quantity": 1})
+    _equip(client, character_id, "hauptwaffe", kampfstab_id)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    assert weapon["attackBonus"] == "+0"  # bab 0 + str mod 0
+    assert "note" not in weapon
+
+
+def test_kensai_not_proficient_with_martial_weapon_gets_attack_penalty(
+    client: TestClient, db_session: Session
+) -> None:
+    """Kensai's own "Umgang mit Waffen und Rüstungen (Kensai)" replaces the
+    Kampfmagus base ability with just simple weapons plus a free choice of
+    one martial/exotic weapon (PRD text) — the free single-weapon choice
+    isn't modeled (no sub-choice mechanism for class abilities, see
+    `class_ability_granted_feat_seed.py`'s docstring), so a Kensai currently
+    reads as non-proficient with any martial weapon, a documented gap."""
+    character_id = _create_character_with_class(client, db_session, KENSAI)
+    langschwert_id = _item_id(client, db_session, "Langschwert")  # martial
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    _equip(client, character_id, "hauptwaffe", langschwert_id)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    assert weapon["attackBonus"] == "-4"  # bab 0 + str mod 0 - 4 (nicht geübt)
+    assert weapon["note"] == "Nicht geübt (-4)"

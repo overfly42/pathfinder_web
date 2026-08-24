@@ -6,10 +6,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import BaseClassAbilityGrantedFeat, BaseFeat, Character
+from ..models import BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
 from ..rules.handlers import HANDLERS
+from ..rules.proficiency import effective_proficiency_feat_ids
 from ..sheet import granted_class_ability_ids
 from .races import race_ability_score_mods
 
@@ -33,16 +34,12 @@ def _character_prereq_state(db: Session, character: Character) -> CharacterPrere
     # `BaseClassAbilityGrantedFeat`'s docstring — so a downstream feat's
     # `BaseFeatRequiredFeat` row (e.g. Medium Armor Proficiency requiring
     # Light) is satisfied without spending a pick on a proficiency the
-    # character's class already grants for free.
-    granted_feat_ids = {
-        row.feat_id
-        for row in db.scalars(select(BaseClassAbilityGrantedFeat))
-        if row.ability_id in granted_ability_ids
-    }
+    # character's class already grants for free. Shared with `sheet.py`'s
+    # weapon-attack proficiency malus, which needs the identical merge.
     return CharacterPrereqState(
         ability_scores=effective_scores,
         bab=character.bab,
-        feat_ids=frozenset(character.feat_ids) | granted_feat_ids,
+        feat_ids=effective_proficiency_feat_ids(db, frozenset(character.feat_ids), granted_ability_ids),
         granted_ability_ids=granted_ability_ids,
         level_counts_by_root_id=level_counts_by_root_id,
         race_id=character.race_id,

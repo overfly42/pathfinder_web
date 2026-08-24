@@ -85,6 +85,17 @@ class CharacterContext:
     # handler at all, instead of every such handler re-checking `has_active`
     # on its own hardcoded "what gates me" id.
     requires_active_ability_id: dict[UUID, UUID] = field(default_factory=dict)
+    # `feat_ids` plus every proficiency feat granted automatically by a
+    # class ability (`rules/proficiency.py`'s `effective_proficiency_feat_ids`,
+    # same merge `routers/feats.py`'s prerequisite checks already do) — the
+    # raw input `rules/proficiency.py`'s `known_weapon_types` maps to the
+    # `BaseItem.weapon_type` categories a character is actually proficient
+    # with. Kept separate from `feat_ids` itself rather than folding the
+    # merge in there: `feat_ids` means "feats this character actually
+    # picked" everywhere else on this dataclass (e.g. Waffenfinesse's own
+    # check in `sheet.py`), and conflating the two would silently change
+    # that meaning for every existing reader.
+    proficiency_feat_ids: frozenset[UUID] = frozenset()
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced

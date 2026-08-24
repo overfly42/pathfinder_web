@@ -15,6 +15,7 @@ from app.models import (
 )
 from app.rules.context import CharacterContext
 from app.rules.race_abilities import HANDLERS
+from app.seed.class_ability_granted_feat_seed import seed_class_ability_granted_feats
 from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
@@ -137,6 +138,9 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
     seed_classes(db_session)  # base_class_option_groups/base_class_ability_grants FK into base_classes
     seed_class_options(db_session)
     seed_class_abilities(db_session)
+    seed_skills(db_session)  # base_feat_required_skills FKs into base_skills
+    seed_feats(db_session)  # base_class_ability_granted_feats FKs into base_feats
+    seed_class_ability_granted_feats(db_session)  # weapon/armor proficiency data sheet.py's malus needs
     classes = overrides.get("classes", [{"class_name": "Waldläufer", "level": 1}])
     total_level = sum(selection["level"] for selection in classes)
 

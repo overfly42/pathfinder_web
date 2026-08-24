@@ -37,6 +37,11 @@ Bei Mehrklassencharakteren werden die Werte aus allen Klassen kumulativ berechne
 - Spontanes Zauberwirken (z. B. Hexenmeister, Barde, Orakel): Es existiert eine kurze, feste Liste bekannter Zauber, die ohne tägliche Vorbereitung direkt gegen die verfügbaren Zauberplätze gewirkt werden. Die bekannte Liste wird ebenfalls wie eine Inventarliste verwaltet und ändert sich in der Regel nur bei Stufenaufstieg.
 - Für vorbereitete bzw. bekannte Zauber muss zwischen drei Zuständen unterschieden werden: nicht vorbereitet, vorbereitet (bzw. bekannt und verfügbar) sowie gewirkt/verbraucht für den aktuellen Tag.
 - Verbrauchte bzw. vorbereitete Zauber werden zeit- oder ereignisbasiert zurückgesetzt (z. B. nach einer Rast), analog zu anderen Zuständen und Effekten (siehe Abschnitt 2).
+- Ein Zauber kann mehrfach am selben Tag vorbereitet werden (mehrere Plätze desselben Zaubers); jede vorbereitete Kopie wird beim Wirken einzeln verbraucht.
+- Grad-0-Zauber (Zaubertricks/Orisons) werden zwar wie jeder andere Grad mit einer festen Anzahl täglicher Plätze vorbereitet, sind aber beim Wirken selbst **nie** verbraucht — ein einmal vorbereiteter Zaubertrick kann am selben Tag beliebig oft gewirkt werden.
+- Die Anzahl täglich verfügbarer Zauberplätze pro Grad ergibt sich aus der klassenspezifischen Basistabelle plus Bonuszaubern nach dem zauberrelevanten Attributsmodifikator, gemäß der Tabelle "Attributsmodifikatoren und zusätzliche Zauber pro Tag" (Bonuszauber ab Attributsmodifikator ≥ Zaubergrad, Anzahl steigt alle 4 weiteren Modifikatorpunkte um 1).
+- **Abweichend von RAW** (bewusste Projektentscheidung): Ein Bonuszauber für einen Zaubergrad, den die Klasse auf der aktuellen Stufe noch nicht erreicht hat, verfällt nicht, sondern wird dem höchsten aktuell zugänglichen Zaubergrad gutgeschrieben. Gilt für jeden vorbereitenden Zauberwirker, nicht nur für Klassen/Archetypen mit vermindertem Zauberwirken.
+- Archetypen mit vermindertem Zauberwirken (z. B. Kampfmagus: Kensai, Seelenschmied, Skirnir, Zauberstreiter) reduzieren die Basis-Zauberplätze pro Grad um einen festen Betrag (Minimum 0), bevor der Attributs-Bonuszauber addiert wird.
 
 ### 2.3 Ausrüstung
 - Gegenstände im Inventar (Waffen, Rüstung, Schilde u. a.) besitzen typspezifische Stat-Felder (z. B. Waffentyp/Schaden, Rüstungstyp/AC-Bonus und -Malus).

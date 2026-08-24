@@ -91,6 +91,7 @@ from .rules.handlers import (
     situational_skill_notes,
 )
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
+from .rules.proficiency import NOT_PROFICIENT_ATTACK_PENALTY, effective_proficiency_feat_ids, known_weapon_types
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import known_grades, total_spell_slots
@@ -127,6 +128,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
     granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
+    proficiency_feat_ids = effective_proficiency_feat_ids(db, frozenset(character.feat_ids), granted_ability_ids)
 
     # `requires_active_ability_id` for whichever of this character's granted
     # abilities actually have it set (most don't — `.is_not(None)` keeps this
@@ -165,6 +167,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         level_counts_by_root_id=level_counts_by_root_id,
         favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
         requires_active_ability_id=requires_active_ability_id,
+        proficiency_feat_ids=proficiency_feat_ids,
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -1808,9 +1811,18 @@ def _build_weapon_attacks(
     ability's own extra melee damage die while active (e.g. Elementare
     Kampfhaltung's energy damage while raging), same shape as gear's own
     `specialAbilities`-sourced `bonusDamage` just below, computed once here
-    since it doesn't vary per weapon slot."""
+    since it doesn't vary per weapon slot.
+
+    A weapon whose `weapon_type` isn't among `context.proficiency_feat_ids`'
+    resolved categories (`rules/proficiency.py`'s `known_weapon_types`) takes
+    PF1e's flat -4 non-proficient penalty on the attack roll, surfaced as a
+    "Nicht geübt" note — the one part of "Umgang mit Waffen und Rüstungen"
+    that's actually computed today; the armor-proficiency/arcane-spell-
+    failure parts of that same ability stay text-only (no ACP or spell-
+    failure system exists yet, see `todos.md`)."""
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
     class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
+    known_types = known_weapon_types(context.proficiency_feat_ids)
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
         gear_row = gear_by_slot.get(slot_key)
@@ -1824,6 +1836,12 @@ def _build_weapon_attacks(
         )
         power_attack_penalty = power_attack[0] if power_attack is not None else 0
         power_attack_damage = power_attack[1] if power_attack is not None else 0
+        # A weapon's own `weapon_type` (simple/martial/exotic) unset means
+        # its proficiency category isn't catalogued — no malus rather than
+        # a false positive (`rules/proficiency.py`'s module docstring, e.g.
+        # firearms today).
+        is_proficient = item.weapon_type is None or item.weapon_type in known_types
+        proficiency_penalty = 0 if is_proficient else NOT_PROFICIENT_ATTACK_PENALTY
 
         if is_ranged:
             attack_ability_mod = dex_mod
@@ -1832,7 +1850,7 @@ def _build_weapon_attacks(
         else:
             attack_ability_mod = str_mod + melee_attack_bonus
         attack_bonuses = _iterative_attack_bonuses(
-            bab, bab + attack_ability_mod + gear_row.enhancement + power_attack_penalty
+            bab, bab + attack_ability_mod + gear_row.enhancement + power_attack_penalty + proficiency_penalty
         )
 
         damage_parts: list[str] = []
@@ -1863,8 +1881,13 @@ def _build_weapon_attacks(
             "attackBonus": "/".join(_fmt(bonus) for bonus in attack_bonuses),
             "damage": " + ".join(damage_parts) if damage_parts else "—",
         }
+        notes = []
         if power_attack is not None:
-            result["note"] = "Heftiger Angriff aktiv"
+            notes.append("Heftiger Angriff aktiv")
+        if not is_proficient:
+            notes.append(f"Nicht geübt ({_fmt(NOT_PROFICIENT_ATTACK_PENALTY)})")
+        if notes:
+            result["note"] = " · ".join(notes)
         results.append(result)
     return results
 
