@@ -94,6 +94,7 @@ Three scopes a conditional bonus's *trigger* can take, and how each is modeled:
 from collections.abc import Callable, Iterable
 from uuid import UUID
 
+from .classes import APPLIED_OUTSIDE_HANDLERS_IDS as _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
 from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
@@ -104,6 +105,7 @@ from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_HANDLERS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
+from .feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS as _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
 from .feats import HANDLERS as _FEAT_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
@@ -194,6 +196,46 @@ TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
 ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
     **_CLASS_ON_END,
 }
+
+# Ability ids with a real, computed effect that fits none of the typed
+# registries above — a per-weapon-slot decision `sheet.py` makes directly
+# rather than through any `Callable` lookup at all (Waffenfinesse/
+# Waffenfokus, `rules/feats.py`'s own docstrings; Kensai's free weapon
+# choice and its free Weapon Focus grant, `rules/classes/kampfmagus.py`'s
+# `APPLIED_OUTSIDE_HANDLERS_IDS`). Exists solely so `has_mechanical_effect`
+# below has one place to check for "genuinely computed, just not in any of
+# the dicts above" — nothing else reads this set directly.
+APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = (
+    _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS | _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
+)
+
+
+def has_mechanical_effect(ability_id: UUID) -> bool:
+    """The single source of truth for the sheet's/catalog's "Nur Text" badge
+    (`hasHandler` on the wire): whether *any* registry this module merges
+    actually computes `ability_id`'s effect, not just the plain `Modifier`
+    half (`HANDLERS`). Every caller used to check `ability_id in HANDLERS`
+    directly (or, for feats, that plus its own separate
+    `COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS` check) — each such site had to
+    independently remember every sibling registry a real effect might live
+    in, and every one of them forgot at least one (Waffenfinesse/Waffenfokus
+    mislabeled "Nur Text" until 2026-08-25, then Kensai's own weapon choice/
+    focus grant and Elf's "Elfische Waffenvertrautheit" found to have the
+    identical bug the same day). One function checking every registry at
+    once means a new registry only needs adding here, not at every call
+    site that renders a "Nur Text" badge."""
+    return (
+        ability_id in HANDLERS
+        or ability_id in NATURAL_ATTACK_HANDLERS
+        or ability_id in WEAPON_BONUS_DAMAGE_HANDLERS
+        or ability_id in WEAPON_PROFICIENCY_HANDLERS
+        or ability_id in SITUATIONAL_SKILL_HANDLERS
+        or ability_id in SPELL_SLOT_DELTAS
+        or ability_id in DAILY_LIMITS
+        or ability_id in TEMP_HP_GRANTS
+        or ability_id in ON_END
+        or ability_id in APPLIED_OUTSIDE_HANDLERS_IDS
+    )
 
 
 def resolve_ids(ability_ids: Iterable[UUID], context: CharacterContext) -> list[Modifier]:

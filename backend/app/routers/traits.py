@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import BaseTrait
-from ..rules.handlers import HANDLERS
+from ..rules.handlers import has_mechanical_effect
 
 router = APIRouter(prefix="/api/traits", tags=["traits"])
 
@@ -24,7 +24,7 @@ def list_traits(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             # — same "backend picks the JSON shape a consumer wants" precedent as
             # `routers/feats.py`'s `subChoiceType`.
             "skillChoiceAbility": trait.skill_choice_ability,
-            "hasHandler": trait.id in HANDLERS,
+            "hasHandler": has_mechanical_effect(trait.id),
         }
         for trait in traits
     ]

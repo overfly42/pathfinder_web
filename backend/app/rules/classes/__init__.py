@@ -12,8 +12,9 @@ easy to find, easy to blame.
 
 This module only merges every class file's own `HANDLERS`/`DAILY_LIMITS`/
 `TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`/
-`WEAPON_BONUS_DAMAGE_HANDLERS` into one dict apiece, the same merge-only role
-`rules/handlers.py` plays for every family —
+`WEAPON_BONUS_DAMAGE_HANDLERS`/`APPLIED_OUTSIDE_HANDLERS_IDS` into one dict
+(or set) apiece, the same merge-only role `rules/handlers.py` plays for
+every family —
 `rules/handlers.py` imports this package's dicts, not each class file
 individually, so a new class module only needs registering once, here.
 
@@ -39,6 +40,7 @@ from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 from .barbarian import WEAPON_BONUS_DAMAGE_HANDLERS as _BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS
+from .kampfmagus import APPLIED_OUTSIDE_HANDLERS_IDS as _KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -74,3 +76,9 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
 SPELL_SLOT_DELTA: dict[UUID, int] = {
     **_KAMPFMAGUS_SPELL_SLOT_DELTA,
 }
+
+# Merged the same way as `HANDLERS` above, but a plain id set rather than a
+# dict — see `kampfmagus.py`'s own `APPLIED_OUTSIDE_HANDLERS_IDS` docstring
+# for what this covers (`rules/handlers.py`'s `has_mechanical_effect` reads
+# the merged result).
+APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = frozenset(_KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS)

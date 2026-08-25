@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from ..rules.context import CharacterContext
-from ..rules.handlers import HANDLERS
+from ..rules.handlers import HANDLERS, has_mechanical_effect
 from ..rules.modifiers import Modifier, ModifierTarget
 from ..rules.race_abilities import ABILITY_ANY_PLUS2
 
@@ -227,11 +227,16 @@ def _race_option(db: Session, race: BaseRace) -> dict:
             else:
                 mods[modifier.target_id] = modifier.value
         else:
-            # `handler is not None` here means a real, computed effect that
-            # just isn't a SCORE modifier (e.g. a SKILL bonus resolved by
-            # `race_skill_modifiers`, or SPEED) — not the same as a purely
-            # flavor-only ability with no `HANDLERS` entry at all.
-            traits.append({"name": ability.name, "desc": ability.description, "hasHandler": handler is not None})
+            # `has_mechanical_effect` here means a real, computed effect —
+            # a SCORE modifier is already handled by the branch above, so
+            # this covers a SKILL bonus resolved by `race_skill_modifiers`,
+            # SPEED, or any of the other registries that function checks
+            # (e.g. `WEAPON_PROFICIENCY_HANDLERS`, Elf's own "Elfische
+            # Waffenvertrautheit") — not the same as a purely flavor-only
+            # ability with no computed effect anywhere.
+            traits.append(
+                {"name": ability.name, "desc": ability.description, "hasHandler": has_mechanical_effect(ability.id)}
+            )
 
     alt: list[dict] = []
     for grant, ability in alt_grants:
@@ -256,7 +261,7 @@ def _race_option(db: Session, race: BaseRace) -> dict:
                 "name": ability.name,
                 "desc": ability.description,
                 "replaces": replaces,
-                "hasHandler": HANDLERS.get(ability.id) is not None,
+                "hasHandler": has_mechanical_effect(ability.id),
             }
         )
 

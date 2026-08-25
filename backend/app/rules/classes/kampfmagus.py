@@ -50,3 +50,15 @@ KENSAI_WEAPON_CHOICE_ABILITY_ID = UUID("1022bc94-7324-5fb0-883a-ed80726277e0")
 # applies this alongside a player's own ordinary Waffenfokus pick, not as a
 # parallel one-off.
 KENSAI_WEAPON_FOCUS_ABILITY_ID = UUID("5ddd070b-8770-54bd-ba62-6788374554ce")
+
+# Both of the two ids above have a real, computed effect — `sheet.py`'s
+# `_build_weapon_attacks` reads them directly (`chosen_weapon_ids`/
+# `weapon_focus_weapon_ids`) — but neither is a `HANDLERS`/`NATURAL_ATTACK_HANDLERS`/
+# `WEAPON_BONUS_DAMAGE_HANDLERS` entry: a weapon *choice* isn't a `Modifier`
+# at all, and the free Weapon Focus grant is the same per-weapon-slot
+# decision `rules/feats.py`'s `WAFFENFOKUS`/`COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS`
+# documents for the player-picked version of the same feat. Merged into
+# `rules/handlers.py`'s `has_mechanical_effect` (via `rules/classes/__init__.py`'s
+# `APPLIED_OUTSIDE_HANDLERS_IDS`) so the sheet's "Nur Text" badge doesn't
+# mislabel either as flavor-only merely for not being a typed registry entry.
+APPLIED_OUTSIDE_HANDLERS_IDS = frozenset({KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID})

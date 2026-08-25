@@ -82,7 +82,6 @@ from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHO
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from .rules.classes.kampfmagus import KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID
 from .rules.feats import (
-    COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS,
     HEFTIGER_ANGRIFF,
     WAFFENFINESSE,
     WAFFENFOKUS,
@@ -91,12 +90,12 @@ from .rules.feats import (
 )
 from .rules.handlers import (
     DAILY_LIMITS,
-    HANDLERS,
     NATURAL_ATTACK_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
     WEAPON_PROFICIENCY_HANDLERS,
     character_modifiers,
     granted_ability_modifiers,
+    has_mechanical_effect,
     situational_skill_notes,
 )
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
@@ -537,7 +536,7 @@ def _described(db: Session, model: type, ids: list[UUID]) -> list[dict]:
         return []
     rows = db.scalars(select(model).where(model.id.in_(ids))).all()
     return [
-        {"key": str(row.id), "name": row.name, "description": row.description, "hasHandler": row.id in HANDLERS}
+        {"key": str(row.id), "name": row.name, "description": row.description, "hasHandler": has_mechanical_effect(row.id)}
         for row in rows
     ]
 
@@ -592,7 +591,7 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
                 "key": str(entry.id),
                 "name": name,
                 "description": feat.description,
-                "hasHandler": feat.id in HANDLERS or feat.id in COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS,
+                "hasHandler": has_mechanical_effect(feat.id),
             }
         )
     return result
@@ -636,7 +635,7 @@ def _build_traits(db: Session, character: Character) -> list[dict]:
                 "key": str(trait.id),
                 "name": name,
                 "description": trait.description,
-                "hasHandler": trait.id in HANDLERS,
+                "hasHandler": has_mechanical_effect(trait.id),
             }
         )
     return result
