@@ -149,6 +149,29 @@ Kurzfassung als Einstiegspunkt:
       Naturangriffe-Planung (Halb-Ork-Biss/Bestientotem-Klauen für
       Herkulina) — bewusst zurückgestellt, da klassenübergreifend (AC/KMB/
       KMD/Naturangriffe gemeinsam), nicht Teil des Naturangriffe-Plans.
+- [x] Konzentrationswurf im Kampfwerte-Abschnitt ergänzt (Zaubererstufe +
+      Fähigkeitsmod der Zauberklasse + gestapelter `ModifierTarget.CONCENTRATION`-
+      Bonus, z. B. Fokussierter Verstand) — ein Eintrag pro Zauberklasse mit
+      gesetztem `casting_ability`, `(Klassenname)`-Suffix nur bei mehreren
+      Zauberklassen. Gilt für jede Zauberklasse (auch spontane), nicht nur
+      vorbereitende. `sheet.py`s `_build_concentration`, 2026-08-25.
+- [ ] Situative Konzentrationsboni (Zäher Zauberer nur beim defensiven
+      Zaubern, Arkane Konzentration nur unter Wasser, ...) bleiben Text-only
+      — kein Trigger-Mechanismus dafür vorhanden, analog zum bestehenden
+      `SITUATIONAL_SKILL_HANDLERS`-Muster, nur für Konzentration statt
+      Fertigkeiten. Aufgeworfen 2026-08-25 zusammen mit dem Konzentrationswurf
+      selbst.
+- [ ] Waffenvertrautheit anderer Völker (Halbling/Halb-Ork/Ork, je eigene
+      `BaseRaceAbility`-Zeile in `base_race_abilities.json`) hat noch keinen
+      Handler — bisher ist nur Elfs "Elfische Waffenvertrautheit" verdrahtet
+      (`rules/race_abilities.py`s `WEAPON_PROFICIENCY_HANDLERS`, 2026-08-25).
+- [x] "Nur Text"-Badge zeigte fälschlich bei Fähigkeiten mit Wirkung
+      außerhalb des generischen `HANDLERS`-Dict (Waffenfinesse, Waffenfokus,
+      Kensai-Waffenwahl/-fokus, Elfische Waffenvertrautheit) — unabhängig
+      voneinander an drei Stellen aufgetreten, behoben durch zentrales
+      `has_mechanical_effect()` in `rules/handlers.py`, das alle
+      Effekt-Registries prüft (siehe `readme.md`s "Request pipeline").
+      2026-08-25.
 
 ## Handler-Migration zu `CharacterContext` — noch offen
 
