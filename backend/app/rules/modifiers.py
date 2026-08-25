@@ -44,6 +44,13 @@ class ModifierTarget(StrEnum):
     # `target_id`, same as AC/SPEED/SAVE_*.
     ATTACK = "attack"
     DAMAGE = "damage"
+    # Konzentrationswürfe (`sheet.py`'s `_build_concentration`) — first
+    # producer is Fokussierter Verstand's flat +2 trait bonus
+    # (`rules/traits.py`). Single slot, no `target_id`, same as AC/SPEED/
+    # SAVE_*: unlike SKILL, a class's own caster-level+ability-mod base
+    # isn't itself a `Modifier` (computed directly in `sheet.py`), only the
+    # bonuses stacked on top of it are.
+    CONCENTRATION = "concentration"
 
 
 @dataclass

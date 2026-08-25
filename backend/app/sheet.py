@@ -343,7 +343,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     spellbook, spells_known = _build_prepared_spell_grades(
         db, character, level_counts_by_root_id, ability_mods, granted_ability_ids
     )
-    concentration = _build_concentration(db, level_counts_by_root_id, ability_mods)
+    concentration = _build_concentration(db, level_counts_by_root_id, ability_mods, stacked)
 
     return {
         "id": str(character.id),
@@ -1028,11 +1028,16 @@ def _build_favored_class_bonuses(db: Session, character: Character) -> list[dict
 
 
 def _build_concentration(
-    db: Session, level_counts_by_root_id: dict[UUID, int], ability_mods: dict[str, int]
+    db: Session,
+    level_counts_by_root_id: dict[UUID, int],
+    ability_mods: dict[str, int],
+    stacked: dict[tuple[ModifierTarget, str | None], int],
 ) -> list[dict]:
     """PF1e's Konzentrationswurf (GRW S. 156): 1W20 + Zaubererstufe +
-    Fähigkeitsmodifikator der Zauberklasse — one `combat` entry per casting
-    root class the character actually has levels in (`BaseClass.
+    Fähigkeitsmodifikator der Zauberklasse + jeder unbedingte
+    `ModifierTarget.CONCENTRATION`-Bonus (e.g. Fokussierter Verstand's flat
+    +2 trait bonus, `rules/traits.py`) — one `combat` entry per casting root
+    class the character actually has levels in (`BaseClass.
     effective_casting_ability` set, the same field `_build_prepared_spell_grades`'s
     `casting_mod` already reads), so a multiclassed dual-caster (e.g. Magier/
     Kleriker) gets one labeled value per class instead of one conflated
@@ -1050,27 +1055,37 @@ def _build_concentration(
     class in this codebase's data reduces caster level itself (only spell
     slots, e.g. Kampfmagus's Kensai, `rules/classes/kampfmagus.py`), so class
     level doubles as caster level here, the same assumption
-    `total_spell_slots` already makes.
+    `total_spell_slots` already makes. `stacked` (already folded/type-capped
+    by `build_character_sheet`'s one shared `character_modifiers`/`stack()`
+    pass, same source `saves`/`cmb` read their own targets from) is the
+    *only* input for any bonus on top of that base — no separate lookup
+    here, per CLAUDE.md's composition/computation split: a trait/feat with
+    an unconditional bonus is a completely ordinary `HANDLERS` entry
+    targeting `ModifierTarget.CONCENTRATION`, nothing about "concentration"
+    as a stat needs its own special-cased pipeline.
 
-    Doesn't fold in the many *situational* Konzentration bonuses seeded as
+    Doesn't fold in the *situational* Konzentration bonuses seeded as
     flavor text so far (Zäher Zauberer's defensive-cast +4, Arkane
-    Konzentration's underwater +2, Kampfmeditation's Wesenszugbonus, ...) —
-    each only applies under one specific circumstance this sheet has no way
-    to detect, the same "no trigger to hang a flat number on" reasoning
-    `rules/handlers.py`'s `SITUATIONAL_SKILL_HANDLERS` docstring gives for
-    Wilder Seemann — so they stay text-only on their own feat/trait entry
-    rather than being silently baked into a number that would overstate
-    every ordinary (non-defensive, non-underwater) cast."""
+    Konzentration's underwater +2, ...) — each only applies under one
+    specific circumstance this sheet has no way to detect, the same "no
+    trigger to hang a flat number on" reasoning `rules/handlers.py`'s
+    `SITUATIONAL_SKILL_HANDLERS` docstring gives for Wilder Seemann — so
+    they stay text-only on their own feat/trait entry rather than being
+    silently baked into a number that would overstate every ordinary
+    (non-defensive, non-underwater) cast. That's a genuine conditional-
+    trigger problem, not a reason to bypass `HANDLERS`/`Modifier` in
+    general — Fokussierter Verstand above needs none of that."""
     roots = []
     for base_class_id, class_level in level_counts_by_root_id.items():
         root = db.get(BaseClass, base_class_id)
         if root is not None and root.effective_casting_ability is not None:
             roots.append((root, class_level))
+    bonus = stacked.get((ModifierTarget.CONCENTRATION, None), 0)
     return [
         {
             "key": f"concentration-{root.id}",
             "label": f"Konzentration ({root.name})" if len(roots) > 1 else "Konzentration",
-            "value": _fmt(class_level + ability_mods.get(root.effective_casting_ability, 0)),
+            "value": _fmt(class_level + ability_mods.get(root.effective_casting_ability, 0) + bonus),
         }
         for root, class_level in roots
     ]
