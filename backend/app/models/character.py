@@ -89,6 +89,9 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     use_background_skills: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
     racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
+    class_ability_weapon_choices: Mapped[list["CharacterClassAbilityWeaponChoice"]] = relationship(
+        cascade="all, delete-orphan"
+    )
     levels: Mapped[list["CharacterLevel"]] = relationship(
         order_by="CharacterLevel.level", cascade="all, delete-orphan"
     )
@@ -350,6 +353,28 @@ class CharacterRacialChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_race_abilities.id"))
 
     ability: Mapped["BaseRaceAbility"] = relationship()
+
+
+class CharacterClassAbilityWeaponChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Which weapon a character picked for a class ability whose
+    `BaseClassAbility.requires_weapon_choice` is set (2026-08-25, Kensai's
+    "one type of martial or exotic weapon he chooses at 1st level") — not
+    level-scoped, same "made once, tied to the character overall" shape as
+    `CharacterRacialChoice` (the ability grant itself is derived from
+    `body.classes`, not a per-level pick like `CharacterFeat`/`CharacterTrait`).
+
+    Read by `rules/class_weapon_choices.py`, which resolves the chosen
+    weapon's id into both a proficiency (folded into `CharacterContext.
+    chosen_weapon_ids`, `rules/proficiency.py`) and a free Weapon-Focus-
+    equivalent attack bonus for that same weapon — Kensai's ability grants
+    both from this one choice, with no feat spent on either."""
+
+    __tablename__ = "character_class_ability_weapon_choices"
+    __table_args__ = (UniqueConstraint("character_id", "ability_id"),)
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    weapon_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_items.id"))
 
 
 class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):

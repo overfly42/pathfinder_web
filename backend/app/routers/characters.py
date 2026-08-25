@@ -26,6 +26,7 @@ from ..models import (
     BaseWeaponSpecialAbility,
     Character,
     CharacterClass,
+    CharacterClassAbilityWeaponChoice,
     CharacterClassOption,
     CharacterEffect,
     CharacterFeat,
@@ -45,6 +46,7 @@ from ..rules.class_options import (
     archetype_replaced_grant_ids,
     favored_class_bonus_race_choices,
     group_occurrence_levels,
+    weapon_choice_required_ability_ids,
 )
 from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from ..rules.daily_limits import (
@@ -252,6 +254,23 @@ def _validate_skill_specialization(db: Session, skill: BaseSkill, selection: Ski
             raise HTTPException(
                 status_code=422, detail=f"specialization_id for '{skill.name}' is not a known specialization"
             )
+
+
+def _validate_class_weapon_choice(db: Session, ability: BaseClassAbility, chosen_weapon_id: UUID | None) -> None:
+    """Enforces `BaseClassAbility.requires_weapon_choice` against one entry
+    in `CharacterCreate.class_weapon_choices` — same "catalog data declares
+    what's needed" split as `_validate_trait_skill_choice`. Only ever called
+    for ability ids `rules/class_options.py`'s `weapon_choice_required_ability_ids`
+    already confirmed the character's classes grant, so `ability.
+    requires_weapon_choice` is always `True` here in practice — no weapon-
+    type restriction (martial/exotic only, per Kensai's actual text): same
+    minimal-validation depth `_validate_feat_sub_choice`'s own weapon
+    sub-choice already applies (any weapon, no category check)."""
+    if chosen_weapon_id is None:
+        raise HTTPException(status_code=422, detail=f"'{ability.name}' requires a class_weapon_choices entry")
+    weapon = db.get(BaseItem, chosen_weapon_id)
+    if weapon is None or weapon.category != "weapon":
+        raise HTTPException(status_code=422, detail=f"chosen weapon for '{ability.name}' is not a known weapon")
 
 
 def _validate_trait_skill_choice(db: Session, trait: BaseTrait, chosen_skill_id: UUID | None) -> None:
@@ -611,6 +630,25 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     if stray_trait_skill_choices:
         raise HTTPException(status_code=422, detail="trait_skill_choices references a trait not in trait_ids")
 
+    required_weapon_choice_ability_ids = weapon_choice_required_ability_ids(db, body.classes)
+    weapon_choice_abilities_by_id = {
+        ability.id: ability
+        for ability in db.scalars(
+            select(BaseClassAbility).where(BaseClassAbility.id.in_(required_weapon_choice_ability_ids))
+        ).all()
+    }
+    for ability_id in required_weapon_choice_ability_ids:
+        _validate_class_weapon_choice(
+            db, weapon_choice_abilities_by_id[ability_id], body.class_weapon_choices.get(str(ability_id))
+        )
+    stray_class_weapon_choices = set(body.class_weapon_choices) - {
+        str(ability_id) for ability_id in required_weapon_choice_ability_ids
+    }
+    if stray_class_weapon_choices:
+        raise HTTPException(
+            status_code=422, detail="class_weapon_choices references an ability this character isn't granted"
+        )
+
     if body.spell_ids:
         for base_class_id_str, spell_ids in body.spell_ids.items():
             try:
@@ -689,6 +727,10 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
     for ability_id in alt_trait_ability_ids:
         character.racial_choices.append(CharacterRacialChoice(ability_id=ability_id))
+    for ability_id_str, weapon_id in body.class_weapon_choices.items():
+        character.class_ability_weapon_choices.append(
+            CharacterClassAbilityWeaponChoice(ability_id=UUID(ability_id_str), weapon_id=weapon_id)
+        )
     for selection in body.gear:
         character.gear.append(CharacterGear(item_id=selection.item_id, quantity=selection.quantity))
 

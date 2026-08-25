@@ -39,6 +39,11 @@ RACE_BONUS_FEAT_ABILITY_ID = UUID("e55030a3-b066-480f-ba0a-0653a8f132ca")
 # still a pure data change. This is the *only* link to that seed data, same
 # hand-frozen-UUID convention as everywhere else in rules/ — nothing derives
 # or hashes it.
+#
+# Kensai's own weapon choice does NOT belong here (2026-08-25, corrected
+# after an earlier wrong attempt): real PF1e grants proficiency + Weapon
+# Focus for one chosen weapon entirely for free, not via a spent feat pick —
+# see `rules/class_weapon_choices.py` for the actual mechanism.
 BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
     {
         UUID("62ac4cf1-04b9-431b-9047-4156f6cb3481"),  # Kämpfer: Bonus-Kampftalent

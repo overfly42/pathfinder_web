@@ -108,6 +108,7 @@ from .feats import HANDLERS as _FEAT_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
+from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIENCY_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
 from .traits import HANDLERS as _TRAIT_HANDLERS
 
@@ -153,6 +154,18 @@ SPELL_SLOT_DELTAS: dict[UUID, int] = {
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     **_RACE_NATURAL_ATTACK_HANDLERS,
     **_CLASS_NATURAL_ATTACK_HANDLERS,
+}
+
+# Exact `BaseItem` ids a granted ability id makes the character proficient
+# with regardless of the item's own `weapon_type` category (e.g. Elf's
+# "Elfische Waffenvertrautheit") — `sheet.py`'s `build_character_sheet` folds
+# these into `chosen_weapon_ids` for whichever race ability ids the
+# character actually has, the same "exact weapon id, not a category" check
+# `rules/proficiency.py`'s module docstring already covers for a picked
+# single-weapon feat or a Kensai's own free choice. Only race abilities
+# contribute today.
+WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
+    **_RACE_WEAPON_PROFICIENCY_HANDLERS,
 }
 
 # An extra (dice, damage-type) pair a granted ability id adds to melee

@@ -5,10 +5,10 @@ inherently confers, e.g. every "Umgang mit Waffen und Rüstungen" variant
 mapped to its matching "Umgang mit ..." proficiency feats (skipped for
 variants whose weapon list doesn't line up with a whole-category feat, e.g.
 Magier's fixed dagger/quarterstaff/crossbow list, or only partially covered,
-e.g. Kensai only gets the "einfache Waffen" row — its free choice of one
-martial/exotic weapon has no whole-category feat to map to and no sub-choice
-mechanism on class abilities to record which one, see `rules/proficiency.py`).
-Same idempotent upsert-by-id convention as `class_ability_option_seed.py`.
+e.g. Kensai only gets the "einfache Waffen" row here — its free choice of one
+martial/exotic weapon is a real, first-class choice instead, resolved via
+`rules/class_weapon_choices.py`, not a category feat). Same idempotent
+upsert-by-id convention as `class_ability_option_seed.py`.
 
 Read at request time by `routers/feats.py`'s `_character_prereq_state` — see
 `BaseClassAbilityGrantedFeat`'s docstring in `models/base_class.py` for why

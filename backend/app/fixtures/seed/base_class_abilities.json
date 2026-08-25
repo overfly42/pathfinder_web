@@ -3277,7 +3277,8 @@
   {
     "id": "1022bc94-7324-5fb0-883a-ed80726277e0",
     "name": "Umgang mit Waffen und Rüstungen (Kensai)",
-    "description": "Ein Kensai ist geübt im Umgang mit Einfachen Waffen und einer einzelnen Kriegswaffe oder Exotischen Waffe seiner Wahl. Ein Kensai ist nicht geübt im Umgang mit Rüstungen oder Schilden und erleidet die normale Patzerchance bei arkanen Zaubern, wenn er Kampfmaguszauber in Rüstung wirkt. Dieses Klassenmerkmal ersetzt Umgang mit Waffen und Rüstungen."
+    "description": "Ein Kensai ist geübt im Umgang mit Einfachen Waffen und einer einzelnen Kriegswaffe oder Exotischen Waffe seiner Wahl. Ein Kensai ist nicht geübt im Umgang mit Rüstungen oder Schilden und erleidet die normale Patzerchance bei arkanen Zaubern, wenn er Kampfmaguszauber in Rüstung wirkt. Dieses Klassenmerkmal ersetzt Umgang mit Waffen und Rüstungen.",
+    "requires_weapon_choice": true
   },
   {
     "id": "ebb8db2d-2caa-54c4-8a78-9131f0b44e1d",

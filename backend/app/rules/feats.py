@@ -49,6 +49,19 @@ AUSWEICHEN = UUID("2249f151-0809-4c55-80cc-76920111782e")
 # activation clause, just possession of the feat.
 WAFFENFINESSE = UUID("6f0fd239-157e-567a-b1d8-f5c4c529eeec")
 
+# `base_feats.json`'s "Waffenfokus" (Weapon Focus) row id (GRW S. 131: "+1
+# auf Angriffswürfe mit der gewählten Waffe"). Not a `HANDLERS` entry, same
+# reasoning as `WAFFENFINESSE` above: the bonus only applies to the one
+# weapon chosen at pick time (`CharacterFeat.chosen_weapon_id`), a per-
+# weapon-slot decision `sheet.py`'s `_build_weapon_attacks` makes itself
+# once it already knows which weapon is equipped. Also the weapon a Kensai's
+# own "Waffenfokus (Kensai)" class ability grants this same bonus for, for
+# free (`rules/classes/kampfmagus.py`'s `KENSAI_WEAPON_FOCUS_ABILITY_ID`) —
+# `_build_weapon_attacks` folds both sources into one check rather than
+# treating Kensai's grant as a parallel one-off.
+WAFFENFOKUS = UUID("bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8")
+WAFFENFOKUS_ATTACK_BONUS = 1
+
 # `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill this
 # feat's bonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"

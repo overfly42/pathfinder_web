@@ -6,6 +6,10 @@ from test_items import _create_character, _weapon_ability_id
 
 KAMPFMAGUS = {"class_name": "Kampfmagus", "level": 1}
 KENSAI = {"class_name": "Kampfmagus", "level": 1, "archetypes": ["Kensai"]}
+# "Umgang mit Waffen und Rüstungen (Kensai)" — the ability
+# `BaseClassAbility.requires_weapon_choice` is set on (rules/classes/
+# kampfmagus.py's KENSAI_WEAPON_CHOICE_ABILITY_ID).
+KENSAI_WEAPON_CHOICE_ABILITY_ID = "1022bc94-7324-5fb0-883a-ed80726277e0"
 
 
 def _equip(client: TestClient, character_id: str, slot_key: str, item_id: str | None) -> dict:
@@ -229,11 +233,21 @@ def test_attack_bonus_shows_iterative_attacks_at_high_bab(client: TestClient, db
     assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+6/+1"
 
 
-def _create_character_with_class(client: TestClient, db_session: Session, class_entry: dict) -> str:
+def _create_character_with_class(
+    client: TestClient,
+    db_session: Session,
+    class_entry: dict,
+    class_weapon_choices: dict[str, str] | None = None,
+) -> str:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
     payload = _character_payload(
-        user_id, race_id, db_session, classes=[class_entry], flex_ability="CH"  # leaves ST 10 (mod +0) apart
+        user_id,
+        race_id,
+        db_session,
+        classes=[class_entry],
+        flex_ability="CH",  # leaves ST 10 (mod +0) apart
+        class_weapon_choices=class_weapon_choices or {},
     )
     response = client.post("/api/characters", json=payload)
     assert response.status_code == 201, response.text
@@ -271,7 +285,16 @@ def test_kampfmagus_not_proficient_with_exotic_weapon_gets_attack_penalty(
 
 
 def test_kensai_proficient_with_simple_weapon_has_no_penalty(client: TestClient, db_session: Session) -> None:
-    character_id = _create_character_with_class(client, db_session, KENSAI)
+    """Simple-weapon proficiency is unconditional (still the plain
+    `BaseClassAbilityGrantedFeat` grant, `todos.md`'s "Waffenkompetenz-
+    Malus" entry) — irrelevant to which weapon this Kensai actually chose,
+    but the choice itself is still mandatory at creation (`base_class_ability_
+    granted_feats.json` doesn't cover it), so a valid one has to be supplied
+    regardless."""
+    dolch_id = _item_id(client, db_session, "Dolch")  # simple, unrelated to this test's weapon
+    character_id = _create_character_with_class(
+        client, db_session, KENSAI, class_weapon_choices={KENSAI_WEAPON_CHOICE_ABILITY_ID: dolch_id}
+    )
     kampfstab_id = _item_id(client, db_session, "Kampfstab")  # simple
     client.post(f"/api/characters/{character_id}/gear", json={"item_id": kampfstab_id, "quantity": 1})
     _equip(client, character_id, "hauptwaffe", kampfstab_id)
@@ -282,21 +305,129 @@ def test_kensai_proficient_with_simple_weapon_has_no_penalty(client: TestClient,
     assert "note" not in weapon
 
 
-def test_kensai_not_proficient_with_martial_weapon_gets_attack_penalty(
+def test_kensai_creation_requires_a_class_weapon_choice(client: TestClient, db_session: Session) -> None:
+    """Real PF1e: a Kensai's kensai weapon is chosen at 1st level, not
+    optional — `_validate_class_weapon_choice` (`routers/characters.py`)
+    rejects creation outright without one, same as a trait needing a
+    `trait_skill_choices` entry."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    payload = _character_payload(user_id, race_id, db_session, classes=[KENSAI], flex_ability="CH")
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 422
+    assert "class_weapon_choices" in response.json()["detail"]
+
+
+def test_kensai_specific_weapon_choice_grants_proficiency_and_weapon_focus_only_for_that_weapon(
     client: TestClient, db_session: Session
 ) -> None:
-    """Kensai's own "Umgang mit Waffen und Rüstungen (Kensai)" replaces the
-    Kampfmagus base ability with just simple weapons plus a free choice of
-    one martial/exotic weapon (PRD text) — the free single-weapon choice
-    isn't modeled (no sub-choice mechanism for class abilities, see
-    `class_ability_granted_feat_seed.py`'s docstring), so a Kensai currently
-    reads as non-proficient with any martial weapon, a documented gap."""
-    character_id = _create_character_with_class(client, db_session, KENSAI)
+    """Kensai's kensai-weapon choice (`class_weapon_choices`, 2026-08-25 —
+    corrected from an earlier wrong attempt that spent a feat pick on it)
+    grants both proficiency and Weapon Focus's +1 attack bonus for exactly
+    that weapon, entirely for free — not the whole martial category, and
+    not for a different weapon of the same category."""
     langschwert_id = _item_id(client, db_session, "Langschwert")  # martial
+    zweihaender_id = _item_id(client, db_session, "Zweihänder")  # martial, different weapon
+    character_id = _create_character_with_class(
+        client, db_session, KENSAI, class_weapon_choices={KENSAI_WEAPON_CHOICE_ABILITY_ID: langschwert_id}
+    )
+
     client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": zweihaender_id, "quantity": 1})
+
     _equip(client, character_id, "hauptwaffe", langschwert_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    # bab 0 + str mod 0 + 1 (Waffenfokus (Kensai), free) = +1; proficient,
+    # so no "Nicht geübt" note.
+    assert weapon["attackBonus"] == "+1"
+    assert "note" not in weapon
+
+    _equip(client, character_id, "hauptwaffe", zweihaender_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    weapon = _weapon_attack(sheet, "hauptwaffe")
+    # Same category, different weapon than the one actually chosen -> still
+    # not proficient, and no Weapon Focus either.
+    assert weapon["attackBonus"] == "-4"
+    assert weapon["note"] == "Nicht geübt (-4)"
+
+
+def test_waffenfokus_feat_grants_attack_bonus_for_chosen_weapon(client: TestClient, db_session: Session) -> None:
+    """An ordinary player-picked Waffenfokus (2026-08-25, first computed
+    effect for this feat — previously text-only, `hasHandler: false`) gets
+    the same +1 Kensai's free grant of it does, only for the chosen weapon."""
+    waffenfokus_id = _feat_id(client, db_session, "Waffenfokus")
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    kurzschwert_id = _item_id(client, db_session, "Kurzschwert")
+
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        flex_ability="CH",  # leaves ST 10 (mod +0) apart
+        feats=[_feat_selection(waffenfokus_id, chosen_weapon_id=langschwert_id)],
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201, response.text
+    character_id = response.json()["id"]
+
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": kurzschwert_id, "quantity": 1})
+
+    _equip(client, character_id, "hauptwaffe", langschwert_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # Default Waldläufer: bab 1 + str mod 0 + 1 (Waffenfokus) = +2.
+    assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+2"
+
+    _equip(client, character_id, "hauptwaffe", kurzschwert_id)
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # Not the chosen weapon -> no Weapon Focus bonus.
+    assert _weapon_attack(sheet, "hauptwaffe")["attackBonus"] == "+1"
+
+
+def test_kaempfer_auto_granted_kriegswaffen_stays_blanket_for_every_martial_weapon(
+    client: TestClient, db_session: Session
+) -> None:
+    """A class's automatic grant of "Umgang mit Kriegswaffen" (e.g.
+    Kämpfer's) applies to every martial weapon, not just one — regression
+    check that the dual-nature split for "Umgang mit exotischen Waffen"
+    (`rules/proficiency.py`) didn't spread to this always-blanket feat."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    payload = _character_payload(
+        user_id, race_id, db_session, classes=[{"class_name": "Kämpfer", "level": 1}], flex_ability="CH"
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201, response.text
+    character_id = response.json()["id"]
+
+    zweihaender_id = _item_id(client, db_session, "Zweihänder")  # martial
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": zweihaender_id, "quantity": 1})
+    _equip(client, character_id, "hauptwaffe", zweihaender_id)
 
     sheet = client.get(f"/api/characters/{character_id}").json()
     weapon = _weapon_attack(sheet, "hauptwaffe")
-    assert weapon["attackBonus"] == "-4"  # bab 0 + str mod 0 - 4 (nicht geübt)
-    assert weapon["note"] == "Nicht geübt (-4)"
+    assert weapon["attackBonus"] == "+1"  # bab 1 + str mod 0, no malus for any martial weapon
+    assert "note" not in weapon
+
+
+def test_class_weapon_choices_rejects_an_ability_not_granted(client: TestClient, db_session: Session) -> None:
+    """A `class_weapon_choices` entry for an ability the character's classes
+    don't actually grant (here: a plain Kampfmagus, no Kensai archetype) is
+    rejected the same way a stray `trait_skill_choices` entry is."""
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[KAMPFMAGUS],
+        flex_ability="CH",
+        class_weapon_choices={KENSAI_WEAPON_CHOICE_ABILITY_ID: langschwert_id},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 422
+    assert "class_weapon_choices" in response.json()["detail"]

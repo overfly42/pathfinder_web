@@ -80,18 +80,25 @@ from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM
 from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
-from .rules.feats import HEFTIGER_ANGRIFF, WAFFENFINESSE, power_attack_bonus
+from .rules.classes.kampfmagus import KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID
+from .rules.feats import HEFTIGER_ANGRIFF, WAFFENFINESSE, WAFFENFOKUS, WAFFENFOKUS_ATTACK_BONUS, power_attack_bonus
 from .rules.handlers import (
     DAILY_LIMITS,
     HANDLERS,
     NATURAL_ATTACK_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
+    WEAPON_PROFICIENCY_HANDLERS,
     character_modifiers,
     granted_ability_modifiers,
     situational_skill_notes,
 )
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
-from .rules.proficiency import NOT_PROFICIENT_ATTACK_PENALTY, effective_proficiency_feat_ids, known_weapon_types
+from .rules.proficiency import (
+    DUAL_NATURE_WEAPON_FEAT_IDS,
+    NOT_PROFICIENT_ATTACK_PENALTY,
+    class_granted_proficiency_feat_ids,
+    known_weapon_types,
+)
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import known_grades, total_spell_slots
@@ -128,7 +135,60 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
     granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
-    proficiency_feat_ids = effective_proficiency_feat_ids(db, frozenset(character.feat_ids), granted_ability_ids)
+    # Resolved ahead of `chosen_weapon_ids` below (not just where
+    # `_build_natural_attacks` needs it further down) so a race ability like
+    # Elf's "Elfische Waffenvertrautheit" can fold its named weapons into
+    # that same set.
+    race_ability_ids = effective_race_ability_ids(
+        db, character.race_id, {choice.ability_id for choice in character.racial_choices}
+    )
+    class_granted_weapon_feat_ids = class_granted_proficiency_feat_ids(db, granted_ability_ids)
+    # Weapon a class ability's own one-off choice named (`CharacterClassAbilityWeaponChoice`,
+    # e.g. Kensai's kensai weapon) — keyed by ability id, read once here for
+    # both the proficiency and Weapon-Focus folding right below.
+    weapon_choice_by_ability_id = {
+        choice.ability_id: choice.weapon_id for choice in character.class_ability_weapon_choices
+    }
+    # A picked "Umgang mit exotischen Waffen" names one specific weapon
+    # rather than the whole category (`rules/proficiency.py`'s module
+    # docstring); Kensai's own weapon choice is a proficiency for that exact
+    # weapon the same way. Gathered here, once, the same way `character.feat_ids`
+    # itself is flattened across every level's picks. A race ability's own
+    # fixed named-weapon list (`rules/handlers.py`'s `WEAPON_PROFICIENCY_HANDLERS`,
+    # e.g. Elf's "Elfische Waffenvertrautheit") folds in the same way, for
+    # every race ability id this character actually has.
+    chosen_weapon_ids = (
+        frozenset(
+            entry.chosen_weapon_id
+            for level in character.levels
+            for entry in level.feats
+            if entry.feat_id in DUAL_NATURE_WEAPON_FEAT_IDS and entry.chosen_weapon_id is not None
+        )
+        | ({weapon_choice_by_ability_id[KENSAI_WEAPON_CHOICE_ABILITY_ID]}
+           if KENSAI_WEAPON_CHOICE_ABILITY_ID in weapon_choice_by_ability_id else set())
+        | frozenset(
+            item_id
+            for ability_id in race_ability_ids
+            for item_id in WEAPON_PROFICIENCY_HANDLERS.get(ability_id, ())
+        )
+    )
+    # Weapon Focus's +1 attack bonus applies to a player's own ordinary
+    # Waffenfokus pick (`CharacterFeat.chosen_weapon_id`) and, for free, to a
+    # Kensai's kensai weapon via their separate "Waffenfokus (Kensai)"
+    # ability grant (`rules/classes/kampfmagus.py`'s module docstring) —
+    # folded into one set so `_build_weapon_attacks` has a single check
+    # regardless of source.
+    weapon_focus_weapon_ids = frozenset(
+        entry.chosen_weapon_id
+        for level in character.levels
+        for entry in level.feats
+        if entry.feat_id == WAFFENFOKUS and entry.chosen_weapon_id is not None
+    ) | (
+        {weapon_choice_by_ability_id[KENSAI_WEAPON_CHOICE_ABILITY_ID]}
+        if KENSAI_WEAPON_FOCUS_ABILITY_ID in granted_ability_ids
+        and KENSAI_WEAPON_CHOICE_ABILITY_ID in weapon_choice_by_ability_id
+        else set()
+    )
 
     # `requires_active_ability_id` for whichever of this character's granted
     # abilities actually have it set (most don't — `.is_not(None)` keeps this
@@ -167,7 +227,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         level_counts_by_root_id=level_counts_by_root_id,
         favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
         requires_active_ability_id=requires_active_ability_id,
-        proficiency_feat_ids=proficiency_feat_ids,
+        class_granted_proficiency_feat_ids=class_granted_weapon_feat_ids,
+        chosen_weapon_ids=chosen_weapon_ids,
+        weapon_focus_weapon_ids=weapon_focus_weapon_ids,
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -257,9 +319,6 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
-    race_ability_ids = effective_race_ability_ids(
-        db, character.race_id, {choice.ability_id for choice in character.racial_choices}
-    )
     weapon_attacks = _build_weapon_attacks(
         items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
         granted_ability_ids,
@@ -1813,16 +1872,23 @@ def _build_weapon_attacks(
     `specialAbilities`-sourced `bonusDamage` just below, computed once here
     since it doesn't vary per weapon slot.
 
-    A weapon whose `weapon_type` isn't among `context.proficiency_feat_ids`'
-    resolved categories (`rules/proficiency.py`'s `known_weapon_types`) takes
-    PF1e's flat -4 non-proficient penalty on the attack roll, surfaced as a
-    "Nicht geübt" note — the one part of "Umgang mit Waffen und Rüstungen"
-    that's actually computed today; the armor-proficiency/arcane-spell-
-    failure parts of that same ability stay text-only (no ACP or spell-
-    failure system exists yet, see `todos.md`)."""
+    A weapon whose `weapon_type` isn't among `context.class_granted_proficiency_feat_ids`/
+    `context.feat_ids`'s resolved blanket categories (`rules/proficiency.py`'s
+    `known_weapon_types`) *and* whose own id isn't in `context.chosen_weapon_ids`
+    (a picked single-weapon-choice feat, a Kensai's free weapon choice, or a
+    race ability's fixed named-weapon list, e.g. Elf's "Elfische
+    Waffenvertrautheit")
+    takes PF1e's flat -4 non-proficient penalty on the attack roll, surfaced
+    as a "Nicht geübt" note — the one part of "Umgang mit Waffen und
+    Rüstungen" that's actually computed today; the armor-proficiency/
+    arcane-spell-failure parts of that same ability stay text-only (no ACP
+    or spell-failure system exists yet, see `todos.md`). A weapon whose id
+    is in `context.weapon_focus_weapon_ids` (a picked Waffenfokus, or a
+    Kensai's own free grant of it for their kensai weapon) gets Weapon
+    Focus's +1 the same way, folded into the same attack-bonus sum."""
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
     class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
-    known_types = known_weapon_types(context.proficiency_feat_ids)
+    known_types = known_weapon_types(context.class_granted_proficiency_feat_ids, context.feat_ids)
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
         gear_row = gear_by_slot.get(slot_key)
@@ -1840,8 +1906,11 @@ def _build_weapon_attacks(
         # its proficiency category isn't catalogued — no malus rather than
         # a false positive (`rules/proficiency.py`'s module docstring, e.g.
         # firearms today).
-        is_proficient = item.weapon_type is None or item.weapon_type in known_types
+        is_proficient = (
+            item.weapon_type is None or item.weapon_type in known_types or item.id in context.chosen_weapon_ids
+        )
         proficiency_penalty = 0 if is_proficient else NOT_PROFICIENT_ATTACK_PENALTY
+        weapon_focus_bonus = WAFFENFOKUS_ATTACK_BONUS if item.id in context.weapon_focus_weapon_ids else 0
 
         if is_ranged:
             attack_ability_mod = dex_mod
@@ -1850,7 +1919,13 @@ def _build_weapon_attacks(
         else:
             attack_ability_mod = str_mod + melee_attack_bonus
         attack_bonuses = _iterative_attack_bonuses(
-            bab, bab + attack_ability_mod + gear_row.enhancement + power_attack_penalty + proficiency_penalty
+            bab,
+            bab
+            + attack_ability_mod
+            + gear_row.enhancement
+            + power_attack_penalty
+            + proficiency_penalty
+            + weapon_focus_bonus,
         )
 
         damage_parts: list[str] = []

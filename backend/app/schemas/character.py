@@ -190,6 +190,18 @@ class CharacterCreate(BaseModel):
     # (same "can't check catalog data in a field validator" reasoning as
     # `_validate_feat_sub_choice`).
     trait_skill_choices: dict[str, UUID] = {}
+    # ability_id (string, since UUID keys aren't valid JSON object keys) ->
+    # chosen weapon id, for class abilities whose `BaseClassAbility.
+    # requires_weapon_choice` is set (2026-08-25, Kensai's own weapon
+    # choice) — same "additive dict keyed by stringified UUID" shape as
+    # `trait_skill_choices` above, persisted to `CharacterClassAbilityWeaponChoice`
+    # rather than collapsed onto a `CharacterLevel` row (the ability grant
+    # itself isn't a per-level pick). Validated server-side against which
+    # abilities `body.classes` actually grants (`rules/class_options.py`'s
+    # `weapon_choice_required_ability_ids`) and each ability's own
+    # `requires_weapon_choice`, same "can't check catalog data in a field
+    # validator" reasoning as `_validate_feat_sub_choice`.
+    class_weapon_choices: dict[str, UUID] = {}
     # base_class_id (string, since UUID keys aren't valid JSON object keys) ->
     # chosen spell ids, for spontaneous/arcane-prepared classes only (see
     # rules/spells.py) — grade-0 spells are mandatory-but-implicit for

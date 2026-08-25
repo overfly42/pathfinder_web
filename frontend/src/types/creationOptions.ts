@@ -88,6 +88,14 @@ export interface ClassDef {
    *  otherwise — same "delta the frontend applies once selected" shape as
    *  `archetypeOptionOverrides`. */
   archetypeCastingAbility: Record<string, AbilityKey>;
+  /** archetype name -> id of the class ability whose weapon choice is
+   *  mandatory (e.g. Kensai's free martial/exotic weapon, granted for free
+   *  alongside proficiency and Weapon Focus on the backend) — sparse, same
+   *  "delta once that archetype is selected" shape as `archetypeCastingAbility`.
+   *  `ClassStep.tsx` renders a weapon picker when a row's selected
+   *  archetype has an entry here, and submits the pick under this exact
+   *  ability id in `class_weapon_choices`. */
+  archetypeWeaponChoiceAbilityId: Record<string, string>;
   /** level (stringified) -> grade (stringified) -> known-spell cap, or
    *  `null` for arcane-prepared classes (grade-*presence*, not count, is the
    *  gate there — see `rules/spells.py` on the backend). Mirrors

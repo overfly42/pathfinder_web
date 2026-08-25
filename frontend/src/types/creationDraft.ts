@@ -87,6 +87,12 @@ export interface CreationDraft {
    *  arcane-prepared classes are mandatory-but-implicit, not stored here —
    *  see `spellIdsForSubmission` in creationCalculations.ts). */
   spellSelections: Record<string, string[]>;
+  /** ability_id -> chosen weapon id, for class abilities a selected
+   *  archetype needs one for (`ClassDef.archetypeWeaponChoiceAbilityId`,
+   *  e.g. Kensai's free martial/exotic weapon) — see `ClassStep.tsx`. Only
+   *  ever holds an entry for an ability the current archetype selection
+   *  actually requires, same convention as `traitSkillChoices`. */
+  classWeaponChoices: Record<string, string>;
   gold: number;
   gear: DraftGearItem[];
 }

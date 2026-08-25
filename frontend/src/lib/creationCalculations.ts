@@ -102,6 +102,30 @@ export function traitSkillChoicesForSubmission(draft: CreationDraft, options: Cr
   return result;
 }
 
+/** Builds `CharacterCreate.class_weapon_choices` from `draft.classRows`/
+ *  `draft.classWeaponChoices` — only an entry for an ability a currently
+ *  selected archetype actually requires (`ClassDef.archetypeWeaponChoiceAbilityId`),
+ *  same "drop a stale entry from a since-changed selection" reasoning as
+ *  `traitSkillChoicesForSubmission`. */
+export function classWeaponChoicesForSubmission(
+  draft: CreationDraft,
+  options: CreationOptions,
+): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const row of draft.classRows) {
+    const def = classDef(options, row.className);
+    if (!def) continue;
+    for (const archetypeName of row.archetypes) {
+      const abilityId = def.archetypeWeaponChoiceAbilityId[archetypeName];
+      const weaponId = abilityId ? draft.classWeaponChoices[abilityId] : undefined;
+      if (abilityId && weaponId) {
+        result[abilityId] = weaponId;
+      }
+    }
+  }
+  return result;
+}
+
 export function classDef(options: CreationOptions, className: string) {
   return options.classes.find((c) => c.name === className);
 }

@@ -760,6 +760,15 @@ modifier/bonus-stacking design, real computed AC. Full detail:
     special weapon properties are not a uniform shape (flat on-hit energy
     damage vs. toggle-on-command vs. crit-multiplier-scaling) — taxonomy
     already researched in this file's "Magische Verzauberung" entry above.
+  - [x] **Weapon-type proficiency malus (2026-08-25)** — the "any already-
+    wired feat bonuses" line above now also covers the flat -4 non-
+    proficient attack penalty (`rules/proficiency.py`, applies to every
+    class with `BaseClassAbilityGrantedFeat` data, not hardcoded to one
+    class). Full detail, including the new archetype-sourced bonus-feat-
+    slot capability this needed for Kensai's free weapon choice, in
+    `todos.md`'s "Waffen-/Rüstungskompetenz". Armor-proficiency malus stays
+    out of scope here — it needs the still-missing Armor Check Penalty
+    field (`todos.md`'s "Rüstungsmalus" entry).
 
 ### 5. Effects / Conditions / Time
 Data model decided 2026-08-05. This app is play support, not a simulation:

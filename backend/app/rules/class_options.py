@@ -23,6 +23,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..models import (
+    BaseClass,
     BaseClassAbility,
     BaseClassAbilityGrant,
     BaseClassAbilityReplacement,
@@ -99,6 +100,62 @@ def group_occurrence_levels(
             if grant.id not in excluded
         }
     )
+
+
+def weapon_choice_required_ability_ids(db: Session, classes: list) -> frozenset[UUID]:
+    """Which of `classes`' granted class abilities need a one-off weapon
+    pick (`BaseClassAbility.requires_weapon_choice`, e.g. Kensai's kensai
+    weapon) — resolved against not-yet-persisted class selections (duck-
+    typed `.class_name`/`.level`/`.archetypes`), the character-creation-time
+    equivalent of `sheet.py`'s `granted_class_ability_ids` (which needs an
+    already-persisted `Character` to read `.levels`/`.class_memberships`
+    from). Root+archetype+level+replacement resolution mirrors that
+    function's own: an archetype's grants (`base_class_id` = the
+    archetype's id) are gated against its root's level count, and a grant
+    an archetype itself replaces (`BaseClassAbilityReplacement`) doesn't
+    count. Used by `routers/characters.py` to know which entries
+    `CharacterCreate.class_weapon_choices` must/may contain."""
+    candidate_ids = set(db.scalars(select(BaseClassAbility.id).where(BaseClassAbility.requires_weapon_choice.is_(True))))
+    if not candidate_ids:
+        return frozenset()
+
+    level_by_class_name: dict[str, int] = {}
+    archetype_names_by_class_name: dict[str, list[str]] = {}
+    for selection in classes:
+        level_by_class_name[selection.class_name] = level_by_class_name.get(selection.class_name, 0) + selection.level
+        archetype_names_by_class_name.setdefault(selection.class_name, []).extend(
+            getattr(selection, "archetypes", None) or []
+        )
+    if not level_by_class_name:
+        return frozenset()
+
+    roots = db.scalars(
+        select(BaseClass).where(BaseClass.name.in_(level_by_class_name), BaseClass.arch_class_of.is_(None))
+    ).all()
+
+    granted: set[UUID] = set()
+    for root in roots:
+        class_level = level_by_class_name[root.name]
+        archetype_names = archetype_names_by_class_name.get(root.name, [])
+        archetypes = (
+            db.scalars(
+                select(BaseClass).where(BaseClass.arch_class_of == root.id, BaseClass.name.in_(archetype_names))
+            ).all()
+            if archetype_names
+            else []
+        )
+        class_ids = [root.id, *(a.id for a in archetypes)]
+        grants = db.scalars(
+            select(BaseClassAbilityGrant).where(
+                BaseClassAbilityGrant.base_class_id.in_(class_ids),
+                BaseClassAbilityGrant.ability_id.in_(candidate_ids),
+                BaseClassAbilityGrant.level <= class_level,
+            )
+        ).all()
+        replaced_grant_ids = archetype_replaced_grant_ids(db, {a.id for a in archetypes})
+        granted.update(grant.ability_id for grant in grants if grant.id not in replaced_grant_ids)
+
+    return frozenset(granted)
 
 
 def favored_class_bonus_race_choices(

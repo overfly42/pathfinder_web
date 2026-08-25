@@ -22,6 +22,7 @@ export function createInitialDraft(): CreationDraft {
     traits: [],
     traitSkillChoices: {},
     spellSelections: {},
+    classWeaponChoices: {},
     gold: 0,
     gear: [],
   };

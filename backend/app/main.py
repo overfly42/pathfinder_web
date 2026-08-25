@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from .db import get_db
 from .models import (
     BaseClass,
+    BaseClassAbility,
     BaseClassAbilityGrant,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
@@ -189,7 +190,12 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     the same way every other field above already is: `["Keiner", *sorted
     names of every BaseClass row whose arch_class_of is this root's id]` —
     one archetype only ever needs a seed script from here on, not a second,
-    easy-to-forget fixture edit."""
+    easy-to-forget fixture edit.
+
+    `archetypeWeaponChoiceAbilityId` (2026-08-25) — same sparse per-archetype
+    delta shape, for archetypes granting a class ability whose
+    `BaseClassAbility.requires_weapon_choice` is set (Kensai's free
+    martial/exotic weapon choice, `rules/classes/kampfmagus.py`)."""
     classes = load_fixture("classes.json")
     all_base_classes = db.scalars(select(BaseClass)).all()
     roots = [row for row in all_base_classes if row.arch_class_of is None]
@@ -213,6 +219,33 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                 archetype_casting_ability_by_root_id.setdefault(row.arch_class_of, {})[row.name] = row.casting_ability
     for names in archetype_names_by_root_id.values():
         names.sort()
+
+    # archetype name -> id of the class ability whose `requires_weapon_choice`
+    # is set (2026-08-25, Kensai's own free martial/exotic weapon choice) —
+    # sparse, same "delta the frontend applies once that archetype is
+    # selected" shape as `archetype_casting_ability_by_root_id` above. Lets
+    # `ClassStep.tsx` know to render a weapon picker and which ability id to
+    # submit the pick under (`CharacterCreate.class_weapon_choices`) without
+    # hardcoding "Kensai" — `rules/class_options.py`'s
+    # `weapon_choice_required_ability_ids` is the backend-enforced
+    # counterpart, resolved the same way from real data.
+    weapon_choice_ability_ids = set(
+        db.scalars(select(BaseClassAbility.id).where(BaseClassAbility.requires_weapon_choice.is_(True)))
+    )
+    archetype_weapon_choice_ability_id_by_root_id: dict = {}
+    if weapon_choice_ability_ids:
+        for root_id, archetypes in archetypes_by_root_id.items():
+            for archetype in archetypes:
+                grant = db.scalar(
+                    select(BaseClassAbilityGrant).where(
+                        BaseClassAbilityGrant.base_class_id == archetype.id,
+                        BaseClassAbilityGrant.ability_id.in_(weapon_choice_ability_ids),
+                    )
+                )
+                if grant is not None:
+                    archetype_weapon_choice_ability_id_by_root_id.setdefault(root_id, {})[archetype.name] = str(
+                        grant.ability_id
+                    )
 
     # option_choice_id IS NULL only: a class's unconditional base skill list.
     # Mystery-conditional additions (Mystiker/Oracle - each Mysterium adds its
@@ -335,6 +368,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             archetype_casting_ability_by_root_id.get(root_id, {}) if root_id else {}
         )
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
+        class_def["archetypeWeaponChoiceAbilityId"] = (
+            archetype_weapon_choice_ability_id_by_root_id.get(root_id, {}) if root_id else {}
+        )
         class_def["castingAbility"] = root.casting_ability if root else None
         class_def["spellTradition"] = root.spell_tradition if root else None
         class_def["spellsKnownByLevel"] = known_by_root_id.get(root_id, {}) if root_id else {}

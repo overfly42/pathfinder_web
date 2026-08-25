@@ -85,6 +85,39 @@ _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
 # same "each family owns its own slice" pattern `HANDLERS` already uses).
 REISSZAEHNE_ABILITY_ID = UUID("91b06165-05ad-47b7-9732-18bdf36e1536")
 
+# Elf's "Elfische Waffenvertrautheit" — proficiency with six specific
+# weapons regardless of category (composition here is a fixed rulebook
+# list, not a per-character choice, unlike Kensai's own free weapon pick,
+# `rules/classes/kampfmagus.py`'s `KENSAI_WEAPON_CHOICE_ABILITY_ID`). Not in
+# `HANDLERS` below: it produces exact `BaseItem` ids, not a `Modifier`, so it
+# lives in this module's own `WEAPON_PROFICIENCY_HANDLERS` instead (merged
+# into `rules/handlers.py`'s registry of the same name, same "each family
+# owns its own slice" pattern `HANDLERS` already uses). `sheet.py`'s
+# `build_character_sheet` folds the resolved ids into `chosen_weapon_ids`
+# alongside a Kensai's own weapon choice, since both answer the same "is
+# this exact weapon id one I'm proficient with" question `_build_weapon_attacks`
+# checks (`rules/proficiency.py`'s module docstring).
+#
+# Doesn't model the accompanying "and treats any weapon with the word
+# 'elven' in its name as a martial weapon" clause — no class in this
+# codebase's data grants blanket martial proficiency without also granting
+# this ability, so no character today could actually benefit from that
+# reclassification (the one "elven"-named item in the catalog, Elf.
+# Krummschwert, is seeded `exotic` and stays that way until that gap
+# matters).
+ELFISCHE_WAFFENVERTRAUTHEIT_ABILITY_ID = UUID("664e83f2-f9b0-415c-b9af-f5cdea9ee2ca")
+ELFISCHE_WAFFENVERTRAUTHEIT_WEAPON_IDS = frozenset(
+    UUID(item_id)
+    for item_id in (
+        "daf1f306-9507-4114-92f5-ce38704120e2",  # Langbogen
+        "fbd233ff-bc1a-520f-8ce7-0b07b0c31b88",  # Kompositbogen, lang
+        "834292ec-52a3-4b4d-b315-ed8158c85ea5",  # Kurzbogen
+        "9eb7a321-3eda-5dd9-ab0d-f658f4044592",  # Kompositbogen, kurz
+        "afbdea17-7394-47cb-adfb-e205a410b4ec",  # Langschwert
+        "39672b63-1356-4b0b-964c-73f14290ced4",  # Rapier
+    )
+)
+
 
 def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value: int) -> list[Modifier]:
     # Unconditional (a race's ability-score bonus never depends on anything
@@ -153,4 +186,14 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 # `REISSZAEHNE_ABILITY_ID` above).
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     REISSZAEHNE_ABILITY_ID: _reisszaehne,
+}
+
+# This module's own slice of `rules/handlers.py`'s merged
+# `WEAPON_PROFICIENCY_HANDLERS` — race-granted named-weapon proficiency only
+# (see `ELFISCHE_WAFFENVERTRAUTHEIT_ABILITY_ID` above). Unconditional, so
+# unlike `HANDLERS`/`NATURAL_ATTACK_HANDLERS` this maps straight to the
+# resolved id set rather than to a callable — nothing here ever varies by
+# `CharacterContext`.
+WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
+    ELFISCHE_WAFFENVERTRAUTHEIT_ABILITY_ID: ELFISCHE_WAFFENVERTRAUTHEIT_WEAPON_IDS,
 }

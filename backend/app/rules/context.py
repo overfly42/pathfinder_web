@@ -85,17 +85,35 @@ class CharacterContext:
     # handler at all, instead of every such handler re-checking `has_active`
     # on its own hardcoded "what gates me" id.
     requires_active_ability_id: dict[UUID, UUID] = field(default_factory=dict)
-    # `feat_ids` plus every proficiency feat granted automatically by a
-    # class ability (`rules/proficiency.py`'s `effective_proficiency_feat_ids`,
-    # same merge `routers/feats.py`'s prerequisite checks already do) — the
-    # raw input `rules/proficiency.py`'s `known_weapon_types` maps to the
-    # `BaseItem.weapon_type` categories a character is actually proficient
-    # with. Kept separate from `feat_ids` itself rather than folding the
-    # merge in there: `feat_ids` means "feats this character actually
-    # picked" everywhere else on this dataclass (e.g. Waffenfinesse's own
-    # check in `sheet.py`), and conflating the two would silently change
-    # that meaning for every existing reader.
-    proficiency_feat_ids: frozenset[UUID] = frozenset()
+    # Every weapon-category proficiency feat granted automatically by a
+    # class ability (`rules/proficiency.py`'s `class_granted_proficiency_feat_ids`)
+    # — always blanket-category, never a single weapon (an automatic grant
+    # never carries a chosen weapon). Combined with `feat_ids` above by
+    # `rules/proficiency.py`'s `known_weapon_types` to resolve the
+    # `BaseItem.weapon_type` categories a character is blanket-proficient
+    # with. Kept as its own field rather than folded into `feat_ids`:
+    # `feat_ids` means "feats this character actually picked" everywhere
+    # else on this dataclass (e.g. Waffenfinesse's own check in `sheet.py`),
+    # and conflating the two would silently change that meaning for every
+    # existing reader.
+    class_granted_proficiency_feat_ids: frozenset[UUID] = frozenset()
+    # Exact `BaseItem` ids a character is proficient with via a *picked*
+    # single-weapon-choice feat ("Umgang mit Kriegswaffen"/"Umgang mit
+    # exotischen Waffen" with `chosen_weapon_id` set — see
+    # `rules/proficiency.py`'s module docstring on why these two feats are
+    # dual-natured), a Kensai's own free weapon choice, or a race ability's
+    # fixed named-weapon list (`rules/handlers.py`'s `WEAPON_PROFICIENCY_HANDLERS`,
+    # e.g. Elf's "Elfische Waffenvertrautheit") — the other half of the same
+    # weapon-proficiency check, for a weapon that's proficient by name rather
+    # than by category.
+    chosen_weapon_ids: frozenset[UUID] = frozenset()
+    # Exact `BaseItem` ids that get Weapon Focus's +1 attack bonus — a
+    # player's own picked "Waffenfokus" (`CharacterFeat.chosen_weapon_id`)
+    # folded together with a Kensai's free grant of the same effect for
+    # their kensai weapon (`rules/classes/kampfmagus.py`'s
+    # `KENSAI_WEAPON_FOCUS_ABILITY_ID`) — one set regardless of source, same
+    # reasoning as `chosen_weapon_ids` above.
+    weapon_focus_weapon_ids: frozenset[UUID] = frozenset()
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced

@@ -117,7 +117,21 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     purpose, not specific to rage — e.g. Entfesselter Barbar's Kampfrauschkräfte
     (Erneuerte Lebenskraft, Bestientotem, ...) set this to their own class's
     Kampfrausch id, since PRD text is explicit that rage powers only work
-    while raging (`rules/classes/barbarian.py`)."""
+    while raging (`rules/classes/barbarian.py`).
+
+    `requires_weapon_choice` (2026-08-25, Kensai's "one type of martial or
+    exotic weapon he chooses at 1st level") declares that this ability needs
+    a one-off weapon sub-choice at creation, persisted in
+    `CharacterClassAbilityWeaponChoice` — same "catalog data declares what's
+    needed, router validates against it" split as `BaseTrait.skill_choice_ability`.
+    Unlike that trait column there's no further qualifier to store (a weapon
+    choice doesn't need an "ability the skill must match" dimension), so a
+    plain boolean is enough. Deliberately not folded into the existing feat
+    sub-choice machinery (`BaseFeat.sub_choice_type`): this grants the
+    ability's own mechanical effect (proficiency, Weapon Focus) entirely for
+    free, with no feat spent, so it needs its own composition/persistence
+    rather than posing as a chosen `CharacterFeat` — see
+    `rules/class_weapon_choices.py`'s module docstring."""
 
     __tablename__ = "base_class_abilities"
 
@@ -128,6 +142,7 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     requires_active_ability_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_class_abilities.id"), nullable=True
     )
+    requires_weapon_choice: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):

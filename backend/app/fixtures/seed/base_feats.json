@@ -1663,7 +1663,8 @@
     "name": "Umgang mit exotischen Waffen",
     "description": "Keine Abzüge bei Angriffen mit exotischen Waffen",
     "type": "combat",
-    "prerequisite_text": "Grund-Angriffsbonus +1"
+    "prerequisite_text": "Grund-Angriffsbonus +1",
+    "sub_choice_type": "weapon"
   },
   {
     "id": "1cdce090-d233-5ce7-b060-a90c70429446",

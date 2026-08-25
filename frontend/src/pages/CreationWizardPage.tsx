@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
 import {
+  classWeaponChoicesForSubmission,
   featSelectionsForSubmission,
   selectedRace,
   skillRankSelectionsForSubmission,
@@ -141,6 +142,7 @@ export function CreationWizardPage() {
           feats: featSelectionsForSubmission(draft, opts),
           trait_ids: draft.traits,
           trait_skill_choices: traitSkillChoicesForSubmission(draft, opts),
+          class_weapon_choices: classWeaponChoicesForSubmission(draft, opts),
           spell_ids: spellIdsForSubmission(draft, opts),
           gear: draft.gear.map((item) => ({ item_id: item.itemId, quantity: item.qty })),
         });

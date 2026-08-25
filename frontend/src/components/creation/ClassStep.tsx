@@ -44,18 +44,34 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   }
 
   function toggleArchetype(rowId: string, archetype: string, max: number) {
-    setDraft((prev) => ({
-      ...prev,
-      classRows: prev.classRows.map((row) => {
-        if (row.id !== rowId) return row;
-        const idx = row.archetypes.indexOf(archetype);
-        let next: string[];
-        if (idx !== -1) next = row.archetypes.filter((a) => a !== archetype);
-        else if (row.archetypes.length < max) next = [...row.archetypes, archetype];
-        else next = row.archetypes;
-        return { ...row, archetypes: next };
-      }),
-    }));
+    const row = draft.classRows.find((r) => r.id === rowId);
+    const cls = row ? classDef(options, row.className) : undefined;
+    // Deselecting an archetype that required a weapon choice drops its
+    // now-stale entry too — `classWeaponChoicesForSubmission` would already
+    // filter it out at submit time, but leaving it in the draft would still
+    // show the picker's old value if the same archetype gets re-selected.
+    const droppedAbilityId = row?.archetypes.includes(archetype) ? cls?.archetypeWeaponChoiceAbilityId[archetype] : undefined;
+    setDraft((prev) => {
+      const nextClassWeaponChoices = { ...prev.classWeaponChoices };
+      if (droppedAbilityId) delete nextClassWeaponChoices[droppedAbilityId];
+      return {
+        ...prev,
+        classWeaponChoices: nextClassWeaponChoices,
+        classRows: prev.classRows.map((r) => {
+          if (r.id !== rowId) return r;
+          const idx = r.archetypes.indexOf(archetype);
+          let next: string[];
+          if (idx !== -1) next = r.archetypes.filter((a) => a !== archetype);
+          else if (r.archetypes.length < max) next = [...r.archetypes, archetype];
+          else next = r.archetypes;
+          return { ...r, archetypes: next };
+        }),
+      };
+    });
+  }
+
+  function setClassWeaponChoice(abilityId: string, weaponId: string) {
+    setDraft((prev) => ({ ...prev, classWeaponChoices: { ...prev.classWeaponChoices, [abilityId]: weaponId } }));
   }
 
   function removeClassRow(rowId: string) {
@@ -86,6 +102,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
     }));
   }
 
+  const weapons = options.items.filter((i) => i.category === 'weapon');
   const level = totalLevel(draft);
   const favoredClassBonusOptions = useFavoredClassBonusOptions(draft.raceId, draft.classRows[0]?.className ?? null);
   const alternateFavoredClassBonuses = (favoredClassBonusOptions?.options ?? []).filter(
@@ -141,6 +158,25 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
                   onToggle={(a) => toggleArchetype(row.id, a, archetypeChoices.length)}
                 />
               )}
+
+              {row.archetypes.map((archetypeName) => {
+                const abilityId = cls?.archetypeWeaponChoiceAbilityId[archetypeName];
+                if (!abilityId) return null;
+                return (
+                  <div key={abilityId} style={{ marginTop: 14 }}>
+                    <label>Waffe ({archetypeName})</label>
+                    <select
+                      value={draft.classWeaponChoices[abilityId] ?? ''}
+                      onChange={(e) => setClassWeaponChoice(abilityId, e.target.value)}
+                    >
+                      <option value="">– wählen –</option>
+                      {weapons.map((w) => (
+                        <option value={w.id} key={w.id}>{w.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              })}
 
               {groups.length > 0 && (
                 <div className="class-options">

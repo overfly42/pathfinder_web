@@ -12,7 +12,14 @@ from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.spell_seed import seed_spells
 
-from test_characters import _cantrip_ids, _character_payload, _create_user, _elf_race_id, _spells_by_class
+from test_characters import _cantrip_ids, _character_payload, _create_user, _elf_race_id, _item_id, _spells_by_class
+
+# "Umgang mit Waffen und Rüstungen (Kensai)" — the ability
+# `BaseClassAbility.requires_weapon_choice` is set on (`rules/classes/
+# kampfmagus.py`'s `KENSAI_WEAPON_CHOICE_ABILITY_ID`); mandatory at
+# creation (`routers/characters.py`'s `_validate_class_weapon_choice`),
+# irrelevant to this file's own spell-slot assertions.
+_KENSAI_WEAPON_CHOICE_ABILITY_ID = "1022bc94-7324-5fb0-883a-ed80726277e0"
 
 
 def _magier_character(client: TestClient, db_session: Session) -> tuple[dict, str, dict[str, str]]:
@@ -56,6 +63,7 @@ def _kensai_character(client: TestClient, db_session: Session) -> tuple[dict, st
     base_class_id, spells = _spells_by_class(client, db_session, "Kampfmagus")
     cantrips = _cantrip_ids(client, "Kampfmagus")
     picked = cantrips + [spells["Schild"]]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
     created = client.post(
         "/api/characters",
         json=_character_payload(
@@ -65,6 +73,7 @@ def _kensai_character(client: TestClient, db_session: Session) -> tuple[dict, st
             classes=[{"class_name": "Kampfmagus", "level": 1, "archetypes": ["Kensai"]}],
             spell_ids={base_class_id: picked},
             ability_scores={"ST": 10, "GE": 12, "KO": 13, "IN": 8, "WE": 10, "CH": 8},
+            class_weapon_choices={_KENSAI_WEAPON_CHOICE_ABILITY_ID: langschwert_id},
         ),
     ).json()
     return created, base_class_id, spells
@@ -373,6 +382,7 @@ def test_kensai_can_still_prepare_a_grade_reduced_to_zero_if_a_bonus_spell_appli
     base_class_id, spells = _spells_by_class(client, db_session, "Kampfmagus")
     cantrips = _cantrip_ids(client, "Kampfmagus")
     picked = cantrips + [spells["Schild"]]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
     character = client.post(
         "/api/characters",
         json=_character_payload(
@@ -383,6 +393,7 @@ def test_kensai_can_still_prepare_a_grade_reduced_to_zero_if_a_bonus_spell_appli
             spell_ids={base_class_id: picked},
             # Elf +2 IN -> effective 16, mod +3.
             ability_scores={"ST": 10, "GE": 12, "KO": 13, "IN": 14, "WE": 10, "CH": 8},
+            class_weapon_choices={_KENSAI_WEAPON_CHOICE_ABILITY_ID: langschwert_id},
         ),
     ).json()
 
