@@ -9,6 +9,7 @@ from ..db import get_db
 from ..models import BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
+from ..rules.feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS
 from ..rules.handlers import HANDLERS
 from ..rules.proficiency import effective_proficiency_feat_ids
 from ..sheet import granted_class_ability_ids
@@ -78,11 +79,14 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
             # JSON shape a consumer wants" precedent as `main.py`'s classes
             # endpoint (`skillPointsBase`, `bonusFeatLevels`, ...).
             "subChoiceType": feat.sub_choice_type,
-            # Whether `rules/feats.py` (via `rules/handlers.py`'s merged
-            # `HANDLERS`) actually computes this feat's effect, vs. it only
-            # ever showing as name/description text on the sheet — see
-            # CLAUDE.md's composition-vs-computation split.
-            "hasHandler": feat.id in HANDLERS,
+            # Whether this feat's effect is actually computed anywhere — via
+            # `rules/handlers.py`'s merged `HANDLERS`, or via `sheet.py`'s
+            # own per-weapon-slot handling for the handful of feats that
+            # can't be a flat `Modifier` (`rules/feats.py`'s
+            # `COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS`) — vs. it only ever
+            # showing as name/description text on the sheet. See CLAUDE.md's
+            # composition-vs-computation split.
+            "hasHandler": feat.id in HANDLERS or feat.id in COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS,
         }
         for feat in feats
     ]

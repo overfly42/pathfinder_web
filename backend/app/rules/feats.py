@@ -155,3 +155,13 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
     AUSWEICHEN: _ausweichen,
 }
+
+# Feats whose mechanical effect is genuinely computed on the sheet, just not
+# through this module's own `HANDLERS` above — each one's own docstring
+# (`WAFFENFINESSE`, `WAFFENFOKUS`, `power_attack_bonus`) explains why it's a
+# per-weapon-slot decision `sheet.py`'s `_build_weapon_attacks` makes
+# directly instead of a flat `Modifier`. `sheet.py`'s feat-list "Nur Text"
+# badge (`hasHandler`) checks this set too, so a feat that's actually applied
+# elsewhere doesn't get mislabeled as flavor-only merely for not being a
+# `HANDLERS` entry.
+COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset({WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF})
