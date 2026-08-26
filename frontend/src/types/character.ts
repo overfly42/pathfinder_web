@@ -207,6 +207,14 @@ export interface ActionOption {
    *  card is disabled once this reaches 0. */
   usesRemainingToday?: number | null;
   usesPerDay?: number | null;
+  /** Present for a `sourceType: 'class_ability'` entry whose ability is both `is_persistent_effect`
+   *  (needs the full `ActivateEffectModal` for duration/target-item, e.g. Kampfrausch, Kampfmagus's
+   *  Arkaner Vorrat) *and* daily-pool-limited — deliberately a different pair from
+   *  `usesRemainingToday`/`usesPerDay` above, which also switches `handleActionClick` to the
+   *  simple "/use" endpoint; this pair is display-only; routing stays on `usesRemainingToday`.
+   *  Same numbers as this ability's `ActiveEffect.dailyLimitRemaining`/`dailyLimitTotal`. */
+  dailyLimitRemaining?: number | null;
+  dailyLimitTotal?: number | null;
 }
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';

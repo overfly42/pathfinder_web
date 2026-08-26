@@ -379,3 +379,11 @@
 .seal-ribbon.inactive { background: transparent; border: 1px solid var(--brass-dark); color: var(--brass-dark); }
 .seal-ribbon.inactive::before, .seal-ribbon.inactive::after { content: none; }
 .seal.inactive:hover .seal-ribbon.inactive { background: var(--brass-dark); color: #f2e6c8; }
+.seal-daily-limit {
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-faint);
+  text-align: center;
+  line-height: 1.3;
+}

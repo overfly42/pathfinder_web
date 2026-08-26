@@ -15,8 +15,12 @@ export function ActionsPanel({ actions, roundLabel, onActionClick }: ActionsPane
         // A daily-limited action (`ActionOption.usesRemainingToday`, e.g. Erneuerte Lebenskraft —
         // gear's own uses/charges stay folded into `description` instead, see `sheet.py`'s
         // `_build_actions`) is disabled once today's use is spent, re-enabling on the next
-        // "+1 Tag"/rest call that resets every `DAILY_LIMITS` pool.
-        const exhausted = action.usesRemainingToday != null && action.usesRemainingToday <= 0;
+        // "+1 Tag"/rest call that resets every `DAILY_LIMITS` pool. `dailyLimitRemaining` is the
+        // same exhaustion check for the *other* daily-pool shape (Kampfrausch, Arkaner Vorrat) —
+        // display-only, doesn't change `onActionClick`'s routing the way `usesRemainingToday` does.
+        const exhausted =
+          (action.usesRemainingToday != null && action.usesRemainingToday <= 0) ||
+          (action.dailyLimitRemaining != null && action.dailyLimitRemaining <= 0);
         return (
           <button
             type="button"
@@ -37,6 +41,11 @@ export function ActionsPanel({ actions, roundLabel, onActionClick }: ActionsPane
                 {action.usesRemainingToday != null && (
                   <span className="active-badge">
                     {action.usesRemainingToday}/{action.usesPerDay} heute
+                  </span>
+                )}
+                {action.dailyLimitRemaining != null && (
+                  <span className="active-badge">
+                    {action.dailyLimitRemaining}/{action.dailyLimitTotal} heute
                   </span>
                 )}
               </div>

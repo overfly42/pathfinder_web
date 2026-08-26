@@ -1438,19 +1438,29 @@ def _build_actions(
         abilities = [
             a for a in abilities if a.requires_active_ability_id is None or context.has_active(a.requires_active_ability_id)
         ]
-        actions += [
-            {
-                "id": f"ability-{ability.id}",
-                "icon": "⚔️",
-                "name": ability.name,
-                "tag": None,
-                "description": ability.description,
-                "sourceType": "class_ability",
-                "sourceId": str(ability.id),
-                "defaultDurationRounds": ability.default_duration_rounds,
-            }
-            for ability in abilities
-        ]
+        for ability in abilities:
+            # `dailyLimitRemaining`/`dailyLimitTotal` (not `usesRemainingToday`/`usesPerDay`
+            # below — that pair also tells `CharacterSheetPage.tsx`'s `handleActionClick` to
+            # route the click through the simple "/use" endpoint instead of opening the full
+            # activation modal, which would be wrong here: an ability in *this* block still
+            # needs the modal to set a duration/target item, e.g. Kampfrausch, Arkaner Vorrat).
+            # Same numbers `_build_active_effects`/`_build_activatable_class_abilities` already
+            # expose for this ability, just also surfaced on its Aktionen-panel card.
+            remaining = remaining_today(db, character, context, ability.id)
+            actions.append(
+                {
+                    "id": f"ability-{ability.id}",
+                    "icon": "⚔️",
+                    "name": ability.name,
+                    "tag": None,
+                    "description": ability.description,
+                    "sourceType": "class_ability",
+                    "sourceId": str(ability.id),
+                    "defaultDurationRounds": ability.default_duration_rounds,
+                    "dailyLimitRemaining": max(0, remaining) if remaining is not None else None,
+                    "dailyLimitTotal": DAILY_LIMITS[ability.id](context) if remaining is not None else None,
+                }
+            )
 
     feat_ids = set(character.feat_ids)
     if feat_ids:

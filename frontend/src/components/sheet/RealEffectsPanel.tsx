@@ -89,6 +89,13 @@ interface AvailableEffectSealProps {
 }
 
 function AvailableEffectSeal({ entry, onPick }: AvailableEffectSealProps) {
+  // Class-ability entries only ever carry a short "X von Y ... heute übrig" pool summary in
+  // `description` here (`sheet.py`'s `_build_activatable_class_abilities` — never the ability's
+  // full rules text), so it's safe to surface directly on the card instead of hover-only, the same
+  // way `ActionsPanel`'s own daily-limited cards already show their remaining count visibly. Every
+  // other source type's `description` is the full catalog text (spell/feat/condition), which stays
+  // hover-only via `title` — showing that inline would blow up the card.
+  const visibleDescription = entry.sourceType === 'class_ability' ? entry.description : undefined;
   return (
     <button
       type="button"
@@ -102,6 +109,7 @@ function AvailableEffectSeal({ entry, onPick }: AvailableEffectSealProps) {
       </div>
       <div className="seal-name">{entry.name}</div>
       <div className="seal-ribbon inactive">{entry.tag}</div>
+      {visibleDescription && <div className="seal-daily-limit">{visibleDescription}</div>}
     </button>
   );
 }
