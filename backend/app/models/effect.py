@@ -63,7 +63,22 @@ class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     counts down to the next due save and resets to `frequency_rounds` after
     every save regardless of outcome; `successes_current` resets to 0 on a
     failure and the row is deleted once it reaches `successes_required`. An
-    instance uses one countdown style or the other, not necessarily both."""
+    instance uses one countdown style or the other, not necessarily both.
+
+    `target_item_id` (2026-08-26, Kampfmagus's Arkaner Vorrat) is a generic,
+    optional reference to a `BaseItem` for an effect that temporarily buffs
+    one specific held item rather than the character as a whole (e.g.
+    "verleihe der geführten Waffe einen Verbesserungsbonus"). Deliberately a
+    `BaseItem` id, not the owning `CharacterGear` row's own id: every other
+    gear-addressing endpoint (`PATCH/DELETE .../gear/{item_id}`, the
+    `hauptwaffe`/`nebenwaffe` slot endpoints) already keys off `item_id`
+    (unique per character, `CharacterGear.__table_args__`), and
+    `CharacterGear.id` itself is never exposed over the wire (`sheet.py`'s
+    `_build_gear` docstring) — reusing that same key here means a caller can
+    supply exactly the id it already has, and `sheet.py` resolves the
+    target by matching a gear row's `item_id`, the same way the slot
+    endpoints do. `None` for every effect that doesn't target a specific
+    item (the overwhelming majority)."""
 
     __tablename__ = "character_effects"
 
@@ -71,6 +86,9 @@ class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     source_type: Mapped[str] = mapped_column(String(32))
     source_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True))
     level: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    target_item_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_items.id"), nullable=True
+    )
 
     incubation_remaining: Mapped[int | None] = mapped_column(Integer, nullable=True)
     duration_remaining: Mapped[int | None] = mapped_column(Integer, nullable=True)

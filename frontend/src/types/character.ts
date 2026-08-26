@@ -273,9 +273,10 @@ export interface ConditionCatalogEntry {
 /** A persistent-effect spell, class ability, or feat this character actually knows/has, minimal
  *  shape since the picker just needs something to activate by id. `description`, when set, is only
  *  ever a daily-limited ability's remaining-today count (e.g. Kampfrausch's rounds/day) — most
- *  entries have none. `defaultDurationRounds` (feats only, e.g. Heftiger Angriff's 1 round) pre-fills
- *  the activation modal's duration field, same role `ConditionCatalogEntry`'s own default plays for
- *  conditions — the player can still override it. */
+ *  entries have none. `defaultDurationRounds` (feats, e.g. Heftiger Angriff's 1 round; class
+ *  abilities, e.g. Kampfmagus's Arkaner Vorrat's 1 minute) pre-fills the activation modal's
+ *  duration field, same role `ConditionCatalogEntry`'s own default plays for conditions — the
+ *  player can still override it. */
 export interface ActivatableRef {
   key: string;
   name: string;

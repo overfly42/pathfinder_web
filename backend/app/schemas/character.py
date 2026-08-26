@@ -546,7 +546,11 @@ class EffectActivate(BaseModel):
     Heftiger Angriff) reuses this same generic activation flow rather than a
     parallel one — `BaseFeat.default_duration_rounds` only pre-fills the
     frontend's duration field, `duration_remaining` here is still whatever
-    the player actually submits."""
+    the player actually submits. `target_item_id` (2026-08-26, Kampfmagus's
+    Arkaner Vorrat) optionally names a `BaseItem` this character carries
+    (`CharacterGear.item_id`) for an effect that buffs a specific held item
+    rather than the character as a whole — see `models.effect.CharacterEffect`'s
+    own docstring; `None` for every effect that doesn't target an item."""
 
     source_type: Literal["spell", "class_ability", "condition", "feat"]
     source_id: UUID
@@ -555,6 +559,7 @@ class EffectActivate(BaseModel):
     duration_remaining: int | None = None
     frequency_rounds: int | None = None
     successes_required: int | None = None
+    target_item_id: UUID | None = None
 
 
 class EffectSaveResult(BaseModel):
@@ -598,6 +603,7 @@ class EffectRead(BaseModel):
     next_check_in: int | None
     successes_current: int
     successes_required: int | None
+    target_item_id: UUID | None
 
 
 class CharacterUpdate(BaseModel):

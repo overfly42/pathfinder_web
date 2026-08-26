@@ -95,14 +95,17 @@ from collections.abc import Callable, Iterable
 from uuid import UUID
 
 from .classes import APPLIED_OUTSIDE_HANDLERS_IDS as _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS
+from .classes import DAILY_LIMIT_UNIT_LABEL as _CLASS_DAILY_LIMIT_UNIT_LABEL
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
 from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
+from .classes import POOL_COST_AT_ACTIVATION as _CLASS_POOL_COST_AT_ACTIVATION
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
 from .classes import SPELL_SLOT_DELTA as _CLASS_SPELL_SLOT_DELTA
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_HANDLERS
+from .classes import WEAPON_ENHANCEMENT_HANDLERS as _CLASS_WEAPON_ENHANCEMENT_HANDLERS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS as _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
@@ -182,6 +185,39 @@ WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str,
     **_CLASS_WEAPON_BONUS_DAMAGE_HANDLERS,
 }
 
+# An ability id's currently active temporary enhancement bonus (the
+# `BaseItem` id it applies to, plus the bonus value — same item-id key
+# every gear endpoint uses, see `models.effect.CharacterEffect.target_item_id`'s
+# docstring) — `None` if the ability isn't currently active, or is active
+# with no target item chosen yet. `sheet.py`'s `_build_weapon_attacks` adds
+# this on top of whichever gear row's own permanent `enhancement` matches
+# the returned item id, capped at the PF1e combined maximum of +5 (e.g.
+# Kampfmagus's Arkaner Vorrat, `rules/classes/kampfmagus.py`). Not part of
+# `HANDLERS`: a per-item bonus, not a character-wide `Modifier` `stack()`
+# can fold in. Only class abilities contribute today.
+WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID, int] | None]] = {
+    **_CLASS_WEAPON_ENHANCEMENT_HANDLERS,
+}
+
+# Ability ids whose active effect pays its own `DAILY_LIMITS` pool cost once
+# at activation (`routers/characters.py`'s `activate_effect`) rather than
+# accruing it per round of active duration the way Kampfrausch's rounds/day
+# does (`advance_time`) — see `rules/classes/kampfmagus.py`'s
+# `ARKANER_VORRAT_ABILITY_ID` docstring for the full reasoning. The int is
+# the flat number of pool points one activation costs.
+POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
+    **_CLASS_POOL_COST_AT_ACTIVATION,
+}
+
+# Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's "X von Y
+# ... heute übrig" sheet text (`sheet.py`'s `_build_activatable_class_abilities`)
+# — defaults to "Runden" at the call site for any id with no entry here
+# (every `DAILY_LIMITS` id before Arkaner Vorrat happened to be a
+# rounds/day pool).
+DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
+    **_CLASS_DAILY_LIMIT_UNIT_LABEL,
+}
+
 # How much temporary HP activating an ability id grants
 # (`routers/characters.py`'s `activate_effect`), set directly onto
 # `Character.temporary_hit_points` rather than through the `Modifier`/
@@ -228,6 +264,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         ability_id in HANDLERS
         or ability_id in NATURAL_ATTACK_HANDLERS
         or ability_id in WEAPON_BONUS_DAMAGE_HANDLERS
+        or ability_id in WEAPON_ENHANCEMENT_HANDLERS
         or ability_id in WEAPON_PROFICIENCY_HANDLERS
         or ability_id in SITUATIONAL_SKILL_HANDLERS
         or ability_id in SPELL_SLOT_DELTAS

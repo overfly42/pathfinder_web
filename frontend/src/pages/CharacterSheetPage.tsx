@@ -501,6 +501,7 @@ export function CharacterSheetPage() {
         duration_remaining: input.durationRemaining,
         frequency_rounds: input.frequencyRounds,
         successes_required: input.successesRequired,
+        target_item_id: input.targetItemId,
       });
       refetch();
     } catch {
@@ -697,6 +698,7 @@ export function CharacterSheetPage() {
       <ActivateEffectModal
         entry={picked}
         characterLevel={character.level}
+        gear={character.gear}
         onCancel={() => setPicked(null)}
         onActivate={handleActivateAndClose}
       />

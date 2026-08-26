@@ -169,6 +169,7 @@ export function RealEffectsPanel({
           description: ability.description ?? undefined,
           icon: SOURCE_TYPE_ICONS.class_ability,
           tag: 'Klassenfähigkeit',
+          defaultDurationRounds: ability.defaultDurationRounds,
         });
       }
       for (const feat of activatableFeats) {

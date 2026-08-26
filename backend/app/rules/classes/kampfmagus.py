@@ -2,13 +2,18 @@
 Skirnir, Zauberstreiter) — each archetype's "Vermindertes Zauberwirken"
 (Diminished Spellcasting, `SPELL_SLOT_DELTA` below), Kensai's own free
 weapon choice (`KENSAI_WEAPON_CHOICE_ABILITY_ID`/`KENSAI_WEAPON_FOCUS_ABILITY_ID`),
-and Kensai's "Gewitzte Verteidigung" (Canny Defense, `HANDLERS` below) — the
-three Kampfmagus-archetype features with a real mechanical hook.
-"Vermindertes Zauberwirken" now that `spells_per_day` exists to adjust
-(`import_kampfmagus_archetypes.py`'s docstring flagged this ability as "no
-schema hook to replace" at the time it was seeded, back when this app had no
-spell-slot-per-day tracking at all for any prepared caster —
-`rules/spells.py`'s `spells_per_day`/`total_spell_slots` is that hook now).
+Kensai's "Gewitzte Verteidigung" (Canny Defense, `HANDLERS` below), and the
+Kampfmagus root class's own "Arkaner Vorrat" (Arcane Reservoir,
+`ARKANER_VORRAT_ABILITY_ID` below — pool size plus its headline "verbessere
+eine Waffe" action; the Skirnir archetype's own variant, several other
+abilities that spend from the same pool, and the pool's level-5 special-
+ability unlock are not yet implemented, see that id's own docstring).
+"Vermindertes Zauberwirken" now has a real schema hook (`spells_per_day`)
+to adjust (`import_kampfmagus_archetypes.py`'s docstring flagged this
+ability as "no schema hook to replace" at the time it was seeded, back when
+this app had no spell-slot-per-day tracking at all for any prepared caster
+— `rules/spells.py`'s `spells_per_day`/`total_spell_slots` is that hook
+now).
 
 Identical rule text, independently granted at 1st level, for all four
 archetypes: "Ein {Archetyp} besitzt pro Zaubergrad einen Zauberplatz
@@ -119,6 +124,98 @@ def _gewitzte_verteidigung_kensai(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Gewitzte Verteidigung", type="dodge", value=bonus, target=ModifierTarget.AC)]
 
 
+# Kampfmagus's own "Arkaner Vorrat" (Arcane Reservoir), level 1
+# (`base_class_abilities.json` id 571a2783-…). A shared point pool
+# (`_arkaner_vorrat_pool_points`, `DAILY_LIMITS` below) that several other
+# class abilities (Zauberrückruf, Wissensvorrat, Kensai's Perfekter Schlag,
+# ...) spend against by discrete amounts — none of those consumers are
+# implemented yet, only the pool itself and its own headline action ("Waffe
+# verbessern", below).
+#
+# That headline action is a *duration* effect (RAW: "für eine Minute"), not
+# an instant one, but its own pool cost is a flat, always-1-point debit paid
+# once at activation — structurally different from Kampfrausch (this
+# module's only other DAILY_LIMITS precedent), whose "rounds/day" pool *is*
+# its own active duration, drained automatically one unit per round ticked
+# (`routers/characters.py`'s `advance_time`). Arkaner Vorrat's pool has no
+# such 1:1 relationship to the resulting effect's `duration_remaining` (a
+# 10-round buff still only ever costs 1 point, not 10) — `POOL_COST_AT_ACTIVATION`
+# below is what tells `activate_effect`/`advance_time` apart: the pool is
+# charged once, up front, and the effect's own countdown afterwards no
+# longer touches it.
+ARKANER_VORRAT_ABILITY_ID = UUID("571a2783-adb7-5222-8040-a1c4d40b4b0c")
+
+
+def _arkaner_vorrat_pool_points(context: CharacterContext) -> int:
+    """"Eine Anzahl an Punkten in Höhe seiner halben Stufe als Kampfmagus
+    (Minimum 1) + seines IN-Modifikators" — the "Minimum 1" floors the
+    halved-level term specifically (a 1st-level Kampfmagus already has a
+    1-point pool before any Int bonus), not the sum as a whole."""
+    kampfmagus_level = context.level_counts_by_root_id.get(KAMPFMAGUS_ROOT_CLASS_ID, 0)
+    int_mod = ability_mod(context.ability_scores.get("IN", 10))
+    return max(1, kampfmagus_level // 2) + int_mod
+
+
+def _arkaner_vorrat_weapon_enhancement(context: CharacterContext) -> tuple[UUID, int] | None:
+    """The enhancement bonus granted to whichever `BaseItem` is named by
+    the active effect's own `target_item_id` (set at activation,
+    `routers/characters.py`'s `activate_effect` — see that field's own
+    docstring on `models.effect.CharacterEffect` for why it's an item id,
+    not the owning `CharacterGear` row's own id) — `None` while the effect
+    isn't active at all, or (defensively) if it's active with no target
+    chosen. Unlike the pool's flat 1-point cost, the bonus *size* is purely
+    computed from Kampfmagus level, never player-chosen or stored on the
+    effect row: "+1 auf der 1. Stufe... für jeweils 4 weitere Stufen (ab der
+    5., 9. ...) ein weiterer +1, bis zu einem Maximum von +5 auf der 17.
+    Stufe" is exactly `1 + (level - 1) // 4`, capped at 5.
+
+    Combining this with a weapon's own permanent `CharacterGear.enhancement`
+    (capped at the same +5 total, per RAW) is `sheet.py`'s job — this
+    handler only knows the character's own level, not any specific weapon's
+    existing bonus, so it returns the nominal, uncapped-against-gear value."""
+    effect = next(
+        (e for e in context.active_effects if e.source_id == ARKANER_VORRAT_ABILITY_ID and e.target_item_id is not None),
+        None,
+    )
+    if effect is None:
+        return None
+    kampfmagus_level = context.level_counts_by_root_id.get(KAMPFMAGUS_ROOT_CLASS_ID, 0)
+    bonus = min(5, 1 + max(0, kampfmagus_level - 1) // 4)
+    return (effect.target_item_id, bonus)
+
+
+# Ability ids whose active `CharacterEffect` pays its own `DAILY_LIMITS`
+# pool cost once, at activation (`routers/characters.py`'s `activate_effect`),
+# rather than accruing it per round of active duration the way Kampfrausch's
+# rounds/day does (`advance_time`) — see `ARKANER_VORRAT_ABILITY_ID`'s
+# docstring above for why the two shapes need telling apart. The int is the
+# flat number of pool points one activation costs.
+POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
+    ARKANER_VORRAT_ABILITY_ID: 1,
+}
+
+# Display unit for a `DAILY_LIMITS` ability's "X von Y ... heute übrig"
+# sheet text (`sheet.py`'s `_build_activatable_class_abilities`) — every
+# `DAILY_LIMITS` id before this one happened to be a rounds/day pool
+# (Kampfrausch), which is why that string used to hardcode "Runden";
+# Arkaner Vorrat's pool is points, not rounds.
+DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
+    ARKANER_VORRAT_ABILITY_ID: "Punkten",
+}
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     GEWITZTE_VERTEIDIGUNG_KENSAI_ABILITY_ID: _gewitzte_verteidigung_kensai,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS`.
+DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    ARKANER_VORRAT_ABILITY_ID: _arkaner_vorrat_pool_points,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `WEAPON_ENHANCEMENT_HANDLERS`
+# — an ability id's currently active temporary enhancement bonus on one
+# specific `CharacterGear` row, or `None` if not currently active.
+WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID, int] | None]] = {
+    ARKANER_VORRAT_ABILITY_ID: _arkaner_vorrat_weapon_enhancement,
 }

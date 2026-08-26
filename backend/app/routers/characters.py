@@ -58,7 +58,7 @@ from ..rules.daily_limits import (
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
 from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
-from ..rules.handlers import ON_END, TEMP_HP_GRANTS
+from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
@@ -1431,13 +1431,24 @@ def activate_effect(
 
     Ability ids registered in `rules/handlers.py`'s `DAILY_LIMITS` (e.g.
     Kampfrausch) are rejected once today's pool is exhausted
-    (`rules/daily_limits.py`'s `remaining_today`) — the pool itself isn't
-    consumed here, only checked; `advance_time` is what actually spends it
-    round by round. Ones registered in `TEMP_HP_GRANTS` grant their temp HP
-    directly onto `Character.temporary_hit_points` at this same moment.
-    Neither applies to a feat like Heftiger Angriff (no resource pool, no
-    temp HP), so those dicts simply have no entry for its id and both checks
-    are no-ops for it."""
+    (`rules/daily_limits.py`'s `remaining_today`) — for most such ids the
+    pool itself isn't consumed here, only checked; `advance_time` is what
+    actually spends it round by round. The one exception is
+    `POOL_COST_AT_ACTIVATION` (e.g. Kampfmagus's Arkaner Vorrat): those ids'
+    pool cost is a flat amount paid right here, once, instead of accruing
+    per round of active duration — see that registry's own docstring for
+    why the two shapes need telling apart, and `advance_time` for the other
+    half (skipping its own per-round debit for these same ids). Ones
+    registered in `TEMP_HP_GRANTS` grant their temp HP directly onto
+    `Character.temporary_hit_points` at this same moment. None of this
+    applies to a feat like Heftiger Angriff (no resource pool, no temp HP),
+    so those dicts simply have no entry for its id and every check is a
+    no-op for it.
+
+    `target_item_id`, if given, must be a `BaseItem` id this character
+    actually carries (`CharacterGear.item_id`, same key every other gear
+    endpoint uses — `models.effect.CharacterEffect`'s docstring) — an effect
+    can't target an item the character doesn't have."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1458,9 +1469,17 @@ def activate_effect(
         if db.get(BaseCondition, body.source_id) is None:
             raise HTTPException(status_code=422, detail="Unknown condition")
 
+    if body.target_item_id is not None:
+        if not any(g.item_id == body.target_item_id for g in character.gear):
+            raise HTTPException(status_code=422, detail="target_item_id is not this character's gear")
+
     context = _ability_context(db, character)
+    activation_cost = POOL_COST_AT_ACTIVATION.get(body.source_id)
     remaining = remaining_today(db, character, context, body.source_id)
-    if remaining is not None and remaining <= 0:
+    if activation_cost is not None:
+        if remaining is not None and activation_cost > remaining:
+            raise HTTPException(status_code=422, detail="Not enough pool points left today")
+    elif remaining is not None and remaining <= 0:
         raise HTTPException(status_code=422, detail="No uses/rounds of this ability left today")
 
     effect = CharacterEffect(
@@ -1473,8 +1492,12 @@ def activate_effect(
         frequency_rounds=body.frequency_rounds,
         next_check_in=body.frequency_rounds,
         successes_required=body.successes_required,
+        target_item_id=body.target_item_id,
     )
     db.add(effect)
+
+    if activation_cost is not None:
+        record_usage(db, character, body.source_id, activation_cost, context)
 
     temp_hp_grant = TEMP_HP_GRANTS.get(body.source_id)
     if temp_hp_grant is not None:
@@ -1570,7 +1593,17 @@ def advance_time(
             if effect.next_check_in is not None:
                 effect.next_check_in = max(0, effect.next_check_in - rounds)
 
-            daily_remaining = record_usage(db, character, effect.source_id, rounds, context)
+            # `POOL_COST_AT_ACTIVATION` ids (e.g. Arkaner Vorrat's weapon
+            # buff) already paid their pool cost once, in full, at
+            # `activate_effect` time — ticking rounds here must not debit
+            # the pool a second time (contrast Kampfrausch, whose
+            # rounds/day pool *is* its own active duration, drained
+            # exactly this way).
+            daily_remaining = (
+                None
+                if effect.source_id in POOL_COST_AT_ACTIVATION
+                else record_usage(db, character, effect.source_id, rounds, context)
+            )
             expired = (effect.frequency_rounds is None and effect.duration_remaining == 0) or (
                 daily_remaining is not None and daily_remaining <= 0
             )

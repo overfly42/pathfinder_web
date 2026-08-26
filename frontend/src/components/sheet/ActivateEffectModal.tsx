@@ -27,6 +27,14 @@ export interface ActivateEffectInput {
   durationRemaining: number | null;
   frequencyRounds: number | null;
   successesRequired: number | null;
+  targetItemId: string | null;
+}
+
+/** One entry in the target-item picker — only the fields the dropdown needs, not the full
+ *  `GearItem` (keeps this modal decoupled from the rest of that type's shape). */
+export interface TargetItemOption {
+  id: string;
+  name: string;
 }
 
 interface UnitField {
@@ -78,16 +86,22 @@ function UnitValueField({ label, field, onChange }: UnitValueFieldProps) {
 interface ActivateEffectModalProps {
   entry: AvailableEntry | null;
   characterLevel: number;
+  /** This character's current gear, for the optional target-item picker (e.g. Kampfmagus's
+   *  Arkaner Vorrat, which buffs one specific held weapon) — shown for every activation
+   *  regardless of `sourceType`, same "generic field, irrelevant ones just leave it empty"
+   *  convention the level/duration/incubation/frequency/successes fields above already use. */
+  gear: TargetItemOption[];
   onCancel: () => void;
   onActivate: (input: ActivateEffectInput) => void;
 }
 
-export function ActivateEffectModal({ entry, characterLevel, onCancel, onActivate }: ActivateEffectModalProps) {
+export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onActivate }: ActivateEffectModalProps) {
   const [level, setLevel] = useState('');
   const [duration, setDuration] = useState<UnitField>(EMPTY_FIELD);
   const [incubation, setIncubation] = useState<UnitField>(EMPTY_FIELD);
   const [frequency, setFrequency] = useState<UnitField>(EMPTY_FIELD);
   const [successesRequired, setSuccessesRequired] = useState('');
+  const [targetItemId, setTargetItemId] = useState('');
 
   // Re-seed every field from this entry's defaults whenever a (different) entry is opened —
   // spells/class abilities default their level to the character's current level (the usual
@@ -100,6 +114,7 @@ export function ActivateEffectModal({ entry, characterLevel, onCancel, onActivat
     setIncubation(fieldFromRounds(entry.defaultIncubationRounds));
     setFrequency(fieldFromRounds(entry.defaultFrequencyRounds));
     setSuccessesRequired(entry.defaultSuccessesRequired != null ? String(entry.defaultSuccessesRequired) : '');
+    setTargetItemId('');
   }, [entry, characterLevel]);
 
   function handleActivate() {
@@ -113,6 +128,7 @@ export function ActivateEffectModal({ entry, characterLevel, onCancel, onActivat
       durationRemaining: fieldToRounds(duration),
       frequencyRounds: fieldToRounds(frequency),
       successesRequired: successesRequired.trim() ? parseInt(successesRequired, 10) || null : null,
+      targetItemId: targetItemId || null,
     });
   }
 
@@ -138,6 +154,19 @@ export function ActivateEffectModal({ entry, characterLevel, onCancel, onActivat
           <UnitValueField label="Dauer" field={duration} onChange={setDuration} />
           <UnitValueField label="Inkubation" field={incubation} onChange={setIncubation} />
           <UnitValueField label="Frequenz" field={frequency} onChange={setFrequency} />
+          {gear.length > 0 && (
+            <div className="activate-effect-field">
+              <div className="detail-label">Zielgegenstand (optional)</div>
+              <div className="activate-effect-value-row">
+                <select value={targetItemId} onChange={(e) => setTargetItemId(e.target.value)}>
+                  <option value="">— keine —</option>
+                  {gear.map((item) => (
+                    <option key={item.id} value={item.id}>{item.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
           <div className="activate-effect-field">
             <div className="detail-label">Erfolge benötigt</div>
             <div className="activate-effect-value-row">

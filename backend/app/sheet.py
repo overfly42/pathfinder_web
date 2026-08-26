@@ -89,9 +89,11 @@ from .rules.feats import (
     power_attack_bonus,
 )
 from .rules.handlers import (
+    DAILY_LIMIT_UNIT_LABEL,
     DAILY_LIMITS,
     NATURAL_ATTACK_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
+    WEAPON_ENHANCEMENT_HANDLERS,
     WEAPON_PROFICIENCY_HANDLERS,
     character_modifiers,
     granted_ability_modifiers,
@@ -1362,8 +1364,16 @@ def _build_activatable_class_abilities(
         description = None
         if remaining is not None:
             total = DAILY_LIMITS[ability.id](context)
-            description = f"{max(0, remaining)} von {total} Runden heute übrig"
-        results.append({"key": str(ability.id), "name": ability.name, "description": description})
+            unit = DAILY_LIMIT_UNIT_LABEL.get(ability.id, "Runden")
+            description = f"{max(0, remaining)} von {total} {unit} heute übrig"
+        results.append(
+            {
+                "key": str(ability.id),
+                "name": ability.name,
+                "description": description,
+                "defaultDurationRounds": ability.default_duration_rounds,
+            }
+        )
     return results
 
 
@@ -1437,6 +1447,7 @@ def _build_actions(
                 "description": ability.description,
                 "sourceType": "class_ability",
                 "sourceId": str(ability.id),
+                "defaultDurationRounds": ability.default_duration_rounds,
             }
             for ability in abilities
         ]
@@ -1617,6 +1628,7 @@ def _build_active_effects(db: Session, character: Character, context: CharacterC
                 # a second round trip to the conditions catalog.
                 "conditionType": source.type if effect.source_type == "condition" else None,
                 "level": effect.level,
+                "targetItemId": str(effect.target_item_id) if effect.target_item_id else None,
                 "incubationRemaining": effect.incubation_remaining,
                 "durationRemaining": effect.duration_remaining,
                 "frequencyRounds": effect.frequency_rounds,
@@ -1929,6 +1941,31 @@ def _class_weapon_bonus_damage(
     ]
 
 
+def _temp_weapon_enhancement_by_item_id(context: CharacterContext) -> dict[UUID, int]:
+    """Resolves `rules/handlers.py`'s `WEAPON_ENHANCEMENT_HANDLERS` against
+    every registered ability id unconditionally (unlike `_class_weapon_bonus_damage`
+    above, this isn't scoped to the character's own granted abilities — an
+    activatable effect like Arkaner Vorrat's weapon buff is only ever
+    present in `context.active_effects` at all once actually activated, so
+    there's no separate granted-ability gate to check first). Keyed by
+    `BaseItem` id (`CharacterEffect.target_item_id`'s own key, see that
+    field's docstring for why it's the item id and not the owning
+    `CharacterGear` row's), summed in case more than one source ever
+    targets the same item at once (PF1e RAW doesn't actually allow that for
+    Arkaner Vorrat itself — "kann immer nur eine Waffe gleichzeitig
+    verbessern" — but nothing stops a second, unrelated ability from doing
+    the same someday); `_build_weapon_attacks` caps the combined total
+    against the item's own permanent bonus at +5."""
+    result: dict[UUID, int] = {}
+    for handler in WEAPON_ENHANCEMENT_HANDLERS.values():
+        resolved = handler(context)
+        if resolved is None:
+            continue
+        item_id, bonus = resolved
+        result[item_id] = result.get(item_id, 0) + bonus
+    return result
+
+
 def _build_weapon_attacks(
     items: dict[UUID, BaseItem],
     gear_by_slot: dict[str, CharacterGear],
@@ -2000,12 +2037,18 @@ def _build_weapon_attacks(
     gear_entries_by_item_id = {entry["id"]: entry for entry in gear_entries}
     class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
     known_types = known_weapon_types(context.class_granted_proficiency_feat_ids, context.feat_ids)
+    temp_enhancement_by_item_id = _temp_weapon_enhancement_by_item_id(context)
     results = []
     for slot_key, hand_label in _WEAPON_HAND_LABELS.items():
         gear_row = gear_by_slot.get(slot_key)
         item = items.get(gear_row.item_id) if gear_row is not None else None
         if item is None or item.category != "weapon":
             continue
+        # PF1e caps a weapon's *combined* enhancement bonus (permanent +
+        # temporary, e.g. Kampfmagus's Arkaner Vorrat) at +5 regardless of
+        # how many sources contribute — capped here, once, rather than at
+        # each of the two use sites below.
+        enhancement = min(5, gear_row.enhancement + temp_enhancement_by_item_id.get(gear_row.item_id, 0))
 
         is_ranged = item.weapon_range is not None
         power_attack = (
@@ -2033,7 +2076,7 @@ def _build_weapon_attacks(
             bab,
             bab
             + attack_ability_mod
-            + gear_row.enhancement
+            + enhancement
             + power_attack_penalty
             + proficiency_penalty
             + weapon_focus_bonus,
@@ -2045,7 +2088,7 @@ def _build_weapon_attacks(
                 0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
             )
             flat_damage = (
-                damage_str_mod + gear_row.enhancement + (0 if is_ranged else melee_damage_bonus) + power_attack_damage
+                damage_str_mod + enhancement + (0 if is_ranged else melee_damage_bonus) + power_attack_damage
             )
             piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
             if item.damage_type:
@@ -2070,6 +2113,9 @@ def _build_weapon_attacks(
         notes = []
         if power_attack is not None:
             notes.append("Heftiger Angriff aktiv")
+        temp_enhancement = temp_enhancement_by_item_id.get(gear_row.item_id, 0)
+        if temp_enhancement:
+            notes.append(f"Vorübergehender Verbesserungsbonus aktiv ({_fmt(temp_enhancement)})")
         if not is_proficient:
             notes.append(f"Nicht geübt ({_fmt(NOT_PROFICIENT_ATTACK_PENALTY)})")
         if notes:

@@ -131,7 +131,15 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability's own mechanical effect (proficiency, Weapon Focus) entirely for
     free, with no feat spent, so it needs its own composition/persistence
     rather than posing as a chosen `CharacterFeat` — see
-    `rules/class_weapon_choices.py`'s module docstring."""
+    `rules/class_weapon_choices.py`'s module docstring.
+
+    `default_duration_rounds` (2026-08-26, Kampfmagus's Arkaner Vorrat) only
+    pre-fills the activation form's duration field — same role
+    `BaseFeat.default_duration_rounds`/`BaseCondition.default_duration_rounds`
+    already play for feats/conditions (see `BaseFeat`'s own docstring); the
+    `CharacterEffect` row's actual `duration_remaining` is still whatever
+    the player submits. `None` for most abilities (either no fixed RAW
+    duration, or `is_persistent_effect` is `False` to begin with)."""
 
     __tablename__ = "base_class_abilities"
 
@@ -143,6 +151,7 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_class_abilities.id"), nullable=True
     )
     requires_weapon_choice: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+    default_duration_rounds: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
