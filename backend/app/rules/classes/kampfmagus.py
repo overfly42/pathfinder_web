@@ -1,8 +1,9 @@
 """Kampfmagus (Magus) and its four archetypes (Kensai, Seelenschmied,
 Skirnir, Zauberstreiter) — each archetype's "Vermindertes Zauberwirken"
-(Diminished Spellcasting, `SPELL_SLOT_DELTA` below) plus Kensai's own free
+(Diminished Spellcasting, `SPELL_SLOT_DELTA` below), Kensai's own free
 weapon choice (`KENSAI_WEAPON_CHOICE_ABILITY_ID`/`KENSAI_WEAPON_FOCUS_ABILITY_ID`),
-the two Kampfmagus-archetype features with a real mechanical hook.
+and Kensai's "Gewitzte Verteidigung" (Canny Defense, `HANDLERS` below) — the
+three Kampfmagus-archetype features with a real mechanical hook.
 "Vermindertes Zauberwirken" now that `spells_per_day` exists to adjust
 (`import_kampfmagus_archetypes.py`'s docstring flagged this ability as "no
 schema hook to replace" at the time it was seeded, back when this app had no
@@ -20,7 +21,18 @@ bonus itself is untouched, which is exactly what "kann ... wirken, wenn er
 Bonuszauber ... erhält" describes (a reduced-to-0 base grade can still be
 cast if the bonus alone grants a slot there)."""
 
+from collections.abc import Callable
 from uuid import UUID
+
+from ..context import CharacterContext
+from ..modifiers import Modifier, ModifierTarget
+from ..progression import ability_mod
+
+# Kampfmagus's own root `BaseClass` id (`base_classes.json`) — Kensai is one
+# of its archetypes, not a separately leveled class, so a Kensai's levels
+# are counted here the same way any other Kampfmagus's are
+# (`context.level_counts_by_root_id`).
+KAMPFMAGUS_ROOT_CLASS_ID = UUID("cebfc2a3-02fc-561a-8467-7f88ba567b01")
 
 # Ability ids from `base_class_ability_grants.json` (one per archetype,
 # level 1) — same ids `import_kampfmagus_archetypes.py` seeded.
@@ -62,3 +74,51 @@ KENSAI_WEAPON_FOCUS_ABILITY_ID = UUID("5ddd070b-8770-54bd-ba62-6788374554ce")
 # `APPLIED_OUTSIDE_HANDLERS_IDS`) so the sheet's "Nur Text" badge doesn't
 # mislabel either as flavor-only merely for not being a typed registry entry.
 APPLIED_OUTSIDE_HANDLERS_IDS = frozenset({KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID})
+
+# "Gewitzte Verteidigung" (Canny Defense), level 1, PRD: "Wenn ein Kensai
+# keine, oder eine leichte Rüstung trägt und keinen Schild verwendet, darf
+# er pro Klassenstufe einen Punkt seines Intelligenz-Modifikators (falls
+# vorhanden) auf seinen Geschicklichkeitsbonus für seine RK als
+# Ausweichbonus addieren, wenn er seine ausgewählte Waffe führt." Identical
+# text/mechanic to the (not-yet-a-real-`BaseClass`) Duellant prestige
+# class's own version, `base_class_abilities.json` row b35b567e-...
+GEWITZTE_VERTEIDIGUNG_KENSAI_ABILITY_ID = UUID("ebb8db2d-2caa-54c4-8a78-9131f0b44e1d")
+
+
+def _gewitzte_verteidigung_kensai(context: CharacterContext) -> list[Modifier]:
+    """"Pro Klassenstufe einen Punkt seines Intelligenz-Modifikators" is a
+    cap that unlocks gradually, not a per-level multiplier: the bonus is
+    `min(class level, Int mod)` — a 1st-level Kensai only ever gets +1
+    towards AC regardless of how high the Int mod is, reaching the full Int
+    mod only once class level >= Int mod. (Confirmed against the real rule
+    text 2026-08-26 after a first pass mis-multiplied the two instead of
+    capping — a level-1 Kensai with a +3 Int mod got +3, not the correct
+    +1.)
+
+    The "no/light armor, no shield" gate is real
+    (`CharacterContext.equipped_armor_weight_class`/`has_shield_equipped`,
+    added for exactly this ability). "Wenn er seine ausgewählte Waffe
+    führt" (only while wielding the kensai's chosen weapon) is also real,
+    via `kensai_chosen_weapon_id`/`equipped_weapon_ids` (2026-08-26,
+    likewise added for this ability) — no chosen weapon yet, or the chosen
+    weapon isn't in either weapon slot right now, and the bonus doesn't
+    apply, matching a fresh Kensai who hasn't made the weapon choice yet.
+    "Falls vorhanden" (only if the Int mod is actually positive) — a zero
+    or negative Int mod grants no bonus, never a penalty."""
+    if context.has_shield_equipped or context.equipped_armor_weight_class not in (None, "light"):
+        return []
+    if context.kensai_chosen_weapon_id is None or context.kensai_chosen_weapon_id not in context.equipped_weapon_ids:
+        return []
+    int_mod = ability_mod(context.ability_scores.get("IN", 10))
+    if int_mod <= 0:
+        return []
+    kampfmagus_level = context.level_counts_by_root_id.get(KAMPFMAGUS_ROOT_CLASS_ID, 0)
+    bonus = min(int_mod, kampfmagus_level)
+    if bonus <= 0:
+        return []
+    return [Modifier(source="Gewitzte Verteidigung", type="dodge", value=bonus, target=ModifierTarget.AC)]
+
+
+HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    GEWITZTE_VERTEIDIGUNG_KENSAI_ABILITY_ID: _gewitzte_verteidigung_kensai,
+}

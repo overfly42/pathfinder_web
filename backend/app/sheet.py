@@ -222,6 +222,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     armor_gear_row = gear_by_slot.get("ruestung")
     armor_item = items.get(armor_gear_row.item_id) if armor_gear_row else None
     shield_gear_row = gear_by_slot.get("schild")
+    equipped_weapon_ids = frozenset(
+        gear_row.item_id
+        for slot_key in ("hauptwaffe", "nebenwaffe")
+        if (gear_row := gear_by_slot.get(slot_key)) is not None
+    )
 
     # The character's raw `CharacterContext` (`rules/context.py`) — built
     # once here, fully populated, and threaded into every handler family
@@ -248,6 +253,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         weapon_focus_weapon_ids=weapon_focus_weapon_ids,
         equipped_armor_weight_class=armor_item.armor_weight_class if armor_item else None,
         has_shield_equipped=shield_gear_row is not None and items.get(shield_gear_row.item_id) is not None,
+        equipped_weapon_ids=equipped_weapon_ids,
+        kensai_chosen_weapon_id=weapon_choice_by_ability_id.get(KENSAI_WEAPON_CHOICE_ABILITY_ID),
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,

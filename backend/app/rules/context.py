@@ -123,6 +123,23 @@ class CharacterContext:
     # Whether a shield is currently equipped in the "schild" slot — the
     # other half of the same gate.
     has_shield_equipped: bool = False
+    # `BaseItem` ids currently equipped in the "hauptwaffe"/"nebenwaffe"
+    # slots — the raw input a handler gating on "while wielding weapon X"
+    # needs (e.g. Kensai's Gewitzte Verteidigung, which only applies while
+    # wielding the kensai's own chosen weapon, `kensai_chosen_weapon_id`
+    # below) that nothing else on this dataclass carries. Both slots, not
+    # just the main hand: PF1e doesn't care which hand a one-handed
+    # requirement is satisfied from.
+    equipped_weapon_ids: frozenset[UUID] = frozenset()
+    # The weapon a Kensai chose under their own free weapon-choice ability
+    # (`CharacterClassAbilityWeaponChoice`, keyed by
+    # `rules/classes/kampfmagus.py`'s `KENSAI_WEAPON_CHOICE_ABILITY_ID`) —
+    # `None` before that choice is made. Kept separate from the broader
+    # `chosen_weapon_ids` above (which also folds in unrelated chosen-weapon
+    # sources like a picked Exotic Weapon Proficiency) since Gewitzte
+    # Verteidigung's own "wenn er seine ausgewählte Waffe führt" clause
+    # means specifically *this* weapon, not any chosen-weapon relationship.
+    kensai_chosen_weapon_id: UUID | None = None
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced
