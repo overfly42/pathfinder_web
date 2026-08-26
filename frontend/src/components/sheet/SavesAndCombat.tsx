@@ -1,9 +1,9 @@
 import type { StatEntry, WeaponAttack } from '../../types/character';
 import { InfoButton } from '../primitives/InfoButton';
 
-function StatGrid({ entries }: { entries: StatEntry[] }) {
+function StatGrid({ entries, className }: { entries: StatEntry[]; className?: string }) {
   return (
-    <div className="saves">
+    <div className={className ? `saves ${className}` : 'saves'}>
       {entries.map((entry) => (
         <div className="save" key={entry.key}>
           <span className="name">{entry.label}</span>
@@ -29,7 +29,7 @@ export function SavesAndCombat({
       <StatGrid entries={saves} />
 
       <div className="section-label">Kampfwerte</div>
-      <StatGrid entries={combat} />
+      <StatGrid entries={combat} className="combat" />
 
       {weaponAttacks.length > 0 && (
         <>

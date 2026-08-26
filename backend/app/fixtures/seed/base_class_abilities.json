@@ -3286,6 +3286,11 @@
     "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai das Klassenmerkmal Gewitzte Verteidigung, wenn er seine ausgewählte Waffe führt. Dies ist identisch mit dem Klassenmerkmal der Duellanten-Prestigeklasse; er ist bei der Wahl seiner ausgewählten Waffe aber nicht eingeschränkt."
   },
   {
+    "id": "b35b567e-a795-50b2-9224-a65010967603",
+    "name": "Gewitzte Verteidigung (Duellant)",
+    "description": "(AF) Wenn ein Duellant keine, oder eine leichte Rüstung trägt und keinen Schild verwendet, darf er pro Klassenstufe einen Punkt seines Intelligenz-Modifikator (falls vorhanden) auf seinen Geschicklichkeitsbonus für seine RK als Ausweichbonus addieren, wenn er eine Nahkampfwaffe führt. Wird der Duellant auf dem falschen Fuß erwischt, oder darf er aus einem anderen Grund seinen Geschicklichkeitsbonus nicht anwenden, verfällt auch dieser zusätzliche Bonus. Dies ist identisch mit dem Klassenmerkmal des Kensai (Kampfmagus-Archetyp), der bei der Wahl seiner ausgewählten Waffe aber nicht eingeschränkt ist."
+  },
+  {
     "id": "5ddd070b-8770-54bd-ba62-6788374554ce",
     "name": "Waffenfokus (Kensai)",
     "description": "(AF) Mit Beginn der 1. Stufe erhält ein Kensai Waffenfokus mit seiner ausgewählten Waffe."

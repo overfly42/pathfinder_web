@@ -64,7 +64,7 @@
 .char-name { font-family: 'Cinzel', serif; font-size: 21px; font-weight: 600; color: var(--ink); margin: 0; }
 .char-sub { font-family: 'Spectral', serif; font-style: italic; font-size: 13px; color: var(--ink-soft); margin-top: 3px; }
 
-.vitals { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 20px; }
+.vitals { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 20px; }
 .vital { background: rgba(255,255,255,0.35); border: 1px solid var(--parchment-shadow); border-radius: 8px; padding: 8px 10px; position: relative; }
 .vital .k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
 .vital .v { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px; color: var(--ink); }
@@ -117,6 +117,7 @@
 .ability .penalty { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--wax); font-weight: 600; margin-top: 1px; }
 
 .saves { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.saves.combat { grid-template-columns: repeat(4,1fr); }
 .save {
   display: flex; justify-content: space-between; align-items: center;
   background: rgba(255,255,255,0.3);

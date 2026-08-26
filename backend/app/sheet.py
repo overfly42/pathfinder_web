@@ -213,6 +213,16 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             ).all()
         }
 
+    # Fetched here, ahead of `context` below, so its two AC-gate fields
+    # (`equipped_armor_weight_class`/`has_shield_equipped`) can be populated
+    # from the same lookup the AC computation further down already needs —
+    # see `_gear_ac_modifiers`'s own call further below, which reuses these
+    # same `items`/`gear_by_slot` rather than re-querying.
+    items, gear_by_slot = _gear_lookup(db, character)
+    armor_gear_row = gear_by_slot.get("ruestung")
+    armor_item = items.get(armor_gear_row.item_id) if armor_gear_row else None
+    shield_gear_row = gear_by_slot.get("schild")
+
     # The character's raw `CharacterContext` (`rules/context.py`) — built
     # once here, fully populated, and threaded into every handler family
     # below rather than each one re-deriving its own slice of character
@@ -236,6 +246,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         class_granted_proficiency_feat_ids=class_granted_weapon_feat_ids,
         chosen_weapon_ids=chosen_weapon_ids,
         weapon_focus_weapon_ids=weapon_focus_weapon_ids,
+        equipped_armor_weight_class=armor_item.armor_weight_class if armor_item else None,
+        has_shield_equipped=shield_gear_row is not None and items.get(shield_gear_row.item_id) is not None,
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -254,8 +266,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # enforce that within a single call (`rules/modifiers.py`'s
     # `stack_by_target` docstring). Grouped by target once here and threaded
     # into AC/saves/speed/skills below as plain dict lookups rather than
-    # each one re-filtering/re-stacking.
-    items, gear_by_slot = _gear_lookup(db, character)
+    # each one re-filtering/re-stacking. `items`/`gear_by_slot` were already
+    # fetched above, ahead of `context`.
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     all_modifiers = (
         character_modifiers(context)
@@ -318,6 +330,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
     armor_class = 10 + capped_dex_mod + stacked.get((ModifierTarget.AC, None), 0)
     armor_class_breakdown = _ac_breakdown(capped_dex_mod, groups)
+    non_dodge_ac_modifiers = [m for m in groups.get((ModifierTarget.AC, None), []) if m.type != "dodge"]
+    armor_class_flat_footed = 10 + stack(non_dodge_ac_modifiers)
+    armor_class_flat_footed_breakdown = _ac_breakdown_flat_footed(groups)
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = race_speed(db, character.race_id) or 9
@@ -354,6 +369,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "hp": {"current": hp_current, "max": hp_max, "temporary": character.temporary_hit_points},
         "armorClass": armor_class,
         "armorClassBreakdown": armor_class_breakdown,
+        "armorClassFlatFooted": armor_class_flat_footed,
+        "armorClassFlatFootedBreakdown": armor_class_flat_footed_breakdown,
         "initiative": _fmt(dex_mod),
         "speed": f"{total_speed} m",
         "roundLabel": "Runde 1",
@@ -659,6 +676,21 @@ def _ac_breakdown(
         {"label": modifier.source, "value": modifier.value}
         for modifier in contributing(groups.get((ModifierTarget.AC, None), []))
     )
+    return entries
+
+
+def _ac_breakdown_flat_footed(groups: dict[tuple[ModifierTarget, str | None], list[Modifier]]) -> list[dict]:
+    """Same shape as `_ac_breakdown`, for the RK a character has while
+    denied their Dexterity bonus to AC ("auf dem falschen Fuß") — PF1e RAW
+    drops both the Dex bonus and any dodge-type bonus in that case (e.g.
+    Ausweichen, or a future Gewitzte-Verteidigung handler), so unlike
+    `_ac_breakdown` there is no "Geschicklichkeit" line at all, and
+    `type == "dodge"` modifiers are excluded before `contributing()` picks
+    the survivors. Sums to `armor_class_flat_footed` exactly, same
+    `contributing()`-only-lists-what-counted reasoning as `_ac_breakdown`."""
+    non_dodge = [m for m in groups.get((ModifierTarget.AC, None), []) if m.type != "dodge"]
+    entries = [{"label": "Basis", "value": 10}]
+    entries.extend({"label": modifier.source, "value": modifier.value} for modifier in contributing(non_dodge))
     return entries
 
 

@@ -325,6 +325,11 @@ export interface Character {
    * AC bonus) — absent for the two hardcoded mock fixtures, which predate
    * this field. */
   armorClassBreakdown?: BreakdownEntry[];
+  /** RK while denied the Dexterity bonus to AC ("auf dem falschen Fuß") —
+   * `armorClass` minus the Dex mod and any dodge-type bonus (both are lost
+   * in that case per PF1e RAW). */
+  armorClassFlatFooted: number;
+  armorClassFlatFootedBreakdown?: BreakdownEntry[];
   initiative: string;
   speed: string;
   roundLabel: string;

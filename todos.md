@@ -40,6 +40,16 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
 - [ ] **Technische Architektur**: `readme.md` benennt bereits einen Zielstack (React, FastAPI, PostgreSQL mit Vector-Extension, Docker/Podman) — das widerspricht dem "Noch nicht"-Status in der `requirements_v2.md`-Checkliste. Sollte abgeglichen/bestätigt werden, damit beide Dokumente konsistent sind.
 - [ ] **Lokalisierungs-/Übersetzungsansatz**: Noch nicht definiert (nur Anforderung: Deutsch Standard, Englisch zusätzlich).
 - [ ] **Qualitätskriterien** (Sicherheit, Zuverlässigkeit, Performance): Noch nicht festgelegt.
+- [ ] **Prestigeklassen fehlen als Konzept**: `BaseClass` kennt nur Basisklassen
+      (`arch_class_of` = `None`) und Archetypen (`arch_class_of` = Eltern-
+      klasse), aber keine Prestigeklassen (eigene Stufenvoraussetzungen,
+      Einstieg per Multiclass statt normaler Stufenwahl). Aufgeworfen
+      2026-08-26 beim Anlegen von Duellants "Gewitzte Verteidigung"
+      (`base_class_abilities.json`, id `b35b567e-a795-50b2-9224-a65010967603`):
+      die Fähigkeit existiert jetzt als eigenständige Katalog-Zeile (identischer
+      Text/Verweis wie Kensais Version, id `ebb8db2d-2caa-54c4-8a78-9131f0b44e1d`),
+      aber ohne `BaseClass`-Zeile für Duellant gibt es keinen `BaseClassAbilityGrant`
+      dafür. Betrifft jede künftige Prestigeklasse, nicht nur Duellant.
 
 ## Beispielcharakter — Vollständigkeitslücken
 

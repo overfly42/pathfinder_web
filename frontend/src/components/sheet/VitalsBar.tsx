@@ -77,6 +77,12 @@ export function VitalsBar({ character, onApplyHp, onSetTempHp }: VitalsBarProps)
         </div>
       </div>
       <div className="vital">
+        <div className="k">RK (auf dem falschen Fuß)</div>
+        <div className="v" title={formatBreakdown(character.armorClassFlatFootedBreakdown)}>
+          {character.armorClassFlatFooted}
+        </div>
+      </div>
+      <div className="vital">
         <div className="k">Initiative</div>
         <div className="v">{character.initiative}</div>
       </div>

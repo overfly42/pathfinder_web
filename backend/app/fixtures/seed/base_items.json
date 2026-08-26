@@ -5,7 +5,8 @@
     "category": "armor",
     "price": 600,
     "ac_bonus": 9,
-    "max_dex_bonus": 0
+    "max_dex_bonus": 0,
+    "armor_weight_class": "heavy"
   },
   {
     "id": "540303fe-b4f0-4348-bb5a-d8b4eceabb6c",
@@ -13,7 +14,8 @@
     "category": "armor",
     "price": 100,
     "ac_bonus": 4,
-    "max_dex_bonus": 4
+    "max_dex_bonus": 4,
+    "armor_weight_class": "light"
   },
   {
     "id": "80f55a62-a017-498c-9586-c89489c78bbc",
@@ -21,7 +23,8 @@
     "category": "armor",
     "price": 10,
     "ac_bonus": 2,
-    "max_dex_bonus": 6
+    "max_dex_bonus": 6,
+    "armor_weight_class": "light"
   },
   {
     "id": "495054d7-729b-49a8-821b-182f1ec03cc4",
@@ -29,7 +32,8 @@
     "category": "armor",
     "price": 25,
     "ac_bonus": 3,
-    "max_dex_bonus": 5
+    "max_dex_bonus": 5,
+    "armor_weight_class": "light"
   },
   {
     "id": "ade1ce00-43ba-4e6b-bcf8-03e5360b5ebc",
@@ -37,7 +41,8 @@
     "category": "armor",
     "price": 50,
     "ac_bonus": 5,
-    "max_dex_bonus": 3
+    "max_dex_bonus": 3,
+    "armor_weight_class": "medium"
   },
   {
     "id": "f6f79fd0-e822-400b-b6e9-df23bb9e0b8f",
@@ -45,7 +50,8 @@
     "category": "armor",
     "price": 1500,
     "ac_bonus": 9,
-    "max_dex_bonus": 1
+    "max_dex_bonus": 1,
+    "armor_weight_class": "heavy"
   },
   {
     "id": "4c6ed3a5-6020-4282-82cc-010e4d61956a",
@@ -6321,6 +6327,7 @@
     "price": 23850.0,
     "ac_bonus": 7,
     "max_dex_bonus": 3,
+    "armor_weight_class": "medium",
     "weight_lb": "30 Pfd.",
     "description": "Diese Brustplatte +1 besteht aus einem glänzenden, bernsteinfarbenen Metall und wurde mit schwachen Wellen- und Wassermotiven geschmückt. Sie erlaubt ihrem Träger, permanent die Effekte von Auf Wasser gehen zu nutzen."
   }

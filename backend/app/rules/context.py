@@ -114,6 +114,15 @@ class CharacterContext:
     # `KENSAI_WEAPON_FOCUS_ABILITY_ID`) — one set regardless of source, same
     # reasoning as `chosen_weapon_ids` above.
     weapon_focus_weapon_ids: frozenset[UUID] = frozenset()
+    # The armor currently equipped in the "ruestung" slot's weight class
+    # (`BaseItem.armor_weight_class`, "light"/"medium"/"heavy") — `None` if
+    # no armor is equipped at all. The one raw input a handler gating on
+    # "no/light armor" needs (e.g. Kensai's/Duellant's Gewitzte Verteidigung)
+    # that nothing else on this dataclass carries.
+    equipped_armor_weight_class: str | None = None
+    # Whether a shield is currently equipped in the "schild" slot — the
+    # other half of the same gate.
+    has_shield_equipped: bool = False
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced

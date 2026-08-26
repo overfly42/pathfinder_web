@@ -73,6 +73,16 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     PRD import, see roadmap.md's "Waffenkatalog ohne Kampfwerte") — those
     render with no paperdoll weapon slot until re-matched to a PRD row.
 
+    `armor_weight_class` ("light"/"medium"/"heavy", armor only — same plain
+    English-tag convention as `hands`/`weapon_type`) is the one weight-class
+    distinction PF1e cares about for gating abilities on "wearing no more
+    than light armor" (e.g. Kensai's/Duellant's Gewitzte Verteidigung,
+    Barbarian's Schnelle Bewegung — see `rules/classes/barbarian.py`'s
+    `BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID`) that `ac_bonus`/`max_dex_bonus`
+    alone can't answer. Null for shields (a shield's presence/absence is
+    already a binary the "schild" equip slot answers by itself, no weight
+    tier needed) and every non-"armor" category.
+
     `weight_lb` (raw string, e.g. "4 Pfd.") and `description` (prose text)
     are generic across every category but only populated for "weapon" and
     "tool" rows so far (import scope so far); armor/gear/consumable rows
@@ -114,6 +124,7 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     weapon_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
     special: Mapped[str | None] = mapped_column(String(255), nullable=True)
     hands: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    armor_weight_class: Mapped[str | None] = mapped_column(String(8), nullable=True)
     is_light: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     weight_lb: Mapped[str | None] = mapped_column(String(32), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
