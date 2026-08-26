@@ -76,6 +76,11 @@ EINSCHUECHTERND = UUID("342e6626-6d77-47d5-a129-3a3ccc017088")
 # Einschüchternd's Volksbonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
 
+GESCHAERFTE_SINNE = UUID("ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1")
+# `BaseSkill.id` for Wahrnehmung (`base_skills.json`) — the one skill
+# Geschärfte Sinne's Volksbonus targets.
+_WAHRNEHMUNG_SKILL_ID = "3d5d4e5f-c749-4346-a53b-2006bca05abb"
+
 # Halb-Ork's "Reißzähne" alternate racial trait (`race_ability_grants.json`,
 # `is_alternate=True`; replaces "Orkische Wildheit" per
 # `race_ability_replacements.json`) — a primary natural bite attack, 1W4
@@ -178,6 +183,9 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ABILITY_ANY_PLUS2: functools.partial(_attribute_bonus, attribute=None, value=2),
     EINSCHUECHTERND: functools.partial(
         _skill_bonus, source="Einschüchternd", skill_id=_EINSCHUECHTERN_SKILL_ID, value=2
+    ),
+    GESCHAERFTE_SINNE: functools.partial(
+        _skill_bonus, source="Geschärfte Sinne", skill_id=_WAHRNEHMUNG_SKILL_ID, value=2
     ),
 }
 

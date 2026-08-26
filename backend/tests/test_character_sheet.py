@@ -463,6 +463,35 @@ def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
     assert sum(entry["value"] for entry in breakdown) == 1
 
 
+def test_halbling_geschaerfte_sinne_adds_racial_bonus_to_perception(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/race_abilities.py`'s `GESCHAERFTE_SINNE` handler: Halbling's
+    Geschärfte Sinne grants a +2 Volksbonus (racial) on Wahrnehmung."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Halbling")
+
+    wahrnehmung_id = _skill_id(client, db_session, "Wahrnehmung")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    # No ranks invested, so the Waldläufer class-skill bonus doesn't apply
+    # (same reasoning as `test_einschuechternde_kraft_adds_str_mod_to_intimidate`
+    # above). WE mod (10 -> +0, Halbling doesn't touch WE) + racial (+2) = +2.
+    assert skills_by_key[wahrnehmung_id]["value"] == "+2"
+
+    breakdown = skills_by_key[wahrnehmung_id]["breakdown"]
+    assert {"label": "Geschärfte Sinne", "value": 2} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == 2
+
+
 def test_armor_class_breakdown_sums_to_armor_class(client: TestClient, db_session: Session) -> None:
     """`sheet.py`'s `_ac_breakdown`: base 10 + Dex mod + every equipped
     gear's own AC `Modifier` (`source=item.name`), summing to `armorClass`."""
