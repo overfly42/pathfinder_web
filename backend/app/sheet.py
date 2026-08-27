@@ -80,7 +80,11 @@ from .rules.equipment_slots import SLOT_CATEGORY, SLOT_DEFINITIONS, SLOT_TO_ITEM
 from .rules.favored_class_bonuses import HANDLERS as FAVORED_CLASS_BONUS_HANDLERS
 from .rules.favored_class_bonuses import SHORT_LABELS as FAVORED_CLASS_BONUS_SHORT_LABELS
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
-from .rules.classes.kampfmagus import KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID
+from .rules.classes.kampfmagus import (
+    KAMPFZAUBEREI_ABILITY_ID,
+    KENSAI_WEAPON_CHOICE_ABILITY_ID,
+    KENSAI_WEAPON_FOCUS_ABILITY_ID,
+)
 from .rules.feats import (
     HEFTIGER_ANGRIFF,
     WAFFENFINESSE,
@@ -349,19 +353,23 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
-    weapon_attacks = _build_weapon_attacks(
-        items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
-        granted_ability_ids,
-    ) + _build_natural_attacks(
-        items,
-        gear_by_slot,
-        race_ability_ids,
-        granted_ability_ids,
-        context,
-        bab,
-        str_mod,
-        melee_attack_bonus,
-        melee_damage_bonus,
+    weapon_attacks = (
+        _build_weapon_attacks(
+            items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
+            granted_ability_ids,
+        )
+        + _build_natural_attacks(
+            items,
+            gear_by_slot,
+            race_ability_ids,
+            granted_ability_ids,
+            context,
+            bab,
+            str_mod,
+            melee_attack_bonus,
+            melee_damage_bonus,
+        )
+        + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context)
     )
     spellbook, spells_known = _build_prepared_spell_grades(
         db, character, level_counts_by_root_id, ability_mods, granted_ability_ids
@@ -1956,6 +1964,21 @@ def _power_attack_effect(
     return attack_penalty, _grip_scaled(damage_bonus, hands, is_off_hand)
 
 
+def _kampfzauberei_attack_penalty(context: CharacterContext) -> int:
+    """Kampfzauberei's (Spell Combat's) flat -2 to every melee weapon attack
+    roll made this round, folded in only while the player has actually
+    activated it (`context.active_effects`, `POST .../effects` with
+    `source_type: "class_ability"`) — same "own-state toggle" pattern
+    `_power_attack_effect` above already uses for Heftiger Angriff. Unlike
+    that one, there's no damage half or grip scaling to compute, so this
+    returns a plain `int` rather than a pair. See `KAMPFZAUBEREI_ABILITY_ID`'s
+    own docstring for what isn't modeled yet (the free-hand precondition,
+    the accompanying spell, defensive casting)."""
+    if not any(effect.source_id == KAMPFZAUBEREI_ABILITY_ID for effect in context.active_effects):
+        return 0
+    return -2
+
+
 def _class_weapon_bonus_damage(
     class_ability_ids: Counter[UUID], context: CharacterContext
 ) -> list[tuple[str, str]]:
@@ -2045,7 +2068,9 @@ def _build_weapon_attacks(
     `context` only feeds Heftiger Angriff's attack/damage trade-off while
     actually activated (`_power_attack_effect`) — melee only, same reasoning
     as `melee_attack_bonus`/`melee_damage_bonus` above (Power Attack is
-    explicitly a *melee* attack/damage trade-off, GRW S. 124).
+    explicitly a *melee* attack/damage trade-off, GRW S. 124). Kampfmagus's
+    Kampfzauberei (Spell Combat) toggle (`_kampfzauberei_attack_penalty`) is
+    folded in the same way — melee-only, flat -2, no damage counterpart.
 
     `class_ability_ids` (`build_character_sheet`'s `granted_ability_ids`,
     same argument `_build_natural_attacks` already takes) resolves
@@ -2091,6 +2116,7 @@ def _build_weapon_attacks(
         )
         power_attack_penalty = power_attack[0] if power_attack is not None else 0
         power_attack_damage = power_attack[1] if power_attack is not None else 0
+        kampfzauberei_penalty = 0 if is_ranged else _kampfzauberei_attack_penalty(context)
         # A weapon's own `weapon_type` (simple/martial/exotic) unset means
         # its proficiency category isn't catalogued — no malus rather than
         # a false positive (`rules/proficiency.py`'s module docstring, e.g.
@@ -2113,6 +2139,7 @@ def _build_weapon_attacks(
             + attack_ability_mod
             + enhancement
             + power_attack_penalty
+            + kampfzauberei_penalty
             + proficiency_penalty
             + weapon_focus_bonus,
         )
@@ -2148,6 +2175,8 @@ def _build_weapon_attacks(
         notes = []
         if power_attack is not None:
             notes.append("Heftiger Angriff aktiv")
+        if kampfzauberei_penalty:
+            notes.append("Kampfzauberei aktiv")
         temp_enhancement = temp_enhancement_by_item_id.get(gear_row.item_id, 0)
         if temp_enhancement:
             notes.append(f"Vorübergehender Verbesserungsbonus aktiv ({_fmt(temp_enhancement)})")
@@ -2156,6 +2185,69 @@ def _build_weapon_attacks(
         if notes:
             result["note"] = " · ".join(notes)
         results.append(result)
+    return results
+
+
+def _build_spell_touch_attacks(
+    db: Session, character: Character, bab: int, str_mod: int, dex_mod: int, context: CharacterContext
+) -> list[dict]:
+    """Two generic touch-attack helper lines for the "Angriffe" section
+    (2026-08-27, prompted by Kampfzauberei) — PF1e distinguishes exactly two
+    kinds ("Es gibt zwei Arten von Berührungsangriffen: Berührungsangriffe im
+    Nah- oder Fernkampf"): melee (BAB + Str mod, or Dex mod instead with
+    Waffenfinesse — a touch spell doesn't involve a weapon at all, so per the
+    same FAQ ruling that lets Waffenfinesse apply to unarmed strikes, it
+    applies here unconditionally, not gated on any `item.is_light` the way
+    `_build_weapon_attacks`'s own Waffenfinesse check is) and ranged (BAB +
+    Dex mod, already the norm for a ranged attack regardless of Waffenfinesse).
+    Neither gets armor/enhancement/proficiency/Weapon-Focus bonuses, since no
+    weapon is actually wielded for the touch itself. Deliberately *not* one
+    line per known touch spell, and deliberately not trying to classify which
+    of a character's known spells needs which kind (or any attack roll at
+    all, e.g. Licht/Arkanes Siegel are "Berührung"-range but need none) —
+    `BaseSpell` has no such flag, and each spell's own `range` text already
+    shows the player what they're casting; these two rows are just the raw
+    math to read off, exactly the way `range` "Berührung" doesn't by itself
+    tell you melee-vs-ranged either. Both fold in `_kampfzauberei_attack_penalty`
+    the same way `_build_weapon_attacks` does, since Kampfzauberei's own rule
+    text extends its -2 malus to "jeder Angriffswurf, der als Teil des
+    Zaubers gemacht wird" regardless of which kind of touch attack that is.
+
+    Gated on the character knowing at least one "Berührung"-range spell —
+    not a precise gate (misses e.g. ranged-touch ray spells whose own range
+    is "Nah"/"Mittel", not "Berührung"), but knowing any touch-range spell
+    at all is a reasonable proxy for "this caster deals with touch attacks,"
+    and both generic rows are cheap to show together once that's true."""
+    all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
+    if not all_spell_ids:
+        return []
+    has_touch_spell = db.scalar(
+        select(BaseSpell.id).where(BaseSpell.id.in_(all_spell_ids), BaseSpell.range == "Berührung").limit(1)
+    )
+    if has_touch_spell is None:
+        return []
+    kampfzauberei_penalty = _kampfzauberei_attack_penalty(context)
+    note = "Kampfzauberei aktiv" if kampfzauberei_penalty else None
+    melee_touch_ability_mod = dex_mod if WAFFENFINESSE in context.feat_ids else str_mod
+    results = [
+        {
+            "key": "nahkampfberuehrung",
+            "hand": "Zauber",
+            "name": "Nahkampfberührung",
+            "attackBonus": _fmt(bab + melee_touch_ability_mod + kampfzauberei_penalty),
+            "damage": "—",
+        },
+        {
+            "key": "fernkampfberuehrung",
+            "hand": "Zauber",
+            "name": "Fernkampfberührung",
+            "attackBonus": _fmt(bab + dex_mod + kampfzauberei_penalty),
+            "damage": "—",
+        },
+    ]
+    if note:
+        for result in results:
+            result["note"] = note
     return results
 
 

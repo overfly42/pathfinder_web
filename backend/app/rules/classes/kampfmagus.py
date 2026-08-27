@@ -7,7 +7,10 @@ Kampfmagus root class's own "Arkaner Vorrat" (Arcane Reservoir,
 `ARKANER_VORRAT_ABILITY_ID` below — pool size plus its headline "verbessere
 eine Waffe" action; the Skirnir archetype's own variant, several other
 abilities that spend from the same pool, and the pool's level-5 special-
-ability unlock are not yet implemented, see that id's own docstring).
+ability unlock are not yet implemented, see that id's own docstring), and
+the Kampfmagus root class's own "Kampfzauberei" (Spell Combat,
+`KAMPFZAUBEREI_ABILITY_ID` below — its flat -2 melee-attack-roll toggle
+only; see that id's own docstring for what's not modeled yet).
 "Vermindertes Zauberwirken" now has a real schema hook (`spells_per_day`)
 to adjust (`import_kampfmagus_archetypes.py`'s docstring flagged this
 ability as "no schema hook to replace" at the time it was seeded, back when
@@ -68,17 +71,47 @@ KENSAI_WEAPON_CHOICE_ABILITY_ID = UUID("1022bc94-7324-5fb0-883a-ed80726277e0")
 # parallel one-off.
 KENSAI_WEAPON_FOCUS_ABILITY_ID = UUID("5ddd070b-8770-54bd-ba62-6788374554ce")
 
-# Both of the two ids above have a real, computed effect — `sheet.py`'s
+# Kampfmagus root class's own "Kampfzauberei" (Spell Combat), level 1
+# (`base_class_abilities.json` id 8431426f-...). PRD: "Mit einer Vollen
+# Aktion kann er alle Angriffe mit der Nahkampfwaffe mit einem Malus von -2
+# ausführen und zugleich jeden Zauber von der Zauberliste des Kampfmagus
+# wirken..." — flagged `is_persistent_effect`/`activation_scope: "self"`/
+# `default_duration_rounds: 1` (same per-round-toggle shape as Heftiger
+# Angriff, `rules/feats.py`'s `HEFTIGER_ANGRIFF`) so a player activates it
+# via `POST .../effects` for the current round. `sheet.py`'s
+# `_build_weapon_attacks` reads the toggle directly off `context.active_effects`
+# (`_kampfzauberei_attack_penalty` there), the same "own-state toggle"
+# pattern `_power_attack_effect` already uses — not a `HANDLERS` entry, since
+# it's melee-weapon-attack-only, not a flat `Modifier`.
+#
+# Not modeled yet: the "one hand free, light/one-handed weapon in the
+# other" precondition (no action-legality filtering exists anywhere else
+# either, see `sheet.py`'s `_build_actions` docstring); the actual spell
+# cast alongside it (no in-app spellcasting/dice-rolling exists at all,
+# `rules/weapon_abilities.py`'s module docstring); the defensive-casting
+# extra self-imposed malus/concentration bonus trade-off; and the level-8/14
+# "Verbesserte/Mächtige Kampfzauberei" concentration bonuses (their own
+# unimplemented `base_class_abilities.json` rows, ids f0bbb318-.../98bc15b7-...).
+KAMPFZAUBEREI_ABILITY_ID = UUID("8431426f-761f-5fc8-bd01-63b369edce97")
+
+# All three ids above have a real, computed effect — `sheet.py`'s
 # `_build_weapon_attacks` reads them directly (`chosen_weapon_ids`/
-# `weapon_focus_weapon_ids`) — but neither is a `HANDLERS`/`NATURAL_ATTACK_HANDLERS`/
-# `WEAPON_BONUS_DAMAGE_HANDLERS` entry: a weapon *choice* isn't a `Modifier`
-# at all, and the free Weapon Focus grant is the same per-weapon-slot
-# decision `rules/feats.py`'s `WAFFENFOKUS`/`COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS`
-# documents for the player-picked version of the same feat. Merged into
-# `rules/handlers.py`'s `has_mechanical_effect` (via `rules/classes/__init__.py`'s
-# `APPLIED_OUTSIDE_HANDLERS_IDS`) so the sheet's "Nur Text" badge doesn't
-# mislabel either as flavor-only merely for not being a typed registry entry.
-APPLIED_OUTSIDE_HANDLERS_IDS = frozenset({KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID})
+# `weapon_focus_weapon_ids`/`_kampfzauberei_attack_penalty`'s own
+# `context.active_effects` check) — but none is a `HANDLERS`/
+# `NATURAL_ATTACK_HANDLERS`/`WEAPON_BONUS_DAMAGE_HANDLERS` entry: a weapon
+# *choice* isn't a `Modifier` at all, the free Weapon Focus grant is the
+# same per-weapon-slot decision `rules/feats.py`'s `WAFFENFOKUS`/
+# `COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS` documents for the player-picked
+# version of the same feat, and Kampfzauberei's toggle needs to gate only
+# melee (not ranged) weapons the same way `_power_attack_effect` already
+# does for Heftiger Angriff (also not a `HANDLERS` entry, for the same
+# reason). Merged into `rules/handlers.py`'s `has_mechanical_effect` (via
+# `rules/classes/__init__.py`'s `APPLIED_OUTSIDE_HANDLERS_IDS`) so the
+# sheet's "Nur Text" badge doesn't mislabel any of the three as flavor-only
+# merely for not being a typed registry entry.
+APPLIED_OUTSIDE_HANDLERS_IDS = frozenset(
+    {KENSAI_WEAPON_CHOICE_ABILITY_ID, KENSAI_WEAPON_FOCUS_ABILITY_ID, KAMPFZAUBEREI_ABILITY_ID}
+)
 
 # "Gewitzte Verteidigung" (Canny Defense), level 1, PRD: "Wenn ein Kensai
 # keine, oder eine leichte Rüstung trägt und keinen Schild verwendet, darf
