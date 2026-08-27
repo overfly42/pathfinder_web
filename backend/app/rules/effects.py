@@ -1,10 +1,12 @@
 """Handler registry for active effects that aren't tied to a single class —
-conditions, poisons, diseases (`todos.md`'s "Effekt-Handler-Inventar" tracks
-the concrete remaining inventory). Effects that *are* a specific class's own
-ability (e.g. a barbarian rage power) belong in that class's own file under
-`rules/classes/` instead (CLAUDE.md's "Working Conventions") — Entfesselter
-Barbar's Kampfrausch, this registry's first and only content until
-2026-08-11, moved there for exactly that reason.
+conditions, poisons, diseases, and spells (`todos.md`'s "Effekt-Handler-
+Inventar" tracks the concrete remaining inventory — a spell isn't tied to
+one class either, so it stays here rather than under `rules/classes/`).
+Effects that *are* a specific class's own ability (e.g. a barbarian rage
+power) belong in that class's own file under `rules/classes/` instead
+(CLAUDE.md's "Working Conventions") — Entfesselter Barbar's Kampfrausch,
+this registry's first and only content until 2026-08-11, moved there for
+exactly that reason.
 
 Mirrors `rules/handlers.py`'s composition-vs-computation split: which
 effects a character has is data (`CharacterEffect` rows), what each one does
@@ -50,6 +52,27 @@ def _erschoepft(context: CharacterContext) -> list[Modifier]:
     ]
 
 
+# Magierrüstung (Mage Armor, `base_spells.json` id b987fa2d-…) — first
+# `BaseSpell` marked `is_persistent_effect`. PRD text: +4 armor bonus to AC;
+# the "legendäre" +6/critical-negation upgrade in the same description is a
+# mythic-rules variant, not a separate catalog row, so it isn't modeled
+# (same "no mythic layer" scope everything else in this codebase has).
+MAGIERRUESTUNG_SPELL_ID = UUID("b987fa2d-d38f-5913-8073-93a4f671a92e")
+
+
+def _magierruestung(context: CharacterContext) -> list[Modifier]:
+    """An "armor"-type `Modifier` correctly never stacks with worn armor's
+    own armor bonus, or with a second casting (`stack()`'s same-type-cap
+    rule) — both are RAW. Doesn't scale with instance count for the same
+    reason `_erschoepft` doesn't: presence, not sum, is all that matters
+    once the type cap already caps it."""
+    instances = [e for e in context.active_effects if e.source_id == MAGIERRUESTUNG_SPELL_ID]
+    if not instances:
+        return []
+    return [Modifier(source="Magierrüstung", type="armor", value=4, target=ModifierTarget.AC)]
+
+
 EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ERSCHOPFT_CONDITION_ID: _erschoepft,
+    MAGIERRUESTUNG_SPELL_ID: _magierruestung,
 }

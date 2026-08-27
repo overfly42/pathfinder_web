@@ -9928,7 +9928,8 @@
     "target_or_area": "Berührte Kreatur",
     "duration": "1 Stunde/Stufe (A)",
     "saving_throw": "Willen, keine Wirkung (harmlos)",
-    "spell_resistance": "Nein"
+    "spell_resistance": "Nein",
+    "is_persistent_effect": true
   },
   {
     "id": "e959948a-7d55-50f0-97f6-ab938ddd29fd",

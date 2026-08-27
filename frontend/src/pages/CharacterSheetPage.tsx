@@ -666,6 +666,7 @@ export function CharacterSheetPage() {
               activatableClassAbilities={character.activatableClassAbilities}
               activatableFeats={character.activatableFeats}
               externalClassAbilities={character.externalClassAbilities}
+              externalSpells={character.externalSpells}
               search={effectsSearch}
               onSearchChange={setEffectsSearch}
               typeFilter={effectsTypeFilter}

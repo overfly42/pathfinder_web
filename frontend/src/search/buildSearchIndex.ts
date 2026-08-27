@@ -75,8 +75,13 @@ export function buildSearchIndex(
       category: 'Zustand/Gift/Krankheit',
     });
   }
+  const ownSpellIds = new Set(character.activatableSpells.map((spell) => spell.key));
   for (const spell of character.activatableSpells) {
     index.push({ id: `activatable-spell-${spell.key}`, label: spell.name, value: '', category: 'Aktivierbarer Zauber' });
+  }
+  for (const spell of character.externalSpells) {
+    if (ownSpellIds.has(spell.key)) continue;
+    index.push({ id: `external-spell-${spell.key}`, label: spell.name, value: '', category: 'Zauber (von außen)' });
   }
   const ownAbilityIds = new Set(character.activatableClassAbilities.map((ability) => ability.key));
   for (const ability of character.activatableClassAbilities) {

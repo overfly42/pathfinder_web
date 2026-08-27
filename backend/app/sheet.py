@@ -438,6 +438,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
         "activatableFeats": _build_activatable_feats(db, character),
         "externalClassAbilities": _build_external_class_abilities(db),
+        "externalSpells": _build_external_spells(db),
     }
 
 
@@ -1299,9 +1300,12 @@ def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
     subset a player can activate as a tracked `CharacterEffect` via
     `POST .../effects`. Kept separate from `spellsKnown`/`spellbook` (cast/
     prepare tracking, an unrelated concern) rather than adding a field to
-    those existing shapes. Empty for every character today since no spell
-    is seeded with the flag set yet — same "wiring ready, no content yet"
-    state `BaseCondition`/`EFFECT_HANDLERS` started in."""
+    those existing shapes. Self-only by nature (`range` "Persönlich") is the
+    typical shape here; a non-"Persönlich" spell the character themselves
+    also knows still legitimately belongs in this list too (nothing stops a
+    caster targeting themselves with their own Berührung spell) — see
+    `_build_external_spells` for the counterpart that isn't gated by
+    ownership at all."""
     all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
     if not all_spell_ids:
         return []
@@ -1566,6 +1570,27 @@ def _build_external_class_abilities(db: Session) -> list[dict]:
         )
     ).all()
     return [{"key": str(ability.id), "name": ability.name} for ability in abilities]
+
+
+def _build_external_spells(db: Session) -> list[dict]:
+    """The spell counterpart to `_build_external_class_abilities`: persistent-
+    effect spells whose `range` isn't `"Persönlich"` — a touch/close/medium/
+    long-range spell (e.g. Magierrüstung, "Berührung") can be cast on a
+    character by *someone else's* caster, not only by the character
+    themselves, so it's offered to every character regardless of whether
+    they personally know it (same reasoning `conditionsCatalog` and
+    `_build_external_class_abilities` already use). `range` "Persönlich"
+    (self-only by definition, e.g. a Barde's own bardic performance-shaped
+    spells) or unset/unparsed `range` data stays excluded here — those only
+    ever show up via `_build_activatable_spells`'s known-spells gate."""
+    spells = db.scalars(
+        select(BaseSpell).where(
+            BaseSpell.is_persistent_effect.is_(True),
+            BaseSpell.range.is_not(None),
+            BaseSpell.range != "Persönlich",
+        )
+    ).all()
+    return [{"key": str(spell.id), "name": spell.name} for spell in spells]
 
 
 def _build_active_effects(db: Session, character: Character, context: CharacterContext) -> list[dict]:

@@ -121,6 +121,7 @@ interface RealEffectsPanelProps {
   activatableClassAbilities: ActivatableRef[];
   activatableFeats: ActivatableRef[];
   externalClassAbilities: ActivatableRef[];
+  externalSpells: ActivatableRef[];
   search: string;
   onSearchChange: (value: string) => void;
   typeFilter: ConditionType | '';
@@ -138,6 +139,7 @@ export function RealEffectsPanel({
   activatableClassAbilities,
   activatableFeats,
   externalClassAbilities,
+  externalSpells,
   search,
   onSearchChange,
   typeFilter,
@@ -154,7 +156,9 @@ export function RealEffectsPanel({
     const entries: AvailableEntry[] = [];
 
     if (!typeFilter) {
+      const ownSpellIds = new Set<string>();
       for (const spell of activatableSpells) {
+        ownSpellIds.add(spell.key);
         if (term && !spell.name.toLowerCase().includes(term)) continue;
         entries.push({
           domId: `activatable-spell-${spell.key}`,
@@ -209,6 +213,23 @@ export function RealEffectsPanel({
           tag: 'Klassenfähigkeit (von außen)',
         });
       }
+      // Touch/close/medium/long-range persistent-effect spells (e.g. Magierrüstung) — someone
+      // else's caster can target this character with these even if they don't know the spell
+      // themselves, so they're offered regardless of ownership, same as externalClassAbilities
+      // above. Skipped here if already listed via activatableSpells (the character's own known
+      // casting of the same spell).
+      for (const spell of externalSpells) {
+        if (ownSpellIds.has(spell.key)) continue;
+        if (term && !spell.name.toLowerCase().includes(term)) continue;
+        entries.push({
+          domId: `external-spell-${spell.key}`,
+          sourceType: 'spell',
+          sourceId: spell.key,
+          name: spell.name,
+          icon: SOURCE_TYPE_ICONS.spell,
+          tag: 'Zauber (von außen)',
+        });
+      }
     }
 
     for (const condition of conditionsCatalog) {
@@ -236,6 +257,7 @@ export function RealEffectsPanel({
     activatableClassAbilities,
     activatableFeats,
     externalClassAbilities,
+    externalSpells,
     search,
     typeFilter,
   ]);

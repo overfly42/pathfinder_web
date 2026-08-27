@@ -14,7 +14,10 @@ from app.models import (
     CharacterEffect,
     CharacterSpell,
 )
+from app.seed.class_option_seed import seed_class_options
+from app.seed.class_seed import seed_classes
 from app.seed.condition_seed import seed_conditions
+from app.seed.spell_seed import seed_spells
 
 from test_characters import _character_payload, _create_user, _elf_race_id, _item_id, _spells_by_class
 from test_items import _create_character
@@ -509,6 +512,71 @@ def test_bestientotem_natural_armor_bonus_scales_with_barbarian_level(
     # Kampfrausch's own -2 AC penalty plus Bestientotem's +1 natural armor
     # (6th-level barbarian: 6 // 4 = 1) nets to -1.
     assert raging_ac == baseline_ac - 1
+
+
+MAGIERRUESTUNG_SPELL_ID = "b987fa2d-d38f-5913-8073-93a4f671a92e"
+
+
+def test_sheet_lists_touch_range_spell_as_external_even_when_unknown(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_build_external_spells` (`sheet.py`) — Magierrüstung's `range` is
+    "Berührung" (touch), not "Persönlich", so another character's caster can
+    cast it on this one regardless of whether *this* character knows the
+    spell at all (e.g. a non-caster fighter buffed by the party's wizard).
+    It must therefore show up in `externalSpells` even for a character with
+    no known spells, and must NOT show up in `activatableSpells` (that list
+    stays gated to spells this character actually knows, see
+    `test_sheet_lists_active_effects_and_activatable_sources`)."""
+    character_id = _create_character(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["activatableSpells"] == []
+    assert any(s["key"] == MAGIERRUESTUNG_SPELL_ID for s in sheet["externalSpells"])
+
+    # Still activatable despite not being "known" — the endpoint never
+    # gated on ownership (roadmap slice 6's legality checks, not yet built).
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": MAGIERRUESTUNG_SPELL_ID, "duration_remaining": 30},
+    )
+    assert activation.status_code == 201
+
+
+def test_magierruestung_applies_armor_bonus_and_does_not_stack_with_worn_armor(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_magierruestung` (`rules/effects.py`) — real seeded content
+    (`base_spells.json`), already `is_persistent_effect`, no stand-in row
+    needed. Unarmored, activating it should raise `armorClass` by exactly
+    +4; worn armor's own "armor"-type bonus must cap it instead of stacking
+    (RAW: Magierrüstung does nothing on top of real armor) — same
+    same-type-cap rule `stack()` already applies everywhere else."""
+    character_id = _create_character(client, db_session)
+    seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
+    seed_spells(db_session)
+
+    unarmored_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": MAGIERRUESTUNG_SPELL_ID, "level": 3, "duration_remaining": 30},
+    )
+    assert activation.status_code == 201
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == unarmored_ac + 4
+
+    lederruestung_id = _item_id(client, db_session, "Lederrüstung")  # +2 AC
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": lederruestung_id, "quantity": 1})
+    client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": lederruestung_id})
+
+    armored_and_spelled_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+    # Lederrüstung's own +2 armor bonus is lower than Magierrüstung's +4, so
+    # only the +4 counts — not both, and not a switch back to +2.
+    assert armored_and_spelled_ac == unarmored_ac + 4
 
 
 def test_erneuerte_lebenskraft_action_hidden_until_raging(client: TestClient, db_session: Session) -> None:

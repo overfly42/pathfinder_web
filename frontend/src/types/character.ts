@@ -378,4 +378,10 @@ export interface Character {
    *  Barde's Lied des Mutes) even if they don't have it granted themselves. Not gated by ownership,
    *  same as `conditionsCatalog`. */
   externalClassAbilities: ActivatableRef[];
+  /** Persistent-effect spells (backend `BaseSpell`) whose `range` isn't `"Persönlich"` — a touch/
+   *  close/medium/long-range spell (e.g. Magierrüstung) can be cast on this character by someone
+   *  else's caster, so it's offered regardless of whether this character knows it themselves, same
+   *  reasoning as `externalClassAbilities`. `activatableSpells` stays the character's own known
+   *  spells only (any range, including `"Persönlich"`, self-only by definition). */
+  externalSpells: ActivatableRef[];
 }
