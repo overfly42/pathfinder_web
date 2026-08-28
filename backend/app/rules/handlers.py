@@ -113,6 +113,7 @@ from .feats import HANDLERS as _FEAT_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
+from .race_abilities import SPELL_LIKE_ABILITY_HANDLERS as _RACE_SPELL_LIKE_ABILITY_HANDLERS
 from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIENCY_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
 from .traits import HANDLERS as _TRAIT_HANDLERS
@@ -171,6 +172,16 @@ NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack |
 # contribute today.
 WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
     **_RACE_WEAPON_PROFICIENCY_HANDLERS,
+}
+
+# Which spell id a granted ability id makes castable as a spell-like ability,
+# or `None` if its granting condition isn't currently met (e.g. Lichtbringer's
+# INT >= 10 gate) — `sheet.py`'s `_build_activatable_spells` folds the
+# resolved spell id into the same `activatableSpells` list a character's own
+# known persistent-effect spells populate. Only race abilities contribute
+# today.
+SPELL_LIKE_ABILITY_HANDLERS: dict[UUID, Callable[[CharacterContext], UUID | None]] = {
+    **_RACE_SPELL_LIKE_ABILITY_HANDLERS,
 }
 
 # An extra (dice, damage-type) pair a granted ability id adds to melee
@@ -266,6 +277,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in WEAPON_BONUS_DAMAGE_HANDLERS
         or ability_id in WEAPON_ENHANCEMENT_HANDLERS
         or ability_id in WEAPON_PROFICIENCY_HANDLERS
+        or ability_id in SPELL_LIKE_ABILITY_HANDLERS
         or ability_id in SITUATIONAL_SKILL_HANDLERS
         or ability_id in SPELL_SLOT_DELTAS
         or ability_id in DAILY_LIMITS

@@ -403,7 +403,15 @@ class LevelUp(BaseModel):
     # backend never distinguishes "regular" vs "bonus", only the frontend UI
     # explains the two as separate fields.
     feats: list[FeatSelection] = []
-    spell_id: UUID | None = None
+    # Every new spell known/added to the spellbook this level — a delta, not
+    # a cumulative total, same as every other field on this model (unlike
+    # `CharacterCreate.spell_ids`, a flat list rather than a dict keyed by
+    # base_class_id: a level-up call only ever receives a level in one
+    # class, `target`, so there's only ever one class's list to submit).
+    # `routers/characters.py`'s level-up endpoint validates the whole list
+    # against that level's own budget delta (`spontaneous_known_budget`/
+    # `arcane_prepared_budget`) rather than one spell at a time.
+    spell_ids: list[UUID] = []
 
     @field_validator("ability_increase")
     @classmethod

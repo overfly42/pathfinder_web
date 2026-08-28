@@ -3817,6 +3817,11 @@
     "description": "(ÜF) Versucht der Kampfmagus mit Zaubern aus einem Zauberzepter die Zauberresistenz seines Gegners zu überwinden, darf er seinen IN-Bonus (Minimum 0) auf seine Zauberstufenwürfe hinzuaddieren. Er darf seinen Bonus ebenfalls hinzuaddieren, wenn er einen Zauberschlag durch ein Zauberzepter fokussiert."
   },
   {
+    "id": "5bf0674d-2a6a-5c42-a05c-f6cc0ca61f0d",
+    "name": "Großspurige Arkana",
+    "description": "(AF) Ein Kampfmagus erhält die Draufgängertricks Heldentat, Opportune Parade und Riposte. Er kann Punkte seines Arkanen Vorrates als Elanpunkte für diese und andere Tricks, die er über das Arkanum Draufgängertrick erlangt, nutzen. Er kann aber keine Punkte seines Arkanen Vorrates nutzen, um Tricks anderer Klassen zu nutzen oder solche, die er über Talente erlangt. Ebenso erlangt er keine Punkte seines Arkanen Vorrates zurück, wie ein Draufgänger Elanpunkte zurückerlangt. Effekte, welche die Kosten von Tricks modifizieren oder zusätzliche Elan- oder Schneidpunkte geben, wirken sich nicht auf den Arkanen Vorrat eines Kampfmagus mit diesem Arkanum aus."
+  },
+  {
     "id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
     "name": "Bonustalent",
     "description": "Auf der 5. Stufe und dann alle weiteren sechs Stufen als Kampfmagus (11., 17.) erhält ein Kampfmagus 1 Bonustalent. Dabei muss es sich um ein Talent aus der Kategorie Kampf, Metamagie oder Erschaffung von Gegenständen handeln, dessen Voraussetzungen der Kampfmagus erfüllen muss."

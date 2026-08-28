@@ -35,6 +35,24 @@ export function effectiveClassNames(progression: CharacterProgression, target: L
   return names;
 }
 
+/** Archetype names already applied to the class this level-up targets — an
+ *  existing class's own picks (`ClassProgressionEntry.archetypes`) for
+ *  `mode: 'existing'`, or the ones just chosen for a brand-new class row
+ *  (`target.archetypes`) for `mode: 'new'`. Mirrors creation's
+ *  `archetypesForClass`, just against a `LevelUpTarget` instead of a
+ *  `CreationDraft` class row. */
+export function receivingArchetypeNames(progression: CharacterProgression, target: LevelUpTarget): string[] {
+  if (target.mode === 'existing') {
+    return progression.classes.find((c) => c.id === target.classId)?.archetypes ?? [];
+  }
+  return target.archetypes;
+}
+
+/** `progression.abilityScores` is already the character's full effective score
+ *  (race/flex/equipped-gear/ability-damage, backend `sheet.py`'s
+ *  `build_character_progression`) — a past level's own permanent increase is
+ *  folded in too (persisted straight onto the base column at the time), so
+ *  this only has to add *this* level-up's own still-pending pick on top. */
 export function effectiveAbilityTotal(
   progression: CharacterProgression,
   key: AbilityKey,

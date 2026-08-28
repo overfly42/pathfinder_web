@@ -129,7 +129,13 @@ Kurzfassung als Einstiegspunkt:
       `todos_history.md`.
 - [x] Kampfmagus (Magus) — 2026-08-21 als komplett neue Klasse gegen
       `http://prd.5footstep.de/AusbauregelnMagie/Kampfmagus` (Klassenschale,
-      17 Klassenmerkmale, 39 Arkana als `arkanum`-Optionsgruppe, Bonustalent)
+      17 Klassenmerkmale, 40 Arkana als `arkanum`-Optionsgruppe (39 von den
+      beiden Seiten unten, plus Großspurige Arkana 2026-08-28 von der
+      neueren, konsolidierten `AusbauregelnVIKlassen/Archetypen/Kampfmagus/
+      Kampfmagusarkana`-Seite nachgetragen — die dort gelistete
+      Voraussetzung Draufgängertrick bleibt offen, da sie einen
+      Draufgänger-Trick verleiht und diese Klasse noch nicht modelliert
+      ist), Bonustalent)
       und `http://prd.5footstep.de/AusbauregelnIIKampf/Archetypen/Kampfmagus`
       (die vier Archetypen Kensai/Seelenschmied/Skirnir/Zauberstreiter)
       importiert — `scripts/import_kampfmagus.py` und

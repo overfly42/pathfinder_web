@@ -91,7 +91,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
   const spellType = classDef?.spellType ?? 'none';
   const sumSpell =
     spellType === 'arcane-prepared' || spellType === 'spontaneous'
-      ? draft.newSpell || '— noch nicht gewählt —'
+      ? draft.newSpells.join(', ') || '— noch keine gewählt —'
       : 'Keine Änderung nötig.';
 
   return (

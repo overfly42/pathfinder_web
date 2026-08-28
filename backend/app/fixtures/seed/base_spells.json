@@ -9700,7 +9700,8 @@
     "target_or_area": "Berührter Gegenstand",
     "duration": "10 Min./Stufe",
     "saving_throw": "Nein",
-    "spell_resistance": "Nein"
+    "spell_resistance": "Nein",
+    "is_persistent_effect": true
   },
   {
     "id": "4116d92c-314b-5285-80c1-b0b1e98c3bb1",

@@ -19,7 +19,14 @@ from app.seed.class_seed import seed_classes
 from app.seed.condition_seed import seed_conditions
 from app.seed.spell_seed import seed_spells
 
-from test_characters import _character_payload, _create_user, _elf_race_id, _item_id, _spells_by_class
+from test_characters import (
+    DEFAULT_ABILITY_SCORES,
+    _character_payload,
+    _create_user,
+    _elf_race_id,
+    _item_id,
+    _spells_by_class,
+)
 from test_items import _create_character
 
 
@@ -298,6 +305,55 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
 
     assert any(s["key"] == spell_id for s in sheet["activatableSpells"])
     assert any(a["key"] == str(ability.id) for a in sheet["activatableClassAbilities"])
+
+
+def test_lichtbringer_grants_licht_as_at_will_spell_like_ability(client: TestClient, db_session: Session) -> None:
+    """Elf's "Lichtbringer" alternate racial trait (`rules/race_abilities.py`'s
+    `SPELL_LIKE_ABILITY_HANDLERS`) grants *Licht* as an at-will spell-like
+    ability once INT >= 10 — Elf's own standard +2 INT plus
+    `DEFAULT_ABILITY_SCORES`' base IN 10 already clears that threshold with
+    no override needed. Unlike a known spell, it needs no
+    `CharacterSpell`/preparation row to show up as activatable, and
+    activating it isn't gated by any daily limit (see
+    `_build_activatable_spells`'s docstring)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    payload = _character_payload(user_id, race_id, db_session, alt_traits=["Lichtbringer"])
+    seed_spells(db_session)  # base_class_spells FKs into base_classes, seeded above by _character_payload
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    licht = next((s for s in sheet["activatableSpells"] if s["name"] == "Licht"), None)
+    assert licht is not None
+
+    activate = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": licht["key"], "duration_remaining": 100},
+    )
+    assert activate.status_code == 201
+
+
+def test_lichtbringer_licht_withheld_below_int_10(client: TestClient, db_session: Session) -> None:
+    """Same trait, but with INT lowered enough that even Elf's own +2 racial
+    bonus doesn't clear Lichtbringer's threshold (base IN 7 + 2 = 9)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        alt_traits=["Lichtbringer"],
+        ability_scores={**DEFAULT_ABILITY_SCORES, "IN": 7},
+    )
+    seed_spells(db_session)  # base_class_spells FKs into base_classes, seeded above by _character_payload
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert not any(s["name"] == "Licht" for s in sheet["activatableSpells"])
 
 
 def test_sheet_lists_actions_from_activatable_sources(client: TestClient, db_session: Session) -> None:

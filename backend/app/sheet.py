@@ -96,6 +96,7 @@ from .rules.handlers import (
     DAILY_LIMIT_UNIT_LABEL,
     DAILY_LIMITS,
     NATURAL_ATTACK_HANDLERS,
+    SPELL_LIKE_ABILITY_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
     WEAPON_ENHANCEMENT_HANDLERS,
     WEAPON_PROFICIENCY_HANDLERS,
@@ -442,7 +443,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "effectsActive": [],
         "activeEffects": _build_active_effects(db, character, context)
         + _build_item_granted_effects(db, items, gear_by_slot),
-        "activatableSpells": _build_activatable_spells(db, character),
+        "activatableSpells": _build_activatable_spells(db, character, context, race_ability_ids),
         "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
         "activatableFeats": _build_activatable_feats(db, character),
         "externalClassAbilities": _build_external_class_abilities(db),
@@ -483,7 +484,18 @@ def build_character_progression(character: Character, db: Session) -> dict:
             }
             for entry in character.classes
         ],
-        "abilityScores": character.ability_scores,
+        # Full effective score (race/flex/equipped-gear/ability-damage), not
+        # the raw `character.ability_scores` column — the same computation
+        # `build_character_sheet`'s own "abilities" display and the level-up
+        # endpoint's own budget check (`routers/characters.py`) use, so the
+        # wizard's skill/spell-point budgets and ability-mod previews agree
+        # with what the character sheet shows and what the backend actually
+        # enforces. A level's own permanent ability-score increase is
+        # already folded in here too (level-up persists it straight onto
+        # the base column, `routers/characters.py`'s `ability_increase`
+        # handling) — only *this* level-up's own pending pick isn't, which
+        # the frontend's `effectiveAbilityTotal` adds on top of this value.
+        "abilityScores": full_effective_ability_scores(db, character, race_ability_score_mods(db, character.race_id)),
         "feats": [entry["name"] for entry in _build_feats(db, character)],
         "traits": [row["name"] for row in _build_traits(db, character)],
         # Alternate-trait names (not the flex ability-score pick) - needed by
@@ -1231,6 +1243,8 @@ def _build_prepared_spell_grades(
                     "usedCount": prep.used_count if prep is not None else 0,
                     "description": spell.description,
                     "components": _format_spell_components(components_by_spell_id.get(spell_id)),
+                    "range": spell.range,
+                    "savingThrow": spell.saving_throw,
                 }
             )
 
@@ -1303,18 +1317,31 @@ def _format_spell_components(component: BaseSpellComponent | None) -> str:
     return ", ".join(parts) if parts else "—"
 
 
-def _build_activatable_spells(db: Session, character: Character) -> list[dict]:
-    """Known spells flagged `is_persistent_effect` (roadmap slice 5) — the
-    subset a player can activate as a tracked `CharacterEffect` via
-    `POST .../effects`. Kept separate from `spellsKnown`/`spellbook` (cast/
-    prepare tracking, an unrelated concern) rather than adding a field to
-    those existing shapes. Self-only by nature (`range` "Persönlich") is the
-    typical shape here; a non-"Persönlich" spell the character themselves
-    also knows still legitimately belongs in this list too (nothing stops a
-    caster targeting themselves with their own Berührung spell) — see
-    `_build_external_spells` for the counterpart that isn't gated by
-    ownership at all."""
+def _build_activatable_spells(
+    db: Session, character: Character, context: CharacterContext, race_ability_ids: set[UUID]
+) -> list[dict]:
+    """Known spells flagged `is_persistent_effect` (roadmap slice 5), plus any
+    spell a race ability grants as a spell-like ability
+    (`rules/handlers.py`'s `SPELL_LIKE_ABILITY_HANDLERS`, e.g. Elf's
+    Lichtbringer, gated on INT >= 10) — the subset a player can activate as a
+    tracked `CharacterEffect` via `POST .../effects`. Kept separate from
+    `spellsKnown`/`spellbook` (cast/prepare tracking, an unrelated concern)
+    rather than adding a field to those existing shapes. Self-only by nature
+    (`range` "Persönlich") is the typical shape here; a non-"Persönlich"
+    spell the character themselves also knows still legitimately belongs in
+    this list too (nothing stops a caster targeting themselves with their
+    own Berührung spell) — see `_build_external_spells` for the counterpart
+    that isn't gated by ownership at all.
+
+    A granted spell-like ability is at-will by nature — no `DAILY_LIMITS`
+    entry exists for this shape, and the activation endpoint enforces no
+    daily cap for any spell — so it needs no remaining-today bookkeeping the
+    way a class ability's own activatable list does."""
     all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
+    for ability_id in race_ability_ids:
+        handler = SPELL_LIKE_ABILITY_HANDLERS.get(ability_id)
+        if handler is not None and (spell_id := handler(context)) is not None:
+            all_spell_ids.add(spell_id)
     if not all_spell_ids:
         return []
     spells = db.scalars(

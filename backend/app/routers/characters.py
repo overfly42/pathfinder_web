@@ -1894,7 +1894,15 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
 
     seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)
     race_mods = race_ability_score_mods(db, character.race_id)
-    effective_scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
+    # Unlike `create_character`'s own `_effective_ability_mod` (race/flex
+    # only — a brand-new character owns no gear yet), a level-up character
+    # can already have equipped ability-boosting gear (e.g. a "Gürtel der
+    # großen Intelligenz") or ability damage, so this budget must read the
+    # same full effective score `sheet.py`'s display and `_ability_context`
+    # above already do — otherwise the skill/spell budget this endpoint
+    # enforces silently diverges from what the wizard shows and the
+    # character sheet displays.
+    effective_scores = full_effective_ability_scores(db, character, race_mods)
 
     def _effective_ability_mod(ability: str) -> int:
         return ability_mod(effective_scores[ability])
@@ -1966,58 +1974,57 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             if key in already_known:
                 raise HTTPException(status_code=422, detail=f"'{feat.name}' with this sub-choice is already known")
 
-    class_spell: BaseClassSpell | None = None
-    if body.spell_id is not None:
+    if body.spell_ids:
         class_def = _class_def(receiving_root.name) or {}
         spell_type = class_def.get("spellType", "none")
         if spell_type not in ("spontaneous", "arcane-prepared"):
             raise HTTPException(status_code=422, detail=f"{receiving_root.name} has no known-spell list to choose from")
-        class_spell = db.scalar(
-            select(BaseClassSpell).where(
-                BaseClassSpell.base_class_id == receiving_root.id, BaseClassSpell.spell_id == body.spell_id
-            )
-        )
-        if class_spell is None:
-            raise HTTPException(status_code=422, detail=f"Spell not on {receiving_root.name}'s spell list")
+        if len(set(body.spell_ids)) != len(body.spell_ids):
+            raise HTTPException(status_code=422, detail="spell_ids contains a duplicate")
+
+        grade_by_spell_id = {
+            row.spell_id: row.grade
+            for row in db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == receiving_root.id)).all()
+        }
+        for spell_id in body.spell_ids:
+            if spell_id not in grade_by_spell_id:
+                raise HTTPException(status_code=422, detail=f"Spell not on {receiving_root.name}'s spell list")
+
         already_known_spells = set(character.spell_ids.get(str(receiving_root.id), []))
-        if body.spell_id in already_known_spells:
+        if already_known_spells & set(body.spell_ids):
             raise HTTPException(status_code=422, detail="Spell is already known")
 
         if spell_type == "spontaneous":
             budget = spontaneous_known_budget(db, receiving_root.id, receiving_class_level)
-            known_at_grade = db.scalars(
-                select(BaseClassSpell.spell_id).where(
-                    BaseClassSpell.base_class_id == receiving_root.id,
-                    BaseClassSpell.grade == class_spell.grade,
-                    BaseClassSpell.spell_id.in_(already_known_spells),
-                )
-            ).all()
-            if len(known_at_grade) >= budget.get(class_spell.grade, 0):
-                raise HTTPException(
-                    status_code=422, detail=f"No grade {class_spell.grade} spell slots available at this level"
-                )
+            known_by_grade: dict[int, int] = {}
+            for spell_id in already_known_spells:
+                grade = grade_by_spell_id.get(spell_id)
+                if grade is not None:
+                    known_by_grade[grade] = known_by_grade.get(grade, 0) + 1
+            picked_by_grade: dict[int, int] = {}
+            for spell_id in body.spell_ids:
+                grade = grade_by_spell_id[spell_id]
+                picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
+            for grade, picked_count in picked_by_grade.items():
+                if known_by_grade.get(grade, 0) + picked_count > budget.get(grade, 0):
+                    raise HTTPException(
+                        status_code=422, detail=f"No grade {grade} spell slots available at this level"
+                    )
         else:  # arcane-prepared
-            if class_spell.grade == 0:
+            if any(grade_by_spell_id[spell_id] == 0 for spell_id in body.spell_ids):
                 raise HTTPException(status_code=422, detail="Grade-0 spells are already known automatically")
             accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
-            if class_spell.grade not in accessible_grades:
-                raise HTTPException(
-                    status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {receiving_root.name}"
-                )
+            for spell_id in body.spell_ids:
+                if grade_by_spell_id[spell_id] not in accessible_grades:
+                    raise HTTPException(
+                        status_code=422,
+                        detail=f"Grade {grade_by_spell_id[spell_id]} not yet accessible for {receiving_root.name}",
+                    )
             casting_ability = _resolve_casting_ability(receiving_root, receiving_archetypes)
             casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
             budget = arcane_prepared_budget(receiving_class_level, casting_ability_mod)
-            known_non_grade0 = sum(
-                1
-                for row in db.scalars(
-                    select(BaseClassSpell.grade).where(
-                        BaseClassSpell.base_class_id == receiving_root.id,
-                        BaseClassSpell.spell_id.in_(already_known_spells),
-                    )
-                ).all()
-                if row != 0
-            )
-            if known_non_grade0 >= budget:
+            known_non_grade0 = sum(1 for spell_id in already_known_spells if grade_by_spell_id.get(spell_id, 0) != 0)
+            if known_non_grade0 + len(body.spell_ids) > budget:
                 raise HTTPException(status_code=422, detail="No spellbook slots available at this level")
 
     favored_hp_bonus = 1 if body.favored_class_bonus == "hp" else 0
@@ -2093,8 +2100,8 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 chosen_spell_school=selection.chosen_spell_school,
             )
         )
-    if body.spell_id is not None:
-        new_level.spells.append(CharacterSpell(base_class_id=receiving_root.id, spell_id=body.spell_id))
+    for spell_id in body.spell_ids:
+        new_level.spells.append(CharacterSpell(base_class_id=receiving_root.id, spell_id=spell_id))
 
     db.commit()
     db.refresh(character)

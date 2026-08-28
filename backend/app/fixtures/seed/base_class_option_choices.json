@@ -2865,5 +2865,13 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": null
+  },
+  {
+    "id": "61772840-6ab1-5d56-a612-65238c9748be",
+    "group_id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
+    "name": "Großspurige Arkana",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
   }
 ]

@@ -5,11 +5,17 @@ before this script — no placeholder id, no `classes.json` entry), its class
 skills, its "Zauber pro Tag" grade-access table, its 17 named class features
 (everything except the Arkanum slot and the Bonustalent slot, each handled
 separately below), the Arkanum slot ability plus a `BaseClassOptionGroup`
-covering all 39 Arkana this app now knows about (20 from this page, plus 19
-more from `import_kampfmagus_archetypes.py`'s companion page — merged into
-one script since both need the same `KAMPFMAGUS_ID`/grant machinery and the
+covering all 40 Arkana this app now knows about (20 from this page, 19 more
+from `import_kampfmagus_archetypes.py`'s companion page — merged into one
+script since both need the same `KAMPFMAGUS_ID`/grant machinery and the
 archetypes page's own Arkana are just as much "core Kampfmagus options" as
-this page's, not archetype-exclusive), and the Bonustalent slot.
+this page's, not archetype-exclusive — plus Großspurige Arkana, added
+2026-08-28 on user request from the newer, consolidated
+`AusbauregelnVIKlassen/Archetypen/Kampfmagus/Kampfmagusarkana` PRD page,
+which lists still more Arkana beyond these 40 — e.g. Draufgängertrick
+itself, not seeded here since it requires picking Großspurige Arkana first
+and then grants a Draufgänger (Swashbuckler) trick, a class this app has no
+model of at all yet), and the Bonustalent slot.
 
 `hit_dice`/`bab_progression`/`fort_save`/`ref_save`/`wil_save`/
 `skill_points_base` read off "Tabelle: Kampfmagus": W8, 3/4 BAB (matches the
@@ -745,6 +751,24 @@ ARKANA: list[tuple[str, str, int | None, str | None, str | None]] = [
         "Gegners zu überwinden, darf er seinen IN-Bonus (Minimum 0) auf seine Zauberstufenwürfe "
         "hinzuaddieren. Er darf seinen Bonus ebenfalls hinzuaddieren, wenn er einen Zauberschlag durch "
         "ein Zauberzepter fokussiert.",
+        None,
+        None,
+        None,
+    ),
+    # --- from http://prd.5footstep.de/AusbauregelnVIKlassen/Archetypen/Kampfmagus/Kampfmagusarkana,
+    # a newer, consolidated arcana page not otherwise imported by this script (added 2026-08-28 on
+    # user request; text verified against that page verbatim, no level requirement stated there
+    # unlike most other Arkana above, so min_level stays None here too) ---
+    (
+        "Großspurige Arkana",
+        "(AF) Ein Kampfmagus erhält die Draufgängertricks Heldentat, Opportune Parade und Riposte. Er "
+        "kann Punkte seines Arkanen Vorrates als Elanpunkte für diese und andere Tricks, die er über "
+        "das Arkanum Draufgängertrick erlangt, nutzen. Er kann aber keine Punkte seines Arkanen "
+        "Vorrates nutzen, um Tricks anderer Klassen zu nutzen oder solche, die er über Talente "
+        "erlangt. Ebenso erlangt er keine Punkte seines Arkanen Vorrates zurück, wie ein Draufgänger "
+        "Elanpunkte zurückerlangt. Effekte, welche die Kosten von Tricks modifizieren oder zusätzliche "
+        "Elan- oder Schneidpunkte geben, wirken sich nicht auf den Arkanen Vorrat eines Kampfmagus mit "
+        "diesem Arkanum aus.",
         None,
         None,
         None,

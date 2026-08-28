@@ -1340,7 +1340,10 @@ create → play → level-up loop end to end.
       slot and/or a class bonus slot, both the same `feats` list — the
       backend never distinguishes the two, only the frontend UI explains
       them separately), one rank per skill, one ability-score increase every
-      4th level, and one new known/prepared spell.
+      4th level, and (2026-08-28, fixing an initial-slice gap where
+      `LevelUp.spell_id` only ever accepted one pick) `spell_ids`, every new
+      known/prepared spell this level-up grants up to that level's own
+      `spontaneous_known_budget`/`arcane_prepared_budget` delta.
 - [x] New `CharacterLevel.ability_increase` column (nullable `String(2)`) —
       the one new schema piece, needed so a history log can say *which*
       level got its ability increase; the score itself still only lives on

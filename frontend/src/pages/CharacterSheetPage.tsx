@@ -472,7 +472,17 @@ export function CharacterSheetPage() {
               ...g,
               spells: [
                 ...g.spells,
-                { key: createId(), name, baseClassId: '', preparedCount: 0, usedCount: 0, description: '', components: '' },
+                {
+                  key: createId(),
+                  name,
+                  baseClassId: '',
+                  preparedCount: 0,
+                  usedCount: 0,
+                  description: '',
+                  components: '',
+                  range: null,
+                  savingThrow: null,
+                },
               ],
             },
       );
@@ -728,6 +738,8 @@ export function CharacterSheetPage() {
                 name: pendingCastSpell.spell.name,
                 description: pendingCastSpell.spell.description,
                 components: pendingCastSpell.spell.components,
+                range: pendingCastSpell.spell.range,
+                savingThrow: pendingCastSpell.spell.savingThrow,
                 remaining: pendingCastSpell.spell.preparedCount - pendingCastSpell.spell.usedCount,
                 preparedCount: pendingCastSpell.spell.preparedCount,
               }

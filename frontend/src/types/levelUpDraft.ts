@@ -45,5 +45,10 @@ export interface LevelUpDraft {
    *  `CreationDraft.featSubChoices`, but keyed by name since newFeat/
    *  newBonusFeat are names here, not ids. */
   featSubChoices: Record<string, string>;
-  newSpell: string | null;
+  /** Every new spell picked this level-up (names, not ids — same
+   *  name-keyed convention as `newFeat`/`newBonusFeat` in this draft) — a
+   *  delta on top of `CharacterProgression.spellsKnown`, up to that level's
+   *  own budget (`arcanePreparedBudget`/`spellGradeBudgetAtLevel`). See
+   *  `LevelSpellStep.tsx`. */
+  newSpells: string[];
 }

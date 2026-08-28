@@ -30,6 +30,10 @@ export interface CharacterProgression {
   name: string;
   race: string;
   classes: ClassProgressionEntry[];
+  /** Full effective score (race/flex/equipped-gear/ability-damage), not the
+   *  raw point-buy base — matches the character sheet's own displayed
+   *  score and the backend's own budget-check math (backend `sheet.py`'s
+   *  `build_character_progression`); see `effectiveAbilityTotal`. */
   abilityScores: Record<AbilityKey, number>;
   feats: string[];
   traits: string[];

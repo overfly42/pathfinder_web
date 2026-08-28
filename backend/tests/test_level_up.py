@@ -254,6 +254,52 @@ def test_level_up_skill_ranks_within_and_over_budget(client: TestClient, db_sess
     assert response.status_code == 422
 
 
+def test_level_up_skill_budget_includes_equipped_ability_boosting_item(
+    client: TestClient, db_session: Session
+) -> None:
+    """A belt/headband-style ability-boosting item (`rules/effective_scores.py`'s
+    `gear_ability_bonuses`) must count toward the level-up skill-point budget
+    the same way it already counts toward the character sheet's own
+    displayed ability score — otherwise the level-up endpoint silently
+    under-grants skill points to a character wearing e.g. a "Stirnreif der
+    enormen Intelligenz" (regression test for the bug fixed alongside
+    `routers/characters.py`'s level-up `_effective_ability_mod`, which used
+    to read only race/flex, not equipped gear). Halbling has no INT
+    modifier and no bonus-skill-point trait of its own, isolating the
+    item's effect."""
+    race_id = _race_id(client, db_session, "Halbling")
+    base_class_id = _class_id(client, db_session, "Magier")
+    skill_a = _skill_id(client, db_session, "Zauberkunde")
+    skill_b = _skill_id(client, db_session, "Wissen (Arkanes)")
+    stirnreif_id = _item_id(client, db_session, "Stirnreif der enormen Intelligenz +2")
+    # 2 ranks each (both within the level-2 per-skill cap) so only the
+    # overall budget, not the "ranks <= character level" cap, is at stake.
+    four_ranks_across_two_skills = _to_skill_rank_selections(client, db_session, {skill_a: 2, skill_b: 2})
+
+    # Magier skillPointsBase 2 + base INT mod +1 (score 12) = 3 without the item.
+    without_item_id = _create_level_n_character(
+        client, db_session, race_id, "Magier", 1, ability_scores={**DEFAULT_ABILITY_SCORES, "IN": 12}
+    )
+    response = client.post(
+        f"/api/characters/{without_item_id}/level-up",
+        json=_level_up_payload(base_class_id, 4, skill_ranks=four_ranks_across_two_skills),
+    )
+    assert response.status_code == 422
+
+    # Same character shape, but wearing the headband: effective INT 14 (mod
+    # +2) -> budget 2 + 2 = 4, now enough for the same 4 skill ranks.
+    with_item_id = _create_level_n_character(
+        client, db_session, race_id, "Magier", 1, ability_scores={**DEFAULT_ABILITY_SCORES, "IN": 12}
+    )
+    client.post(f"/api/characters/{with_item_id}/gear", json={"item_id": stirnreif_id, "quantity": 1})
+    client.put(f"/api/characters/{with_item_id}/slots/stirnband", json={"item_id": stirnreif_id})
+    response = client.post(
+        f"/api/characters/{with_item_id}/level-up",
+        json=_level_up_payload(base_class_id, 4, skill_ranks=four_ranks_across_two_skills),
+    )
+    assert response.status_code == 201
+
+
 BACKGROUND_SKILL_NAMES = [
     "Auftreten", "Beruf", "Handwerk", "Mit Tieren umgehen", "Schätzen",
     "Wissen (Adel)", "Wissen (Baukunst)", "Wissen (Geographie)", "Wissen (Geschichte)",
@@ -445,7 +491,7 @@ def test_level_up_spontaneous_caster_rejects_new_spell_when_grade_budget_unchang
 
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 1, spell_id=spells["Farbenstrahl"]),
+        json=_level_up_payload(base_class_id, 1, spell_ids=[spells["Farbenstrahl"]]),
     )
     assert response.status_code == 422
 
@@ -464,7 +510,7 @@ def test_level_up_spontaneous_caster_grants_new_spell_when_grade_budget_grows(
 
     response = client.post(
         f"/api/characters/{character_id}/level-up",
-        json=_level_up_payload(base_class_id, 1, spell_id=spells["Farbenstrahl"]),
+        json=_level_up_payload(base_class_id, 1, spell_ids=[spells["Farbenstrahl"]]),
     )
     assert response.status_code == 201
     assert spells["Farbenstrahl"] in response.json()["spell_ids"][base_class_id]
@@ -481,7 +527,7 @@ def test_level_up_arcane_prepared_new_spell_within_and_over_grade(client: TestCl
     # Level 1 -> 2 still only unlocks grades {0, 1} (grade 2 opens at level 3).
     ok_response = client.post(
         f"/api/characters/{character_id_a}/level-up",
-        json=_level_up_payload(base_class_id, 3, spell_id=spells["Magisches Geschoss"]),
+        json=_level_up_payload(base_class_id, 3, spell_ids=[spells["Magisches Geschoss"]]),
     )
     assert ok_response.status_code == 201
 
@@ -490,9 +536,51 @@ def test_level_up_arcane_prepared_new_spell_within_and_over_grade(client: TestCl
     )
     rejected_response = client.post(
         f"/api/characters/{character_id_b}/level-up",
-        json=_level_up_payload(base_class_id, 3, spell_id=spells["Nebelwolke"]),
+        json=_level_up_payload(base_class_id, 3, spell_ids=[spells["Nebelwolke"]]),
     )
     assert rejected_response.status_code == 422
+
+
+def test_level_up_arcane_prepared_allows_multiple_new_spells_up_to_delta_budget(
+    client: TestClient, db_session: Session
+) -> None:
+    """Regression test: the level-up wizard used to accept only one new
+    spellbook spell per level-up (`LevelUp.spell_id` was a single field),
+    even though `arcane_prepared_budget` grants +2 non-grade0 picks per
+    level for an arcane-prepared caster like Magier — a real gap, not RAW
+    behavior (see todos.md). `spell_ids` now accepts the full delta in one
+    call, but still rejects a submission that exceeds it."""
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+    cantrips = _cantrip_ids(client, "Magier")
+    # Elf's effective INT mod is +1 (DEFAULT_ABILITY_SCORES IN 10, +2 racial).
+    # arcane_prepared_budget: level 1 -> 3 (2+1), fully spent at creation
+    # below; level 2 -> 5 (3+2), leaving exactly 2 rooms for this level-up.
+    grade1_at_creation = [spells["Magisches Geschoss"], spells["Schild"], spells["Farbenstrahl"]]
+
+    character_id = _create_level_n_character(
+        client, db_session, race_id, "Magier", 1, spell_ids={base_class_id: cantrips + grade1_at_creation}
+    )
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 3, spell_ids=[spells["Schlaf"], spells["Identifizieren"]]),
+    )
+    assert response.status_code == 201
+    known = set(response.json()["spell_ids"][base_class_id])
+    assert spells["Schlaf"] in known
+    assert spells["Identifizieren"] in known
+
+    # A 3rd spell in the same call exceeds the remaining room (2).
+    character_id_2 = _create_level_n_character(
+        client, db_session, race_id, "Magier", 1, spell_ids={base_class_id: cantrips + grade1_at_creation}
+    )
+    rejected = client.post(
+        f"/api/characters/{character_id_2}/level-up",
+        json=_level_up_payload(
+            base_class_id, 3, spell_ids=[spells["Schlaf"], spells["Identifizieren"], spells["Sprung"]]
+        ),
+    )
+    assert rejected.status_code == 422
 
 
 def test_progression_and_history_reflect_a_real_level_up(client: TestClient, db_session: Session) -> None:

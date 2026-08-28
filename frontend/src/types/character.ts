@@ -84,6 +84,11 @@ export type PreparedSpellRef = SpellRef & {
   /** Pre-formatted "V, S, M (...)" display string (`sheet.py`'s `_format_spell_components`) —
    *  "—" when no `BaseSpellComponent` row exists for this spell/tradition yet. */
   components: string;
+  /** `BaseSpell.range`/`BaseSpell.saving_throw` free-text PRD stat-block fields — `null` where
+   *  not yet imported for this spell (most spells' components are missing this way too; see
+   *  `components`'s own docstring). */
+  range: string | null;
+  savingThrow: string | null;
 };
 
 export interface CastableSpellGrade {

@@ -205,3 +205,32 @@ NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack |
 WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
     ELFISCHE_WAFFENVERTRAUTHEIT_ABILITY_ID: ELFISCHE_WAFFENVERTRAUTHEIT_WEAPON_IDS,
 }
+
+# Elf's "Lichtbringer" alternate racial trait (`race_ability_grants.json`,
+# `is_alternate=True`; replaces "Elfische Immunität" and "Elfenmagie" per
+# `race_ability_replacements.json`) has three clauses; only the at-will
+# spell-like ability (cast *Licht*, gated on INT >= 10) is modeled here. The
+# other two — immunity to light-based blindness/dazzle, and +1 effective
+# caster level for the character's own light spells — have no lever to hook
+# into yet (no immunity concept, no caster-level tracking anywhere in
+# `rules/`) and are intentionally left unimplemented rather than faked; see
+# `todos.md`.
+LICHTBRINGER_ABILITY_ID = UUID("f0478b8b-6217-4bbf-8076-0fdbe60e5125")
+# `BaseSpell.id` for "Licht" (`base_spells.json`) — the one spell
+# Lichtbringer's at-will clause grants.
+_LICHT_SPELL_ID = UUID("b124c2ff-3f0d-5827-bb17-56cc93241362")
+
+
+def _lichtbringer_spell_like_ability(context: CharacterContext) -> UUID | None:
+    return _LICHT_SPELL_ID if context.ability_scores.get("IN", 0) >= 10 else None
+
+
+# This module's own slice of `rules/handlers.py`'s merged
+# `SPELL_LIKE_ABILITY_HANDLERS` — race-granted spell-like abilities. Returns
+# `None` when the granting condition (here, an ability-score threshold) isn't
+# currently met, same "id present but not currently active" shape
+# `NATURAL_ATTACK_HANDLERS`'s Bestientotem-while-not-raging case already
+# uses.
+SPELL_LIKE_ABILITY_HANDLERS: dict[UUID, Callable[[CharacterContext], UUID | None]] = {
+    LICHTBRINGER_ABILITY_ID: _lichtbringer_spell_like_ability,
+}

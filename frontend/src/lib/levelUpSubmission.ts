@@ -57,9 +57,10 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
       })),
   ];
 
-  const spell = receivingClassName && draft.newSpell
-    ? (options.spellsByClass[receivingClassName] ?? []).find((s) => s.name === draft.newSpell)
-    : undefined;
+  const classSpells = receivingClassName ? options.spellsByClass[receivingClassName] ?? [] : [];
+  const spell_ids = draft.newSpells
+    .map((name) => classSpells.find((s) => s.name === name)?.id)
+    .filter((id): id is string => id !== undefined);
 
   return {
     target:
@@ -77,6 +78,6 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
     ability_increase: draft.abilityIncrease,
     skill_ranks,
     feats,
-    spell_id: spell?.id ?? null,
+    spell_ids,
   };
 }

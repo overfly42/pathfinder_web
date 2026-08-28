@@ -6286,6 +6286,13 @@
     "level": 1
   },
   {
+    "id": "d80d18d9-0c61-5dde-b109-ea334cd60405",
+    "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
+    "ability_id": "5bf0674d-2a6a-5c42-a05c-f6cc0ca61f0d",
+    "option_choice_id": "61772840-6ab1-5d56-a612-65238c9748be",
+    "level": 1
+  },
+  {
     "id": "468f0c4c-a442-5218-a8d1-ab154241d48b",
     "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
     "ability_id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",

@@ -5,6 +5,8 @@ interface CastSpellEntry {
   name: string;
   description: string;
   components: string;
+  range: string | null;
+  savingThrow: string | null;
   remaining: number;
   preparedCount: number;
 }
@@ -30,6 +32,8 @@ export function CastSpellModal({ entry, onCancel, onConfirm }: CastSpellModalPro
         </div>
         <div className="modal-body">
           <p><strong>Komponenten:</strong> {entry?.components}</p>
+          <p><strong>Reichweite:</strong> {entry?.range ?? '—'}</p>
+          <p><strong>Rettungswurf:</strong> {entry?.savingThrow ?? '—'}</p>
           <p>{entry?.description}</p>
           <p>{entry?.remaining} von {entry?.preparedCount} heute noch verfügbar.</p>
         </div>

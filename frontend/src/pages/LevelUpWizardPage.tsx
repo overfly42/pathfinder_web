@@ -66,7 +66,7 @@ export function LevelUpWizardPage() {
         newFeat: null,
         newBonusFeat: null,
         featSubChoices: {},
-        newSpell: null,
+        newSpells: [],
       });
     }
   }, [progression, draft]);
