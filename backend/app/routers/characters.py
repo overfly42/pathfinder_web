@@ -1857,6 +1857,18 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         raise HTTPException(
             status_code=422, detail="This level grants an ability score increase — ability_increase is required"
         )
+    # Snapshot the INT mod *before* applying this level's ability_increase:
+    # PF1e ability-score bonuses are retroactive (unlike 3.5e's skill-point
+    # exception — see http://paizo.com/threads/rzs2kpru&page=1?Int-and-Skills#9,
+    # James Jacobs: "Skill ranks not being retroactive are a 3.5 convention we
+    # specifically removed from the game"), so a permanent INT increase also
+    # recomputes the skill points already-completed levels are owed. Feeding
+    # the *old* mod into `classes_before`'s total below and the *new* mod
+    # (post-mutation, further down) into `classes_after`'s total makes the
+    # delta include that catch-up automatically, without tracking a separate
+    # "already spent" counter.
+    race_mods = race_ability_score_mods(db, character.race_id)
+    pre_increase_int_mod = ability_mod(full_effective_ability_scores(db, character, race_mods)["IN"])
     if body.ability_increase is not None:
         column = f"ability_score_{body.ability_increase.lower()}"
         setattr(character, column, getattr(character, column) + 1)
@@ -1893,7 +1905,8 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         )
 
     seen_replaced_ability_ids = _character_replaced_ability_ids(db, character)
-    race_mods = race_ability_score_mods(db, character.race_id)
+    # race_mods computed above, before the ability_increase mutation, for
+    # pre_increase_int_mod — race doesn't change here, so it's reused as-is.
     # Unlike `create_character`'s own `_effective_ability_mod` (race/flex
     # only — a brand-new character owns no gear yet), a level-up character
     # can already have equipped ability-boosting gear (e.g. a "Gürtel der
@@ -1913,7 +1926,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     favored_skill_bonus = 1 if body.favored_class_bonus == "skill" else 0
     skill_budget_delta = (
         _skill_points_total(classes_after, roots_after, _effective_ability_mod("IN"), race_skill_bonus)
-        - _skill_points_total(classes_before, roots_before, _effective_ability_mod("IN"), race_skill_bonus)
+        - _skill_points_total(classes_before, roots_before, pre_increase_int_mod, race_skill_bonus)
         + favored_skill_bonus
     )
     background_budget_delta = (

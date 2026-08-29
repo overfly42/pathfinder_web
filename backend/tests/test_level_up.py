@@ -300,6 +300,55 @@ def test_level_up_skill_budget_includes_equipped_ability_boosting_item(
     assert response.status_code == 201
 
 
+def test_level_up_ability_increase_grants_retroactive_skill_points(
+    client: TestClient, db_session: Session
+) -> None:
+    """PF1e ability-score bonuses are retroactive (unlike 3.5e's skill-point
+    exception — http://paizo.com/threads/rzs2kpru&page=1?Int-and-Skills#9,
+    James Jacobs: "Skill ranks not being retroactive are a 3.5 convention we
+    specifically removed from the game"). A permanent INT increase at
+    level-up must therefore recompute the skill points already-completed
+    levels are owed, not just grant the new level its own points at the
+    higher mod. Halbling has no INT racial mod, isolating the ability
+    score's own effect."""
+    race_id = _race_id(client, db_session, "Halbling")
+    base_class_id = _class_id(client, db_session, "Magier")
+    skill_a = _skill_id(client, db_session, "Zauberkunde")
+    skill_b = _skill_id(client, db_session, "Wissen (Arkanes)")
+
+    # Magier skillPointsBase 2. Level 1-3 at INT 13 (mod +1); level 4 raises
+    # INT to 14 (mod +2) via ability_increase. Non-retroactive budget for
+    # just the new level would be 2+2=4; the correct retroactive budget also
+    # back-corrects levels 1-3 from mod +1 to +2 (+1*3), for 4+3=7 total.
+    over_budget_id = _create_level_n_character(
+        client, db_session, race_id, "Magier", 3, ability_scores={**DEFAULT_ABILITY_SCORES, "IN": 13}
+    )
+    response = client.post(
+        f"/api/characters/{over_budget_id}/level-up",
+        json=_level_up_payload(
+            base_class_id,
+            4,
+            ability_increase="IN",
+            skill_ranks=_to_skill_rank_selections(client, db_session, {skill_a: 4, skill_b: 4}),
+        ),
+    )
+    assert response.status_code == 422
+
+    within_budget_id = _create_level_n_character(
+        client, db_session, race_id, "Magier", 3, ability_scores={**DEFAULT_ABILITY_SCORES, "IN": 13}
+    )
+    response = client.post(
+        f"/api/characters/{within_budget_id}/level-up",
+        json=_level_up_payload(
+            base_class_id,
+            4,
+            ability_increase="IN",
+            skill_ranks=_to_skill_rank_selections(client, db_session, {skill_a: 4, skill_b: 3}),
+        ),
+    )
+    assert response.status_code == 201
+
+
 BACKGROUND_SKILL_NAMES = [
     "Auftreten", "Beruf", "Handwerk", "Mit Tieren umgehen", "Schätzen",
     "Wissen (Adel)", "Wissen (Baukunst)", "Wissen (Geographie)", "Wissen (Geschichte)",

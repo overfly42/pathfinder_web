@@ -9,10 +9,9 @@ import {
   classSkillSetForLevelUp,
   effectiveAbilityTotal,
   getNewLevel,
-  getReceivingClassName,
   raceGrantsSkillBonusPerLevel,
+  skillBudgetDeltaForLevelUp,
   skillIncreasesByCategory,
-  skillPointsForThisLevel,
   skillPointsRemainingForLevelUp,
   skillSpecializationBonusForLevelUp,
 } from '../../lib/levelUpCalculations';
@@ -27,11 +26,13 @@ interface LevelSkillsStepProps {
 
 export function LevelSkillsStep({ progression, options, draft, setDraft }: LevelSkillsStepProps) {
   const [addingSpecializationFor, setAddingSpecializationFor] = useState<string | null>(null);
-  const receivingClassName = getReceivingClassName(progression, draft.target);
+  const oldIntMod = abilityMod(progression.abilityScores.IN);
   const effectiveIntMod = abilityMod(effectiveAbilityTotal(progression, 'IN', draft.abilityIncrease));
   const raceBonus = raceGrantsSkillBonusPerLevel(progression, options.races) ? 1 : 0;
   const favoredBonus = draft.favoredClassBonus === 'skill' ? 1 : 0;
-  const budget = skillPointsForThisLevel(receivingClassName, options.classes, effectiveIntMod) + raceBonus + favoredBonus;
+  const budget =
+    skillBudgetDeltaForLevelUp(progression, draft.target, options.classes, oldIntMod, effectiveIntMod, raceBonus) +
+    favoredBonus;
   const useBackgroundSkills = progression.useBackgroundSkills ?? false;
   const backgroundBudget = useBackgroundSkills ? backgroundSkillPointsForThisLevel() : 0;
   const { background: backgroundSpent, regular: regularSpentOnly } = skillIncreasesByCategory(

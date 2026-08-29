@@ -99,14 +99,74 @@ export function classSkillSetForLevelUp(
   return set;
 }
 
-export function skillPointsForThisLevel(
-  receivingClassName: string | null,
+/** Full per-class {className, level} list after this level-up is applied —
+ *  the receiving class's level +1 (or a new level-1 entry for a brand-new
+ *  class), everything else unchanged. Mirrors the backend's
+ *  `_apply_target_to_selections`. */
+export function classesAfterLevelUp(
+  progression: CharacterProgression,
+  target: LevelUpTarget,
+): { className: string; level: number }[] {
+  if (target.mode === 'existing') {
+    return progression.classes.map((c) =>
+      c.id === target.classId
+        ? { className: c.className, level: c.level + 1 }
+        : { className: c.className, level: c.level },
+    );
+  }
+  return [
+    ...progression.classes.map((c) => ({ className: c.className, level: c.level })),
+    ...(target.className ? [{ className: target.className, level: 1 }] : []),
+  ];
+}
+
+/** Per class-taken, max(1, class's base skill points + INT modifier) times
+ *  the levels taken in it, summed across all classes, plus a flat
+ *  race-bonus rank per *character* level. Mirrors the backend's
+ *  `_skill_points_total` / creation's `skillPointsTotal`
+ *  (creationCalculations.ts). */
+function classesSkillPointsTotal(
+  classEntries: { className: string; level: number }[],
   classes: ClassDef[],
-  effectiveIntMod: number,
+  intMod: number,
+  raceBonusPerLevel: number,
 ): number {
-  const cls = receivingClassName ? classes.find((c) => c.name === receivingClassName) : undefined;
-  const base = cls?.skillPointsBase ?? 2;
-  return Math.max(1, base + effectiveIntMod);
+  let total = 0;
+  let totalLevel = 0;
+  for (const entry of classEntries) {
+    const base = classes.find((c) => c.name === entry.className)?.skillPointsBase ?? 2;
+    total += Math.max(1, base + intMod) * entry.level;
+    totalLevel += entry.level;
+  }
+  return total + raceBonusPerLevel * totalLevel;
+}
+
+/** New regular skill-point budget granted by this level-up. PF1e ability-score
+ *  bonuses are retroactive (unlike 3.5e's skill-point exception —
+ *  http://paizo.com/threads/rzs2kpru&page=1?Int-and-Skills#9, James Jacobs:
+ *  "Skill ranks not being retroactive are a 3.5 convention we specifically
+ *  removed from the game"): a permanent INT increase this level (`newIntMod`
+ *  vs. `oldIntMod`, the mod just before it) also recomputes every
+ *  already-completed level's skill points, across every class the character
+ *  has, not just the class being leveled. Comparing the whole-character total
+ *  at the old mod (before this level) against the whole-character total at
+ *  the new mod (after) folds that catch-up in automatically. Mirrors the
+ *  backend's `skill_budget_delta` (routers/characters.py's
+ *  `level_up_character`); keep both in sync. */
+export function skillBudgetDeltaForLevelUp(
+  progression: CharacterProgression,
+  target: LevelUpTarget,
+  classes: ClassDef[],
+  oldIntMod: number,
+  newIntMod: number,
+  raceBonusPerLevel: number,
+): number {
+  const before = progression.classes.map((c) => ({ className: c.className, level: c.level }));
+  const after = classesAfterLevelUp(progression, target);
+  return (
+    classesSkillPointsTotal(after, classes, newIntMod, raceBonusPerLevel) -
+    classesSkillPointsTotal(before, classes, oldIntMod, raceBonusPerLevel)
+  );
 }
 
 /** Whether this character's race grants a flat +1 skill rank per character
