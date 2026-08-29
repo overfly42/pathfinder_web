@@ -1135,8 +1135,9 @@ def cast_spell(
     number of times once it's prepared, so `used_count` is neither checked
     nor incremented for it, only `prepared_count > 0`. Refund abilities
     (Perle der Macht, Kampfmagus-Zauberrückruf) that let a *non-cantrip*
-    used slot be cast again are a later addition on top of this same
-    `CharacterSpellPreparation` row, not modeled yet."""
+    used slot be cast again build on top of this same
+    `CharacterSpellPreparation` row — see `restore_spell` below for the
+    Perle-der-Macht side of that."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1168,6 +1169,65 @@ def cast_spell(
     return character
 
 
+@router.post("/{character_id}/spells/{spell_id}/restore", response_model=CharacterRead)
+def restore_spell(
+    character_id: UUID, spell_id: UUID, body: SpellPrepare, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Perle der Macht (`BaseItem.restores_spell_grade`, see its docstring):
+    un-expends one already-cast copy of a spell — the mirror image of
+    `cast_spell` (decrements `used_count` instead of incrementing it) — and
+    consumes one of today's uses on whichever owned pearl of the matching
+    grade still has one, same "any instance, player doesn't care which
+    physical pearl" choice as every other `uses_remaining_today` item
+    (`sheet.py`'s `pearls_by_grade` shows the pooled total, not per-instance
+    counts, for the same reason). 422 if the spell hasn't actually been cast
+    today (nothing to restore) or if no matching pearl has a use left —
+    `sheet.py`'s `pearlsAvailable` should already keep the frontend from
+    offering this when neither holds, this is the server-side backstop."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    row = next(
+        (
+            row
+            for row in character.spell_preparations
+            if row.base_class_id == body.base_class_id and row.spell_id == spell_id
+        ),
+        None,
+    )
+    if row is None or row.used_count == 0:
+        raise HTTPException(status_code=422, detail="No cast copies of this spell to restore today")
+
+    class_spell = db.scalar(
+        select(BaseClassSpell).where(
+            BaseClassSpell.base_class_id == body.base_class_id, BaseClassSpell.spell_id == spell_id
+        )
+    )
+    if class_spell is None:
+        raise HTTPException(status_code=422, detail="Spell isn't on this class's spell list")
+
+    pearl_gear_row = next(
+        (
+            gear_row
+            for gear_row in character.gear
+            if (gear_row.uses_remaining_today or 0) > 0
+            and (item := db.get(BaseItem, gear_row.item_id)) is not None
+            and item.restores_spell_grade == class_spell.grade
+        ),
+        None,
+    )
+    if pearl_gear_row is None:
+        raise HTTPException(status_code=422, detail="No Perle der Macht available for this spell grade")
+
+    pearl_gear_row.uses_remaining_today -= 1
+    row.used_count -= 1
+
+    db.commit()
+    db.refresh(character)
+    return character
+
+
 @router.post("/{character_id}/gear", response_model=CharacterRead, status_code=201)
 def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Depends(get_db)]) -> Character:
     """In-play "add to inventory" (roadmap slice 4) — unlike creation's
@@ -1184,16 +1244,26 @@ def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Dep
     existing = next((g for g in character.gear if g.item_id == body.item_id), None)
     if existing is not None:
         existing.quantity += body.quantity
+        # Each newly picked-up copy of an "N-mal pro Tag" item brings its own
+        # unused charge for today — `uses_remaining_today` pools across every
+        # physical instance a `CharacterGear` row's `quantity` represents
+        # (see that field's docstring), not just the first one, so a second
+        # Perle der Macht grants a second restore today, not zero.
+        if item.uses_per_day is not None:
+            existing.uses_remaining_today = (existing.uses_remaining_today or 0) + item.uses_per_day * body.quantity
     else:
         # New instance starts "full" — matches roadmap.md's "Wondrous-Item-
         # Katalog" decision that the catalog only declares the maximum,
-        # per-instance counters are `CharacterGear` state.
+        # per-instance counters are `CharacterGear` state. Scaled by quantity
+        # for the same pooled-per-instance reason as above.
         character.gear.append(
             CharacterGear(
                 item_id=body.item_id,
                 quantity=body.quantity,
                 charges_remaining=item.max_charges,
-                uses_remaining_today=item.uses_per_day,
+                uses_remaining_today=(
+                    item.uses_per_day * body.quantity if item.uses_per_day is not None else None
+                ),
             )
         )
     db.commit()
@@ -1214,6 +1284,14 @@ def update_gear(
 
     if body.quantity is not None:
         gear_row.quantity = body.quantity
+        # A manual quantity correction (as opposed to `add_gear`'s "picked up
+        # another one" event) grants no bonus uses today — it only clamps
+        # `uses_remaining_today` down if it now exceeds the new, smaller pool
+        # (`item.uses_per_day * quantity`); a quantity *increase* here takes
+        # effect at the next rest, same as any other pool-size correction.
+        item = db.get(BaseItem, item_id)
+        if item is not None and item.uses_per_day is not None and gear_row.uses_remaining_today is not None:
+            gear_row.uses_remaining_today = min(gear_row.uses_remaining_today, item.uses_per_day * body.quantity)
     if body.enhancement is not None:
         gear_row.enhancement = body.enhancement
     if body.properties is not None:
@@ -1327,32 +1405,43 @@ def use_class_ability(character_id: UUID, ability_id: UUID, db: Annotated[Sessio
     return character
 
 
+def _reset_gear_daily_uses(db: Session, character: Character) -> None:
+    """Resets every equipped-or-owned item's `uses_remaining_today` back to
+    its catalog `uses_per_day` times however many the character owns
+    (`CharacterGear.quantity` — two Perlen der Macht of the same grade means
+    two restores/day, not one, see that field's docstring). Does not touch
+    `charges_remaining` (wand charges never auto-reset) or `is_active`
+    (toggled items keep their state across a rest). Shared by `rest` and
+    `advance_time`'s "day" branch — both are meant to be a full rest (see
+    `advance_time`'s docstring), so both must reset gear the same way; before
+    this was split out, `advance_time("day")` silently skipped it, leaving a
+    Perle der Macht never refilled by the app's only real-character "advance
+    a day" UI action (the frontend has no button wired to `POST .../rest`
+    itself, see `types/character.ts`'s `usesRemainingToday` docstring)."""
+    if not character.gear:
+        return
+    items = {
+        item.id: item
+        for item in db.scalars(select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))).all()
+    }
+    for gear_row in character.gear:
+        item = items.get(gear_row.item_id)
+        if item is not None and item.uses_per_day is not None:
+            gear_row.uses_remaining_today = item.uses_per_day * gear_row.quantity
+
+
 @router.post("/{character_id}/rest", response_model=CharacterRead)
 def rest(character_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
     """Deliberately narrow pull-forward of roadmap slice 5's "rest" concept
     (decided 2026-08-04, see roadmap.md's "Wondrous-Item-Katalog mit echter
-    Attributsboni-Wirkung") — resets every equipped-or-owned item's
-    `uses_remaining_today` back to its catalog `uses_per_day`, and (2026-08-12)
-    any `DAILY_LIMITS` class/race-ability pool (`rules/daily_limits.py`) back
-    to nothing used. Does not touch `charges_remaining` (wand charges never
-    auto-reset) or `is_active` (toggled items keep their state across a
-    rest)."""
+    Attributsboni-Wirkung") — resets gear's daily uses (`_reset_gear_daily_uses`)
+    and (2026-08-12) any `DAILY_LIMITS` class/race-ability pool
+    (`rules/daily_limits.py`) back to nothing used."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
-    if character.gear:
-        items = {
-            item.id: item
-            for item in db.scalars(
-                select(BaseItem).where(BaseItem.id.in_([g.item_id for g in character.gear]))
-            ).all()
-        }
-        for gear_row in character.gear:
-            item = items.get(gear_row.item_id)
-            if item is not None and item.uses_per_day is not None:
-                gear_row.uses_remaining_today = item.uses_per_day
-
+    _reset_gear_daily_uses(db, character)
     reset_daily_limits(db, character)
     reset_spell_preparations(db, character)
 
@@ -1554,10 +1643,13 @@ def advance_time(
     """Ticks every active effect's countdowns forward by one unit (roadmap
     slice 5) — round=1/minute=10/hour=600, same conversion the mock's time
     buttons already use. "day" is a full rest: plain-duration effects (no
-    `frequency_rounds`) are removed outright, and any `DAILY_LIMITS` pool
-    (`rules/daily_limits.py`) resets; frequency-tracked ones (poison/
-    disease) are left alone, since surviving a rest is correct PF1e
-    behavior for those, unlike the old mock's blanket clear.
+    `frequency_rounds`) are removed outright, gear's daily uses/spell
+    preparations/`DAILY_LIMITS` pools all reset (`_reset_gear_daily_uses`,
+    same reset `POST .../rest` does — this is the only "advance a day" action
+    the real-character UI actually calls, `POST .../rest` itself has no
+    button wired to it); frequency-tracked effects (poison/disease) are left
+    alone, since surviving a rest is correct PF1e behavior for those, unlike
+    the old mock's blanket clear.
 
     For a real round/minute/hour tick, an effect registered in
     `DAILY_LIMITS` (e.g. Kampfrausch) also spends that many rounds from its
@@ -1573,6 +1665,7 @@ def advance_time(
 
     remaining: list[CharacterEffect] = []
     if body.unit == "day":
+        _reset_gear_daily_uses(db, character)
         reset_daily_limits(db, character)
         reset_spell_preparations(db, character)
         for effect in character.effects:

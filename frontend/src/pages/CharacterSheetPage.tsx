@@ -21,6 +21,7 @@ import { RealEffectsPanel, type ActivateEffectInput } from '../components/sheet/
 import { ActivateEffectModal, type AvailableEntry } from '../components/sheet/ActivateEffectModal';
 import { UseAbilityModal } from '../components/sheet/UseAbilityModal';
 import { CastSpellModal } from '../components/sheet/CastSpellModal';
+import { RestoreSpellModal } from '../components/sheet/RestoreSpellModal';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
 import type { ActionOption, ConditionType, Effect, EffectsView, PreparedSpellRef } from '../types/character';
 import type { SearchEntry } from '../search/types';
@@ -72,6 +73,7 @@ export function CharacterSheetPage() {
   // Confirmation popup for the "Zauber" cast bar — clicking a prepared spell opens this instead of
   // casting immediately, showing components/description before the player commits.
   const [pendingCastSpell, setPendingCastSpell] = useState<{ grade: number; spell: PreparedSpellRef } | null>(null);
+  const [pendingRestoreSpell, setPendingRestoreSpell] = useState<{ grade: number; spell: PreparedSpellRef } | null>(null);
   const isRealCharacter = !FIXTURE_CHARACTER_IDS.has(currentCharacterId);
 
   // Closes any open gear popover when clicking outside it (mirrors the mock's global click listener).
@@ -307,6 +309,44 @@ export function CharacterSheetPage() {
       refetch();
     } catch {
       setSpellError('Zauber konnte nicht gewirkt werden.');
+    }
+  }
+
+  function handleRequestRestoreSpell(grade: number, spell: PreparedSpellRef) {
+    setPendingRestoreSpell({ grade, spell });
+  }
+
+  async function handleConfirmRestoreSpell() {
+    const pending = pendingRestoreSpell;
+    setPendingRestoreSpell(null);
+    if (!pending) return;
+    const { grade, spell } = pending;
+
+    if (!isRealCharacter) {
+      // Mock characters never carry a Perle der Macht (`pearlsTotal` stays unset), so this branch
+      // is unreachable in practice — kept for symmetry with `handleConfirmCastSpell`'s split.
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellsKnown = prev.spellsKnown.map((g) =>
+          g.grade !== grade
+            ? g
+            : {
+                ...g,
+                spells: g.spells.map((s) => (s.key === spell.key ? { ...s, usedCount: s.usedCount - 1 } : s)),
+              },
+        );
+        return { ...prev, spellsKnown };
+      });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/spells/${spell.key}/restore`, {
+        base_class_id: spell.baseClassId,
+      });
+      refetch();
+    } catch {
+      setSpellError('Zauber konnte nicht zurückgerufen werden.');
     }
   }
 
@@ -644,6 +684,7 @@ export function CharacterSheetPage() {
             activeTab={skillsTab}
             onTabChange={setSkillsTab}
             onCastSpell={handleRequestCastSpell}
+            onRestoreSpell={handleRequestRestoreSpell}
           />
           {spellError && <p style={{ color: '#e29a9a' }}>{spellError}</p>}
 
@@ -747,6 +788,22 @@ export function CharacterSheetPage() {
         }
         onCancel={() => setPendingCastSpell(null)}
         onConfirm={handleConfirmCastSpell}
+      />
+
+      <RestoreSpellModal
+        entry={
+          pendingRestoreSpell
+            ? {
+                name: pendingRestoreSpell.spell.name,
+                pearlsAvailable:
+                  character.spellsKnown.find((g) => g.grade === pendingRestoreSpell.grade)?.pearlsAvailable ?? 0,
+                pearlsTotal:
+                  character.spellsKnown.find((g) => g.grade === pendingRestoreSpell.grade)?.pearlsTotal ?? 0,
+              }
+            : null
+        }
+        onCancel={() => setPendingRestoreSpell(null)}
+        onConfirm={handleConfirmRestoreSpell}
       />
     </div>
   );

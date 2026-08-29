@@ -573,8 +573,15 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `charges_remaining` counts down for wands and never resets on its own.
     `uses_remaining_today` counts down for "N-mal pro Tag" items and is only
     reset by the character's rest endpoint (`routers/characters.py`) back to
-    `BaseItem.uses_per_day` — a deliberate, narrow pull-forward of roadmap
-    slice 5's "rest" concept, not its full duration/effect tracking.
+    `BaseItem.uses_per_day` **times this row's `quantity`** — a deliberate,
+    narrow pull-forward of roadmap slice 5's "rest" concept, not its full
+    duration/effect tracking. The `× quantity` matters once a character owns
+    more than one physical copy of the same activatable item (e.g. two
+    Perlen der Macht of the same grade): this one row (unique per
+    `character_id`+`item_id`, see above) is the *pooled* counter across every
+    copy, not a single copy's own — `routers/characters.py`'s `add_gear`/
+    `update_gear`/`rest` all scale by `quantity` for this reason, not just
+    the reset.
     `is_active` is the on/off state for unlimited-use "aktivierbar" items
     whose effect is toggled rather than consumed (e.g. Energieschildring:
     +2 RK only while active) — needed even without a use limit, since a

@@ -5332,12 +5332,15 @@
   },
   {
     "id": "2b91f3a6-88d0-5882-b214-bad777686693",
-    "name": "Perle der Macht",
+    "name": "Perle der Macht (1. Grad)",
     "category": "wondrous",
     "price": 1000.0,
     "slot": null,
     "weight_lb": null,
-    "description": "Preis: 1.000 GM (1. Grad), 4.000 GM (2. Grad), 9.000 GM (3. Grad ), 16.000 GM (4. Grad), 25.000 GM (5. Grad), 36.000 GM (6. Grad), 49.000 GM (7. Grad), 64.000 GM (8. Grad), 81.000 (9. Grad), 70.000 (zwei Zauber). Diese scheinbar völlig normale Perle ist von durchschnittlicher Größe und besitzt den typischen Glanz. Sie kann allen Zauberkundigen von großer Hilfe sein, die ihre Zauber vorbereiten müssen (Kleriker, Druiden, Waldläufer, Paladine und Magier). Die Perle kann ihrem Besitzer nämlich ein Mal pro Tag einen Zauber wieder in Erinnerung rufen, den er vorbereitet und gewirkt hatte. Der Zauber gilt wieder als vorbereitet, als sei er noch nicht gewirkt worden. Je nach Art der Perle muss es sich um einen Zauber eines bestimmten Grads handeln. Es gibt für jeden Grad vom 1. bis zum 9. eine spezielle Perlenart und es gibt eine Perlenart, welche die Erinnerung von zwei Zaubern möglich macht (müssen zwei verschiedene Grade besitzen und vom 6. oder einem niedrigeren Grad sein)."
+    "description": "Diese scheinbar völlig normale Perle ist von durchschnittlicher Größe und besitzt den typischen Glanz. Sie kann allen Zauberkundigen von großer Hilfe sein, die ihre Zauber vorbereiten müssen (Kleriker, Druiden, Waldläufer, Paladine und Magier). Diese Perle (1. Grad) kann ihrem Besitzer ein Mal pro Tag einen bereits gewirkten Zauber des 1. Grads wieder in Erinnerung rufen. Der Zauber gilt wieder als vorbereitet, als sei er noch nicht gewirkt worden. Es gibt für jeden Grad vom 1. bis zum 9. eine eigene Perlenart (jeweils eine eigene Katalogzeile, falls benötigt), sowie eine seltenere Variante, die zwei verschiedene Zauber gleichzeitig zurückruft.",
+    "activation": "activatable",
+    "uses_per_day": 1,
+    "restores_spell_grade": 1
   },
   {
     "id": "910db0ae-464c-57fa-89ac-0273b4b4306c",

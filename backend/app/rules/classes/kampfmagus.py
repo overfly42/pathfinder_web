@@ -6,14 +6,17 @@ Kensai's "Gewitzte Verteidigung" (Canny Defense, `HANDLERS` below), and the
 Kampfmagus root class's own "Arkaner Vorrat" (Arcane Reservoir,
 `ARKANER_VORRAT_ABILITY_ID` below — pool size plus its headline "verbessere
 eine Waffe" action, plus the "Großspurige Arkana" arkanum's two granted
-tricks (`HELDENTAT_ABILITY_ID`/`OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID`
-below), each a flat 1-point/day pool debit paid via the same shared pool
+tricks (`HELDENTAT_ABILITY_ID`/`OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID`)
+and Kensai's own "Perfekter Schlag" (`PERFEKTER_SCHLAG_ABILITY_ID` below),
+each a flat 1-point/day pool debit paid via the same shared pool
 (`POOL_SOURCE_ID`, `rules/daily_limits.py`'s own docstring) rather than a
 tracked mechanical effect — deliberately player-reminder text only (what
-the trick text itself says), not automation, since the actual roll/AoO
-resolution stays the player's call; the Skirnir archetype's own Arkaner-
-Vorrat variant, other still-unimplemented pool consumers (Zauberrückruf,
-Wissensvorrat, Kensai's Perfekter Schlag), and the pool's level-5 special-
+the trick/ability text itself says), not automation, since the actual
+damage-maximizing/roll resolution stays the player's call (Perfekter
+Schlag's own alternate 2-point crit-multiplier option isn't modeled
+either, same reasoning — see that id's own docstring); the Skirnir
+archetype's own Arkaner-Vorrat variant, other still-unimplemented pool
+consumers (Zauberrückruf, Wissensvorrat), and the pool's level-5 special-
 ability unlock remain open, see that id's own docstring), and
 the Kampfmagus root class's own "Kampfzauberei" (Spell Combat,
 `KAMPFZAUBEREI_ABILITY_ID` below — its flat -2 melee-attack-roll toggle
@@ -168,9 +171,10 @@ def _gewitzte_verteidigung_kensai(context: CharacterContext) -> list[Modifier]:
 # (`base_class_abilities.json` id 571a2783-…). A shared point pool
 # (`_arkaner_vorrat_pool_points`, `DAILY_LIMITS` below) that several other
 # class abilities (Zauberrückruf, Wissensvorrat, Kensai's Perfekter Schlag,
-# ...) spend against by discrete amounts — none of those consumers are
-# implemented yet, only the pool itself and its own headline action ("Waffe
-# verbessern", below).
+# ...) spend against by discrete amounts — Perfekter Schlag is now one of
+# those (`PERFEKTER_SCHLAG_ABILITY_ID` below); Zauberrückruf/Wissensvorrat
+# remain unimplemented, alongside the pool itself and its own headline
+# action ("Waffe verbessern", below).
 #
 # That headline action is a *duration* effect (RAW: "für eine Minute"), not
 # an instant one, but its own pool cost is a flat, always-1-point debit paid
@@ -199,6 +203,22 @@ ARKANER_VORRAT_ABILITY_ID = UUID("571a2783-adb7-5222-8040-a1c4d40b4b0c")
 # prerequisite, `todos.md`).
 HELDENTAT_ABILITY_ID = UUID("ddf14395-be2d-5412-a4da-a49d546ca55a")
 OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID = UUID("5e03ce1e-389b-55a5-9045-cc858e19076b")
+
+# Kensai's own "Perfekter Schlag" (`base_class_abilities.json` id
+# 4d470f31-…, granted at level 4 under the Kensai archetype class id,
+# replacing Zauberrückruf — `import_kampfmagus_archetypes.py`). RAW: on a
+# hit with the chosen weapon, spend 1 Arkaner-Vorrat point to maximize
+# weapon damage (precision/crit/enhancement damage still rolled normally);
+# on a confirmed critical, spend 2 points instead to raise the crit
+# multiplier by 1. Modeled the same "player-reminder text only" way as
+# Heldentat/Opportune Parade und Riposte above — a flat 1-point/day debit
+# from Arkaner Vorrat's own pool via `POOL_SOURCE_ID` below (the base,
+# always-available option), not the alternate 2-point crit variant, which
+# would need its own separate ability row/button to expose a different
+# cost — not worth it for a situational, player-tracked alternative to the
+# same button when the base case is exactly what daily_limits already
+# models.
+PERFEKTER_SCHLAG_ABILITY_ID = UUID("4d470f31-bea9-5557-910a-33372a4cab74")
 
 
 def _arkaner_vorrat_pool_points(context: CharacterContext) -> int:
@@ -264,24 +284,26 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 }
 
 # This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS`. Heldentat/
-# Opportune Parade und Riposte need their own entries here too (not just
-# `POOL_SOURCE_ID` below) so `remaining_today`/`record_usage` know they're
-# daily-limited at all, and at what size — same pool-size function as
-# Arkaner Vorrat's own headline action, since it's the same pool.
+# Opportune Parade und Riposte/Perfekter Schlag need their own entries here
+# too (not just `POOL_SOURCE_ID` below) so `remaining_today`/`record_usage`
+# know they're daily-limited at all, and at what size — same pool-size
+# function as Arkaner Vorrat's own headline action, since it's the same pool.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     ARKANER_VORRAT_ABILITY_ID: _arkaner_vorrat_pool_points,
     HELDENTAT_ABILITY_ID: _arkaner_vorrat_pool_points,
     OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID: _arkaner_vorrat_pool_points,
+    PERFEKTER_SCHLAG_ABILITY_ID: _arkaner_vorrat_pool_points,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `POOL_SOURCE_ID`
 # (`rules/daily_limits.py`'s own docstring) — Heldentat/Opportune Parade und
-# Riposte debit Arkaner Vorrat's own `CharacterAbilityUsage` row, not one of
-# their own, so spending 1 point via either trick also shows up against
-# "Waffe verbessern"'s remaining-today count and vice versa.
+# Riposte/Perfekter Schlag debit Arkaner Vorrat's own `CharacterAbilityUsage`
+# row, not one of their own, so spending 1 point via any of them also shows
+# up against "Waffe verbessern"'s remaining-today count and vice versa.
 POOL_SOURCE_ID: dict[UUID, UUID] = {
     HELDENTAT_ABILITY_ID: ARKANER_VORRAT_ABILITY_ID,
     OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID: ARKANER_VORRAT_ABILITY_ID,
+    PERFEKTER_SCHLAG_ABILITY_ID: ARKANER_VORRAT_ABILITY_ID,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `WEAPON_ENHANCEMENT_HANDLERS`

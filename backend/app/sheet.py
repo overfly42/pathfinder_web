@@ -375,7 +375,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context)
     )
     spellbook, spells_known = _build_prepared_spell_grades(
-        db, character, level_counts_by_root_id, ability_mods, granted_ability_ids
+        db, character, level_counts_by_root_id, ability_mods, granted_ability_ids, items
     )
     concentration = _build_concentration(db, level_counts_by_root_id, ability_mods, stacked)
 
@@ -1160,6 +1160,7 @@ def _build_prepared_spell_grades(
     level_counts_by_root_id: dict[UUID, int],
     ability_mods: dict[str, int],
     granted_ability_ids: Counter[UUID],
+    items: dict[UUID, BaseItem],
 ) -> tuple[list[dict], list[dict]]:
     """Real prepared-spellcasting state (roadmap slice 6) for every arcane-
     or divine-prepared class the character has — replaces the old
@@ -1188,8 +1189,30 @@ def _build_prepared_spell_grades(
     classes sharing a grade number produce two separate entries rather than
     one merged/conflicting `perDay`. Good enough for every single-
     prepared-caster character this app has seeded so far; revisit if a real
-    dual-prepared-caster character needs it."""
+    dual-prepared-caster character needs it.
+
+    `items` is the same `BaseItem`-by-id map `_gear_lookup` already built for
+    the caller (armor/weapon lookups) — reused here, not re-queried, to
+    resolve `pearlsAvailable`/`pearlsTotal` per grade: the sum of
+    `CharacterGear.uses_remaining_today`/`BaseItem.uses_per_day` across every
+    owned Perle-der-Macht-family item (`BaseItem.restores_spell_grade`)
+    matching that grade. Plain data sum, no `HANDLERS` dispatch needed (see
+    `BaseItem.restores_spell_grade`'s docstring) — attached only when the
+    character owns at least one such item for that grade, so every other
+    grade's dict stays exactly as before. Drives both the "Zauber"
+    cast-bar's per-grade pearl counter and, per spell chip, whether an
+    already-cast copy can be tapped again to restore it (`SheetTabs.tsx`)."""
     spellbook: list[dict] = []
+    pearls_by_grade: dict[int, tuple[int, int]] = {}
+    for gear_row in character.gear:
+        item = items.get(gear_row.item_id)
+        if item is None or item.restores_spell_grade is None:
+            continue
+        available, total = pearls_by_grade.get(item.restores_spell_grade, (0, 0))
+        pearls_by_grade[item.restores_spell_grade] = (
+            available + (gear_row.uses_remaining_today or 0),
+            total + (item.uses_per_day or 0) * gear_row.quantity,
+        )
 
     for base_class_id, class_level in level_counts_by_root_id.items():
         root = db.get(BaseClass, base_class_id)
@@ -1282,6 +1305,8 @@ def _build_prepared_spell_grades(
                     granted_ability_ids,
                     fold_higher_grades_into_this_one=(grade == max_accessible_grade),
                 )
+                if grade in pearls_by_grade:
+                    grade_entry["pearlsAvailable"], grade_entry["pearlsTotal"] = pearls_by_grade[grade]
             spellbook.append(grade_entry)
 
     spellbook.sort(key=lambda g: g["grade"])
@@ -1835,7 +1860,10 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
             entry["maxCharges"] = item.max_charges
         if item.uses_per_day is not None:
             entry["usesRemainingToday"] = gear_row.uses_remaining_today
-            entry["usesPerDay"] = item.uses_per_day
+            # Pooled across every physical instance the row's `quantity`
+            # represents (`CharacterGear.uses_remaining_today`'s docstring) —
+            # two Perlen der Macht show ".../2 heute", not ".../1".
+            entry["usesPerDay"] = item.uses_per_day * gear_row.quantity
         if item.activation == "activatable":
             entry["isActive"] = gear_row.is_active
         if gear_row.stored_spell_id is not None:

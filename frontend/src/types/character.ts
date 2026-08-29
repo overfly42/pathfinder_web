@@ -99,6 +99,12 @@ export interface CastableSpellGrade {
    *  locked grade. */
   perDay?: number;
   spells: PreparedSpellRef[];
+  /** Pooled Perle-der-Macht counter for this grade (`sheet.py`'s `pearls_by_grade`) — the sum
+   *  across every owned pearl of this grade, not per physical item. Present only when the
+   *  character owns at least one such pearl. A spell chip with no casts left becomes clickable
+   *  again (restore instead of cast) whenever `pearlsAvailable > 0`. */
+  pearlsAvailable?: number;
+  pearlsTotal?: number;
 }
 
 export interface PreparableSpellGrade {

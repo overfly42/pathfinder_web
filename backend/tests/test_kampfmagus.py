@@ -1,9 +1,10 @@
 """Kampfmagus's own "Arkaner Vorrat" (Arcane Reservoir) — pool size
 (`rules/classes/kampfmagus.py`'s `_arkaner_vorrat_pool_points`) plus its
-headline "verbessere eine Waffe" action (`_arkaner_vorrat_weapon_enhancement`).
-Not yet covered: the Skirnir archetype's own variant, the other class
-abilities that spend from the same pool (Zauberrückruf, Wissensvorrat,
-Kensai's Perfekter Schlag, ...), and the pool's level-5 special-ability
+headline "verbessere eine Waffe" action (`_arkaner_vorrat_weapon_enhancement`),
+plus Kensai's "Perfekter Schlag" (a flat 1-point/day debit from the same
+pool, `PERFEKTER_SCHLAG_ABILITY_ID`). Not yet covered: the Skirnir
+archetype's own variant, the other class abilities that spend from the same
+pool (Zauberrückruf, Wissensvorrat), and the pool's level-5 special-ability
 unlock — see that module's own docstring."""
 
 from fastapi.testclient import TestClient
@@ -12,6 +13,10 @@ from sqlalchemy.orm import Session
 from test_characters import _character_payload, _create_user, _elf_race_id, _item_id
 
 ARKANER_VORRAT_ABILITY_ID = "571a2783-adb7-5222-8040-a1c4d40b4b0c"
+PERFEKTER_SCHLAG_ABILITY_ID = "4d470f31-bea9-5557-910a-33372a4cab74"
+# "Umgang mit Waffen und Rüstungen (Kensai)" — mandatory at creation
+# (`test_kensai_creation_requires_a_class_weapon_choice`, test_weapon_slots.py).
+KENSAI_WEAPON_CHOICE_ABILITY_ID = "1022bc94-7324-5fb0-883a-ed80726277e0"
 
 
 def _create_kampfmagus(client: TestClient, db_session: Session, level: int = 1) -> str:
@@ -192,3 +197,48 @@ def test_arkaner_vorrat_activation_rejected_once_pool_exhausted(
     client.post(f"/api/characters/{character_id}/rest")
     sheet = client.get(f"/api/characters/{character_id}").json()
     assert _arkaner_vorrat_entry(sheet)["description"] == "2 von 2 Punkten heute übrig"
+
+
+def _create_kensai(client: TestClient, db_session: Session, level: int = 4) -> str:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    dolch_id = _item_id(client, db_session, "Dolch")  # simple, arbitrary kensai-weapon choice
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Kampfmagus", "level": level, "archetypes": ["Kensai"]}],
+        class_weapon_choices={KENSAI_WEAPON_CHOICE_ABILITY_ID: dolch_id},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201, response.text
+    return response.json()["id"]
+
+
+def _perfekter_schlag_action(sheet: dict) -> dict | None:
+    return next((a for a in sheet["actions"] if a["sourceId"] == PERFEKTER_SCHLAG_ABILITY_ID), None)
+
+
+def test_perfekter_schlag_spends_one_point_from_the_shared_arkaner_vorrat_pool(
+    client: TestClient, db_session: Session
+) -> None:
+    """Perfekter Schlag (Kensai, level 4) is a flat 1-point/day debit from
+    Arkaner Vorrat's own pool (`PERFEKTER_SCHLAG_ABILITY_ID`'s docstring),
+    not a pool of its own — spending it via `PATCH .../class-abilities/{id}/use`
+    must show up against Arkaner Vorrat's own "Waffe verbessern"
+    remaining-today count too."""
+    character_id = _create_kensai(client, db_session, level=4)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    action = _perfekter_schlag_action(sheet)
+    assert action is not None
+    # Level 4: max(1, 4//2)=2, +1 (Elf IN 12) = 3.
+    assert action["usesRemainingToday"] == 3
+    assert _arkaner_vorrat_entry(sheet)["description"] == "3 von 3 Punkten heute übrig"
+
+    use = client.patch(f"/api/characters/{character_id}/class-abilities/{PERFEKTER_SCHLAG_ABILITY_ID}/use")
+    assert use.status_code == 200
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert _perfekter_schlag_action(sheet)["usesRemainingToday"] == 2
+    assert _arkaner_vorrat_entry(sheet)["description"] == "2 von 3 Punkten heute übrig"

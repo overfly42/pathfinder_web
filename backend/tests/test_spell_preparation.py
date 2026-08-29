@@ -317,6 +317,175 @@ def test_cantrip_can_be_cast_any_number_of_times_once_prepared(client: TestClien
     assert spell["usedCount"] == 0
 
 
+def test_restore_spell_via_pearl_of_power(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+    pearl_id = _item_id(client, db_session, "Perle der Macht (1. Grad)")
+    client.post(f"/api/characters/{character['id']}/gear", json={"item_id": pearl_id, "quantity": 1})
+
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+        json={"base_class_id": base_class_id},
+    )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/cast",
+        json={"base_class_id": base_class_id},
+    )
+
+    sheet = _sheet(client, character["id"])
+    grade1 = _grade1(sheet, "spellsKnown")
+    assert grade1["pearlsAvailable"] == 1
+    assert grade1["pearlsTotal"] == 1
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert response.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    spell = next(s for s in _grade1(sheet, "spellsKnown")["spells"] if s["key"] == spells["Magisches Geschoss"])
+    assert spell["usedCount"] == 0
+    assert _grade1(sheet, "spellsKnown")["pearlsAvailable"] == 0
+
+    # The pearl's one daily use is now spent -- a second restore attempt (even
+    # after casting the spell again) has no pearl left to consume.
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/cast",
+        json={"base_class_id": base_class_id},
+    )
+    second_restore = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert second_restore.status_code == 422
+
+
+def test_two_pearls_of_the_same_grade_give_two_restores_per_day(client: TestClient, db_session: Session) -> None:
+    """Regression for the bug an actual player hit (Iben ben Mercator):
+    owning two Perlen der Macht of the same grade in one `add_gear` call
+    (same `CharacterGear` row, `quantity=2`, see that model's docstring)
+    must pool to 2 daily restores, not silently cap at 1 as if only one
+    physical pearl existed."""
+    character, base_class_id, spells = _magier_character(client, db_session)
+    pearl_id = _item_id(client, db_session, "Perle der Macht (1. Grad)")
+    client.post(f"/api/characters/{character['id']}/gear", json={"item_id": pearl_id, "quantity": 2})
+
+    sheet = _sheet(client, character["id"])
+    grade1 = _grade1(sheet, "spellbook")
+    assert grade1["pearlsAvailable"] == 2
+    assert grade1["pearlsTotal"] == 2
+
+    for _ in range(2):
+        client.post(
+            f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+            json={"base_class_id": base_class_id},
+        )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/cast",
+        json={"base_class_id": base_class_id},
+    )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/cast",
+        json={"base_class_id": base_class_id},
+    )
+
+    first_restore = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert first_restore.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    assert _grade1(sheet, "spellsKnown")["pearlsAvailable"] == 1
+
+    second_restore = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert second_restore.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    spell = next(s for s in _grade1(sheet, "spellbook")["spells"] if s["key"] == spells["Magisches Geschoss"])
+    assert spell["usedCount"] == 0
+    assert _grade1(sheet, "spellbook")["pearlsAvailable"] == 0
+
+
+def test_restore_spell_without_a_cast_copy_is_rejected(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character(client, db_session)
+    pearl_id = _item_id(client, db_session, "Perle der Macht (1. Grad)")
+    client.post(f"/api/characters/{character['id']}/gear", json={"item_id": pearl_id, "quantity": 1})
+
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+        json={"base_class_id": base_class_id},
+    )
+    response = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert response.status_code == 422
+
+
+def test_restore_cantrip_is_rejected_since_cantrips_are_never_expended(
+    client: TestClient, db_session: Session
+) -> None:
+    """A grade-0 cantrip's `used_count` is never incremented by `cast_spell`
+    (see `test_cantrip_can_be_cast_any_number_of_times_once_prepared`), so
+    there's nothing for `restore_spell` to un-expend regardless of which
+    pearls the character owns -- the "no cast copies" 422 fires first."""
+    character, base_class_id, spells = _kensai_character(client, db_session)
+    pearl_id = _item_id(client, db_session, "Perle der Macht (1. Grad)")
+    client.post(f"/api/characters/{character['id']}/gear", json={"item_id": pearl_id, "quantity": 1})
+    cantrip_id = _cantrip_ids(client, "Kampfmagus")[0]
+
+    client.post(
+        f"/api/characters/{character['id']}/spells/{cantrip_id}/prepare",
+        json={"base_class_id": base_class_id},
+    )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{cantrip_id}/cast",
+        json={"base_class_id": base_class_id},
+    )
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spells/{cantrip_id}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    assert response.status_code == 422
+
+
+def test_advance_time_by_day_also_resets_pearl_of_power_uses(client: TestClient, db_session: Session) -> None:
+    """Regression: `advance_time("day")` is documented as "a full rest", but
+    used to only reset spell preparations/`DAILY_LIMITS`, not
+    `CharacterGear.uses_remaining_today` -- since the real-character UI has
+    no button wired to `POST .../rest` itself (only "+1 Tag"), a spent Perle
+    der Macht was never refilled in practice. `_reset_gear_daily_uses` is now
+    shared by both entry points."""
+    character, base_class_id, spells = _magier_character(client, db_session)
+    pearl_id = _item_id(client, db_session, "Perle der Macht (1. Grad)")
+    client.post(f"/api/characters/{character['id']}/gear", json={"item_id": pearl_id, "quantity": 1})
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+        json={"base_class_id": base_class_id},
+    )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/cast",
+        json={"base_class_id": base_class_id},
+    )
+    client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/restore",
+        json={"base_class_id": base_class_id},
+    )
+    sheet = _sheet(client, character["id"])
+    assert next(g for g in sheet["gear"] if g["name"] == "Perle der Macht (1. Grad)")["usesRemainingToday"] == 0
+
+    response = client.post(f"/api/characters/{character['id']}/advance-time", json={"unit": "day"})
+    assert response.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    assert next(g for g in sheet["gear"] if g["name"] == "Perle der Macht (1. Grad)")["usesRemainingToday"] == 1
+
+
 def test_folding_applies_generally_not_just_to_kensai(client: TestClient, db_session: Session) -> None:
     """The "fold a still-locked grade's bonus spell into the highest
     accessible grade" house rule applies to any prepared caster, not just

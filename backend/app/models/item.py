@@ -106,7 +106,20 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     attribute-boosting item family (belts/headbands/gloves/amulets); each
     bonus tier (+2/+4/+6) is its own catalog row with its own price, same
     "one row per tier" pattern as `BaseWeaponSpecialAbility.bonus_equivalent`
-    rather than a price list crammed into one field."""
+    rather than a price list crammed into one field.
+
+    `restores_spell_grade` (e.g. 1) is only set for the Perle der Macht
+    family — same "one row per tier" convention as `granted_ability`/
+    `ability_bonus` above, since a physical pearl only ever restores one
+    fixed spell grade and its price varies by grade. Combined with the
+    existing `activation`/`uses_per_day` (both `"activatable"`/`1` for
+    every pearl), a character's usable pearls of a given grade are the sum
+    of `CharacterGear.uses_remaining_today` across every owned `BaseItem`
+    row sharing that `restores_spell_grade` (`sheet.py`'s
+    `_build_prepared_spell_grades`) — computed the same "read `CharacterGear`
+    directly, no `HANDLERS` dispatch" way `_gear_ability_bonuses()` already
+    resolves the attribute-bonus family, since the grade->restore mapping
+    is a flat, unconditional fact with no per-item exception shape."""
 
     __tablename__ = "base_items"
 
@@ -134,6 +147,7 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     max_charges: Mapped[int | None] = mapped_column(Integer, nullable=True)
     granted_ability: Mapped[str | None] = mapped_column(String(16), nullable=True)
     ability_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    restores_spell_grade: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseWeaponSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

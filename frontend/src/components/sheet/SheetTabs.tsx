@@ -47,9 +47,11 @@ interface SheetTabsProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onCastSpell: (grade: number, spell: PreparedSpellRef) => void;
+  onRestoreSpell: (grade: number, spell: PreparedSpellRef) => void;
 }
 
-export function SheetTabs({ character, activeTab, onTabChange, onCastSpell }: SheetTabsProps) {
+export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRestoreSpell }: SheetTabsProps) {
+  const hasPearls = character.spellsKnown.some((grade) => (grade.pearlsTotal ?? 0) > 0);
   return (
     <>
       <div className="section-label">Fertigkeiten &amp; Fähigkeiten</div>
@@ -115,6 +117,12 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell }: Sh
         <TabPanel active={activeTab} tabKey="spells">
           <div className="spell-hint">
             Vorbereitete Zauber des Tages · zum Wirken anklicken. Auswahl der Vorbereitung erfolgt im Zauberbuch (Ausrüstung).
+            {hasPearls && (
+              <>
+                {' '}Bereits gewirkte Zauber mit verfügbarer Perle der Macht (hervorgehoben) erneut antippen, um sie
+                zurückzurufen.
+              </>
+            )}
           </div>
           {character.spellsKnown.map((grade) => {
             const preparedTotal = grade.spells.reduce((sum, s) => sum + s.preparedCount, 0);
@@ -137,17 +145,27 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell }: Sh
                     </>
                   )}
                 </div>
+                {!grade.locked && grade.pearlsTotal != null && (
+                  <div className="pearl-counter">
+                    ⚬ Perle der Macht: {grade.pearlsAvailable}/{grade.pearlsTotal} heute
+                  </div>
+                )}
                 {!grade.locked && (
                   <div className="chip-row spellprep">
                     {grade.spells.map((spell) => {
                       const remaining = spell.preparedCount - spell.usedCount;
+                      const canRestore = remaining <= 0 && (grade.pearlsAvailable ?? 0) > 0;
                       return (
                         <button
                           key={spell.key}
                           type="button"
-                          disabled={remaining <= 0}
-                          className={`chip${remaining <= 0 ? ' used' : ''}`}
-                          onClick={() => onCastSpell(grade.grade, spell)}
+                          disabled={remaining <= 0 && !canRestore}
+                          className={`chip${remaining <= 0 ? ' used' : ''}${canRestore ? ' restorable' : ''}`}
+                          title={canRestore ? 'Mit einer Perle der Macht erneut vorbereiten' : undefined}
+                          onClick={() => {
+                            if (remaining > 0) onCastSpell(grade.grade, spell);
+                            else if (canRestore) onRestoreSpell(grade.grade, spell);
+                          }}
                         >
                           {spell.name} ({remaining}/{spell.preparedCount})
                         </button>

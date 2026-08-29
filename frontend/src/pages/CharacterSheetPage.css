@@ -168,6 +168,15 @@
   background: rgba(42,32,19,0.1); color: var(--ink-faint);
   text-decoration: line-through; text-decoration-color: var(--ink-faint);
 }
+.chip-row.spellprep .chip.restorable {
+  border-style: solid; border-color: var(--brass);
+  background: rgba(180,140,60,0.16); color: var(--ink);
+  text-decoration: none; cursor: pointer;
+}
+.pearl-counter {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-faint);
+  margin: -4px 0 8px;
+}
 .spell-hint { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-faint); margin-bottom: 10px; }
 
 /* ---------- Gear / inventory ---------- */
