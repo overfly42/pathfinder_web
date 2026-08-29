@@ -30,8 +30,12 @@ class BaseSkill(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     trained_only: Mapped[bool] = mapped_column(Boolean, default=False)
     # The "Hintergrundfertigkeiten" alternate rule's fixed skill list
     # (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
-    # Hintergrundfertigkeiten): Auftreten, Beruf, Handwerk, Mit Tieren
-    # umgehen, Schätzen, Wissen (Adel/Baukunst/Geographie/Geschichte).
+    # Hintergrundfertigkeiten): Auftreten, Beruf, Fingerfertigkeit, Handwerk,
+    # Kunstfertigkeit, Mit Tieren umgehen, Schätzen, Spezialwissen,
+    # Sprachenkunde, Wissen (Adel/Baukunst/Geographie/Geschichte).
+    # Kunstfertigkeit/Spezialwissen (2026-08-28) are themselves new skills
+    # that alternate rule introduces, not just a re-flag on an existing one
+    # — same `has_specialization` shape as Auftreten/Beruf/Handwerk below.
     # Meaningless unless `Character.use_background_skills` is set — see
     # that column's docstring and `rules/skill_points.py`'s
     # `background_skill_points_total`.

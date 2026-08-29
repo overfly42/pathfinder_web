@@ -43,5 +43,20 @@
     "id": "65981ed1-8318-4850-9392-9391b1f3f792",
     "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
     "name": "Schauspiel"
+  },
+  {
+    "id": "90be0578-2aeb-4127-9f31-049e9ee2b686",
+    "skill_id": "cc834ded-13f7-417d-8e12-90bb990ffaf7",
+    "name": "Komponieren"
+  },
+  {
+    "id": "fd438726-d20c-4d9a-90d0-b3e856a41731",
+    "skill_id": "cc834ded-13f7-417d-8e12-90bb990ffaf7",
+    "name": "Literatur"
+  },
+  {
+    "id": "fb72041e-9b83-449a-a876-15770eb5f8d0",
+    "skill_id": "cc834ded-13f7-417d-8e12-90bb990ffaf7",
+    "name": "Theaterstücke schreiben"
   }
 ]

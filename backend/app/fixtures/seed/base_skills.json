@@ -246,5 +246,21 @@
     "ability": "IN",
     "trained_only": true,
     "is_background": true
+  },
+  {
+    "id": "cc834ded-13f7-417d-8e12-90bb990ffaf7",
+    "name": "Kunstfertigkeit",
+    "ability": "IN",
+    "trained_only": false,
+    "is_background": true,
+    "has_specialization": true
+  },
+  {
+    "id": "f1a7f024-cdd2-4328-8223-ada81b81dd38",
+    "name": "Spezialwissen",
+    "ability": "IN",
+    "trained_only": true,
+    "is_background": true,
+    "has_specialization": true
   }
 ]
