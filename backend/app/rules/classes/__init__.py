@@ -46,6 +46,7 @@ from .kampfmagus import DAILY_LIMIT_UNIT_LABEL as _KAMPFMAGUS_DAILY_LIMIT_UNIT_L
 from .kampfmagus import DAILY_LIMITS as _KAMPFMAGUS_DAILY_LIMITS
 from .kampfmagus import HANDLERS as _KAMPFMAGUS_HANDLERS
 from .kampfmagus import POOL_COST_AT_ACTIVATION as _KAMPFMAGUS_POOL_COST_AT_ACTIVATION
+from .kampfmagus import POOL_SOURCE_ID as _KAMPFMAGUS_POOL_SOURCE_ID
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 from .kampfmagus import WEAPON_ENHANCEMENT_HANDLERS as _KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS
 
@@ -81,6 +82,13 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 # every current entry is a fixed constant.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     **_KAMPFMAGUS_POOL_COST_AT_ACTIVATION,
+}
+# An ability id -> the id of the pool it actually draws from, when that
+# differs from its own id (`rules/daily_limits.py`'s own docstring). Absent
+# means "draws from its own pool" — every entry before Kampfmagus's Arkaner-
+# Vorrat-spending tricks.
+POOL_SOURCE_ID: dict[UUID, UUID] = {
+    **_KAMPFMAGUS_POOL_SOURCE_ID,
 }
 # Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's sheet text
 # — see `rules/classes/kampfmagus.py`'s own docstring.

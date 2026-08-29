@@ -775,6 +775,44 @@ ARKANA: list[tuple[str, str, int | None, str | None, str | None]] = [
     ),
 ]
 
+# The two Draufgänger-Tricks "Großspurige Arkana" grants (added 2026-08-29 on
+# user request), seeded as their own `BaseClassAbility` rows rather than
+# folded into Großspurige Arkana's own text: each is a discrete N/day
+# (1/day, shared with Arkaner Vorrat's own pool — `rules/classes/
+# kampfmagus.py`'s `POOL_SOURCE_ID`) player-reminder action, not a simulated
+# mechanic — the actual skill-roll/AoO resolution stays the player's call.
+# Text verified verbatim against
+# http://prd.5footstep.de/AusbauregelnVIKlassen/Klassen/Draufgaenger
+# (#Heldentat / #Opportune-Parade-und-Riposte).
+GROSSSPURIGE_ARKANA_TRICKS: list[tuple[str, str]] = [
+    (
+        "Heldentat",
+        "(AF) Ab der 1. Stufe kann ein Draufgänger 1 Elanpunkt aufwenden, wenn er einen "
+        "Fertigkeitswurf für Akrobatik, Entfesselungskunst, Fliegen, Klettern, Reiten oder "
+        "Schwimmen ablegt, um 1W6 auf das Ergebnis des Wurfes hinzuzufügen. Er kann dies sogar "
+        "nach dem Würfeln noch tun, aber bevor das Ergebnis bekanntgegeben wird. Sollte er bei "
+        "dem W6 eine natürliche 6 würfeln, kann er noch ein Mal mit 1W6 würfeln und das Ergebnis "
+        "ebenfalls addieren – und dies solange, wie er natürliche Sechsen würfelt (maximal kann "
+        "er so aber nur zusätzliche 1W6 in Höhe seines Geschicklichkeitsmodifikators auswürfeln; "
+        "Minimum 1 Mal).",
+    ),
+    (
+        "Opportune Parade und Riposte",
+        "(AF) Beginnend mit der 1. Stufe kann ein Draufgänger 1 Elanpunkt und einen seiner "
+        "Gelegenheitsangriffe pro Runde aufwenden, um zu versuchen, einen gegen ihn erfolgenden "
+        "Nahkampfangriff zu parieren. Der Draufgänger legt einen Angriffswurf gegen den "
+        "Angreifer wie im Falle eines Gelegenheitsangriffes ab, wobei er pro Größenkategorie, "
+        "welche der Angreifer größer ist als er, einen Malus von -2 erleidet. Sollte sein "
+        "Angriffswurf dennoch den des Angreifers übertreffen, verfehlt ihn der feindliche "
+        "Angriff automatisch. Der Draufgänger muss erklären, diese Fähigkeit einzusetzen, "
+        "nachdem der Gegner seinen Angriff auf ihn erklärt hat, aber bevor der Angriffswurf "
+        "ausgeführt wurde. Sofern die Parade gelingt und der Draufgänger noch über wenigstens 1 "
+        "Elanpunkt verfügt, kann er als Augenblickliche Aktion einen Angriff gegen jene Kreatur "
+        "ausführen, deren Angriff er gerade pariert hat, sofern sie sich noch in seiner "
+        "Reichweite befindet.",
+    ),
+]
+
 
 def uid(*parts: str) -> str:
     return str(uuid.uuid5(ID_NAMESPACE, "|".join(parts)))
@@ -851,6 +889,7 @@ def main() -> None:
     own_ability_ids = {uid("kampfmagus-ability", name) for name, *_ in CORE_FEATURES}
     own_ability_ids |= {uid("kampfmagus-arkanum-slot"), uid("kampfmagus-bonustalent-slot")}
     own_ability_ids |= {uid("kampfmagus-arkanum", name) for name, *_ in ARKANA}
+    own_ability_ids |= {uid("kampfmagus-arkanum-trick", name) for name, _ in GROSSSPURIGE_ARKANA_TRICKS}
     abilities[:] = [a for a in abilities if a["id"] not in own_ability_ids]
     grants[:] = [g for g in grants if g["base_class_id"] != KAMPFMAGUS_ID]
     feat_grants[:] = [
@@ -935,6 +974,24 @@ def main() -> None:
                     "feat_id": granted_feat_id,
                 }
             )
+
+    # Großspurige Arkana's own two granted tricks — granted under the same
+    # option_choice_id as Großspurige Arkana itself, so only a Kampfmagus who
+    # actually picked this arkanum gets them (`GROSSSPURIGE_ARKANA_TRICKS`'s
+    # own docstring above for why these are separate ability rows).
+    grossspurige_arkana_choice_id = choice_id_by_arkanum_name["Großspurige Arkana"]
+    for name, description in GROSSSPURIGE_ARKANA_TRICKS:
+        ability_id = uid("kampfmagus-arkanum-trick", name)
+        abilities.append({"id": ability_id, "name": name, "description": description})
+        grants.append(
+            {
+                "id": uid("kampfmagus-grant-arkanum-trick", ability_id),
+                "base_class_id": KAMPFMAGUS_ID,
+                "ability_id": ability_id,
+                "option_choice_id": grossspurige_arkana_choice_id,
+                "level": 1,
+            }
+        )
 
     # Bonustalent slot: same shape as Magier's/Kämpfer's own bonus-feat abilities.
     bonustalent_id = uid("kampfmagus-bonustalent-slot")

@@ -3822,6 +3822,16 @@
     "description": "(AF) Ein Kampfmagus erhält die Draufgängertricks Heldentat, Opportune Parade und Riposte. Er kann Punkte seines Arkanen Vorrates als Elanpunkte für diese und andere Tricks, die er über das Arkanum Draufgängertrick erlangt, nutzen. Er kann aber keine Punkte seines Arkanen Vorrates nutzen, um Tricks anderer Klassen zu nutzen oder solche, die er über Talente erlangt. Ebenso erlangt er keine Punkte seines Arkanen Vorrates zurück, wie ein Draufgänger Elanpunkte zurückerlangt. Effekte, welche die Kosten von Tricks modifizieren oder zusätzliche Elan- oder Schneidpunkte geben, wirken sich nicht auf den Arkanen Vorrat eines Kampfmagus mit diesem Arkanum aus."
   },
   {
+    "id": "ddf14395-be2d-5412-a4da-a49d546ca55a",
+    "name": "Heldentat",
+    "description": "(AF) Ab der 1. Stufe kann ein Draufgänger 1 Elanpunkt aufwenden, wenn er einen Fertigkeitswurf für Akrobatik, Entfesselungskunst, Fliegen, Klettern, Reiten oder Schwimmen ablegt, um 1W6 auf das Ergebnis des Wurfes hinzuzufügen. Er kann dies sogar nach dem Würfeln noch tun, aber bevor das Ergebnis bekanntgegeben wird. Sollte er bei dem W6 eine natürliche 6 würfeln, kann er noch ein Mal mit 1W6 würfeln und das Ergebnis ebenfalls addieren – und dies solange, wie er natürliche Sechsen würfelt (maximal kann er so aber nur zusätzliche 1W6 in Höhe seines Geschicklichkeitsmodifikators auswürfeln; Minimum 1 Mal)."
+  },
+  {
+    "id": "5e03ce1e-389b-55a5-9045-cc858e19076b",
+    "name": "Opportune Parade und Riposte",
+    "description": "(AF) Beginnend mit der 1. Stufe kann ein Draufgänger 1 Elanpunkt und einen seiner Gelegenheitsangriffe pro Runde aufwenden, um zu versuchen, einen gegen ihn erfolgenden Nahkampfangriff zu parieren. Der Draufgänger legt einen Angriffswurf gegen den Angreifer wie im Falle eines Gelegenheitsangriffes ab, wobei er pro Größenkategorie, welche der Angreifer größer ist als er, einen Malus von -2 erleidet. Sollte sein Angriffswurf dennoch den des Angreifers übertreffen, verfehlt ihn der feindliche Angriff automatisch. Der Draufgänger muss erklären, diese Fähigkeit einzusetzen, nachdem der Gegner seinen Angriff auf ihn erklärt hat, aber bevor der Angriffswurf ausgeführt wurde. Sofern die Parade gelingt und der Draufgänger noch über wenigstens 1 Elanpunkt verfügt, kann er als Augenblickliche Aktion einen Angriff gegen jene Kreatur ausführen, deren Angriff er gerade pariert hat, sofern sie sich noch in seiner Reichweite befindet."
+  },
+  {
     "id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
     "name": "Bonustalent",
     "description": "Auf der 5. Stufe und dann alle weiteren sechs Stufen als Kampfmagus (11., 17.) erhält ein Kampfmagus 1 Bonustalent. Dabei muss es sich um ein Talent aus der Kategorie Kampf, Metamagie oder Erschaffung von Gegenständen handeln, dessen Voraussetzungen der Kampfmagus erfüllen muss."

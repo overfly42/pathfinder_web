@@ -5,9 +5,16 @@ weapon choice (`KENSAI_WEAPON_CHOICE_ABILITY_ID`/`KENSAI_WEAPON_FOCUS_ABILITY_ID
 Kensai's "Gewitzte Verteidigung" (Canny Defense, `HANDLERS` below), and the
 Kampfmagus root class's own "Arkaner Vorrat" (Arcane Reservoir,
 `ARKANER_VORRAT_ABILITY_ID` below — pool size plus its headline "verbessere
-eine Waffe" action; the Skirnir archetype's own variant, several other
-abilities that spend from the same pool, and the pool's level-5 special-
-ability unlock are not yet implemented, see that id's own docstring), and
+eine Waffe" action, plus the "Großspurige Arkana" arkanum's two granted
+tricks (`HELDENTAT_ABILITY_ID`/`OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID`
+below), each a flat 1-point/day pool debit paid via the same shared pool
+(`POOL_SOURCE_ID`, `rules/daily_limits.py`'s own docstring) rather than a
+tracked mechanical effect — deliberately player-reminder text only (what
+the trick text itself says), not automation, since the actual roll/AoO
+resolution stays the player's call; the Skirnir archetype's own Arkaner-
+Vorrat variant, other still-unimplemented pool consumers (Zauberrückruf,
+Wissensvorrat, Kensai's Perfekter Schlag), and the pool's level-5 special-
+ability unlock remain open, see that id's own docstring), and
 the Kampfmagus root class's own "Kampfzauberei" (Spell Combat,
 `KAMPFZAUBEREI_ABILITY_ID` below — its flat -2 melee-attack-roll toggle
 only; see that id's own docstring for what's not modeled yet).
@@ -178,6 +185,21 @@ def _gewitzte_verteidigung_kensai(context: CharacterContext) -> list[Modifier]:
 # longer touches it.
 ARKANER_VORRAT_ABILITY_ID = UUID("571a2783-adb7-5222-8040-a1c4d40b4b0c")
 
+# The "Großspurige Arkana" arkanum's (base_class_abilities.json id
+# 5bf0674d-…) two granted Draufgänger-Tricks, seeded as their own
+# `BaseClassAbility` rows (not `is_persistent_effect`, so they surface via
+# `sheet.py`'s discrete-N/day action block, the same "Erneuerte
+# Lebenskraft" pattern, rather than the duration-tracking activation
+# modal) — each spends 1 point/day from Arkaner Vorrat's own pool via
+# `POOL_SOURCE_ID` below, since Großspurige Arkana's own text says these
+# tricks draw on the Arkaner Vorrat instead of Elan, not a pool of their
+# own. Only these two: RAW grants exactly Heldentat and Opportune Parade
+# und Riposte, not the wider Draufgänger trick list (which needs the
+# "Draufgängertrick" arkanum's own not-yet-modeled Draufgänger-class
+# prerequisite, `todos.md`).
+HELDENTAT_ABILITY_ID = UUID("ddf14395-be2d-5412-a4da-a49d546ca55a")
+OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID = UUID("5e03ce1e-389b-55a5-9045-cc858e19076b")
+
 
 def _arkaner_vorrat_pool_points(context: CharacterContext) -> int:
     """"Eine Anzahl an Punkten in Höhe seiner halben Stufe als Kampfmagus
@@ -241,9 +263,25 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     GEWITZTE_VERTEIDIGUNG_KENSAI_ABILITY_ID: _gewitzte_verteidigung_kensai,
 }
 
-# This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS`.
+# This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS`. Heldentat/
+# Opportune Parade und Riposte need their own entries here too (not just
+# `POOL_SOURCE_ID` below) so `remaining_today`/`record_usage` know they're
+# daily-limited at all, and at what size — same pool-size function as
+# Arkaner Vorrat's own headline action, since it's the same pool.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     ARKANER_VORRAT_ABILITY_ID: _arkaner_vorrat_pool_points,
+    HELDENTAT_ABILITY_ID: _arkaner_vorrat_pool_points,
+    OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID: _arkaner_vorrat_pool_points,
+}
+
+# This class's slice of `rules/handlers.py`'s merged `POOL_SOURCE_ID`
+# (`rules/daily_limits.py`'s own docstring) — Heldentat/Opportune Parade und
+# Riposte debit Arkaner Vorrat's own `CharacterAbilityUsage` row, not one of
+# their own, so spending 1 point via either trick also shows up against
+# "Waffe verbessern"'s remaining-today count and vice versa.
+POOL_SOURCE_ID: dict[UUID, UUID] = {
+    HELDENTAT_ABILITY_ID: ARKANER_VORRAT_ABILITY_ID,
+    OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID: ARKANER_VORRAT_ABILITY_ID,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `WEAPON_ENHANCEMENT_HANDLERS`

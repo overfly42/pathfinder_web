@@ -13,7 +13,20 @@ First (and so far only) entry: Kampfrausch's rounds/day
 `CharacterEffect` stays active (`routers/characters.py`'s `advance_time`).
 A future discrete N/day ability (Channel Energy, Smite Evil, ...) would call
 `record_usage` with `amount=1` at activation time instead — same table, same
-functions, no schema change."""
+functions, no schema change.
+
+`POOL_SOURCE_ID` (`rules/handlers.py`) is the one wrinkle on top of that:
+several abilities can draw down the *same* pool under different ability ids
+(Kampfmagus's Arkaner Vorrat, e.g., is also spent by "Heldentat" and
+"Opportune Parade und Riposte", not just its own headline "Waffe
+verbessern" action — `rules/classes/kampfmagus.py`'s own docstring). Each
+consumer id still needs its own `DAILY_LIMITS` entry (so `remaining_today`/
+`record_usage` know it's daily-limited at all, and what the pool's size is),
+but the `CharacterAbilityUsage` row they read/write is looked up under the
+*pool's* id, not the consumer's own — `POOL_SOURCE_ID.get(source_id,
+source_id)` below, defaulting to the consumer's own id when it isn't
+sharing a pool with anything else, which is every entry before Arkaner
+Vorrat's."""
 
 from uuid import UUID
 
@@ -42,12 +55,13 @@ def remaining_today(db: Session, character: Character, context: CharacterContext
     # imports `rules/handlers.py` at module level — a module-level import
     # here would be circular (same reasoning `rules/speed.py`'s
     # `class_speed_bonus` documents for its own merged-`HANDLERS` import).
-    from .handlers import DAILY_LIMITS
+    from .handlers import DAILY_LIMITS, POOL_SOURCE_ID
 
     handler = DAILY_LIMITS.get(source_id)
     if handler is None:
         return None
-    usage = _get_usage(db, character, source_id)
+    pool_id = POOL_SOURCE_ID.get(source_id, source_id)
+    usage = _get_usage(db, character, pool_id)
     used = usage.used_today if usage is not None else 0
     return handler(context) - used
 
@@ -61,15 +75,16 @@ def record_usage(
     usage today (get-or-create the row) and returns the new remaining
     allowance (may go negative — callers decide what that means, e.g.
     `advance_time` ending the effect once it's `<= 0`)."""
-    from .handlers import DAILY_LIMITS
+    from .handlers import DAILY_LIMITS, POOL_SOURCE_ID
 
     handler = DAILY_LIMITS.get(source_id)
     if handler is None:
         return None
-    usage = _get_usage(db, character, source_id)
+    pool_id = POOL_SOURCE_ID.get(source_id, source_id)
+    usage = _get_usage(db, character, pool_id)
     if usage is None:
         usage = CharacterAbilityUsage(
-            character_id=character.id, source_type="class_ability", source_id=source_id, used_today=0
+            character_id=character.id, source_type="class_ability", source_id=pool_id, used_today=0
         )
         db.add(usage)
     usage.used_today += amount

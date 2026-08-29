@@ -101,6 +101,7 @@ from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
 from .classes import POOL_COST_AT_ACTIVATION as _CLASS_POOL_COST_AT_ACTIVATION
+from .classes import POOL_SOURCE_ID as _CLASS_POOL_SOURCE_ID
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
 from .classes import SPELL_SLOT_DELTA as _CLASS_SPELL_SLOT_DELTA
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
@@ -218,6 +219,13 @@ WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID,
 # the flat number of pool points one activation costs.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     **_CLASS_POOL_COST_AT_ACTIVATION,
+}
+
+# An ability id -> the id of the pool it actually draws from, when it isn't
+# its own (`rules/daily_limits.py`'s `remaining_today`/`record_usage`) — an
+# id absent here draws from its own pool, same as before this dict existed.
+POOL_SOURCE_ID: dict[UUID, UUID] = {
+    **_CLASS_POOL_SOURCE_ID,
 }
 
 # Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's "X von Y
