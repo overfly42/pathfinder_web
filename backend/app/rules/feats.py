@@ -62,6 +62,24 @@ WAFFENFINESSE = UUID("6f0fd239-157e-567a-b1d8-f5c4c529eeec")
 WAFFENFOKUS = UUID("bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8")
 WAFFENFOKUS_ATTACK_BONUS = 1
 
+# `base_feats.json`'s "Derwischtanz" row id (Weltenband der Inneren See S.
+# 285, Dervish Dance). Not a `HANDLERS` entry, same reasoning as
+# `WAFFENFINESSE` above: swaps Str for Dex on both the attack *and* damage
+# roll (unlike Waffenfinesse, attack only), but only for one named weapon
+# held one-handed with nothing in the other hand — a per-weapon-slot
+# decision `sheet.py`'s `_build_weapon_attacks` makes itself, same as
+# Waffenfinesse/Waffenfokus.
+#
+# The PRD's own German translation mislabels this feat's weapon
+# "Krummschwert" (elven curve blade, two-handed — `base_items.json` seeds it
+# `hands: "two"`) throughout its prerequisite and benefit text. The real
+# feat (Dervish Dance) applies to the one-handed scimitar, "Krummsäbel" —
+# corrected in `base_feats.json`'s `prerequisite_text`/`description` and
+# used here via `DERWISCHTANZ_WEAPON_ID`.
+DERWISCHTANZ = UUID("e3ed7db7-928f-5bf8-b983-f39508f1823d")
+# `base_items.json`'s "Krummsäbel" row id.
+DERWISCHTANZ_WEAPON_ID = UUID("25994f9d-92fe-5dc6-bfff-5e4646899bb5")
+
 # `BaseSkill.id` for Einschüchtern (`base_skills.json`) — the one skill this
 # feat's bonus targets.
 _EINSCHUECHTERN_SKILL_ID = "3c60b6e1-8c58-4ed0-9c3a-5e003b9da1cf"
@@ -164,4 +182,4 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 # badge (`hasHandler`) checks this set too, so a feat that's actually applied
 # elsewhere doesn't get mislabeled as flavor-only merely for not being a
 # `HANDLERS` entry.
-COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset({WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF})
+COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset({WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF, DERWISCHTANZ})

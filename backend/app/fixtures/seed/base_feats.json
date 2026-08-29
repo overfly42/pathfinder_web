@@ -356,7 +356,7 @@
   {
     "id": "e3ed7db7-928f-5bf8-b983-f39508f1823d",
     "name": "Derwischtanz",
-    "description": "Du hast gelernt, deine Geschwindigkeit auch mit einer schweren Klingenwaffe zum Vorteil zu nutzen.",
+    "description": "Du hast gelernt, deine Geschwindigkeit auch mit einer schweren Klingenwaffe zum Vorteil zu nutzen. Wenn du einen Krummsäbel mit einer Hand führst, kannst du deinen GE-Modifikator statt des ST-Modifikators bei Angriffs- und Schadenswürfen im Nahkampf verwenden. Du behandelst den Krummsäbel als einhändige Stichwaffe hinsichtlich aller Talente und Klassenmerkmale, welche eine solche Waffe erfordern (z. B. die Fähigkeit des Duellanten Genauer Schlag). Der Krummsäbel muss für eine Kreatur deiner Größenkategorie gearbeitet sein. Du kannst dieses Talent nicht einsetzen, falls du in der anderen Hand eine Waffe oder einen Schild führst.",
     "type": "combat",
     "prerequisite_text": "GE 13+,  Waffenfinesse,  Auftreten (Tanz) 2 Ränge, Umgang mit  Krummsäbel."
   },
@@ -1970,7 +1970,7 @@
   {
     "id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
     "name": "Waffenfinesse",
-    "description": "GE-Modifikator anstelle von ST-Modifikator bei Angriffswürfen mit leichter Waffe",
+    "description": "Du bist darin geübt, anstelle reiner Kraft deine Wendigkeit im Kampf einzusetzen. Wenn du eine leichte Waffe, ein Rapier, ein elfisches Krummschwert, eine Peitsche oder eine Stachelkette einsetzt, die für ein Wesen deiner Größe gefertigt ist, kannst du anstelle deines Stärke-, deinen Geschicklichkeitsmodifikator auf deine Angriffswürfe addieren. Wenn du einen Schild trägst, wird dessen Rüstungsmalus auf deine Angriffswürfe angerechnet. Natürliche Waffen gelten immer als leichte Waffen.",
     "type": "combat",
     "prerequisite_text": null
   },

@@ -86,6 +86,8 @@ from .rules.classes.kampfmagus import (
     KENSAI_WEAPON_FOCUS_ABILITY_ID,
 )
 from .rules.feats import (
+    DERWISCHTANZ,
+    DERWISCHTANZ_WEAPON_ID,
     HEFTIGER_ANGRIFF,
     WAFFENFINESSE,
     WAFFENFOKUS,
@@ -1936,6 +1938,22 @@ def _build_equipment(
 
 
 _WEAPON_HAND_LABELS = {"hauptwaffe": "Hauptwaffe", "nebenwaffe": "Nebenhand"}
+_OTHER_WEAPON_SLOT = {"hauptwaffe": "nebenwaffe", "nebenwaffe": "hauptwaffe"}
+
+
+def _derwischtanz_active(
+    item: BaseItem, slot_key: str, gear_by_slot: dict[str, CharacterGear], feat_ids: frozenset[UUID]
+) -> bool:
+    """GRW/WBIS S. 285: "Wenn du einen Krummsäbel mit einer Hand führst,
+    kannst du deinen GE-Modifikator statt des ST-Modifikators bei Angriffs-
+    und Schadenswürfen im Nahkampf verwenden. [...] Du kannst dieses Talent
+    nicht einsetzen, falls du in der anderen Hand eine Waffe oder einen
+    Schild führst." — gated on the exact weapon (`DERWISCHTANZ_WEAPON_ID`,
+    not `BaseItem.is_light` the way Waffenfinesse is), one-handed, and both
+    the other weapon slot and the shield slot being empty."""
+    if item.id != DERWISCHTANZ_WEAPON_ID or item.hands != "one" or DERWISCHTANZ not in feat_ids:
+        return False
+    return gear_by_slot.get(_OTHER_WEAPON_SLOT[slot_key]) is None and gear_by_slot.get("schild") is None
 
 
 def _iterative_attack_bonuses(bab: int, flat_bonus: int) -> list[int]:
@@ -2077,7 +2095,11 @@ def _build_weapon_attacks(
     `BaseItem.is_light` is set on the equipped item (light weapons plus
     PF1e's named non-light exceptions, see that field's docstring) — damage
     still uses `str_mod` either way, since the feat only affects the attack
-    roll. `gear_entries` (this module's own already-built
+    roll. Derwischtanz (`_derwischtanz_active`, `rules/feats.py`'s
+    `DERWISCHTANZ`) is a separate, stronger swap that also applies to
+    *damage*, but only for the exact `DERWISCHTANZ_WEAPON_ID` weapon held
+    one-handed with the other weapon/shield slot empty. `gear_entries`
+    (this module's own already-built
     `_build_gear` output) is reused rather than re-querying
     `BaseWeaponSpecialAbility` a second time — its `specialAbilities` list
     already carries each ability's resolved `bonusDamage` (only the 8 flat
@@ -2153,10 +2175,11 @@ def _build_weapon_attacks(
         )
         proficiency_penalty = 0 if is_proficient else NOT_PROFICIENT_ATTACK_PENALTY
         weapon_focus_bonus = WAFFENFOKUS_ATTACK_BONUS if item.id in context.weapon_focus_weapon_ids else 0
+        derwischtanz_active = not is_ranged and _derwischtanz_active(item, slot_key, gear_by_slot, context.feat_ids)
 
         if is_ranged:
             attack_ability_mod = dex_mod
-        elif WAFFENFINESSE in context.feat_ids and item.is_light:
+        elif derwischtanz_active or (WAFFENFINESSE in context.feat_ids and item.is_light):
             attack_ability_mod = dex_mod + melee_attack_bonus
         else:
             attack_ability_mod = str_mod + melee_attack_bonus
@@ -2174,7 +2197,9 @@ def _build_weapon_attacks(
         damage_parts: list[str] = []
         if item.damage_medium:
             damage_str_mod = (
-                0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
+                dex_mod
+                if derwischtanz_active
+                else 0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
             )
             flat_damage = (
                 damage_str_mod + enhancement + (0 if is_ranged else melee_damage_bonus) + power_attack_damage
