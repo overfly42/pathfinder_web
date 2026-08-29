@@ -354,6 +354,13 @@
     "prerequisite_text": null
   },
   {
+    "id": "e3ed7db7-928f-5bf8-b983-f39508f1823d",
+    "name": "Derwischtanz",
+    "description": "Du hast gelernt, deine Geschwindigkeit auch mit einer schweren Klingenwaffe zum Vorteil zu nutzen.",
+    "type": "combat",
+    "prerequisite_text": "GE 13+,  Waffenfinesse,  Auftreten (Tanz) 2 Ränge, Umgang mit  Krummsäbel."
+  },
+  {
     "id": "d73febef-8ab2-57a9-b004-e3042cb26d29",
     "name": "Doppelschlag",
     "description": "Zusatzangriff nach einem erfolgreichem ersten Angriff",
