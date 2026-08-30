@@ -3835,5 +3835,15 @@
     "id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
     "name": "Bonustalent",
     "description": "Auf der 5. Stufe und dann alle weiteren sechs Stufen als Kampfmagus (11., 17.) erhält ein Kampfmagus 1 Bonustalent. Dabei muss es sich um ein Talent aus der Kategorie Kampf, Metamagie oder Erschaffung von Gegenständen handeln, dessen Voraussetzungen der Kampfmagus erfüllen muss."
+  },
+  {
+    "id": "db233bae-43ec-56d4-a3fd-9bcb0260d18d",
+    "name": "Kessel",
+    "description": "(AF) Die Hexe erhält Trank brauen als Bonusfeat, ungeachtet dessen üblicher Voraussetzung einer Zauberstufe von mindestens 3, sowie einen Einsichtsbonus von +4 auf Fertigkeitswürfe für Handwerk (Alchemie)."
+  },
+  {
+    "id": "a5d7dc4b-25e1-56b3-b177-6471b028294c",
+    "name": "Kräuterkunde",
+    "description": "Eine Kräuterhexe muss einen Schutzherren wählen, der der Natur verbunden ist: Ahnen, Tiere, Tod, Elemente, Heilung, Seuche, Pflanzen, Stärke, Zeit, Wasser, Winter oder Weisheit.\n\n(AF) Mit der 1. Stufe kann eine Kräuterhexe Fertigkeitswürfe für Beruf (Kräuterkundige) anstelle von Handwerk (Alchemie) einsetzen, etwa um Tränke zu identifizieren oder alchemistische Erzeugnisse aller Art herzustellen, und erhält dabei einen Bonus in Höhe ihrer halben Hexenstufe auf solche Beruf (Kräuterkundige)-Würfe. Durch einstündige Kommunion mit ihrem Vertrauten bereitet sie täglich eine Anzahl von Heilmitteln in Höhe von 3 + ihrem Intelligenz-Modifikator (mindestens 1) vor. Ein Heilmittel wird unwirksam, sobald es sich nicht mehr im Besitz der Kräuterhexe befindet, spätestens jedoch, sobald sie die Heilmittel des nächsten Tages vorbereitet. Als Standardaktion kann eine Kräuterhexe einer Kreatur ein Heilmittel verabreichen, um damit eine Krankheit oder ein Gift zu heilen oder die Zustände Geblendet, Taub, Erschöpft, Übelkeit oder Kränkelnd zu beseitigen; dies erfordert einen erfolgreichen Beruf (Kräuterkundige)-Wurf gegen die Schwierigkeit des Rettungswurfs der Krankheit bzw. des Gifts oder eine für den jeweiligen Zustand angemessene Schwierigkeit. Dieses Klassenmerkmal ersetzt die Hexerei, welche eine Hexe mit der 1. Stufe erhält.\n\nMit der 2. Stufe muss eine Kräuterhexe Kessel als eine ihrer Hexereien wählen. Empfehlenswerte weitere Hexereien sind Glück und Heilen, empfehlenswerte Mächtige Hexereien sind Mächtiges Heilen und Wetterkontrolle, empfehlenswert als Große Hexerei ist Gabe des Lebens."
   }
 ]

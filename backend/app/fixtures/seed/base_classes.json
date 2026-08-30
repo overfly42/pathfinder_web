@@ -310,5 +310,18 @@
     "ref_save": false,
     "wil_save": true,
     "skill_points_base": 2
+  },
+  {
+    "id": "5ebd9b88-483e-5876-88e6-a3a47054d25e",
+    "name": "Kräuterhexe",
+    "hit_dice": null,
+    "arch_class_of": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

@@ -6326,5 +6326,19 @@
     "ability_id": "9aa0a941-ddcd-5302-866e-9812bbfb705b",
     "option_choice_id": null,
     "level": 17
+  },
+  {
+    "id": "f257ab38-1d84-59c5-b2c9-685368a00420",
+    "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "ability_id": "db233bae-43ec-56d4-a3fd-9bcb0260d18d",
+    "option_choice_id": "3be20d64-a473-5db4-8cf9-a6044a3791b2",
+    "level": 1
+  },
+  {
+    "id": "7d5caf69-cd76-5e5e-a23d-56cb66f0e476",
+    "base_class_id": "5ebd9b88-483e-5876-88e6-a3a47054d25e",
+    "ability_id": "a5d7dc4b-25e1-56b3-b177-6471b028294c",
+    "option_choice_id": null,
+    "level": 1
   }
 ]

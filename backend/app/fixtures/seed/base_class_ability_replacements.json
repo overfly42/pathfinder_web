@@ -412,5 +412,11 @@
     "archetype_class_id": "ee3ebf08-a8d3-5e9f-aa07-706d5296429d",
     "ability_id": "adf2cb39-0224-57e5-874c-d5f5dee725cc",
     "replaces_grant_id": "ec9a9f34-ec46-5944-a9b3-d8b7a818df26"
+  },
+  {
+    "id": "7cdee566-b8b3-52c0-9d63-d0a2a65f2405",
+    "archetype_class_id": "5ebd9b88-483e-5876-88e6-a3a47054d25e",
+    "ability_id": "a5d7dc4b-25e1-56b3-b177-6471b028294c",
+    "replaces_grant_id": "a341733e-317a-4695-bf45-9c3fab9f0ce0"
   }
 ]

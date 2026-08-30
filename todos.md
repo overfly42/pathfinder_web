@@ -691,6 +691,18 @@ Slice-Arbeit.
   Ork-Archetyp Narbiger Hexendoktor; diverse Nachträge zu
   Options-Gruppen/Talentpools) sind archiviert in `todos_history.md`. Noch
   offen:
+  - [x] **Hexe-Archetyp Kräuterhexe (Herb Witch) ergänzt (2026-08-30)**:
+        Quelle ist, anders als beim übrigen Verifizierungs-Durchlauf oben,
+        d20pfsrd (offizielle Paizo-Quelle) statt `prd.5footstep.de`, da der
+        Archetyp dort nicht geführt wird. `Kräuterkunde` (ersetzt die
+        Hexerei der 1. Stufe: Beruf (Kräuterkundige) statt Handwerk
+        (Alchemie), tägliche Heilmittel gegen Krankheit/Gift/Zustände) nach
+        dem `import_ork_archetypes.py`-Muster als eigenes Skript
+        (`import_herb_witch_archetype.py`). Dabei aufgefallen: die von
+        Herb Witch vorausgesetzte Basis-Hexerei „Kessel" (Cauldron, Trank
+        brauen als Bonustalent + Alchemie-Bonus) fehlte im Hexerei-Katalog
+        komplett und wurde als für jede Hexe wählbare Hexerei nachgetragen,
+        nicht nur für diesen Archetyp.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):

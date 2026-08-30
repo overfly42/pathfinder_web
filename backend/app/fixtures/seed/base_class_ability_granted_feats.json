@@ -243,5 +243,10 @@
     "id": "e5a6de4f-51c6-4089-9c3b-95fa11ef8088",
     "ability_id": "1022bc94-7324-5fb0-883a-ed80726277e0",
     "feat_id": "9d19039e-78b7-50ea-ab5c-ea65b81b8a06"
+  },
+  {
+    "id": "11bf3e83-69e5-51e2-8793-f2c577555ca4",
+    "ability_id": "db233bae-43ec-56d4-a3fd-9bcb0260d18d",
+    "feat_id": "7e594909-cd3f-53fe-aa9d-73f3a993deaa"
   }
 ]
