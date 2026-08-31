@@ -96,6 +96,12 @@ export interface ClassDef {
    *  archetype has an entry here, and submits the pick under this exact
    *  ability id in `class_weapon_choices`. */
   archetypeWeaponChoiceAbilityId: Record<string, string>;
+  /** archetype name -> combined description text of its own class features
+   *  (e.g. Kräuterhexe's "only nature-aligned Schutzherren, Kessel mandatory
+   *  at 2nd level" text) — sparse, same shape as `archetypeCastingAbility`.
+   *  `ClassStep.tsx` shows this once an archetype is selected for a class
+   *  row, since the option-group chip picker itself only ever shows names. */
+  archetypeDescriptions: Record<string, string>;
   /** level (stringified) -> grade (stringified) -> known-spell cap, or
    *  `null` for arcane-prepared classes (grade-*presence*, not count, is the
    *  gate there — see `rules/spells.py` on the backend). Mirrors

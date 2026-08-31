@@ -247,6 +247,39 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                         grant.ability_id
                     )
 
+    # archetype name -> combined description text of its own class features
+    # (2026-08-30) — every archetype's own `BaseClassAbilityGrant` rows,
+    # level-sorted, descriptions joined. Added because the creation wizard
+    # never showed any archetype's flavor/restriction text at all (not even
+    # Narbiger Hexendoktor's) — only the bare archetype name as a picker
+    # chip — so e.g. Kräuterhexe's "only nature-aligned Schutzherren, and
+    # Kessel is mandatory at 2nd level" text (documented in its own
+    # `BaseClassAbility.description`) was never actually visible anywhere.
+    archetype_descriptions_by_root_id: dict = {}
+    all_archetype_ids = [archetype.id for archetypes in archetypes_by_root_id.values() for archetype in archetypes]
+    if all_archetype_ids:
+        own_grants = db.scalars(
+            select(BaseClassAbilityGrant)
+            .where(BaseClassAbilityGrant.base_class_id.in_(all_archetype_ids))
+            .order_by(BaseClassAbilityGrant.level)
+        ).all()
+        ability_by_id = {
+            ability.id: ability
+            for ability in db.scalars(
+                select(BaseClassAbility).where(BaseClassAbility.id.in_({grant.ability_id for grant in own_grants}))
+            ).all()
+        }
+        descriptions_by_archetype_id: dict = {}
+        for grant in own_grants:
+            ability = ability_by_id.get(grant.ability_id)
+            if ability is not None:
+                descriptions_by_archetype_id.setdefault(grant.base_class_id, []).append(ability.description)
+        for root_id, archetypes in archetypes_by_root_id.items():
+            for archetype in archetypes:
+                texts = descriptions_by_archetype_id.get(archetype.id)
+                if texts:
+                    archetype_descriptions_by_root_id.setdefault(root_id, {})[archetype.name] = "\n\n".join(texts)
+
     # option_choice_id IS NULL only: a class's unconditional base skill list.
     # Mystery-conditional additions (Mystiker/Oracle - each Mysterium adds its
     # own extra class skills) live on the same table but are only real once a
@@ -366,6 +399,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         )
         class_def["archetypeCastingAbility"] = (
             archetype_casting_ability_by_root_id.get(root_id, {}) if root_id else {}
+        )
+        class_def["archetypeDescriptions"] = (
+            archetype_descriptions_by_root_id.get(root_id, {}) if root_id else {}
         )
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
         class_def["archetypeWeaponChoiceAbilityId"] = (

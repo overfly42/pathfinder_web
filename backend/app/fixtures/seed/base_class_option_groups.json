@@ -236,5 +236,12 @@
     "key": "arkanum",
     "label": "Arkanum",
     "max_choices": 6
+  },
+  {
+    "id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "key": "patron",
+    "label": "Schutzherr",
+    "max_choices": 1
   }
 ]

@@ -114,5 +114,9 @@ def test_hexenmeister_zauber_des_blutes_is_seeded_per_bloodline(db_session: Sess
         "Wunsch",
     ]
 
-    total_grants = db_session.query(BaseClassSpellGrant).count()
-    assert total_grants == 90  # 10 bloodlines x 9 levels each
+    # Scoped to Hexenmeister specifically, not a table-wide count — Hexe's
+    # Schutzherr (2026-08-30) seeds its own BaseClassSpellGrant rows too.
+    hexenmeister_grants = (
+        db_session.query(BaseClassSpellGrant).filter_by(base_class_id=grants[0].base_class_id).count()
+    )
+    assert hexenmeister_grants == 90  # 10 bloodlines x 9 levels each

@@ -2353,5 +2353,12 @@
     "description": "Deine Wildheit überkommt dich schnell, ist aber kurzlebig. Wenn du auf 0 TP oder weniger fällst, verlierst du jetzt pro Runde 2 TP, bist aber nicht wankend. Solltest du dich in einem Kampfrausch befinden, verlierst du nur 1 TP pro Runde.",
     "type": "general",
     "prerequisite_text": "Volksmerkmal Wildheit, Ork."
+  },
+  {
+    "id": "9cc001a9-90b1-5630-aecd-61b388c27fd2",
+    "name": "Zusätzliche Hexerei",
+    "description": "Eine zusätzliche Hexerei.",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Hexerei."
   }
 ]

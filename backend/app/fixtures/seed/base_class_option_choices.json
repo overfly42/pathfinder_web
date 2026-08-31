@@ -2878,5 +2878,95 @@
     "id": "3be20d64-a473-5db4-8cf9-a6044a3791b2",
     "group_id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
     "name": "Kessel"
+  },
+  {
+    "id": "50a39a36-6f28-54af-a67f-77e2d522c11a",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Ausdauer"
+  },
+  {
+    "id": "f57b9173-3e4a-5e7c-a3cd-4d15ebb1b968",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Beweglichkeit"
+  },
+  {
+    "id": "5aec95a4-2583-57d2-8701-97def5d6e237",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Elemente"
+  },
+  {
+    "id": "a35585cd-bd7a-50e0-942e-60cc4fac3d62",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Schatten"
+  },
+  {
+    "id": "50048d5f-8178-5794-a776-3a0eed2199fe",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Seuche"
+  },
+  {
+    "id": "1f08e0a1-5871-5b04-a644-51db4c3953ed",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Stärke"
+  },
+  {
+    "id": "2d69fb99-3b11-55a0-be1c-3bf32883ce23",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Täuschung"
+  },
+  {
+    "id": "c7d0e2dc-d81b-5625-8544-547c3146ee35",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Tiere"
+  },
+  {
+    "id": "ec689335-f1a9-5d48-b855-e0e81274b124",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Trickserei"
+  },
+  {
+    "id": "79cf7ec8-d34f-51c4-aa0a-35fdb2ac9c6d",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Verwandlung"
+  },
+  {
+    "id": "e6bb9dfb-fc11-5293-9702-b7cd13d22a70",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Wasser"
+  },
+  {
+    "id": "ff48a766-5d1f-5ed0-9e09-8f03f0e89e8c",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Weisheit"
+  },
+  {
+    "id": "b12665b0-a48c-5ed7-945d-85b39b2f90dc",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Ahnen"
+  },
+  {
+    "id": "b07d94f9-cffc-5501-852b-c35a1b19cff0",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Tod"
+  },
+  {
+    "id": "14b8aade-936d-500c-a4ac-06d2a707cead",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Heilung"
+  },
+  {
+    "id": "b877c181-0752-546a-9240-b14e654d6147",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Pflanzen"
+  },
+  {
+    "id": "89a6a3ef-c39f-56a4-8abc-ddb2218ea21e",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Zeit"
+  },
+  {
+    "id": "324f2b1e-e346-58b4-8601-3e56de63f649",
+    "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
+    "name": "Winter"
   }
 ]

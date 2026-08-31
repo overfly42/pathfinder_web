@@ -62,7 +62,13 @@ from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
-from ..rules.spells import arcane_prepared_budget, known_grades, spontaneous_known_budget, total_spell_slots
+from ..rules.spells import (
+    arcane_prepared_budget,
+    granted_option_choice_spells,
+    known_grades,
+    spontaneous_known_budget,
+    total_spell_slots,
+)
 from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
@@ -758,6 +764,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         level=last_level_row,
                     )
                 )
+        selection_choice_ids: set[UUID] = set()
         for group_key, choices in selection.options.items():
             for choice in choices:
                 choice_row = db.scalar(
@@ -778,6 +785,17 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         level=last_level_row,
                     )
                 )
+                if choice_row is not None:
+                    selection_choice_ids.add(choice_row.id)
+
+        # Fixed bonus spells a chosen option (e.g. Hexe's Schutzherr) grants
+        # automatically at this class's level, up to the level just reached
+        # (`granted_option_choice_spells`, `rules/spells.py`) — a fresh
+        # character has nothing to dedupe against yet for this class.
+        if selection_choice_ids and last_level_row is not None:
+            last_level_row.spells.extend(
+                granted_option_choice_spells(db, root.id, selection.level, selection_choice_ids, set())
+            )
 
         if root.id not in seen_root_ids:
             seen_root_ids.add(root.id)
@@ -2187,6 +2205,36 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                         level=new_level,
                     )
                 )
+
+    # Fixed bonus spells this class's chosen option (e.g. Hexe's Schutzherr)
+    # grants automatically at the level just reached
+    # (`granted_option_choice_spells`, `rules/spells.py`) — the DB query
+    # below sees both this level-up's own fresh picks (autoflushed) and any
+    # one-time pick (Schutzherr, Blutlinie, ...) already made at an earlier
+    # level, since it's never resubmitted at later level-ups.
+    receiving_choice_ids = set(
+        db.scalars(
+            select(CharacterClassOption.choice_id).where(
+                CharacterClassOption.character_id == character.id,
+                CharacterClassOption.base_class_id == receiving_root.id,
+                CharacterClassOption.choice_id.is_not(None),
+            )
+        ).all()
+    )
+    if receiving_choice_ids:
+        already_known = {
+            (receiving_root.id, spell_id) for spell_id in character.spell_ids.get(str(receiving_root.id), [])
+        }
+        new_level.spells.extend(
+            granted_option_choice_spells(
+                db,
+                receiving_root.id,
+                receiving_class_level,
+                receiving_choice_ids,
+                already_known,
+                min_level=receiving_class_level,
+            )
+        )
 
     for selection in body.skill_ranks:
         new_level.skill_ranks.append(

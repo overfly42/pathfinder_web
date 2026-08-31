@@ -3845,5 +3845,65 @@
     "id": "a5d7dc4b-25e1-56b3-b177-6471b028294c",
     "name": "Kräuterkunde",
     "description": "Eine Kräuterhexe muss einen Schutzherren wählen, der der Natur verbunden ist: Ahnen, Tiere, Tod, Elemente, Heilung, Seuche, Pflanzen, Stärke, Zeit, Wasser, Winter oder Weisheit.\n\n(AF) Mit der 1. Stufe kann eine Kräuterhexe Fertigkeitswürfe für Beruf (Kräuterkundige) anstelle von Handwerk (Alchemie) einsetzen, etwa um Tränke zu identifizieren oder alchemistische Erzeugnisse aller Art herzustellen, und erhält dabei einen Bonus in Höhe ihrer halben Hexenstufe auf solche Beruf (Kräuterkundige)-Würfe. Durch einstündige Kommunion mit ihrem Vertrauten bereitet sie täglich eine Anzahl von Heilmitteln in Höhe von 3 + ihrem Intelligenz-Modifikator (mindestens 1) vor. Ein Heilmittel wird unwirksam, sobald es sich nicht mehr im Besitz der Kräuterhexe befindet, spätestens jedoch, sobald sie die Heilmittel des nächsten Tages vorbereitet. Als Standardaktion kann eine Kräuterhexe einer Kreatur ein Heilmittel verabreichen, um damit eine Krankheit oder ein Gift zu heilen oder die Zustände Geblendet, Taub, Erschöpft, Übelkeit oder Kränkelnd zu beseitigen; dies erfordert einen erfolgreichen Beruf (Kräuterkundige)-Wurf gegen die Schwierigkeit des Rettungswurfs der Krankheit bzw. des Gifts oder eine für den jeweiligen Zustand angemessene Schwierigkeit. Dieses Klassenmerkmal ersetzt die Hexerei, welche eine Hexe mit der 1. Stufe erhält.\n\nMit der 2. Stufe muss eine Kräuterhexe Kessel als eine ihrer Hexereien wählen. Empfehlenswerte weitere Hexereien sind Glück und Heilen, empfehlenswerte Mächtige Hexereien sind Mächtiges Heilen und Wetterkontrolle, empfehlenswert als Große Hexerei ist Gabe des Lebens."
+  },
+  {
+    "id": "68c56d54-45eb-575c-9d11-9ec54255fd81",
+    "name": "Schutzherr: Ausdauer",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Ausdauer\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Elementen trotzen (2.), Ausdauer des Ochsen (4.), Schutz vor Energien (6.), Immunität gegen Zauber (8.), Zauberresistenz (10.), Massen-Ausdauer des Ochsen (12.), Vollständige Genesung (14.), Eiserner Körper (16.), Wunder (18.)."
+  },
+  {
+    "id": "231d2c74-96cf-5bc3-a6eb-5319fd5d9a93",
+    "name": "Schutzherr: Beweglichkeit",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Beweglichkeit\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Springen (2.), Katzenhafte Anmut (4.), Hast (6.), Bewegungsfreiheit (8.), Verwandlung (10.), Massen-Katzenhafte Anmut (12.), Ätherischer Ausflug (14.), Tierform (16.), Gestaltwandel (18.)."
+  },
+  {
+    "id": "33e1c1bb-d468-5c66-8536-daf79e64f0a8",
+    "name": "Schutzherr: Elemente",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Elemente\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Schockgriff (2.), Flammenkugel (4.), Feuerball (6.), Eiswand (8.), Flammenschlag (10.), Frostsphäre (12.), Strudel (14.), Feuersturm (16.), Meteoritenschwarm (18.)."
+  },
+  {
+    "id": "aadc24ea-7f34-533a-a226-4328597cb275",
+    "name": "Schutzherr: Schatten",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Schatten\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Stilles Trugbild (2.), Dunkelheit (4.), Tiefere Dunkelheit (6.), Schattenbeschwörung (8.), Schattenhervorrufung (10.), Schattenreise (12.), Mächtige Schattenbeschwörung (14.), Mächtige Schattenhervorrufung (16.), Schatten (18.)."
+  },
+  {
+    "id": "29b40720-386d-583d-bd3f-c624ddcf1b19",
+    "name": "Schutzherr: Seuche",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Seuche\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Untote entdecken (2.), Untote befehligen (4.), Ansteckung (6.), Tote beleben (8.), Riesenhaftes Ungeziefer (10.), Untote erschaffen (12.), Untote kontrollieren (14.), Mächtigere Untote erschaffen (16.), Entzug von Lebenskraft (18.)."
+  },
+  {
+    "id": "b73eb2f3-cbfe-5ee1-89d3-d880e5dab2a1",
+    "name": "Schutzherr: Stärke",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Stärke\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Göttliche Gunst (2.), Bärenstärke (4.), Mächtige Magische Waffe (6.), Göttliche Macht (8.), Gerechte Macht (10.), Massen-Bärenstärke (12.), Riesengestalt I (14.), Riesengestalt II (16.), Gestaltwandel (18.)."
+  },
+  {
+    "id": "2c1a25d6-5439-58b5-98d0-ac392fbd1dbe",
+    "name": "Schutzherr: Täuschung",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Täuschung\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Bauchreden (2.), Unsichtbarkeit (4.), Flimmern (6.), Verwirrung (8.), Wände passieren (10.), Vorbestimmtes Trugbild (12.), Massenunsichtbarkeit (14.), Schillerndes Muster (16.), Zeitstopp (18.)."
+  },
+  {
+    "id": "17873a6e-4b5b-529c-8c08-515e6648a312",
+    "name": "Schutzherr: Tiere",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Tiere\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Tier bezaubern (2.), Mit Tieren sprechen (4.), Tier beherrschen (6.), Verbündeten der Natur herbeizaubern IV (8.), Tierwachstum (10.), Schutzhülle gegen Lebendes (12.), Bestiengestalt IV (14.), Tierform (16.), Verbündeten der Natur herbeizaubern IX (18.)."
+  },
+  {
+    "id": "530b1c1d-e5d1-5583-8492-1b623cfcbb4e",
+    "name": "Schutzherr: Trickserei",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Trickserei\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Seil beleben (2.), Spiegelbilder (4.), Mächtiges Trugbild (6.), Scheingelände (8.), Arkane Spiegelung (10.), Ablenkung (12.), Schwerkraft umkehren (14.), Abschirmung (16.), Zeitstopp (18.)."
+  },
+  {
+    "id": "cdc7d429-42a8-5cd3-afc7-02d68a111fa7",
+    "name": "Schutzherr: Verwandlung",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Verwandlung\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Springen (2.), Ausdauer des Ochsen (4.), Bestiengestalt I (6.), Bestiengestalt II (8.), Bestiengestalt III (10.), Drachengestalt I (12.), Drachengestalt II (14.), Drachengestalt III (16.), Gestaltwandel (18.)."
+  },
+  {
+    "id": "764d2e47-594d-54ce-b139-348d5ae70c4d",
+    "name": "Schutzherr: Wasser",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Wasser\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Wasser weihen/Wasser entweihen (2.), Wellenritt (4.), Wasser atmen (6.), Wasser kontrollieren (8.), Geysir (10.), Elementargestalt III (12.), Elementargestalt IV (14.), Mantel der See (16.), Tsunami (18.)."
+  },
+  {
+    "id": "ab832250-2447-5335-b6d3-d8a583ce84c4",
+    "name": "Schutzherr: Weisheit",
+    "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Weisheit\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Schild des Glaubens (2.), Weisheit der Eule (4.), Magisches Schutzgewand (6.), Schwächere Kugel der Unverwundbarkeit (8.), Traum (10.), Kugel der Unverwundbarkeit (12.), Zauber zurückwerfen (14.), Schutz vor Zaubern (16.), Magische Auftrennung (18.)."
   }
 ]

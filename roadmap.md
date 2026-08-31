@@ -1320,6 +1320,48 @@ entirely, not a category here.
       and `rules/handlers.py` the same three-tier way `DAILY_LIMITS` is),
       read by `total_spell_slots` off the character's already-resolved
       `granted_ability_ids`.
+- [x] **Fixed bonus spells from a class option choice, first real use: Hexe's
+      Schutzherr (2026-08-30)** — `BaseClassSpellGrant` (option choice →
+      fixed spell at a fixed class level) existed as a model since the
+      Hexenmeister Blutlinie data was seeded, but nothing ever turned a row
+      into an actual spellbook entry. New `rules/spells.py`'s
+      `granted_option_choice_spells`, called from both `create_character`
+      and `level_up_character`, inserts a `CharacterSpell` row for every
+      grant at/below the character's class level not already known — works
+      because Hexe is arcane-prepared, where the spellbook (`CharacterSpell`)
+      *is* the candidate list `_build_prepared_spell_grades` reads.
+      `scripts/import_hexe_patrons.py` seeded the actual data: a new
+      `patron` option group (18 choices — the 12 from
+      `prd.5footstep.de`'s Grundregelwerk patron list, each with its full,
+      sourced bonus-spell-per-level table as 108 new `BaseClassSpellGrant`
+      rows, plus 6 Kräuterhexe-only nature themes with no sourced spell list
+      yet). Also added, generically for every archetype (not just
+      Kräuterhexe): `/api/classes`' new `archetypeDescriptions` field and
+      `ClassStep.tsx` display — previously no archetype's own flavor/
+      restriction text was shown anywhere in the creation wizard, only its
+      bare name as a picker chip.
+      **Deliberately not done here** (two separate follow-ups, not part of
+      this pass):
+  - [ ] **Domänenzauber (Kleriker)**: `granted_option_choice_spells` doesn't
+        apply — Kleriker is divine-prepared, whose candidate list is
+        already the *entire* class spell list (`_build_prepared_spell_grades`
+        ignores `CharacterSpell` for divine-prepared classes entirely), so a
+        domain spell is already a candidate at its normal grade. The real
+        missing piece is a domain-restricted *bonus prepared slot* per
+        grade (a different mechanism: slot-count math in `rules/spells.py`
+        plus a same-spell-only restriction at prepare-time), not a
+        spellbook insert. `base_class_spell_grants` has zero Kleriker rows;
+        the raw per-domain spell text still sits unparsed in
+        `backend/app/fixtures/imported/kleriker_domains_prd_import.json`
+        (`import_kleriker.py`'s own docstring already flagged this).
+  - [ ] **Blutlinienzauber (Hexenmeister)**: the mechanism above *is* the
+        right one (Hexenmeister's spell type is the same "known list is the
+        candidate list" shape as arcane-prepared, once it has one) and the
+        90 real `BaseClassSpellGrant` rows already exist — but it's
+        genuinely inert until the "spontaneous casters need a structurally
+        different per-grade slot pool" gap directly above (2026-08-24 entry)
+        is closed, since Hexenmeister currently has no `spellsKnown`/
+        `spellbook` sheet output at all to insert into.
 
 ### 7. Level-up — thin (done 2026-08-04, pulled forward ahead of slices 5/6)
 Pulled forward ahead of Effects/Actions per the "Beispielcharakter" gaps

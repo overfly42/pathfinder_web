@@ -160,6 +160,16 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
               )}
 
               {row.archetypes.map((archetypeName) => {
+                const description = cls?.archetypeDescriptions[archetypeName];
+                if (!description) return null;
+                return (
+                  <div key={archetypeName} className="field-label" style={{ marginTop: 10, whiteSpace: 'pre-line' }}>
+                    <strong>{archetypeName}:</strong> {description}
+                  </div>
+                );
+              })}
+
+              {row.archetypes.map((archetypeName) => {
                 const abilityId = cls?.archetypeWeaponChoiceAbilityId[archetypeName];
                 if (!abilityId) return null;
                 return (

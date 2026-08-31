@@ -31,6 +31,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..models import BaseClassSpellsKnown
+from ..models.spell import BaseClassSpellGrant, CharacterSpell
 
 
 def known_grades(db: Session, base_class_id: UUID, level: int) -> set[int]:
@@ -155,3 +156,52 @@ def total_spell_slots(
     if fold_higher_grades_into_this_one:
         bonus += folded_bonus_spells(ability_mod, grade)
     return base + bonus
+
+
+def granted_option_choice_spells(
+    db: Session,
+    base_class_id: UUID,
+    max_level: int,
+    choice_ids: Iterable[UUID],
+    already_known: set[tuple[UUID, UUID]],
+    min_level: int = 1,
+) -> list[CharacterSpell]:
+    """Fixed, no-choice bonus spells a class option choice grants
+    automatically at a given class level (`BaseClassSpellGrant` — Hexe's
+    Schutzherr, and Hexenmeister's Blutlinie once spontaneous casters get a
+    spellbook to show it in, see `sheet.py`'s module docstring) — turned
+    into ordinary `CharacterSpell` rows, since for an arcane-/divine-
+    prepared caster that's simply an extra spellbook candidate, nothing
+    else needs to know this spell came from a grant rather than a player
+    pick.
+
+    `max_level` is the character's level *in this root class*, matching
+    `BaseClassSpellGrant.level`'s own semantics (class level, not overall
+    character level — relevant for multiclassing). `min_level` narrows this
+    to grants strictly above a level already covered (e.g. at level-up,
+    pass `min_level=max_level` since every earlier level's grants were
+    already handled at their own point in time); left at its default of 1
+    for character creation, where every grant up to `max_level` is new.
+
+    `already_known` is the caller's own `{(base_class_id, spell_id)}` scan
+    over the character's existing `CharacterSpell` rows (same idempotency
+    check `add_to_spellbook` already does, `routers/characters.py`) — a
+    grant already present (e.g. from an earlier level-up, or already
+    manually in the spellbook) is skipped rather than duplicated, since
+    `CharacterSpell` carries no provenance column to distinguish the two."""
+    choice_ids = list(choice_ids)
+    if not choice_ids:
+        return []
+    rows = db.scalars(
+        select(BaseClassSpellGrant).where(
+            BaseClassSpellGrant.base_class_id == base_class_id,
+            BaseClassSpellGrant.option_choice_id.in_(choice_ids),
+            BaseClassSpellGrant.level >= min_level,
+            BaseClassSpellGrant.level <= max_level,
+        )
+    ).all()
+    return [
+        CharacterSpell(base_class_id=base_class_id, spell_id=row.spell_id)
+        for row in rows
+        if (base_class_id, row.spell_id) not in already_known
+    ]
