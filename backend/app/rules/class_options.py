@@ -29,6 +29,7 @@ from ..models import (
     BaseClassAbilityReplacement,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
+    BaseSecondaryClassAbilityGrant,
 )
 
 
@@ -99,6 +100,29 @@ def group_occurrence_levels(
             ).all()
             if grant.id not in excluded
         }
+    )
+
+
+def secondary_group_occurrence_levels(db: Session, secondary_base_class_id: UUID, group_key: str) -> list[int]:
+    """The Sekundärklasse-track sibling of `group_occurrence_levels` above,
+    for an option group a Sekundärklasse tier reuses (`BaseSecondaryClassAbilityGrant.option_group_key`,
+    see that model's docstring) — e.g. Kampfmagus' Arkanum pool, reused by
+    its Sekundärklasse track at total character level 7/15/19 instead of
+    Kampfmagus' own real per-level Arkanum grants. Reads
+    `BaseSecondaryClassAbilityGrant.character_level` directly rather than
+    deriving anything from `BaseClassAbilityGrant`/`ability_ids_by_name_map`:
+    a Sekundärklasse tier's milestone levels are never the same numbers as
+    the primary class's own progression, so there is nothing to share with
+    `group_occurrence_levels` beyond the shape of the result (a sorted list
+    of levels, consumed the same way by `routers/characters.py`'s
+    `_validate_options`)."""
+    return sorted(
+        db.scalars(
+            select(BaseSecondaryClassAbilityGrant.character_level).where(
+                BaseSecondaryClassAbilityGrant.secondary_base_class_id == secondary_base_class_id,
+                BaseSecondaryClassAbilityGrant.option_group_key == group_key,
+            )
+        ).all()
     )
 
 

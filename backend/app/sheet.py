@@ -114,6 +114,7 @@ from .rules.proficiency import (
     class_granted_proficiency_feat_ids,
     known_weapon_types,
 )
+from .rules.secondary_class import secondary_granted_ability_ids_and_levels
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import known_grades, total_spell_slots
@@ -150,6 +151,15 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
     granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
+    # Sekundärklasse alternate rule (`rules/secondary_class.py`) — merged
+    # straight into the same structures real class levels populate above, so
+    # every downstream consumer (skills, speed, daily limits, ...) sees a
+    # Sekundärklasse-granted ability exactly like a real one, with no
+    # separate code path. `secondary_ability_ids` is kept aside only for
+    # `_build_class_features`'s "Sekundärklassenmerkmal" tag below.
+    secondary_ability_ids, secondary_level_counts_by_root_id = secondary_granted_ability_ids_and_levels(db, character)
+    granted_ability_ids.update(secondary_ability_ids)
+    level_counts_by_root_id.update(secondary_level_counts_by_root_id)
     # Resolved ahead of `chosen_weapon_ids` below (not just where
     # `_build_natural_attacks` needs it further down) so a race ability like
     # Elf's "Elfische Waffenvertrautheit" can fold its named weapons into
@@ -432,7 +442,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         ),
         "feats": _build_feats(db, character),
         "traits": _build_traits(db, character),
-        "classFeatures": _build_class_features(db, granted_ability_ids),
+        "classFeatures": _build_class_features(db, granted_ability_ids, frozenset(secondary_ability_ids)),
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
@@ -951,8 +961,18 @@ def granted_class_ability_ids(
     return ability_counts
 
 
-def _build_class_features(db: Session, granted_ability_ids: Counter[UUID]) -> list[dict]:
-    return _described(db, BaseClassAbility, list(granted_ability_ids))
+def _build_class_features(
+    db: Session, granted_ability_ids: Counter[UUID], secondary_ability_ids: frozenset[UUID] = frozenset()
+) -> list[dict]:
+    """`secondary_ability_ids` (`rules/secondary_class.py`) tags which of
+    these were granted by the Sekundärklasse alternate rule rather than a
+    real class level, so the sheet can badge them distinctly (e.g.
+    "Sekundärklassenmerkmal") — same "computed flag on the described row"
+    shape as `_described`'s own `hasHandler`."""
+    entries = _described(db, BaseClassAbility, list(granted_ability_ids))
+    for entry in entries:
+        entry["isSecondary"] = UUID(entry["key"]) in secondary_ability_ids
+    return entries
 
 
 def _build_race_abilities(db: Session, race_ability_ids: set[UUID]) -> list[dict]:

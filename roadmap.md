@@ -1555,6 +1555,73 @@ create → play → level-up loop end to end.
     "Beispielcharakter" above, they're a permanent completeness-check
     fixture pair, not reference data awaiting migration.
 
+### 9. Sekundärklasse (alternate rule)
+
+http://prd.5footstep.de/Alternativregeln/Fertigkeiten/AlternativesSystemfuerCharakteremitKlassenkombinationen
+— a character picks a root class at 1st level they never take real levels
+in, but which grants a handful of its own features at total character level
+3/7/11/15/19 instead of a talent on those levels. Architecture pass done
+(2026-09-03); per-class content is a separate, later effort per class (same
+incremental model every other class follows).
+
+- [x] **Schema + mechanism**: `Character.secondary_base_class_id`,
+      `BaseSecondaryClassAbilityGrant` (`character_level` ∈ {3,7,11,15,19} —
+      the character's *total* level, not a level in that class, since one
+      never accrues there — plus an `effective_level_offset`/`_divisor`/
+      `_minimum` triple and an optional `option_group_key` for tiers that
+      reuse an existing `BaseClassOptionGroup`). One shared function
+      (`rules/secondary_class.py`'s `secondary_effective_level`) computes
+      every tier's "effektive Klassenstufe" — the shape is identical across
+      all 19 classes in the source text (offset, optionally halved,
+      optionally floored), so no per-class handler is needed for the level
+      number itself.
+- [x] **Talent-slot suppression**: `rules/feat_slots.py`'s
+      `secondary_class_suppressed_feat_count`, wired into `_feat_max`
+      (creation) and the level-up feat-budget delta
+      (`routers/characters.py`).
+- [x] **Handler-pipeline integration**: `sheet.py` merges
+      `secondary_granted_ability_ids_and_levels`'s output into the same
+      `granted_ability_ids`/`level_counts_by_root_id` real class levels
+      already populate — so a class that already has a real `HANDLERS`
+      entry for its primary version (today: only Entfesselter Barbar/
+      Kampfmagus) gets a correctly-computed Sekundärklasse version for
+      free, no new handler code. `_build_class_features` tags a
+      Sekundärklasse-granted feature with `isSecondary: true` on the wire.
+      Verified end-to-end against Entfesselter Barbar's real Kampfrausch
+      handler in `tests/test_secondary_class.py` (an ad hoc grant row, no
+      seeded content yet — see below).
+- [x] **Guardrails**: naming one's own primary/multiclassed class as
+      `secondary_class_name` is rejected at creation; taking a real level in
+      one's own Sekundärklasse is rejected at level-up.
+- [ ] **Sub-choice reuse** (Arkanum, Kampfrauschkraft, Offenbarung, Domäne,
+      Gnade, ...): `rules/class_options.py`'s `secondary_group_occurrence_levels`
+      exists (mirrors `group_occurrence_levels`, reading
+      `BaseSecondaryClassAbilityGrant` instead), and `_validate_options`
+      already accepts `character_level` as a plain parameter so it can be
+      called with a computed effective level — but no caller wires this up
+      yet (no content references an `option_group_key` yet either). Needs
+      the creation/level-up option-validation call sites extended once the
+      first class with a sub-choice tier gets real content.
+- [ ] **Per-class content** — `base_secondary_class_ability_grants.json` is
+      empty. One class at a time, same as every other class content pass:
+      Barbar/Kampfmagus first (real handlers already exist to reuse),
+      Kämpfer/Waldläufer/Magier/Hexenmeister/Schurke/Mystiker/Kleriker/Barde/
+      Hexe next (real `BaseClassAbility` rows to reuse, but flavor-only
+      until each gets its own `rules/classes/*.py` handler), Druide/Mönch/
+      Paladin last within the existing roster (no real primary content to
+      reuse yet — needs fresh `BaseClassAbility` rows same as any other
+      content pass). Alchemist/Inquisitor/Paktmagier/Ritter/Schütze are
+      blocked on existing as a real `BaseClass` at all first — a separate,
+      unrelated effort.
+- [ ] **Frontend**: creation-time Sekundärklasse picker (dropdown over root
+      classes, excluding the character's own), level-up assistant step for
+      a due milestone (informational or, once sub-choice reuse above lands,
+      a picker), sheet badge for `isSecondary` class features.
+- [ ] Combining the rule with real multiclassing into the same class (RAW
+      allows it, minus real levels there) and "Umschulen" (retraining) of
+      the Sekundärklasse choice — both explicitly deferred, the latter
+      blocked on this app having no retraining system at all yet.
+
 ## Explicitly out of scope here
 
 Already tracked/deferred elsewhere in `todos.md`: localization content

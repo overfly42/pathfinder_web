@@ -402,3 +402,55 @@ class BaseClassAbilityGrantedFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
     feat_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"))
+
+
+class BaseSecondaryClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Which ability a character granted this class as their **Sekundärklasse**
+    (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
+    AlternativesSystemfuerCharakteremitKlassenkombinationen) receives at a
+    given character level — the alternate-rule sibling of
+    `BaseClassAbilityGrant`, not a reuse of it: `level` there is the
+    character's level *in that class*, but a Sekundärklasse character never
+    has real levels in it at all, so `character_level` here is deliberately
+    the character's *total* character level instead (always one of 3/7/11/
+    15/19 per the rule's own table — every character gets a talent on every
+    other odd level, and one of these five instead on the rest).
+
+    `ability_id` points at the *existing* `BaseClassAbility` row wherever the
+    source text just grants that class's own real feature (e.g. Barbar's
+    real "Kampfrausch") — the common case, since the rule almost always
+    phrases a tier as "erhält das Klassenmerkmal X". A tier whose text
+    describes something the primary class doesn't have verbatim gets its own
+    fresh `BaseClassAbility` row instead. Either way this stays pure
+    composition (CLAUDE.md): which ability, at which milestone, for which
+    class — never a mechanical field.
+
+    `effective_level_offset`/`effective_level_divisor`/`effective_level_minimum`
+    encode this tier's own "effektive Klassenstufe" formula against the
+    character's total level — every tier across all 19 classes in the source
+    text reduces to this same shape (an offset, optionally halved, optionally
+    floored), so one shared function (`rules/secondary_class.py`'s
+    `secondary_effective_level`) computes it; no per-class handler needed for
+    the level number itself. Defaults (`offset=0, divisor=1, minimum=None`)
+    mean "use the character's real total level unmodified".
+
+    `option_group_key` (nullable) is set only when this tier requires a
+    sub-choice (Kampfmagus' Arkanum, Barbar's "eine Kampfrauschkraft",
+    Mystiker's Offenbarung, ...) and names an *existing*
+    `BaseClassOptionGroup.key` on the same root class — the Sekundärklasse
+    system never needs its own option-group schema, it just resolves that
+    group's existing choices against this tier's own effective level instead
+    of the character's real level in that class (see
+    `routers/characters.py`'s `_validate_options`, which already takes
+    `character_level` as a plain parameter)."""
+
+    __tablename__ = "base_secondary_class_ability_grants"
+    __table_args__ = (UniqueConstraint("secondary_base_class_id", "character_level", "ability_id"),)
+
+    secondary_base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    character_level: Mapped[int] = mapped_column(Integer)
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    effective_level_offset: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    effective_level_divisor: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
+    effective_level_minimum: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    option_group_key: Mapped[str | None] = mapped_column(String(64), nullable=True)

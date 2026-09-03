@@ -162,6 +162,16 @@ class CharacterCreate(BaseModel):
     # models/character.py, and todos.md's "2026-08-19" entry for why it's
     # per-character rather than always-on or global).
     use_background_skills: bool = False
+    # Opt-in to the "Sekundärklasse" alternate rule (see
+    # `models/character.py`'s `secondary_base_class_id`) — a root class name
+    # (matching `classes.json`, same lookup `ClassSelection.class_name`
+    # already uses) the character never takes real levels in but which
+    # grants a handful of its own features at total level 3/7/11/15/19
+    # instead of a talent on those levels. `None` (default): not using this
+    # rule. Validated server-side (`routers/characters.py`'s
+    # `create_character`) against `body.classes` — a character can't name
+    # their own primary/multiclassed class as its own Sekundärklasse.
+    secondary_class_name: str | None = None
     # One entry per skill (or, for a has_specialization skill, per chosen
     # specialization — see SkillRankSelection) with its total ranks.
     # Collapsed onto the highest CharacterLevel row being created — see
@@ -651,6 +661,7 @@ class CharacterRead(BaseModel):
     flex_ability: str | None
     alt_traits: list[str]
     use_background_skills: bool
+    secondary_base_class_id: UUID | None
     skill_ranks: dict[str, int]
     feats: list[FeatSelection]
     trait_ids: list[UUID]

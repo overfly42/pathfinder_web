@@ -88,6 +88,19 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # validation) reads this stored flag rather than re-accepting it.
     use_background_skills: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
+    # Opt-in to the "Sekundärklasse" alternate rule (http://prd.5footstep.de/
+    # Alternativregeln/Fertigkeiten/AlternativesSystemfuerCharakteremitKlassenkombinationen):
+    # a root `BaseClass` the character never takes real levels in, but which
+    # grants a handful of its own features at total character level 3/7/11/
+    # 15/19 instead of a talent on those levels (`rules/feat_slots.py`'s
+    # `secondary_class_suppressed_feat_count`). Set once at creation, same
+    # "permanent, no resubmission at level-up" shape as `use_background_skills`
+    # above (this app has no retraining/"Umschulen" system to change it
+    # later either). Nullable: most characters don't use this variant rule.
+    secondary_base_class_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
+    )
+
     racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
     class_ability_weapon_choices: Mapped[list["CharacterClassAbilityWeaponChoice"]] = relationship(
         cascade="all, delete-orphan"

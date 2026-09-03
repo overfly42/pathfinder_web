@@ -9,6 +9,7 @@ from .base_class import (
     BaseClassAbilitySpellOption,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
+    BaseSecondaryClassAbilityGrant,
 )
 from .character import (
     Character,
@@ -66,6 +67,7 @@ __all__ = [
     "BaseClassAbilitySpellOption",
     "BaseClassOptionGroup",
     "BaseClassOptionChoice",
+    "BaseSecondaryClassAbilityGrant",
     "BaseSkill",
     "BaseSkillSpecialization",
     "BaseClassSkill",

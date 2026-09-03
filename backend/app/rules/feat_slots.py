@@ -56,6 +56,25 @@ def base_feat_count(total_level: int) -> int:
     return (total_level + 1) // 2
 
 
+# The "Sekundärklasse" alternate rule's own milestone levels
+# (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
+# AlternativesSystemfuerCharakteremitKlassenkombinationen) — a fixed part of
+# the rule itself, not per-class data (every class's table uses exactly
+# these five), unlike `BONUS_FEAT_SLOT_ABILITY_IDS` above.
+SECONDARY_CLASS_FEATURE_LEVELS: tuple[int, ...] = (3, 7, 11, 15, 19)
+
+
+def secondary_class_suppressed_feat_count(total_level: int) -> int:
+    """How many of the normal talent slots `base_feat_count` would otherwise
+    grant are replaced by a Sekundärklasse feature instead, for a character
+    who has opted into that rule (`Character.secondary_base_class_id` is
+    set) — the count of milestone levels reached so far. Callers subtract
+    this from `base_feat_count`'s result; it's 0 (a no-op) for any character
+    who hasn't opted in, so this is only ever called when
+    `secondary_base_class_id is not None`."""
+    return sum(1 for level in SECONDARY_CLASS_FEATURE_LEVELS if level <= total_level)
+
+
 def race_grants_bonus_feat(db: Session, race_id: UUID, replaced_ability_ids: set[UUID]) -> bool:
     """Whether this race's default (non-alternate) grants include the bonus-
     feat ability, and the character didn't trade it away for an alternate

@@ -57,7 +57,12 @@ from ..rules.daily_limits import (
 )
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.equipment_slots import OFF_HAND_SLOTS, SLOT_CATEGORY, SLOT_TO_ITEM_SLOT
-from ..rules.feat_slots import base_feat_count, class_bonus_feat_slot_count, race_grants_bonus_feat
+from ..rules.feat_slots import (
+    base_feat_count,
+    class_bonus_feat_slot_count,
+    race_grants_bonus_feat,
+    secondary_class_suppressed_feat_count,
+)
 from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
@@ -189,12 +194,22 @@ def _skill_ranks_exceed_budget(
 
 
 def _feat_max(
-    db: Session, race_id: UUID, classes: list[ClassSelection], replaced_ability_ids: set[UUID]
+    db: Session,
+    race_id: UUID,
+    classes: list[ClassSelection],
+    replaced_ability_ids: set[UUID],
+    secondary_base_class_id: UUID | None = None,
 ) -> int:
     """Base feat progression plus bonus feat slots granted by race or class,
     resolved from real data rather than a hardcoded class name — see
     `rules/feat_slots.py`. Mirrors the frontend's `featMax`
-    (creationCalculations.ts)."""
+    (creationCalculations.ts).
+
+    `secondary_base_class_id` (the Sekundärklasse alternate rule,
+    `models/character.py`'s column of the same name) replaces the talent a
+    character would otherwise get on total level 3/7/11/15/19 with a
+    Sekundärklasse feature instead — `None` (not using the rule) is a no-op,
+    same as every other optional source here."""
     total_level = sum(selection.level for selection in classes)
     max_feats = base_feat_count(total_level)
 
@@ -202,6 +217,9 @@ def _feat_max(
         max_feats += 1
 
     max_feats += class_bonus_feat_slot_count(db, classes)
+
+    if secondary_base_class_id is not None:
+        max_feats -= secondary_class_suppressed_feat_count(total_level)
 
     return max_feats
 
@@ -460,6 +478,23 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         raise HTTPException(status_code=422, detail="Unknown race_id")
 
     roots = [resolve_root_class(db, selection.class_name) for selection in body.classes]
+
+    # Sekundärklasse alternate rule (`rules/secondary_class.py`) — resolved
+    # up front, same as every other root class, so it can feed `_feat_max`
+    # below. RAW is explicit that a character never takes real levels in
+    # their own Sekundärklasse (see `BaseSecondaryClassAbilityGrant`'s
+    # docstring), so naming one of `body.classes`' own roots here is
+    # rejected rather than silently ignored.
+    secondary_base_class_id: UUID | None = None
+    if body.secondary_class_name is not None:
+        secondary_root = resolve_root_class(db, body.secondary_class_name)
+        if any(root.id == secondary_root.id for root in roots):
+            raise HTTPException(
+                status_code=422,
+                detail="secondary_class_name can't be one of this character's own primary/multiclassed classes",
+            )
+        secondary_base_class_id = secondary_root.id
+
     # The root of the first submitted class is favored by default — matches
     # the class picker's row order, not something the wizard asks for yet
     # (see `character.class_memberships` below, where this is persisted).
@@ -605,7 +640,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             raise HTTPException(status_code=422, detail="Skill ranks exceed available skill points")
 
     if body.feats:
-        max_feats = _feat_max(db, body.race_id, body.classes, seen_replaced_ability_ids)
+        max_feats = _feat_max(db, body.race_id, body.classes, seen_replaced_ability_ids, secondary_base_class_id)
         if len(body.feats) > max_feats:
             raise HTTPException(status_code=422, detail="Too many feats chosen for character level")
         selected_feat_ids = {selection.feat_id for selection in body.feats}
@@ -728,6 +763,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         ability_score_ch=body.ability_scores["CH"],
         point_budget=body.point_budget,
         use_background_skills=body.use_background_skills,
+        secondary_base_class_id=secondary_base_class_id,
     )
     if flex_ability_id is not None:
         character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
@@ -1903,6 +1939,12 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         new_archetypes = [resolve_archetype(db, receiving_root, name) for name in body.target.archetypes]
         is_new_class = True
 
+    if receiving_root.id == character.secondary_base_class_id:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Can't take real levels in '{receiving_root.name}' — it's this character's Sekundärklasse",
+        )
+
     # This class-taken's archetype(s), for _resolve_casting_ability below
     # (arcane-prepared spellbook budget) — a brand-new class-taken uses what
     # was just submitted; an existing one already has its archetype choice
@@ -2068,9 +2110,9 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         if existing_skill_ranks.get(key, 0) + selection.ranks > new_total_level:
             raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill.name}' would exceed character level")
 
-    feat_budget_delta = _feat_max(db, character.race_id, classes_after, seen_replaced_ability_ids) - _feat_max(
-        db, character.race_id, classes_before, seen_replaced_ability_ids
-    )
+    feat_budget_delta = _feat_max(
+        db, character.race_id, classes_after, seen_replaced_ability_ids, character.secondary_base_class_id
+    ) - _feat_max(db, character.race_id, classes_before, seen_replaced_ability_ids, character.secondary_base_class_id)
     if len(body.feats) > feat_budget_delta:
         raise HTTPException(status_code=422, detail="Too many feats chosen for this level")
     feats_by_id: dict[UUID, BaseFeat] = {}
