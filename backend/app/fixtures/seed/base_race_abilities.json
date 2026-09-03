@@ -473,5 +473,55 @@
     "id": "7f163f65-01bf-46cc-86d4-e0e1d5bb95ec",
     "name": "Sonnenanbeter",
     "description": "Erleidet einen Malus von -2 auf alle Fernkampfangriffswürfe. Dieses Volksmerkmal ersetzt Lichtempfindlichkeit."
+  },
+  {
+    "id": "d5227889-383f-4ff9-8a54-38d8a65173b6",
+    "name": "Katzenvolk (Unterart)",
+    "description": "Angehörige des Katzenvolkes sind Humanoide der Unterart Katzenvolk."
+  },
+  {
+    "id": "6149ab43-5434-4b3a-9161-1965474cba9b",
+    "name": "Katzenglück",
+    "description": "Kann einmal am Tag bei einem Reflexwurf zwei Mal würfeln und das bessere Ergebnis behalten. Der Einsatz dieser Fähigkeit muss angekündigt werden, bevor der Wurf erfolgt."
+  },
+  {
+    "id": "a6954dfd-1225-4d14-90e7-f8a1593151d8",
+    "name": "Natürlicher Jäger",
+    "description": "Erhält einen Volksbonus von +2 bei Fertigkeitswürfen auf Heimlichkeit, Überlebenskunst und Wahrnehmung."
+  },
+  {
+    "id": "3a921761-1612-4b7a-9268-e772d2bf3d69",
+    "name": "Spurter",
+    "description": "Erhält bei den Aktionen Rennen, Rückzug oder Sturmangriff einen Volksbonus von +3 m auf seine Bewegungsrate."
+  },
+  {
+    "id": "d486df96-c9df-46ab-a583-403dc832f576",
+    "name": "Geruchssinn",
+    "description": "Erhält die Fähigkeit Geruchssinn und kann damit Gegner anhand ihres Geruchs aufspüren, sofern sie sich in der Nähe befinden. Dieses Volksmerkmal ersetzt Dämmersicht."
+  },
+  {
+    "id": "33698012-2fc0-41e6-8df2-07beebfd1fa4",
+    "name": "Behände Landung",
+    "description": "Landet immer auf den Füßen, selbst wenn dabei tödlicher Sturzschaden erlitten wird, und erhält einen Bonus von +1 auf die KMV gegen Zu-Fall-bringen. Dieses Volksmerkmal ersetzt Spurter."
+  },
+  {
+    "id": "c2afeb4c-352e-44c9-b129-c9d41e3fda99",
+    "name": "Katzenkrallen",
+    "description": "Erhält zwei Klauen als natürliche Waffen, die als Primärangriffe 1W4 Schadenspunkte verursachen. Dieses Volksmerkmal ersetzt Natürlicher Jäger."
+  },
+  {
+    "id": "79808852-df0d-49f6-a780-c00db591ad95",
+    "name": "Kletterer",
+    "description": "Erhält eine Bewegungsrate Klettern von 6 m und den daraus resultierenden Volksbonus von +8 auf Fertigkeitswürfe für Klettern. Dieses Volksmerkmal ersetzt Spurter."
+  },
+  {
+    "id": "a1753e50-0f8b-4cc5-8a24-9652662bf2b8",
+    "name": "Kluge Katze",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Bluffen, Diplomatie und Motiv erkennen. Dieses Volksmerkmal ersetzt Natürlicher Jäger."
+  },
+  {
+    "id": "71094c60-647a-49f6-a8ee-b519f46b6091",
+    "name": "Neugierde",
+    "description": "Erhält einen Bonus von +4 auf Fertigkeitswürfe für Diplomatie zum Sammeln von Informationen. Wissen (Geschichte) und Wissen (Lokales) sind stets Klassenfertigkeiten; ist eine davon bereits Klassenfertigkeit, wird stattdessen ein Volksbonus von +2 auf die jeweilige Fertigkeit gewährt. Dieses Volksmerkmal ersetzt Natürlicher Jäger."
   }
 ]

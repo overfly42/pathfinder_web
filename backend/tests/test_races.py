@@ -21,7 +21,7 @@ def test_list_races_reconstructs_fixture_shape(client: TestClient, db_session: S
     # reference race used throughout the character-creation test suite. Ork
     # was added straight from the source (`import_ork.py`), never a guessed
     # placeholder.
-    assert set(races) == {"Mensch", "Elf", "Halbling", "Halb-Ork", "Ork"}
+    assert set(races) == {"Mensch", "Elf", "Halbling", "Halb-Ork", "Ork", "Katzenvolk"}
 
     elf = races["Elf"]
     assert elf["flex"] is False
@@ -265,6 +265,44 @@ def test_elf_standard_traits_and_alternates_are_real(client: TestClient, db_sess
     assert replaces_by_name["Dunkelsicht"] == {"Dämmersicht"}
     assert replaces_by_name["Leichtfüßig"] == {"Geschärfte Sinne", "Elfische Waffenvertrautheit"}
     assert replaces_by_name["Wasserverbundenheit"] == {"Elfenmagie", "Elfische Waffenvertrautheit"}
+
+
+def test_katzenvolk_standard_traits_and_alternates_are_real(client: TestClient, db_session: Session) -> None:
+    """Added straight from the real German SRD
+    (<http://prd.5footstep.de/AusbauregelnIIIVoelker/UngewoehnlicheVoelker/Katzenvolk>),
+    never a guessed placeholder — same "added straight from the source"
+    provenance as Ork (`import_ork.py`)."""
+    seed_races(db_session)
+
+    response = client.get("/api/races")
+    katzenvolk = {r["name"]: r for r in response.json()}["Katzenvolk"]
+
+    assert katzenvolk["flex"] is False
+    assert katzenvolk["mods"] == {"GE": 2, "WE": -2, "CH": 2}
+
+    trait_names = {t["name"] for t in katzenvolk["traits"]}
+    assert trait_names == {
+        "Katzenvolk (Unterart)",
+        "Mittelgroß",
+        "Normale Bewegungsrate",
+        "Dämmersicht",
+        "Katzenglück",
+        "Natürlicher Jäger",
+        "Spurter",
+    }
+
+    alt_names = {a["name"] for a in katzenvolk["alt"]}
+    assert alt_names == {
+        "Behände Landung", "Geruchssinn", "Katzenkrallen", "Kletterer", "Kluge Katze", "Neugierde",
+    }
+
+    replaces_by_name = {a["name"]: set(a["replaces"]) for a in katzenvolk["alt"]}
+    assert replaces_by_name["Behände Landung"] == {"Spurter"}
+    assert replaces_by_name["Geruchssinn"] == {"Dämmersicht"}
+    assert replaces_by_name["Katzenkrallen"] == {"Natürlicher Jäger"}
+    assert replaces_by_name["Kletterer"] == {"Spurter"}
+    assert replaces_by_name["Kluge Katze"] == {"Natürlicher Jäger"}
+    assert replaces_by_name["Neugierde"] == {"Natürlicher Jäger"}
 
 
 def test_medium_size_is_one_shared_ability_across_races(client: TestClient, db_session: Session) -> None:

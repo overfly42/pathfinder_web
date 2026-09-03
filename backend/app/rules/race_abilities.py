@@ -81,6 +81,30 @@ GESCHAERFTE_SINNE = UUID("ed23acb8-348e-49b3-86f8-c7aaf7cdfdc1")
 # Geschärfte Sinne's Volksbonus targets.
 _WAHRNEHMUNG_SKILL_ID = "3d5d4e5f-c749-4346-a53b-2006bca05abb"
 
+# Katzenvolk's "Natürlicher Jäger" (three skills at once, unlike
+# Einschüchterend/Geschärfte Sinne above) and its "Kluge Katze" alternate
+# trait (`race_ability_grants.json`, `is_alternate=True`; replaces
+# Natürlicher Jäger per `race_ability_replacements.json`) — both flat,
+# unconditional Volksboni, just spread across more than one skill, hence
+# `_multi_skill_bonus` below instead of reusing `_skill_bonus`.
+KATZENVOLK_NATUERLICHER_JAEGER = UUID("a6954dfd-1225-4d14-90e7-f8a1593151d8")
+_HEIMLICHKEIT_SKILL_ID = "432bdbaa-0286-4203-a117-1dbc4d68056b"
+_UEBERLEBENSKUNST_SKILL_ID = "1b9fe08d-09e0-46c8-8772-dd573cab6fff"
+
+KATZENVOLK_KLUGE_KATZE = UUID("a1753e50-0f8b-4cc5-8a24-9652662bf2b8")
+_BLUFFEN_SKILL_ID = "144fa65e-50ce-4eb7-b861-177692a86858"
+_DIPLOMATIE_SKILL_ID = "b72e7417-7ae3-4ce1-8d8c-5c5a378c602c"
+_MOTIV_ERKENNEN_SKILL_ID = "9a4debc2-0c8f-4461-9a37-bd667d8535ee"
+
+# Katzenvolk's "Katzenkrallen" alternate racial trait (`race_ability_grants.json`,
+# `is_alternate=True`; replaces "Natürlicher Jäger" per
+# `race_ability_replacements.json`) — two primary claw attacks, same shape
+# as Halb-Ork's Reißzähne above, just two natural weapons instead of one
+# (reusing the `NaturalAttack` count field the way
+# `rules/classes/barbarian.py`'s Bestientotem, Schwächeres claws already
+# do).
+KATZENVOLK_KATZENKRALLEN = UUID("c2afeb4c-352e-44c9-b129-c9d41e3fda99")
+
 # Halb-Ork's "Reißzähne" alternate racial trait (`race_ability_grants.json`,
 # `is_alternate=True`; replaces "Orkische Wildheit" per
 # `race_ability_replacements.json`) — a primary natural bite attack, 1W4
@@ -151,6 +175,19 @@ def _skill_bonus(context: CharacterContext, *, source: str, skill_id: str, value
     ]
 
 
+def _multi_skill_bonus(
+    context: CharacterContext, *, source: str, skill_ids: tuple[str, ...], value: int
+) -> list[Modifier]:
+    # Unconditional, same reasoning as `_skill_bonus` above — just spread
+    # across more than one skill (Katzenvolk's Natürlicher Jäger/Kluge
+    # Katze) instead of exactly one.
+    del context
+    return [
+        Modifier(source=source, type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
+        for skill_id in skill_ids
+    ]
+
+
 def _reisszaehne(context: CharacterContext) -> NaturalAttack:
     # Unconditional, same reasoning as `_attribute_bonus` above — a racial
     # trait's natural attack (unlike Bestientotem's rage-power claws,
@@ -158,6 +195,12 @@ def _reisszaehne(context: CharacterContext) -> NaturalAttack:
     # gated on any active effect.
     del context
     return NaturalAttack(name="Biss", count=1, damage_dice="1W4", damage_type="S")
+
+
+def _katzenkrallen(context: CharacterContext) -> NaturalAttack:
+    # Unconditional, same reasoning as `_reisszaehne` above.
+    del context
+    return NaturalAttack(name="Klauen", count=2, damage_dice="1W4", damage_type="H")
 
 
 # Select by UUID, then call the looked-up function (with the caller's
@@ -187,13 +230,26 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     GESCHAERFTE_SINNE: functools.partial(
         _skill_bonus, source="Geschärfte Sinne", skill_id=_WAHRNEHMUNG_SKILL_ID, value=2
     ),
+    KATZENVOLK_NATUERLICHER_JAEGER: functools.partial(
+        _multi_skill_bonus,
+        source="Natürlicher Jäger",
+        skill_ids=(_HEIMLICHKEIT_SKILL_ID, _UEBERLEBENSKUNST_SKILL_ID, _WAHRNEHMUNG_SKILL_ID),
+        value=2,
+    ),
+    KATZENVOLK_KLUGE_KATZE: functools.partial(
+        _multi_skill_bonus,
+        source="Kluge Katze",
+        skill_ids=(_BLUFFEN_SKILL_ID, _DIPLOMATIE_SKILL_ID, _MOTIV_ERKENNEN_SKILL_ID),
+        value=2,
+    ),
 }
 
 # This module's own slice of `rules/handlers.py`'s merged
 # `NATURAL_ATTACK_HANDLERS` — race-granted natural weapon attacks only (see
-# `REISSZAEHNE_ABILITY_ID` above).
+# `REISSZAEHNE_ABILITY_ID`/`KATZENVOLK_KATZENKRALLEN` above).
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     REISSZAEHNE_ABILITY_ID: _reisszaehne,
+    KATZENVOLK_KATZENKRALLEN: _katzenkrallen,
 }
 
 # This module's own slice of `rules/handlers.py`'s merged

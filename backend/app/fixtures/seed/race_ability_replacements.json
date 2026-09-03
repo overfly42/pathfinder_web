@@ -490,5 +490,41 @@
     "base_race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da",
     "ability_id": "7f163f65-01bf-46cc-86d4-e0e1d5bb95ec",
     "replaces_ability_id": "105c39ed-5e6b-4f9c-b2fa-d34e2a33c670"
+  },
+  {
+    "id": "165dbe36-85f2-47ef-a844-a5c14910105c",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "33698012-2fc0-41e6-8df2-07beebfd1fa4",
+    "replaces_ability_id": "3a921761-1612-4b7a-9268-e772d2bf3d69"
+  },
+  {
+    "id": "455bf754-b123-4434-a516-8283342112cd",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "d486df96-c9df-46ab-a583-403dc832f576",
+    "replaces_ability_id": "753a04ab-cabf-4bcc-9377-f5da1d737ac5"
+  },
+  {
+    "id": "4da55107-9bd7-4d63-9ce5-bd278f89af3a",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "c2afeb4c-352e-44c9-b129-c9d41e3fda99",
+    "replaces_ability_id": "a6954dfd-1225-4d14-90e7-f8a1593151d8"
+  },
+  {
+    "id": "b557e82b-afee-48f3-b38c-1b80fe7a6812",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "79808852-df0d-49f6-a780-c00db591ad95",
+    "replaces_ability_id": "3a921761-1612-4b7a-9268-e772d2bf3d69"
+  },
+  {
+    "id": "b7051d04-4498-4c83-ae0c-2adffd5476d2",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "a1753e50-0f8b-4cc5-8a24-9652662bf2b8",
+    "replaces_ability_id": "a6954dfd-1225-4d14-90e7-f8a1593151d8"
+  },
+  {
+    "id": "639100b9-ab92-48d5-93bb-492553e299e7",
+    "base_race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "ability_id": "71094c60-647a-49f6-a8ee-b519f46b6091",
+    "replaces_ability_id": "a6954dfd-1225-4d14-90e7-f8a1593151d8"
   }
 ]

@@ -28,5 +28,11 @@
     "code": "ork",
     "name": "Ork",
     "short_description": "+4 STÄ, −2 IN, −2 WE, −2 CHA; Dunkelsicht; Lichtempfindlichkeit; Wildheit; Waffenvertrautheit."
+  },
+  {
+    "id": "b7af198e-2839-44d3-a7fd-b800759ede9c",
+    "code": "katzenvolk",
+    "name": "Katzenvolk",
+    "short_description": "+2 GES, −2 WEI, +2 CHA; Dämmersicht; Katzenglück; Natürlicher Jäger; Spurter."
   }
 ]
