@@ -177,6 +177,24 @@ body {
   cursor: help;
 }
 
+/* Marks a classFeatures DescribedEntry granted by the "Sekundärklasse" alternate rule
+   (see `SheetTabs.tsx`'s `SecondaryClassBadge`) rather than a real class level. */
+.secondary-class-badge {
+  display: inline-block;
+  margin-left: 7px;
+  padding: 1px 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--forest-light);
+  border: 1px solid var(--forest);
+  border-radius: 3px;
+  vertical-align: middle;
+  cursor: help;
+}
+
 /* ---------- Chip / Tag primitives ---------- */
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {

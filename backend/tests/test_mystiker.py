@@ -23,7 +23,7 @@ from app.seed.class_seed import seed_classes
 from app.seed.skill_seed import seed_skills
 from app.seed.spell_seed import seed_spells
 
-from test_characters import _character_payload, _create_user, _elf_race_id
+from test_characters import _character_payload, _create_user, _elf_race_id, _spells_by_class
 
 
 def _mystiker(db_session: Session) -> BaseClass:
@@ -317,3 +317,74 @@ def test_mystiker_known_spells_table_is_complete_through_level_20(client: TestCl
     assert by_level_grade[(20, 0)] == 9
     assert by_level_grade[(20, 9)] == 3
     assert len({level for level, _ in by_level_grade}) == 20
+
+
+def test_mystiker_spell_list_is_shared_with_kleriker_not_its_own(client: TestClient, db_session: Session) -> None:
+    """RAW (this class's own seeded "Zauber" ability text, `import_mystiker.py`):
+    "Ein Mystiker wirkt göttliche Zauber von der Liste der Klerikerzauber" -
+    an Oracle has no independent spell list at all, it draws from the
+    Cleric's. Confirmed against the real PRD-wide spell import
+    (`app/fixtures/imported/zauber_prd_import.json`): zero of its 1909
+    entries tag a single spell "Mystiker", while 558 tag "Kleriker" - so the
+    handful of `BaseClassSpell` rows Mystiker used to have of its own
+    (removed together with this fix) were stale legacy data predating that
+    import, not a partially-completed real list. `BaseClass.spell_list_source_id`
+    models this: Mystiker resolves to Kleriker's list via
+    `effective_spell_list_class_id`, used everywhere a spell-list query
+    used to filter on a class's own raw id (`/api/spells-by-class`,
+    creation/level-up known-spell validation)."""
+    seed_classes(db_session)
+
+    mystiker = _mystiker(db_session)
+    kleriker = db_session.query(BaseClass).filter_by(name="Kleriker").one()
+    assert mystiker.spell_list_source_id == kleriker.id
+    assert mystiker.effective_spell_list_class_id == kleriker.id
+    assert kleriker.effective_spell_list_class_id == kleriker.id  # unaffected: resolves to itself
+
+    _, mystiker_spells_by_name = _spells_by_class(client, db_session, "Mystiker")
+    _, kleriker_spells_by_name = _spells_by_class(client, db_session, "Kleriker")
+    assert len(mystiker_spells_by_name) == 558
+    assert mystiker_spells_by_name == kleriker_spells_by_name
+
+
+def test_create_mystiker_accepts_a_spell_only_on_klerikers_broader_list(
+    client: TestClient, db_session: Session
+) -> None:
+    """Picks a grade-1 spell that was never one of Mystiker's own stale 7
+    rows (Segnen/Leichte Wunden heilen/Befehl/Schutz vor Bösem were the only
+    grade-1 spells it had before this fix) - proves the fix actually widens
+    what's selectable at creation, not just that the old narrow set still
+    resolves. Grade 1, not higher: a level-1 Mystiker's known-spell budget
+    (`base_class_spells_known`) only reaches grade 1."""
+    from app.models import BaseClassSpell, BaseSpell
+
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    seed_classes(db_session)  # base_class_spells FKs into base_classes
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
+    seed_spells(db_session)
+
+    kleriker = db_session.query(BaseClass).filter_by(name="Kleriker").one()
+    old_names = {"Segnen", "Leichte Wunden heilen", "Befehl", "Schutz vor Bösem"}
+    grade1_rows = db_session.query(BaseClassSpell).filter_by(base_class_id=kleriker.id, grade=1).all()
+    new_spell = next(
+        row.spell_id for row in grade1_rows if db_session.get(BaseSpell, row.spell_id).name not in old_names
+    )
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Mystiker",
+                    "level": 1,
+                    "options": {"mystery": ["Flammen"], "revelation": ["Feuerodem"]},
+                }
+            ],
+            spell_ids={str(_mystiker(db_session).id): [str(new_spell)]},
+        ),
+    )
+    assert response.status_code == 201

@@ -51,6 +51,12 @@ export interface DescribedEntry {
    *  entry's mechanical effect, vs. it only ever being name/description
    *  text with no effect applied anywhere on the sheet. */
   hasHandler: boolean;
+  /** Only ever set on `classFeatures` entries: whether this feature came
+   *  from the "Sekundärklasse" alternate rule (`rules/secondary_class.py`)
+   *  rather than a real class level — `SheetTabs.tsx` badges it distinctly.
+   *  `undefined` for every other `DescribedEntry` use (skills/feats/traits/
+   *  race abilities never set this field at all). */
+  isSecondary?: boolean;
 }
 
 /** One race-scoped favored-class-bonus choice the character has picked at

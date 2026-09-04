@@ -708,7 +708,11 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
             grade_by_spell_id = {
                 row.spell_id: row.grade
-                for row in db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == base_class_id)).all()
+                for row in db.scalars(
+                    select(BaseClassSpell).where(
+                        BaseClassSpell.base_class_id == root.effective_spell_list_class_id
+                    )
+                ).all()
             }
             for spell_id in spell_ids:
                 if spell_id not in grade_by_spell_id:
@@ -2150,7 +2154,11 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
 
         grade_by_spell_id = {
             row.spell_id: row.grade
-            for row in db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == receiving_root.id)).all()
+            for row in db.scalars(
+                select(BaseClassSpell).where(
+                    BaseClassSpell.base_class_id == receiving_root.effective_spell_list_class_id
+                )
+            ).all()
         }
         for spell_id in body.spell_ids:
             if spell_id not in grade_by_spell_id:

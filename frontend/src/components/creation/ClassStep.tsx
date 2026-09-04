@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { ClassRow, CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
@@ -101,6 +102,22 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       }),
     }));
   }
+
+  const usedClassNames = draft.classRows.map((row) => row.className);
+
+  // A class row edit can turn a previously-valid secondary-class choice
+  // into an invalid one (e.g. picking the same class as a primary row, or
+  // renaming the only class row away and back) — RAW forbids naming one's
+  // own primary/multiclassed class as its own Sekundärklasse (see
+  // `models/base_class.py`'s `BaseSecondaryClassAbilityGrant` docstring),
+  // and `create_character` rejects it server-side too. Clearing it here
+  // keeps the draft always submittable without a dedicated validation step.
+  useEffect(() => {
+    if (draft.secondaryClassName && usedClassNames.includes(draft.secondaryClassName)) {
+      setDraft((prev) => ({ ...prev, secondaryClassName: null }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft.secondaryClassName, JSON.stringify(usedClassNames)]);
 
   const weapons = options.items.filter((i) => i.category === 'weapon');
   const level = totalLevel(draft);
@@ -247,6 +264,26 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       </div>
 
       <button type="button" className="add-link" onClick={addClassRow}>+ Weitere Klasse hinzufügen</button>
+
+      <div style={{ marginTop: 22 }}>
+        <div className="field-label">
+          Sekundärklasse (optional, Alternativregel „Klassenkombinationen"): eine Klasse, in der der Charakter nie
+          echte Stufen erhält, aber auf Stufe 3, 7, 11, 15 und 19 statt eines Talents ein Merkmal dieser Klasse
+          bekommt. Einmal gewählt ist dies dauerhaft.
+        </div>
+        <select
+          style={{ marginTop: 8 }}
+          value={draft.secondaryClassName ?? ''}
+          onChange={(e) => setDraft((prev) => ({ ...prev, secondaryClassName: e.target.value || null }))}
+        >
+          <option value="">– keine –</option>
+          {options.classes
+            .filter((c) => !usedClassNames.includes(c.name))
+            .map((c) => (
+              <option value={c.name} key={c.name}>{c.name}</option>
+            ))}
+        </select>
+      </div>
 
       <div className="total-level-banner">
         <span className="k">Charakterstufe (Summe)</span>

@@ -143,8 +143,12 @@ Kurzfassung als Einstiegspunkt:
       dabei nicht neu von Hand transkribiert, sondern aus dem bereits
       gefetchten `zauber_prd_import.json` zurückbefüllt (280 von 311
       PRD-gelisteten Kampfmagus-Zaubern trafen auf existierende
-      `base_spells.json`-Zeilen; die 31 fehlenden sind derselbe Klassenlücken-Typ
-      wie Kleriker/Mystiker/Bardes eigene unvollständige Zauberlisten). Bewusst
+      `base_spells.json`-Zeilen; die 31 fehlenden sind Zauber ohne eigene
+      `base_spells.json`-Zeile — derselbe Lückentyp, der auch für Kleriker/
+      Mystiker vermutet wurde, inzwischen aber widerlegt (siehe unten:
+      Kleriker gegen den vollen PRD-Import geprüft und vollständig, Mystiker
+      hatte nie eine eigene Liste und teilt sich jetzt Klerikers; Bardes
+      Liste bleibt unverifiziert)). Bewusst
       offen gelassen (siehe beider Skripte eigene Docstrings): die 31
       fehlenden Zauber, „Vermindertes Zauberwirken" (kein Schema-Feld für
       Zauberplätze pro Tag bei arkanen Zauberkundigen mit Zauberbuch), und die
@@ -703,6 +707,35 @@ Slice-Arbeit.
         brauen als Bonustalent + Alchemie-Bonus) fehlte im Hexerei-Katalog
         komplett und wurde als für jede Hexe wählbare Hexerei nachgetragen,
         nicht nur für diesen Archetyp.
+  - [x] **Klerikers Zauberliste gegen den vollen PRD-Import verifiziert;
+        Mystiker teilt sich jetzt dieselbe Liste (2026-09-04)**: Abgleich
+        der 558 `base_class_spells`-Zeilen für Kleriker gegen
+        `app/fixtures/imported/zauber_prd_import.json` (1909 über alle
+        Quellbücher gefetchte Zauber) ergab eine exakte Übereinstimmung —
+        0 fehlend, 0 überzählig. Klerikers Liste ist damit entgegen der
+        obigen Vermutung tatsächlich vollständig (der `build_spells_seed.py`-
+        Durchgang, der sie von 0 auf 558 Zeilen brachte, war zum Zeitpunkt
+        dieser Vermutung schon gelaufen, nur nicht mehr gegenübergestellt
+        worden). Mystikers eigene, nur 7 Zeilen umfassende Liste stellte
+        sich dagegen als etwas anderes heraus als „unvollständig": derselbe
+        PRD-Import taggt exakt null Zauber mit „Mystiker" — der Mystiker
+        besitzt laut Quelle gar keine eigene Zauberliste (RAW, auch in der
+        eigenen „Zauber"-Klassenfähigkeit so hinterlegt: „wirkt göttliche
+        Zauber von der Liste der Klerikerzauber"), die 7 Zeilen waren
+        Legacy-Daten von vor dem PRD-Import. Neues `BaseClass.
+        spell_list_source_id` (selbstreferenzierende FK) +
+        `effective_spell_list_class_id`-Property (Muster wie
+        `effective_casting_ability`) lösen das jetzt strukturell: Mystiker
+        zeigt auf Kleriker, jede Stelle, die vorher `BaseClassSpell.
+        base_class_id == root.id` filterte (`/api/spells-by-class`,
+        Zauberauswahl-Validierung bei Erschaffung und Stufenaufstieg), löst
+        jetzt über diese Property auf. Die 7 alten Mystiker-Zeilen aus Seed
+        und Dev-DB entfernt. `base_class_spells_known` (die abweichenden,
+        echten Orakel-Zahlen, wie viele Zauber pro Stufe bekannt sind)
+        bleibt bewusst unangetast — nur der Auswahl-Pool ist geteilt, nicht
+        die Anzahl. 2 neue Tests in `test_mystiker.py`, volle Suite (337)
+        grün. Bardes Liste ist von dieser Prüfung nicht betroffen und bleibt
+        unverifiziert.
   - [ ] **Restliche Klassen offen.** Testnutzung als Priorisierungssignal
         (wie oft eine Klasse namentlich in `backend/tests/*.py` vorkommt,
         Stand 2026-07-31):

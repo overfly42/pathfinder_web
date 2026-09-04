@@ -114,7 +114,8 @@
     "fort_save": false,
     "ref_save": false,
     "wil_save": true,
-    "skill_points_base": 4
+    "skill_points_base": 4,
+    "spell_list_source_id": "1e6e60de-d72f-4910-b19d-55ca11e14190"
   },
   {
     "id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",

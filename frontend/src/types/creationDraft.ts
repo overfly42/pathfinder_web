@@ -48,6 +48,15 @@ export interface CreationDraft {
   flexAbility: AbilityKey | null;
   altTraits: string[];
   classRows: ClassRow[];
+  /** Opt-in to the "Sekundärklasse" alternate rule (a root class name, or
+   *  `null` if not using the rule) — a class the character never takes real
+   *  levels in, but which grants a handful of its own features at total
+   *  character level 3/7/11/15/19 instead of a talent on those levels. Set
+   *  once at creation, permanent (no retraining system exists yet) — see
+   *  `models/character.py`'s `secondary_base_class_id` on the backend.
+   *  Must never match one of `classRows`' own class names — `ClassStep.tsx`
+   *  clears it automatically if a later edit would create that conflict. */
+  secondaryClassName: string | null;
   /** 1st-level favored-class bonus ("hp" | "skill" | a race+class-specific
    *  Advanced Race Guide alternate choice name) for `classRows[0]` — the
    *  favored class, per `create_character`'s "the root of the first

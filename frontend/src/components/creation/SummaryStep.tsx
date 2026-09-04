@@ -135,6 +135,12 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
                   : draft.favoredClassBonus ?? '— noch nicht gewählt —'}
             </span>
           </div>
+          {draft.secondaryClassName && (
+            <div className="sb-line">
+              <span>Sekundärklasse (Alternativregel)</span>
+              <span className="val">{draft.secondaryClassName}</span>
+            </div>
+          )}
         </div>
 
         <div className="summary-block">

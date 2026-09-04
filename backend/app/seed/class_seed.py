@@ -51,6 +51,14 @@ def _upsert_base_class(db: Session, row: dict) -> None:
             setattr(instance, key, value)
 
 
+def _apply_spell_list_source(db: Session, row: dict) -> None:
+    source_id = row.get("spell_list_source_id")
+    if source_id is None:
+        return
+    instance = db.get(BaseClass, UUID(row["id"]))
+    instance.spell_list_source_id = UUID(source_id)
+
+
 def seed_classes(db: Session) -> None:
     rows = _load("base_classes.json")
     for row in rows:
@@ -61,6 +69,16 @@ def seed_classes(db: Session) -> None:
     for row in rows:
         if row["arch_class_of"] is not None:
             _upsert_base_class(db, row)
+    db.flush()
+
+    # A separate pass, after every row (root and archetype) is persisted:
+    # `spell_list_source_id` can point at another root class regardless of
+    # file order (e.g. Mystiker -> Kleriker, see `BaseClass`'s own
+    # docstring) - resolving it only once every row exists avoids a foreign-
+    # key ordering hazard on a from-empty seed (a fresh test database, e.g.)
+    # where both rows are inserted in the same flush.
+    for row in rows:
+        _apply_spell_list_source(db, row)
     db.commit()
 
 

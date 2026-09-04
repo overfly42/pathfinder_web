@@ -59,11 +59,33 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # the saves were: `_skill_points_total` (routers/characters.py) now reads
     # this column instead of looking the class up by name in `classes.json`.
     skill_points_base: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Self-referencing FK, `None` for the overwhelming majority of classes
+    # (each casts from its own `base_class_spells` list). Set only when RAW
+    # says the class's spell *selection* is drawn from another class's list
+    # wholesale rather than having one of its own — the one confirmed case
+    # today is Mystiker (Oracle), whose own "Zauber" class-ability text says
+    # outright "wirkt göttliche Zauber von der Liste der Klerikerzauber"
+    # (casts from the Cleric spell list). This is a real RAW fact, not a
+    # missing-data workaround: the PRD's own per-spell class index
+    # (`zauber_prd_import.json`) never tags a single spell "Mystiker" at
+    # all, confirming the site doesn't maintain an independent Oracle list
+    # either — Mystiker having its own handful of `BaseClassSpell` rows
+    # before this field existed was leftover legacy data from before the
+    # bulk PRD spell import, not a partially-completed real list (see
+    # `effective_spell_list_class_id`'s docstring for how this is resolved).
+    # Distinct from `known_grades`/`spontaneous_known_budget`
+    # (`base_class_spells_known`): those stay Mystiker's own real, distinct
+    # per-level known-spell *counts* (Oracle knows far fewer spells than a
+    # preparing Cleric ever does) — only the pool of *which* spells exist to
+    # choose from is shared, never how many of them a level lets you pick.
+    spell_list_source_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
+    )
 
     parent: Mapped["BaseClass | None"] = relationship(
-        remote_side="BaseClass.id", back_populates="archetypes"
+        remote_side="BaseClass.id", back_populates="archetypes", foreign_keys="BaseClass.arch_class_of"
     )
-    archetypes: Mapped[list["BaseClass"]] = relationship(back_populates="parent")
+    archetypes: Mapped[list["BaseClass"]] = relationship(back_populates="parent", foreign_keys="BaseClass.arch_class_of")
 
     @property
     def root(self) -> "BaseClass":
@@ -80,6 +102,21 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     @property
     def effective_spell_tradition(self) -> str | None:
         return self.spell_tradition if self.spell_tradition is not None else self.root.spell_tradition
+
+    @property
+    def effective_spell_list_class_id(self) -> uuid.UUID:
+        """Which `BaseClass.id` a `base_class_spells`/`base_class_spell_grants`
+        query should actually filter on for this class — itself, unless
+        `spell_list_source_id` redirects to another class's list entirely
+        (see that column's docstring). Every existing call site that used to
+        query `BaseClassSpell.base_class_id == root.id` directly should use
+        this instead wherever the query is about *which spells exist to
+        pick from* (creation/level-up known-spell validation, the
+        `/api/spells-by-class` picker) — not about a character's own
+        already-*chosen* spells (`CharacterSpell.base_class_id` stays the
+        real class the character took, regardless of where its candidate
+        list came from)."""
+        return self.spell_list_source_id if self.spell_list_source_id is not None else self.id
 
 
 class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

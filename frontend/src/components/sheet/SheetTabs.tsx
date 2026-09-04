@@ -24,6 +24,20 @@ function NoHandlerBadge({ title }: { title: string }) {
   );
 }
 
+/** Marks a `classFeatures` entry granted by the "Sekundärklasse" alternate rule
+ *  (`entry.isSecondary`) rather than a real class level — see `DescribedEntry`'s
+ *  own docstring. */
+function SecondaryClassBadge() {
+  return (
+    <span
+      className="secondary-class-badge"
+      title="Merkmal der gewählten Sekundärklasse, nicht einer echten Klassenstufe."
+    >
+      Sekundärklasse
+    </span>
+  );
+}
+
 function DescribedList({ entries, idPrefix }: { entries: DescribedEntry[]; idPrefix: string }) {
   return (
     <>
@@ -31,6 +45,7 @@ function DescribedList({ entries, idPrefix }: { entries: DescribedEntry[]; idPre
         <div className="trait-item" id={`${idPrefix}-${entry.key}`} key={entry.key}>
           <div className="name">
             {entry.name}
+            {entry.isSecondary && <SecondaryClassBadge />}
             {!entry.hasHandler && (
               <NoHandlerBadge title="Wird noch nicht automatisch berechnet — Wirkung selbst am Tisch anwenden." />
             )}

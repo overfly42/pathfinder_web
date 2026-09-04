@@ -1,4 +1,5 @@
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import select
@@ -37,19 +38,28 @@ def get_spells_by_class(db: Annotated[Session, Depends(get_db)]) -> dict[str, li
     class name so the frontend picker can key off `id` instead of `name`,
     same convention as feats/traits. Only classes with a fixed known-spell
     list appear here (spontaneous/arcane-prepared) — divine-prepared/none
-    classes have no rows in `base_class_spells` to begin with."""
-    roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
-    name_by_root_id = {root.id: root.name for root in roots}
+    classes have no rows in `base_class_spells` to begin with.
 
-    rows = db.scalars(select(BaseClassSpell)).all()
+    Groups by each root's own `effective_spell_list_class_id`
+    (`BaseClass`'s docstring) rather than a spell row's raw `base_class_id`
+    directly — a class whose spell *selection* is drawn from another
+    class's list wholesale (Mystiker -> Kleriker, RAW: Oracle has no
+    independent spell list) still needs its own key in this dict, showing
+    that other class's spells, not to be silently absent just because it
+    owns no `base_class_spells` rows of its own."""
+    roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
+
+    rows_by_class_id: dict[UUID, list[BaseClassSpell]] = {}
+    for row in db.scalars(select(BaseClassSpell)).all():
+        rows_by_class_id.setdefault(row.base_class_id, []).append(row)
+
     result: dict[str, list[dict]] = {}
-    for row in rows:
-        class_name = name_by_root_id.get(row.base_class_id)
-        if class_name is None:
+    for root in roots:
+        rows = rows_by_class_id.get(root.effective_spell_list_class_id)
+        if not rows:
             continue
-        result.setdefault(class_name, []).append(
-            {"id": str(row.spell_id), "name": row.spell.name, "grade": row.grade}
+        result[root.name] = sorted(
+            ({"id": str(row.spell_id), "name": row.spell.name, "grade": row.grade} for row in rows),
+            key=lambda s: (s["grade"], s["name"]),
         )
-    for spells in result.values():
-        spells.sort(key=lambda s: (s["grade"], s["name"]))
     return result
