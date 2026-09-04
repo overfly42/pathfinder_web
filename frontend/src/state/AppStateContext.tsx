@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { apiGet, apiPost } from '../api/client';
 import type { User } from '../types/user';
 
@@ -28,8 +29,14 @@ const AppStateContext = createContext<AppStateValue | null>(null);
 const INITIAL_CHARACTER_IDS = ['1', '2'];
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  // `user`/`character` query params are the source of truth for the initial
+  // selection (a mobile reload, a bookmark, or an "Add to Home Screen"
+  // shortcut all re-navigate to this same URL) — every subsequent selection
+  // change is mirrored back into them below, so the URL never drifts from
+  // what's actually shown.
+  const [searchParams, setSearchParams] = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
-  const [currentUserId, setCurrentUserIdState] = useState('');
+  const [currentUserId, setCurrentUserIdState] = useState(() => searchParams.get('user') ?? '');
 
   const [characterIds, setCharacterIds] = useState<string[]>(INITIAL_CHARACTER_IDS);
   const [characterOwners, setCharacterOwners] = useState<Record<string, string>>({});
@@ -37,7 +44,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // (roadmap slice 2's follow-up) — kept separate from the fixture bookkeeping above since
   // ownership here is server-authoritative, not locally assigned.
   const [dbCharacterIds, setDbCharacterIds] = useState<string[]>([]);
-  const [currentCharacterId, setCurrentCharacterId] = useState('');
+  // Whether dbCharacterIds reflects currentUserId yet — the "keep selection
+  // valid" effect below must not treat a URL-supplied currentCharacterId as
+  // invalid just because this fetch hasn't resolved yet (it starts `[]` on
+  // every user switch, which would otherwise look identical to "this
+  // character doesn't belong to this user").
+  const [charactersLoaded, setCharactersLoaded] = useState(false);
+  const [currentCharacterId, setCurrentCharacterId] = useState(() => searchParams.get('character') ?? '');
   const [nameOverrides, setNameOverrides] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -56,13 +69,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     let cancelled = false;
     if (!currentUserId) {
       setDbCharacterIds([]);
+      setCharactersLoaded(true);
       return;
     }
+    setCharactersLoaded(false);
     apiGet<{ id: string }[]>(`/api/users/${currentUserId}/characters`)
       .then((data) => {
-        if (!cancelled) setDbCharacterIds(data.map((c) => c.id));
+        if (!cancelled) {
+          setDbCharacterIds(data.map((c) => c.id));
+          setCharactersLoaded(true);
+        }
       })
-      .catch((err: Error) => console.error('Failed to load characters', err));
+      .catch((err: Error) => {
+        console.error('Failed to load characters', err);
+        if (!cancelled) setCharactersLoaded(true);
+      });
     return () => {
       cancelled = true;
     };
@@ -75,10 +96,28 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Keeps the current selection valid whenever the visible set changes (user switch, a character
   // getting removed, the db-characters fetch resolving, ...) — defaults to the first visible
-  // character, or none.
+  // character, or none. Skipped while `charactersLoaded` is still false so a URL-supplied
+  // currentCharacterId survives the moment between mount and that fetch resolving.
   useEffect(() => {
+    if (!charactersLoaded) return;
     setCurrentCharacterId((current) => (visibleCharacterIds.includes(current) ? current : visibleCharacterIds[0] ?? ''));
-  }, [visibleCharacterIds]);
+  }, [visibleCharacterIds, charactersLoaded]);
+
+  // Mirrors the current selection into the URL (replacing, not pushing, so
+  // switching users/characters doesn't fill up the back-button history).
+  useEffect(() => {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (currentUserId) next.set('user', currentUserId);
+        else next.delete('user');
+        if (currentCharacterId) next.set('character', currentCharacterId);
+        else next.delete('character');
+        return next;
+      },
+      { replace: true },
+    );
+  }, [currentUserId, currentCharacterId, setSearchParams]);
 
   const setCurrentUserId = useCallback((id: string) => {
     setCurrentUserIdState(id);
