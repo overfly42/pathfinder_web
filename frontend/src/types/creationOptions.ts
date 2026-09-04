@@ -206,6 +206,13 @@ export interface SpellDef {
   grade: number;
 }
 
+export interface GrantedSpellDef extends SpellDef {
+  /** Class level (not overall character level) at which this grant's spell
+   *  becomes part of the spellbook for free — matches `BaseClassSpellGrant.level`.
+   *  Mirrors `ClassRow.level`'s own per-class-row meaning. */
+  level: number;
+}
+
 export interface CreationOptions {
   races: RaceOption[];
   classes: ClassDef[];
@@ -218,6 +225,13 @@ export interface CreationOptions {
    *  Only present for spontaneous/arcane-prepared classes (divine-prepared
    *  classes have no fixed known-spell list to pick from). */
   spellsByClass: Record<string, SpellDef[]>;
+  /** class name -> option-choice name -> spells that choice grants for free
+   *  as soon as their grade is accessible, no player pick or budget slot
+   *  needed (Hexenmeister's Blutlinie, Mystiker's `heilfokus` Kurieren/
+   *  Verletzen choice). `SpellsStep.tsx` shows these next to whichever
+   *  choice(s) the player made and excludes them from the manual pick list,
+   *  the same way grade-0 spells are handled for arcane-prepared casters. */
+  grantedSpellsByChoice: Record<string, Record<string, GrantedSpellDef[]>>;
   pointBuyCosts: Record<number, number>;
   items: ItemCatalogEntry[];
   /** Distinct spell schools (`BaseSpell.school` values), sorted — feeds the

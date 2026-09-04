@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import BaseClass, BaseClassSpell, BaseSpell
+from ..models import BaseClass, BaseClassOptionChoice, BaseClassSpell, BaseClassSpellGrant, BaseSpell
 
 router = APIRouter(prefix="/api", tags=["spells"])
 
@@ -62,4 +62,49 @@ def get_spells_by_class(db: Annotated[Session, Depends(get_db)]) -> dict[str, li
             ({"id": str(row.spell_id), "name": row.spell.name, "grade": row.grade} for row in rows),
             key=lambda s: (s["grade"], s["name"]),
         )
+    return result
+
+
+@router.get("/granted-spells-by-choice")
+def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dict[str, dict[str, list[dict]]]:
+    """`BaseClassSpellGrant` rows (a fixed spell a class automatically adds to
+    a character's spellbook for free once a specific one-time option choice
+    is made and the granting class level is reached — Hexenmeister's
+    Blutlinie, Hexe's Schutzherr, Mystiker's `heilfokus`/Kurieren-Verletzen)
+    grouped by root class name, then by the granting `BaseClassOptionChoice`
+    name, so the creation/level-up wizard can show "these are already yours"
+    next to whichever choice(s) the player picked, the same way
+    `/api/spells-by-class`'s grade-0 spells are shown for arcane-prepared
+    casters — see `SpellsStep.tsx`.
+
+    `grade` is resolved the same way `routers/characters.py`'s spell-pick
+    validation does (`root.effective_spell_list_class_id`'s own
+    `base_class_spells` rows) since `BaseClassSpellGrant` itself only stores
+    the granting class level, not the spell's grade for that class."""
+    roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
+    root_by_id = {root.id: root for root in roots}
+
+    grade_by_class_and_spell: dict[UUID, dict[UUID, int]] = {}
+    for row in db.scalars(select(BaseClassSpell)).all():
+        grade_by_class_and_spell.setdefault(row.base_class_id, {})[row.spell_id] = row.grade
+
+    choice_names = {row.id: row.name for row in db.scalars(select(BaseClassOptionChoice)).all()}
+    spell_names = {row.id: row.name for row in db.scalars(select(BaseSpell)).all()}
+
+    result: dict[str, dict[str, list[dict]]] = {}
+    for grant in db.scalars(select(BaseClassSpellGrant)).all():
+        root = root_by_id.get(grant.base_class_id)
+        choice_name = choice_names.get(grant.option_choice_id) if grant.option_choice_id else None
+        if root is None or choice_name is None:
+            continue
+        grade = grade_by_class_and_spell.get(root.effective_spell_list_class_id, {}).get(grant.spell_id)
+        if grade is None:
+            continue
+        result.setdefault(root.name, {}).setdefault(choice_name, []).append(
+            {"id": str(grant.spell_id), "name": spell_names[grant.spell_id], "grade": grade, "level": grant.level}
+        )
+
+    for by_choice in result.values():
+        for entries in by_choice.values():
+            entries.sort(key=lambda s: (s["level"], s["name"]))
     return result

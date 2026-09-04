@@ -1,5 +1,6 @@
 import json
 from collections import Counter
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Annotated
 from uuid import UUID
@@ -15,6 +16,7 @@ from ..models import (
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSpell,
+    BaseClassSpellGrant,
     BaseCondition,
     BaseFeat,
     BaseItem,
@@ -109,6 +111,48 @@ def _class_def(class_name: str) -> dict | None:
     groups are no longer read from here — see `_validate_options`."""
     classes = json.loads((FIXTURES_DIR / "classes.json").read_text(encoding="utf-8"))
     return next((c for c in classes if c["name"] == class_name), None)
+
+
+def _choice_ids_by_name(db: Session, base_class_id: UUID, choice_names: Iterable[str]) -> set[UUID]:
+    """Resolves option-choice names (e.g. `selection.options['heilfokus']`,
+    `['Wunden heilen']`) to their `BaseClassOptionChoice.id`s, scoped to this
+    class's own option groups. Unknown names simply don't resolve (matches
+    the existing `choice_row is not None` tolerance used when these get
+    persisted as `CharacterClassOption` rows elsewhere in this module)."""
+    choice_names = list(choice_names)
+    if not choice_names:
+        return set()
+    return set(
+        db.scalars(
+            select(BaseClassOptionChoice.id)
+            .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+            .where(BaseClassOptionGroup.base_class_id == base_class_id, BaseClassOptionChoice.name.in_(choice_names))
+        ).all()
+    )
+
+
+def _granted_spell_ids(db: Session, base_class_id: UUID, choice_ids: Iterable[UUID], max_level: int) -> set[UUID]:
+    """Spell ids a `BaseClassSpellGrant` already gives this class for free at
+    or below `max_level`, for whichever of `choice_ids` this class actually
+    grants spells through (Mystiker's heilfokus Kurieren/Verletzen,
+    Hexenmeister's Blutlinie, Hexe's Schutzherr) — submitting one of these as
+    a manual `spell_ids` pick must be rejected, the same way arcane-
+    prepared's mandatory grade-0 spells already are, or the grant's own
+    `CharacterSpell` insert (`granted_option_choice_spells`) collides with
+    the manual one on `CharacterSpell`'s `(level_id, base_class_id,
+    spell_id)` uniqueness at commit time."""
+    choice_ids = list(choice_ids)
+    if not choice_ids:
+        return set()
+    return set(
+        db.scalars(
+            select(BaseClassSpellGrant.spell_id).where(
+                BaseClassSpellGrant.base_class_id == base_class_id,
+                BaseClassSpellGrant.option_choice_id.in_(choice_ids),
+                BaseClassSpellGrant.level <= max_level,
+            )
+        ).all()
+    )
 
 
 def resolve_root_class(db: Session, class_name: str) -> BaseClass:
@@ -537,6 +581,17 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     for selection, root in zip(body.classes, roots):
         level_by_root_id[root.id] = level_by_root_id.get(root.id, 0) + selection.level
 
+    # For the spell-pick validation below (a class option choice, e.g.
+    # Mystiker's heilfokus, may grant spells for free - those must be
+    # rejected as a manual pick, same as arcane-prepared's mandatory grade-0
+    # spells already are, or two CharacterSpell rows for the same spell
+    # would collide on that table's uniqueness constraint at commit time).
+    options_by_root_id: dict[UUID, dict[str, list[str]]] = {}
+    for selection, root in zip(body.classes, roots):
+        merged = options_by_root_id.setdefault(root.id, {})
+        for group_key, choices in selection.options.items():
+            merged.setdefault(group_key, []).extend(choices)
+
     for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
         _validate_options(
             db,
@@ -741,6 +796,15 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             for spell_id in spell_ids:
                 if spell_id not in grade_by_spell_id:
                     raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
+
+            chosen_option_names = [name for names in options_by_root_id.get(base_class_id, {}).values() for name in names]
+            chosen_choice_ids = _choice_ids_by_name(db, base_class_id, chosen_option_names)
+            granted_spell_ids = _granted_spell_ids(db, base_class_id, chosen_choice_ids, class_level)
+            for spell_id in spell_ids:
+                if spell_id in granted_spell_ids:
+                    raise HTTPException(
+                        status_code=422, detail=f"Spell already known automatically for {root.name}"
+                    )
 
             if spell_type == "spontaneous":
                 budget = spontaneous_known_budget(db, base_class_id, class_level)
@@ -2223,6 +2287,34 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         already_known_spells = set(character.spell_ids.get(str(receiving_root.id), []))
         if already_known_spells & set(body.spell_ids):
             raise HTTPException(status_code=422, detail="Spell is already known")
+
+        # Persisted one-time picks from an earlier level (e.g. Mystiker's
+        # heilfokus, chosen at 1st level and never resubmitted) plus this
+        # level-up's own fresh submission, if any — same two sources
+        # `receiving_choice_ids` further below reads, just needed earlier
+        # here since the manual-pick rejection has to run before this
+        # level's own options are persisted.
+        persisted_choice_ids = set(
+            db.scalars(
+                select(CharacterClassOption.choice_id).where(
+                    CharacterClassOption.character_id == character.id,
+                    CharacterClassOption.base_class_id == receiving_root.id,
+                    CharacterClassOption.choice_id.is_not(None),
+                )
+            ).all()
+        )
+        fresh_option_names = [
+            name
+            for names in (body.target.options if is_new_class else existing_level_options).values()
+            for name in names
+        ]
+        chosen_choice_ids = persisted_choice_ids | _choice_ids_by_name(db, receiving_root.id, fresh_option_names)
+        granted_spell_ids = _granted_spell_ids(db, receiving_root.id, chosen_choice_ids, receiving_class_level)
+        for spell_id in body.spell_ids:
+            if spell_id in granted_spell_ids:
+                raise HTTPException(
+                    status_code=422, detail=f"Spell already known automatically for {receiving_root.name}"
+                )
 
         if spell_type == "spontaneous":
             budget = spontaneous_known_budget(db, receiving_root.id, receiving_class_level)

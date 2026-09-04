@@ -8,6 +8,8 @@ import {
   classDef,
   classTotalLevel,
   effectiveCastingAbility,
+  grantedSpellIdsForClass,
+  grantedSpellsForClass,
   spellGradeBudgetAtLevel,
   spellcastingClasses,
   totalAbility,
@@ -99,12 +101,26 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
         const grades = Object.keys(gradeBudget)
           .map(Number)
           .sort((a, b) => a - b);
+
+        // Spells a one-time option choice already made for this class grants
+        // for free (Mystiker's heilfokus Kurieren/Verletzen, Hexenmeister's
+        // Blutlinie) — shown separately, never counted against the per-grade
+        // budget or offered as a manual pick, same treatment as arcane-
+        // prepared's grade-0 cantrips above.
+        const granted = grantedSpellsForClass(draft, options, className);
+        const grantedIds = grantedSpellIdsForClass(draft, options, className);
+
         return (
           <div className="summary-block" style={{ marginBottom: 16 }} key={className}>
             <div className="sb-title">{className} — Bekannte Zauber (spontan)</div>
+            {granted.length > 0 && (
+              <div className="pick-counter" style={{ marginBottom: 10 }}>
+                Automatisch bekannt: {granted.map((s) => s.name).join(', ')}
+              </div>
+            )}
             {grades.map((grade) => {
               const cap = gradeBudget[String(grade)] ?? 0;
-              const gradeSpells = spells.filter((s) => s.grade === grade);
+              const gradeSpells = spells.filter((s) => s.grade === grade && !grantedIds.has(s.id));
               const gradeSelected = selected.filter((id) => gradeSpells.some((s) => s.id === id));
               return (
                 <div key={grade} style={{ marginBottom: 10 }}>

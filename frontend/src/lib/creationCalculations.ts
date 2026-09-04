@@ -1,6 +1,6 @@
 import { ABILITY_KEYS, type AbilityKey } from '../types/abilities';
 import type { CreationDraft, DraftGearItem, SkillSpecializationEntry } from '../types/creationDraft';
-import type { ClassDef, CreationOptions, RaceOption } from '../types/creationOptions';
+import type { ClassDef, CreationOptions, GrantedSpellDef, RaceOption } from '../types/creationOptions';
 
 export function abilityMod(score: number): number {
   return Math.floor((score - 10) / 2);
@@ -155,12 +155,44 @@ export function spellGradeBudgetAtLevel(cls: ClassDef, level: number): Record<st
   return cls.spellsKnownByLevel[String(level)] ?? {};
 }
 
+/** Spells a one-time option choice already made for this class grants
+ *  automatically for free, once the character's current level in this class
+ *  reaches each grant's own level (Mystiker's `heilfokus` Kurieren/Verletzen
+ *  choice, Hexenmeister's Blutlinie) — never counted against the spontaneous
+ *  per-grade budget, never offered as a manual pick. Read straight off
+ *  `CreationOptions.grantedSpellsByChoice` (name/grade included), not off
+ *  `spellsByClass` — a granted spell isn't guaranteed to also appear on the
+ *  class's own regular list (e.g. some Hexenmeister Blutlinie spells are
+ *  legitimately off-list, see `import_hexenmeister_bloodlines.py`'s
+ *  history). See `SpellsStep.tsx`. */
+export function grantedSpellsForClass(draft: CreationDraft, options: CreationOptions, className: string): GrantedSpellDef[] {
+  const level = classTotalLevel(draft, className);
+  const chosenOptionNames = new Set(
+    draft.classRows.filter((r) => r.className === className).flatMap((r) => Object.values(r.options).flat()),
+  );
+  const grantedByChoice = options.grantedSpellsByChoice[className] ?? {};
+  return Object.entries(grantedByChoice)
+    .filter(([choiceName]) => chosenOptionNames.has(choiceName))
+    .flatMap(([, entries]) => entries)
+    .filter((s) => s.level <= level);
+}
+
+/** Just the ids from `grantedSpellsForClass` — what `SpellsStep.tsx` needs
+ *  to exclude a granted spell from the manual per-grade candidate list. */
+export function grantedSpellIdsForClass(draft: CreationDraft, options: CreationOptions, className: string): Set<string> {
+  return new Set(grantedSpellsForClass(draft, options, className).map((s) => s.id));
+}
+
 /** Every id a spontaneous/arcane-prepared class-row's picks should be
  *  submitted as: for arcane-prepared classes this unions in every grade-0
  *  spell (mandatory, not itself a player pick — see `SpellsStep.tsx`) with
- *  whatever the player chose; for spontaneous classes it's just the picks.
- *  Divine-prepared/none classes never appear here (no known-spell list to
- *  submit). Keyed by `base_class_id`, matching `CharacterCreate.spell_ids`. */
+ *  whatever the player chose; for spontaneous classes it's the picks minus
+ *  whatever `grantedSpellIdsForClass` already covers for free (a defensive
+ *  strip, not just a display concern — the backend inserts those as its own
+ *  `CharacterSpell` rows regardless of `spell_ids`, so submitting one here
+ *  too would hit that table's uniqueness constraint). Divine-prepared/none
+ *  classes never appear here (no known-spell list to submit). Keyed by
+ *  `base_class_id`, matching `CharacterCreate.spell_ids`. */
 export function spellIdsForSubmission(draft: CreationDraft, options: CreationOptions): Record<string, string[]> {
   const result: Record<string, string[]> = {};
   for (const className of spellcastingClasses(draft, options)) {
@@ -171,7 +203,8 @@ export function spellIdsForSubmission(draft: CreationDraft, options: CreationOpt
       const mandatory = (options.spellsByClass[className] ?? []).filter((s) => s.grade === 0).map((s) => s.id);
       result[cls.id] = Array.from(new Set([...mandatory, ...picked]));
     } else {
-      result[cls.id] = picked;
+      const granted = grantedSpellIdsForClass(draft, options, className);
+      result[cls.id] = picked.filter((id) => !granted.has(id));
     }
   }
   return result;
