@@ -114,13 +114,40 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   // keeps the draft always submittable without a dedicated validation step.
   useEffect(() => {
     if (draft.secondaryClassName && usedClassNames.includes(draft.secondaryClassName)) {
-      setDraft((prev) => ({ ...prev, secondaryClassName: null }));
+      setDraft((prev) => ({ ...prev, secondaryClassName: null, secondaryClassOptions: {} }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft.secondaryClassName, JSON.stringify(usedClassNames)]);
 
+  function onSecondaryClassChange(className: string) {
+    setDraft((prev) => ({ ...prev, secondaryClassName: className || null, secondaryClassOptions: {} }));
+  }
+
+  function toggleSecondaryClassOption(groupKey: string, choice: string, max: number) {
+    setDraft((prev) => {
+      const chosen = prev.secondaryClassOptions[groupKey] ?? [];
+      const idx = chosen.indexOf(choice);
+      let next: string[];
+      if (idx !== -1) next = chosen.filter((c) => c !== choice);
+      else if (chosen.length < max) next = [...chosen, choice];
+      else next = chosen;
+      return { ...prev, secondaryClassOptions: { ...prev.secondaryClassOptions, [groupKey]: next } };
+    });
+  }
+
   const weapons = options.items.filter((i) => i.category === 'weapon');
   const level = totalLevel(draft);
+  // Sekundärklasse initial picks (e.g. Hexenmeister's `bloodline`) — due
+  // immediately at 1st level regardless of the character's real total level,
+  // so this reuses `availableOptionGroups` pinned to level 1 with no
+  // archetypes, then keeps only groups the backend flagged as due this way
+  // (`isSecondaryInitialPick`); everything else (e.g. Kleriker's `domain`,
+  // milestone-tied) isn't offered here at all — see `ClassOptionGroup`'s
+  // docstring.
+  const secondaryCls = draft.secondaryClassName ? classDef(options, draft.secondaryClassName) : undefined;
+  const secondaryGroups = availableOptionGroups(secondaryCls?.optionGroups ?? [], 1, [], {}).filter(
+    (g) => g.isSecondaryInitialPick,
+  );
   const favoredClassBonusOptions = useFavoredClassBonusOptions(draft.raceId, draft.classRows[0]?.className ?? null);
   const alternateFavoredClassBonuses = (favoredClassBonusOptions?.options ?? []).filter(
     (name) => name !== 'hp' && name !== 'skill',
@@ -274,7 +301,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
         <select
           style={{ marginTop: 8 }}
           value={draft.secondaryClassName ?? ''}
-          onChange={(e) => setDraft((prev) => ({ ...prev, secondaryClassName: e.target.value || null }))}
+          onChange={(e) => onSecondaryClassChange(e.target.value)}
         >
           <option value="">– keine –</option>
           {options.classes
@@ -283,6 +310,21 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
               <option value={c.name} key={c.name}>{c.name}</option>
             ))}
         </select>
+
+        {secondaryGroups.length > 0 && (
+          <div className="class-options" style={{ marginTop: 10 }}>
+            {secondaryGroups.map((g) => (
+              <OptionGroupPicker
+                key={g.key}
+                label={g.label}
+                max={g.effectiveMax}
+                choices={g.availableChoiceNames}
+                selected={draft.secondaryClassOptions[g.key] ?? []}
+                onToggle={(choice) => toggleSecondaryClassOption(g.key, choice, g.effectiveMax)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="total-level-banner">

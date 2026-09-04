@@ -2968,5 +2968,53 @@
     "id": "324f2b1e-e346-58b4-8601-3e56de63f649",
     "group_id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
     "name": "Winter"
+  },
+  {
+    "id": "5a013ac9-1fec-57f2-a19e-23495dccfa92",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "Katzenvolk (Barde)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "52420b4d-1051-58da-bb7e-2897863d8697",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "Katzenvolk (Druide)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "4f96404f-f62e-543e-b786-fbb2cb95373b",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "Katzenvolk (Hexenmeister)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "70fc8b93-8e16-562b-b3ce-05cf5d9b5c16",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "Katzenvolk (Mystiker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "30be0353-6350-52aa-8226-cf44f4c59b2e",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "Katzenvolk (Schurke)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "ed128c97-0539-5541-bf22-4ce4fc49ebcf",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "Katzenvolk (Waldläufer)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
   }
 ]

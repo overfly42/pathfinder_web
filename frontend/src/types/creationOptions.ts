@@ -51,6 +51,14 @@ export interface ClassOptionGroup {
    *  `group_occurrence_levels`) and backend-enforced (`_validate_options`);
    *  the frontend only uses it to decide what to render — see `ClassStep.tsx`. */
   occurrenceLevels: number[];
+  /** Whether this group is due immediately at 1st level when this class is
+   *  picked as someone's Sekundärklasse (alternate-rule) choice, e.g.
+   *  Hexenmeister's `bloodline` — independent of `occurrenceLevels` above,
+   *  which is about this class's own real per-level progression.
+   *  `ClassStep.tsx`'s Sekundärklasse picker only ever renders groups with
+   *  this set; `create_character` enforces the same set server-side
+   *  (`BaseClassOptionGroup.is_secondary_class_initial_pick`). */
+  isSecondaryInitialPick: boolean;
 }
 
 export interface ClassDef {

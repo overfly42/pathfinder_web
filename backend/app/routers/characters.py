@@ -46,6 +46,7 @@ from ..rules.class_options import (
     archetype_replaced_grant_ids,
     favored_class_bonus_race_choices,
     group_occurrence_levels,
+    secondary_class_initial_pick_group_keys,
     weapon_choice_required_ability_ids,
 )
 from ..rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
@@ -486,6 +487,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
     # docstring), so naming one of `body.classes`' own roots here is
     # rejected rather than silently ignored.
     secondary_base_class_id: UUID | None = None
+    secondary_root: BaseClass | None = None
     if body.secondary_class_name is not None:
         secondary_root = resolve_root_class(db, body.secondary_class_name)
         if any(root.id == secondary_root.id for root in roots):
@@ -494,6 +496,28 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 detail="secondary_class_name can't be one of this character's own primary/multiclassed classes",
             )
         secondary_base_class_id = secondary_root.id
+    elif body.secondary_class_options:
+        raise HTTPException(status_code=422, detail="secondary_class_options requires secondary_class_name")
+
+    # `secondary_class_options` may only fill groups this class's Sekundärklasse
+    # track actually owes a pick for immediately at 1st level (`BaseClassOptionGroup.
+    # is_secondary_class_initial_pick`, e.g. Hexenmeister's `bloodline`) — a
+    # milestone-tied group (e.g. Kleriker's `domain`, due at the 3rd-level
+    # milestone, not up front) isn't a legal key here at all. `character_level=1`
+    # is hardcoded, not the character's real total level: this pick is always due
+    # at 1st level regardless, per RAW (see that column's docstring).
+    if secondary_root is not None and body.secondary_class_options:
+        allowed_keys = secondary_class_initial_pick_group_keys(db, secondary_root.id)
+        unknown_keys = sorted(set(body.secondary_class_options) - allowed_keys)
+        if unknown_keys:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    f"Option group(s) {unknown_keys} aren't due immediately when picking "
+                    f"{secondary_root.name} as a Sekundärklasse"
+                ),
+            )
+        _validate_options(db, secondary_root, body.secondary_class_options, character_level=1, race_id=body.race_id)
 
     # The root of the first submitted class is favored by default — matches
     # the class picker's row order, not something the wizard asks for yet
@@ -849,6 +873,38 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 continue
             seen_archetype_ids.add(archetype.id)
             character.class_memberships.append(CharacterClass(base_class_id=archetype.id))
+
+    # Sekundärklasse initial picks (e.g. Hexenmeister's `bloodline`, validated
+    # above) — recorded the same way a real class's one-time option-group pick
+    # is (`CharacterClassOption`), just against `secondary_root.id` instead of
+    # one of `roots`, and pinned to the character's actual 1st-level
+    # `CharacterLevel` row regardless of which class levels were submitted
+    # last. Deliberately skips `granted_option_choice_spells`: RAW is explicit
+    # a Sekundärklasse grants none of its spell progression, so an option
+    # choice that would normally add bonus spells for a real class (e.g. a
+    # Hexe's Schutzherr) must not do so here.
+    if secondary_root is not None and body.secondary_class_options and character.levels:
+        first_level_row = character.levels[0]
+        for group_key, choices in body.secondary_class_options.items():
+            for choice in choices:
+                choice_row = db.scalar(
+                    select(BaseClassOptionChoice)
+                    .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
+                    .where(
+                        BaseClassOptionGroup.base_class_id == secondary_root.id,
+                        BaseClassOptionGroup.key == group_key,
+                        BaseClassOptionChoice.name == choice,
+                    )
+                )
+                character.class_options.append(
+                    CharacterClassOption(
+                        base_class_id=secondary_root.id,
+                        group_key=group_key,
+                        choice=choice,
+                        choice_id=choice_row.id if choice_row is not None else None,
+                        level=first_level_row,
+                    )
+                )
 
     # A freshly created character starts undamaged — max HP itself
     # (requirements_v2.md §2: sum of Hit Dice from all classes + CON mod x

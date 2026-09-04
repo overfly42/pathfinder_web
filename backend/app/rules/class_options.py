@@ -103,6 +103,26 @@ def group_occurrence_levels(
     )
 
 
+def secondary_class_initial_pick_group_keys(db: Session, secondary_base_class_id: UUID) -> set[str]:
+    """This class's own `BaseClassOptionGroup` keys flagged
+    `is_secondary_class_initial_pick` — the option groups a character must
+    resolve immediately at 1st level when picking this class as their
+    Sekundärklasse (see that column's own docstring), not the milestone-tied
+    `secondary_group_occurrence_levels` below. `routers/characters.py`'s
+    `create_character` uses this to reject any `CharacterCreate.
+    secondary_class_options` entry whose group isn't actually due this way
+    (e.g. a `domain` submitted for a Kleriker Sekundärklasse, which RAW only
+    grants at the 3rd-level milestone, not up front)."""
+    return set(
+        db.scalars(
+            select(BaseClassOptionGroup.key).where(
+                BaseClassOptionGroup.base_class_id == secondary_base_class_id,
+                BaseClassOptionGroup.is_secondary_class_initial_pick.is_(True),
+            )
+        ).all()
+    )
+
+
 def secondary_group_occurrence_levels(db: Session, secondary_base_class_id: UUID, group_key: str) -> list[int]:
     """The Sekundärklasse-track sibling of `group_occurrence_levels` above,
     for an option group a Sekundärklasse tier reuses (`BaseSecondaryClassAbilityGrant.option_group_key`,

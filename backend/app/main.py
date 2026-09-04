@@ -354,6 +354,14 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                 # (`routers/characters.py`) is what actually enforces both,
                 # server-side, using this exact same function.
                 "occurrenceLevels": occurrence_levels,
+                # Whether this group is due immediately at 1st level when this
+                # class is picked as someone's Sekundärklasse alternate-rule
+                # choice (`BaseClassOptionGroup.is_secondary_class_initial_pick`
+                # — e.g. Hexenmeister's `bloodline`), independent of
+                # `occurrenceLevels` above (this class's own real per-level
+                # progression). `ClassStep.tsx`'s Sekundärklasse picker filters
+                # on this; `create_character` enforces the same set server-side.
+                "isSecondaryInitialPick": group.is_secondary_class_initial_pick,
             }
         )
         if not occurrence_levels:

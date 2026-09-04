@@ -138,7 +138,12 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
           {draft.secondaryClassName && (
             <div className="sb-line">
               <span>Sekundärklasse (Alternativregel)</span>
-              <span className="val">{draft.secondaryClassName}</span>
+              <span className="val">
+                {draft.secondaryClassName}
+                {Object.values(draft.secondaryClassOptions).flat().length > 0
+                  ? ` (${Object.values(draft.secondaryClassOptions).flat().join(', ')})`
+                  : ''}
+              </span>
             </div>
           )}
         </div>

@@ -271,7 +271,28 @@ class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
       records which specific grant occurrence it fills via
       `CharacterClassOption.grant_id`, since eligibility can vary by
       occurrence (Rogue's "Verbesserte Tricks" pool only opens up for grants
-      from level 10 onward)."""
+      from level 10 onward).
+
+    `is_secondary_class_initial_pick` (2026-09-04) marks a group whose choice
+    the Sekundärklasse alternate rule (`models/base_class.py`'s
+    `BaseSecondaryClassAbilityGrant`) requires *immediately* at 1st level,
+    the moment the class is picked as someone's Sekundärklasse — before any
+    milestone ability is granted at all, and independent of
+    `BaseSecondaryClassAbilityGrant.option_group_key`'s milestone-tied reuse
+    (that field resolves a sub-choice *at* a 3/7/11/15/19 milestone; this
+    flag is about a pick due at 1st level on its own, because later
+    milestone abilities are worded relative to it — e.g. Hexenmeister's
+    source text: "Auf der 1. Stufe muss er eine Hexenmeisterblutlinie
+    wählen", with the bloodline's own level-1 power only granted later at
+    the 3rd-level milestone; same shape for Magier's `school`, Mystiker's
+    `mystery`/`curse`, Hexe's `patron`). `False` (default) for every group a
+    class's Sekundärklasse text doesn't call out this way (e.g. Waldläufer's
+    `enemy`/`terrain`, which the source text only ever ties to their own
+    milestone levels, never to 1st level) — `routers/characters.py`'s
+    `create_character` only accepts `CharacterCreate.secondary_class_options`
+    entries whose group key has this flag set, resolved at a hardcoded
+    `character_level=1` (`_validate_options`), regardless of the
+    character's real total level."""
 
     __tablename__ = "base_class_option_groups"
     __table_args__ = (UniqueConstraint("base_class_id", "key"),)
@@ -280,6 +301,7 @@ class BaseClassOptionGroup(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     key: Mapped[str] = mapped_column(String(64))
     label: Mapped[str] = mapped_column(String(255))
     max_choices: Mapped[int] = mapped_column(Integer)
+    is_secondary_class_initial_pick: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
 
 class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):

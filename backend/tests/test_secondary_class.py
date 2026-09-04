@@ -14,7 +14,7 @@ handler for its own Kampfrausch, only Entfesselter Barbar does)."""
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.models import BaseClass, BaseSecondaryClassAbilityGrant
+from app.models import BaseClass, BaseSecondaryClassAbilityGrant, CharacterClassOption
 from app.rules.classes.barbarian import (
     BARBAR_ENTFESSELTER_ROOT_CLASS_ID,
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID,
@@ -176,6 +176,78 @@ def test_secondary_class_grant_resolves_through_the_real_handler_end_to_end(
     # `usesPerDay` field (that shape is only for non-persistent, once-a-day
     # abilities).
     assert kampfrausch_activatable["description"] == "8 von 8 Runden heute übrig"
+
+
+def test_secondary_class_initial_pick_is_required_immediately_at_level_1(
+    client: TestClient, db_session: Session
+) -> None:
+    """Hexenmeister's `bloodline` group is flagged
+    `is_secondary_class_initial_pick` (http://prd.5footstep.de/Alternativregeln/
+    Fertigkeiten/AlternativesSystemfuerCharakteremitKlassenkombinationen:
+    "Auf der 1. Stufe muss er eine Hexenmeisterblutlinie wählen") — a level-1
+    character can submit it right away, with no Sekundärklasse milestone
+    reached yet, and it's persisted as a real `CharacterClassOption` against
+    the secondary root's own id, not one of the character's real classes."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Waldläufer", "level": 1}],
+        secondary_class_name="Hexenmeister",
+        secondary_class_options={"bloodline": ["Arkane Blutlinie"]},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    hexenmeister = db_session.query(BaseClass).filter_by(name="Hexenmeister").one()
+    option = (
+        db_session.query(CharacterClassOption)
+        .filter_by(character_id=character_id, base_class_id=hexenmeister.id, group_key="bloodline")
+        .one()
+    )
+    assert option.choice == "Arkane Blutlinie"
+    assert option.choice_id is not None
+
+
+def test_secondary_class_options_rejects_a_milestone_tied_group(client: TestClient, db_session: Session) -> None:
+    """Kleriker's `domain` isn't flagged `is_secondary_class_initial_pick` —
+    RAW only grants it at the 3rd-level Sekundärklasse milestone ("Mit der 3.
+    Stufe wählt er eine der Domänen seiner Gottheit aus"), not up front like
+    Hexenmeister's `bloodline` above, so submitting it as an initial pick is
+    rejected rather than silently accepted."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Waldläufer", "level": 1}],
+        secondary_class_name="Kleriker",
+        secondary_class_options={"domain": ["Domäne des Krieges"]},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 422
+    assert "domain" in response.json()["detail"]
+
+
+def test_secondary_class_options_requires_secondary_class_name(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Waldläufer", "level": 1}],
+        secondary_class_options={"bloodline": ["Arkane Blutlinie"]},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 422
 
 
 def test_cannot_take_a_real_level_in_ones_own_secondary_class(client: TestClient, db_session: Session) -> None:

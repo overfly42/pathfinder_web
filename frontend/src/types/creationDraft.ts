@@ -57,6 +57,14 @@ export interface CreationDraft {
    *  Must never match one of `classRows`' own class names — `ClassStep.tsx`
    *  clears it automatically if a later edit would create that conflict. */
   secondaryClassName: string | null;
+  /** Chosen value(s) for `secondaryClassName`'s own option group(s) flagged
+   *  `ClassOptionGroup.isSecondaryInitialPick` (e.g. Hexenmeister's
+   *  `bloodline`) — the sub-choice RAW requires immediately at 1st level
+   *  when picking a Sekundärklasse, before any of its milestone abilities
+   *  exist. Same `group key -> chosen value(s)` shape as `ClassRow.options`.
+   *  Cleared whenever `secondaryClassName` changes (`ClassStep.tsx`), same
+   *  as a class row's own `options` on a class change. */
+  secondaryClassOptions: Record<string, string[]>;
   /** 1st-level favored-class bonus ("hp" | "skill" | a race+class-specific
    *  Advanced Race Guide alternate choice name) for `classRows[0]` — the
    *  favored class, per `create_character`'s "the root of the first

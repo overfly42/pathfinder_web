@@ -3905,5 +3905,35 @@
     "id": "ab832250-2447-5335-b6d3-d8a583ce84c4",
     "name": "Schutzherr: Weisheit",
     "description": "Ab der 2. Stufe und danach alle weiteren zwei Stufen als Hexe fügt der Schutzherr \"Weisheit\" folgende Zauber automatisch zur Liste bekannter Hexenzauber hinzu, welche auch im Hexenvertrauten gespeichert werden: Schild des Glaubens (2.), Weisheit der Eule (4.), Magisches Schutzgewand (6.), Schwächere Kugel der Unverwundbarkeit (8.), Traum (10.), Kugel der Unverwundbarkeit (12.), Zauber zurückwerfen (14.), Schutz vor Zaubern (16.), Magische Auftrennung (18.)."
+  },
+  {
+    "id": "1975cc7e-7a6a-5891-b067-480917c3c635",
+    "name": "Katzenvolk (Barde)",
+    "description": "Addiere +1/2 auf den Bonus von Bardenwissen."
+  },
+  {
+    "id": "40f925d6-ddf6-567e-af67-2db2aa3cdf36",
+    "name": "Katzenvolk (Druide)",
+    "description": "Addiere +1 TP zu den TP des Tiergefährten des Druiden. Sollte der Druide je seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese Bonustrefferpunkte."
+  },
+  {
+    "id": "794db19e-3d29-5753-9e5c-88bf5d50a75b",
+    "name": "Katzenvolk (Hexenmeister)",
+    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche CH-Modifikator +3 Mal am Tag einsetzbar ist. Addiere +1/2 zu der Anzahl der täglichen Anwendungen dieser Blutlinienkraft."
+  },
+  {
+    "id": "563691e4-c793-59a3-8864-6efed8121f27",
+    "name": "Katzenvolk (Mystiker)",
+    "description": "Addiere einen Zauber von der Zauberliste des Mystikers zur Liste der ihm bekannten Zauber. Der Grad dieses Zaubers muss mindestens um einen Grad geringer sein als der höchstgradige Mystikerzauber des Mystikers."
+  },
+  {
+    "id": "f4bc3991-caef-519d-94e4-6cfa9b920fc6",
+    "name": "Katzenvolk (Schurke)",
+    "description": "Addiere einen Bonus von +1/2 auf Fertigkeitswürfe für Bluffen zum Fintieren und für Fingerfertigkeit für Taschendiebstahl."
+  },
+  {
+    "id": "cb1d163c-d0ae-5d31-a1f2-4a96135c445c",
+    "name": "Katzenvolk (Waldläufer)",
+    "description": "Wähle eine der folgenden Waffen aus: Klauen, Kukri, Kurzbogen, Kurzspeer, Langbogen oder Langschwert. Addiere +1/2 auf Bestätigungswürfe für Kritische Treffer mit dieser Waffe (maximal +4); dieser Bonus ist nicht kumulativ mit Kritischer Trefferfokus."
   }
 ]

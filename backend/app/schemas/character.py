@@ -172,6 +172,17 @@ class CharacterCreate(BaseModel):
     # `create_character`) against `body.classes` — a character can't name
     # their own primary/multiclassed class as its own Sekundärklasse.
     secondary_class_name: str | None = None
+    # Chosen value(s) for `secondary_class_name`'s own option group(s) flagged
+    # `BaseClassOptionGroup.is_secondary_class_initial_pick` (e.g. Hexenmeister's
+    # `bloodline` — see that column's docstring) — the sub-choice RAW requires
+    # immediately at 1st level when picking a Sekundärklasse, before any of its
+    # milestone abilities exist. Same `group_key -> chosen value(s)` shape as
+    # `ClassSelection.options`, but validated against a hardcoded
+    # `character_level=1` (`create_character`) rather than any real level in
+    # the class, since a Sekundärklasse never has one. Empty (default) both
+    # when `secondary_class_name` is unset and when its class has no such
+    # group (most classes).
+    secondary_class_options: dict[str, list[str]] = {}
     # One entry per skill (or, for a has_specialization skill, per chosen
     # specialization — see SkillRankSelection) with its total ranks.
     # Collapsed onto the highest CharacterLevel row being created — see

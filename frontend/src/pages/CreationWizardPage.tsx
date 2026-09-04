@@ -133,6 +133,7 @@ export function CreationWizardPage() {
             options: row.options,
           })),
           secondary_class_name: draft.secondaryClassName,
+          secondary_class_options: draft.secondaryClassOptions,
           favored_class_bonus: { '1': draft.favoredClassBonus },
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,

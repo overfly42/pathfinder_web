@@ -4,244 +4,279 @@
     "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
     "key": "bond",
     "label": "Naturbindung",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "1155750a-9117-4b83-8b06-03ec4a084098",
     "base_class_id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
     "key": "bloodline",
     "label": "Blutlinie",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": true
   },
   {
     "id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
     "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
     "key": "domain",
     "label": "Domänen (max. 2)",
-    "max_choices": 2
+    "max_choices": 2,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "key": "school",
     "label": "Spezialschule (optional)",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": true
   },
   {
     "id": "3ad982ef-0582-470f-b237-4d5a1bcbdcce",
     "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "key": "mystery",
     "label": "Mysterium",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": true
   },
   {
     "id": "274abc23-f7a1-44ed-a5e5-c5baff2ea80d",
     "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "key": "curse",
     "label": "Verfluchung",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": true
   },
   {
     "id": "fdf4d561-c4e2-4ff8-ba91-c6d9a37997dd",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "enemy",
     "label": "Günstlingsfeind",
-    "max_choices": 5
+    "max_choices": 5,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "0bef2785-e866-41e1-8b7b-1dc236641e90",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "terrain",
     "label": "Bevorzugtes Terrain",
-    "max_choices": 4
+    "max_choices": 4,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "2029cdb1-d5dd-42ae-bb9a-6c6335e44c82",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "key": "arcane_bond",
     "label": "Arkane Verbindung",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "a9acc1df-125d-56e8-a92e-e26cfee129bb",
     "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "key": "trick",
     "label": "Trick",
-    "max_choices": 10
+    "max_choices": 10,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "3efc101a-28cc-56c0-9345-b49f1eada6fa",
     "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "key": "trick_advanced",
     "label": "Verbesserter Trick (ab Stufe 10)",
-    "max_choices": 6
+    "max_choices": 6,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "a2159156-004f-55a4-8ac4-c1effa2d8d2f",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "combat_style",
     "label": "Kampfstil",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "5f96a832-3c62-56a1-8e04-1efc2ab6d47f",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "hunter_bond",
     "label": "Bund des Jägers",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "0e71c3d5-3290-5efc-b3e7-1b03965d6294",
     "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "key": "heilfokus",
     "label": "Stoßgebete-Fokus (Wunden heilen/verursachen)",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "9ac9dd1a-b804-5a1e-bdcc-293eae5e69b4",
     "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "key": "revelation",
     "label": "Offenbarung",
-    "max_choices": 6
+    "max_choices": 6,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "5085aaf0-6905-5116-b24f-8d9c1f8d60ab",
     "base_class_id": "4558a936-bc38-4e40-afd8-bb85a7a03438",
     "key": "kampfrauschkraft",
     "label": "Kampfrauschkraft",
-    "max_choices": 10
+    "max_choices": 10,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "f0f43c8e-6f49-5c60-bb44-48a814b81864",
     "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
     "key": "kampfrauschkraft",
     "label": "Kampfrauschkraft",
-    "max_choices": 10
+    "max_choices": 10,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
     "base_class_id": "4558a936-bc38-4e40-afd8-bb85a7a03438",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "0e73dd58-f00a-59a8-a141-640590aaf841",
     "base_class_id": "332f742d-d2a1-5375-8bff-0924f92d2b9d",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
     "base_class_id": "d86ed793-9019-4df6-a004-ded7e21c760b",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
     "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
     "base_class_id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "54cf19bf-25cd-5def-af48-86702f092ee9",
     "base_class_id": "f40316a4-b4b5-4f28-9e5c-ae0aec21bb50",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "59841a06-3004-50ab-be79-9561f97be822",
     "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
     "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
     "base_class_id": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "8b2214e4-8691-5218-9f05-68934f51bc67",
     "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
     "base_class_id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
     "base_class_id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
     "base_class_id": "91ab69e8-7ab5-46de-af7f-292f585645b4",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "31954213-c209-4009-ad1b-5fc1d5e538d4",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "key": "hexerei",
     "label": "Hexerei",
-    "max_choices": 11
+    "max_choices": 11,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "f3bace47-10af-541c-bf89-56d4f699db99",
     "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
     "key": "favored_class_bonus",
     "label": "Bevorzugte Klasse",
-    "max_choices": 20
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "be92e165-d13b-587d-b2a2-6151e8685a7f",
     "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
     "key": "arkanum",
     "label": "Arkanum",
-    "max_choices": 6
+    "max_choices": 6,
+    "is_secondary_class_initial_pick": false
   },
   {
     "id": "4f0c8625-72b6-5ceb-8fc1-461b055df3b8",
     "base_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
     "key": "patron",
     "label": "Schutzherr",
-    "max_choices": 1
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": true
   }
 ]
