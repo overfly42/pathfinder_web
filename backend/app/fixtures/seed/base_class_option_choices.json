@@ -3016,5 +3016,155 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
+  },
+  {
+    "id": "9f3203bc-a8ad-59d5-ba35-bef4e05953ab",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Aquatische Blutlinie"
+  },
+  {
+    "id": "d277e2e3-7691-54c8-853d-27cf330c2c5a",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Arktische Blutlinie"
+  },
+  {
+    "id": "619c2a97-46e7-54a8-930f-114b8341b736",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Immergrüne Blutlinie"
+  },
+  {
+    "id": "351346cf-ca29-524a-beab-4e360d21ce4c",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Proteanische Blutlinie"
+  },
+  {
+    "id": "a5637702-9864-5869-993a-a6ffb47fbb3f",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Schattenblutlinie"
+  },
+  {
+    "id": "70735a57-44b0-5e0e-aa1a-494f8450389a",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Schlangenblutlinie"
+  },
+  {
+    "id": "96ac1715-fa64-5a52-9415-42b3ad3da383",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Sternenblutlinie"
+  },
+  {
+    "id": "ed34dee9-ede0-5344-b8d3-b444edc3983c",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Sturmblutlinie"
+  },
+  {
+    "id": "a68ca791-46d3-5523-9818-4ea6501251a3",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Tiefenblutlinie"
+  },
+  {
+    "id": "b3cb3308-fdd8-5480-bea7-6443c560869c",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Traumblutlinie"
+  },
+  {
+    "id": "7264f88e-327c-5c79-99fb-f07cfe2d75a6",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie der Brutalität"
+  },
+  {
+    "id": "adace6e9-3c86-5c97-92a3-75342da1e45a",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie der Gelehrten"
+  },
+  {
+    "id": "3e0c1558-a0e9-55c1-9962-38abe5f7d10e",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie des Himmels"
+  },
+  {
+    "id": "450e4d84-a6c5-5280-856f-955980c6a810",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Höllische Blutlinie"
+  },
+  {
+    "id": "673c0ba3-cbb6-56c6-b04c-352a7d808d94",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Karmische Blutlinie"
+  },
+  {
+    "id": "c895874d-16d6-5af0-8fc8-93de061f81e4",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Lindwurmblutlinie"
+  },
+  {
+    "id": "ca93b587-1261-5556-88c2-1844390c2bfb",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Mutierte Blutlinie"
+  },
+  {
+    "id": "23550811-e7b9-5c32-be71-0f96c46c2c44",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Sylvanische Blutlinie"
+  },
+  {
+    "id": "0ff7a434-282c-5824-8ef5-bb834cb80e0b",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Urzeitliche Blutlinie"
+  },
+  {
+    "id": "05b77508-9909-5a24-b1b4-277029b44c4e",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Vampirblutlinie"
+  },
+  {
+    "id": "2ee32223-2489-5f59-9cef-057a34ba413d",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie der Anarchie"
+  },
+  {
+    "id": "d5040c53-2cf9-51b5-8ec3-60e2ea38c6fb",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie des Gesteins"
+  },
+  {
+    "id": "ebff72ac-6c4a-5012-9af3-d02be017fcca",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie des Windes"
+  },
+  {
+    "id": "d75cccae-1bfc-506f-bd7e-9d2a53f2e88a",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Blutlinie des Zwielichts"
+  },
+  {
+    "id": "4c2a3e13-6e72-5137-8abc-35491c943c93",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Eisige Blutlinie"
+  },
+  {
+    "id": "d8022477-29c5-53bc-934a-8cfdd5114d15",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Giftige Blutlinie"
+  },
+  {
+    "id": "a823e71c-49a6-544a-ad75-1465dd2dcc84",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Haingeborene Blutlinie"
+  },
+  {
+    "id": "33c08068-d2a3-5553-92d5-9fe9a9ca3dcd",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Leereberührte Blutlinie"
+  },
+  {
+    "id": "35a0f046-f242-5085-82dc-282c295019ce",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Meeresblutlinie"
+  },
+  {
+    "id": "2a219a32-f14f-512c-a875-8072e58f0700",
+    "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
+    "name": "Visionäre Blutlinie"
   }
 ]

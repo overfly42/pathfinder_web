@@ -119,4 +119,7 @@ def test_hexenmeister_zauber_des_blutes_is_seeded_per_bloodline(db_session: Sess
     hexenmeister_grants = (
         db_session.query(BaseClassSpellGrant).filter_by(base_class_id=grants[0].base_class_id).count()
     )
-    assert hexenmeister_grants == 90  # 10 bloodlines x 9 levels each
+    # 10 Grundregelwerk + 10 Expertenregeln bloodlines, each with 9 own bonus
+    # spells, plus 20 Wildblooded variants that each reference (not duplicate)
+    # their associated bloodline's 9 spell grants under their own choice id.
+    assert hexenmeister_grants == 40 * 9
