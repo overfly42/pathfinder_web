@@ -810,3 +810,114 @@ def test_kampfrausch_manual_end_preserves_pool_and_grants_erschoepft(
     sheet = client.get(f"/api/characters/{character_id}").json()
     kampfrausch = next(a for a in sheet["activatableClassAbilities"] if a["key"] == KAMPFRAUSCH_ENTFESSELTER_BARBAR_ID)
     assert kampfrausch["description"] == "3 von 4 Runden heute übrig"
+
+
+LUFTBARRIERE_ABILITY_ID = "71b3df2b-2528-5c08-b734-ceec9643538b"
+
+
+def _create_mystiker_with_luftbarriere(client: TestClient, db_session: Session, level: int = 1) -> str:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Mystiker",
+                    "level": level,
+                    "options": {"mystery": ["Wind"], "revelation": ["Luftbarriere"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201
+    return response.json()["id"]
+
+
+def test_luftbarriere_bills_one_whole_hour_per_activation_regardless_of_actual_duration(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_luftbarriere`/`_luftbarriere_hours_per_day` (`rules/classes/mystiker.py`)
+    — PRD text: "täglich für 1 Stunde für je eine deiner Stufen als Mystiker
+    [...] muss nicht aufeinander folgen, wird aber in Einheiten von jeweils
+    1 Stunde abgerechnet." Modeled like Kampfmagus's Arkaner Vorrat
+    (`POOL_COST_AT_ACTIVATION`): the daily hour pool is charged once, in
+    full, at activation — not accrued via `advance_time`'s generic per-round
+    debit the way Kampfrausch's rounds/day pool is — so ending the effect
+    early (or a single round ticking by while it's active) never charges a
+    second, partial hour."""
+    character_id = _create_mystiker_with_luftbarriere(client, db_session, level=1)
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    def luftbarriere_entry(sheet: dict) -> dict:
+        return next(a for a in sheet["activatableClassAbilities"] if a["key"] == LUFTBARRIERE_ABILITY_ID)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    entry = luftbarriere_entry(sheet)
+    assert entry["description"] == "1 von 1 Stunden heute übrig"
+    # `default_duration_rounds: 600` (base_class_abilities.json) pre-fills the
+    # activation popup's duration field to exactly one hour.
+    assert entry["defaultDurationRounds"] == 600
+
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": LUFTBARRIERE_ABILITY_ID, "duration_remaining": 600},
+    )
+    assert activation.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline_ac + 4
+    assert luftbarriere_entry(sheet)["description"] == "0 von 1 Stunden heute übrig"
+    active = next(e for e in sheet["activeEffects"] if e["sourceId"] == LUFTBARRIERE_ABILITY_ID)
+    assert active["dailyLimitRemaining"] == 0
+    assert active["dailyLimitTotal"] == 1
+    assert active["durationRemaining"] == 600
+
+    # A round ticking by must not charge a second hour on top of the flat
+    # activation cost — only `durationRemaining` moves.
+    client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "round"})
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert luftbarriere_entry(sheet)["description"] == "0 von 1 Stunden heute übrig"
+    active = next(e for e in sheet["activeEffects"] if e["sourceId"] == LUFTBARRIERE_ABILITY_ID)
+    assert active["durationRemaining"] == 599
+
+    # Pool exhausted: a second, independent activation the same day is rejected.
+    second = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": LUFTBARRIERE_ABILITY_ID, "duration_remaining": 600},
+    )
+    assert second.status_code == 422
+
+    # Running out the remaining 599 rounds ends the effect on its own
+    # (duration, not the already-spent pool) and the armor bonus disappears.
+    client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "hour"})
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline_ac
+    assert sheet["activeEffects"] == []
+    assert luftbarriere_entry(sheet)["description"] == "0 von 1 Stunden heute übrig"
+
+    # A full rest restores the daily pool.
+    client.post(f"/api/characters/{character_id}/rest")
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert luftbarriere_entry(sheet)["description"] == "1 von 1 Stunden heute übrig"
+
+
+def test_luftbarriere_armor_bonus_scales_at_level_7_and_beyond(client: TestClient, db_session: Session) -> None:
+    """"Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier
+    weiteren Stufen als Mystiker um +2" — regression for the level-scaling
+    formula (`4 + 2 * max(0, (level - 3) // 4)`): flat +4 through 6th,
+    +6 from 7th, +8 from 11th."""
+    character_id = _create_mystiker_with_luftbarriere(client, db_session, level=11)
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": LUFTBARRIERE_ABILITY_ID, "duration_remaining": 600},
+    )
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline_ac + 8
+    luftbarriere_bonus = next(b for b in sheet["armorClassBreakdown"] if b["label"] == "Luftbarriere")
+    assert luftbarriere_bonus["value"] == 8

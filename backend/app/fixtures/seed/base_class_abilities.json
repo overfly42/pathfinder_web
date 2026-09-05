@@ -1421,7 +1421,8 @@
     "name": "Luftbarriere",
     "description": "Du kannst eine unsichtbare Hülle aus Luft erschaffen, welche dir einen Rüstungsbonus von +4 verleiht. Der Rüstungsbonus steigt auf der 7. Stufe und danach alle vier weiteren Stufen als Mystiker um +2. Ab der 13. Stufe sorgt diese Barriere dafür, dass Pfeile, Strahlen und andere Fernkampfangriffe, die einen Angriffswurf erfordern, zu 50% fehlschlagen. Du kannst diese Rüstung täglich für 1 Stunde für je eine deiner Stufen als Mystiker benutzen. Dies muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Stunde abgerechnet.",
     "is_persistent_effect": true,
-    "activation_scope": "self"
+    "activation_scope": "self",
+    "default_duration_rounds": 600
   },
   {
     "id": "fface2cd-971d-5f26-958d-e62743f07000",

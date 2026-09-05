@@ -610,7 +610,32 @@ Pro Fähigkeit einzeln abhaken:
 - [ ] Mystiker: Kristallblick
 - [ ] Mystiker: Letzte Offenbarung (Natur)
 - [ ] Mystiker: Lockruf des Firmaments
-- [ ] Mystiker: Luftbarriere
+- [x] Mystiker: Luftbarriere — 2026-09-05 neue Datei `rules/classes/mystiker.py`
+      (erste Mystiker-Klassenfähigkeit, `rules/classes/__init__.py` entsprechend
+      erweitert): `+4`-Rüstungsbonus zur RK (`type="armor"`, stackt korrekt
+      nicht mit Rüstung/Magierrüstung), ab Stufe 7 und danach alle 4 Stufen
+      +2 (`4 + 2 * max(0, (stufe-3)//4)`). Tagespool als `DAILY_LIMITS`-Eintrag
+      in Stufe Stunden (nicht Runden), abgerechnet wie Kampfmagus' Arkaner
+      Vorrat über `POOL_COST_AT_ACTIVATION` (1 Stunde pauschal bei Aktivierung
+      fällig, nicht `advance_time`s rundenweises Abbuchen) — modelliert damit
+      die PRD-Regel "muss nicht aufeinander folgen, wird aber in Einheiten
+      von jeweils 1 Stunde abgerechnet" direkt: eine Aktivierung kostet immer
+      genau 1 Stunde, egal wie lange sie tatsächlich aktiv bleibt oder ob sie
+      vorzeitig beendet wird. `default_duration_rounds: 600`
+      (`base_class_abilities.json`) belegt das Dauer-Feld im
+      Aktivierungs-Popup mit exakt 1 Stunde vor (bereits bestehende, bisher
+      nur für Klassenfähigkeiten-Doku fälschlich als "spells/class abilities
+      haben keine Vorbelegung" beschriebene Popup-Mechanik — Kommentar in
+      `ActivateEffectModal.tsx` korrigiert). Bekannte, bewusste Lücke: ein
+      Spieler, der das Dauer-Feld manuell über 600 Runden hinaus verlängert
+      und die Wirkung länger als 1 Stunde laufen lässt, zahlt trotzdem nur
+      die eine pauschale Stunde — für längere durchgehende Nutzung ist erneutes
+      Aktivieren (und erneutes Bezahlen) der korrekte Weg. Regressionstests:
+      `test_luftbarriere_bills_one_whole_hour_per_activation_regardless_of_actual_duration`,
+      `test_luftbarriere_armor_bonus_scales_at_level_7_and_beyond`
+      (`tests/test_effects.py`). Weiterhin nicht modelliert: die
+      50%-Fehlschlagchance gegen Fernkampfangriffe ab Stufe 13 (kein
+      Fehlschlagchance-Mechanismus existiert irgendwo im Code).
 - [ ] Mystiker: Luftschwingen
 - [ ] Mystiker: Schlachtruf
 - [ ] Mystiker: Stahlharte Haut

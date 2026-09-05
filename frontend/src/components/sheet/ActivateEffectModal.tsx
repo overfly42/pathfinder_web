@@ -3,8 +3,11 @@ import type { EffectSourceType } from '../../types/character';
 import { ROUNDS_PER_UNIT, TIME_UNIT_LABELS, roundsToUnitValue, type TimeUnit } from '../../lib/time';
 
 /** One entry from the effects panel's "available" list (spell/class ability/condition) that the
- *  player picked to activate. `default*` fields are only ever set for `sourceType === 'condition'`
- *  — spells/class abilities have no catalog-side defaults to pre-fill from (see `ConditionCatalogEntry`). */
+ *  player picked to activate. `default*` fields are set for `sourceType === 'condition'` from
+ *  `ConditionCatalogEntry`, and for a class ability/feat with its own catalog-side
+ *  `defaultDurationRounds` (e.g. Kampfmagus's Arkaner Vorrat, Mystiker's Luftbarriere) —
+ *  `RealEffectsPanel.tsx` is what actually threads either source into this shared shape. Plain
+ *  spells never carry one today (no `BaseSpell.default_duration_rounds` column exists yet). */
 export interface AvailableEntry {
   domId: string;
   sourceType: EffectSourceType;

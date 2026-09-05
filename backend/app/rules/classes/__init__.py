@@ -49,10 +49,15 @@ from .kampfmagus import POOL_COST_AT_ACTIVATION as _KAMPFMAGUS_POOL_COST_AT_ACTI
 from .kampfmagus import POOL_SOURCE_ID as _KAMPFMAGUS_POOL_SOURCE_ID
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 from .kampfmagus import WEAPON_ENHANCEMENT_HANDLERS as _KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS
+from .mystiker import DAILY_LIMIT_UNIT_LABEL as _MYSTIKER_DAILY_LIMIT_UNIT_LABEL
+from .mystiker import DAILY_LIMITS as _MYSTIKER_DAILY_LIMITS
+from .mystiker import HANDLERS as _MYSTIKER_HANDLERS
+from .mystiker import POOL_COST_AT_ACTIVATION as _MYSTIKER_POOL_COST_AT_ACTIVATION
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
     **_KAMPFMAGUS_HANDLERS,
+    **_MYSTIKER_HANDLERS,
 }
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     **_BARBARIAN_NATURAL_ATTACK_HANDLERS,
@@ -74,6 +79,7 @@ WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID,
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
     **_KAMPFMAGUS_DAILY_LIMITS,
+    **_MYSTIKER_DAILY_LIMITS,
 }
 # Ability ids whose active effect pays its own `DAILY_LIMITS` pool cost once
 # at activation rather than accruing it per round of active duration — see
@@ -82,6 +88,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 # every current entry is a fixed constant.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     **_KAMPFMAGUS_POOL_COST_AT_ACTIVATION,
+    **_MYSTIKER_POOL_COST_AT_ACTIVATION,
 }
 # An ability id -> the id of the pool it actually draws from, when that
 # differs from its own id (`rules/daily_limits.py`'s own docstring). Absent
@@ -94,6 +101,7 @@ POOL_SOURCE_ID: dict[UUID, UUID] = {
 # — see `rules/classes/kampfmagus.py`'s own docstring.
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     **_KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL,
+    **_MYSTIKER_DAILY_LIMIT_UNIT_LABEL,
 }
 TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_TEMP_HP_GRANTS,
