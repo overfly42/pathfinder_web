@@ -111,6 +111,13 @@ export interface CastableSpellGrade {
    *  again (restore instead of cast) whenever `pearlsAvailable > 0`. */
   pearlsAvailable?: number;
   pearlsTotal?: number;
+  /** Real remaining today for a spontaneous caster's (Barde/Hexenmeister/Mystiker) shared
+   *  per-grade slot pool (`sheet.py`'s `remaining_spontaneous_slots_by_grade`) — absent for
+   *  arcane-/divine-prepared grades, where each spell's own `preparedCount`/`usedCount` already
+   *  tracks real per-spell state. Only present because that per-spell pair is a synthetic
+   *  `1`/`0-or-1` flag for spontaneous grades, not a running count — this is the one place the
+   *  actual "X of perDay left" number exists. */
+  slotsAvailable?: number;
 }
 
 export interface PreparableSpellGrade {

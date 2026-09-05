@@ -1390,6 +1390,15 @@ def _build_prepared_spell_grades(
                 )
                 if grade in pearls_by_grade:
                     grade_entry["pearlsAvailable"], grade_entry["pearlsTotal"] = pearls_by_grade[grade]
+                if spell_type == "spontaneous" and grade >= 1:
+                    # Real shared-pool countdown for a spontaneous caster
+                    # (Barde/Hexenmeister/Mystiker) — per-spell usedCount is
+                    # only a binary "does *any* grade have room" flag (see
+                    # this function's own docstring), so without this the
+                    # cast bar has no way to show today's actual remaining
+                    # count and every known spell looks equally "available"
+                    # right up until the whole pool is spent at once.
+                    grade_entry["slotsAvailable"] = remaining_by_grade.get(grade, 0)
             spellbook.append(grade_entry)
 
     spellbook.sort(key=lambda g: g["grade"])

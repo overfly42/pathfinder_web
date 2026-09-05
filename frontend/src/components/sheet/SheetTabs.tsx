@@ -142,6 +142,7 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
           {character.spellsKnown.map((grade) => {
             const preparedTotal = grade.spells.reduce((sum, s) => sum + s.preparedCount, 0);
             const usedTotal = grade.spells.reduce((sum, s) => sum + s.usedCount, 0);
+            const isSpontaneous = grade.slotsAvailable != null;
             return (
               <div className="spell-tab-block" key={grade.grade}>
                 <div className={`spell-table-row${grade.locked ? ' locked' : ''}`}>
@@ -151,6 +152,12 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
                       <div className="stat"><span className="stat-label">Vorbereitet</span><span className="stat-val">—</span></div>
                       <div className="stat"><span className="stat-label">Frei</span><span className="stat-val">—</span></div>
                       <div className="stat"><span className="stat-label">Verfügbar ab</span><span className="stat-val">Stufe {grade.availableAtLevel}</span></div>
+                    </>
+                  ) : isSpontaneous ? (
+                    <>
+                      <div className="stat"><span className="stat-label">Bekannt</span><span className="stat-val">{grade.spells.length}</span></div>
+                      <div className="stat"><span className="stat-label">Zauberplätze frei</span><span className="stat-val">{grade.slotsAvailable}/{grade.perDay}</span></div>
+                      <div className="stat"><span className="stat-label">Gewirkt heute</span><span className="stat-val">{(grade.perDay ?? 0) - (grade.slotsAvailable ?? 0)}</span></div>
                     </>
                   ) : (
                     <>
@@ -182,7 +189,7 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
                             else if (canRestore) onRestoreSpell(grade.grade, spell);
                           }}
                         >
-                          {spell.name} ({remaining}/{spell.preparedCount})
+                          {isSpontaneous ? spell.name : `${spell.name} (${remaining}/${spell.preparedCount})`}
                         </button>
                       );
                     })}
