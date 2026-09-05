@@ -31,6 +31,22 @@ GEWITZTES_WORTSPIEL = UUID("d190edc6-d19d-5db8-8eb6-3a38fb1eea1c")
 # stacking (`rules/modifiers.py`'s `stack()`) pipeline.
 FOKUSSIERTER_VERSTAND = UUID("f5a594bc-a429-587e-918c-b607caf20212")
 
+# `base_traits.json`'s "Begabt" row id ("+1 Wesenszugbonus auf eine
+# Auftretenfertigkeit deiner Wahl. Auftreten ist für dich stets eine
+# Klassenfertigkeit."). No `skill_choice_ability` sub-choice needed despite
+# the "deiner Wahl" wording: Auftreten (`_AUFTRETEN_SKILL_ID` below) is
+# modeled as one skill with specializations (`base_skill_specializations.json`:
+# Gesang/Tanz/Schauspiel, plus a free-typed one), not as several sibling
+# skills the way `skill_choice_ability` picks between — the "choice" is which
+# *specialization*, and `sheet.py`'s skill-bonus system already only targets
+# a base skill id, never one specialization (same imprecision its existing
+# class-skill bonus has, see `sheet.py`'s `_skill_entry` docstring) — so
+# there's nothing left to disambiguate here, same reasoning `feats.py`'s
+# `_einschuechternde_kraft` uses for hardcoding a single skill id outright.
+BEGABT = UUID("8b17eb40-3e3d-59e2-b95a-ea6d591b4606")
+# `base_skills.json`'s "Auftreten" row id.
+_AUFTRETEN_SKILL_ID = "fa72f72e-b86a-4d93-9382-bbcee12fdfd9"
+
 
 def _gewitztes_wortspiel(context: CharacterContext) -> list[Modifier]:
     """"Wähle eine charismabasierte Fertigkeit. Du legst Fertigkeitswürfe für
@@ -70,7 +86,39 @@ def _fokussierter_verstand(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Fokussierter Verstand", type="trait", value=2, target=ModifierTarget.CONCENTRATION)]
 
 
+def _begabt(context: CharacterContext) -> list[Modifier]:
+    # Unconditional (see `BEGABT`'s own docstring above) — the class-skill
+    # half of this trait isn't a `Modifier` at all, see `CLASS_SKILL_GRANTS`
+    # below.
+    del context
+    return [
+        Modifier(
+            source="Begabt",
+            type="trait",
+            value=1,
+            target=ModifierTarget.SKILL,
+            target_id=_AUFTRETEN_SKILL_ID,
+        )
+    ]
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     GEWITZTES_WORTSPIEL: _gewitztes_wortspiel,
     FOKUSSIERTER_VERSTAND: _fokussierter_verstand,
+    BEGABT: _begabt,
+}
+
+# Trigger id -> skill ids it makes a class skill regardless of the
+# character's actual classes — the other half of any trait/feat shaped like
+# "+bonus, and X is always a class skill" (Begabt is the first of at least 8
+# traits in `base_traits.json` with this exact shape, e.g. "Machtvolle
+# Präsenz", "Sucher" — those stay unimplemented until a future pass actually
+# needs them, same "empty until now" convention this module's own docstring
+# used before `HANDLERS` had its first entry). Kept separate from `HANDLERS`
+# since class-skill status isn't a `Modifier` (`sheet.py`'s `class_skill_ids`
+# is a set of ids, not a stat with a value) — merged into `rules/handlers.py`'s
+# `granted_class_skill_ids` the same way `SITUATIONAL_SKILL_HANDLERS` merges
+# per-family slices into one registry.
+CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
+    BEGABT: frozenset({UUID(_AUFTRETEN_SKILL_ID)}),
 }

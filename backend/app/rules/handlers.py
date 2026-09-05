@@ -89,7 +89,22 @@ Three scopes a conditional bonus's *trigger* can take, and how each is modeled:
    registry it structurally doesn't have an id for would be a worse fit, not
    a cleaner one. It shares `SkillNote` as its output shape purely so
    `_build_skills` has one rendering path regardless of which scope produced
-   a given note."""
+   a given note.
+
+## `CLASS_SKILL_GRANTS` — "X is always a class skill" (2026-09-05, "Begabt")
+
+Same trigger-id-keyed shape as `SITUATIONAL_SKILL_HANDLERS`, for the other
+common trait/feat clause PF1e pairs with a skill bonus: "and this skill is
+always a class skill for you." Not a `Modifier` — class-skill status isn't a
+stat value, it's membership in `sheet.py`'s `class_skill_ids` set — so this
+is `dict[UUID, frozenset[UUID]]` (skill ids granted, not a callable) rather
+than reusing `HANDLERS`' `Callable[[CharacterContext], list[Modifier]]`
+shape; none of the traits with this clause found so far condition the grant
+on any character state, so a plain value needs no `CharacterContext` to
+resolve. `granted_class_skill_ids()` below resolves it against
+`context.trait_ids` (only traits contribute today; a future feat with the
+same clause merges in via `feats.py`'s own slice, same "one merged dict,
+zero changes here" promise `SITUATIONAL_SKILL_HANDLERS` already makes)."""
 
 from collections.abc import Callable, Iterable
 from uuid import UUID
@@ -117,6 +132,7 @@ from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HAND
 from .race_abilities import SPELL_LIKE_ABILITY_HANDLERS as _RACE_SPELL_LIKE_ABILITY_HANDLERS
 from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIENCY_HANDLERS
 from .speed import HANDLERS as _SPEED_HANDLERS
+from .traits import CLASS_SKILL_GRANTS as _TRAIT_CLASS_SKILL_GRANTS
 from .traits import HANDLERS as _TRAIT_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -134,6 +150,28 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
     **_CLASS_SITUATIONAL_SKILL_HANDLERS,
 }
+
+# This module's own "CLASS_SKILL_GRANTS" docstring section above — only
+# traits contribute today; a future feat-granted entry merges in here the
+# same way.
+CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
+    **_TRAIT_CLASS_SKILL_GRANTS,
+}
+
+
+def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
+    """Every skill id this character's feats/traits make a class skill
+    regardless of their actual classes (`CLASS_SKILL_GRANTS` above), unioned
+    into `sheet.py`'s own class-list-derived `class_skill_ids`. Same
+    `context.feat_ids | context.trait_ids` trigger-id scan
+    `situational_skill_notes` already uses — no granted-class-ability scope
+    exists for this registry yet (no class ability found so far grants class
+    skill status), so `context.granted_ability_ids` isn't scanned here."""
+    trigger_ids = context.feat_ids | context.trait_ids
+    granted: set[UUID] = set()
+    for trigger_id in trigger_ids:
+        granted.update(CLASS_SKILL_GRANTS.get(trigger_id, frozenset()))
+    return frozenset(granted)
 
 # How many rounds/uses per day a daily-limited ability id grants, computed
 # per character (`rules/daily_limits.py`'s `CharacterAbilityUsage` tracks
@@ -287,6 +325,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in WEAPON_PROFICIENCY_HANDLERS
         or ability_id in SPELL_LIKE_ABILITY_HANDLERS
         or ability_id in SITUATIONAL_SKILL_HANDLERS
+        or ability_id in CLASS_SKILL_GRANTS
         or ability_id in SPELL_SLOT_DELTAS
         or ability_id in DAILY_LIMITS
         or ability_id in TEMP_HP_GRANTS

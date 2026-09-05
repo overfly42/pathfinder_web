@@ -20,6 +20,7 @@ from test_characters import (
     _item_id,
     _race_id,
     _skill_id,
+    _skill_specialization_id,
     _to_skill_rank_selections,
     _trait_id,
 )
@@ -432,6 +433,45 @@ def test_gewitztes_wortspiel_uses_int_instead_of_cha_for_chosen_skill(
     assert {"label": "Attributsbonus (CHA)", "value": -1} in breakdown
     assert {"label": "Gewitztes Wortspiel", "value": 2} in breakdown
     assert sum(entry["value"] for entry in breakdown) == 1
+
+
+def test_begabt_adds_trait_bonus_and_class_skill_status_to_auftreten(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/traits.py`'s "Begabt": +1 trait bonus on Auftreten, and
+    Auftreten is always a class skill - even for Waldläufer (`_character_payload`'s
+    default class), whose own class-skill list doesn't include it, so the +3
+    below can only be coming from the trait's own `CLASS_SKILL_GRANTS` entry,
+    not from the class."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)  # doesn't touch CHA
+
+    auftreten_id = _skill_id(client, db_session, "Auftreten")
+    gesang_id = _skill_specialization_id(client, db_session, "Auftreten", "Gesang")
+    trait_id = _trait_id(client, db_session, "Begabt")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            trait_ids=[trait_id],
+            skill_ranks=[{"skill_id": auftreten_id, "specialization_id": gesang_id, "ranks": 1}],
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    gesang = next(s for s in body["skills"] if s["label"] == "Auftreten (Gesang)")
+    # CH mod (8 -> -1) + class skill (+3, from the trait, not the class) +
+    # trait bonus (+1) + 1 rank = +4.
+    assert gesang["value"] == "+4"
+    breakdown = gesang["breakdown"]
+    assert {"label": "Klassenfertigkeit", "value": 3} in breakdown
+    assert {"label": "Begabt", "value": 1} in breakdown
+    assert sum(entry["value"] for entry in breakdown) == 4
 
 
 def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(

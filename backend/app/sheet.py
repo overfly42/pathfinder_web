@@ -105,6 +105,7 @@ from .rules.handlers import (
     WEAPON_PROFICIENCY_HANDLERS,
     character_modifiers,
     granted_ability_modifiers,
+    granted_class_skill_ids,
     has_mechanical_effect,
     situational_skill_notes,
 )
@@ -801,6 +802,11 @@ def _build_skills(
                 )
             ).all()
         )
+    # A trait/feat can make a skill a class skill regardless of the
+    # character's actual classes (e.g. "Begabt" and Auftreten) — folded in
+    # unconditionally, not gated behind `level_counts_by_root_id` above.
+    class_skill_ids |= granted_class_skill_ids(context)
+
     def _skill_entry(skill: BaseSkill, ranks: int, label: str, key: str) -> dict:
         ab_mod = ability_mods.get(skill.ability, 0)
         # PF1e RAW: the +3 class-skill bonus only applies once at least 1 rank
