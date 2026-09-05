@@ -1333,7 +1333,21 @@ def cast_spell(
     (`CharacterSpellSlotUsage`), walking up from this spell's own grade
     through any higher one that still has room (PF1e's universal "a higher
     slot can cast a lower-grade spell" rule, `rules/spells.py`'s
-    `find_open_spontaneous_grade`)."""
+    `find_open_spontaneous_grade`).
+
+    A successful cast of an `is_persistent_effect` spell (2026-09-05) also
+    creates the tracked `CharacterEffect` row — previously this and slot
+    consumption were two entirely disconnected actions (this endpoint vs.
+    `POST .../effects`), so casting Schild des Glaubens from the spell list
+    never actually applied its AC bonus, and activating it from "Verfügbare
+    Optionen" never spent a slot. `level` is this casting's own `class_level`
+    (already resolved above, not asked of the player — unlike a generic
+    `POST .../effects` activation, this endpoint already knows exactly which
+    class/caster-level context applies) and `duration_remaining` is
+    pre-computed from `BaseSpell.duration_rounds_per_level * class_level`
+    when that's set (e.g. Magierrüstung), `None` otherwise (the player
+    manages the effect's end manually, same as every other persistent-effect
+    spell today)."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1360,26 +1374,38 @@ def cast_spell(
                     status_code=422, detail=f"No free grade {class_spell.grade}+ slots left today"
                 )
             consume_spontaneous_slot(db, character, root.id, open_grade)
-            db.commit()
-            db.refresh(character)
-        return character
-
-    row = next(
-        (
-            row
-            for row in character.spell_preparations
-            if row.base_class_id == body.base_class_id and row.spell_id == spell_id
-        ),
-        None,
-    )
-    if row is None or row.prepared_count == 0:
-        raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
-
-    is_cantrip = class_spell.grade == 0
-    if not is_cantrip:
-        if row.used_count >= row.prepared_count:
+    else:
+        row = next(
+            (
+                row
+                for row in character.spell_preparations
+                if row.base_class_id == body.base_class_id and row.spell_id == spell_id
+            ),
+            None,
+        )
+        if row is None or row.prepared_count == 0:
             raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
-        row.used_count += 1
+
+        is_cantrip = class_spell.grade == 0
+        if not is_cantrip:
+            if row.used_count >= row.prepared_count:
+                raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
+            row.used_count += 1
+
+    spell = db.get(BaseSpell, spell_id)
+    if spell is not None and spell.is_persistent_effect:
+        duration = (
+            spell.duration_rounds_per_level * class_level if spell.duration_rounds_per_level is not None else None
+        )
+        db.add(
+            CharacterEffect(
+                character_id=character_id,
+                source_type="spell",
+                source_id=spell_id,
+                level=class_level,
+                duration_remaining=duration,
+            )
+        )
 
     db.commit()
     db.refresh(character)

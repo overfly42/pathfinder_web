@@ -6,8 +6,11 @@ import { ROUNDS_PER_UNIT, TIME_UNIT_LABELS, roundsToUnitValue, type TimeUnit } f
  *  player picked to activate. `default*` fields are set for `sourceType === 'condition'` from
  *  `ConditionCatalogEntry`, and for a class ability/feat with its own catalog-side
  *  `defaultDurationRounds` (e.g. Kampfmagus's Arkaner Vorrat, Mystiker's Luftbarriere) —
- *  `RealEffectsPanel.tsx` is what actually threads either source into this shared shape. Plain
- *  spells never carry one today (no `BaseSpell.default_duration_rounds` column exists yet). */
+ *  `RealEffectsPanel.tsx` is what actually threads either source into this shared shape.
+ *  `durationRoundsPerLevel` (spells only, e.g. Magierrüstung's 600 = "1 Stunde/Stufe") is the
+ *  per-level counterpart: a flat `defaultDurationRounds` can't represent a duration that scales
+ *  with whatever caster level the player enters in this same form, so the modal recomputes
+ *  `duration` live from `level * durationRoundsPerLevel` instead of seeding it once. */
 export interface AvailableEntry {
   domId: string;
   sourceType: EffectSourceType;
@@ -20,6 +23,7 @@ export interface AvailableEntry {
   defaultDurationRounds?: number | null;
   defaultFrequencyRounds?: number | null;
   defaultSuccessesRequired?: number | null;
+  durationRoundsPerLevel?: number | null;
 }
 
 export interface ActivateEffectInput {
@@ -110,15 +114,36 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
   // spells/class abilities default their level to the character's current level (the usual
   // caster-level stand-in), conditions/poisons/diseases have no level concept and default the
   // duration/incubation/frequency/successes fields from the catalog's parsed defaults instead.
+  // A `durationRoundsPerLevel` entry (a "X/Stufe" spell) seeds duration from *this* initial level
+  // instead of `defaultDurationRounds` — see `handleLevelChange` for what keeps it in sync
+  // afterwards as the player edits the level field.
   useEffect(() => {
     if (!entry) return;
-    setLevel(entry.sourceType === 'condition' ? '' : String(characterLevel));
-    setDuration(fieldFromRounds(entry.defaultDurationRounds));
+    const initialLevel = entry.sourceType === 'condition' ? '' : String(characterLevel);
+    setLevel(initialLevel);
+    setDuration(
+      entry.durationRoundsPerLevel != null
+        ? fieldFromRounds(entry.durationRoundsPerLevel * characterLevel)
+        : fieldFromRounds(entry.defaultDurationRounds)
+    );
     setIncubation(fieldFromRounds(entry.defaultIncubationRounds));
     setFrequency(fieldFromRounds(entry.defaultFrequencyRounds));
     setSuccessesRequired(entry.defaultSuccessesRequired != null ? String(entry.defaultSuccessesRequired) : '');
     setTargetItemId('');
   }, [entry, characterLevel]);
+
+  // For a `durationRoundsPerLevel` entry, typing a new level recomputes the duration field to
+  // match (still overridable afterwards — editing duration itself doesn't get overwritten again
+  // unless the level field changes once more). Ignored for every other entry, and for a level
+  // field the player has cleared or left non-numeric.
+  function handleLevelChange(value: string) {
+    setLevel(value);
+    if (entry?.durationRoundsPerLevel == null) return;
+    const parsedLevel = parseInt(value, 10);
+    if (Number.isFinite(parsedLevel) && parsedLevel >= 0) {
+      setDuration(fieldFromRounds(entry.durationRoundsPerLevel * parsedLevel));
+    }
+  }
 
   function handleActivate() {
     if (!entry) return;
@@ -151,7 +176,7 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
           <div className="activate-effect-field">
             <div className="detail-label">Stufe</div>
             <div className="activate-effect-value-row">
-              <input type="number" min={0} value={level} onChange={(e) => setLevel(e.target.value)} />
+              <input type="number" min={0} value={level} onChange={(e) => handleLevelChange(e.target.value)} />
             </div>
           </div>
           <UnitValueField label="Dauer" field={duration} onChange={setDuration} />

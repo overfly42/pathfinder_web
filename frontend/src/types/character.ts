@@ -308,12 +308,16 @@ export interface ConditionCatalogEntry {
  *  entries have none. `defaultDurationRounds` (feats, e.g. Heftiger Angriff's 1 round; class
  *  abilities, e.g. Kampfmagus's Arkaner Vorrat's 1 minute) pre-fills the activation modal's
  *  duration field, same role `ConditionCatalogEntry`'s own default plays for conditions — the
- *  player can still override it. */
+ *  player can still override it. `durationRoundsPerLevel` (spells only, e.g. Magierrüstung's 600 =
+ *  "1 Stunde/Stufe") is that field's per-level counterpart: unlike a flat `defaultDurationRounds`,
+ *  a spell whose PRD duration scales with caster level has no single constant to pre-fill with —
+ *  the activation modal instead recomputes the duration field live as the player types a level. */
 export interface ActivatableRef {
   key: string;
   name: string;
   description?: string | null;
   defaultDurationRounds?: number | null;
+  durationRoundsPerLevel?: number | null;
 }
 
 /** One applied `CharacterEffect` instance (backend roadmap slice 5) — real character state, distinct

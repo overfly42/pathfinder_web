@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import (
+    BaseClass,
     BaseClassAbility,
     BaseClassAbilityGrant,
     BaseCondition,
@@ -263,8 +264,10 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
         json={"source_type": "condition", "source_id": condition_id, "level": 2, "duration_remaining": 4},
     )
 
-    # A spell only counts as "activatable" once it's both flagged
-    # is_persistent_effect *and* actually known by this character - inserted
+    # A known/prepared spell is deliberately *not* part of "activatable"
+    # sources (2026-09-05, `_build_activatable_spells`'s own docstring) even
+    # once flagged is_persistent_effect - it's cast (and its effect created)
+    # via `POST .../spells/{id}/cast` instead, not this list. Inserted
     # directly (like a level-up spell pick) rather than via the creation
     # wizard's budget validation, which isn't what this test is about.
     character = db_session.get(Character, UUID(character_id))
@@ -303,7 +306,7 @@ def test_sheet_lists_active_effects_and_activatable_sources(client: TestClient, 
     assert active["durationRemaining"] == 4
     assert active["successesCurrent"] == 0
 
-    assert any(s["key"] == spell_id for s in sheet["activatableSpells"])
+    assert not any(s["key"] == spell_id for s in sheet["activatableSpells"])
     assert any(a["key"] == str(ability.id) for a in sheet["activatableClassAbilities"])
 
 
@@ -571,6 +574,140 @@ def test_bestientotem_natural_armor_bonus_scales_with_barbarian_level(
 
 
 MAGIERRUESTUNG_SPELL_ID = "b987fa2d-d38f-5913-8073-93a4f671a92e"
+SCHILD_DES_GLAUBENS_SPELL_ID = "ced7dda5-77df-53f3-8028-bde2dc433fd2"
+
+
+def test_sheet_exposes_duration_rounds_per_level_for_scaling_duration_spells(
+    client: TestClient, db_session: Session
+) -> None:
+    """`BaseSpell.duration_rounds_per_level` (`_build_external_spells`,
+    `sheet.py`) — lets the activation popup recompute a "X/Stufe" spell's
+    duration live from whatever caster level the player enters, since a flat
+    `defaultDurationRounds` can't represent a duration that depends on a
+    value entered in the same form. `externalSpells` (not
+    `activatableSpells`, which no longer lists known/prepared spells at all
+    — see that function's own docstring) is where this is actually visible
+    today: someone else's caster targeting this character with either spell
+    still needs the same live pre-fill."""
+    character_id = _create_character(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    schild = next(s for s in sheet["externalSpells"] if s["key"] == SCHILD_DES_GLAUBENS_SPELL_ID)
+    assert schild["durationRoundsPerLevel"] == 10
+    magierruestung = next(s for s in sheet["externalSpells"] if s["key"] == MAGIERRUESTUNG_SPELL_ID)
+    assert magierruestung["durationRoundsPerLevel"] == 600
+
+
+def test_schild_des_glaubens_deflection_bonus_scales_with_level_and_caps_at_5(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_schild_des_glaubens` (`rules/effects.py`) — PRD text: "+2 [...]
+    +1 pro sechs Zauberstufen (maximaler Ablenkungsbonus von +5 auf der
+    18. Stufe)". Unlike Magierrüstung's flat bonus, this one reads the
+    caster level entered at activation (`CharacterEffect.level`)."""
+    character_id = _create_character(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    level1 = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": SCHILD_DES_GLAUBENS_SPELL_ID, "level": 1, "duration_remaining": 10},
+    )
+    assert level1.status_code == 201
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == baseline_ac + 2
+    client.delete(f"/api/characters/{character_id}/effects/{level1.json()['id']}")
+
+    # 24th level (above the "18th level" cap) still only ever gives +5, not +6.
+    high_level = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": SCHILD_DES_GLAUBENS_SPELL_ID, "level": 24, "duration_remaining": 240},
+    )
+    assert high_level.status_code == 201
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == baseline_ac + 5
+
+
+def test_schild_des_glaubens_two_instances_do_not_stack(client: TestClient, db_session: Session) -> None:
+    """A "deflection"-type bonus (`modifiers.py`'s own docstring calls this
+    out as a capped type) — two independent castings at different levels
+    must cap at the higher value, not add together."""
+    character_id = _create_character(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": SCHILD_DES_GLAUBENS_SPELL_ID, "level": 1, "duration_remaining": 10},
+    )
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "spell", "source_id": SCHILD_DES_GLAUBENS_SPELL_ID, "level": 12, "duration_remaining": 120},
+    )
+    # +2 (level 1) and +4 (level 12) present at once -> capped at +4, not +6.
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == baseline_ac + 4
+
+
+def test_casting_known_persistent_effect_spell_spends_a_slot_and_applies_its_effect(
+    client: TestClient, db_session: Session
+) -> None:
+    """Regression for a real bug a player hit: activating Schild des
+    Glaubens from "Verfügbare Optionen" (`POST .../effects`) never spent a
+    daily spell slot, and casting it from the spell list (`POST
+    .../spells/{id}/cast`) never applied its AC bonus -- two entirely
+    disconnected actions. `cast_spell` (`routers/characters.py`, 2026-09-05)
+    now creates the `CharacterEffect` itself on a successful cast, using
+    this casting's own already-resolved `class_level` (not asked of the
+    player) rather than requiring a separate `POST .../effects` call.
+
+    Mystiker (spontaneous caster) exercises the shared-pool branch of
+    `cast_spell`; the grade-1 pool here is 7 (Stufe 1, INT-mod-driven bonus
+    spells irrelevant to CHA-cast Mystiker -- same fixture math as
+    `test_luftbarriere_bills_one_whole_hour_per_activation...`'s sibling
+    tests use for this same character)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)  # base_class_spell_grants.option_choice_id FKs here
+    seed_spells(db_session)
+    mystiker_id = db_session.query(BaseClass).filter_by(name="Mystiker").one().id
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Mystiker", "level": 1}],
+            spell_ids={str(mystiker_id): [SCHILD_DES_GLAUBENS_SPELL_ID]},
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    baseline = client.get(f"/api/characters/{character_id}").json()
+    baseline_ac = baseline["armorClass"]
+    grade1 = next(g for g in baseline["spellsKnown"] if g["grade"] == 1)
+    slots_before = grade1["slotsAvailable"]
+
+    cast = client.post(
+        f"/api/characters/{character_id}/spells/{SCHILD_DES_GLAUBENS_SPELL_ID}/cast",
+        json={"base_class_id": str(mystiker_id)},
+    )
+    assert cast.status_code == 200
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    # The daily slot was spent...
+    grade1 = next(g for g in sheet["spellsKnown"] if g["grade"] == 1)
+    assert grade1["slotsAvailable"] == slots_before - 1
+    # ...and the effect was actually applied (+2 deflection at 1st level).
+    assert sheet["armorClass"] == baseline_ac + 2
+    active = next(e for e in sheet["activeEffects"] if e["sourceId"] == SCHILD_DES_GLAUBENS_SPELL_ID)
+    assert active["level"] == 1
 
 
 def test_sheet_lists_touch_range_spell_as_external_even_when_unknown(

@@ -167,6 +167,7 @@ export function RealEffectsPanel({
           name: spell.name,
           icon: SOURCE_TYPE_ICONS.spell,
           tag: 'Zauber',
+          durationRoundsPerLevel: spell.durationRoundsPerLevel,
         });
       }
       const ownAbilityIds = new Set<string>();
@@ -228,6 +229,7 @@ export function RealEffectsPanel({
           name: spell.name,
           icon: SOURCE_TYPE_ICONS.spell,
           tag: 'Zauber (von außen)',
+          durationRoundsPerLevel: spell.durationRoundsPerLevel,
         });
       }
     }

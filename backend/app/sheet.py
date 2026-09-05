@@ -462,7 +462,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "effectsActive": [],
         "activeEffects": _build_active_effects(db, character, context)
         + _build_item_granted_effects(db, items, gear_by_slot),
-        "activatableSpells": _build_activatable_spells(db, character, context, race_ability_ids),
+        "activatableSpells": _build_activatable_spells(db, context, race_ability_ids),
         "activatableClassAbilities": _build_activatable_class_abilities(db, character, context, granted_ability_ids),
         "activatableFeats": _build_activatable_feats(db, character),
         "externalClassAbilities": _build_external_class_abilities(db),
@@ -1436,27 +1436,41 @@ def _format_spell_components(component: BaseSpellComponent | None) -> str:
     return ", ".join(parts) if parts else "—"
 
 
-def _build_activatable_spells(
-    db: Session, character: Character, context: CharacterContext, race_ability_ids: set[UUID]
-) -> list[dict]:
-    """Known spells flagged `is_persistent_effect` (roadmap slice 5), plus any
-    spell a race ability grants as a spell-like ability
+def _build_activatable_spells(db: Session, context: CharacterContext, race_ability_ids: set[UUID]) -> list[dict]:
+    """Spells a race ability grants as an at-will spell-like ability
     (`rules/handlers.py`'s `SPELL_LIKE_ABILITY_HANDLERS`, e.g. Elf's
-    Lichtbringer, gated on INT >= 10) — the subset a player can activate as a
-    tracked `CharacterEffect` via `POST .../effects`. Kept separate from
-    `spellsKnown`/`spellbook` (cast/prepare tracking, an unrelated concern)
-    rather than adding a field to those existing shapes. Self-only by nature
-    (`range` "Persönlich") is the typical shape here; a non-"Persönlich"
-    spell the character themselves also knows still legitimately belongs in
-    this list too (nothing stops a caster targeting themselves with their
-    own Berührung spell) — see `_build_external_spells` for the counterpart
-    that isn't gated by ownership at all.
+    Lichtbringer, gated on INT >= 10), flagged `is_persistent_effect` — the
+    subset a player can freely activate as a tracked `CharacterEffect` via
+    `POST .../effects` with no slot/preparation cost, since a spell-like
+    ability isn't cast from a spellbook/known-spell list at all and has
+    nothing to spend.
+
+    Deliberately does *not* also include the character's own known/prepared
+    spells (2026-09-05, dropped a prior version of this docstring's own
+    inclusion) — those already have a proper cast action, `POST
+    .../spells/{id}/cast` (`routers/characters.py`'s `cast_spell`), which as
+    of the same date also creates this same `CharacterEffect` row on a
+    successful cast. Listing them here too used to offer a second,
+    disconnected activation path with no slot cost at all — exactly the
+    "activating via Verfügbare Optionen doesn't spend a daily slot, casting
+    from the spell list doesn't apply the effect" confusion two entirely
+    separate code paths caused. See `_build_external_spells` for the
+    still-legitimate non-ownership-gated counterpart (someone *else's*
+    caster targeting this character spends a slot on their own sheet, not
+    this one's).
 
     A granted spell-like ability is at-will by nature — no `DAILY_LIMITS`
     entry exists for this shape, and the activation endpoint enforces no
     daily cap for any spell — so it needs no remaining-today bookkeeping the
-    way a class ability's own activatable list does."""
-    all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
+    way a class ability's own activatable list does.
+
+    `durationRoundsPerLevel` (`BaseSpell.duration_rounds_per_level`, e.g.
+    Magierrüstung's 600) lets the activation popup recompute the duration
+    field live as the player types a caster level, for a spell whose PRD
+    duration is "X/Stufe" rather than a flat constant
+    (`BaseClassAbility.default_duration_rounds`'s own docstring explains why
+    those two need separate fields)."""
+    all_spell_ids: set[UUID] = set()
     for ability_id in race_ability_ids:
         handler = SPELL_LIKE_ABILITY_HANDLERS.get(ability_id)
         if handler is not None and (spell_id := handler(context)) is not None:
@@ -1466,7 +1480,10 @@ def _build_activatable_spells(
     spells = db.scalars(
         select(BaseSpell).where(BaseSpell.id.in_(all_spell_ids), BaseSpell.is_persistent_effect.is_(True))
     ).all()
-    return [{"key": str(spell.id), "name": spell.name} for spell in spells]
+    return [
+        {"key": str(spell.id), "name": spell.name, "durationRoundsPerLevel": spell.duration_rounds_per_level}
+        for spell in spells
+    ]
 
 
 def _build_activatable_feats(db: Session, character: Character) -> list[dict]:
@@ -1735,8 +1752,11 @@ def _build_external_spells(db: Session) -> list[dict]:
     they personally know it (same reasoning `conditionsCatalog` and
     `_build_external_class_abilities` already use). `range` "Persönlich"
     (self-only by definition, e.g. a Barde's own bardic performance-shaped
-    spells) or unset/unparsed `range` data stays excluded here — those only
-    ever show up via `_build_activatable_spells`'s known-spells gate."""
+    spells) or unset/unparsed `range` data stays excluded here — a self-only
+    persistent-effect spell has no business being cast *on* someone else in
+    the first place; the character's own casting of it (via `POST
+    .../spells/{id}/cast`, `routers/characters.py`'s `cast_spell`) is what
+    creates its `CharacterEffect` instead, not any "activatable" list."""
     spells = db.scalars(
         select(BaseSpell).where(
             BaseSpell.is_persistent_effect.is_(True),
@@ -1744,7 +1764,10 @@ def _build_external_spells(db: Session) -> list[dict]:
             BaseSpell.range != "Persönlich",
         )
     ).all()
-    return [{"key": str(spell.id), "name": spell.name} for spell in spells]
+    return [
+        {"key": str(spell.id), "name": spell.name, "durationRoundsPerLevel": spell.duration_rounds_per_level}
+        for spell in spells
+    ]
 
 
 def _build_active_effects(db: Session, character: Character, context: CharacterContext) -> list[dict]:

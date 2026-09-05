@@ -25,7 +25,20 @@ class BaseSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     worth decomposing further (e.g. `range` mixes fixed distances with
     formulas like "Nah (7,50 m + 1,50 m/2 Stufen)"). All nullable: a spell
     that's just a "funktioniert wie X, außer ..." variant of a base spell
-    often has no stat block of its own on its PRD page at all."""
+    often has no stat block of its own on its PRD page at all.
+
+    `duration_rounds_per_level` (2026-09-05) is `duration`'s one structured
+    sibling: for a persistent-effect spell whose free-text duration is
+    "X/Stufe" (Magierrüstung's "1 Stunde/Stufe" = 600, Schild des Glaubens'
+    "1 Min./Stufe" = 10), this is that per-level round count, letting the
+    activation popup pre-fill/recompute the duration field as the player
+    types a caster level — unlike `BaseClassAbility.default_duration_rounds`
+    (a flat, level-independent constant, e.g. Kampfmagus's Arkaner Vorrat),
+    a spell's "X/Stufe" duration has no single constant to pre-fill with, it
+    scales with whatever level the player enters in that same form. `None`
+    for every non-"/Stufe" duration (instantaneous spells, a flat duration,
+    or simply not parsed yet) — the popup falls back to a blank field the
+    same way it already does for every persistent-effect spell today."""
 
     __tablename__ = "base_spells"
 
@@ -39,6 +52,7 @@ class BaseSpell(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     duration: Mapped[str | None] = mapped_column(String(255), nullable=True)
     saving_throw: Mapped[str | None] = mapped_column(String(255), nullable=True)
     spell_resistance: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    duration_rounds_per_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
 class BaseSpellComponent(Base, UUIDPrimaryKeyMixin, TimestampMixin):

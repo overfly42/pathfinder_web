@@ -72,7 +72,36 @@ def _magierruestung(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Magierrüstung", type="armor", value=4, target=ModifierTarget.AC)]
 
 
+# Schild des Glaubens (Shield of Faith, `base_spells.json` id ced7dda5-…).
+# PRD text: "Ablenkungsbonus von +2 auf die RK +1 pro sechs Zauberstufen
+# (maximaler Ablenkungsbonus von +5 auf der 18. Stufe)" — unlike
+# Magierrüstung's flat bonus, this one scales with the caster level entered
+# at activation (`CharacterEffect.level`), so each active instance gets its
+# own `Modifier` value rather than one flat constant; `stack()`'s
+# same-type-cap rule (a "deflection" bonus, explicitly called out in
+# `modifiers.py`'s own docstring as a capped type) still correctly picks the
+# highest one if the character somehow has two active at once, same
+# "presence, not sum" outcome `_magierruestung` gets from an explicit early
+# return. The "Legendärer" mythic-tier addition in the same description
+# isn't modeled (same "no mythic layer" scope `_magierruestung` documents).
+SCHILD_DES_GLAUBENS_SPELL_ID = UUID("ced7dda5-77df-53f3-8028-bde2dc433fd2")
+
+
+def _schild_des_glaubens(context: CharacterContext) -> list[Modifier]:
+    instances = [e for e in context.active_effects if e.source_id == SCHILD_DES_GLAUBENS_SPELL_ID]
+    return [
+        Modifier(
+            source="Schild des Glaubens",
+            type="deflection",
+            value=min(5, 2 + (effect.level or 0) // 6),
+            target=ModifierTarget.AC,
+        )
+        for effect in instances
+    ]
+
+
 EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ERSCHOPFT_CONDITION_ID: _erschoepft,
     MAGIERRUESTUNG_SPELL_ID: _magierruestung,
+    SCHILD_DES_GLAUBENS_SPELL_ID: _schild_des_glaubens,
 }
