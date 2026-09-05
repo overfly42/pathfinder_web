@@ -25,14 +25,15 @@ not fabricated placeholder content:
   separately as `activeEffects`/`activatableSpells`/
   `activatableClassAbilities`/`externalClassAbilities`, see
   `_build_active_effects` below.
-- Per-day spell prepare/cast tracking (roadmap slice 6) is real for arcane-
-  and divine-prepared classes (`_build_prepared_spell_grades`). Spontaneous
-  casters (Barde/Hexenmeister/Mystiker) deliberately get no `spellsKnown`/
-  `spellbook` entries at all for now, rather than a stale placeholder — they
-  need a structurally different per-grade slot pool (no per-spell
-  "prepared" step, any known spell can fill any same-grade slot), not an
-  extension of the arcane-/divine-prepared shape above, so this is an honest
-  gap left for a follow-up rather than the old always-`False` placeholder.
+- Per-day spell prepare/cast tracking (roadmap slice 6) is real for arcane-,
+  divine-prepared, and spontaneous classes (`_build_prepared_spell_grades`).
+  Spontaneous casters (Barde/Hexenmeister/Mystiker) have no per-spell
+  "prepared" step at all in PF1e RAW — every known spell of an accessible
+  grade counts as constantly prepared, and only a shared per-grade slot
+  pool (`CharacterSpellSlotUsage`, `rules/spells.py`'s
+  `remaining_spontaneous_slots_by_grade`) limits how often it's actually
+  cast, so `usedCount` is derived live from that pool rather than stored
+  per spell — see `_build_prepared_spell_grades`'s own docstring.
 
 Likewise `armorClass`/`combat`'s CMB/CMD assume an unarmored, Medium
 creature: `BaseRace` has no size field yet, so no size modifier is applied
@@ -117,7 +118,12 @@ from .rules.proficiency import (
 from .rules.secondary_class import secondary_granted_ability_ids_and_levels
 from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
 from .rules.progression import ability_mod, max_hit_points
-from .rules.spells import known_grades, total_spell_slots
+from .rules.spells import (
+    find_open_spontaneous_grade,
+    known_grades,
+    remaining_spontaneous_slots_by_grade,
+    total_spell_slots,
+)
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -795,7 +801,6 @@ def _build_skills(
                 )
             ).all()
         )
-
     def _skill_entry(skill: BaseSkill, ranks: int, label: str, key: str) -> dict:
         ab_mod = ability_mods.get(skill.ability, 0)
         # PF1e RAW: the +3 class-skill bonus only applies once at least 1 rank
@@ -1182,21 +1187,43 @@ def _build_prepared_spell_grades(
     granted_ability_ids: Counter[UUID],
     items: dict[UUID, BaseItem],
 ) -> tuple[list[dict], list[dict]]:
-    """Real prepared-spellcasting state (roadmap slice 6) for every arcane-
-    or divine-prepared class the character has — replaces the old
-    `_build_spell_grades` placeholder (both `used`/`prepared` hardcoded
+    """Real prepared-spellcasting state (roadmap slice 6) for every arcane-,
+    divine-prepared, or spontaneous class the character has — replaces the
+    old `_build_spell_grades` placeholder (both `used`/`prepared` hardcoded
     `False`, no persistence, no slot cap, and silently skipped divine-
     prepared classes entirely). Returns `(spellbook, spellsKnown)`:
-    `spellbook` is the full candidate list per grade (arcane-prepared: the
-    character's known spellbook, `CharacterSpell`; divine-prepared: the
-    class's whole spell list, `BaseClassSpell`, at accessible grades — no
-    spellbook, `requirements_v2.md` §2.2) with real `preparedCount`/
-    `usedCount` per spell, driving the "Zauberbuch" prepare UI; `spellsKnown`
-    is the same grades with `spells` filtered to `preparedCount > 0`,
-    driving the "Zauber" cast bar — one query pass feeds both. `perDay`
-    already reflects any archetype spell-slot reduction the character has
-    granted (e.g. Kampfmagus's Kensai, `rules/classes/kampfmagus.py`), via
-    `granted_ability_ids` -> `total_spell_slots`.
+    `spellbook` is the full candidate list per grade (arcane-prepared/
+    spontaneous: the character's known spell list, `CharacterSpell`;
+    divine-prepared: the class's whole spell list, `BaseClassSpell`, at
+    accessible grades — no known-spell list, `requirements_v2.md` §2.2)
+    with `preparedCount`/`usedCount` per spell, driving the "Zauberbuch"
+    prepare UI (arcane-/divine-prepared only — see below for why
+    spontaneous never renders that stepper despite carrying the same
+    fields); `spellsKnown` is the same grades with `spells` filtered to
+    `preparedCount > 0`, driving the "Zauber" cast bar — one query pass
+    feeds both. `perDay` already reflects any archetype spell-slot
+    reduction the character has granted (e.g. Kampfmagus's Kensai,
+    `rules/classes/kampfmagus.py`), via `granted_ability_ids` ->
+    `total_spell_slots`.
+
+    Spontaneous casters (Barde/Hexenmeister/Mystiker) have no preparation
+    step at all in PF1e RAW — every known spell of an accessible grade is
+    always "ready," and what's actually limited per day is a pool of slots
+    shared across the whole grade, not any one spell. This function models
+    that by giving every known spontaneous spell a constant `preparedCount:
+    1` (never a player action, never persisted — this is what "declare
+    every spell prepared" means here) and computing `usedCount` fresh on
+    every call from `CharacterSpellSlotUsage` via
+    `remaining_spontaneous_slots_by_grade`/`find_open_spontaneous_grade`
+    (`rules/spells.py`): free (`0`) as long as this spell's own grade *or
+    any higher one* still has an unspent slot today (PF1e's universal
+    "a higher slot can cast a lower-grade spell" rule), exhausted (`1`)
+    only once every grade from here up is spent. Because nothing per-spell
+    is ever stored, there's no reset step anywhere when a slot frees back
+    up (there's nothing to reset) — the frontend's cast bar just re-renders
+    from whatever this returns. Grade 0 is always free, same "cantrips are
+    never expended" rule `cast_spell` already enforces for prepared
+    casters.
 
     Locked (not-yet-accessible) grades are still included in `spellbook`
     (`locked: True`, `availableAtLevel` the earliest future level a
@@ -1240,24 +1267,45 @@ def _build_prepared_spell_grades(
             continue
         class_def = _class_def(root.name) or {}
         spell_type = class_def.get("spellType")
-        if spell_type not in ("arcane-prepared", "divine-prepared"):
+        if spell_type not in ("arcane-prepared", "divine-prepared", "spontaneous"):
             continue
 
-        class_spell_rows = db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.id)).all()
+        # `effective_spell_list_class_id`, not `root.id`: a class whose spell
+        # *selection* is drawn from another class's list wholesale (Mystiker
+        # -> Kleriker, see that property's docstring) owns zero
+        # `BaseClassSpell` rows of its own — matches how creation/level-up
+        # spell validation already resolves grade (`routers/characters.py`)
+        # and how `/api/spells-by-class` groups its picker.
+        class_spell_rows = db.scalars(
+            select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.effective_spell_list_class_id)
+        ).all()
         grade_by_spell_id = {row.spell_id: row.grade for row in class_spell_rows}
         all_grades = sorted({row.grade for row in class_spell_rows})
         accessible_grades = known_grades(db, root.id, class_level)
+        casting_mod = ability_mods.get(root.effective_casting_ability or "", 0)
 
-        if spell_type == "arcane-prepared":
+        if spell_type in ("arcane-prepared", "spontaneous"):
             candidate_ids = character.spell_ids.get(str(root.id), [])
         else:
             candidate_ids = [row.spell_id for row in class_spell_rows if row.grade in accessible_grades]
         spells_by_id = {
             spell.id: spell for spell in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(candidate_ids))).all()
         }
-        prep_by_spell_id = {
-            row.spell_id: row for row in character.spell_preparations if row.base_class_id == root.id
-        }
+        if spell_type == "spontaneous":
+            # No preparation step for this caster type at all — every known
+            # spell of an accessible grade counts as permanently "prepared"
+            # (see this function's own docstring); what's actually
+            # slot-limited is the shared per-grade pool below, not any
+            # individual spell.
+            prep_by_spell_id = {}
+            remaining_by_grade = remaining_spontaneous_slots_by_grade(
+                db, character, root.id, class_level, casting_mod, granted_ability_ids
+            )
+        else:
+            prep_by_spell_id = {
+                row.spell_id: row for row in character.spell_preparations if row.base_class_id == root.id
+            }
+            remaining_by_grade = {}
         components_by_spell_id = (
             {
                 row.spell_id: row
@@ -1278,14 +1326,24 @@ def _build_prepared_spell_grades(
             if spell is None:
                 continue
             grade = grade_by_spell_id.get(spell_id, 0)
-            prep = prep_by_spell_id.get(spell_id)
+            if spell_type == "spontaneous":
+                # `usedCount` is derived fresh from the shared grade pool on
+                # every read, never stored per spell — see
+                # `CharacterSpellSlotUsage`'s docstring for why that means
+                # no explicit "reset" step is ever needed here.
+                prepared_count = 1
+                used_count = 0 if grade == 0 or find_open_spontaneous_grade(remaining_by_grade, grade) is not None else 1
+            else:
+                prep = prep_by_spell_id.get(spell_id)
+                prepared_count = prep.prepared_count if prep is not None else 0
+                used_count = prep.used_count if prep is not None else 0
             by_grade[grade].append(
                 {
                     "key": str(spell_id),
                     "name": spell.name,
                     "baseClassId": str(root.id),
-                    "preparedCount": prep.prepared_count if prep is not None else 0,
-                    "usedCount": prep.used_count if prep is not None else 0,
+                    "preparedCount": prepared_count,
+                    "usedCount": used_count,
                     "description": spell.description,
                     "components": _format_spell_components(components_by_spell_id.get(spell_id)),
                     "range": spell.range,
@@ -1303,7 +1361,6 @@ def _build_prepared_spell_grades(
             if current is None or row.level < current:
                 unlock_level_by_grade[row.grade] = row.level
 
-        casting_mod = ability_mods.get(root.effective_casting_ability or "", 0)
         # Highest grade currently *accessible* (not the class's theoretical
         # max) — any ability-modifier bonus spell for a higher, still-locked
         # grade folds down into this one instead of being discarded (house

@@ -30,8 +30,8 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ..models import BaseClassSpellsKnown
-from ..models.spell import BaseClassSpellGrant, CharacterSpell
+from ..models import BaseClassSpellsKnown, Character
+from ..models.spell import BaseClassSpellGrant, CharacterSpell, CharacterSpellSlotUsage
 
 
 def known_grades(db: Session, base_class_id: UUID, level: int) -> set[int]:
@@ -205,3 +205,89 @@ def granted_option_choice_spells(
         for row in rows
         if (base_class_id, row.spell_id) not in already_known
     ]
+
+
+def remaining_spontaneous_slots_by_grade(
+    db: Session,
+    character: Character,
+    base_class_id: UUID,
+    class_level: int,
+    ability_mod: int,
+    granted_ability_ids: Iterable[UUID] = (),
+) -> dict[int, int]:
+    """Real remaining per-day slots today, per grade 1-9, for a spontaneous
+    caster (`spellType: 'spontaneous'`, e.g. Mystiker) — `total_spell_slots`
+    (this class's own base table + ability-mod bonus + any archetype slot
+    delta, same function prepared casters use) minus whatever
+    `CharacterSpellSlotUsage.used_today` already tracks. A grade missing
+    from the returned dict isn't accessible yet at this class level at all
+    (mirrors `total_spell_slots`'s own `None` sentinel) — distinct from a
+    grade present with `0` or negative remaining (accessible, just spent
+    for today).
+
+    Grade 0 (cantrips) is deliberately excluded: per PF1e RAW a prepared
+    cantrip is never expended, so it's never slot-limited in the first
+    place — see `sheet.py`'s spontaneous branch and `cast_spell`'s
+    `is_cantrip` short-circuit, both of which skip this pool entirely for
+    grade 0."""
+    accessible_grades = known_grades(db, base_class_id, class_level)
+    # Same "a bonus spell for a still-locked grade folds down into the
+    # highest currently accessible grade" house rule prepared casters use
+    # (`total_spell_slots`'s own `fold_higher_grades_into_this_one` doc) —
+    # must match exactly, or a spontaneous caster's displayed/enforced slot
+    # count would diverge from a prepared caster's for no reason.
+    max_accessible_grade = max((g for g in accessible_grades if g >= 1), default=None)
+    used_by_grade = {
+        row.grade: row.used_today
+        for row in db.scalars(
+            select(CharacterSpellSlotUsage).where(
+                CharacterSpellSlotUsage.character_id == character.id,
+                CharacterSpellSlotUsage.base_class_id == base_class_id,
+            )
+        ).all()
+    }
+    remaining: dict[int, int] = {}
+    for grade in range(1, 10):
+        slots = total_spell_slots(
+            db,
+            base_class_id,
+            class_level,
+            grade,
+            ability_mod,
+            granted_ability_ids,
+            fold_higher_grades_into_this_one=(grade == max_accessible_grade),
+        )
+        if slots is not None:
+            remaining[grade] = slots - used_by_grade.get(grade, 0)
+    return remaining
+
+
+def find_open_spontaneous_grade(remaining_by_grade: dict[int, int], min_grade: int) -> int | None:
+    """First grade from `min_grade` through 9 that still has a free slot
+    today, per PF1e's universal "a higher slot can cast a lower-grade
+    spell" rule — `None` if every grade from `min_grade` up is either
+    exhausted or not accessible yet. Callers never pass `min_grade=0`
+    (cantrips bypass this pool entirely, see `remaining_spontaneous_slots_by_grade`'s
+    docstring) but the clamp is harmless either way."""
+    return next((grade for grade in range(max(min_grade, 1), 10) if remaining_by_grade.get(grade, 0) > 0), None)
+
+
+def consume_spontaneous_slot(db: Session, character: Character, base_class_id: UUID, grade: int) -> None:
+    """Spends one of today's slots at `grade` for a spontaneous caster —
+    the `cast_spell` counterpart to `prepare_spell`'s
+    `CharacterSpellPreparation` increment, but keyed on `(character,
+    base_class, grade)` rather than a specific spell, since any known
+    spell can spend any slot of its own grade (`find_open_spontaneous_grade`
+    picks which grade to charge before this is called). Get-or-create, same
+    lazy-default convention as every other daily-usage row in this app."""
+    row = db.scalar(
+        select(CharacterSpellSlotUsage).where(
+            CharacterSpellSlotUsage.character_id == character.id,
+            CharacterSpellSlotUsage.base_class_id == base_class_id,
+            CharacterSpellSlotUsage.grade == grade,
+        )
+    )
+    if row is None:
+        row = CharacterSpellSlotUsage(character_id=character.id, base_class_id=base_class_id, grade=grade, used_today=0)
+        db.add(row)
+    row.used_today += 1

@@ -13,7 +13,7 @@ from .base_class import BaseClass
 from .effect import CharacterAbilityUsage, CharacterEffect
 from .item import CharacterGearSpecialAbility
 from .race import BaseRaceAbility
-from .spell import CharacterSpellPreparation
+from .spell import CharacterSpellPreparation, CharacterSpellSlotUsage
 
 
 class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -115,6 +115,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability_usages: Mapped[list["CharacterAbilityUsage"]] = relationship(cascade="all, delete-orphan")
     ability_damage: Mapped[list["CharacterAbilityDamage"]] = relationship(cascade="all, delete-orphan")
     spell_preparations: Mapped[list["CharacterSpellPreparation"]] = relationship(cascade="all, delete-orphan")
+    spell_slot_usages: Mapped[list["CharacterSpellSlotUsage"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:

@@ -104,6 +104,15 @@ def reset_spell_preparations(db: Session, character: Character) -> None:
     "verbraucht" and "vorbereitet" spells reset together, so a new day means
     re-preparing from scratch, not keeping yesterday's selection with a
     refreshed use count. Same lazy-default convention as `reset_all`: a
-    missing row means nothing prepared."""
+    missing row means nothing prepared.
+
+    Also wipes every `CharacterSpellSlotUsage` row (the spontaneous-caster
+    counterpart — Barde/Hexenmeister/Mystiker have no preparations to reset,
+    only a per-grade slot pool) for the same reason and by the same
+    delete-not-zero convention; one function since both are "this
+    character's spellcasting resets for the day," not two separate
+    concerns callers need to remember to invoke together."""
     for preparation in character.spell_preparations:
         db.delete(preparation)
+    for usage in character.spell_slot_usages:
+        db.delete(usage)

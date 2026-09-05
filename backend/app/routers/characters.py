@@ -72,8 +72,11 @@ from ..rules.progression import ability_mod, effective_ability_scores, is_valid_
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
 from ..rules.spells import (
     arcane_prepared_budget,
+    consume_spontaneous_slot,
+    find_open_spontaneous_grade,
     granted_option_choice_spells,
     known_grades,
+    remaining_spontaneous_slots_by_grade,
     spontaneous_known_budget,
     total_spell_slots,
 )
@@ -1185,8 +1188,14 @@ def _resolve_prepared_class_spell(
     if class_level == 0:
         raise HTTPException(status_code=422, detail="This character isn't taking that class")
 
+    # `effective_spell_list_class_id`, not `root.id`: a class whose spell
+    # *selection* is drawn from another class's list wholesale (Mystiker ->
+    # Kleriker, see that property's docstring) owns zero `BaseClassSpell`
+    # rows of its own.
     class_spell = db.scalar(
-        select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.id, BaseClassSpell.spell_id == spell_id)
+        select(BaseClassSpell).where(
+            BaseClassSpell.base_class_id == root.effective_spell_list_class_id, BaseClassSpell.spell_id == spell_id
+        )
     )
     if class_spell is None:
         raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
@@ -1315,10 +1324,45 @@ def cast_spell(
     (Perle der Macht, Kampfmagus-Zauberrückruf) that let a *non-cantrip*
     used slot be cast again build on top of this same
     `CharacterSpellPreparation` row — see `restore_spell` below for the
-    Perle-der-Macht side of that."""
+    Perle-der-Macht side of that.
+
+    Spontaneous casters (Barde/Hexenmeister/Mystiker) branch off entirely:
+    no `CharacterSpellPreparation` row exists for them at all (see
+    `sheet.py`'s `_build_prepared_spell_grades` docstring) — casting instead
+    spends one of today's slots from the shared per-grade pool
+    (`CharacterSpellSlotUsage`), walking up from this spell's own grade
+    through any higher one that still has room (PF1e's universal "a higher
+    slot can cast a lower-grade spell" rule, `rules/spells.py`'s
+    `find_open_spontaneous_grade`)."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
+
+    root, class_level, class_spell = _resolve_prepared_class_spell(db, character, body.base_class_id, spell_id)
+    class_def = _class_def(root.name) or {}
+    if class_def.get("spellType") == "spontaneous":
+        known = any(
+            entry.base_class_id == root.id and entry.spell_id == spell_id
+            for level in character.levels
+            for entry in level.spells
+        )
+        if not known:
+            raise HTTPException(status_code=422, detail="Spell isn't known")
+        if class_spell.grade != 0:
+            casting_mod = _character_ability_mods(db, character).get(root.effective_casting_ability or "", 0)
+            granted_ability_ids = _character_granted_ability_ids(db, character)
+            remaining_by_grade = remaining_spontaneous_slots_by_grade(
+                db, character, root.id, class_level, casting_mod, granted_ability_ids
+            )
+            open_grade = find_open_spontaneous_grade(remaining_by_grade, class_spell.grade)
+            if open_grade is None:
+                raise HTTPException(
+                    status_code=422, detail=f"No free grade {class_spell.grade}+ slots left today"
+                )
+            consume_spontaneous_slot(db, character, root.id, open_grade)
+            db.commit()
+            db.refresh(character)
+        return character
 
     row = next(
         (
@@ -1331,12 +1375,7 @@ def cast_spell(
     if row is None or row.prepared_count == 0:
         raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
 
-    class_spell = db.scalar(
-        select(BaseClassSpell).where(
-            BaseClassSpell.base_class_id == body.base_class_id, BaseClassSpell.spell_id == spell_id
-        )
-    )
-    is_cantrip = class_spell is not None and class_spell.grade == 0
+    is_cantrip = class_spell.grade == 0
     if not is_cantrip:
         if row.used_count >= row.prepared_count:
             raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")

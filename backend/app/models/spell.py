@@ -198,3 +198,39 @@ class CharacterSpellPreparation(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
     prepared_count: Mapped[int] = mapped_column(Integer, default=0)
     used_count: Mapped[int] = mapped_column(Integer, default=0)
+
+
+class CharacterSpellSlotUsage(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Per-day spell-slot consumption for spontaneous casters (Barde/
+    Hexenmeister/Mystiker) — the counterpart to `CharacterSpellPreparation`
+    for the caster type that has no per-spell preparation step at all,
+    only a shared pool of slots per grade (`requirements_v2.md` §2.2's
+    "spontanes Zauberwirken"). One row per `(character, base_class, grade)`,
+    not per spell: any known spell of that class can be cast from any slot
+    of its own grade *or higher* (PF1e's universal "a higher slot can cast a
+    lower-grade spell" rule), so the pool is never keyed to a specific
+    spell. `used_today` only ever counts up; the remaining amount at a given
+    grade is always `total_spell_slots(...) - used_today`, computed at read
+    time. Same lazy-default convention as `CharacterAbilityUsage`/
+    `CharacterSpellPreparation`: a missing row means 0 used today, and a
+    rest/day-tick deletes rows outright rather than zeroing them
+    (`rules/daily_limits.py`'s `reset_spell_preparations`).
+
+    Deliberately not `CharacterAbilityUsage` itself: that table's `source_id`
+    is a UUID keyed to a catalog ability row, and a spell grade is a bare
+    int with no natural UUID to key on — a dedicated table avoids a
+    synthetic-UUID workaround for that one mismatch.
+
+    Per-spell "is this castable right now" is never stored anywhere for
+    this caster type (see `sheet.py`'s `_build_prepared_spell_grades`
+    spontaneous branch) — it's derived fresh from this table on every read,
+    so there's no explicit reset step needed when a slot frees back up
+    (there's nothing per-spell to reset)."""
+
+    __tablename__ = "character_spell_slot_usages"
+    __table_args__ = (UniqueConstraint("character_id", "base_class_id", "grade"),)
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
+    grade: Mapped[int] = mapped_column(Integer)
+    used_today: Mapped[int] = mapped_column(Integer, default=0)

@@ -45,6 +45,7 @@ from .spell import (
     BaseSpellComponent,
     CharacterSpell,
     CharacterSpellPreparation,
+    CharacterSpellSlotUsage,
 )
 from .trait import BaseTrait, CharacterTrait
 from .user import User
@@ -89,6 +90,7 @@ __all__ = [
     "BaseClassSpellsKnown",
     "CharacterSpell",
     "CharacterSpellPreparation",
+    "CharacterSpellSlotUsage",
     "BaseItem",
     "BaseItemGrantedSpell",
     "BaseWeaponSpecialAbility",

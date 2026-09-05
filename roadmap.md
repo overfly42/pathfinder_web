@@ -1320,6 +1320,59 @@ entirely, not a category here.
       and `rules/handlers.py` the same three-tier way `DAILY_LIMITS` is),
       read by `total_spell_slots` off the character's already-resolved
       `granted_ability_ids`.
+- [ ] **Planned: spontaneous casters (Barde/Hexenmeister/Mystiker) — per-grade
+      slot pool, no preparation step** (design settled 2026-09-05, not yet
+      built). Closes the "structurally different pool" gap flagged above and
+      unblocks Hexenmeister's Blutlinienzauber (`BaseClassSpellGrant` rows
+      already exist, currently inert with no `spellsKnown` output to insert
+      into) and Mystiker's Kurieren/Verletzen auto-grant. `known_grades`/
+      `spells_per_day`/`total_spell_slots`/`spontaneous_known_budget` need no
+      changes — `base_class_spells_known` is already seeded for all three
+      classes under their own `base_class_id` (Mystiker/Hexenmeister 120
+      rows, Barde 95), never the `spell_list_source_id` they draw spells
+      *from*.
+      - New table `CharacterSpellSlotUsage` (`character_id`/`base_class_id`/
+        `grade` → `used_today`) — same lazy-default/wipe-not-zero convention
+        as `CharacterAbilityUsage` (`rules/daily_limits.py`). A dedicated
+        table rather than reusing `CharacterAbilityUsage` itself: that
+        table's `source_id` is a UUID keyed to a catalog ability row: a
+        spell grade is a bare int, no natural UUID to key on.
+      - `sheet.py`'s `_build_prepared_spell_grades` gains a `spellType ==
+        "spontaneous"` branch: candidate list is `character.spell_ids[root.id]`
+        (the known list) grouped by grade, same as arcane-prepared. Every
+        known spell gets `preparedCount: 1` unconditionally — this *is*
+        "declare every known spell prepared," matching
+        `requirements_v2.md` §2.2 (known list managed like inventory, no
+        in-play prepare/unprepare step for this caster type; the Zauberbuch
+        stepper UI stays hidden for these classes, same as today).
+        `usedCount` per spell is **derived, never stored**: free (`0`) if
+        `total_spell_slots(grade) - used_today(grade) > 0`; otherwise walk
+        grade+1..9 for the first grade with room (PF1e's "a higher slot can
+        cast a lower-grade spell" rule); `1` (exhausted) only if no grade
+        from the spell's own grade upward has any left. Because nothing
+        per-spell is persisted, there is no explicit "reset" step anywhere —
+        the chip is simply re-evaluated fresh on every read, always
+        reflecting the shared pool's true state.
+      - `cast_spell` gains the matching branch: instead of touching
+        `CharacterSpellPreparation`, walk the spell's grade upward through
+        `CharacterSpellSlotUsage` the same way, incrementing the first grade
+        with room; 422 if none found. Cantrips stay the existing
+        never-expended no-op.
+      - `reset_spell_preparations` (`rules/daily_limits.py`) additionally
+        wipes the character's `CharacterSpellSlotUsage` rows on rest/
+        advance-time(day) — same delete-not-zero convention already used for
+        `CharacterSpellPreparation`.
+      - Frontend: no shape change needed — `SheetTabs.tsx`'s cast bar reads
+        the same `spellsKnown`/`preparedCount`/`usedCount` fields it already
+        does for prepared casters, so it starts working for spontaneous
+        classes once the backend stops skipping them.
+      - Deliberately not covered by this pass: Perle der Macht/`restore_spell`
+        support for spontaneous classes (would need to decrement a grade's
+        pool instead of a per-spell `used_count`; no spontaneous class owns
+        pearls yet, so not urgent) and merging pools across two spontaneous
+        classes on one multiclassed character (mirrors the same
+        already-accepted non-goal for two simultaneously-prepared-caster
+        classes above).
 - [x] **Fixed bonus spells from a class option choice, first real use: Hexe's
       Schutzherr (2026-08-30)** — `BaseClassSpellGrant` (option choice →
       fixed spell at a fixed class level) existed as a model since the
