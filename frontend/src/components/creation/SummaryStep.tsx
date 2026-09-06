@@ -7,9 +7,11 @@ import {
   formatPrice,
   genderLabel,
   gearTotalValue,
+  grantedSpellsForClass,
   selectedRace,
   skillBonus,
   skillSpecializationBonus,
+  spellcastingClasses,
   spellIdsForSubmission,
   totalAbility,
   totalLevel,
@@ -81,13 +83,24 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
   }
 
   const spellNameById = new Map(Object.values(options.spellsByClass).flat().map((s) => [s.id, s.name]));
-  const classNameByBaseClassId = new Map(options.classes.filter((c) => c.id).map((c) => [c.id as string, c.name]));
-  const spellLines = Object.entries(spellIdsForSubmission(draft, options))
-    .filter(([, ids]) => ids.length > 0)
-    .map(
-      ([baseClassId, ids]) =>
-        [classNameByBaseClassId.get(baseClassId) ?? baseClassId, ids.map((id) => spellNameById.get(id) ?? id)] as const,
-    );
+  // Picked spells (`spellIdsForSubmission`, keyed by base_class_id) plus
+  // whatever `grantedSpellsForClass` adds for free (a curse/bloodline/
+  // patron choice, e.g. Heimgesucht's Magierhand/Telekinese/...) — the
+  // latter never appears in `spellIdsForSubmission` at all (that function
+  // deliberately strips them, since the backend inserts them on its own),
+  // so without merging it back in here the Übersicht would silently omit
+  // spells the character actually ends up knowing.
+  const pickedByBaseClassId = spellIdsForSubmission(draft, options);
+  const spellLines = spellcastingClasses(draft, options)
+    .map((className) => {
+      const baseClassId = classDef(options, className)?.id;
+      const pickedNames = (baseClassId ? pickedByBaseClassId[baseClassId] : undefined)?.map(
+        (id) => spellNameById.get(id) ?? id,
+      ) ?? [];
+      const grantedNames = grantedSpellsForClass(draft, options, className).map((s) => s.name);
+      return [className, [...pickedNames, ...grantedNames]] as const;
+    })
+    .filter(([, names]) => names.length > 0);
 
   return (
     <>

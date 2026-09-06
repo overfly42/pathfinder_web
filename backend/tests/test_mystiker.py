@@ -388,3 +388,78 @@ def test_create_mystiker_accepts_a_spell_only_on_klerikers_broader_list(
         ),
     )
     assert response.status_code == 201
+
+
+HEIMGESUCHT_SPELL_IDS = {
+    "Magierhand": "78500b84-cef3-5fa0-a0fe-37482935ecf9",
+    "Geisterhaftes Geräusch": "a5999686-2b8d-58ba-87b0-9f6c6e9ecaa8",
+    "Telekinese": "81ee5824-89d2-53e3-b352-365acf994ce7",
+    "Schwerkraft umkehren": "1c6116b0-660f-52a5-b844-7b52924ac71d",
+}
+
+
+def test_heimgesucht_curse_grants_foreign_spells_at_their_own_correct_grade(
+    client: TestClient, db_session: Session
+) -> None:
+    """Heimgesucht (`base_class_abilities.json`) grants Magierhand/
+    Geisterhaftes Geräusch (Stufe 1), Telekinese (Stufe 10), Schwerkraft
+    umkehren (Stufe 15) — four spells that aren't on Kleriker's list at all
+    (confirmed: 0 `BaseClassSpell` rows for Kleriker), unlike every other
+    `BaseClassSpellGrant` use so far (Kurieren/Verletzen, Blutlinie,
+    Schutzherr), which only ever grant spells already on the granting
+    class's own native list. Regression for the grade defaulting silently
+    to 0 (`grade_by_spell_id.get(spell_id, 0)`, `sheet.py`) that a naive
+    grant-rows-only fix would have caused for Telekinese (real grade 5) and
+    Schwerkraft umkehren (real grade 7) — both now resolved via Mystiker's
+    own small set of `BaseClassSpell` rows, a deliberate, narrow exception
+    to Mystiker otherwise owning zero (`base_class.py`'s
+    `spell_list_source_id` docstring)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_spells(db_session)
+    mystiker_id = str(_mystiker(db_session).id)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Mystiker", "level": 15, "options": {"curse": ["Heimgesucht"]}}],
+            hit_points={str(level): 1 for level in range(2, 16)},
+            favored_class_bonus={str(level): "hp" for level in range(1, 16)},
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+    granted = set(response.json()["spell_ids"][mystiker_id])
+    assert granted == set(HEIMGESUCHT_SPELL_IDS.values())
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    grade_by_name = {
+        spell["name"]: (grade["grade"], grade["perDay"])
+        for grade in sheet["spellsKnown"]
+        for spell in grade["spells"]
+        if spell["name"] in HEIMGESUCHT_SPELL_IDS
+    }
+    assert grade_by_name["Magierhand"][0] == 0
+    assert grade_by_name["Geisterhaftes Geräusch"][0] == 0
+    # Real per-day pools (not grade 0's unlimited-cantrip None) prove these
+    # didn't silently default to grade 0.
+    assert grade_by_name["Telekinese"] == (5, 6)
+    assert grade_by_name["Schwerkraft umkehren"] == (7, 4)
+
+    cast = client.post(
+        f"/api/characters/{character_id}/spells/{HEIMGESUCHT_SPELL_IDS['Telekinese']}/cast",
+        json={"base_class_id": mystiker_id},
+    )
+    assert cast.status_code == 200
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    grade5 = next(g for g in sheet["spellsKnown"] if g["grade"] == 5)
+    assert grade5["slotsAvailable"] == 5
+
+    # Kleriker's own list stays untouched by Mystiker's narrow exception.
+    _, kleriker_spells_by_name = _spells_by_class(client, db_session, "Kleriker")
+    assert not set(HEIMGESUCHT_SPELL_IDS) & set(kleriker_spells_by_name)

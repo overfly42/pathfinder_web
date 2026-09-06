@@ -1279,12 +1279,26 @@ def _build_prepared_spell_grades(
         # `effective_spell_list_class_id`, not `root.id`: a class whose spell
         # *selection* is drawn from another class's list wholesale (Mystiker
         # -> Kleriker, see that property's docstring) owns zero
-        # `BaseClassSpell` rows of its own — matches how creation/level-up
-        # spell validation already resolves grade (`routers/characters.py`)
-        # and how `/api/spells-by-class` groups its picker.
-        class_spell_rows = db.scalars(
-            select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.effective_spell_list_class_id)
-        ).all()
+        # `BaseClassSpell` rows of its own for "which spells exist to pick
+        # from" purposes — matches how creation/level-up spell validation
+        # already resolves grade (`routers/characters.py`) and how
+        # `/api/spells-by-class` groups its picker.
+        #
+        # `root.id`'s own rows are merged in too (own-class rows winning on
+        # a hypothetical id collision) purely to resolve *this* character's
+        # already-granted spells' grade — Mystiker's Heimgesucht curse
+        # grants four genuinely foreign spells (Magierhand/Geisterhaftes
+        # Geräusch/Telekinese/Schwerkraft umkehren) that aren't on Kleriker's
+        # list at all (`base_class.py`'s `spell_list_source_id` docstring).
+        # Without this, `grade_by_spell_id.get(spell_id, 0)` below would
+        # silently default every one of them to grade 0.
+        class_spell_rows = list(
+            db.scalars(
+                select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.effective_spell_list_class_id)
+            ).all()
+        )
+        if root.spell_list_source_id is not None:
+            class_spell_rows += db.scalars(select(BaseClassSpell).where(BaseClassSpell.base_class_id == root.id)).all()
         grade_by_spell_id = {row.spell_id: row.grade for row in class_spell_rows}
         all_grades = sorted({row.grade for row in class_spell_rows})
         accessible_grades = known_grades(db, root.id, class_level)

@@ -1191,12 +1191,25 @@ def _resolve_prepared_class_spell(
     # `effective_spell_list_class_id`, not `root.id`: a class whose spell
     # *selection* is drawn from another class's list wholesale (Mystiker ->
     # Kleriker, see that property's docstring) owns zero `BaseClassSpell`
-    # rows of its own.
+    # rows of its own for "which spells exist to pick from" purposes.
+    #
+    # `root.id`'s own rows are checked too (only when the class actually
+    # redirects, i.e. `spell_list_source_id` is set) purely so an already-
+    # granted, genuinely foreign spell can still be prepared/cast — Mystiker's
+    # Heimgesucht curse grants four spells that aren't on Kleriker's list at
+    # all (`base_class.py`'s `spell_list_source_id` docstring); same fallback
+    # `sheet.py`'s `_build_prepared_spell_grades` uses for the same reason.
     class_spell = db.scalar(
         select(BaseClassSpell).where(
             BaseClassSpell.base_class_id == root.effective_spell_list_class_id, BaseClassSpell.spell_id == spell_id
         )
     )
+    if class_spell is None and root.spell_list_source_id is not None:
+        class_spell = db.scalar(
+            select(BaseClassSpell).where(
+                BaseClassSpell.base_class_id == root.id, BaseClassSpell.spell_id == spell_id
+            )
+        )
     if class_spell is None:
         raise HTTPException(status_code=422, detail=f"Spell not on {root.name}'s spell list")
     return root, class_level, class_spell

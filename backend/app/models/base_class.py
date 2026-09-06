@@ -78,6 +78,21 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # per-level known-spell *counts* (Oracle knows far fewer spells than a
     # preparing Cleric ever does) — only the pool of *which* spells exist to
     # choose from is shared, never how many of them a level lets you pick.
+    #
+    # 2026-09-05: Mystiker legitimately owns a *small* number of its own
+    # `BaseClassSpell` rows again — not a regression of the legacy-data
+    # cleanup above, but the Heimgesucht curse's Magierhand/Geisterhaftes
+    # Geräusch/Telekinese/Schwerkraft umkehren, four genuinely foreign
+    # (arcane, off Kleriker's list entirely) spells this one curse grants.
+    # Only the grade-resolution call sites that resolve an *already-granted*
+    # spell's own grade (`sheet.py`'s `_build_prepared_spell_grades`,
+    # `routers/characters.py`'s `_resolve_prepared_class_spell`,
+    # `routers/spells.py`'s `get_granted_spells_by_choice`) fall back to
+    # these — every "which spells exist to pick from" query
+    # (`effective_spell_list_class_id`'s own docstring, `/api/spells-by-class`,
+    # creation/level-up manual-pick validation) still resolves exclusively
+    # through Kleriker's list, so these four never appear as a manually
+    # pickable Mystiker spell.
     spell_list_source_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
     )

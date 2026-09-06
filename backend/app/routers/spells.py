@@ -80,7 +80,13 @@ def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dic
     `grade` is resolved the same way `routers/characters.py`'s spell-pick
     validation does (`root.effective_spell_list_class_id`'s own
     `base_class_spells` rows) since `BaseClassSpellGrant` itself only stores
-    the granting class level, not the spell's grade for that class."""
+    the granting class level, not the spell's grade for that class. Falls
+    back to `root.id`'s own rows when that lookup misses and the class
+    redirects (`spell_list_source_id` set) — a `BaseClassSpellGrant` is
+    itself always an already-granted spell, same reasoning as the other two
+    fallback call sites in `base_class.py`'s `spell_list_source_id`
+    docstring (Mystiker's Heimgesucht curse grants four spells that aren't
+    on Kleriker's list at all)."""
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_by_id = {root.id: root for root in roots}
 
@@ -98,6 +104,8 @@ def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dic
         if root is None or choice_name is None:
             continue
         grade = grade_by_class_and_spell.get(root.effective_spell_list_class_id, {}).get(grant.spell_id)
+        if grade is None and root.spell_list_source_id is not None:
+            grade = grade_by_class_and_spell.get(root.id, {}).get(grant.spell_id)
         if grade is None:
             continue
         result.setdefault(root.name, {}).setdefault(choice_name, []).append(

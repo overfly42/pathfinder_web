@@ -29140,5 +29140,29 @@
     "base_class_id": "cebfc2a3-02fc-561a-8467-7f88ba567b01",
     "spell_id": "c5ace4fb-8d71-5203-9847-8f38b10832d4",
     "grade": 5
+  },
+  {
+    "id": "4728d84f-6879-4517-abf5-4aba9cd588e3",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "spell_id": "78500b84-cef3-5fa0-a0fe-37482935ecf9",
+    "grade": 0
+  },
+  {
+    "id": "43e4e028-1cce-4479-97e4-43ce59830f07",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "spell_id": "a5999686-2b8d-58ba-87b0-9f6c6e9ecaa8",
+    "grade": 0
+  },
+  {
+    "id": "4fd8c024-6ec1-4d3b-b6cd-bd24aab93771",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "spell_id": "81ee5824-89d2-53e3-b352-365acf994ce7",
+    "grade": 5
+  },
+  {
+    "id": "59e58b7a-334a-43d8-b14f-72aa698189e9",
+    "base_class_id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
+    "spell_id": "1c6116b0-660f-52a5-b844-7b52924ac71d",
+    "grade": 7
   }
 ]
