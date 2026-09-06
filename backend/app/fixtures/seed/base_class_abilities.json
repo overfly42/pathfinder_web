@@ -1146,7 +1146,7 @@
   },
   {
     "id": "c16cdea8-471a-5f11-9728-50efc7b905b8",
-    "name": "Kampfheiler (Leben)",
+    "name": "Kampfheiler",
     "description": "Du kannst Heilzauber (alle Zauber mit Heilen im Namen) wie unter dem Talent Schnell zaubern als Schnelle Aktion wirken (ein so gewirkter Zauber verbraucht zwei Zauberplätze, statt normalerweise einem). Dies erhöht jedoch nicht den Grad des Zaubers an sich (der Zauber wirkt wie auf seinem regulären Grad gewirkt). Du kannst diese Fähigkeit einmal täglich anwenden wenn du die 7. Stufe erreicht hast und ein zusätzliches Mal für alle vier weiteren Stufen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
   },
   {
@@ -1227,11 +1227,6 @@
     "description": "Einmal täglich kannst du deine Haut verhärten und ihr das Aussehen von Eisen geben. Dies gewährt dir SR 10/Adamant, wie der Zauber Steinhaut mit deiner Stufe als Mystiker als Zauberstufe. Auf der 15. Stufe kannst du diese Fähigkeit zweimal täglich anwenden. Du musst mindestens die 11. Stufe erreicht haben um diese Offenbarung auswählen zu können.",
     "is_persistent_effect": true,
     "activation_scope": "self"
-  },
-  {
-    "id": "128e0c89-bbee-5b41-acf4-5d19118f2018",
-    "name": "Kampfheiler (Schlacht)",
-    "description": "Du kannst Heilzauber (alle Zauber mit Heilen im Namen) wie unter dem Talent Schnell zaubern als Schnelle Aktion wirken (ein so gewirkter Zauber verbraucht zwei Zauberplätze, statt normalerweise einem). Dies erhöht jedoch nicht den Grad des Zaubers an sich (der Zauber wirkt wie auf seinem regulären Grad gewirkt). Du kannst diese Fähigkeit einmal täglich anwenden wenn du die 7. Stufe erreicht hast und ein zusätzliches Mal für alle vier weiteren Stufen. Du musst mindestens die 7. Stufe erreicht haben, um diese Offenbarung auswählen zu können."
   },
   {
     "id": "fa2a5708-a9f1-5562-93d0-8367e58d08f5",
@@ -2992,23 +2987,13 @@
   },
   {
     "id": "0dfd2ef1-832f-5426-b5fd-d6d0a5f497b2",
-    "name": "Halb-Ork (Barbar)",
-    "description": "Addiere +1 auf die Gesamtanzahl der Runden an Kampfrausch pro Tag."
-  },
-  {
-    "id": "b8416b77-9246-582f-a205-52f05ddaae2d",
-    "name": "Halb-Ork (Entfesselter Barbar)",
+    "name": "Kampfrausch: +1 Runde/Tag",
     "description": "Addiere +1 auf die Gesamtanzahl der Runden an Kampfrausch pro Tag."
   },
   {
     "id": "7c4305d0-c854-5461-90df-f184c71fe856",
     "name": "Halb-Ork (Barde)",
     "description": "Addiere +1 auf die Gesamtzahl der Runden an Bardenauftritt pro Tag."
-  },
-  {
-    "id": "202c3828-61cb-5843-b173-1ba0359e99b6",
-    "name": "Halb-Ork (Druide)",
-    "description": "Addiere +1/3 auf den natürlichen Rüstungsbonus des Druiden in Tiergestalt."
   },
   {
     "id": "485694fc-a7c2-5445-89c9-ccbf33905fca",
@@ -3019,11 +3004,6 @@
     "id": "0d8cc92c-629c-50f6-a57e-e20f8580d0f3",
     "name": "Halb-Ork (Kämpfer)",
     "description": "Addiere +2 auf alle Stabilisierungswürfe, wenn der Charakter im Sterben liegt."
-  },
-  {
-    "id": "48e09921-5994-5775-9caf-d2bc03c4cacf",
-    "name": "Halb-Ork (Kleriker)",
-    "description": "Wähle eine Domänenfähigkeit der 1. Stufe aus, welche normalerweise (3 + WE-Modifikator des Klerikers) Mal am Tag anwendbar ist. Der Kleriker addiert +1/2 auf die Anzahl seiner Anwendungsmöglichkeiten pro Tag."
   },
   {
     "id": "71831c42-3bd4-5772-86cb-8025d2f01ddb",
@@ -3037,8 +3017,8 @@
   },
   {
     "id": "204f3b72-104d-509b-81ac-84efe72ec1af",
-    "name": "Halb-Ork (Mystiker)",
-    "description": "Addiere einen Mystikerzauber zur Liste deiner bekannten Zauber. Dieser Zauber muss wenigstens ein Grad unter dem höchsten liegen, den der Mystiker wirken kann."
+    "name": "Zusätzlicher Mystikerzauber",
+    "description": "Addiere einen Mystikerzauber zur Liste der bekannten Zauber. Dieser Zauber muss wenigstens ein Grad unter dem höchsten liegen, den der Mystiker wirken kann."
   },
   {
     "id": "d35737a9-d13d-5869-8cdd-17a34a302273",
@@ -3052,8 +3032,8 @@
   },
   {
     "id": "06ced308-8185-5bf2-882a-3b3ed4ad518a",
-    "name": "Halb-Ork (Waldläufer)",
-    "description": "Der Tiergefährte des Waldläufers erhält einen zusätzlichen TP. Sollte der Halb-Ork jemals seinen Tiergefährten wechseln, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
+    "name": "Tiergefährte: +1 TP",
+    "description": "Der Tiergefährte des Waldläufers erhält einen zusätzlichen TP. Sollte der Waldläufer jemals seinen Tiergefährten wechseln, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
   },
   {
     "id": "d1a504fc-8b64-43b1-aa97-8f4af733f6b2",
@@ -3206,29 +3186,14 @@
     "description": "(ÜF) Diese mächtige Hexerei hält das Herz einer Kreatur an, so dass sie binnen weniger Momente stirbt. Die Reichweite der Hexerei beträgt 9 m. Der verfluchten Kreatur steht ein Willenswurf zu, um dem Effekt zu widerstehen. Bei einem Fehlschlag ist die Kreatur in der ersten Runde der Wirkung erschöpft. Sollte ihr in der dritten Runde kein Zähigkeitswurf gelingen, stirbt sie augenblicklich. Kreaturen, denen der erste Rettungswurf misslingt, der zweite jedoch gelingt, bleiben erschöpft und nehmen 4W6 Schadenspunkte + 1 Schadenspunkt pro Stufe der Hexe. Sollte die Hexe, welche den Todesfluch eingesetzt hat, getötet werden, endet die Wirkung, wohingegen die Zustände Ermüdung und Erschöpfung bestehen bleiben. Eine Kreatur kann innerhalb von 24 Stunden nur einmal Ziel eines Todesfluches werden."
   },
   {
-    "id": "e87ea93a-6c2b-5f47-9b59-de46a7e88f41",
-    "name": "Ork (Barbar)",
-    "description": "Addiere +1 Runde zur Anzahl der täglichen Runden an Kampfrausch."
-  },
-  {
     "id": "5a8a603b-e71c-5fee-80c4-2792af7b2e5e",
     "name": "Ork (Druide)",
     "description": "Addiere +1/2 auf den Schaden der natürlichen Angriffe des Tiergefährten des Druiden."
   },
   {
-    "id": "b452d300-fddc-5c76-8f19-7c6b1c66a42f",
-    "name": "Ork (Hexe)",
-    "description": "Addiere einen Zauber der Zauberliste der Hexe zum Hexenvertrauten. Der Grad dieses Zaubers muss niedriger sein als der höchstgradigste Hexenzauber, den die Hexe wirken kann. Sollte die Hexe jemals ihren Vertrauten ersetzen, kennt auch der neue Vertraute diese Bonuszauber."
-  },
-  {
     "id": "c6198a68-018d-5baf-ba84-ad86380b0987",
     "name": "Ork (Kämpfer)",
     "description": "Addiere +2 auf den effektiven Konstitutionswert des Kämpfers, um zu bestimmen, wann er aufgrund negativer Trefferpunkte stirbt."
-  },
-  {
-    "id": "ab723581-9af8-5797-868b-59bc30bb78c2",
-    "name": "Ork (Waldläufer)",
-    "description": "Addiere +1 TP zu den Trefferpunkten des Tiergefährten des Waldläufers. Sollte er jemals seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese zusätzlichen Trefferpunkte."
   },
   {
     "id": "f36430d1-5d17-5b8c-84dc-ba277c6c9fa4",
@@ -3473,18 +3438,18 @@
   },
   {
     "id": "b55cb5dc-07b1-5855-b313-553ca81b3b30",
-    "name": "Elf (Druide)",
+    "name": "Tiergestalt: +1/3 natürlicher Rüstungsbonus",
     "description": "Addiere +1/3 auf den natürlichen Rüstungsbonus des Druiden in Tiergestalt."
   },
   {
     "id": "b84133ed-6bd3-5026-8933-25a39c4c00e7",
-    "name": "Elf (Hexe)",
+    "name": "Zusätzlicher Hexenvertraut-Zauber",
     "description": "Füge einen Hexenzauber von der Liste der Hexenzauber den dem Hexenvertrauten bekannten Zaubern hinzu. Der Grad dieses Zaubers muss niedriger sein als der dem Vertrauten bekannte Höchstgrad. Sollte die Hexe jemals ihren Vertrauten ersetzen, kennt der neue Vertraute diese Bonuszauber."
   },
   {
     "id": "e661fba8-b882-5221-95f4-7d0c799f78b2",
-    "name": "Elf (Hexenmeister)",
-    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche normalerweise (3 + CH-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Hexenmeister addiert +1/2 tägliche Anwendung dieser Kraft."
+    "name": "Blutlinienkraft: +1/2 tägliche Anwendungen",
+    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche normalerweise (3 + CH-Modifikator) Mal am Tag einsetzbar ist. Der Hexenmeister addiert +1/2 tägliche Anwendung dieser Kraft."
   },
   {
     "id": "0e7293e6-d9a1-5678-89dc-20abba8bc266",
@@ -3498,8 +3463,8 @@
   },
   {
     "id": "d7a5f4ef-a7d4-54cb-9e15-3d0aa6d6b9e7",
-    "name": "Elf (Kleriker)",
-    "description": "Wähle eine Domänenkraft der 1. Stufe, welche normalerweise (3 + WE-Modifikator des Elfen) Mal am Tag einsetzbar ist. Der Kleriker addiert +1/2 tägliche Anwendung dieser Kraft."
+    "name": "Domänenkraft: +1/2 tägliche Anwendungen",
+    "description": "Wähle eine Domänenkraft der 1. Stufe, welche normalerweise (3 + WE-Modifikator) Mal am Tag einsetzbar ist. Der Kleriker addiert +1/2 tägliche Anwendung dieser Kraft."
   },
   {
     "id": "6755b053-9cb9-50f2-8311-09c4639438a2",
@@ -3916,16 +3881,6 @@
     "id": "40f925d6-ddf6-567e-af67-2db2aa3cdf36",
     "name": "Katzenvolk (Druide)",
     "description": "Addiere +1 TP zu den TP des Tiergefährten des Druiden. Sollte der Druide je seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese Bonustrefferpunkte."
-  },
-  {
-    "id": "794db19e-3d29-5753-9e5c-88bf5d50a75b",
-    "name": "Katzenvolk (Hexenmeister)",
-    "description": "Wähle eine Blutlinienkraft der 1. Stufe, welche CH-Modifikator +3 Mal am Tag einsetzbar ist. Addiere +1/2 zu der Anzahl der täglichen Anwendungen dieser Blutlinienkraft."
-  },
-  {
-    "id": "563691e4-c793-59a3-8864-6efed8121f27",
-    "name": "Katzenvolk (Mystiker)",
-    "description": "Addiere einen Zauber von der Zauberliste des Mystikers zur Liste der ihm bekannten Zauber. Der Grad dieses Zaubers muss mindestens um einen Grad geringer sein als der höchstgradige Mystikerzauber des Mystikers."
   },
   {
     "id": "f4bc3991-caef-519d-94e4-6cfa9b920fc6",

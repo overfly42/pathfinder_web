@@ -9,17 +9,52 @@ reads them directly and calls this module's own `HANDLERS` with each
 choice's *pick count* (not a `CharacterContext`) — see `sheet.py`'s
 `_build_favored_class_bonuses` for the read side.
 
-The ids below are the literal, hand-frozen `BaseClassOptionChoice` ids
-`import_favored_class_bonus_halbork.py` writes (deterministic
+The ids below are the literal, hand-frozen `BaseClassOptionChoice` ids the
+various per-race importers (`import_favored_class_bonus_halbork.py`, `_elf.py`,
+`_katzenvolk.py`, Ork's own rows via `import_ork.py`) write (deterministic
 `uuid5(ID_NAMESPACE, "fcb-choice|<base_class_id>")`, reproduced here as
-literals since that script isn't importable at runtime — same convention
+literals since those scripts aren't importable at runtime — same convention
 `rules/classes/barbarian.py` already uses for Seeräuber's ability id). A
 row's id either equals one of these constants (and gets a handler here) or
 it doesn't (and `sheet.py` falls back to showing only the pick count and
-description text — Mönch's two-effects-per-pick and Mystiker's "+1 known
-spell" are exactly that case: not a single accumulating number, so no
+description text — Mönch's two-effects-per-pick and Mystiker's/Hexe's "+1
+known spell" are exactly that case: not a single accumulating number, so no
 handler, same "absent handler = flavor-only" convention `race_abilities.py`
-already established for Darkvision)."""
+already established for Darkvision).
+
+2026-09-06: originally every constant here was one of Halb-Ork's own
+choices, one per class. Several other races grant a *mechanically identical*
+bonus for the same class under their own separate `BaseClassOptionChoice`
+(scoped per race for the picker UI, per `routers/races.py`'s
+`favored_class_bonus_race_choices`) — those now reuse the very same
+`functools.partial(_fraction_bonus, ...)` instance rather than duplicating
+the formula: Ork's own "Barbar" choice reuses `BARBAR`'s partial, Elf's own
+"Druide"/"Kleriker" choices reuse `DRUIDE`'s/`KLERIKER`'s, Ork's own
+"Waldläufer" choice reuses `WALDLAEUFER`'s. (The underlying
+`BaseClassAbility` catalog rows for these were likewise consolidated to one
+shared row per mechanic, keeping only the race-scoped `BaseClassOptionChoice`
+rows separate — see `base_class_ability_grants.json`.)
+
+Not yet given a handler, despite sharing a *shape* (not identical content,
+so no catalog-row merge either):
+- Kleriker (Halb-Ork/Elf, already merged above), Magier (Elf), and
+  Hexenmeister (Elf/Katzenvolk, merged into one shared "Blutlinienkraft"
+  row) all follow "choose a level-1 [domain/school/bloodline] power,
+  normally usable (3+mod)/day, +1/2 daily use per pick" — the *fraction* is
+  exactly `_fraction_bonus(numerator=1, denominator=2)`, same as `KLERIKER`
+  already uses, but applying it for real needs to know *which specific
+  power* the player chose (a sub-choice this project has no storage for yet,
+  unlike e.g. Kensai's `CharacterClassAbilityWeaponChoice`) — a shared
+  factory here would only get the number right, not where it applies.
+- Waldläufer's Elf/Katzenvolk weapon-choice bonus ("+1/2 confirm-crit with a
+  chosen weapon from a race-specific list, max +4") is `_fraction_bonus(
+  numerator=1, denominator=2, max_bonus=4)` for both, but again needs a
+  weapon sub-choice to actually apply to `_build_weapon_attacks` — same gap.
+- Mystiker's (Halb-Ork/Katzenvolk, merged above) and Hexe's (Ork/Elf, merged
+  above) "+1 known spell, grade < highest castable" bonuses are the other
+  kind of gap: not parameterizable via `_fraction_bonus` at all (there is no
+  running numeric total, the payoff is a whole extra spell pick) — see the
+  separate Hexe/Mystiker "Zusätzlicher Zauber" design note."""
 
 import functools
 from collections import Counter
@@ -43,6 +78,14 @@ MYSTIKER = UUID("42690b35-2058-5f6d-883f-2d3761f6e791")
 PALADIN = UUID("511e4867-b45c-51fa-8821-3f392db5638b")
 SCHURKE = UUID("6d173894-9b17-59b2-90c6-b03e2a60f498")
 WALDLAEUFER = UUID("9c7bd1ef-bf5f-5a95-9aa4-f6851823ff2c")
+
+# Other races' own choices for a mechanically identical bonus — see module
+# docstring's 2026-09-06 note. Each reuses its Halb-Ork sibling's exact
+# `_fraction_bonus` partial/short label below rather than a new one.
+ORK_BARBAR = UUID("bb5d2ece-b8e5-51e5-85d3-4f3233b0387e")
+ELF_DRUIDE = UUID("0990b9a2-2461-5f4d-9871-fea995ea05c4")
+ELF_KLERIKER = UUID("e91f9ce5-7ba6-5e8e-b3b4-968c3f38ad9a")
+ORK_WALDLAEUFER = UUID("af331aea-194f-5a57-8458-c1b1bc496c9f")
 
 
 def pick_counts(character: "Character") -> Counter[UUID]:
@@ -88,6 +131,10 @@ HANDLERS: dict[UUID, Callable[[int], int]] = {
     PALADIN: functools.partial(_fraction_bonus, numerator=1, denominator=3, max_bonus=5),
     SCHURKE: functools.partial(_fraction_bonus, numerator=1, denominator=3, max_bonus=5),
     WALDLAEUFER: functools.partial(_fraction_bonus, numerator=1, denominator=1),
+    ORK_BARBAR: functools.partial(_fraction_bonus, numerator=1, denominator=1),
+    ELF_DRUIDE: functools.partial(_fraction_bonus, numerator=1, denominator=3),
+    ELF_KLERIKER: functools.partial(_fraction_bonus, numerator=1, denominator=2),
+    ORK_WALDLAEUFER: functools.partial(_fraction_bonus, numerator=1, denominator=1),
 }
 
 # Short, button-sized labels for the level-up wizard's picker chips — the
@@ -111,4 +158,8 @@ SHORT_LABELS: dict[UUID, str] = {
     PALADIN: "+1/3 Krit.-Bestätigung (Niederstrecken)",
     SCHURKE: "+1/3 Krit.-Bestätigung (Hinterhalt)",
     WALDLAEUFER: "+1 TP Gefährte",
+    ORK_BARBAR: "+1 Rd. Kampfrausch/Tag",
+    ELF_DRUIDE: "+1/3 Rüstung (Tiergestalt)",
+    ELF_KLERIKER: "+1/2 Domänenfähigkeit/Tag",
+    ORK_WALDLAEUFER: "+1 TP Gefährte",
 }
