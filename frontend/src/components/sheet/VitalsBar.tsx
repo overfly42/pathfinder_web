@@ -88,7 +88,10 @@ export function VitalsBar({ character, onApplyHp, onSetTempHp }: VitalsBarProps)
       </div>
       <div className="vital">
         <div className="k">Bewegung</div>
-        <div className="v">{character.speed}</div>
+        <div className="v">
+          {character.speed}
+          {character.climbSpeed && <span className="vital-note"> (Klettern {character.climbSpeed})</span>}
+        </div>
       </div>
     </div>
   );

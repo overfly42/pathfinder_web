@@ -51,6 +51,14 @@ class ModifierTarget(StrEnum):
     # isn't itself a `Modifier` (computed directly in `sheet.py`), only the
     # bonuses stacked on top of it are.
     CONCENTRATION = "concentration"
+    # A non-land movement mode's own speed in meters — distinct from SPEED
+    # (land speed), which every character has; this only exists for a
+    # character who actually has the mode. First producer is Katzenvolk's
+    # "Kletterer" alternate racial trait (`rules/speed.py`, 6 m climb speed).
+    # Single slot, no `target_id`, same as SPEED — a second producer (e.g. a
+    # spell like Spinnenklettern) would stack onto this the same way a class
+    # ability stacks onto land speed.
+    CLIMB_SPEED = "climb_speed"
 
 
 @dataclass

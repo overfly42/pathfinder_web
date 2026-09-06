@@ -369,6 +369,10 @@ export interface Character {
   armorClassFlatFootedBreakdown?: BreakdownEntry[];
   initiative: string;
   speed: string;
+  /** Non-land movement speed, if any (e.g. Katzenvolk's Kletterer, 6 m
+   * Klettern) — `null` for the overwhelming majority of characters who have
+   * none. */
+  climbSpeed: string | null;
   roundLabel: string;
   abilities: AbilityScore[];
   saves: StatEntry[];

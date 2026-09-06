@@ -14,6 +14,19 @@ needed, unlike the old `BaseRace.speed` column this replaces. Race-tied
 content stays local to this module's own `HANDLERS` (same locality/
 git-blame reason `race_abilities.py` keeps its own slice too).
 
+Also owns the one other movement mode seeded today, climb speed
+(`ModifierTarget.CLIMB_SPEED`) — Katzenvolk's "Kletterer" alternate racial
+trait, the mirror of the module's land-speed handling but for a mode most
+characters simply don't have (`race_climb_speed` returns `None`, not 0, when
+nobody granted one). Kletterer's own PF1e text bundles a flat +8 Volksbonus
+on Klettern checks with the climb speed itself ("und den daraus
+resultierenden Volksbonus"), so its one handler below returns both a
+CLIMB_SPEED and a SKILL `Modifier` — kept here rather than split into
+`race_abilities.py`'s skill-bonus slice, since a single ability id may only
+be registered in one of `HANDLERS`' source modules (`rules/handlers.py`'s
+docstring) and this ability's defining mechanic is the movement mode, the
+skill bonus merely its stated consequence.
+
 `fast_movement` is the generic, reusable factory a class's own fast-movement
 ability partial-applies (e.g. `rules/classes/barbarian.py`'s "Schnelle
 Bewegung", CLAUDE.md's "trivial cases share one generic handler factory"
@@ -33,10 +46,16 @@ from sqlalchemy.orm import Session
 
 from .context import CharacterContext
 from .modifiers import Modifier, ModifierTarget, SkillNote, stack
-from .skill_ids import AKROBATIK_SKILL_ID
+from .skill_ids import AKROBATIK_SKILL_ID, KLETTERN_SKILL_ID
 
 RACE_NORMAL_SPEED_ABILITY_ID = UUID("2e0186d5-e532-4532-b7f7-b4c6f4834bde")
 RACE_SLOW_SPEED_ABILITY_ID = UUID("9a5db666-54d4-4112-b750-dbb1abf1265d")
+
+# Katzenvolk's "Kletterer" alternate racial trait (`base_race_abilities.json`;
+# `race_ability_grants.json`'s `is_alternate=True` row; replaces "Spurter"
+# per `race_ability_replacements.json`) — see module docstring for why its
+# handler lives here rather than in `race_abilities.py`.
+KLETTERER_ABILITY_ID = UUID("79808852-df0d-49f6-a780-c00db591ad95")
 
 
 def _base_speed(context: CharacterContext, *, meters: int) -> list[Modifier]:
@@ -45,6 +64,17 @@ def _base_speed(context: CharacterContext, *, meters: int) -> list[Modifier]:
     # granted to.
     del context
     return [Modifier(source="race", type="base", value=meters, target=ModifierTarget.SPEED)]
+
+
+def _kletterer(context: CharacterContext) -> list[Modifier]:
+    # Unconditional, same reasoning as `_base_speed` above — once granted,
+    # Kletterer's climb speed and its Volksbonus are always present, neither
+    # depends on anything about the character.
+    del context
+    return [
+        Modifier(source="Kletterer", type="base", value=6, target=ModifierTarget.CLIMB_SPEED),
+        Modifier(source="Kletterer", type="racial", value=8, target=ModifierTarget.SKILL, target_id=str(KLETTERN_SKILL_ID)),
+    ]
 
 
 def fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
@@ -73,6 +103,7 @@ def fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     RACE_NORMAL_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=9),
     RACE_SLOW_SPEED_ABILITY_ID: functools.partial(_base_speed, meters=6),
+    KLETTERER_ABILITY_ID: _kletterer,
 }
 
 # `race_speed` only ever resolves a race's own base-speed grant, never
@@ -102,6 +133,24 @@ def race_speed(db: Session, race_id: UUID) -> int | None:
         handler = HANDLERS.get(grant.ability_id)
         if handler is not None:
             modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.SPEED)
+    return stack(modifiers) if modifiers else None
+
+
+def race_climb_speed(race_ability_ids: set[UUID]) -> int | None:
+    """This character's climb speed in meters, or `None` if nothing grants
+    one (the overwhelming majority of characters). Unlike `race_speed`
+    above, which only ever needs a race's unconditional non-alternate grant
+    (every race has exactly one base-speed ability), a climb speed today
+    comes exclusively from an *alternate* trait (Katzenvolk's Kletterer), so
+    this takes `race_ability_ids` — `effective_race_ability_ids`'s
+    already-resolved set, the same input `routers/races.py`'s
+    `race_skill_modifiers` uses for the same reason — rather than a bare
+    `race_id`."""
+    modifiers: list[Modifier] = []
+    for ability_id in race_ability_ids:
+        handler = HANDLERS.get(ability_id)
+        if handler is not None:
+            modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.CLIMB_SPEED)
     return stack(modifiers) if modifiers else None
 
 

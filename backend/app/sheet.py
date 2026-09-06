@@ -117,7 +117,7 @@ from .rules.proficiency import (
     known_weapon_types,
 )
 from .rules.secondary_class import secondary_granted_ability_ids_and_levels
-from .rules.speed import class_speed_bonus, jump_skill_note, race_speed
+from .rules.speed import class_speed_bonus, jump_skill_note, race_climb_speed, race_speed
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import (
     find_open_spontaneous_grade,
@@ -286,9 +286,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
     # active effects (`rules/handlers.py`'s `character_modifiers`; race/class
     # granted-ability ids are deliberately excluded there, see its
-    # docstring) — plus a race's own SKILL-target grants (`race_skill_modifiers`,
-    # e.g. Halb-Ork's Einschüchternd — SCORE/SPEED already have their own
-    # dedicated path, see that function's docstring), granted class
+    # docstring) — plus this character's actual race abilities' own
+    # SKILL-target grants (`race_skill_modifiers(race_ability_ids)`, e.g.
+    # Halb-Ork's Einschüchternd or a chosen Kluge Katze/Kletterer alt-trait —
+    # SCORE/SPEED already have their own dedicated path, see that function's
+    # docstring), granted class
     # abilities' own AC-target grants (`granted_ability_modifiers`, e.g.
     # Bestientotem's natural armor bonus — the same per-grant path
     # `class_speed_bonus` uses for SPEED, generalized), and gear's own AC
@@ -304,7 +306,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     all_modifiers = (
         character_modifiers(context)
-        + race_skill_modifiers(db, character.race_id)
+        + race_skill_modifiers(race_ability_ids)
         + granted_ability_modifiers(context, target=ModifierTarget.AC)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
@@ -370,6 +372,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
 
     base_speed = race_speed(db, character.race_id) or 9
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
+    climb_speed = race_climb_speed(race_ability_ids)
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
@@ -410,6 +413,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "armorClassFlatFootedBreakdown": armor_class_flat_footed_breakdown,
         "initiative": _fmt(dex_mod),
         "speed": f"{total_speed} m",
+        "climbSpeed": f"{climb_speed} m" if climb_speed else None,
         "roundLabel": "Runde 1",
         "abilities": [
             {

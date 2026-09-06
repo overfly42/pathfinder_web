@@ -72,14 +72,18 @@ def race_ability_score_mods(db: Session, race_id: UUID) -> dict[str, int]:
     return mods
 
 
-def race_skill_modifiers(db: Session, race_id: UUID) -> list[Modifier]:
-    """Every SKILL-target `Modifier` this race's own (non-alternate) grants
-    produce, e.g. Halb-Ork's Einschüchternd (+2 Volksbonus on Einschüchtern).
-    Same non-alternate-grant-only scope as `race_ability_score_mods` above —
-    alt-trait replacement swaps aren't computed here either, the same
-    existing gap those already have (`models/character.py`'s `alt_traits`
-    resolves a chosen swap's *name* for display only, never its mechanical
-    effect).
+def race_skill_modifiers(race_ability_ids: set[UUID]) -> list[Modifier]:
+    """Every SKILL-target `Modifier` this character's actual race abilities
+    produce, e.g. Halb-Ork's Einschüchternd (+2 Volksbonus on Einschüchtern)
+    or Katzenvolk's Kletterer (+8 Volksbonus on Klettern once picked in place
+    of Spurter). Takes `race_ability_ids` — `effective_race_ability_ids`'s
+    already-resolved set (base grants minus whatever a chosen alternate
+    replaces, plus the alternates themselves) — rather than re-querying by
+    race id, so an alt-trait skill bonus (Kluge Katze, Kletterer) is included
+    and the base trait it replaced (Natürlicher Jäger, Spurter) is not; the
+    previous non-alternate-grant-only scope silently never applied either
+    Kluge Katze's or Kletterer's own bonus while still granting whichever
+    base trait they replaced.
 
     Unlike SCORE (folded straight into effective ability scores) and SPEED
     (folded into total land speed, `rules/speed.py`'s `race_speed`) — both of
@@ -88,12 +92,9 @@ def race_skill_modifiers(db: Session, race_id: UUID) -> list[Modifier]:
     its own `all_modifiers` list *before* `stack_by_target`, same "combine
     before stacking" reasoning that list's own docstring already spells out
     for gear's AC bonus."""
-    grants = db.scalars(
-        select(RaceAbilityGrant).where(RaceAbilityGrant.race_id == race_id, RaceAbilityGrant.is_alternate.is_(False))
-    ).all()
     modifiers: list[Modifier] = []
-    for grant in grants:
-        handler = HANDLERS.get(grant.ability_id)
+    for ability_id in race_ability_ids:
+        handler = HANDLERS.get(ability_id)
         if handler is None:
             continue
         modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.SKILL)
@@ -105,14 +106,14 @@ def effective_race_ability_ids(db: Session, race_id: UUID, chosen_ability_ids: s
     (non-alternate) grant, minus whichever base ids a chosen alternate swaps
     away, plus the chosen alternates themselves (`chosen_ability_ids` —
     a character's own `CharacterRacialChoice.ability_id`s, both the flex
-    ability-score pick and any flavor alt-trait swap). Closes the gap
-    `race_skill_modifiers`'s docstring already flags for its own SKILL-only
-    scope (a chosen alt-trait's mechanical effect was never resolved
-    anywhere, only its *name* shown via `Character.alt_traits`) — first real
-    consumer is `sheet.py`'s race-ability display and natural-attack lookup,
-    both of which need the character's actual trait set, not the race's
-    unconditional default one `race_ability_score_mods`/`race_skill_modifiers`
-    still use."""
+    ability-score pick and any flavor alt-trait swap). First consumer was
+    `sheet.py`'s race-ability display and natural-attack lookup, which need
+    the character's actual trait set, not a race's unconditional default one
+    (`race_ability_score_mods` still uses the default-only set — SCORE
+    alternates are always the flex pick, resolved separately via
+    `Character.flex_ability`, so there's no gap there to close); this result
+    is now also `race_skill_modifiers`'s input, closing the same gap for a
+    chosen alt-trait's SKILL bonus (Kluge Katze, Kletterer)."""
     base_ids = {
         grant.ability_id
         for grant in db.scalars(
