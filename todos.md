@@ -50,6 +50,57 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
       Text/Verweis wie Kensais Version, id `ebb8db2d-2caa-54c4-8a78-9131f0b44e1d`),
       aber ohne `BaseClass`-Zeile für Duellant gibt es keinen `BaseClassAbilityGrant`
       dafür. Betrifft jede künftige Prestigeklasse, nicht nur Duellant.
+- [~] **Bevorzugte-Klasse-Bonus "Zusätzlicher Zauber" (Mystiker/Hexe)** —
+      2026-09-06/07 aufgeworfen, 2026-09-07 Backend umgesetzt, Frontend
+      offen. Vier Wahlmöglichkeiten — Mystiker (Halb-Ork/Katzenvolk, geteilte
+      `BaseClassAbility`-Zeile `204f3b72-104d-509b-81ac-84efe72ec1af`,
+      "Zusätzlicher Mystikerzauber") und Hexe (Ork/Elf, geteilte Zeile
+      `b84133ed-6bd3-5026-8933-25a39c4c00e7`, "Zusätzlicher
+      Hexenvertraut-Zauber", mechanisch das bestehende arkan-vorbereitende
+      Zauberbuch, kein eigenes Vertrauten-Datenmodell) — waren nur
+      Katalogtext ohne mechanische Wirkung; jetzt in
+      `rules/spells.py`/`routers/characters.py` verdrahtet
+      (`bonus_known_spell_slot`/`spontaneous_grade_overflow`/
+      `arcane_prepared_overflows_budget`), getestet in
+      `tests/test_bonus_known_spell.py`.
+
+      **Regel** (bestätigt 2026-09-07): "höchster Grad" bezeichnet den Grad,
+      den ein Charakter mit der aktuellen Stufenzahl in dieser Klasse
+      *gerade* wirken kann, nicht eingefroren auf die Stufe der
+      ursprünglichen Wahl.
+
+      **Umgesetztes Design** — bewusste Vereinfachung ggü. dem ursprünglichen
+      Konzept (dort war noch eine über die Laufbahn kumulierte, rückwirkend
+      hergeleitete Bonus-Bilanz angedacht; das bricht aber, sobald das
+      normale Budget einer späteren Stufe den zuvor per Bonus gedeckten
+      Zauber rechnerisch "absorbiert" und den Verbrauch so unsichtbar
+      macht): der Bonus muss **in derselben Anfrage** verbraucht werden, in
+      der er gewählt wird (Erstellung, oder genau dieses eine Level-up) —
+      keine über mehrere Level-ups vorgehaltene Bonus-Bilanz, siehe
+      `bonus_known_spell_slot`s Docstring. Bei der Erstellung ist das
+      unkritisch (eine einzige atomare Anfrage), erst beim Level-up greift
+      die Vereinfachung.
+      - Mystiker (`spontaneous`, streng pro Grad): `spontaneous_grade_overflow`
+        behandelt den Bonus als geteilten, grad-freien Topf (Größe 0 oder 1),
+        nutzbar auf jeden Grad ≤ aktueller Höchstgrad−1.
+      - Hexe (`arcane-prepared`, ein Topf ohne Grad-Aufteilung):
+        `arcane_prepared_overflows_budget` prüft zähler-basiert (nicht
+        identitäts-basiert), ob genug der eingereichten Zauber unterhalb des
+        Höchstgrads liegen, um den Overflow zu decken.
+
+      **Noch offen**: `LevelSpellStep.tsx`/`SpellsStep.tsx` kennen den Bonus
+      noch nicht (`spellGradeBudgetAtLevel`/`arcanePreparedBudget` in
+      `creationCalculations.ts`) — das Backend lehnt inkorrekte Picks korrekt
+      ab, aber die UI bietet den zusätzlichen Slot dem Spieler noch nicht
+      aktiv an (kein Cap-Update, keine "+1 Bonus-Zauber"-Anzeige analog
+      `grantedSpellsForClass`).
+
+      Gleiche Grundlücke, aber **nicht** hierin enthalten (brauchen
+      zusätzlich eine noch nicht existierende Unterwahl-Speicherung, z.B.
+      welche Domäne/Schule/Blutlinienkraft bzw. welche Waffe gewählt wurde):
+      Kleriker/Magier/Hexenmeister "gewählte Kraft +1/2 tägliche
+      Anwendungen" und Waldläufer Elf/Katzenvolk "gewählte Waffe +1/2
+      Krit.-Bestätigung".
 
 ## Beispielcharakter — Vollständigkeitslücken
 

@@ -70,6 +70,95 @@ def arcane_prepared_budget(level: int, ability_mod: int) -> int:
     return (2 + ability_mod) + 2 * (level - 1)
 
 
+# `BaseClassOptionChoice.name` values for the race-scoped favored-class-bonus
+# variant that adds one extra known spell, grade at least 1 below the
+# highest the class can currently cast — Mystiker's (Halb-Ork/Katzenvolk,
+# now one shared `BaseClassAbility` row, "Zusätzlicher Mystikerzauber") and
+# Hexe's (Ork/Elf, "Zusätzlicher Hexenvertraut-Zauber"; the Hexenvertraute
+# is mechanically just this project's existing arcane-prepared spellbook,
+# no separate familiar-spell-list concept needed). Keyed by root class name,
+# not by choice id: `routers/characters.py` already threads every other
+# favored-class-bonus check through the choice's plain name string
+# (`submitted_favored_bonus`/`body.favored_class_bonus`), and a character's
+# fixed race means at most one of a class's two names is ever relevant to
+# them, so summing/checking against the whole set is safe. See
+# `rules/favored_class_bonuses.py`'s module docstring for why this family
+# has no `_fraction_bonus`-style handler there instead.
+BONUS_KNOWN_SPELL_CHOICE_NAMES: dict[str, frozenset[str]] = {
+    "Mystiker": frozenset({"Halb-Ork (Mystiker)", "Katzenvolk (Mystiker)"}),
+    "Hexe": frozenset({"Ork (Hexe)", "Elf (Hexe)"}),
+}
+
+
+def bonus_known_spell_slot(class_name: str, favored_bonus_value: str | None) -> bool:
+    """Whether one specific favored-class-bonus pick — this level's own
+    value, not a career total — grants `class_name` one extra known-spell
+    slot. Deliberately evaluated per pick rather than accumulated across a
+    character's career and carried forward: the bonus is defined relative
+    to "the highest grade you can currently cast", so this project requires
+    it to be spent in the very same request that grants it (creation, or
+    that one level-up) instead of banking an unused credit. That sidesteps
+    needing a persisted "how much bonus is left" ledger — deriving it
+    retroactively from `known_count - normal_budget` would silently
+    undercount the moment a later level's normal budget grows past what it
+    was when the bonus was actually spent (budgets are cumulative and only
+    ever grow, so an unspent-that-level bonus can look "absorbed" by a
+    bigger budget one level later even though the class-table budget alone
+    never actually covered it)."""
+    if favored_bonus_value is None:
+        return False
+    return favored_bonus_value in BONUS_KNOWN_SPELL_CHOICE_NAMES.get(class_name, frozenset())
+
+
+def spontaneous_grade_overflow(
+    picked_by_grade: dict[int, int],
+    known_by_grade: dict[int, int],
+    budget: dict[int, int],
+    bonus_cap_grade: int,
+    bonus_available: int,
+) -> int | None:
+    """First grade (if any) whose newly-picked spells don't fit the normal
+    per-grade budget even after drawing on `bonus_available` — `None` if
+    every grade's picks fit. The bonus is one shared pool across grades
+    (not its own per-grade slot), consumed in `picked_by_grade` iteration
+    order, and can only cover a grade at or below `bonus_cap_grade` (pass
+    -1 when nothing is known yet, so no grade ever qualifies)."""
+    remaining = bonus_available
+    for grade, picked_count in picked_by_grade.items():
+        normal_available = max(0, budget.get(grade, 0) - known_by_grade.get(grade, 0))
+        overflow = picked_count - normal_available
+        if overflow > 0:
+            if grade > bonus_cap_grade or overflow > remaining:
+                return grade
+            remaining -= overflow
+    return None
+
+
+def arcane_prepared_overflows_budget(
+    known_non_grade0: int,
+    picked_grades: Iterable[int],
+    budget: int,
+    bonus_cap_grade: int,
+    bonus_available: int,
+) -> bool:
+    """Whether the newly-picked non-grade0 spells (`picked_grades`) exceed
+    `budget` even after applying up to `bonus_available` extra slots. The
+    flat arcane-prepared budget has no per-grade split to begin with, so
+    unlike `spontaneous_grade_overflow` this can't attribute *which*
+    specific pick used the bonus — it only checks that *enough* of the
+    picks (at least as many as the overflow) are individually at or below
+    `bonus_cap_grade`, a count-based check that's sufficient since a known
+    spell stays known regardless of which slot it nominally came from."""
+    picked_grades = list(picked_grades)
+    overflow = len(picked_grades) - max(0, budget - known_non_grade0)
+    if overflow <= 0:
+        return False
+    if overflow > bonus_available:
+        return True
+    eligible = sum(1 for grade in picked_grades if grade <= bonus_cap_grade)
+    return eligible < overflow
+
+
 def spells_per_day(db: Session, base_class_id: UUID, level: int, grade: int) -> int | None:
     """The base (pre-ability-modifier) number of spell slots this class gets
     per day at this grade and level, straight from

@@ -72,11 +72,14 @@ from ..rules.progression import ability_mod, effective_ability_scores, is_valid_
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
 from ..rules.spells import (
     arcane_prepared_budget,
+    arcane_prepared_overflows_budget,
+    bonus_known_spell_slot,
     consume_spontaneous_slot,
     find_open_spontaneous_grade,
     granted_option_choice_spells,
     known_grades,
     remaining_spontaneous_slots_by_grade,
+    spontaneous_grade_overflow,
     spontaneous_known_budget,
     total_spell_slots,
 )
@@ -809,17 +812,31 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         status_code=422, detail=f"Spell already known automatically for {root.name}"
                     )
 
+            # A favored-class-bonus pick of "Halb-Ork (Mystiker)"/"Katzenvolk
+            # (Mystiker)"/"Ork (Hexe)"/"Elf (Hexe)" grants one extra known
+            # spell per level it's taken (`rules/spells.py`'s
+            # `bonus_known_spell_slot` docstring on why creation sums across
+            # every submitted level here — safe only because this whole
+            # request is one atomic transaction, unlike level-up).
+            bonus_available = sum(
+                1 for value in submitted_favored_bonus.values() if bonus_known_spell_slot(root.name, value)
+            )
+            accessible_grades_for_bonus = known_grades(db, base_class_id, class_level)
+            bonus_cap_grade = max(accessible_grades_for_bonus) - 1 if accessible_grades_for_bonus else -1
+
             if spell_type == "spontaneous":
                 budget = spontaneous_known_budget(db, base_class_id, class_level)
                 picked_by_grade: dict[int, int] = {}
                 for spell_id in spell_ids:
                     grade = grade_by_spell_id[spell_id]
                     picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
-                for grade, picked_count in picked_by_grade.items():
-                    if picked_count > budget.get(grade, 0):
-                        raise HTTPException(
-                            status_code=422, detail=f"Too many grade {grade} spells known for {root.name}"
-                        )
+                overflow_grade = spontaneous_grade_overflow(
+                    picked_by_grade, {}, budget, bonus_cap_grade, bonus_available
+                )
+                if overflow_grade is not None:
+                    raise HTTPException(
+                        status_code=422, detail=f"Too many grade {overflow_grade} spells known for {root.name}"
+                    )
             else:  # arcane-prepared
                 mandatory_grade0 = {sid for sid, grade in grade_by_spell_id.items() if grade == 0}
                 submitted = set(spell_ids)
@@ -828,16 +845,17 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                         status_code=422, detail=f"{root.name}'s spellbook must include all grade-0 spells"
                     )
                 non_grade0 = submitted - mandatory_grade0
-                accessible_grades = known_grades(db, base_class_id, class_level)
                 for spell_id in non_grade0:
-                    if grade_by_spell_id[spell_id] not in accessible_grades:
+                    if grade_by_spell_id[spell_id] not in accessible_grades_for_bonus:
                         raise HTTPException(
                             status_code=422, detail=f"Grade {grade_by_spell_id[spell_id]} not yet accessible for {root.name}"
                         )
                 casting_ability = _resolve_casting_ability(root, archetypes_by_root_id.get(base_class_id, []))
                 casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
                 budget = arcane_prepared_budget(class_level, casting_ability_mod)
-                if len(non_grade0) > budget:
+                if arcane_prepared_overflows_budget(
+                    0, (grade_by_spell_id[sid] for sid in non_grade0), budget, bonus_cap_grade, bonus_available
+                ):
                     raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
 
     if body.gear:
@@ -2394,6 +2412,16 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                     status_code=422, detail=f"Spell already known automatically for {receiving_root.name}"
                 )
 
+        # A favored-class-bonus pick of "Halb-Ork (Mystiker)"/"Katzenvolk
+        # (Mystiker)"/"Ork (Hexe)"/"Elf (Hexe)" *this* level-up grants one
+        # extra known spell — only this level-up's own pick counts, not a
+        # career total (`rules/spells.py`'s `bonus_known_spell_slot`
+        # docstring explains why no leftover balance carries across
+        # separate level-up requests).
+        accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
+        bonus_cap_grade = max(accessible_grades) - 1 if accessible_grades else -1
+        bonus_available = 1 if bonus_known_spell_slot(receiving_root.name, body.favored_class_bonus) else 0
+
         if spell_type == "spontaneous":
             budget = spontaneous_known_budget(db, receiving_root.id, receiving_class_level)
             known_by_grade: dict[int, int] = {}
@@ -2405,15 +2433,16 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             for spell_id in body.spell_ids:
                 grade = grade_by_spell_id[spell_id]
                 picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
-            for grade, picked_count in picked_by_grade.items():
-                if known_by_grade.get(grade, 0) + picked_count > budget.get(grade, 0):
-                    raise HTTPException(
-                        status_code=422, detail=f"No grade {grade} spell slots available at this level"
-                    )
+            overflow_grade = spontaneous_grade_overflow(
+                picked_by_grade, known_by_grade, budget, bonus_cap_grade, bonus_available
+            )
+            if overflow_grade is not None:
+                raise HTTPException(
+                    status_code=422, detail=f"No grade {overflow_grade} spell slots available at this level"
+                )
         else:  # arcane-prepared
             if any(grade_by_spell_id[spell_id] == 0 for spell_id in body.spell_ids):
                 raise HTTPException(status_code=422, detail="Grade-0 spells are already known automatically")
-            accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
             for spell_id in body.spell_ids:
                 if grade_by_spell_id[spell_id] not in accessible_grades:
                     raise HTTPException(
@@ -2424,7 +2453,13 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
             budget = arcane_prepared_budget(receiving_class_level, casting_ability_mod)
             known_non_grade0 = sum(1 for spell_id in already_known_spells if grade_by_spell_id.get(spell_id, 0) != 0)
-            if known_non_grade0 + len(body.spell_ids) > budget:
+            if arcane_prepared_overflows_budget(
+                known_non_grade0,
+                (grade_by_spell_id[sid] for sid in body.spell_ids),
+                budget,
+                bonus_cap_grade,
+                bonus_available,
+            ):
                 raise HTTPException(status_code=422, detail="No spellbook slots available at this level")
 
     favored_hp_bonus = 1 if body.favored_class_bonus == "hp" else 0

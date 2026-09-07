@@ -155,6 +155,55 @@ export function spellGradeBudgetAtLevel(cls: ClassDef, level: number): Record<st
   return cls.spellsKnownByLevel[String(level)] ?? {};
 }
 
+/** `BaseClassOptionChoice.name` values for the "add one known spell, grade <
+ *  highest castable" favored-class-bonus family — mirrors the backend's
+ *  `rules/spells.py::BONUS_KNOWN_SPELL_CHOICE_NAMES`, keep both in sync. */
+const BONUS_KNOWN_SPELL_CHOICE_NAMES: Record<string, ReadonlySet<string>> = {
+  Mystiker: new Set(['Halb-Ork (Mystiker)', 'Katzenvolk (Mystiker)']),
+  Hexe: new Set(['Ork (Hexe)', 'Elf (Hexe)']),
+};
+
+/** Whether this one favored-class-bonus pick (not a career total — see
+ *  `rules/spells.py::bonus_known_spell_slot`'s docstring on why it must be
+ *  spent in the same request that grants it) grants `className` one extra
+ *  known-spell slot. */
+export function bonusKnownSpellSlot(className: string, favoredBonusValue: string | null): boolean {
+  if (!favoredBonusValue) return false;
+  return BONUS_KNOWN_SPELL_CHOICE_NAMES[className]?.has(favoredBonusValue) ?? false;
+}
+
+/** The highest grade a class can currently cast, minus 1 — the ceiling a
+ *  bonus-known-spell pick must stay at or below. `-1` when nothing is
+ *  accessible yet, so no grade ever qualifies. Mirrors the backend's
+ *  `max(known_grades(...)) - 1`. */
+export function bonusCapGrade(gradeBudget: Record<string, number | null>): number {
+  const grades = Object.keys(gradeBudget).map(Number);
+  return grades.length ? Math.max(...grades) - 1 : -1;
+}
+
+/** How much of a shared bonus-spell pool the *current* picks across every
+ *  spontaneous grade have already drawn on, beyond each grade's own normal
+ *  remaining cap — mirrors the backend's `spontaneous_grade_overflow`
+ *  (summed rather than fail-fast, since the UI needs a running total to
+ *  gate the *next* pick, not just accept/reject a whole batch). Only grades
+ *  at or below `capGrade` can ever draw on the bonus. */
+export function spontaneousBonusOverflowUsed(
+  gradeBudget: Record<string, number | null>,
+  alreadyKnownByGrade: Record<number, number>,
+  pickedByGrade: Record<number, number>,
+  capGrade: number,
+): number {
+  let used = 0;
+  for (const [gradeStr, normalCap] of Object.entries(gradeBudget)) {
+    const grade = Number(gradeStr);
+    if (grade > capGrade) continue;
+    const normalRemaining = Math.max(0, (normalCap ?? 0) - (alreadyKnownByGrade[grade] ?? 0));
+    const pickedHere = pickedByGrade[grade] ?? 0;
+    used += Math.max(0, pickedHere - normalRemaining);
+  }
+  return used;
+}
+
 /** Spells a one-time option choice already made for this class grants
  *  automatically for free, once the character's current level in this class
  *  reaches each grant's own level (Mystiker's `heilfokus` Kurieren/Verletzen

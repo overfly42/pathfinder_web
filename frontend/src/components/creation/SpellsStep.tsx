@@ -5,6 +5,8 @@ import {
   abilityMod,
   arcanePreparedBudget,
   archetypesForClass,
+  bonusCapGrade,
+  bonusKnownSpellSlot,
   classDef,
   classTotalLevel,
   effectiveCastingAbility,
@@ -12,6 +14,7 @@ import {
   grantedSpellsForClass,
   spellGradeBudgetAtLevel,
   spellcastingClasses,
+  spontaneousBonusOverflowUsed,
   totalAbility,
 } from '../../lib/creationCalculations';
 
@@ -55,13 +58,21 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
         const gradeBudget = spellGradeBudgetAtLevel(cls, level);
         const spells = options.spellsByClass[className] ?? [];
         const selected = draft.spellSelections[baseClassId] ?? [];
+        // The 1st-level favored-class bonus only ever targets classRows[0]
+        // (creation only supports picking it for level 1, see
+        // CreationDraft.favoredClassBonus's own docstring) — matches at
+        // most one className (Mystiker's/Hexe's choice names are their
+        // own), 0 for every other class.
+        const bonusAvailable = bonusKnownSpellSlot(className, draft.favoredClassBonus) ? 1 : 0;
+        const capGrade = bonusCapGrade(gradeBudget);
 
         if (cls.spellType === 'arcane-prepared') {
           const cantrips = spells.filter((s) => s.grade === 0);
           const nonCantrips = spells.filter((s) => s.grade !== 0 && String(s.grade) in gradeBudget);
           const castingAbility = effectiveCastingAbility(cls, archetypesForClass(draft, className));
           const mod = castingAbility ? abilityMod(totalAbility(draft, options, castingAbility)) : 0;
-          const budget = arcanePreparedBudget(level, mod);
+          const normalBudget = arcanePreparedBudget(level, mod);
+          const budget = normalBudget + bonusAvailable;
           const nonCantripSelected = selected.filter((id) => cantrips.every((c) => c.id !== id));
 
           return (
@@ -73,10 +84,17 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
               <div className="pick-counter" style={{ marginBottom: 10 }}>
                 Ausgewählt: <b>{nonCantripSelected.length}</b> / <b>{budget}</b>
               </div>
+              {bonusAvailable > 0 && (
+                <div className="pick-counter" style={{ marginBottom: 10 }}>
+                  + Bevorzugte-Klasse-Bonus: 1 zusätzlicher Zauber, Grad ≤ {capGrade}
+                </div>
+              )}
               <div className="chip-row">
                 {nonCantrips.map((spell) => {
                   const active = selected.includes(spell.id);
-                  const disabled = !active && nonCantripSelected.length >= budget;
+                  const wouldUseBonus = !active && nonCantripSelected.length >= normalBudget;
+                  const disabled =
+                    !active && (nonCantripSelected.length >= budget || (wouldUseBonus && spell.grade > capGrade));
                   return (
                     <button
                       key={spell.id}
@@ -110,6 +128,18 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
         const granted = grantedSpellsForClass(draft, options, className);
         const grantedIds = grantedSpellIdsForClass(draft, options, className);
 
+        // At creation nothing is "already known" yet — a favored-class-bonus
+        // pick (Mystiker's/Hexe's "Zusätzlicher ... Zauber") is a shared pool
+        // any grade at or below capGrade can draw on, same shape as
+        // LevelSpellStep.tsx's level-up version.
+        const pickedByGrade: Record<number, number> = {};
+        for (const grade of grades) {
+          const gradeSpellIds = new Set(spells.filter((s) => s.grade === grade && !grantedIds.has(s.id)).map((s) => s.id));
+          pickedByGrade[grade] = selected.filter((id) => gradeSpellIds.has(id)).length;
+        }
+        const bonusUsed = spontaneousBonusOverflowUsed(gradeBudget, {}, pickedByGrade, capGrade);
+        const bonusRemaining = Math.max(0, bonusAvailable - bonusUsed);
+
         return (
           <div className="summary-block" style={{ marginBottom: 16 }} key={className}>
             <div className="sb-title">{className} — Bekannte Zauber (spontan)</div>
@@ -118,8 +148,15 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
                 Automatisch bekannt: {granted.map((s) => s.name).join(', ')}
               </div>
             )}
+            {bonusAvailable > 0 && (
+              <div className="pick-counter" style={{ marginBottom: 10 }}>
+                + Bevorzugte-Klasse-Bonus: {bonusRemaining > 0 ? '1 zusätzlicher Zauber verfügbar' : 'bereits verwendet'}, Grad ≤ {capGrade}
+              </div>
+            )}
             {grades.map((grade) => {
-              const cap = gradeBudget[String(grade)] ?? 0;
+              const normalCap = gradeBudget[String(grade)] ?? 0;
+              const overflowHere = grade <= capGrade ? Math.max(0, pickedByGrade[grade] - normalCap) : 0;
+              const cap = normalCap + (grade <= capGrade ? overflowHere + bonusRemaining : 0);
               const gradeSpells = spells.filter((s) => s.grade === grade && !grantedIds.has(s.id));
               const gradeSelected = selected.filter((id) => gradeSpells.some((s) => s.id === id));
               return (
