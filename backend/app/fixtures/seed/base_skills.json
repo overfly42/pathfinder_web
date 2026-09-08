@@ -11,7 +11,7 @@
     "name": "Fingerfertigkeit",
     "ability": "GE",
     "trained_only": true,
-    "is_background": false
+    "is_background": true
   },
   {
     "id": "7a0d8500-cd5a-40a0-95fe-6dc9289994f5",
@@ -146,7 +146,7 @@
     "name": "Sprachenkunde",
     "ability": "IN",
     "trained_only": true,
-    "is_background": false
+    "is_background": true
   },
   {
     "id": "8532ffd7-4849-4b27-b10b-1fd0c84b7ebe",
