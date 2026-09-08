@@ -21,6 +21,7 @@ export function createInitialDraft(): CreationDraft {
     skillSpecializations: [],
     feats: [],
     featSubChoices: {},
+    featSubChoices2: {},
     traits: [],
     traitSkillChoices: {},
     spellSelections: {},

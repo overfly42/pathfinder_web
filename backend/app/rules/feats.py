@@ -168,11 +168,30 @@ def power_attack_bonus(bab: int) -> tuple[int, int]:
     return -tier, 2 * tier
 
 
+# `base_feats.json`'s "Kosmopolit" row id (Expertenregeln S. 163). No
+# `HANDLERS` entry: its class-skill grant isn't a `Modifier` — same
+# non-value "membership in a set" shape as `traits.py`'s
+# `CLASS_SKILL_GRANTS` — just resolved from the player's own two picks
+# (`CharacterFeat.chosen_skill_id`/`chosen_skill_id_2`) instead of a fixed
+# skill set, see `DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS` below and
+# `rules/handlers.py`'s `granted_class_skill_ids`. Its other clause (2 bonus
+# languages) is unmodeled: this app has no character-language tracking at
+# all yet (see todos.md).
+KOSMOPOLIT = UUID("8df9604c-0a73-505e-94c5-b753e3362911")
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
     AUSWEICHEN: _ausweichen,
 }
+
+# Feat ids whose class-skill grant is the player's own choice
+# (`CharacterFeat.chosen_skill_id`/`chosen_skill_id_2`, `sub_choice_type ==
+# "skill_pair"`) rather than a fixed set like `traits.py`'s
+# `CLASS_SKILL_GRANTS` — resolved via `context.feat_skill_pair_choices`
+# instead of a static frozenset here, since the granted skill ids differ per
+# character. Currently just Kosmopolit.
+DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS: frozenset[UUID] = frozenset({KOSMOPOLIT})
 
 # Feats whose mechanical effect is genuinely computed on the sheet, just not
 # through this module's own `HANDLERS` above — each one's own docstring

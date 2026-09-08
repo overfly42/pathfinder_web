@@ -150,7 +150,7 @@ export interface SkillSpecializationDef {
   hasHandler: boolean;
 }
 
-export type FeatSubChoiceType = 'weapon' | 'skill' | 'spell_school' | null;
+export type FeatSubChoiceType = 'weapon' | 'skill' | 'skill_pair' | 'spell_school' | null;
 
 export interface FeatDef {
   id: string;
@@ -159,7 +159,9 @@ export interface FeatDef {
   type: string;
   /** Which kind of one-off sub-choice this feat needs beyond just taking it
    *  (e.g. Waffenfokus -> "weapon") — see `BaseFeat.sub_choice_type` on the
-   *  backend. `null` for the common case of a feat with no further choice. */
+   *  backend. `null` for the common case of a feat with no further choice.
+   *  "skill_pair" (Kosmopolit) needs *two* distinct skill picks from one
+   *  feat instance — see `CreationDraft.featSubChoices2`. */
   subChoiceType: FeatSubChoiceType;
   /** Whether `rules/handlers.py`'s `HANDLERS` registry actually computes this
    *  feat's effect, vs. it only ever showing as name/description text on the

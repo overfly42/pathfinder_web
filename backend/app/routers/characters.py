@@ -66,6 +66,7 @@ from ..rules.feat_slots import (
     race_grants_bonus_feat,
     secondary_class_suppressed_feat_count,
 )
+from ..rules.feats import KOSMOPOLIT
 from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
 from ..rules.point_buy import spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
@@ -286,7 +287,12 @@ def _validate_feat_sub_choice(
     only checks that at most one is set at all, not which one is required)."""
     sub_choice_type = feat.sub_choice_type
     if sub_choice_type is None:
-        if selection.chosen_weapon_id or selection.chosen_skill_id or selection.chosen_spell_school:
+        if (
+            selection.chosen_weapon_id
+            or selection.chosen_skill_id
+            or selection.chosen_skill_id_2
+            or selection.chosen_spell_school
+        ):
             raise HTTPException(status_code=422, detail=f"'{feat.name}' does not take a sub-choice")
         return
 
@@ -301,6 +307,28 @@ def _validate_feat_sub_choice(
             raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_skill_id")
         if db.get(BaseSkill, selection.chosen_skill_id) is None:
             raise HTTPException(status_code=422, detail=f"chosen_skill_id for '{feat.name}' is not a known skill")
+    elif sub_choice_type == "skill_pair":
+        if selection.chosen_skill_id is None or selection.chosen_skill_id_2 is None:
+            raise HTTPException(
+                status_code=422, detail=f"'{feat.name}' requires chosen_skill_id and chosen_skill_id_2"
+            )
+        skill_1 = db.get(BaseSkill, selection.chosen_skill_id)
+        skill_2 = db.get(BaseSkill, selection.chosen_skill_id_2)
+        if skill_1 is None or skill_2 is None:
+            raise HTTPException(
+                status_code=422, detail=f"chosen_skill_id/chosen_skill_id_2 for '{feat.name}' must be known skills"
+            )
+        # Kosmopolit-specific restriction (Expertenregeln S. 163: "zwei
+        # intelligenz-, weisheits- oder charismabasierte Fertigkeiten") —
+        # not a generic property of the "skill_pair" shape itself, so gated
+        # on this feat's own id rather than applied to every sub_choice_type
+        # == "skill_pair" feat that might exist in the future.
+        if feat.id == KOSMOPOLIT and (skill_1.ability not in ("IN", "WE", "CH") or skill_2.ability not in ("IN", "WE", "CH")):
+            raise HTTPException(
+                status_code=422,
+                detail=f"chosen_skill_id/chosen_skill_id_2 for '{feat.name}' must be "
+                "intelligence/wisdom/charisma-based skills",
+            )
     elif sub_choice_type == "spell_school":
         if selection.chosen_spell_school is None:
             raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_spell_school")
@@ -1016,6 +1044,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                     feat_id=selection.feat_id,
                     chosen_weapon_id=selection.chosen_weapon_id,
                     chosen_skill_id=selection.chosen_skill_id,
+                    chosen_skill_id_2=selection.chosen_skill_id_2,
                     chosen_spell_school=selection.chosen_spell_school,
                 )
             )
@@ -2343,7 +2372,13 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         }
         known_spell_schools = set(db.scalars(select(BaseSpell.school).distinct()).all())
         already_known = {
-            (entry["feat_id"], entry["chosen_weapon_id"], entry["chosen_skill_id"], entry["chosen_spell_school"])
+            (
+                entry["feat_id"],
+                entry["chosen_weapon_id"],
+                entry["chosen_skill_id"],
+                entry["chosen_skill_id_2"],
+                entry["chosen_spell_school"],
+            )
             for entry in character.feats
         }
         for selection in body.feats:
@@ -2355,6 +2390,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 selection.feat_id,
                 selection.chosen_weapon_id,
                 selection.chosen_skill_id,
+                selection.chosen_skill_id_2,
                 selection.chosen_spell_school,
             )
             if key in already_known:
@@ -2562,6 +2598,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 feat_id=selection.feat_id,
                 chosen_weapon_id=selection.chosen_weapon_id,
                 chosen_skill_id=selection.chosen_skill_id,
+                chosen_skill_id_2=selection.chosen_skill_id_2,
                 chosen_spell_school=selection.chosen_spell_school,
             )
         )

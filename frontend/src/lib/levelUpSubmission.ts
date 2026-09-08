@@ -7,6 +7,7 @@ interface FeatSelectionBody {
   feat_id: string;
   chosen_weapon_id: string | null;
   chosen_skill_id: string | null;
+  chosen_skill_id_2: string | null;
   chosen_spell_school: string | null;
 }
 
@@ -14,15 +15,18 @@ function featSelection(
   name: string | null,
   options: LevelUpOptions,
   subChoices: Record<string, string>,
+  subChoices2: Record<string, string>,
 ): FeatSelectionBody | null {
   if (!name) return null;
   const feat = options.feats.find((f) => f.name === name);
   if (!feat) return null;
   const subChoice = subChoices[name];
+  const isSkillKind = feat.subChoiceType === 'skill' || feat.subChoiceType === 'skill_pair';
   return {
     feat_id: feat.id,
     chosen_weapon_id: feat.subChoiceType === 'weapon' ? subChoice ?? null : null,
-    chosen_skill_id: feat.subChoiceType === 'skill' ? subChoice ?? null : null,
+    chosen_skill_id: isSkillKind ? subChoice ?? null : null,
+    chosen_skill_id_2: feat.subChoiceType === 'skill_pair' ? subChoices2[name] ?? null : null,
     chosen_spell_school: feat.subChoiceType === 'spell_school' ? subChoice ?? null : null,
   };
 }
@@ -39,8 +43,8 @@ export function levelUpRequestBody(progression: CharacterProgression, options: L
   const receivingClassName = getReceivingClassName(progression, target);
 
   const feats = [
-    featSelection(draft.newFeat, options, draft.featSubChoices),
-    featSelection(draft.newBonusFeat, options, draft.featSubChoices),
+    featSelection(draft.newFeat, options, draft.featSubChoices, draft.featSubChoices2),
+    featSelection(draft.newBonusFeat, options, draft.featSubChoices, draft.featSubChoices2),
   ].filter((selection): selection is FeatSelectionBody => selection !== null);
 
   const skill_ranks = [

@@ -278,11 +278,26 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
                 "feat_id": entry.feat_id,
                 "chosen_weapon_id": entry.chosen_weapon_id,
                 "chosen_skill_id": entry.chosen_skill_id,
+                "chosen_skill_id_2": entry.chosen_skill_id_2,
                 "chosen_spell_school": entry.chosen_spell_school,
             }
             for level in self.levels
             for entry in level.feats
         ]
+
+    @property
+    def feat_skill_pair_choices(self) -> dict[uuid.UUID, frozenset[uuid.UUID]]:
+        """`feat_id -> {chosen_skill_id, chosen_skill_id_2}`, for every taken
+        feat that actually has both (`CharacterFeat.chosen_skill_id_2`,
+        `sub_choice_type == "skill_pair"`, e.g. "Kosmopolit") — feeds
+        `rules.context.CharacterContext.feat_skill_pair_choices` (`sheet.py`),
+        same reasoning as `trait_skill_choices` above."""
+        return {
+            entry.feat_id: frozenset({entry.chosen_skill_id, entry.chosen_skill_id_2})
+            for level in self.levels
+            for entry in level.feats
+            if entry.chosen_skill_id_2 is not None
+        }
 
     @property
     def trait_ids(self) -> list[uuid.UUID]:

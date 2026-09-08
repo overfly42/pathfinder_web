@@ -49,8 +49,13 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # Declares which kind of one-off sub-choice this feat needs beyond just
     # taking it (roadmap.md's "Talent-Sub-Wahl-Schema") — "weapon" (Waffenfokus,
     # Mächtiger Waffenfokus, Waffenspezialisierung, Mächtige
-    # Waffenspezialisierung), "skill" (Fertigkeitsfokus), or "spell_school"
-    # (Zauberfokus, Mächtiger Zauberfokus). Same plain-string-tag convention as
+    # Waffenspezialisierung), "skill" (Fertigkeitsfokus), "spell_school"
+    # (Zauberfokus, Mächtiger Zauberfokus), or "skill_pair" (two *distinct*
+    # skill picks in one go, e.g. Kosmopolit's "wähle zwei intelligenz-,
+    # weisheits- oder charismabasierte Fertigkeiten" — unlike "skill", not
+    # reusable by taking the feat twice, since Kosmopolit only costs one feat
+    # slot for both picks; `CharacterFeat.chosen_skill_id`/
+    # `chosen_skill_id_2` hold the pair). Same plain-string-tag convention as
     # `type` — not an FK, since the choice's *target* table differs per value
     # (base_items/base_skills/a bare BaseSpell.school string) rather than
     # pointing at one shared catalog. Null means the feat is taken as-is, no
@@ -171,14 +176,22 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     Exactly one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`
     is set when `feat.sub_choice_type` is not null (matching that value), and
     all three are null otherwise — see `BaseFeat.sub_choice_type`'s docstring
-    for why this isn't itself an FK to one shared table. Validated
+    for why this isn't itself an FK to one shared table. `chosen_skill_id_2`
+    is the odd one out: it's only ever set alongside `chosen_skill_id`, and
+    only for `sub_choice_type == "skill_pair"` (Kosmopolit) — a second target
+    for the same "skill" kind, not a fourth kind of its own. Validated
     server-side (`routers/characters.py`), not by a DB constraint: a CHECK
     can't reach across to `base_feats` to compare against `sub_choice_type`."""
 
     __tablename__ = "character_feats"
     __table_args__ = (
         UniqueConstraint(
-            "level_id", "feat_id", "chosen_weapon_id", "chosen_skill_id", "chosen_spell_school"
+            "level_id",
+            "feat_id",
+            "chosen_weapon_id",
+            "chosen_skill_id",
+            "chosen_skill_id_2",
+            "chosen_spell_school",
         ),
     )
 
@@ -188,6 +201,11 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_items.id"), nullable=True
     )
     chosen_skill_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_skills.id"), nullable=True
+    )
+    # The pair's second skill — only for sub_choice_type "skill_pair", see
+    # this class's own docstring.
+    chosen_skill_id_2: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_skills.id"), nullable=True
     )
     # Same plain-string convention as `BaseSpell.school` (not an FK — school

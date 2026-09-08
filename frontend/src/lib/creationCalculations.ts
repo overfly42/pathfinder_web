@@ -74,10 +74,12 @@ export function featSelectionsForSubmission(draft: CreationDraft, options: Creat
   return draft.feats.map((featId) => {
     const feat = featById.get(featId);
     const subChoice = draft.featSubChoices[featId];
+    const isSkillKind = feat?.subChoiceType === 'skill' || feat?.subChoiceType === 'skill_pair';
     return {
       feat_id: featId,
       chosen_weapon_id: feat?.subChoiceType === 'weapon' ? subChoice ?? null : null,
-      chosen_skill_id: feat?.subChoiceType === 'skill' ? subChoice ?? null : null,
+      chosen_skill_id: isSkillKind ? subChoice ?? null : null,
+      chosen_skill_id_2: feat?.subChoiceType === 'skill_pair' ? draft.featSubChoices2[featId] ?? null : null,
       chosen_spell_school: feat?.subChoiceType === 'spell_school' ? subChoice ?? null : null,
     };
   });

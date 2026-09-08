@@ -2360,5 +2360,13 @@
     "description": "Eine zusätzliche Hexerei.",
     "type": "general",
     "prerequisite_text": "Klassenmerkmal  Hexerei."
+  },
+  {
+    "id": "8df9604c-0a73-505e-94c5-b753e3362911",
+    "name": "Kosmopolit",
+    "description": "Das Leben in großen, exotischen Städten hat dich mit vielen unterschiedlichen Zivilisationen, Kulturen und Völkern in Kontakt gebracht. Du beherrschst zwei zusätzliche Sprachen deiner Wahl in gesprochener und schriftlicher Form. Ferner kannst du zwei intelligenz-, weisheits- oder charismabasierte Fertigkeiten auswählen, die für dich stets Klassenfertigkeiten sind.",
+    "type": "general",
+    "prerequisite_text": null,
+    "sub_choice_type": "skill_pair"
   }
 ]

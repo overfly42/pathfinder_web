@@ -45,16 +45,24 @@ class FeatSelection(BaseModel):
     dict keyed by `feat_id` (contrast `spell_ids`, still a flat dict) so an
     open-choice feat like Waffenfokus can legitimately appear more than once
     in the same submission, once per distinct weapon/skill/school. Exactly
-    one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` may be
-    set; whether one is *required*, and which, depends on the referenced
-    feat's own `sub_choice_type` — that's catalog data, so it's checked
-    server-side (`routers/characters.py`), not here."""
+    one *kind* of sub-choice may be set — `chosen_weapon_id`,
+    `chosen_spell_school`, or the "skill" kind (`chosen_skill_id` alone for
+    `sub_choice_type == "skill"`, or both `chosen_skill_id` and
+    `chosen_skill_id_2` together for `"skill_pair"`, e.g. Kosmopolit) — the
+    two skill fields count as one kind, not two, so submitting them together
+    isn't rejected as multi-kind. Whether a sub-choice is *required*, and
+    which kind, depends on the referenced feat's own `sub_choice_type` —
+    that's catalog data, so it's checked server-side
+    (`routers/characters.py`), not here."""
 
     model_config = ConfigDict(from_attributes=True)
 
     feat_id: UUID
     chosen_weapon_id: UUID | None = None
     chosen_skill_id: UUID | None = None
+    # The "skill_pair" kind's second skill (Kosmopolit) — see this class's
+    # own docstring for why it doesn't count as its own kind below.
+    chosen_skill_id_2: UUID | None = None
     chosen_spell_school: str | None = None
 
     @field_validator("chosen_spell_school")
@@ -66,11 +74,20 @@ class FeatSelection(BaseModel):
 
     @model_validator(mode="after")
     def at_most_one_sub_choice(self) -> "FeatSelection":
-        chosen = [self.chosen_weapon_id, self.chosen_skill_id, self.chosen_spell_school]
+        chosen = [
+            self.chosen_weapon_id,
+            self.chosen_skill_id or self.chosen_skill_id_2,
+            self.chosen_spell_school,
+        ]
         if sum(1 for value in chosen if value is not None) > 1:
             raise ValueError(
-                "a feat selection may set at most one of chosen_weapon_id/chosen_skill_id/chosen_spell_school"
+                "a feat selection may set at most one of chosen_weapon_id/chosen_skill_id"
+                "(+chosen_skill_id_2)/chosen_spell_school"
             )
+        if self.chosen_skill_id_2 is not None and self.chosen_skill_id is None:
+            raise ValueError("chosen_skill_id_2 requires chosen_skill_id to be set too")
+        if self.chosen_skill_id_2 is not None and self.chosen_skill_id_2 == self.chosen_skill_id:
+            raise ValueError("chosen_skill_id_2 must differ from chosen_skill_id")
         return self
 
 
@@ -309,6 +326,7 @@ class CharacterCreate(BaseModel):
                 selection.feat_id,
                 selection.chosen_weapon_id,
                 selection.chosen_skill_id,
+                selection.chosen_skill_id_2,
                 selection.chosen_spell_school,
             )
             if key in seen:
@@ -470,6 +488,7 @@ class LevelUp(BaseModel):
                 selection.feat_id,
                 selection.chosen_weapon_id,
                 selection.chosen_skill_id,
+                selection.chosen_skill_id_2,
                 selection.chosen_spell_school,
             )
             if key in seen:

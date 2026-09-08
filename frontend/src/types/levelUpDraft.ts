@@ -45,6 +45,11 @@ export interface LevelUpDraft {
    *  `CreationDraft.featSubChoices`, but keyed by name since newFeat/
    *  newBonusFeat are names here, not ids. */
   featSubChoices: Record<string, string>;
+  /** feat *name* -> second chosen skill id, for a feat whose
+   *  `subChoiceType` is "skill_pair" (Kosmopolit) — same shape as
+   *  `CreationDraft.featSubChoices2`, keyed by name for the same reason as
+   *  `featSubChoices` above. */
+  featSubChoices2: Record<string, string>;
   /** Every new spell picked this level-up (names, not ids — same
    *  name-keyed convention as `newFeat`/`newBonusFeat` in this draft) — a
    *  delta on top of `CharacterProgression.spellsKnown`, up to that level's

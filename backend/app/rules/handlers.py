@@ -125,6 +125,7 @@ from .classes import WEAPON_ENHANCEMENT_HANDLERS as _CLASS_WEAPON_ENHANCEMENT_HA
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS as _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
+from .feats import DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS as _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS
 from .feats import HANDLERS as _FEAT_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
@@ -166,11 +167,18 @@ def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
     `context.feat_ids | context.trait_ids` trigger-id scan
     `situational_skill_notes` already uses — no granted-class-ability scope
     exists for this registry yet (no class ability found so far grants class
-    skill status), so `context.granted_ability_ids` isn't scanned here."""
+    skill status), so `context.granted_ability_ids` isn't scanned here.
+
+    Also unions in feats whose grant is the player's own choice rather than
+    a fixed set (`DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS`, e.g. Kosmopolit) —
+    read straight off `context.feat_skill_pair_choices` instead of this
+    registry, since the granted ids differ per character."""
     trigger_ids = context.feat_ids | context.trait_ids
     granted: set[UUID] = set()
     for trigger_id in trigger_ids:
         granted.update(CLASS_SKILL_GRANTS.get(trigger_id, frozenset()))
+    for feat_id in context.feat_ids & _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS:
+        granted.update(context.feat_skill_pair_choices.get(feat_id, frozenset()))
     return frozenset(granted)
 
 # How many rounds/uses per day a daily-limited ability id grants, computed
@@ -326,6 +334,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in SPELL_LIKE_ABILITY_HANDLERS
         or ability_id in SITUATIONAL_SKILL_HANDLERS
         or ability_id in CLASS_SKILL_GRANTS
+        or ability_id in _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS
         or ability_id in SPELL_SLOT_DELTAS
         or ability_id in DAILY_LIMITS
         or ability_id in TEMP_HP_GRANTS

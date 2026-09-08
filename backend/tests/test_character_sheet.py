@@ -474,6 +474,43 @@ def test_begabt_adds_trait_bonus_and_class_skill_status_to_auftreten(
     assert sum(entry["value"] for entry in breakdown) == 4
 
 
+def test_kosmopolit_grants_class_skill_status_to_both_chosen_skills(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/feats.py`'s "Kosmopolit": the two player-chosen skills become
+    class skills - here Diplomatie and Wissen (Arkanes), neither of which is
+    in Waldläufer's (`_character_payload`'s default class) own class-skill
+    list, so the +3 below can only be coming from Kosmopolit's own dynamic
+    grant (`DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS`), not from the class."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    kosmopolit_id = _feat_id(client, db_session, "Kosmopolit")
+    diplomatie_id = _skill_id(client, db_session, "Diplomatie")
+    arkanes_id = _skill_id(client, db_session, "Wissen (Arkanes)")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            feats=[_feat_selection(kosmopolit_id, chosen_skill_id=diplomatie_id, chosen_skill_id_2=arkanes_id)],
+            skill_ranks=_to_skill_rank_selections(
+                client, db_session, {diplomatie_id: 1, arkanes_id: 1}
+            ),
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    for skill_id in (diplomatie_id, arkanes_id):
+        breakdown = skills_by_key[skill_id]["breakdown"]
+        assert {"label": "Klassenfertigkeit", "value": 3} in breakdown
+
+
 def test_halbork_einschuechternd_adds_racial_bonus_to_intimidate(
     client: TestClient, db_session: Session
 ) -> None:

@@ -94,6 +94,12 @@ export interface CreationDraft {
    *  see `FeatsStep.tsx`. Only ever holds entries for feats currently in
    *  `feats` that need one. */
   featSubChoices: Record<string, string>;
+  /** feat_id -> the second chosen skill id, for feats whose
+   *  `FeatDef.subChoiceType` is "skill_pair" (Kosmopolit: two distinct
+   *  skills from one feat instance) — `featSubChoices` holds the first pick,
+   *  this holds the second. Only ever holds entries for feats currently in
+   *  `feats` that need one. */
+  featSubChoices2: Record<string, string>;
   traits: string[];
   /** trait_id -> chosen skill id, for traits whose `TraitDef.skillChoiceAbility`
    *  isn't null (Gewitztes Wortspiel -> a CH-based skill id) — see

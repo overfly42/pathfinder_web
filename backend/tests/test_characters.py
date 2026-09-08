@@ -930,7 +930,7 @@ def test_create_character_background_skill_points_cannot_cover_adventure_skills(
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
     adventure_skill_names = [
-        "Akrobatik", "Fingerfertigkeit", "Entfesselungskunst", "Heimlichkeit", "Reiten", "Mechanismus ausschalten",
+        "Akrobatik", "Fliegen", "Entfesselungskunst", "Heimlichkeit", "Reiten", "Mechanismus ausschalten",
         "Klettern", "Schwimmen",
     ]
     skill_ranks = {_skill_id(client, db_session, name): 1 for name in adventure_skill_names}
@@ -1275,6 +1275,70 @@ def test_create_character_persists_skill_focus_and_spell_focus_sub_choices(
     by_feat_id = {f["feat_id"]: f for f in body["feats"]}
     assert by_feat_id[fertigkeitsfokus_id]["chosen_skill_id"] == heimlichkeit_id
     assert by_feat_id[zauberfokus_id]["chosen_spell_school"] == school
+
+
+def test_create_character_persists_kosmopolit_skill_pair(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    kosmopolit_id = _feat_id(client, db_session, "Kosmopolit")
+    diplomatie_id = _skill_id(client, db_session, "Diplomatie")
+    arkanes_id = _skill_id(client, db_session, "Wissen (Arkanes)")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(kosmopolit_id, chosen_skill_id=diplomatie_id, chosen_skill_id_2=arkanes_id)],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    kosmopolit = next(f for f in body["feats"] if f["feat_id"] == kosmopolit_id)
+    assert {kosmopolit["chosen_skill_id"], kosmopolit["chosen_skill_id_2"]} == {diplomatie_id, arkanes_id}
+
+
+def test_create_character_rejects_kosmopolit_with_only_one_skill(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    kosmopolit_id = _feat_id(client, db_session, "Kosmopolit")
+    diplomatie_id = _skill_id(client, db_session, "Diplomatie")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(kosmopolit_id, chosen_skill_id=diplomatie_id)],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_kosmopolit_with_a_non_mental_skill(client: TestClient, db_session: Session) -> None:
+    """Kosmopolit (Expertenregeln S. 163) only allows intelligence-,
+    wisdom-, or charisma-based skills — Klettern (ST) must be rejected."""
+    user_id = _create_user(client)
+    race_id = _human_race_id(client, db_session)
+    kosmopolit_id = _feat_id(client, db_session, "Kosmopolit")
+    diplomatie_id = _skill_id(client, db_session, "Diplomatie")
+    klettern_id = _skill_id(client, db_session, "Klettern")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            flex_ability="ST",
+            feats=[_feat_selection(kosmopolit_id, chosen_skill_id=diplomatie_id, chosen_skill_id_2=klettern_id)],
+        ),
+    )
+    assert response.status_code == 422
 
 
 def test_create_character_persists_traits_on_highest_level(client: TestClient, db_session: Session) -> None:

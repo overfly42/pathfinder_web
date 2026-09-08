@@ -45,8 +45,10 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
     setDraft((prev) => {
       if (prev.newFeat === name) {
         const nextSubChoices = { ...prev.featSubChoices };
+        const nextSubChoices2 = { ...prev.featSubChoices2 };
         delete nextSubChoices[name];
-        return { ...prev, newFeat: null, featSubChoices: nextSubChoices };
+        delete nextSubChoices2[name];
+        return { ...prev, newFeat: null, featSubChoices: nextSubChoices, featSubChoices2: nextSubChoices2 };
       }
       return { ...prev, newFeat: name };
     });
@@ -56,8 +58,10 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
     setDraft((prev) => {
       if (prev.newBonusFeat === name) {
         const nextSubChoices = { ...prev.featSubChoices };
+        const nextSubChoices2 = { ...prev.featSubChoices2 };
         delete nextSubChoices[name];
-        return { ...prev, newBonusFeat: null, featSubChoices: nextSubChoices };
+        delete nextSubChoices2[name];
+        return { ...prev, newBonusFeat: null, featSubChoices: nextSubChoices, featSubChoices2: nextSubChoices2 };
       }
       return { ...prev, newBonusFeat: name };
     });
@@ -65,6 +69,10 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
 
   function setSubChoice(name: string, value: string) {
     setDraft((prev) => ({ ...prev, featSubChoices: { ...prev.featSubChoices, [name]: value } }));
+  }
+
+  function setSubChoice2(name: string, value: string) {
+    setDraft((prev) => ({ ...prev, featSubChoices2: { ...prev.featSubChoices2, [name]: value } }));
   }
 
   const needingSubChoice = [draft.newFeat, draft.newBonusFeat]
@@ -116,6 +124,41 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
                     <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
+              )}
+              {feat.subChoiceType === 'skill_pair' && (
+                <>
+                  {/* Kosmopolit: "wähle zwei intelligenz-, weisheits- oder
+                      charismabasierte Fertigkeiten" — the mental-ability
+                      filter below is this feat's own restriction, not a
+                      general property of "skill_pair" (see rules/feats.py). */}
+                  <select
+                    value={draft.featSubChoices[feat.name] ?? ''}
+                    onChange={(e) => setSubChoice(feat.name, e.target.value)}
+                  >
+                    <option value="">– Erste Fertigkeit wählen –</option>
+                    {options.skills
+                      .filter((s) => s.ability === 'IN' || s.ability === 'WE' || s.ability === 'CH')
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                  </select>
+                  <select
+                    value={draft.featSubChoices2[feat.name] ?? ''}
+                    onChange={(e) => setSubChoice2(feat.name, e.target.value)}
+                    style={{ marginTop: 6 }}
+                  >
+                    <option value="">– Zweite Fertigkeit wählen –</option>
+                    {options.skills
+                      .filter(
+                        (s) =>
+                          (s.ability === 'IN' || s.ability === 'WE' || s.ability === 'CH') &&
+                          s.id !== draft.featSubChoices[feat.name],
+                      )
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>{s.name}</option>
+                      ))}
+                  </select>
+                </>
               )}
               {feat.subChoiceType === 'spell_school' && (
                 <select

@@ -38,6 +38,12 @@ class CharacterContext:
     # input, not a computed value" reasoning as every other field on this
     # dataclass. Empty for a character with no such trait.
     trait_skill_choices: dict[UUID, UUID] = field(default_factory=dict)
+    # feat id -> both chosen skill ids, for feats whose `BaseFeat.
+    # sub_choice_type == "skill_pair"` (2026-09-08, "Kosmopolit") — same
+    # "raw composition input" reasoning as `trait_skill_choices` above, just
+    # a pair instead of one value since this shape grants two skills at
+    # once. Empty for a character with no such feat.
+    feat_skill_pair_choices: dict[UUID, frozenset[UUID]] = field(default_factory=dict)
     # A `Counter`, not a `frozenset`: some class abilities are granted more
     # than once at different levels and each repetition has independent
     # mechanical weight (`sheet.py`'s `granted_class_ability_ids` docstring
