@@ -50,6 +50,21 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
       Text/Verweis wie Kensais Version, id `ebb8db2d-2caa-54c4-8a78-9131f0b44e1d`),
       aber ohne `BaseClass`-Zeile für Duellant gibt es keinen `BaseClassAbilityGrant`
       dafür. Betrifft jede künftige Prestigeklasse, nicht nur Duellant.
+- [ ] **Charaktersprachen sind gar nicht modelliert.** Aufgeworfen 2026-09-08
+      beim Import des Talents Kosmopolit (`prd.5footstep.de/Expertenregeln/
+      Talente/Kosmopolit`, "erlerne 2 zusätzliche Sprachen [...] und wähle 2
+      intelligenz-/weisheits-/charismabasierte Fertigkeiten, die stets
+      Klassenfertigkeiten sind"): die Fertigkeitswahl-Hälfte ist umgesetzt
+      (`BaseFeat.sub_choice_type == "skill_pair"`, `CharacterFeat.
+      chosen_skill_id`/`chosen_skill_id_2`, `rules/feats.py`'s
+      `DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS`), die Sprachen-Hälfte bewusst
+      nicht — es gibt kein `Language`/`CharacterLanguage`-Modell, keine
+      Rassen-Startsprachen, nichts. Betrifft nicht nur Kosmopolit: jede Rasse
+      hat laut PF1e RAW eine feste Startsprachenliste plus wählbare Bonus-
+      sprachen (Anzahl = IN-Mod), aktuell komplett unmodelliert. Eigener,
+      größerer Scope (Sprachen-Katalog, Charakter-Sprachen-Tabelle,
+      DE/EN-Lokalisierung der Sprachnamen, UI), nicht im Rahmen der
+      Kosmopolit-Umsetzung mitgebaut.
 - [~] **Bevorzugte-Klasse-Bonus "Zusätzlicher Zauber" (Mystiker/Hexe)** —
       2026-09-06/07 aufgeworfen, 2026-09-07 Backend umgesetzt, Frontend
       offen. Vier Wahlmöglichkeiten — Mystiker (Halb-Ork/Katzenvolk, geteilte
