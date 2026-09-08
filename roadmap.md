@@ -575,6 +575,19 @@ Concrete gaps found, each pointing at the slice/bullet that owns it:
 
 Done — DB/ORM/migrations/test harness. Full detail: `roadmap_history.md`.
 
+**2026-09-07 data-loss incident.** An ad-hoc debug script (reproducing a
+`flex_ability`/Hexe-budget test failure) called `Base.metadata.drop_all` +
+`create_all` against `app.db.engine` — the real local dev database — instead
+of an isolated test engine, wiping every row in every table (all `users` and
+`characters`, including hand-built test characters like Merro Mercat and
+Herkulina). Catalog/reference data (`base_*` tables) was recoverable by
+rerunning the relevant `app.seed.*` modules against the fixtures; character
+data was not — there were no backups. Mitigated 2026-09-08: `backup_db.sh`
+now runs automatically from `dev.sh` on every container start, dumping the
+dev DB and keeping the 7 most recent backups (see `CLAUDE.md`'s Working
+Conventions for the rule this violated — never point a throwaway script at
+`app.db.engine`/`SessionLocal` for destructive schema operations).
+
 ## Slices
 
 ### 1. User lifecycle (thin only)

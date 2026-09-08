@@ -10,6 +10,7 @@ VENV="${PATHFINDER_VENV:-$HOME/python/pathfinder_web}"
 
 source "$VENV/bin/activate"
 podman-compose -f "$ROOT/docker-compose.yml" up -d
+"$ROOT/backup_db.sh"
 
 cleanup() {
   echo "Stopping dev servers..."
