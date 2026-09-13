@@ -173,6 +173,11 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
         # by default, overridable by tests that care about the actual value
         # (e.g. a race-scoped alternate bonus).
         "favored_class_bonus": {str(level): "hp" for level in favored_levels},
+        # Ability score increase for every 4th character level (see
+        # CharacterCreate.ability_increases) - a flat "ST" pick by default
+        # (always valid regardless of race/class), overridable by tests
+        # that care about the actual ability chosen.
+        "ability_increases": {str(level): "ST" for level in range(4, total_level + 1, 4)},
         "ability_scores": DEFAULT_ABILITY_SCORES,
         "point_budget": 20,
     }
@@ -324,6 +329,90 @@ def test_create_character_hit_points_for_level_one_is_rejected(client: TestClien
         ),
     )
     assert response.status_code == 422
+
+
+def test_create_character_missing_ability_increase_for_a_milestone_level_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 4}],
+            ability_increases={},
+        ),
+    )
+    assert response.status_code == 422
+    assert "ability_increases" in response.json()["detail"]
+
+
+def test_create_character_ability_increase_with_unknown_ability_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 4}],
+            ability_increases={"4": "XX"},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_ability_increase_at_a_non_milestone_level_is_rejected(
+    client: TestClient, db_session: Session
+) -> None:
+    """Level 5's only milestone is level 4 - an extra pick at level 5 itself
+    isn't legal, even alongside the correct level-4 one."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 5}],
+            ability_increases={"4": "ST", "5": "ST"},
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_applies_ability_increase_to_base_ability_score(
+    client: TestClient, db_session: Session
+) -> None:
+    """PF1e grants +1 to a chosen ability at every 4th character level - a
+    level-8 character gets two independent picks (levels 4 and 8), which can
+    both land on the same ability."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Waldläufer", "level": 8}],
+            ability_increases={"4": "IN", "8": "IN"},
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    assert body["ability_scores"] == {**DEFAULT_ABILITY_SCORES, "IN": DEFAULT_ABILITY_SCORES["IN"] + 2}
 
 
 def test_create_character_with_archetype_persists_and_round_trips(client: TestClient, db_session: Session) -> None:

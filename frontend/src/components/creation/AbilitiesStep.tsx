@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { CreationDraft, PointBudget } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import type { AbilityKey } from '../../types/abilities';
-import { abilityMod, formatMod, raceMod, selectedRace, spentPoints } from '../../lib/creationCalculations';
+import { abilityIncreaseBonus, abilityMod, formatMod, raceMod, selectedRace, spentPoints } from '../../lib/creationCalculations';
 
 interface AbilitiesStepProps {
   draft: CreationDraft;
@@ -54,7 +54,8 @@ export function AbilitiesStep({ draft, options, setDraft }: AbilitiesStepProps) 
         {options.abilities.map((a) => {
           const score = draft.abilityScores[a.key];
           const mod = raceMod(draft, options, a.key);
-          const total = score + mod;
+          const increase = abilityIncreaseBonus(draft, a.key);
+          const total = score + mod + increase;
           const totalMod = abilityMod(total);
           return (
             <div className="ability-edit" key={a.key}>
@@ -68,9 +69,13 @@ export function AbilitiesStep({ draft, options, setDraft }: AbilitiesStepProps) 
                 <span className="mod">{formatMod(abilityMod(score))}</span>
                 <span className="cost">{options.pointBuyCosts[score] ?? 0} Pkt.</span>
               </div>
-              {mod !== 0 && (
+              {(mod !== 0 || increase !== 0) && (
                 <div className="race-mod-line">
-                  Rasse {formatMod(mod)} → <b>{total}</b> ({formatMod(totalMod)})
+                  {mod !== 0 && `Rasse ${formatMod(mod)}`}
+                  {mod !== 0 && increase !== 0 && ', '}
+                  {increase !== 0 && `Steigerung +${increase}`}
+                  {' → '}
+                  <b>{total}</b> ({formatMod(totalMod)})
                 </div>
               )}
             </div>

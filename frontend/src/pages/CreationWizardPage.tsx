@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
 import {
+  abilityIncreaseLevels,
   classWeaponChoicesForSubmission,
+  favoredLevels,
   featSelectionsForSubmission,
+  hitDiceForLevel,
   selectedRace,
   skillRankSelectionsForSubmission,
   spellIdsForSubmission,
+  totalLevel,
   traitSkillChoicesForSubmission,
 } from '../lib/creationCalculations';
 import { useCreationOptions } from '../hooks/useCreationOptions';
@@ -16,7 +20,9 @@ import { Panel } from '../components/primitives/Panel';
 import { Stepper, type StepDef } from '../components/primitives/Stepper';
 import { BasicsStep } from '../components/creation/BasicsStep';
 import { ClassStep } from '../components/creation/ClassStep';
+import { HitPointsStep } from '../components/creation/HitPointsStep';
 import { AbilitiesStep } from '../components/creation/AbilitiesStep';
+import { AbilityIncreaseStep } from '../components/creation/AbilityIncreaseStep';
 import { SkillsStep } from '../components/creation/SkillsStep';
 import { FeatsStep } from '../components/creation/FeatsStep';
 import { TraitsStep } from '../components/creation/TraitsStep';
@@ -28,7 +34,9 @@ import './CreationWizardPage.css';
 const STEPS: StepDef[] = [
   { key: 'basics', label: 'Grunddaten' },
   { key: 'class', label: 'Klasse' },
+  { key: 'hitpoints', label: 'Trefferpunkte' },
   { key: 'abilities', label: 'Attribute' },
+  { key: 'abilityincrease', label: 'Attributssteigerung' },
   { key: 'skills', label: 'Fertigkeiten' },
   { key: 'feats', label: 'Talente' },
   { key: 'traits', label: 'Wesenszüge' },
@@ -114,9 +122,33 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte im Schritt „Wesenszüge" für jeden markierten Wesenszug eine Fertigkeit wählen.');
         return;
       }
-      if (!draft.favoredClassBonus) {
+      const favLevels = favoredLevels(draft);
+      if (favLevels.some((lvl) => !draft.favoredClassBonus[String(lvl)])) {
         setSubmitState('error');
-        setSubmitErrorMessage('Bitte im Schritt „Klasse" den Bonus der bevorzugten Klasse für die 1. Stufe wählen.');
+        setSubmitErrorMessage(
+          'Bitte im Schritt „Trefferpunkte" für jede Stufe der bevorzugten Klasse einen Bonus wählen.',
+        );
+        return;
+      }
+      const requiredHpLevels = Array.from({ length: Math.max(0, totalLevel(draft) - 1) }, (_, i) => i + 2);
+      const missingOrInvalidHp = requiredHpLevels.some((lvl) => {
+        const value = draft.hitPoints[String(lvl)];
+        const hitDice = hitDiceForLevel(draft, opts, lvl);
+        return value == null || hitDice == null || value < 1 || value > hitDice;
+      });
+      if (missingOrInvalidHp) {
+        setSubmitState('error');
+        setSubmitErrorMessage(
+          'Bitte im Schritt „Trefferpunkte" für jede Stufe ab 2 einen gültigen Trefferpunkte-Wurf eintragen.',
+        );
+        return;
+      }
+      const abilityIncLevels = abilityIncreaseLevels(draft);
+      if (abilityIncLevels.some((lvl) => !draft.abilityIncreases[String(lvl)])) {
+        setSubmitState('error');
+        setSubmitErrorMessage(
+          'Bitte im Schritt „Attributssteigerung" für jede Stufe 4/8/12/… ein Attribut wählen.',
+        );
         return;
       }
 
@@ -134,7 +166,9 @@ export function CreationWizardPage() {
           })),
           secondary_class_name: draft.secondaryClassName,
           secondary_class_options: draft.secondaryClassOptions,
-          favored_class_bonus: { '1': draft.favoredClassBonus },
+          hit_points: Object.fromEntries(requiredHpLevels.map((lvl) => [String(lvl), draft.hitPoints[String(lvl)]])),
+          favored_class_bonus: Object.fromEntries(favLevels.map((lvl) => [String(lvl), draft.favoredClassBonus[String(lvl)]])),
+          ability_increases: Object.fromEntries(abilityIncLevels.map((lvl) => [String(lvl), draft.abilityIncreases[String(lvl)]])),
           ability_scores: draft.abilityScores,
           point_budget: draft.pointBudget,
           flex_ability: draft.flexAbility,
@@ -164,8 +198,12 @@ export function CreationWizardPage() {
         return <BasicsStep draft={draft} options={opts} setDraft={setDraft} />;
       case 'class':
         return <ClassStep draft={draft} options={opts} setDraft={setDraft} />;
+      case 'hitpoints':
+        return <HitPointsStep draft={draft} options={opts} setDraft={setDraft} />;
       case 'abilities':
         return <AbilitiesStep draft={draft} options={opts} setDraft={setDraft} />;
+      case 'abilityincrease':
+        return <AbilityIncreaseStep draft={draft} options={opts} setDraft={setDraft} />;
       case 'skills':
         return <SkillsStep draft={draft} options={opts} setDraft={setDraft} />;
       case 'feats':

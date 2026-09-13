@@ -6,7 +6,7 @@ import {
   arcanePreparedBudget,
   archetypesForClass,
   bonusCapGrade,
-  bonusKnownSpellSlot,
+  bonusKnownSpellSlotCount,
   classDef,
   classTotalLevel,
   effectiveCastingAbility,
@@ -58,12 +58,12 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
         const gradeBudget = spellGradeBudgetAtLevel(cls, level);
         const spells = options.spellsByClass[className] ?? [];
         const selected = draft.spellSelections[baseClassId] ?? [];
-        // The 1st-level favored-class bonus only ever targets classRows[0]
-        // (creation only supports picking it for level 1, see
-        // CreationDraft.favoredClassBonus's own docstring) — matches at
-        // most one className (Mystiker's/Hexe's choice names are their
-        // own), 0 for every other class.
-        const bonusAvailable = bonusKnownSpellSlot(className, draft.favoredClassBonus) ? 1 : 0;
+        // The favored-class bonus only ever targets classRows[0]'s class
+        // (Mystiker's/Hexe's choice names are their own), 0 for every other
+        // class — but a multi-level favored class can pick the "bonus known
+        // spell" alternate at more than one level, see
+        // `bonusKnownSpellSlotCount`'s own docstring.
+        const bonusAvailable = bonusKnownSpellSlotCount(draft, className);
         const capGrade = bonusCapGrade(gradeBudget);
 
         if (cls.spellType === 'arcane-prepared') {
@@ -86,7 +86,7 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
               </div>
               {bonusAvailable > 0 && (
                 <div className="pick-counter" style={{ marginBottom: 10 }}>
-                  + Bevorzugte-Klasse-Bonus: 1 zusätzlicher Zauber, Grad ≤ {capGrade}
+                  + Bevorzugte-Klasse-Bonus: {bonusAvailable} zusätzliche{bonusAvailable > 1 ? '' : 'r'} Zauber, Grad ≤ {capGrade}
                 </div>
               )}
               <div className="chip-row">
@@ -150,7 +150,11 @@ export function SpellsStep({ draft, options, setDraft }: SpellsStepProps) {
             )}
             {bonusAvailable > 0 && (
               <div className="pick-counter" style={{ marginBottom: 10 }}>
-                + Bevorzugte-Klasse-Bonus: {bonusRemaining > 0 ? '1 zusätzlicher Zauber verfügbar' : 'bereits verwendet'}, Grad ≤ {capGrade}
+                + Bevorzugte-Klasse-Bonus:{' '}
+                {bonusRemaining > 0
+                  ? `${bonusRemaining} zusätzliche${bonusRemaining > 1 ? '' : 'r'} Zauber verfügbar`
+                  : 'bereits verwendet'}
+                , Grad ≤ {capGrade}
               </div>
             )}
             {grades.map((grade) => {

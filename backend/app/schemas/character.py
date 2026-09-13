@@ -164,6 +164,19 @@ class CharacterCreate(BaseModel):
     # value there. Validated server-side against exactly the favored-class
     # levels among 1..total_level.
     favored_class_bonus: dict[str, str] = {}
+    # Player-chosen ability score increase (one ability, +1) for every 4th
+    # character level (4, 8, 12, ...) up to total_level — same choice as
+    # `LevelUp.ability_increase`, but one entry per milestone level (keyed
+    # as a string, same JSON reasoning as `hit_points`) since creation
+    # submits the whole career in one request instead of one level-up at a
+    # time. Validated server-side (`create_character`) against exactly
+    # `{4, 8, ...} & {1..total_level}`; applied directly onto
+    # `ability_scores` as a permanent base-score bump before any
+    # effective-score computation — PF1e ability increases are retroactive
+    # (see `level_up_character`'s own comment on this), so unlike
+    # `hit_points`/`favored_class_bonus` there's no need to track *which*
+    # level each bump took effect at for budget purposes, only that it did.
+    ability_increases: dict[str, str] = {}
     ability_scores: dict[str, int]
     point_budget: Literal[10, 15, 20, 25]
     flex_ability: str | None = None

@@ -5,7 +5,6 @@ import type { CreationOptions } from '../../types/creationOptions';
 import { createId } from '../../lib/id';
 import { availableOptionGroups } from '../../lib/classOptions';
 import { classDef, totalLevel } from '../../lib/creationCalculations';
-import { useFavoredClassBonusOptions } from '../../hooks/useFavoredClassBonusOptions';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassStepProps {
@@ -25,12 +24,8 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   function onClassChange(rowId: string, className: string) {
     updateRow(rowId, { className, archetypes: [], options: {} });
     if (rowId === draft.classRows[0]?.id) {
-      setDraft((prev) => ({ ...prev, favoredClassBonus: null }));
+      setDraft((prev) => ({ ...prev, favoredClassBonus: {} }));
     }
-  }
-
-  function setFavoredClassBonus(value: string) {
-    setDraft((prev) => ({ ...prev, favoredClassBonus: prev.favoredClassBonus === value ? null : value }));
   }
 
   function addClassRow() {
@@ -82,7 +77,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       return {
         ...prev,
         classRows: prev.classRows.filter((r) => r.id !== rowId),
-        favoredClassBonus: wasFavored ? null : prev.favoredClassBonus,
+        favoredClassBonus: wasFavored ? {} : prev.favoredClassBonus,
       };
     });
   }
@@ -148,10 +143,6 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   const secondaryGroups = availableOptionGroups(secondaryCls?.optionGroups ?? [], 1, [], {}).filter(
     (g) => g.isSecondaryInitialPick,
   );
-  const favoredClassBonusOptions = useFavoredClassBonusOptions(draft.raceId, draft.classRows[0]?.className ?? null);
-  const alternateFavoredClassBonuses = (favoredClassBonusOptions?.options ?? []).filter(
-    (name) => name !== 'hp' && name !== 'skill',
-  );
 
   return (
     <>
@@ -161,7 +152,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       </div>
 
       <div style={{ marginTop: 14 }}>
-        {draft.classRows.map((row, index) => {
+        {draft.classRows.map((row) => {
           const cls = classDef(options, row.className);
           const archetypeChoices = (cls?.archetypes ?? []).filter((a) => a !== 'Keiner');
           const groups = availableOptionGroups(
@@ -247,44 +238,6 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
                 </div>
               )}
 
-              {index === 0 && draft.raceId && (
-                <>
-                  <div className="field-label" style={{ marginTop: 18 }}>
-                    Bevorzugte Klasse (1. Stufe): zusätzlicher Bonus (1 Trefferpunkt, 1 Fertigkeitsrang, oder ein
-                    rassenspezifischer Alternativbonus).
-                  </div>
-                  {favoredClassBonusOptions ? (
-                    <div className="chip-row" style={{ marginTop: 10 }}>
-                      <button
-                        type="button"
-                        className={`chip${draft.favoredClassBonus === 'hp' ? ' active' : ''}`}
-                        onClick={() => setFavoredClassBonus('hp')}
-                      >
-                        +1 Trefferpunkt
-                      </button>
-                      <button
-                        type="button"
-                        className={`chip${draft.favoredClassBonus === 'skill' ? ' active' : ''}`}
-                        onClick={() => setFavoredClassBonus('skill')}
-                      >
-                        +1 Fertigkeitsrang
-                      </button>
-                      {alternateFavoredClassBonuses.map((name) => (
-                        <button
-                          key={name}
-                          type="button"
-                          className={`chip${draft.favoredClassBonus === name ? ' active' : ''}`}
-                          onClick={() => setFavoredClassBonus(name)}
-                        >
-                          {favoredClassBonusOptions.shortLabels[name] ?? name}
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="warning-note" style={{ marginTop: 10 }}>Lade Optionen …</div>
-                  )}
-                </>
-              )}
             </div>
           );
         })}

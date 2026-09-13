@@ -65,13 +65,31 @@ export interface CreationDraft {
    *  Cleared whenever `secondaryClassName` changes (`ClassStep.tsx`), same
    *  as a class row's own `options` on a class change. */
   secondaryClassOptions: Record<string, string[]>;
-  /** 1st-level favored-class bonus ("hp" | "skill" | a race+class-specific
-   *  Advanced Race Guide alternate choice name) for `classRows[0]` — the
-   *  favored class, per `create_character`'s "the root of the first
-   *  submitted class is favored by default" rule. `null` until chosen;
-   *  reset whenever that row's class or the character's race changes,
-   *  since a race-scoped alternate choice may no longer be legal. */
-  favoredClassBonus: string | null;
+  /** Favored-class bonus ("hp" | "skill" | a race+class-specific Advanced
+   *  Race Guide alternate choice name), keyed by character level (as a
+   *  string, same JSON-key reasoning as `hitPoints`) — one entry for every
+   *  level that falls in `classRows[0]`'s class, the favored class per
+   *  `create_character`'s "the root of the first submitted class is
+   *  favored by default" rule (see `favoredLevels` in
+   *  `creationCalculations.ts`). PF1e grants this choice per level, not
+   *  once at creation, so a multi-level favored class needs one answer per
+   *  level, same as `hitPoints`. `null`/absent until chosen for that level;
+   *  a stale entry for a level no longer in the favored class is simply
+   *  ignored at submission, not pruned from the draft. */
+  favoredClassBonus: Record<string, string | null>;
+  /** Player-entered HP roll for every character level except the very
+   *  first (always maxed automatically, see `create_character`), keyed by
+   *  level as a string — mirrors `CharacterCreate.hit_points` exactly, see
+   *  its own docstring in `backend/app/schemas/character.py`. `null`/absent
+   *  until rolled for that level. */
+  hitPoints: Record<string, number | null>;
+  /** Player-chosen ability score increase (one ability key, +1) for every
+   *  4th character level (4, 8, 12, ...), keyed by level as a string —
+   *  mirrors `CharacterCreate.ability_increases`, see its own docstring in
+   *  `backend/app/schemas/character.py`. `null`/absent until chosen for
+   *  that level. See `abilityIncreaseLevels` in `creationCalculations.ts`
+   *  for which levels need one. */
+  abilityIncreases: Record<string, AbilityKey | null>;
   abilityScores: Record<AbilityKey, number>;
   pointBudget: PointBudget;
   /** Opt-in to the "Hintergrundfertigkeiten" alternate rule (+2 skill ranks

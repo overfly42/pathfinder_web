@@ -68,7 +68,7 @@ from ..rules.feat_slots import (
 )
 from ..rules.feats import KOSMOPOLIT
 from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
-from ..rules.point_buy import spent_points
+from ..rules.point_buy import ABILITY_KEYS, spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
 from ..rules.spells import (
@@ -729,8 +729,43 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 status_code=422, detail=f"Invalid favored_class_bonus '{value}' for level {level_num}"
             )
 
+    # Player-chosen ability score increase per 4th character level — see
+    # CharacterCreate.ability_increases's own docstring.
+    required_ability_increase_levels = set(range(4, total_level + 1, 4))
+    submitted_ability_increases: dict[int, str] = {}
+    for level_str, value in body.ability_increases.items():
+        try:
+            level_num = int(level_str)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid ability_increases level '{level_str}'") from exc
+        submitted_ability_increases[level_num] = value
+
+    if set(submitted_ability_increases) != required_ability_increase_levels:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "ability_increases must include exactly one entry for every 4th character level "
+                f"({sorted(required_ability_increase_levels)})"
+            ),
+        )
+    for level_num, value in submitted_ability_increases.items():
+        if value not in ABILITY_KEYS:
+            raise HTTPException(
+                status_code=422, detail=f"Invalid ability_increases ability '{value}' for level {level_num}"
+            )
+
+    # Ability increases are permanent, retroactive base-score bumps (PF1e —
+    # see level_up_character's own comment on why skill points aren't
+    # 3.5e's non-retroactive exception), folded directly into the base
+    # scores before any effective-score computation below — same mutation
+    # level-up applies via `setattr`, just all at once since creation
+    # submits the whole career in one request.
+    ability_scores = dict(body.ability_scores)
+    for value in submitted_ability_increases.values():
+        ability_scores[value] = ability_scores.get(value, 0) + 1
+
     race_mods = race_ability_score_mods(db, body.race_id)
-    effective_scores = effective_ability_scores(body.ability_scores, race_mods, body.flex_ability)
+    effective_scores = effective_ability_scores(ability_scores, race_mods, body.flex_ability)
 
     def _effective_ability_mod(ability: str) -> int:
         return ability_mod(effective_scores[ability])
@@ -896,12 +931,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         name=body.name,
         user_id=body.user_id,
         race_id=body.race_id,
-        ability_score_st=body.ability_scores["ST"],
-        ability_score_ge=body.ability_scores["GE"],
-        ability_score_ko=body.ability_scores["KO"],
-        ability_score_in=body.ability_scores["IN"],
-        ability_score_we=body.ability_scores["WE"],
-        ability_score_ch=body.ability_scores["CH"],
+        ability_score_st=ability_scores["ST"],
+        ability_score_ge=ability_scores["GE"],
+        ability_score_ko=ability_scores["KO"],
+        ability_score_in=ability_scores["IN"],
+        ability_score_we=ability_scores["WE"],
+        ability_score_ch=ability_scores["CH"],
         point_budget=body.point_budget,
         use_background_skills=body.use_background_skills,
         secondary_base_class_id=secondary_base_class_id,
@@ -928,7 +963,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
             base_hit_points = root.hit_dice if running_level == 1 else submitted_hit_points[running_level]
             favored_bonus = submitted_favored_bonus.get(running_level)
             hit_points = base_hit_points + (1 if favored_bonus == "hp" else 0)
-            last_level_row = CharacterLevel(level=running_level, base_class_id=root.id, hit_points=hit_points)
+            last_level_row = CharacterLevel(
+                level=running_level,
+                base_class_id=root.id,
+                hit_points=hit_points,
+                ability_increase=submitted_ability_increases.get(running_level),
+            )
             character.levels.append(last_level_row)
             if favored_bonus is not None and favored_bonus not in ("hp", "skill"):
                 choice_row = favored_choice_by_name[favored_bonus]

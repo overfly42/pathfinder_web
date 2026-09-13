@@ -22,8 +22,26 @@ export function raceMod(draft: CreationDraft, options: CreationOptions, key: Abi
   return mod;
 }
 
+/** Character levels (1-indexed) that grant an ability score increase —
+ *  every 4th level (4, 8, 12, ...) up to the character's total level, same
+ *  milestone as the level-up wizard's `abilityIncreaseGrantedThisLevel`. */
+export function abilityIncreaseLevels(draft: CreationDraft): number[] {
+  const level = totalLevel(draft);
+  const levels: number[] = [];
+  for (let lvl = 4; lvl <= level; lvl += 4) levels.push(lvl);
+  return levels;
+}
+
+/** How many of `draft.abilityIncreases`' picks (one per
+ *  `abilityIncreaseLevels`) went to this one ability — almost always 0 or
+ *  1, but a high-enough-level character can stack more than one +1 onto
+ *  the same ability across different milestone levels. */
+export function abilityIncreaseBonus(draft: CreationDraft, key: AbilityKey): number {
+  return Object.values(draft.abilityIncreases).filter((value) => value === key).length;
+}
+
 export function totalAbility(draft: CreationDraft, options: CreationOptions, key: AbilityKey): number {
-  return draft.abilityScores[key] + raceMod(draft, options, key);
+  return draft.abilityScores[key] + raceMod(draft, options, key) + abilityIncreaseBonus(draft, key);
 }
 
 export function spentPoints(draft: CreationDraft, options: CreationOptions): number {
@@ -32,6 +50,39 @@ export function spentPoints(draft: CreationDraft, options: CreationOptions): num
 
 export function totalLevel(draft: CreationDraft): number {
   return draft.classRows.reduce((sum, row) => sum + (row.level || 0), 0);
+}
+
+/** Character level (index 0 = level 1) -> class name taken at that level,
+ *  expanding `classRows` in submission order. Mirrors the backend's own
+ *  per-level walk in `create_character` (`routers/characters.py`) that
+ *  builds `hit_dice_by_level`/`favored_levels` — keep both in sync. */
+export function levelClassNames(draft: CreationDraft): string[] {
+  const names: string[] = [];
+  for (const row of draft.classRows) {
+    for (let i = 0; i < (row.level || 0); i++) names.push(row.className);
+  }
+  return names;
+}
+
+/** Character levels (1-indexed) that fall in the favored class —
+ *  `classRows[0]`'s class, matching every `classRows` entry with that same
+ *  name, same as the backend's `favored_root_id`/`favored_levels`. */
+export function favoredLevels(draft: CreationDraft): number[] {
+  const favoredClassName = draft.classRows[0]?.className;
+  if (!favoredClassName) return [];
+  const result: number[] = [];
+  levelClassNames(draft).forEach((name, idx) => {
+    if (name === favoredClassName) result.push(idx + 1);
+  });
+  return result;
+}
+
+/** Hit die size for one specific character level (1-indexed) — whichever
+ *  class was taken at that level, per `levelClassNames`. `null` if `level`
+ *  is out of range or that class isn't in the catalog. */
+export function hitDiceForLevel(draft: CreationDraft, options: CreationOptions, level: number): number | null {
+  const className = levelClassNames(draft)[level - 1];
+  return className ? classDef(options, className)?.hitDice ?? null : null;
 }
 
 /** Base progression (1st level, then every odd level after) plus any bonus feat
@@ -172,6 +223,17 @@ const BONUS_KNOWN_SPELL_CHOICE_NAMES: Record<string, ReadonlySet<string>> = {
 export function bonusKnownSpellSlot(className: string, favoredBonusValue: string | null): boolean {
   if (!favoredBonusValue) return false;
   return BONUS_KNOWN_SPELL_CHOICE_NAMES[className]?.has(favoredBonusValue) ?? false;
+}
+
+/** How many of `className`'s favored-class-bonus picks (one per favored
+ *  level, see `favoredLevels`) chose the "add one known spell" alternate —
+ *  each is its own independent extra known-spell slot (mirrors the
+ *  backend's per-level `bonus_known_spell_slot`), so a multi-level favored
+ *  class can stack more than one. */
+export function bonusKnownSpellSlotCount(draft: CreationDraft, className: string): number {
+  return favoredLevels(draft).filter((level) =>
+    bonusKnownSpellSlot(className, draft.favoredClassBonus[String(level)] ?? null),
+  ).length;
 }
 
 /** The highest grade a class can currently cast, minus 1 — the ceiling a

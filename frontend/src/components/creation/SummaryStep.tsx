@@ -1,8 +1,10 @@
 import type { CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import {
+  abilityIncreaseLevels,
   abilityMod,
   classDef,
+  favoredLevels,
   formatMod,
   formatPrice,
   genderLabel,
@@ -138,16 +140,16 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
               </div>
             ))
           )}
-          <div className="sb-line">
-            <span>Bevorzugte Klasse — Bonus (1. Stufe)</span>
-            <span className="val">
-              {draft.favoredClassBonus === 'hp'
-                ? '+1 Trefferpunkt'
-                : draft.favoredClassBonus === 'skill'
-                  ? '+1 Fertigkeitsrang'
-                  : draft.favoredClassBonus ?? '— noch nicht gewählt —'}
-            </span>
-          </div>
+          {favoredLevels(draft).map((lvl) => {
+            const value = draft.favoredClassBonus[String(lvl)];
+            const label = value === 'hp' ? '+1 Trefferpunkt' : value === 'skill' ? '+1 Fertigkeitsrang' : value ?? '— noch nicht gewählt —';
+            return (
+              <div className="sb-line" key={lvl}>
+                <span>Bevorzugte Klasse — Bonus (Stufe {lvl})</span>
+                <span className="val">{label}</span>
+              </div>
+            );
+          })}
           {draft.secondaryClassName && (
             <div className="sb-line">
               <span>Sekundärklasse (Alternativregel)</span>
@@ -156,6 +158,16 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
                 {Object.values(draft.secondaryClassOptions).flat().length > 0
                   ? ` (${Object.values(draft.secondaryClassOptions).flat().join(', ')})`
                   : ''}
+              </span>
+            </div>
+          )}
+          {level > 1 && (
+            <div className="sb-line">
+              <span>Trefferpunkte-Würfe (Stufe 2–{level})</span>
+              <span className="val">
+                {Array.from({ length: level - 1 }, (_, i) => i + 2)
+                  .map((lvl) => draft.hitPoints[String(lvl)] ?? '?')
+                  .join(', ')}
               </span>
             </div>
           )}
@@ -169,6 +181,16 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
               <div className="sb-line" key={a.key}>
                 <span>{a.name}</span>
                 <span className="val">{total} ({formatMod(abilityMod(total))})</span>
+              </div>
+            );
+          })}
+          {abilityIncreaseLevels(draft).map((lvl) => {
+            const key = draft.abilityIncreases[String(lvl)];
+            const abilityName = key ? options.abilities.find((a) => a.key === key)?.name ?? key : null;
+            return (
+              <div className="sb-line" key={lvl}>
+                <span>Attributssteigerung (Stufe {lvl})</span>
+                <span className="val">{abilityName ?? '— noch nicht gewählt —'}</span>
               </div>
             );
           })}

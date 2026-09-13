@@ -5,6 +5,7 @@ import type { CreationOptions } from '../../types/creationOptions';
 import {
   backgroundSkillPointsTotal,
   classSkillSet,
+  favoredLevels,
   formatMod,
   skillBonus,
   skillPointsRemaining,
@@ -45,7 +46,7 @@ export function SkillsStep({ draft, options, setDraft }: SkillsStepProps) {
     });
   }, [level, setDraft]);
 
-  const favoredBonus = draft.favoredClassBonus === 'skill' ? 1 : 0;
+  const favoredBonus = favoredLevels(draft).filter((lvl) => draft.favoredClassBonus[String(lvl)] === 'skill').length;
   const regularTotal = skillPointsTotal(draft, options) + favoredBonus;
   const backgroundTotal = draft.useBackgroundSkills ? backgroundSkillPointsTotal(draft) : 0;
   const { background: backgroundSpent, regular: regularSpentOnly } = skillPointsSpentByCategory(draft, options);
