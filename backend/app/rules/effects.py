@@ -100,8 +100,57 @@ def _schild_des_glaubens(context: CharacterContext) -> list[Modifier]:
     ]
 
 
+# Rindenhaut (Barkskin, `base_spells.json` id 630d626a-…). PRD text:
+# "Verbesserungsbonus von +2 auf einen bereits vorhandenen natürlichen
+# Rüstungsbonus. Dieser Verbesserungsbonus steigt alle 3 Zauberstufen über
+# der dritten um +1, bis zu einem Maximum von +5 auf der 12. Stufe" — an
+# *enhancement* bonus to natural armor, not a natural-armor bonus itself
+# (RAW: it stacks with an actual natural armor bonus, e.g. a race's own,
+# rather than capping against it the way two natural-armor bonuses would),
+# hence `type="enhancement"` rather than a new "natural armor" type; grouped
+# by target only (`stack_by_target`), so this never collides with an
+# ability-score enhancement bonus's own "enhancement" type on `SCORE`. Scales
+# with the caster level entered at activation (`CharacterEffect.level`), same
+# per-instance-value shape as `_schild_des_glaubens`. The "Legendäre
+# Rindenhaut" SR upgrade in the same description isn't modeled (same "no
+# mythic layer" scope `_magierruestung` documents).
+RINDENHAUT_SPELL_ID = UUID("630d626a-8f69-585f-a1ad-601b52d18039")
+
+
+def _rindenhaut(context: CharacterContext) -> list[Modifier]:
+    instances = [e for e in context.active_effects if e.source_id == RINDENHAUT_SPELL_ID]
+    return [
+        Modifier(
+            source="Rindenhaut",
+            type="enhancement",
+            value=min(5, 2 + max(0, ((effect.level or 0) - 3) // 3)),
+            target=ModifierTarget.AC,
+        )
+        for effect in instances
+    ]
+
+
+# Katzenhafte Anmut (Cat's Grace, `base_spells.json` id 7c57251a-…). PRD
+# text: "Verbesserungsbonus von +4 auf Geschicklichkeit" — flat, doesn't
+# scale with caster level, same "presence, not sum" shape as
+# `_magierruestung`; the "übliche Vorteile für RK, Reflexwürfe ... GE-
+# Modifikator" the description calls out need no separate handling here,
+# since every one of those already reads the character's `SCORE`/"GE"
+# modifier downstream (`sheet.py`), not a copy of it.
+KATZENHAFTE_ANMUT_SPELL_ID = UUID("7c57251a-6b49-54c1-b149-e35cf2c36d0d")
+
+
+def _katzenhafte_anmut(context: CharacterContext) -> list[Modifier]:
+    instances = [e for e in context.active_effects if e.source_id == KATZENHAFTE_ANMUT_SPELL_ID]
+    if not instances:
+        return []
+    return [Modifier(source="Katzenhafte Anmut", type="enhancement", value=4, target=ModifierTarget.SCORE, target_id="GE")]
+
+
 EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ERSCHOPFT_CONDITION_ID: _erschoepft,
     MAGIERRUESTUNG_SPELL_ID: _magierruestung,
     SCHILD_DES_GLAUBENS_SPELL_ID: _schild_des_glaubens,
+    RINDENHAUT_SPELL_ID: _rindenhaut,
+    KATZENHAFTE_ANMUT_SPELL_ID: _katzenhafte_anmut,
 }

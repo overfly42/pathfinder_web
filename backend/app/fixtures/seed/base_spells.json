@@ -7498,7 +7498,9 @@
     "target_or_area": "Berührte Kreatur",
     "duration": "1 Min./Stufe",
     "saving_throw": "Willen, keine Wirkung (harmlos)",
-    "spell_resistance": "Ja"
+    "spell_resistance": "Ja",
+    "is_persistent_effect": true,
+    "duration_rounds_per_level": 10
   },
   {
     "id": "cbde5fef-9c5e-5b73-9eb5-f611757e9294",
@@ -12757,7 +12759,9 @@
     "target_or_area": "Berührte lebende Kreatur",
     "duration": "10 Min./Stufe",
     "saving_throw": "Nein",
-    "spell_resistance": "Ja (harmlos)"
+    "spell_resistance": "Ja (harmlos)",
+    "is_persistent_effect": true,
+    "duration_rounds_per_level": 100
   },
   {
     "id": "6169647b-62d9-5640-bcce-5232ff9ff394",
