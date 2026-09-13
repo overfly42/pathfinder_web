@@ -16,11 +16,12 @@ const WEAPON_PROPERTIES = [
 interface ItemDetailModalProps {
   item: GearItem | null;
   onClose: () => void;
-  onSave: (id: string, enhancement: string, properties: string[]) => void;
+  onSave: (id: string, enhancement: string, isMasterwork: boolean, properties: string[]) => void;
 }
 
 export function ItemDetailModal({ item, onClose, onSave }: ItemDetailModalProps) {
   const [enhancement, setEnhancement] = useState('+0');
+  const [isMasterwork, setIsMasterwork] = useState(false);
   const [properties, setProperties] = useState<string[]>([]);
 
   // Re-seed the edit state from the actual item's stored values every time a (different) item
@@ -28,6 +29,7 @@ export function ItemDetailModal({ item, onClose, onSave }: ItemDetailModalProps)
   useEffect(() => {
     if (!item) return;
     setEnhancement(item.enhancement ?? '+0');
+    setIsMasterwork(item.isMasterwork ?? false);
     setProperties(item.properties ?? []);
   }, [item]);
 
@@ -38,7 +40,7 @@ export function ItemDetailModal({ item, onClose, onSave }: ItemDetailModalProps)
   }
 
   function handleDone() {
-    if (item) onSave(item.id, enhancement, properties);
+    if (item) onSave(item.id, enhancement, isMasterwork, properties);
     onClose();
   }
 
@@ -68,6 +70,19 @@ export function ItemDetailModal({ item, onClose, onSave }: ItemDetailModalProps)
                   {value}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="detail-group">
+            <div className="detail-label">Meisterarbeit</div>
+            <div className="chip-row single">
+              <button
+                type="button"
+                className={`chip${isMasterwork ? ' active' : ''}`}
+                onClick={() => setIsMasterwork((prev) => !prev)}
+              >
+                {isMasterwork ? 'Ja' : 'Nein'}
+              </button>
             </div>
           </div>
 

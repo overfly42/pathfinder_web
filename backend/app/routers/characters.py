@@ -1637,6 +1637,12 @@ def update_gear(
             gear_row.uses_remaining_today = min(gear_row.uses_remaining_today, item.uses_per_day * body.quantity)
     if body.enhancement is not None:
         gear_row.enhancement = body.enhancement
+    if body.is_masterwork is not None:
+        if body.is_masterwork:
+            item = db.get(BaseItem, item_id)
+            if item is None or item.masterwork_price_delta is None:
+                raise HTTPException(status_code=422, detail="This item has no masterwork variant")
+        gear_row.is_masterwork = body.is_masterwork
     if body.properties is not None:
         gear_row.properties = body.properties
     if body.special_ability_ids is not None:

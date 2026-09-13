@@ -1969,6 +1969,8 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
         entry = {"id": str(gear_row.item_id), "name": item.name, "qty": gear_row.quantity}
         if gear_row.enhancement:
             entry["enhancement"] = f"+{gear_row.enhancement}"
+        if gear_row.is_masterwork:
+            entry["isMasterwork"] = True
         if gear_row.properties:
             entry["properties"] = gear_row.properties
         # Structured abilities (roadmap.md's "Magische Verzauberung/Material
@@ -2283,6 +2285,13 @@ def _build_weapon_attacks(
     Kampfzauberei (Spell Combat) toggle (`_kampfzauberei_attack_penalty`) is
     folded in the same way — melee-only, flat -2, no damage counterpart.
 
+    `gear_row.is_masterwork` (`models.character.CharacterGear`'s docstring)
+    adds RAW's flat +1 attack bonus — attack only, never damage — but only
+    while the same weapon's own combined `enhancement` is 0: masterwork
+    doesn't stack with an actual magical enhancement bonus, it's superseded
+    by one, so a +1-or-better weapon's attack bonus comes from `enhancement`
+    alone regardless of the flag.
+
     `class_ability_ids` (`build_character_sheet`'s `granted_ability_ids`,
     same argument `_build_natural_attacks` already takes) resolves
     `rules/handlers.py`'s `WEAPON_BONUS_DAMAGE_HANDLERS` — a granted class
@@ -2320,6 +2329,11 @@ def _build_weapon_attacks(
         # how many sources contribute — capped here, once, rather than at
         # each of the two use sites below.
         enhancement = min(5, gear_row.enhancement + temp_enhancement_by_item_id.get(gear_row.item_id, 0))
+        # Masterwork's flat +1 attack bonus doesn't stack with an actual
+        # magical enhancement bonus (RAW: a weapon with any enhancement is
+        # already masterwork) — only contributes once no `enhancement` is
+        # active at all, attack roll only, never damage.
+        masterwork_attack_bonus = 1 if gear_row.is_masterwork and enhancement == 0 else 0
 
         is_ranged = item.weapon_range is not None
         power_attack = (
@@ -2350,6 +2364,7 @@ def _build_weapon_attacks(
             bab
             + attack_ability_mod
             + enhancement
+            + masterwork_attack_bonus
             + power_attack_penalty
             + kampfzauberei_penalty
             + proficiency_penalty
@@ -2394,6 +2409,8 @@ def _build_weapon_attacks(
         temp_enhancement = temp_enhancement_by_item_id.get(gear_row.item_id, 0)
         if temp_enhancement:
             notes.append(f"Vorübergehender Verbesserungsbonus aktiv ({_fmt(temp_enhancement)})")
+        if masterwork_attack_bonus:
+            notes.append("Meisterarbeit (+1 Angriff)")
         if not is_proficient:
             notes.append(f"Nicht geübt ({_fmt(NOT_PROFICIENT_ATTACK_PENALTY)})")
         if notes:

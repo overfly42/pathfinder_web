@@ -36,6 +36,7 @@ def list_items(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             "maxCharges": item.max_charges,
             "grantedAbility": item.granted_ability,
             "abilityBonus": item.ability_bonus,
+            "masterworkPriceDelta": item.masterwork_price_delta,
         }
         for item in items
     ]

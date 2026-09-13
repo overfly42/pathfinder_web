@@ -584,6 +584,20 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     directly into `BaseItem.ac_bonus` for armor/shield at AC-computation time
     rather than tracked as a separate stacking type — PF1e combines armor/
     shield enhancement into the one armor/shield bonus, it isn't distinct.
+    `is_masterwork` is the same "instance state, not catalog state"
+    convention as `enhancement` — whether *this* character's copy was bought
+    as masterwork quality, priced by `BaseItem.masterwork_price_delta` (that
+    field's docstring covers why the surcharge itself is catalog data but
+    the boolean isn't: two characters' plain and masterwork "Diebeswerkzeug"
+    are the same `BaseItem` row with a different flag here, same as two
+    longswords with different `enhancement`). `sheet.py`'s
+    `_build_weapon_attacks` applies its RAW +1 attack bonus only when no
+    actual magical `enhancement` is already active on the same weapon (the
+    two don't stack — a weapon with any enhancement bonus is already
+    masterwork by RAW, so the flag stops contributing once one exists);
+    tools carry the flag too (`_build_gear`'s `isMasterwork`) but nothing
+    yet computes their +2 skill-check bonus (no tool-to-skill mapping
+    exists in this app, see `todos.md`).
     `properties` (e.g. "Flammend") is descriptive freetext for anything not
     (yet) in the `BaseWeaponSpecialAbility` catalog; a named ability that
     *is* cataloged should go in `special_abilities` instead (structured,
@@ -624,6 +638,7 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     quantity: Mapped[int] = mapped_column(Integer)
     equipped_slot: Mapped[str | None] = mapped_column(String(32), nullable=True)
     enhancement: Mapped[int] = mapped_column(Integer, default=0)
+    is_masterwork: Mapped[bool] = mapped_column(Boolean, default=False)
     properties: Mapped[list[str]] = mapped_column(JSON, default=list)
     stored_spell_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_spells.id"), nullable=True

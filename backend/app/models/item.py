@@ -108,6 +108,32 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     "one row per tier" pattern as `BaseWeaponSpecialAbility.bonus_equivalent`
     rather than a price list crammed into one field.
 
+    `masterwork_price_delta` is the gp surcharge for buying *this specific*
+    catalog row as masterwork quality — null means this item has no
+    masterwork variant at all (most "gear"/"consumable"/"wondrous" rows).
+    Deliberately per-row rather than a flat per-`category` constant: real
+    PF1e RAW prices some named items' masterwork surcharge as its own book
+    value rather than the generic "+50 gp masterwork tool" formula (e.g.
+    "Diebeswerkzeug" 30 gp -> masterwork 100 gp is a +70 gp surcharge, not
+    +50; "Musikinstrument" 5 gp -> masterwork 100 gp is +95 gp) — a single
+    category-wide constant would silently mis-price those exceptions. Every
+    category "weapon" row uses the true flat RAW constant (+300 gp, no
+    per-weapon exception exists), populated uniformly rather than computed
+    from `category` in code so this field alone is authoritative for "can
+    this item be masterwork, and for how much" without a second category
+    lookup. The four tool rows that used to be separate "X, Meisterarbeit"
+    catalog entries (`03eaf970-…`/`a4c3cf1d-…`/`4e8a194c-…`/`1eaf0b7c-…`)
+    were consolidated into their plain counterpart plus this field —
+    masterwork is a fact about a specific *character's copy* of an item
+    (`CharacterGear.is_masterwork`, same "instance state, not catalog
+    state" convention as `enhancement`), not a separate catalog row, once
+    this field exists to price it. Applied to the attack roll (not damage)
+    for weapons in `sheet.py`'s `_build_weapon_attacks` — RAW's masterwork
+    +1 attack bonus doesn't stack with an actual magical enhancement bonus,
+    it's superseded by one; tools have no computed effect yet (would need a
+    tool-to-skill mapping that doesn't exist anywhere in this app yet, see
+    `todos.md`).
+
     `restores_spell_grade` (e.g. 1) is only set for the Perle der Macht
     family — same "one row per tier" convention as `granted_ability`/
     `ability_bonus` above, since a physical pearl only ever restores one
@@ -148,6 +174,7 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     granted_ability: Mapped[str | None] = mapped_column(String(16), nullable=True)
     ability_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
     restores_spell_grade: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    masterwork_price_delta: Mapped[float | None] = mapped_column(Float, nullable=True)
 
 
 class BaseWeaponSpecialAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

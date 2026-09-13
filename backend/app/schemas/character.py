@@ -535,17 +535,23 @@ class HpAdjust(BaseModel):
 
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
-    quantity/enhancement/properties/special_ability_ids/stored_spell_id may
-    be omitted (unchanged). `special_ability_ids`, when present, replaces the
-    item's entire `BaseWeaponSpecialAbility` set (not a delta/append) — same
-    replace-whole-list semantics as `properties`, just structured instead of
-    freetext (see `models.character.CharacterGear`'s docstring).
-    `stored_spell_id` sets which spell a wand instance stores (only valid for
-    category "wand" — checked server-side in `routers/characters.py`, see
-    roadmap.md's "Wondrous-Item-Katalog mit echter Attributsboni-Wirkung")."""
+    quantity/enhancement/is_masterwork/properties/special_ability_ids/
+    stored_spell_id may be omitted (unchanged). `special_ability_ids`, when
+    present, replaces the item's entire `BaseWeaponSpecialAbility` set (not a
+    delta/append) — same replace-whole-list semantics as `properties`, just
+    structured instead of freetext (see `models.character.CharacterGear`'s
+    docstring). `stored_spell_id` sets which spell a wand instance stores
+    (only valid for category "wand" — checked server-side in
+    `routers/characters.py`, see roadmap.md's "Wondrous-Item-Katalog mit
+    echter Attributsboni-Wirkung"). `is_masterwork: True` is rejected
+    server-side for an item with no `BaseItem.masterwork_price_delta` (that
+    field's docstring covers which categories have one) — same "reject at
+    the boundary, don't guess" convention as `stored_spell_id`'s
+    category check just above."""
 
     quantity: int | None = None
     enhancement: int | None = None
+    is_masterwork: bool | None = None
     properties: list[str] | None = None
     special_ability_ids: list[UUID] | None = None
     stored_spell_id: UUID | None = None

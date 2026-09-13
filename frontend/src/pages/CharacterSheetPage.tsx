@@ -645,10 +645,12 @@ export function CharacterSheetPage() {
     }
   }
 
-  async function handleSaveItemDetail(id: string, enhancement: string, properties: string[]) {
+  async function handleSaveItemDetail(id: string, enhancement: string, isMasterwork: boolean, properties: string[]) {
     if (!isRealCharacter) {
       setCharacter((prev) =>
-        prev ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, enhancement, properties } : item)) } : prev,
+        prev
+          ? { ...prev, gear: prev.gear.map((item) => (item.id === id ? { ...item, enhancement, isMasterwork, properties } : item)) }
+          : prev,
       );
       return;
     }
@@ -656,6 +658,7 @@ export function CharacterSheetPage() {
     try {
       await apiPatch(`/api/characters/${currentCharacterId}/gear/${id}`, {
         enhancement: parseInt(enhancement, 10) || 0,
+        is_masterwork: isMasterwork,
         properties,
       });
       refetch();

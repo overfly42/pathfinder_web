@@ -165,6 +165,8 @@ export interface GearItem {
   qty: number;
   /** Weapon/armor enhancement bonus, e.g. "+1". Only meaningful for magic gear. */
   enhancement?: string;
+  /** Whether this character's copy is masterwork quality (PATCH .../gear/{item_id} with is_masterwork). */
+  isMasterwork?: boolean;
   /** Freetext properties not (yet) in the BaseWeaponSpecialAbility catalog. */
   properties?: string[];
   /** Named catalog abilities (e.g. "Flammend") resolved from BaseWeaponSpecialAbility. */
