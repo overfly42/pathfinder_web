@@ -407,6 +407,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "name": character.name,
         "race": race.name if race else "",
         "className": class_name,
+        # Structured per-class breakdown behind the combined `className` display string above —
+        # lets the spellbook "add" picker (`Spellbook.tsx`) resolve a spell grade's `baseClassId`
+        # back to a class name for `GET /api/spells-by-class` (keyed by name, not id). `classes`
+        # local var already computed above for `favored`/`class_name`, just reshaped here.
+        "classes": [{"id": c["id"], "className": c["class_name"]} for c in classes],
         "archetype": archetype,
         "level": total_level,
         "hp": {"current": hp_current, "max": hp_max, "temporary": character.temporary_hit_points},
