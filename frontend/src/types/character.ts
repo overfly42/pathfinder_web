@@ -98,8 +98,9 @@ export type PreparedSpellRef = SpellRef & {
   /** Save DC for this spell (`10 + grade + casting ability modifier`, `sheet.py`'s
    *  `casting_mod`) — same value for every spell in the same grade/class, carried per-spell
    *  (rather than only on the grade) so the cast-confirmation popup (`CastSpellModal`) can show
-   *  it without needing the grade context. Absent for a manually free-text-added spellbook entry
-   *  (`handleAddSpellToBook`), which has no backend-resolved class/grade yet. */
+   *  it without needing the grade context. Absent for a mock-character spellbook addition
+   *  (`handleAddSpellToBook`'s local-state fallback), which never round-trips through `sheet.py`
+   *  to get a computed value. */
   dc?: number;
 };
 
@@ -113,6 +114,14 @@ export interface CastableSpellGrade {
   /** Save DC for this grade (`10 + grade + casting ability modifier`) — absent for a locked
    *  grade, same as `perDay`. */
   dc?: number;
+  /** Which class this grade entry belongs to — a grade number is never merged across classes
+   *  (`sheet.py`'s `_build_prepared_spell_grades` docstring), so this is unambiguous. Absent for
+   *  the two hardcoded mock fixtures, which predate this field. */
+  baseClassId?: string;
+  /** `"arcane-prepared" | "divine-prepared" | "spontaneous"` — only arcane-prepared grades allow
+   *  the "add to spellbook" action (`Spellbook.tsx`), matching what `POST .../spellbook` accepts.
+   *  Absent for the two hardcoded mock fixtures, which predate this field. */
+  spellType?: string;
   spells: PreparedSpellRef[];
   /** Pooled Perle-der-Macht counter for this grade (`sheet.py`'s `pearls_by_grade`) — the sum
    *  across every owned pearl of this grade, not per physical item. Present only when the
@@ -137,6 +146,14 @@ export interface PreparableSpellGrade {
   /** Save DC for this grade (`10 + grade + casting ability modifier`) — absent for a locked
    *  grade, same as `perDay`. */
   dc?: number;
+  /** Which class this grade entry belongs to — see `CastableSpellGrade.baseClassId`. */
+  baseClassId?: string;
+  /** `"arcane-prepared" | "divine-prepared" | "spontaneous"` — only arcane-prepared grades show
+   *  the "+ Zauber hinzufügen" picker (`Spellbook.tsx`), the one caster type `POST .../spellbook`
+   *  accepts (spontaneous casters only learn spells at level-up; divine-prepared casters already
+   *  have their whole class list available, nothing to add). Absent for the two hardcoded mock
+   *  fixtures, which predate this field. */
+  spellType?: string;
   spells: PreparedSpellRef[];
 }
 
@@ -368,6 +385,12 @@ export interface Character {
   name: string;
   race: string;
   className: string;
+  /** Structured per-class breakdown behind the single `className` display string above —
+   *  `sheet.py`'s `character.classes` — one entry per taken class, real `base_class_id`s. Lets
+   *  the "add to spellbook" picker (`Spellbook.tsx`) resolve a spell grade's `baseClassId` back
+   *  to a class name for `GET /api/spells-by-class` (keyed by name, not id). Optional/absent for
+   *  the two hardcoded mock fixtures, which predate this field. */
+  classes?: { id: string; className: string }[];
   archetype: string;
   level: number;
   hp: { current: number; max: number; temporary: number };

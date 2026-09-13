@@ -7,6 +7,7 @@ import { useCharacter } from '../hooks/useCharacter';
 import { useEffectsCatalog } from '../hooks/useEffectsCatalog';
 import { useConditionsCatalog } from '../hooks/useConditionsCatalog';
 import { useItemsCatalog } from '../hooks/useItemsCatalog';
+import { useSpellsByClassCatalog } from '../hooks/useSpellsByClassCatalog';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
 import { CharacterHeader } from '../components/sheet/CharacterHeader';
@@ -50,6 +51,7 @@ export function CharacterSheetPage() {
   const { catalog: effectsCatalog, loading: catalogLoading, error: catalogError } = useEffectsCatalog();
   const { catalog: conditionsCatalog, loading: conditionsLoading, error: conditionsError } = useConditionsCatalog();
   const { catalog: itemsCatalog, loading: itemsLoading, error: itemsError } = useItemsCatalog();
+  const { catalog: spellsByClassCatalog } = useSpellsByClassCatalog();
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
   const [itemDetailId, setItemDetailId] = useState<string | null>(null);
@@ -497,47 +499,66 @@ export function CharacterSheetPage() {
     });
   }
 
-  // Local-state only, for both mock and real characters: the real endpoint (`POST
-  // .../spellbook`) needs a catalog `spell_id`, but this input is free-text name entry — wiring
-  // it up for real needs a spell search/autocomplete picker, a separate piece of work from the
-  // prepare/cast mechanics this page's other spell handlers now implement (see todos.md's
-  // existing note on this gap).
-  function handleAddSpellToBook(grade: number, name: string) {
-    setCharacter((prev) => {
-      if (!prev) return prev;
-      const spellbook = prev.spellbook.map((g) =>
-        g.grade !== grade
-          ? g
-          : {
-              ...g,
-              spells: [
-                ...g.spells,
-                {
-                  key: createId(),
-                  name,
-                  baseClassId: '',
-                  preparedCount: 0,
-                  usedCount: 0,
-                  description: '',
-                  components: '',
-                  range: null,
-                  savingThrow: null,
-                },
-              ],
-            },
-      );
-      return { ...prev, spellbook };
-    });
+  // Real catalog spell now (picked via `Spellbook.tsx`'s dropdown, backed by `/api/spells-by-class`
+  // — see `useSpellsByClassCatalog`), so a real character calls the real `POST .../spellbook`
+  // endpoint; a mock character (no backing DB row, `FIXTURE_CHARACTER_IDS`) still only gets a
+  // local-state preview row, same as this page's other spell handlers.
+  async function handleAddSpellToBook(grade: number, baseClassId: string, spellId: string, name: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellbook = prev.spellbook.map((g) =>
+          g.grade !== grade
+            ? g
+            : {
+                ...g,
+                spells: [
+                  ...g.spells,
+                  {
+                    key: spellId || createId(),
+                    name,
+                    baseClassId,
+                    preparedCount: 0,
+                    usedCount: 0,
+                    description: '',
+                    components: '',
+                    range: null,
+                    savingThrow: null,
+                  },
+                ],
+              },
+        );
+        return { ...prev, spellbook };
+      });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiPost(`/api/characters/${currentCharacterId}/spellbook`, { base_class_id: baseClassId, spell_id: spellId });
+      refetch();
+    } catch {
+      setSpellError('Zauber konnte nicht ins Zauberbuch aufgenommen werden.');
+    }
   }
 
-  function handleRemoveSpellFromBook(grade: number, spellKey: string) {
-    setCharacter((prev) => {
-      if (!prev) return prev;
-      const spellbook = prev.spellbook.map((g) =>
-        g.grade !== grade ? g : { ...g, spells: g.spells.filter((s) => s.key !== spellKey) },
-      );
-      return { ...prev, spellbook };
-    });
+  async function handleRemoveSpellFromBook(grade: number, spellKey: string) {
+    if (!isRealCharacter) {
+      setCharacter((prev) => {
+        if (!prev) return prev;
+        const spellbook = prev.spellbook.map((g) =>
+          g.grade !== grade ? g : { ...g, spells: g.spells.filter((s) => s.key !== spellKey) },
+        );
+        return { ...prev, spellbook };
+      });
+      return;
+    }
+    setSpellError(null);
+    try {
+      await apiDelete(`/api/characters/${currentCharacterId}/spellbook/${spellKey}`);
+      refetch();
+    } catch {
+      setSpellError('Zauber konnte nicht aus dem Zauberbuch entfernt werden.');
+    }
   }
 
   async function handleActivateRealEffect(input: ActivateEffectInput) {
@@ -695,6 +716,7 @@ export function CharacterSheetPage() {
           <InventoryTabs
             character={character}
             itemsCatalog={itemsCatalog}
+            spellsByClass={spellsByClassCatalog}
             activeTab={inventoryTab}
             onTabChange={setInventoryTab}
             onAddGear={handleAddGear}

@@ -1,5 +1,5 @@
 import type { Character } from '../../types/character';
-import type { ItemCatalogEntry } from '../../types/creationOptions';
+import type { ItemCatalogEntry, SpellDef } from '../../types/creationOptions';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 import { GearList } from './GearList';
 import { EquipmentSlots } from './EquipmentSlots';
@@ -14,6 +14,7 @@ const TABS: TabDef[] = [
 interface InventoryTabsProps {
   character: Character;
   itemsCatalog: ItemCatalogEntry[];
+  spellsByClass: Record<string, SpellDef[]> | null;
   activeTab: string;
   onTabChange: (tab: string) => void;
   onAddGear: (itemId: string, qty: number) => void;
@@ -23,13 +24,14 @@ interface InventoryTabsProps {
   onSlotChange: (key: string, value: string) => void;
   onPrepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
   onUnprepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
-  onAddSpellToBook: (grade: number, name: string) => void;
+  onAddSpellToBook: (grade: number, baseClassId: string, spellId: string, name: string) => void;
   onRemoveSpellFromBook: (grade: number, spellKey: string) => void;
 }
 
 export function InventoryTabs({
   character,
   itemsCatalog,
+  spellsByClass,
   activeTab,
   onTabChange,
   onAddGear,
@@ -66,6 +68,8 @@ export function InventoryTabs({
         <TabPanel active={activeTab} tabKey="spellbook">
           <Spellbook
             grades={character.spellbook}
+            classes={character.classes}
+            spellsByClass={spellsByClass}
             onPrepareSpell={onPrepareSpell}
             onUnprepareSpell={onUnprepareSpell}
             onAddSpell={onAddSpellToBook}

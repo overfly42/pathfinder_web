@@ -1255,7 +1255,12 @@ def _build_prepared_spell_grades(
     account for a school-specific DC feat (Zauberfokus/Mächtiger
     Zauberfokus) — `CharacterFeat.chosen_spell_school` is stored
     (`routers/characters.py`) but not yet computed into any bonus, see
-    `roadmap.md`.
+    `roadmap.md`. `baseClassId`/`spellType` are attached to every grade entry
+    (not just the spells in it) so the frontend's "add to spellbook" picker
+    (`Spellbook.tsx`) can gate itself to arcane-prepared grades — the only
+    caster type `POST .../spellbook` (`routers/characters.py`) accepts,
+    since spontaneous casters only learn spells at level-up and
+    divine-prepared casters already have their whole class list available.
 
     Spontaneous casters (Barde/Hexenmeister/Mystiker) have no preparation
     step at all in PF1e RAW — every known spell of an accessible grade is
@@ -1435,7 +1440,13 @@ def _build_prepared_spell_grades(
         for grade in all_grades:
             locked = grade not in accessible_grades
             spells = sorted(by_grade.get(grade, []), key=lambda s: s["name"])
-            grade_entry: dict = {"grade": grade, "locked": locked, "spells": spells}
+            grade_entry: dict = {
+                "grade": grade,
+                "locked": locked,
+                "spells": spells,
+                "baseClassId": str(root.id),
+                "spellType": spell_type,
+            }
             if locked:
                 grade_entry["availableAtLevel"] = unlock_level_by_grade.get(grade)
             else:
