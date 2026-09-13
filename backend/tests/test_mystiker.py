@@ -23,7 +23,8 @@ from app.seed.class_seed import seed_classes
 from app.seed.skill_seed import seed_skills
 from app.seed.spell_seed import seed_spells
 
-from test_characters import _character_payload, _create_user, _elf_race_id, _spells_by_class
+from test_characters import _character_payload, _create_user, _elf_race_id, _race_id, _spells_by_class
+from test_level_up import _level_up_payload
 
 
 def _mystiker(db_session: Session) -> BaseClass:
@@ -463,3 +464,50 @@ def test_heimgesucht_curse_grants_foreign_spells_at_their_own_correct_grade(
     # Kleriker's own list stays untouched by Mystiker's narrow exception.
     _, kleriker_spells_by_name = _spells_by_class(client, db_session, "Kleriker")
     assert not set(HEIMGESUCHT_SPELL_IDS) & set(kleriker_spells_by_name)
+
+
+def test_katzenvolk_mystiker_favored_bonus_spell_stacks_across_level_ups(
+    client: TestClient, db_session: Session
+) -> None:
+    """The Katzenvolk/Halb-Ork favored-class-bonus "add one known spell"
+    pick is a *permanent* addition to the character's known-spell count,
+    not a one-time credit folded into the class table's own cumulative
+    known-spell progression - real-world regression (a Katzenvolk Mystiker
+    who took the bonus at 1st level found she could add no cantrip at all
+    at 2nd, since Mystiker's cantrip cap only grows by exactly one between
+    levels 1 and 2, the same one the 1st-level bonus had already used).
+    Taking it once at 1st level must still grant an extra cantrip at 2nd
+    level even without retaking it - see `bonus_known_spell_slot`'s
+    docstring (`rules/spells.py`)."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    base_class_id, spells = _spells_by_class(client, db_session, "Mystiker")
+    creation_cantrips = [
+        spells[name] for name in ["Funken", "Licht", "Magie entdecken", "Nahrung und Wasser reinigen", "Wasser erschaffen"]
+    ]
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {"class_name": "Mystiker", "level": 1, "options": {"mystery": ["Wind"], "revelation": ["Luftbarriere"]}}
+            ],
+            favored_class_bonus={"1": "Katzenvolk (Mystiker)"},
+            spell_ids={base_class_id: creation_cantrips},
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    # Level 2's own favored-class bonus is spent on "+1 Trefferpunkt"
+    # instead (`_level_up_payload`'s default) - the extra cantrip below must
+    # come purely from the 1st-level pick's permanent effect.
+    response = client.post(
+        f"/api/characters/{character_id}/level-up",
+        json=_level_up_payload(base_class_id, 4, spell_ids=[spells["Ausbessern"]]),
+    )
+    assert response.status_code == 201
+    assert spells["Ausbessern"] in response.json()["spell_ids"][base_class_id]

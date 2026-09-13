@@ -69,6 +69,7 @@ from .models import (
     BaseTrait,
     BaseWeaponSpecialAbility,
     Character,
+    CharacterClassOption,
     CharacterGear,
 )
 from .routers.characters import _class_def
@@ -121,6 +122,7 @@ from .rules.speed import class_speed_bonus, jump_skill_note, race_climb_speed, r
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import (
     find_open_spontaneous_grade,
+    granted_spell_ids_for_choices,
     known_grades,
     remaining_spontaneous_slots_by_grade,
     total_spell_slots,
@@ -484,12 +486,41 @@ def build_character_progression(character: Character, db: Session) -> dict:
     shape (`build_character_sheet`)."""
     race = db.get(BaseRace, character.race_id)
 
+    level_by_root_id = {UUID(entry["id"]): entry["level"] for entry in character.classes}
+
     spells_known: dict[str, list[str]] = {}
+    # Spell names known automatically via a chosen class option (Mystiker's
+    # heilfokus/mystery/curse grants, Hexe's Schutzherr, ...) rather than a
+    # real known-spell pick — a subset of `spells_known` the level-up
+    # wizard's budget math must exclude (`LevelSpellStep.tsx`'s
+    # `alreadyKnownByGrade`/`alreadyKnownNonGrade0`), same reasoning as
+    # `level_up_character`'s own `already_known_non_granted_spells`
+    # (`routers/characters.py`) — a granted spell never drew on that budget
+    # to begin with, so counting it as "already known" against it would
+    # silently eat a real known-spell slot.
+    granted_spell_names: dict[str, list[str]] = {}
     for base_class_id_str, spell_ids in character.spell_ids.items():
         root = db.get(BaseClass, UUID(base_class_id_str))
         if root is None or not spell_ids:
             continue
         spells_known[root.name] = list(db.scalars(select(BaseSpell.name).where(BaseSpell.id.in_(spell_ids))).all())
+
+        chosen_choice_ids = set(
+            db.scalars(
+                select(CharacterClassOption.choice_id).where(
+                    CharacterClassOption.character_id == character.id,
+                    CharacterClassOption.base_class_id == root.id,
+                    CharacterClassOption.choice_id.is_not(None),
+                )
+            ).all()
+        )
+        granted_ids = granted_spell_ids_for_choices(
+            db, root.id, chosen_choice_ids, level_by_root_id.get(root.id, 0)
+        )
+        if granted_ids:
+            granted_spell_names[root.name] = list(
+                db.scalars(select(BaseSpell.name).where(BaseSpell.id.in_(granted_ids))).all()
+            )
 
     favored_membership = next((m for m in character.class_memberships if m.is_favored), None)
     favored_root_id = favored_membership.base_class_id if favored_membership else None
@@ -544,6 +575,7 @@ def build_character_progression(character: Character, db: Session) -> dict:
             for entry in character.skill_rank_details
         ],
         "spellsKnown": spells_known,
+        "grantedSpellNames": granted_spell_names,
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonusDescriptions": _favored_class_bonus_descriptions(db, favored_root_id, character.race_id),
         "favoredClassBonusShortLabels": _favored_class_bonus_short_labels(db, favored_root_id, character.race_id),

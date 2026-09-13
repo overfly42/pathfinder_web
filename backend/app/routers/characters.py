@@ -16,7 +16,6 @@ from ..models import (
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSpell,
-    BaseClassSpellGrant,
     BaseCondition,
     BaseFeat,
     BaseItem,
@@ -78,6 +77,7 @@ from ..rules.spells import (
     consume_spontaneous_slot,
     find_open_spontaneous_grade,
     granted_option_choice_spells,
+    granted_spell_ids_for_choices,
     known_grades,
     remaining_spontaneous_slots_by_grade,
     spontaneous_grade_overflow,
@@ -134,30 +134,6 @@ def _choice_ids_by_name(db: Session, base_class_id: UUID, choice_names: Iterable
             select(BaseClassOptionChoice.id)
             .join(BaseClassOptionGroup, BaseClassOptionGroup.id == BaseClassOptionChoice.group_id)
             .where(BaseClassOptionGroup.base_class_id == base_class_id, BaseClassOptionChoice.name.in_(choice_names))
-        ).all()
-    )
-
-
-def _granted_spell_ids(db: Session, base_class_id: UUID, choice_ids: Iterable[UUID], max_level: int) -> set[UUID]:
-    """Spell ids a `BaseClassSpellGrant` already gives this class for free at
-    or below `max_level`, for whichever of `choice_ids` this class actually
-    grants spells through (Mystiker's heilfokus Kurieren/Verletzen,
-    Hexenmeister's Blutlinie, Hexe's Schutzherr) — submitting one of these as
-    a manual `spell_ids` pick must be rejected, the same way arcane-
-    prepared's mandatory grade-0 spells already are, or the grant's own
-    `CharacterSpell` insert (`granted_option_choice_spells`) collides with
-    the manual one on `CharacterSpell`'s `(level_id, base_class_id,
-    spell_id)` uniqueness at commit time."""
-    choice_ids = list(choice_ids)
-    if not choice_ids:
-        return set()
-    return set(
-        db.scalars(
-            select(BaseClassSpellGrant.spell_id).where(
-                BaseClassSpellGrant.base_class_id == base_class_id,
-                BaseClassSpellGrant.option_choice_id.in_(choice_ids),
-                BaseClassSpellGrant.level <= max_level,
-            )
         ).all()
     )
 
@@ -868,7 +844,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
             chosen_option_names = [name for names in options_by_root_id.get(base_class_id, {}).values() for name in names]
             chosen_choice_ids = _choice_ids_by_name(db, base_class_id, chosen_option_names)
-            granted_spell_ids = _granted_spell_ids(db, base_class_id, chosen_choice_ids, class_level)
+            granted_spell_ids = granted_spell_ids_for_choices(db, base_class_id, chosen_choice_ids, class_level)
             for spell_id in spell_ids:
                 if spell_id in granted_spell_ids:
                     raise HTTPException(
@@ -2487,7 +2463,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             for name in names
         ]
         chosen_choice_ids = persisted_choice_ids | _choice_ids_by_name(db, receiving_root.id, fresh_option_names)
-        granted_spell_ids = _granted_spell_ids(db, receiving_root.id, chosen_choice_ids, receiving_class_level)
+        granted_spell_ids = granted_spell_ids_for_choices(db, receiving_root.id, chosen_choice_ids, receiving_class_level)
         for spell_id in body.spell_ids:
             if spell_id in granted_spell_ids:
                 raise HTTPException(
@@ -2495,22 +2471,50 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 )
 
         # A favored-class-bonus pick of "Halb-Ork (Mystiker)"/"Katzenvolk
-        # (Mystiker)"/"Ork (Hexe)"/"Elf (Hexe)" *this* level-up grants one
-        # extra known spell — only this level-up's own pick counts, not a
-        # career total (`rules/spells.py`'s `bonus_known_spell_slot`
-        # docstring explains why no leftover balance carries across
-        # separate level-up requests).
+        # (Mystiker)"/"Ork (Hexe)"/"Elf (Hexe)" grants one extra known spell
+        # — but only once actually *spent* (used to justify a known spell
+        # beyond the normal per-level delta) does it become a permanent
+        # addition; a pick that goes unused this level-up is wasted, not
+        # banked for a later one (deliberate, see `bonus_known_spell_slot`'s
+        # docstring on why an unspent credit must not carry forward). Both
+        # halves matter: `prior_surplus` below measures how much bonus was
+        # already spent as of the *previous* level in this class — without
+        # it, a later level's normal table growth could silently "reabsorb"
+        # an earlier spent bonus spell (the character ends up with no more
+        # known spells than if the bonus had never been taken, even though
+        # that past level was supposed to add one extra); without the
+        # "only if spent" gate, an unspent pick could otherwise be cashed in
+        # at a later, unrelated level-up.
         accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
         bonus_cap_grade = max(accessible_grades) - 1 if accessible_grades else -1
-        bonus_available = 1 if bonus_known_spell_slot(receiving_root.name, body.favored_class_bonus) else 0
+        this_level_bonus = 1 if bonus_known_spell_slot(receiving_root.name, body.favored_class_bonus) else 0
+        prior_class_level = receiving_class_level - 1
+
+        # A spell granted automatically by a chosen class option (e.g.
+        # Mystiker's heilfokus/mystery/curse) never drew on the
+        # spontaneous/arcane-prepared known-spell budget when it was
+        # granted (same reasoning `create_character` already applies by
+        # excluding these from `body.spell_ids` entirely) — so it must not
+        # count as "already known" against that budget here either, even
+        # though it lives in the same `character_spells` rows as a real
+        # pick. Without this, a granted spell that happens to also be on
+        # the class's own spell list (common — e.g. a heilfokus-granted
+        # Cure Light Wounds is a genuine Mystiker spell) silently eats a
+        # known-spell slot every level-up from then on.
+        already_known_non_granted_spells = already_known_spells - granted_spell_ids
 
         if spell_type == "spontaneous":
             budget = spontaneous_known_budget(db, receiving_root.id, receiving_class_level)
+            prior_budget = spontaneous_known_budget(db, receiving_root.id, prior_class_level)
             known_by_grade: dict[int, int] = {}
-            for spell_id in already_known_spells:
+            for spell_id in already_known_non_granted_spells:
                 grade = grade_by_spell_id.get(spell_id)
                 if grade is not None:
                     known_by_grade[grade] = known_by_grade.get(grade, 0) + 1
+            prior_surplus = sum(
+                max(0, count - prior_budget.get(grade, 0)) for grade, count in known_by_grade.items()
+            )
+            bonus_available = prior_surplus + this_level_bonus
             picked_by_grade: dict[int, int] = {}
             for spell_id in body.spell_ids:
                 grade = grade_by_spell_id[spell_id]
@@ -2534,7 +2538,11 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             casting_ability = _resolve_casting_ability(receiving_root, receiving_archetypes)
             casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
             budget = arcane_prepared_budget(receiving_class_level, casting_ability_mod)
-            known_non_grade0 = sum(1 for spell_id in already_known_spells if grade_by_spell_id.get(spell_id, 0) != 0)
+            prior_budget_flat = arcane_prepared_budget(prior_class_level, casting_ability_mod)
+            known_non_grade0 = sum(
+                1 for spell_id in already_known_non_granted_spells if grade_by_spell_id.get(spell_id, 0) != 0
+            )
+            bonus_available = max(0, known_non_grade0 - prior_budget_flat) + this_level_bonus
             if arcane_prepared_overflows_budget(
                 known_non_grade0,
                 (grade_by_spell_id[sid] for sid in body.spell_ids),

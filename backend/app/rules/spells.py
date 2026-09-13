@@ -91,20 +91,19 @@ BONUS_KNOWN_SPELL_CHOICE_NAMES: dict[str, frozenset[str]] = {
 
 
 def bonus_known_spell_slot(class_name: str, favored_bonus_value: str | None) -> bool:
-    """Whether one specific favored-class-bonus pick — this level's own
-    value, not a career total — grants `class_name` one extra known-spell
-    slot. Deliberately evaluated per pick rather than accumulated across a
-    character's career and carried forward: the bonus is defined relative
-    to "the highest grade you can currently cast", so this project requires
-    it to be spent in the very same request that grants it (creation, or
-    that one level-up) instead of banking an unused credit. That sidesteps
-    needing a persisted "how much bonus is left" ledger — deriving it
-    retroactively from `known_count - normal_budget` would silently
-    undercount the moment a later level's normal budget grows past what it
-    was when the bonus was actually spent (budgets are cumulative and only
-    ever grow, so an unspent-that-level bonus can look "absorbed" by a
-    bigger budget one level later even though the class-table budget alone
-    never actually covered it)."""
+    """Whether one specific favored-class-bonus pick grants `class_name` one
+    extra known-spell slot. Answers for a single pick only — the bonus is
+    permanent and stacks across a character's whole career (every level it
+    was chosen adds one more slot, on top of the class table's own
+    cumulative known-spell progression, not folded into it), so a caller
+    checking a level-up must sum this across every historical pick plus the
+    current one (`routers/characters.py`'s `level_up_character` does, via
+    `CharacterClassOption` rows with `group_key="favored_class_bonus"`) —
+    counting only the current request's pick would let a later level's
+    normal budget growth silently "reabsorb" an earlier level's bonus spell
+    (budgets are cumulative and only ever grow, so a known spell that used
+    to be the bonus on top of the table can look like it was always just
+    part of the table once the table catches up)."""
     if favored_bonus_value is None:
         return False
     return favored_bonus_value in BONUS_KNOWN_SPELL_CHOICE_NAMES.get(class_name, frozenset())
@@ -245,6 +244,36 @@ def total_spell_slots(
     if fold_higher_grades_into_this_one:
         bonus += folded_bonus_spells(ability_mod, grade)
     return base + bonus
+
+
+def granted_spell_ids_for_choices(
+    db: Session, base_class_id: UUID, choice_ids: Iterable[UUID], max_level: int
+) -> set[UUID]:
+    """Spell ids a `BaseClassSpellGrant` already gives this class for free at
+    or below `max_level`, for whichever of `choice_ids` this class actually
+    grants spells through (Mystiker's heilfokus Kurieren/Verletzen,
+    Hexenmeister's Blutlinie, Hexe's Schutzherr). Two call sites:
+    `routers/characters.py` rejects submitting one of these as a manual
+    `spell_ids` pick (the same way arcane-prepared's mandatory grade-0
+    spells already are, or the grant's own `CharacterSpell` insert
+    (`granted_option_choice_spells`) collides with the manual one on
+    `CharacterSpell`'s `(level_id, base_class_id, spell_id)` uniqueness at
+    commit time) *and* excludes these from the known-spell budget a
+    level-up checks (a granted spell never drew on that budget to begin
+    with — see that call site's own comment for why conflating the two
+    silently ate a real known-spell slot)."""
+    choice_ids = list(choice_ids)
+    if not choice_ids:
+        return set()
+    return set(
+        db.scalars(
+            select(BaseClassSpellGrant.spell_id).where(
+                BaseClassSpellGrant.base_class_id == base_class_id,
+                BaseClassSpellGrant.option_choice_id.in_(choice_ids),
+                BaseClassSpellGrant.level <= max_level,
+            )
+        ).all()
+    )
 
 
 def granted_option_choice_spells(

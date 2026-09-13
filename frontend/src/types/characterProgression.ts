@@ -56,6 +56,16 @@ export interface CharacterProgression {
    *  hardcoded mock fixtures, which predate this field. */
   skillRankDetails?: SkillRankDetail[];
   spellsKnown: Record<string, string[]>;
+  /** Names within `spellsKnown[className]` that were granted automatically
+   *  by a chosen class option (Mystiker's heilfokus/mystery/curse grants,
+   *  Hexe's Schutzherr, ...) rather than picked against the known-spell
+   *  budget — `LevelSpellStep.tsx` excludes these when computing how many
+   *  slots are already used, since a granted spell never drew on that
+   *  budget to begin with (mirrors `level_up_character`'s own
+   *  `already_known_non_granted_spells`, `routers/characters.py`). Absent
+   *  for the two hardcoded mock fixtures, which predate this field, and for
+   *  any class with no such grants. */
+  grantedSpellNames?: Record<string, string[]>;
   /** Values currently legal for a favored-class-bonus level-up pick —
    *  `"hp"`/`"skill"` plus this character's race+class-specific alternates
    *  (empty without a favored class). Absent for the two hardcoded mock

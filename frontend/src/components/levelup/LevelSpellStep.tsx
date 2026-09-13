@@ -46,11 +46,28 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
   // accessible, the real cap there is `arcanePreparedBudget` below.
   const gradeBudget = spellGradeBudgetAtLevel(classDef, newLevel);
   const alreadyKnownNames = new Set((className && progression.spellsKnown[className]) || []);
+  // A spell granted automatically by a chosen class option (e.g. Mystiker's
+  // heilfokus/mystery/curse) is in `alreadyKnownNames` too (so it still
+  // can't be picked again as "new"), but it never drew on the known-spell
+  // budget when it was granted — excluded here so it doesn't also eat a
+  // budget slot, mirroring `level_up_character`'s own
+  // `already_known_non_granted_spells` (`routers/characters.py`).
+  const grantedNames = new Set((className && progression.grantedSpellNames?.[className]) || []);
+  const alreadyKnownForBudgetNames = new Set([...alreadyKnownNames].filter((name) => !grantedNames.has(name)));
   const classSpells = (className && options.spellsByClass[className]) || [];
-  // This one level-up's own favored-class-bonus pick (not a career total,
-  // see rules/spells.py's bonus_known_spell_slot) grants Mystiker/Hexe one
-  // extra known-spell slot, usable on any grade at or below capGrade.
-  const bonusAvailable = className && bonusKnownSpellSlot(className, draft.favoredClassBonus) ? 1 : 0;
+  // A favored-class-bonus pick grants Mystiker/Hexe one extra known-spell
+  // slot, usable on any grade at or below capGrade — but only once actually
+  // *spent* does it become a permanent addition (an unpicked-that-level
+  // credit is wasted, not banked for later, see `bonus_known_spell_slot`'s
+  // docstring). `priorSurplus` (computed per spell-type branch below, from
+  // how much is already known versus what the *previous* level's own
+  // budget table alone would allow) measures exactly how much bonus was
+  // already spent as of last level — without it, this level's normal
+  // budget growth could silently "reabsorb" an earlier spent bonus spell,
+  // same reasoning as `level_up_character`'s own fix
+  // (`routers/characters.py`).
+  const thisLevelBonus = className && bonusKnownSpellSlot(className, draft.favoredClassBonus) ? 1 : 0;
+  const priorLevel = newLevel - 1;
   const capGrade = bonusCapGrade(gradeBudget);
 
   function toggle(name: string, canAdd: (selected: string[]) => boolean) {
@@ -75,7 +92,9 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
     // favored-class-bonus pick (Hexe's "Zusätzlicher Hexenvertraut-Zauber")
     // adds exactly one more slot on top, but only usable on a spell at or
     // below capGrade — see rules/spells.py's arcane_prepared_overflows_budget.
-    const alreadyKnownNonGrade0 = classSpells.filter((s) => s.grade !== 0 && alreadyKnownNames.has(s.name)).length;
+    const alreadyKnownNonGrade0 = classSpells.filter((s) => s.grade !== 0 && alreadyKnownForBudgetNames.has(s.name)).length;
+    const priorBudgetFlat = arcanePreparedBudget(priorLevel, mod);
+    const bonusAvailable = Math.max(0, alreadyKnownNonGrade0 - priorBudgetFlat) + thisLevelBonus;
     const normalRemaining = Math.max(0, arcanePreparedBudget(newLevel, mod) - alreadyKnownNonGrade0);
     const remainingBudget = normalRemaining + bonusAvailable;
     const selectable = classSpells.filter(
@@ -91,7 +110,7 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
         </div>
         {bonusAvailable > 0 && (
           <div className="pick-counter" style={{ marginBottom: 10 }}>
-            + Bevorzugte-Klasse-Bonus: 1 zusätzlicher Zauber, Grad ≤ {capGrade}
+            + Bevorzugte-Klasse-Bonus: {bonusAvailable} zusätzliche{bonusAvailable > 1 ? '' : 'r'} Zauber, Grad ≤ {capGrade}
           </div>
         )}
         <div className="chip-row">
@@ -122,13 +141,19 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
   // bonus-spell pool (favored-class-bonus pick) any grade at or below
   // capGrade can draw on — see rules/spells.py's spontaneous_grade_overflow.
   const grades = Object.keys(gradeBudget).map(Number).sort((a, b) => a - b);
+  const priorGradeBudget = spellGradeBudgetAtLevel(classDef, priorLevel);
   const alreadyKnownByGrade: Record<number, number> = {};
   const pickedByGrade: Record<number, number> = {};
   for (const grade of grades) {
-    alreadyKnownByGrade[grade] = classSpells.filter((s) => s.grade === grade && alreadyKnownNames.has(s.name)).length;
+    alreadyKnownByGrade[grade] = classSpells.filter((s) => s.grade === grade && alreadyKnownForBudgetNames.has(s.name)).length;
     const gradeSpellNames = new Set(classSpells.filter((s) => s.grade === grade).map((s) => s.name));
     pickedByGrade[grade] = draft.newSpells.filter((name) => gradeSpellNames.has(name)).length;
   }
+  const priorSurplus = grades.reduce(
+    (sum, grade) => sum + Math.max(0, alreadyKnownByGrade[grade] - (Number(priorGradeBudget[String(grade)]) || 0)),
+    0,
+  );
+  const bonusAvailable = priorSurplus + thisLevelBonus;
   const bonusUsed = spontaneousBonusOverflowUsed(gradeBudget, alreadyKnownByGrade, pickedByGrade, capGrade);
   const bonusRemaining = Math.max(0, bonusAvailable - bonusUsed);
 
@@ -137,7 +162,11 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
       <div className="sb-title">{className} — Bekannte Zauber (spontan) — neue Zauber diese Stufe</div>
       {bonusAvailable > 0 && (
         <div className="pick-counter" style={{ marginBottom: 10 }}>
-          + Bevorzugte-Klasse-Bonus: {bonusRemaining > 0 ? '1 zusätzlicher Zauber verfügbar' : 'bereits verwendet'}, Grad ≤ {capGrade}
+          + Bevorzugte-Klasse-Bonus:{' '}
+          {bonusRemaining > 0
+            ? `${bonusRemaining} zusätzliche${bonusRemaining > 1 ? '' : 'r'} Zauber verfügbar`
+            : 'bereits verwendet'}
+          , Grad ≤ {capGrade}
         </div>
       )}
       {grades.map((grade) => {
