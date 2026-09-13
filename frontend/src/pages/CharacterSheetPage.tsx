@@ -784,6 +784,7 @@ export function CharacterSheetPage() {
                 components: pendingCastSpell.spell.components,
                 range: pendingCastSpell.spell.range,
                 savingThrow: pendingCastSpell.spell.savingThrow,
+                dc: pendingCastSpell.spell.dc,
                 remaining: pendingCastSpell.spell.preparedCount - pendingCastSpell.spell.usedCount,
                 preparedCount: pendingCastSpell.spell.preparedCount,
               }

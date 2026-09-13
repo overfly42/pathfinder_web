@@ -1247,7 +1247,15 @@ def _build_prepared_spell_grades(
     feeds both. `perDay` already reflects any archetype spell-slot
     reduction the character has granted (e.g. Kampfmagus's Kensai,
     `rules/classes/kampfmagus.py`), via `granted_ability_ids` ->
-    `total_spell_slots`.
+    `total_spell_slots`. `dc` (`10 + grade + casting_mod`) is attached both
+    on the grade entry and on every spell in it — same value either way,
+    since a grade entry never mixes classes (see below) — so the frontend
+    can show it next to the grade label and again in the per-spell cast
+    popup without threading class context through separately. Doesn't yet
+    account for a school-specific DC feat (Zauberfokus/Mächtiger
+    Zauberfokus) — `CharacterFeat.chosen_spell_school` is stored
+    (`routers/characters.py`) but not yet computed into any bonus, see
+    `roadmap.md`.
 
     Spontaneous casters (Barde/Hexenmeister/Mystiker) have no preparation
     step at all in PF1e RAW — every known spell of an accessible grade is
@@ -1405,6 +1413,7 @@ def _build_prepared_spell_grades(
                     "components": _format_spell_components(components_by_spell_id.get(spell_id)),
                     "range": spell.range,
                     "savingThrow": spell.saving_throw,
+                    "dc": 10 + grade + casting_mod,
                 }
             )
 
@@ -1430,6 +1439,7 @@ def _build_prepared_spell_grades(
             if locked:
                 grade_entry["availableAtLevel"] = unlock_level_by_grade.get(grade)
             else:
+                grade_entry["dc"] = 10 + grade + casting_mod
                 grade_entry["perDay"] = total_spell_slots(
                     db,
                     root.id,

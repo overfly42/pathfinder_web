@@ -95,6 +95,12 @@ export type PreparedSpellRef = SpellRef & {
    *  `components`'s own docstring). */
   range: string | null;
   savingThrow: string | null;
+  /** Save DC for this spell (`10 + grade + casting ability modifier`, `sheet.py`'s
+   *  `casting_mod`) — same value for every spell in the same grade/class, carried per-spell
+   *  (rather than only on the grade) so the cast-confirmation popup (`CastSpellModal`) can show
+   *  it without needing the grade context. Absent for a manually free-text-added spellbook entry
+   *  (`handleAddSpellToBook`), which has no backend-resolved class/grade yet. */
+  dc?: number;
 };
 
 export interface CastableSpellGrade {
@@ -104,6 +110,9 @@ export interface CastableSpellGrade {
   /** Total slots/day at this grade (class table + ability-modifier bonus) — absent for a
    *  locked grade. */
   perDay?: number;
+  /** Save DC for this grade (`10 + grade + casting ability modifier`) — absent for a locked
+   *  grade, same as `perDay`. */
+  dc?: number;
   spells: PreparedSpellRef[];
   /** Pooled Perle-der-Macht counter for this grade (`sheet.py`'s `pearls_by_grade`) — the sum
    *  across every owned pearl of this grade, not per physical item. Present only when the
@@ -125,6 +134,9 @@ export interface PreparableSpellGrade {
   locked: boolean;
   availableAtLevel?: number;
   perDay?: number;
+  /** Save DC for this grade (`10 + grade + casting ability modifier`) — absent for a locked
+   *  grade, same as `perDay`. */
+  dc?: number;
   spells: PreparedSpellRef[];
 }
 

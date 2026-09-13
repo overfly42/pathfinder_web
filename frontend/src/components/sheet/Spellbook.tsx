@@ -46,7 +46,7 @@ export function Spellbook({ grades, onPrepareSpell, onUnprepareSpell, onAddSpell
         return (
           <div className="spell-tab-block" key={grade.grade}>
             <div className={`spell-table-row${grade.locked ? ' locked' : ''}`}>
-              <span className="grade">Grad {grade.grade}</span>
+              <span className="grade">Grad {grade.grade}{grade.dc != null ? ` (SG ${grade.dc})` : ''}</span>
               {grade.locked ? (
                 <>
                   <div className="stat"><span className="stat-label">Pro Tag</span><span className="stat-val">—</span></div>

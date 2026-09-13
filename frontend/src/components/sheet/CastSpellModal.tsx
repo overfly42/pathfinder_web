@@ -7,6 +7,7 @@ interface CastSpellEntry {
   components: string;
   range: string | null;
   savingThrow: string | null;
+  dc?: number;
   remaining: number;
   preparedCount: number;
 }
@@ -33,7 +34,10 @@ export function CastSpellModal({ entry, onCancel, onConfirm }: CastSpellModalPro
         <div className="modal-body">
           <p><strong>Komponenten:</strong> {entry?.components}</p>
           <p><strong>Reichweite:</strong> {entry?.range ?? '—'}</p>
-          <p><strong>Rettungswurf:</strong> {entry?.savingThrow ?? '—'}</p>
+          <p>
+            <strong>Rettungswurf:</strong> {entry?.savingThrow ?? '—'}
+            {entry?.savingThrow != null && entry?.dc != null ? ` (SG ${entry.dc})` : ''}
+          </p>
           <p>{entry?.description}</p>
           <p>{entry?.remaining} von {entry?.preparedCount} heute noch verfügbar.</p>
         </div>
