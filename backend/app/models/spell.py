@@ -184,10 +184,25 @@ class CharacterSpellPreparation(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     known-list/spellbook and actively forbids more than one row per spell
     (see that model's docstring). Preparing the same spell more than once a
     day is legal in PF1e, so this is a *count* per `(character, base_class,
-    spell)` rather than one row per copy — a stepper's `+`/`-`, not N rows to
-    juggle. `grade` isn't stored here: it's a property of the `(base_class,
-    spell)` pair (`BaseClassSpell`), looked up the same way `sheet.py`
-    already does, not duplicated onto this row.
+    spell, slot_grade)` rather than one row per copy — a stepper's `+`/`-`,
+    not N rows to juggle. The spell's own grade isn't stored here: it's a
+    property of the `(base_class, spell)` pair (`BaseClassSpell`), looked up
+    the same way `sheet.py` already does, not duplicated onto this row.
+
+    `slot_grade` (roadmap "Zauber in einem höheren Slot vorbereiten" concept,
+    `roadmap.md`) is the grade of the *slot pool* this prepared copy draws
+    from — equal to the spell's own grade in the ordinary case, but PF1e RAW
+    lets a prepared caster (arcane or divine) prepare a spell into a slot of
+    a *higher* grade than the spell's own (never lower). A character can
+    therefore have two rows for the same spell (e.g. one in its own grade-1
+    slot, a second borrowed from a grade-2 slot) — hence `slot_grade` being
+    part of the uniqueness key below rather than a size-1 assumption.
+    `routers/characters.py`'s `prepare_spell` is the only place that creates
+    a row with `slot_grade != class_spell.grade`; every reader that cares
+    "how many of grade N's slots are spent" groups by `slot_grade`, while
+    anything computing the spell's own mechanics (its save DC) must keep
+    using the spell's real grade, never `slot_grade` — see `sheet.py`'s
+    `_build_prepared_spell_grades` docstring for that distinction.
 
     Arcane-prepared classes only allow `spell_id`s already in the
     character's spellbook (`CharacterSpell`); divine-prepared classes allow
@@ -205,11 +220,12 @@ class CharacterSpellPreparation(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     for its own daily reset."""
 
     __tablename__ = "character_spell_preparations"
-    __table_args__ = (UniqueConstraint("character_id", "base_class_id", "spell_id"),)
+    __table_args__ = (UniqueConstraint("character_id", "base_class_id", "spell_id", "slot_grade"),)
 
     character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
     base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
+    slot_grade: Mapped[int] = mapped_column(Integer)
     prepared_count: Mapped[int] = mapped_column(Integer, default=0)
     used_count: Mapped[int] = mapped_column(Integer, default=0)
 

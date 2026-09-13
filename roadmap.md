@@ -1333,6 +1333,52 @@ entirely, not a category here.
       and `rules/handlers.py` the same three-tier way `DAILY_LIMITS` is),
       read by `total_spell_slots` off the character's already-resolved
       `granted_ability_ids`.
+- [x] **Zauber in einem höheren Slot vorbereiten (2026-09-13)**: PF1e RAW
+      lets an arcane- or divine-prepared caster prepare a spell into a slot
+      of a *higher* grade than the spell's own (never the reverse) — this
+      wasn't modeled at all before; every grade's slot pool was fully
+      independent with no way to borrow from a higher one.
+      `CharacterSpellPreparation` gained a `slot_grade` column (Alembic
+      `3519b8f435c6`, backfilled from `base_class_spells` for the two rows
+      that predated it) — usually equal to the spell's own grade, but a
+      spell can now have more than one row (one per distinct `slot_grade`
+      it's been prepared into), so the unique constraint widened to
+      `(character_id, base_class_id, spell_id, slot_grade)`.
+      `SpellPrepare.slot_grade: int | None` (defaults to the spell's own
+      grade, so every pre-existing caller keeps working unchanged) lets
+      `prepare_spell` target a higher slot — rejects `slot_grade <
+      class_spell.grade` (422, "not vice versa") and caps against
+      `total_spell_slots(slot_grade)`, not the spell's own grade's slots.
+      `cast_spell`/`unprepare_spell`/`restore_spell` gained the same field
+      to pick which of a spell's (possibly several) rows they target — new
+      shared helper `_find_prep_row` (`routers/characters.py`) defaults to
+      the lowest `slot_grade` among a spell's rows when omitted, which is
+      always its own grade's row (a row can never have a lower `slot_grade`
+      than the spell's own grade), i.e. the row every caller meant before
+      this feature existed.
+      `sheet.py`'s `_build_prepared_spell_grades` groups `by_grade` by
+      `slot_grade` now, not the spell's own `BaseClassSpell.grade` — a
+      borrowed-slot copy shows up a second time, in the *slot*'s grade row
+      (that's whose `perDay` cap it counts against), while every spell
+      entry keeps its own real `grade` (new field on the entry) for `dc`
+      and any other spell-intrinsic computation, which must never use the
+      slot grade instead — DC depends on the spell's actual level, not
+      which slot pool holds it.
+      Frontend: `Spellbook.tsx` gained a second, deliberately separate
+      picker per unlocked grade-≥1 row — "+ Zauber aus niedrigerem Grad
+      vorbereiten" — sourced entirely from the character's own already-known
+      lower-grade spellbook rows (no new endpoint), calling the existing
+      `onPrepareSpell` with the target row's grade as `slot_grade`; a chip
+      whose own grade differs from the row it's shown in gets a "Grad N:"
+      tag, and its "✕ Aus Zauberbuch entfernen" button is hidden there (only
+      the natural-grade entry removes the spell from the spellbook — the
+      borrowed entry is just another prepared copy of it). `SheetTabs.tsx`'s
+      cast bar gets the same tag treatment. Deliberately out of scope: grade
+      0 as a borrow target (meaningless — cantrips are already uncapped to
+      cast, and nothing is lower than grade 0 to borrow from anyway) and
+      spontaneous casters (unaffected — their own "higher slot covers a
+      lower spell" rule already exists, but at cast-time against a shared
+      per-grade pool, not a preparation step; see the entry above/below).
 - [ ] **Planned: spontaneous casters (Barde/Hexenmeister/Mystiker) — per-grade
       slot pool, no preparation step** (design settled 2026-09-05, not yet
       built). Closes the "structurally different pool" gap flagged above and

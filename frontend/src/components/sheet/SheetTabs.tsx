@@ -177,6 +177,10 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
                     {grade.spells.map((spell) => {
                       const remaining = spell.preparedCount - spell.usedCount;
                       const canRestore = remaining <= 0 && (grade.pearlsAvailable ?? 0) > 0;
+                      // Own grade differs from this row's grade -> prepared into a borrowed
+                      // higher slot ("Zauber in einem höheren Slot vorbereiten", roadmap.md).
+                      const isBorrowed = spell.grade != null && spell.grade !== grade.grade;
+                      const label = isSpontaneous ? spell.name : `${spell.name} (${remaining}/${spell.preparedCount})`;
                       return (
                         <button
                           key={spell.key}
@@ -189,7 +193,7 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
                             else if (canRestore) onRestoreSpell(grade.grade, spell);
                           }}
                         >
-                          {isSpontaneous ? spell.name : `${spell.name} (${remaining}/${spell.preparedCount})`}
+                          {isBorrowed ? `Grad ${spell.grade}: ${label}` : label}
                         </button>
                       );
                     })}

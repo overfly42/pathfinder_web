@@ -1278,6 +1278,23 @@ def _resolve_prepared_class_spell(
     return root, class_level, class_spell
 
 
+def _find_prep_row(
+    prep_rows: list[CharacterSpellPreparation], spell_id: UUID, slot_grade: int | None
+) -> CharacterSpellPreparation | None:
+    """Resolves which `CharacterSpellPreparation` row a cast/unprepare/restore
+    action targets. A spell can have more than one row since `prepare_spell`
+    allows preparing into a higher-than-own-grade slot (roadmap "Zauber in
+    einem höheren Slot vorbereiten" concept) — `slot_grade=None` defaults to
+    the lowest slot grade among this spell's rows, which is always its own
+    grade (a row can never have a lower `slot_grade` than the spell's own
+    grade, enforced in `prepare_spell`), i.e. the "ordinary" row every caller
+    from before this feature existed already meant."""
+    matches = [row for row in prep_rows if row.spell_id == spell_id]
+    if slot_grade is not None:
+        return next((row for row in matches if row.slot_grade == slot_grade), None)
+    return min(matches, key=lambda row: row.slot_grade, default=None)
+
+
 @router.post("/{character_id}/spells/{spell_id}/prepare", response_model=CharacterRead)
 def prepare_spell(
     character_id: UUID, spell_id: UUID, body: SpellPrepare, db: Annotated[Session, Depends(get_db)]
@@ -1289,7 +1306,13 @@ def prepare_spell(
     already-prepared spell again is legal PF1e (multiple copies of the same
     spell can be prepared at once) and just increments its
     `CharacterSpellPreparation.prepared_count`, as long as the grade's total
-    prepared count across every spell stays within `total_spell_slots`."""
+    prepared count across every spell stays within `total_spell_slots`.
+
+    `body.slot_grade` (roadmap "Zauber in einem höheren Slot vorbereiten"
+    concept) lets this prepare into a slot of a *higher* grade than the
+    spell's own — PF1e RAW allows this for prepared casters, never the
+    reverse. Defaults to the spell's own grade (`class_spell.grade`) when
+    omitted, the ordinary case."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1311,6 +1334,12 @@ def prepare_spell(
     elif class_spell.grade != 0 and class_spell.grade not in known_grades(db, root.id, class_level):
         raise HTTPException(status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {root.name}")
 
+    slot_grade = body.slot_grade if body.slot_grade is not None else class_spell.grade
+    if slot_grade < class_spell.grade:
+        raise HTTPException(
+            status_code=422, detail="Can't prepare a spell into a slot lower than its own grade"
+        )
+
     casting_mod = _character_ability_mods(db, character).get(root.effective_casting_ability or "", 0)
     granted_ability_ids = _character_granted_ability_ids(db, character)
     # Same "fold a still-locked grade's bonus spell into the highest
@@ -1323,38 +1352,28 @@ def prepare_spell(
         db,
         root.id,
         class_level,
-        class_spell.grade,
+        slot_grade,
         casting_mod,
         granted_ability_ids,
-        fold_higher_grades_into_this_one=(class_spell.grade == max_accessible_grade),
+        fold_higher_grades_into_this_one=(slot_grade == max_accessible_grade),
     )
     if slots is None:
-        raise HTTPException(status_code=422, detail=f"Grade {class_spell.grade} not yet accessible for {root.name}")
+        raise HTTPException(status_code=422, detail=f"Grade {slot_grade} not yet accessible for {root.name}")
 
     prep_rows = [row for row in character.spell_preparations if row.base_class_id == root.id]
-    grade_by_spell_id = (
-        {
-            row.spell_id: row.grade
-            for row in db.scalars(
-                select(BaseClassSpell).where(
-                    BaseClassSpell.base_class_id == root.id,
-                    BaseClassSpell.spell_id.in_([row.spell_id for row in prep_rows]),
-                )
-            ).all()
-        }
-        if prep_rows
-        else {}
-    )
-    prepared_at_grade = sum(
-        row.prepared_count for row in prep_rows if grade_by_spell_id.get(row.spell_id) == class_spell.grade
-    )
-    if prepared_at_grade >= slots:
-        raise HTTPException(status_code=422, detail=f"No free grade {class_spell.grade} slots left today")
+    prepared_at_slot_grade = sum(row.prepared_count for row in prep_rows if row.slot_grade == slot_grade)
+    if prepared_at_slot_grade >= slots:
+        raise HTTPException(status_code=422, detail=f"No free grade {slot_grade} slots left today")
 
-    row = next((row for row in prep_rows if row.spell_id == spell_id), None)
+    row = next((row for row in prep_rows if row.spell_id == spell_id and row.slot_grade == slot_grade), None)
     if row is None:
         row = CharacterSpellPreparation(
-            character_id=character.id, base_class_id=root.id, spell_id=spell_id, prepared_count=0, used_count=0
+            character_id=character.id,
+            base_class_id=root.id,
+            spell_id=spell_id,
+            slot_grade=slot_grade,
+            prepared_count=0,
+            used_count=0,
         )
         db.add(row)
     row.prepared_count += 1
@@ -1366,16 +1385,23 @@ def prepare_spell(
 
 @router.delete("/{character_id}/spells/{spell_id}/prepare", status_code=204)
 def unprepare_spell(
-    character_id: UUID, spell_id: UUID, base_class_id: UUID, db: Annotated[Session, Depends(get_db)]
+    character_id: UUID,
+    spell_id: UUID,
+    base_class_id: UUID,
+    db: Annotated[Session, Depends(get_db)],
+    slot_grade: int | None = None,
 ) -> None:
+    """`slot_grade` picks which of this spell's (possibly several,
+    roadmap "Zauber in einem höheren Slot vorbereiten" concept)
+    `CharacterSpellPreparation` rows to release — omitted defaults to the
+    lowest slot grade among them, always the spell's own grade's row (see
+    `_find_prep_row`)."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
-    row = next(
-        (row for row in character.spell_preparations if row.base_class_id == base_class_id and row.spell_id == spell_id),
-        None,
-    )
+    prep_rows = [row for row in character.spell_preparations if row.base_class_id == base_class_id]
+    row = _find_prep_row(prep_rows, spell_id, slot_grade)
     if row is None:
         raise HTTPException(status_code=404, detail="Spell isn't prepared")
     if row.prepared_count <= row.used_count:
@@ -1451,14 +1477,8 @@ def cast_spell(
                 )
             consume_spontaneous_slot(db, character, root.id, open_grade)
     else:
-        row = next(
-            (
-                row
-                for row in character.spell_preparations
-                if row.base_class_id == body.base_class_id and row.spell_id == spell_id
-            ),
-            None,
-        )
+        prep_rows = [row for row in character.spell_preparations if row.base_class_id == body.base_class_id]
+        row = _find_prep_row(prep_rows, spell_id, body.slot_grade)
         if row is None or row.prepared_count == 0:
             raise HTTPException(status_code=422, detail="No prepared copies of this spell left to cast today")
 
@@ -1507,14 +1527,8 @@ def restore_spell(
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
-    row = next(
-        (
-            row
-            for row in character.spell_preparations
-            if row.base_class_id == body.base_class_id and row.spell_id == spell_id
-        ),
-        None,
-    )
+    prep_rows = [row for row in character.spell_preparations if row.base_class_id == body.base_class_id]
+    row = _find_prep_row(prep_rows, spell_id, body.slot_grade)
     if row is None or row.used_count == 0:
         raise HTTPException(status_code=422, detail="No cast copies of this spell to restore today")
 

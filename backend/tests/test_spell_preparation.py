@@ -581,3 +581,132 @@ def test_kensai_can_still_prepare_a_grade_reduced_to_zero_if_a_bonus_spell_appli
         json={"base_class_id": base_class_id},
     )
     assert fourth.status_code == 422
+
+
+def _grade(sheet: dict, key: str, grade: int) -> dict:
+    return next(g for g in sheet[key] if g["grade"] == grade)
+
+
+def _magier_character_with_grade2(client: TestClient, db_session: Session) -> tuple[dict, str, dict[str, str]]:
+    """Level-3 Magier (grade-2 slots open at caster level 3) with a grade-1
+    and a grade-2 spell in the spellbook, for the "Zauber in einem höheren
+    Slot vorbereiten" tests below (`roadmap.md`)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    base_class_id, spells = _spells_by_class(client, db_session, "Magier")
+    cantrips = _cantrip_ids(client, "Magier")
+    picked = cantrips + [spells["Magisches Geschoss"], spells["Schild"], spells["Abolethen-Lunge"]]
+    created = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[{"class_name": "Magier", "level": 3}],
+            spell_ids={base_class_id: picked},
+        ),
+    ).json()
+    return created, base_class_id, spells
+
+
+def test_prepare_lower_grade_spell_into_higher_slot(client: TestClient, db_session: Session) -> None:
+    """`prepare_spell`'s `slot_grade` (roadmap "Zauber in einem höheren Slot
+    vorbereiten" concept) — a grade-1 spell prepared into a grade-2 slot
+    shows up in the grade-2 row (that's whose `perDay` cap it counts
+    against) but keeps its own grade-1 `dc`/`grade`, and the grade-1 row's
+    own slots stay untouched."""
+    character, base_class_id, spells = _magier_character_with_grade2(client, db_session)
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+        json={"base_class_id": base_class_id, "slot_grade": 2},
+    )
+    assert response.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    grade1 = _grade(sheet, "spellbook", 1)
+    grade2 = _grade(sheet, "spellbook", 2)
+    natural = next(s for s in grade1["spells"] if s["key"] == spells["Magisches Geschoss"])
+    assert natural["preparedCount"] == 0  # untouched -- prepared into grade 2, not grade 1
+    assert natural["dc"] == grade1["dc"]
+
+    borrowed = next(s for s in grade2["spells"] if s["key"] == spells["Magisches Geschoss"])
+    assert borrowed["preparedCount"] == 1
+    assert borrowed["grade"] == 1  # spell's own grade, not the grade-2 row it's shown in
+    assert borrowed["dc"] == grade1["dc"]  # DC depends on the spell's own grade, never the slot
+    assert borrowed["dc"] != grade2["dc"]
+
+
+def test_prepare_into_slot_lower_than_spells_own_grade_is_rejected(client: TestClient, db_session: Session) -> None:
+    character, base_class_id, spells = _magier_character_with_grade2(client, db_session)
+
+    response = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Abolethen-Lunge']}/prepare",
+        json={"base_class_id": base_class_id, "slot_grade": 1},
+    )
+    assert response.status_code == 422
+
+
+def test_borrowed_slot_counts_against_the_higher_grades_own_cap(client: TestClient, db_session: Session) -> None:
+    """Borrowing into grade 2 must be capped by grade 2's own `perDay`, and
+    must not touch grade 1's separate cap at all."""
+    character, base_class_id, spells = _magier_character_with_grade2(client, db_session)
+    sheet = _sheet(client, character["id"])
+    grade2_slots = _grade(sheet, "spellbook", 2)["perDay"]
+
+    for _ in range(grade2_slots):
+        response = client.post(
+            f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+            json={"base_class_id": base_class_id, "slot_grade": 2},
+        )
+        assert response.status_code == 200
+
+    over_cap = client.post(
+        f"/api/characters/{character['id']}/spells/{spells['Magisches Geschoss']}/prepare",
+        json={"base_class_id": base_class_id, "slot_grade": 2},
+    )
+    assert over_cap.status_code == 422
+
+    # Grade 1's own slots are still completely free -- the borrow above never touched them.
+    sheet = _sheet(client, character["id"])
+    grade1 = _grade(sheet, "spellbook", 1)
+    assert sum(s["preparedCount"] for s in grade1["spells"]) == 0
+
+
+def test_cast_and_unprepare_target_the_specified_slot_grade_only(client: TestClient, db_session: Session) -> None:
+    """A spell prepared both naturally (grade 1) and borrowed (grade 2) has
+    two independent `CharacterSpellPreparation` rows -- casting/unpreparing
+    one via `slot_grade` must not affect the other."""
+    character, base_class_id, spells = _magier_character_with_grade2(client, db_session)
+    spell_id = spells["Magisches Geschoss"]
+
+    for slot_grade in (1, 2):
+        response = client.post(
+            f"/api/characters/{character['id']}/spells/{spell_id}/prepare",
+            json={"base_class_id": base_class_id, "slot_grade": slot_grade},
+        )
+        assert response.status_code == 200
+
+    cast = client.post(
+        f"/api/characters/{character['id']}/spells/{spell_id}/cast",
+        json={"base_class_id": base_class_id, "slot_grade": 2},
+    )
+    assert cast.status_code == 200
+
+    sheet = _sheet(client, character["id"])
+    grade1_copy = next(s for s in _grade(sheet, "spellbook", 1)["spells"] if s["key"] == spell_id)
+    grade2_copy = next(s for s in _grade(sheet, "spellbook", 2)["spells"] if s["key"] == spell_id)
+    assert grade1_copy["usedCount"] == 0
+    assert grade2_copy["usedCount"] == 1
+
+    unprepare = client.delete(
+        f"/api/characters/{character['id']}/spells/{spell_id}/prepare"
+        f"?base_class_id={base_class_id}&slot_grade=1"
+    )
+    assert unprepare.status_code == 204
+
+    sheet = _sheet(client, character["id"])
+    grade1_copy = next(s for s in _grade(sheet, "spellbook", 1)["spells"] if s["key"] == spell_id)
+    grade2_copy = next(s for s in _grade(sheet, "spellbook", 2)["spells"] if s["key"] == spell_id)
+    assert grade1_copy["preparedCount"] == 0
+    assert grade2_copy["preparedCount"] == 1  # the borrowed copy survives, only grade 1's was removed

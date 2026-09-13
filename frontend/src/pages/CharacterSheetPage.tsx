@@ -307,6 +307,7 @@ export function CharacterSheetPage() {
     try {
       await apiPost(`/api/characters/${currentCharacterId}/spells/${spell.key}/cast`, {
         base_class_id: spell.baseClassId,
+        slot_grade: grade,
       });
       refetch();
     } catch {
@@ -345,6 +346,7 @@ export function CharacterSheetPage() {
     try {
       await apiPost(`/api/characters/${currentCharacterId}/spells/${spell.key}/restore`, {
         base_class_id: spell.baseClassId,
+        slot_grade: grade,
       });
       refetch();
     } catch {
@@ -371,7 +373,10 @@ export function CharacterSheetPage() {
     }
     setSpellError(null);
     try {
-      await apiPost(`/api/characters/${currentCharacterId}/spells/${spellKey}/prepare`, { base_class_id: baseClassId });
+      await apiPost(`/api/characters/${currentCharacterId}/spells/${spellKey}/prepare`, {
+        base_class_id: baseClassId,
+        slot_grade: grade,
+      });
       refetch();
     } catch {
       setSpellError('Zauber konnte nicht vorbereitet werden.');
@@ -398,7 +403,7 @@ export function CharacterSheetPage() {
     setSpellError(null);
     try {
       await apiDelete(
-        `/api/characters/${currentCharacterId}/spells/${spellKey}/prepare?base_class_id=${baseClassId}`,
+        `/api/characters/${currentCharacterId}/spells/${spellKey}/prepare?base_class_id=${baseClassId}&slot_grade=${grade}`,
       );
       refetch();
     } catch {

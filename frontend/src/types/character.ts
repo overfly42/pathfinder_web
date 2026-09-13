@@ -83,6 +83,14 @@ export interface SpellRef {
  *  row, just filtered/rendered differently per tab. */
 export type PreparedSpellRef = SpellRef & {
   baseClassId: string;
+  /** This spell's own grade (`BaseClassSpell.grade`) — *not* necessarily the grade of the row
+   *  it's rendered in. Usually the same, but a prepared caster can prepare a spell into a
+   *  higher-than-own-grade slot ("Zauber in einem höheren Slot vorbereiten", `roadmap.md`); such
+   *  an entry shows up a second time, in that higher slot's grade row, while keeping its own real
+   *  `grade` here (used for `dc` and the small grade tag `Spellbook.tsx` shows when it differs
+   *  from the row). Optional only for a mock-character spellbook addition
+   *  (`handleAddSpellToBook`'s local-state fallback), which never round-trips through `sheet.py`. */
+  grade?: number;
   preparedCount: number;
   usedCount: number;
   /** Spell's full description text, for the cast-confirmation popup (`CastSpellModal`). */

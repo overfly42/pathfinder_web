@@ -590,12 +590,24 @@ class SpellbookAdd(BaseModel):
 
 
 class SpellPrepare(BaseModel):
-    """Body for `POST`/`DELETE .../spells/{spell_id}/prepare` and
-    `POST .../spells/{spell_id}/cast` — same shape as `SpellbookAdd`, but for
-    the in-play prepare/cast actions (`requirements_v2.md` §2.2's "vorbereitet"/
-    "gewirkt" states), not the permanent known-list/spellbook."""
+    """Body for `POST .../spells/{spell_id}/prepare` and
+    `POST .../spells/{spell_id}/cast`/`restore` — same shape as
+    `SpellbookAdd`, but for the in-play prepare/cast actions
+    (`requirements_v2.md` §2.2's "vorbereitet"/"gewirkt" states), not the
+    permanent known-list/spellbook. `DELETE .../prepare` takes the same two
+    fields as plain query params instead (see `unprepare_spell`), since a
+    DELETE conventionally carries no body.
+
+    `slot_grade` (roadmap "Zauber in einem höheren Slot vorbereiten"
+    concept) selects which slot-grade row this action targets — `None`
+    means the spell's own grade, the only row that could ever exist before
+    that feature, so every pre-existing caller keeps working unchanged.
+    Only `prepare_spell` lets it differ from the spell's own grade; the
+    other three just need it to pick the right one of (potentially) several
+    rows for the same spell."""
 
     base_class_id: UUID
+    slot_grade: int | None = None
 
 
 class EffectActivate(BaseModel):

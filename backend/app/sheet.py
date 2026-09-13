@@ -71,6 +71,7 @@ from .models import (
     Character,
     CharacterClassOption,
     CharacterGear,
+    CharacterSpellPreparation,
 )
 from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
@@ -1291,6 +1292,16 @@ def _build_prepared_spell_grades(
     `base_class_spells_known` row exists for that grade) so the prepare UI
     can show what's coming, same shape the mock fixtures always used.
 
+    Every spell entry now carries its own `grade` (`BaseClassSpell.grade`)
+    separately from the grade row it's shown in — for an arcane-/divine-
+    prepared spell prepared into a higher-than-own-grade slot (roadmap
+    "Zauber in einem höheren Slot vorbereiten" concept, `prepare_spell`'s
+    `slot_grade`), those two differ: the entry appears a second time, in
+    the *slot*'s grade row (that's whose `perDay` cap it counts against),
+    but keeps its own real `grade` for `dc` and any other spell-intrinsic
+    computation — never the slot grade, which changes nothing about the
+    spell itself.
+
     Doesn't merge across multiple simultaneously-prepared-caster classes on
     the same character (a real but rare multiclass shape, e.g. Magier/
     Kleriker) — each class's grades are appended independently, so two
@@ -1372,14 +1383,19 @@ def _build_prepared_spell_grades(
             # (see this function's own docstring); what's actually
             # slot-limited is the shared per-grade pool below, not any
             # individual spell.
-            prep_by_spell_id = {}
             remaining_by_grade = remaining_spontaneous_slots_by_grade(
                 db, character, root.id, class_level, casting_mod, granted_ability_ids
             )
         else:
-            prep_by_spell_id = {
-                row.spell_id: row for row in character.spell_preparations if row.base_class_id == root.id
-            }
+            # A spell can now have more than one row here — `prepare_spell` allows preparing into
+            # a slot of a *higher* grade than the spell's own (roadmap "Zauber in einem höheren
+            # Slot vorbereiten" concept), each such choice its own `CharacterSpellPreparation` row
+            # (unique per `slot_grade`, see that model's docstring) — hence grouping into a list
+            # per spell rather than assuming exactly one row.
+            prep_rows_by_spell_id: dict[UUID, list[CharacterSpellPreparation]] = defaultdict(list)
+            for row in character.spell_preparations:
+                if row.base_class_id == root.id:
+                    prep_rows_by_spell_id[row.spell_id].append(row)
             remaining_by_grade = {}
         components_by_spell_id = (
             {
@@ -1395,6 +1411,25 @@ def _build_prepared_spell_grades(
             else {}
         )
 
+        def _spell_entry(spell: BaseSpell, grade: int, prepared_count: int, used_count: int) -> dict:
+            # `grade` here is always the spell's *own* grade (`BaseClassSpell.grade`), never the
+            # slot-grade row this entry ends up displayed under — a spell borrowed into a higher
+            # slot still has its own real grade and save DC, PF1e RAW doesn't change either just
+            # because of which slot pool held it.
+            return {
+                "key": str(spell.id),
+                "name": spell.name,
+                "baseClassId": str(root.id),
+                "grade": grade,
+                "preparedCount": prepared_count,
+                "usedCount": used_count,
+                "description": spell.description,
+                "components": _format_spell_components(components_by_spell_id.get(spell.id)),
+                "range": spell.range,
+                "savingThrow": spell.saving_throw,
+                "dc": 10 + grade + casting_mod,
+            }
+
         by_grade: dict[int, list[dict]] = defaultdict(list)
         for spell_id in candidate_ids:
             spell = spells_by_id.get(spell_id)
@@ -1408,24 +1443,28 @@ def _build_prepared_spell_grades(
                 # no explicit "reset" step is ever needed here.
                 prepared_count = 1
                 used_count = 0 if grade == 0 or find_open_spontaneous_grade(remaining_by_grade, grade) is not None else 1
-            else:
-                prep = prep_by_spell_id.get(spell_id)
-                prepared_count = prep.prepared_count if prep is not None else 0
-                used_count = prep.used_count if prep is not None else 0
+                by_grade[grade].append(_spell_entry(spell, grade, prepared_count, used_count))
+                continue
+
+            # Arcane-/divine-prepared: the "natural" row (`slot_grade == grade`, this spell's own
+            # slot) always shows in its own grade's row, prepared or not (0/0 if never prepared) —
+            # same as before this feature existed. Any *other* row for this spell (a higher
+            # `slot_grade` it's been borrow-prepared into) becomes a second, separate entry in
+            # that higher grade's row instead — same spell/key, its own prepared/used count.
+            rows = prep_rows_by_spell_id.get(spell_id, [])
+            natural_row = next((r for r in rows if r.slot_grade == grade), None)
             by_grade[grade].append(
-                {
-                    "key": str(spell_id),
-                    "name": spell.name,
-                    "baseClassId": str(root.id),
-                    "preparedCount": prepared_count,
-                    "usedCount": used_count,
-                    "description": spell.description,
-                    "components": _format_spell_components(components_by_spell_id.get(spell_id)),
-                    "range": spell.range,
-                    "savingThrow": spell.saving_throw,
-                    "dc": 10 + grade + casting_mod,
-                }
+                _spell_entry(
+                    spell,
+                    grade,
+                    natural_row.prepared_count if natural_row else 0,
+                    natural_row.used_count if natural_row else 0,
+                )
             )
+            for row in rows:
+                if row.slot_grade == grade:
+                    continue
+                by_grade[row.slot_grade].append(_spell_entry(spell, grade, row.prepared_count, row.used_count))
 
         unlock_level_by_grade: dict[int, int] = {}
         for row in db.scalars(
