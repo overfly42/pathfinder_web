@@ -1,5 +1,10 @@
 [
   {
+    "id": "5301612f-8bc8-5c02-979a-b919937fd5b8",
+    "name": "Waffenloser Schlag (Sekundärklasse)",
+    "description": "Erhält das Talent Verbesserter waffenloser Schlag sowie den Waffenlosen Schaden eines Mönchs mit einer effektiven Mönchsstufe in Höhe seiner Charakterstufe -2 (nur als Sekundärklassenmerkmal vergeben; der Waffenlose-Schaden-Fortschritt selbst ist noch nicht mechanisch berechnet, da Mönch noch keinen eigenen HANDLERS-Eintrag hat)."
+  },
+  {
     "id": "62ac4cf1-04b9-431b-9047-4156f6cb3481",
     "name": "Bonus-Kampftalent",
     "description": "Der Kämpfer erhält auf Stufe 1 und danach auf jeder geraden Stufe ein zusätzliches Kampftalent, unabhängig von der normalen Talent-Progression."

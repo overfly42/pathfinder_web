@@ -1,14 +1,18 @@
 """Populates `base_class_ability_granted_feats` from
 `backend/app/fixtures/seed/base_class_ability_granted_feats.json` — one row
-per (weapon/armor proficiency) class ability variant and the `BaseFeat` it
-inherently confers, e.g. every "Umgang mit Waffen und Rüstungen" variant
-mapped to its matching "Umgang mit ..." proficiency feats (skipped for
-variants whose weapon list doesn't line up with a whole-category feat, e.g.
-Magier's fixed dagger/quarterstaff/crossbow list, or only partially covered,
-e.g. Kensai only gets the "einfache Waffen" row here — its free choice of one
-martial/exotic weapon is a real, first-class choice instead, resolved via
-`rules/class_weapon_choices.py`, not a category feat). Same idempotent
-upsert-by-id convention as `class_ability_option_seed.py`.
+per class ability and the `BaseFeat` it inherently confers. Mostly (weapon/
+armor proficiency) ability variants, e.g. every "Umgang mit Waffen und
+Rüstungen" variant mapped to its matching "Umgang mit ..." proficiency feats
+(skipped for variants whose weapon list doesn't line up with a whole-category
+feat, e.g. Magier's fixed dagger/quarterstaff/crossbow list, or only
+partially covered, e.g. Kensai only gets the "einfache Waffen" row here —
+its free choice of one martial/exotic weapon is a real, first-class choice
+instead, resolved via `rules/class_weapon_choices.py`, not a category feat).
+The mechanism is generic, though: Mönch's Sekundärklasse "Waffenloser
+Schlag (Sekundärklasse)" ability reuses it the same way to auto-grant
+"Verbesserter waffenloser Schlag" — a non-proficiency feat, same "always-on,
+no pick" shape. Same idempotent upsert-by-id convention as
+`class_ability_option_seed.py`.
 
 Read at request time by `routers/feats.py`'s `_character_prereq_state` — see
 `BaseClassAbilityGrantedFeat`'s docstring in `models/base_class.py` for why

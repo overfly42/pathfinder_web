@@ -1,5 +1,10 @@
 [
   {
+    "id": "f2d5bc8a-f10e-55ea-ab72-356e60e473ce",
+    "ability_id": "5301612f-8bc8-5c02-979a-b919937fd5b8",
+    "feat_id": "7636c564-8660-5195-abcd-bcf6f4b01e9c"
+  },
+  {
     "id": "9f6e1b6a-2f0a-5c3d-8b1a-0a1b2c3d4e01",
     "ability_id": "0bdccf23-2958-44b0-9f20-fe031998ac27",
     "feat_id": "9d19039e-78b7-50ea-ab5c-ea65b81b8a06"

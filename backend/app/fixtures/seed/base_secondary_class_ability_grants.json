@@ -1758,5 +1758,16 @@
     "effective_level_minimum": null,
     "option_group_key": "bloodline",
     "option_choice_id": "d5040c53-2cf9-51b5-8ec3-60e2ea38c6fb"
+  },
+  {
+    "id": "e5c809a1-5570-517c-9070-2c9b4a019879",
+    "secondary_base_class_id": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "character_level": 3,
+    "ability_id": "5301612f-8bc8-5c02-979a-b919937fd5b8",
+    "effective_level_offset": -2,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
   }
 ]
