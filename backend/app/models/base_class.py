@@ -516,10 +516,27 @@ class BaseSecondaryClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     group's existing choices against this tier's own effective level instead
     of the character's real level in that class (see
     `routers/characters.py`'s `_validate_options`, which already takes
-    `character_level` as a plain parameter)."""
+    `character_level` as a plain parameter).
+
+    `option_choice_id` (nullable, set only alongside `option_group_key`) is
+    which specific choice in that group this row's `ability_id` belongs to
+    — e.g. one row per Hexenmeister bloodline at the same `character_level`,
+    each pointing at that bloodline's own power. Needed as its own column
+    (2026-09-17, added alongside Hexenmeister's first real content) rather
+    than resolved on the fly against `BaseClassAbilityGrant.option_choice_id`
+    for the same `ability_id`: several bloodlines' powers are the *same*
+    catalog row (e.g. "Klauen", "Kalter Stahl" are each shared by two
+    bloodlines), so without a choice column of its own here, two bloodlines'
+    rows at the same milestone would collide on this table's own
+    `(secondary_base_class_id, character_level, ability_id)` uniqueness.
+    `rules/secondary_class.py`'s `_resolve_sub_choice_ability_id` reads this
+    column directly; `None` means the tier's `ability_id` doesn't vary by
+    choice (a flat ability, independent of which option was picked)."""
 
     __tablename__ = "base_secondary_class_ability_grants"
-    __table_args__ = (UniqueConstraint("secondary_base_class_id", "character_level", "ability_id"),)
+    __table_args__ = (
+        UniqueConstraint("secondary_base_class_id", "character_level", "ability_id", "option_choice_id"),
+    )
 
     secondary_base_class_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_classes.id"))
     character_level: Mapped[int] = mapped_column(Integer)
@@ -528,3 +545,6 @@ class BaseSecondaryClassAbilityGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     effective_level_divisor: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
     effective_level_minimum: Mapped[int | None] = mapped_column(Integer, nullable=True)
     option_group_key: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    option_choice_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
+    )

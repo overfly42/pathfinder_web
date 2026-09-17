@@ -62,6 +62,35 @@ def secondary_effective_level(
     return max(level, minimum) if minimum is not None else level
 
 
+def _resolve_sub_choice_ability_id(character: "Character", grant: BaseSecondaryClassAbilityGrant) -> UUID | None:
+    """A tier gated by `option_group_key` (e.g. Hexenmeister's Blutlinie) may
+    have several candidate rows at the same `character_level` — one per
+    possible choice (e.g. one per bloodline), each with its own
+    `option_choice_id`. Returns `grant.ability_id` only if it's the one
+    matching what this character actually picked for that group (a
+    `CharacterClassOption` row scoped to the Sekundärklasse's own
+    `base_class_id` — the initial pick every Sekundärklasse with a
+    sub-choice tier already requires at 1st level, see
+    `BaseClassOptionGroup.is_secondary_class_initial_pick`); `None`
+    otherwise, including when the character hasn't made that pick yet
+    (shouldn't happen once the initial-pick requirement is enforced).
+    `grant.option_choice_id` being `None` means this tier's ability doesn't
+    vary by choice (a flat ability under a group that only *also* has
+    choice-scoped tiers) — always matches."""
+    if grant.option_choice_id is None:
+        return grant.ability_id
+
+    made_choice_id = next(
+        (
+            option.choice_id
+            for option in character.class_options
+            if option.base_class_id == grant.secondary_base_class_id and option.group_key == grant.option_group_key
+        ),
+        None,
+    )
+    return grant.ability_id if made_choice_id == grant.option_choice_id else None
+
+
 def secondary_granted_ability_ids_and_levels(
     db: Session, character: "Character"
 ) -> tuple[Counter[UUID], dict[UUID, int]]:
@@ -73,7 +102,14 @@ def secondary_granted_ability_ids_and_levels(
     `sheet.py`'s `level_counts_by_root_id` (see this module's own docstring
     for the "most-recently-unlocked tier wins" simplification when more than
     one reached tier's formula would disagree). Empty of both when the
-    character hasn't opted into this rule at all."""
+    character hasn't opted into this rule at all.
+
+    A tier with `option_group_key` set may have several candidate rows at
+    the same `character_level` (one per possible choice, e.g. one per
+    bloodline) sharing the unique-constraint-satisfying but otherwise
+    arbitrary distinct `ability_id`s — `_resolve_sub_choice_ability_id`
+    filters those down to the one matching what this character actually
+    picked, dropping the rest."""
     if character.secondary_base_class_id is None:
         return Counter(), {}
 
@@ -91,7 +127,12 @@ def secondary_granted_ability_ids_and_levels(
     ability_ids: Counter[UUID] = Counter()
     effective_level = 0
     for grant in grants:
-        ability_ids[grant.ability_id] += 1
+        ability_id = (
+            _resolve_sub_choice_ability_id(character, grant) if grant.option_group_key is not None else grant.ability_id
+        )
+        if ability_id is None:
+            continue
+        ability_ids[ability_id] += 1
         effective_level = secondary_effective_level(
             character.level,
             offset=grant.effective_level_offset,

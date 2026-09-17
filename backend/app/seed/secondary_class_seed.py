@@ -30,9 +30,14 @@ def seed_secondary_class_abilities(db: Session) -> None:
     for row in rows:
         row_id = UUID(row["id"])
         fields = {
-            **{k: v for k, v in row.items() if k not in ("id", "secondary_base_class_id", "ability_id")},
+            **{
+                k: v
+                for k, v in row.items()
+                if k not in ("id", "secondary_base_class_id", "ability_id", "option_choice_id")
+            },
             "secondary_base_class_id": UUID(row["secondary_base_class_id"]),
             "ability_id": UUID(row["ability_id"]),
+            "option_choice_id": UUID(row["option_choice_id"]) if row.get("option_choice_id") else None,
         }
         instance = db.get(BaseSecondaryClassAbilityGrant, row_id)
         if instance is None:

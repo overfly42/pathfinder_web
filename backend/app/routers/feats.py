@@ -11,6 +11,7 @@ from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
 from ..rules.handlers import has_mechanical_effect
 from ..rules.proficiency import effective_proficiency_feat_ids
+from ..rules.secondary_class import secondary_granted_ability_ids_and_levels
 from ..sheet import granted_class_ability_ids
 from .races import race_ability_score_mods
 
@@ -27,7 +28,15 @@ def _character_prereq_state(db: Session, character: Character) -> CharacterPrere
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
-    granted_ability_ids = frozenset(granted_class_ability_ids(db, character, level_counts_by_root_id))
+    granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
+    # Sekundärklasse alternate rule (`rules/secondary_class.py`) — merged in
+    # the same way `sheet.py`'s own `granted_ability_ids` build-up does, so
+    # e.g. Mönch's Sekundärklasse-granted "Verbesserter waffenloser Schlag"
+    # (via `BaseClassAbilityGrantedFeat`, below) satisfies a downstream
+    # feat's prerequisite here too, not just in the character-sheet display.
+    secondary_ability_ids, _ = secondary_granted_ability_ids_and_levels(db, character)
+    granted_ability_ids.update(secondary_ability_ids)
+    granted_ability_ids = frozenset(granted_ability_ids)
     # Proficiency-granting class abilities (e.g. "Umgang mit Waffen und
     # Rüstungen") count the same as literally holding the matching
     # proficiency feat for prerequisite purposes — see

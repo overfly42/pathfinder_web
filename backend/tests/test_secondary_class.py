@@ -1,20 +1,30 @@
 """Sekundärklasse alternate rule (http://prd.5footstep.de/Alternativregeln/
 Fertigkeiten/AlternativesSystemfuerCharakteremitKlassenkombinationen) —
-architecture pass only, see roadmap.md: no per-class content is seeded yet
-(`base_secondary_class_ability_grants.json` is empty), so the end-to-end
-test below adds one ad hoc `BaseSecondaryClassAbilityGrant` row directly
-(same "exercise the mechanism against synthetic data" convention
-`test_option_choice_min_level_and_requires_choice_id_round_trip`
-(test_entfesselter_barbar.py) already uses) rather than depending on real
-content existing. Entfesselter Barbar is the one class actually reused here
-because it's one of only two classes with a real `HANDLERS`/`DAILY_LIMITS`
-entry today (`rules/classes/barbarian.py` — the plain "Barbar" root has no
-handler for its own Kampfrausch, only Entfesselter Barbar does)."""
+`base_secondary_class_ability_grants.json` now has real content for
+Hexenmeister (all bloodlines) and one Mönch tier (see
+`scripts/build_secondary_class_hexenmeister_seed.py`/
+`scripts/add_secondary_class_moench_unarmed_strike.py`), but most of the
+tests below still exercise the mechanism against an ad hoc row (same
+"synthetic data" convention `test_option_choice_min_level_and_requires_choice_id_round_trip`
+(test_entfesselter_barbar.py) uses) rather than depending on that real
+content, so they don't churn if it changes. Entfesselter Barbar is the one
+class actually reused here because it's one of only two classes with a real
+`HANDLERS`/`DAILY_LIMITS` entry today (`rules/classes/barbarian.py` — the
+plain "Barbar" root has no handler for its own Kampfrausch, only
+Entfesselter Barbar does)."""
 
 from fastapi.testclient import TestClient
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import BaseClass, BaseSecondaryClassAbilityGrant, CharacterClassOption
+from app.models import (
+    BaseClass,
+    BaseClassAbility,
+    BaseClassAbilityGrant,
+    BaseClassOptionChoice,
+    BaseSecondaryClassAbilityGrant,
+    CharacterClassOption,
+)
 from app.rules.classes.barbarian import (
     BARBAR_ENTFESSELTER_ROOT_CLASS_ID,
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID,
@@ -125,6 +135,47 @@ def test_unknown_secondary_class_name_is_rejected(client: TestClient, db_session
     assert response.status_code == 422
 
 
+def test_secondary_class_moench_grants_the_real_feat_for_prereq_purposes(client: TestClient, db_session: Session) -> None:
+    """Mönch's "Waffenloser Schlag" tier (milestone 3) is a fixed, non-choice
+    "Bonustalent" — real seeded content (`scripts/
+    add_secondary_class_moench_unarmed_strike.py`), unlike the ad hoc rows
+    the other tests here use. It reuses `BaseClassAbilityGrantedFeat` (see
+    that script's own docstring) rather than new schema, so the granted
+    "Verbesserter waffenloser Schlag" feat should satisfy a downstream
+    feat's prerequisite via `routers/feats.py`'s own `character_id`-scoped
+    eligibility filter, the same way actually taking it would — proven here
+    against "Schnappschildkrötenstil" (which requires it + BAB 1), something
+    a level-3 Waldläufer with no other unarmed-strike source couldn't
+    otherwise qualify for."""
+    from app.seed.secondary_class_seed import seed_secondary_class_abilities
+
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    ausweichen_id = _feat_id(client, db_session, "Ausweichen")
+    # `_feat_id` above seeds `base_classes` (among others) — this FKs into
+    # it, so it can only run after.
+    seed_secondary_class_abilities(db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Waldläufer", "level": 3}],
+        secondary_class_name="Mönch",
+        feats=[{"feat_id": ausweichen_id}],
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    feature_names = {f["name"] for f in sheet["classFeatures"]}
+    assert "Waffenloser Schlag (Sekundärklasse)" in feature_names
+
+    eligible_feats = client.get(f"/api/feats?character_id={character_id}").json()
+    assert "Schnappschildkrötenstil" in {f["name"] for f in eligible_feats}
+
+
 def test_secondary_class_grant_resolves_through_the_real_handler_end_to_end(
     client: TestClient, db_session: Session
 ) -> None:
@@ -211,6 +262,74 @@ def test_secondary_class_initial_pick_is_required_immediately_at_level_1(
     )
     assert option.choice == "Arkane Blutlinie"
     assert option.choice_id is not None
+
+
+def test_secondary_class_sub_choice_resolves_only_the_chosen_option(client: TestClient, db_session: Session) -> None:
+    """Hexenmeister's Blutlinie-gated tiers can't store one fixed `ability_id`
+    per milestone (the granted power depends on which of ~30 bloodlines was
+    picked) — `_resolve_sub_choice_ability_id` (rules/secondary_class.py)
+    instead reuses the same `BaseClassAbilityGrant.option_choice_id` link a
+    real, primary-class Hexenmeister's own bloodline pick already resolves
+    against. Seed two candidate rows for the same milestone (one per
+    bloodline, real content shape once `base_secondary_class_ability_grants.
+    json` is filled in) and verify only the one matching this character's
+    actual pick ("Arkane Blutlinie") shows up — not Meeresblutlinie's."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Waldläufer", "level": 3}],
+        secondary_class_name="Hexenmeister",
+        secondary_class_options={"bloodline": ["Arkane Blutlinie"]},
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    hexenmeister = db_session.query(BaseClass).filter_by(name="Hexenmeister").one()
+    arkane_blutlinie_id = db_session.scalar(select(BaseClassOptionChoice.id).where(BaseClassOptionChoice.name == "Arkane Blutlinie"))
+    meeresblutlinie_id = db_session.scalar(select(BaseClassOptionChoice.id).where(BaseClassOptionChoice.name == "Meeresblutlinie"))
+    arkane_verbindung_id = db_session.scalar(
+        select(BaseClassAbilityGrant.ability_id).where(
+            BaseClassAbilityGrant.base_class_id == hexenmeister.id,
+            BaseClassAbilityGrant.level == 1,
+            BaseClassAbilityGrant.option_choice_id == arkane_blutlinie_id,
+            BaseClassAbilityGrant.ability_id
+            != db_session.scalar(
+                select(BaseClassAbility.id).where(BaseClassAbility.name == "Geheimnis des Blutes (Arkane Blutlinie)")
+            ),
+        )
+    )
+    wasserstoss_id = db_session.scalar(select(BaseClassAbility.id).where(BaseClassAbility.name == "Wasserstoß"))
+    assert arkane_verbindung_id is not None and wasserstoss_id is not None
+
+    db_session.add_all(
+        [
+            BaseSecondaryClassAbilityGrant(
+                secondary_base_class_id=hexenmeister.id,
+                character_level=3,
+                ability_id=arkane_verbindung_id,
+                option_group_key="bloodline",
+                option_choice_id=arkane_blutlinie_id,
+            ),
+            BaseSecondaryClassAbilityGrant(
+                secondary_base_class_id=hexenmeister.id,
+                character_level=3,
+                ability_id=wasserstoss_id,
+                option_group_key="bloodline",
+                option_choice_id=meeresblutlinie_id,
+            ),
+        ]
+    )
+    db_session.commit()
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    feature_keys = {f["key"] for f in sheet["classFeatures"]}
+    assert str(arkane_verbindung_id) in feature_keys
+    assert str(wasserstoss_id) not in feature_keys
 
 
 def test_secondary_class_options_rejects_a_milestone_tied_group(client: TestClient, db_session: Session) -> None:
