@@ -205,15 +205,16 @@ def weapon_choice_required_ability_ids(db: Session, classes: list) -> frozenset[
 def favored_class_bonus_race_choices(
     db: Session, favored_root_id: UUID | None, race_id: UUID | None
 ) -> list[BaseClassOptionChoice]:
-    """This class's own race-scoped favored-class-bonus alternates (e.g.
-    Half-Ork Barbar's "Halb-Ork (Barbar)", `scripts/
-    import_favored_class_bonus_halbork.py`) — never includes "hp"/"skill",
-    which aren't `BaseClassOptionChoice` rows at all (see `routers/
-    characters.py`'s `create_character`/`level_up_character`). Empty
-    without a favored class. Shared by `sheet.py`'s wizard-facing
-    `_favored_class_bonus_*` read helpers and `routers/characters.py`'s
-    creation-time validation (write side) so both agree on exactly the same
-    race-scoped choice set instead of drifting apart."""
+    """This class's own favored-class-bonus choices — the two universal
+    "hp"/"skill" values every class offers (`race_id=None`,
+    `add_generic_favored_class_bonus_choices.py`) plus any race-scoped
+    alternate (e.g. Half-Ork Barbar's "Halb-Ork (Barbar)", `scripts/
+    import_favored_class_bonus_halbork.py`). Empty without a favored class.
+    Shared by `sheet.py`'s wizard-facing `_favored_class_bonus_*` read
+    helpers and `routers/characters.py`'s creation-time validation (write
+    side) so both agree on exactly the same choice set instead of drifting
+    apart. Callers that want race-scoped alternates only (`sheet.py`'s
+    description/short-label helpers) filter "hp"/"skill" out themselves."""
     if favored_root_id is None:
         return []
     return db.scalars(

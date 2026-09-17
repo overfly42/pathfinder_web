@@ -327,10 +327,8 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         # would return [] for it, treating it as an always-available,
         # 20-choice one-time pick — wrong, since it's actually "exactly one
         # required, race-filtered pick per level in the favored class", a
-        # different shape ClassStep.tsx's OptionGroupPicker can't express),
-        # and it also needs the two universal "hp"/"skill" values that
-        # aren't BaseClassOptionChoice rows at all. The creation wizard's
-        # dedicated favored-class-bonus picker uses
+        # different shape ClassStep.tsx's OptionGroupPicker can't express).
+        # The creation wizard's dedicated favored-class-bonus picker uses
         # `GET /api/favored-class-bonus-options` instead (`sheet.py`'s
         # `build_favored_class_bonus_options`, same helpers the level-up
         # wizard's HitPointsStep.tsx already relies on).

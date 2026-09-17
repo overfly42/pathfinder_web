@@ -696,11 +696,15 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 f"({sorted(favored_levels)})"
             ),
         )
+    # "hp"/"skill" are real `BaseClassOptionChoice` rows too now (every root
+    # class's own `favored_class_bonus` group, `race_id=None` -
+    # `add_generic_favored_class_bonus_choices.py`), so this one lookup
+    # covers every legal value uniformly - no separate literal check needed.
     favored_choice_by_name = {
         choice.name: choice for choice in favored_class_bonus_race_choices(db, favored_root_id, body.race_id)
     }
     for level_num, value in submitted_favored_bonus.items():
-        if value not in ("hp", "skill") and value not in favored_choice_by_name:
+        if value not in favored_choice_by_name:
             raise HTTPException(
                 status_code=422, detail=f"Invalid favored_class_bonus '{value}' for level {level_num}"
             )
@@ -946,7 +950,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 ability_increase=submitted_ability_increases.get(running_level),
             )
             character.levels.append(last_level_row)
-            if favored_bonus is not None and favored_bonus not in ("hp", "skill"):
+            if favored_bonus is not None:
                 choice_row = favored_choice_by_name[favored_bonus]
                 character.class_options.append(
                     CharacterClassOption(
@@ -2264,15 +2268,16 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             status_code=422, detail="This level is in the favored class — favored_class_bonus is required"
         )
 
-    # "hp"/"skill" stay the two hardcoded, immediately-applied values they
-    # always were (see below). Any other favored_class_bonus value is a real
-    # `BaseClassOptionChoice` name (e.g. an Advanced-Race-Guide alternate
-    # bonus, `scripts/import_favored_class_bonus_halbork.py`) — folded into
-    # the same `existing_level_options` dict so it rides the existing
-    # generic option-group validation/persistence machinery below instead of
-    # needing its own parallel code path.
+    # Every favored_class_bonus value — "hp"/"skill" included, now real
+    # `BaseClassOptionChoice` rows too (`add_generic_favored_class_bonus_choices.py`)
+    # — folded into the same `existing_level_options` dict so it rides the
+    # existing generic option-group validation/persistence machinery below
+    # instead of needing its own parallel code path. The *effect* of "hp"/
+    # "skill" (extra HP, extra skill-point budget) is still resolved by
+    # matching the plain string further below, same as ever - only the
+    # bookkeeping of *which* value was picked is now uniform.
     existing_level_options = dict(body.existing_level_options or {})
-    if body.favored_class_bonus is not None and body.favored_class_bonus not in ("hp", "skill"):
+    if body.favored_class_bonus is not None:
         existing_level_options["favored_class_bonus"] = [body.favored_class_bonus]
 
     if is_new_class:

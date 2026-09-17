@@ -357,12 +357,11 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `race_id` (nullable) restricts a choice to one race — first used
     2026-08-16 for Advanced Race Guide alternate favored-class-bonus options
     (e.g. Half-Orc Barbarian's own "Kampfrauschrunden" choice in that
-    class's own `favored_class_bonus` group, alongside the two
-    race-independent "hp"/"skill" values every class offers, which aren't
-    `BaseClassOptionChoice` rows at all — see `routers/characters.py`'s
-    `level_up_character`). `None` means available regardless of race, the
-    same meaning every choice already had implicitly before this column
-    existed."""
+    class's own `favored_class_bonus` group), alongside the two
+    race-independent "hp"/"skill" values every class offers (`race_id=None`,
+    `add_generic_favored_class_bonus_choices.py`). `None` means available
+    regardless of race, the same meaning every choice already had implicitly
+    before this column existed."""
 
     __tablename__ = "base_class_option_choices"
     __table_args__ = (UniqueConstraint("group_id", "name"),)

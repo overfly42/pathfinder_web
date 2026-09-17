@@ -600,12 +600,30 @@ def build_character_history(character: Character, db: Session) -> list[dict]:
     level_ids = {level.base_class_id for level in character.levels}
     roots_by_id = {root.id: root for root in db.scalars(select(BaseClass).where(BaseClass.id.in_(level_ids))).all()}
 
+    # Favored-class-bonus pick per level, keyed by `level_id` - "hp"/"skill"
+    # included, now that they're real `CharacterClassOption` rows too
+    # (`add_generic_favored_class_bonus_choices.py`) instead of vanishing
+    # into `hit_points`/the skill-point budget with no trace.
+    favored_bonus_by_level_id = {
+        option.level_id: option.choice
+        for option in character.class_options
+        if option.group_key == "favored_class_bonus"
+    }
+
     entries = []
     for level in character.levels:
         if level.level == 1:
             continue
         root = roots_by_id.get(level.base_class_id)
         parts = [f"{root.name if root is not None else '?'} Stufe {level.level}"]
+
+        favored_bonus = favored_bonus_by_level_id.get(level.id)
+        if favored_bonus == "hp":
+            parts.append("Bevorzugte Klasse: +1 TP")
+        elif favored_bonus == "skill":
+            parts.append("Bevorzugte Klasse: +1 Fertigkeitsrang")
+        elif favored_bonus is not None:
+            parts.append(f"Bevorzugte Klasse: {favored_bonus}")
 
         for feat_entry in level.feats:
             feat = db.get(BaseFeat, feat_entry.feat_id)
@@ -1043,26 +1061,33 @@ def _build_race_abilities(db: Session, race_ability_ids: set[UUID]) -> list[dict
 
 def _favored_class_bonus_options(db: Session, favored_root_id: UUID | None, race_id: UUID) -> list[str]:
     """Which values are currently legal for `LevelUp.favored_class_bonus`
-    for this character's one favored class — "hp"/"skill" (the two stable
-    literals every class offers) plus this class's own race-scoped
-    alternates (`favored_class_bonus_race_choices`, shared with
-    `routers/characters.py`'s creation-time validation). The level-up wizard
-    renders this list directly — no client-side race filtering needed, same
-    reasoning `race_skill_modifiers`'s docstring gives for keeping
-    composition-vs-character-scoped filtering server-side."""
+    for this character's one favored class — "hp"/"skill" (now real,
+    race-independent `BaseClassOptionChoice` rows every class offers, same
+    as any other favored-class-bonus value, see
+    `add_generic_favored_class_bonus_choices.py`) plus this class's own
+    race-scoped alternates (`favored_class_bonus_race_choices`, shared with
+    `routers/characters.py`'s creation-time validation). Sorted with "hp"/
+    "skill" first, then the alternates, so the picker's chip order doesn't
+    depend on DB insertion order now that they're all one query result. The
+    level-up wizard renders this list directly — no client-side race
+    filtering needed, same reasoning `race_skill_modifiers`'s docstring
+    gives for keeping composition-vs-character-scoped filtering
+    server-side."""
     choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
-    return ["hp", "skill", *(choice.name for choice in choices)]
+    order = {"hp": 0, "skill": 1}
+    return sorted((choice.name for choice in choices), key=lambda name: (order.get(name, 2), name))
 
 
 def _favored_class_bonus_descriptions(db: Session, favored_root_id: UUID | None, race_id: UUID) -> dict[str, str]:
     """Choice name -> full rules text, for this class's own race-scoped
     favored-class-bonus alternates only ("hp"/"skill" excluded — the
-    level-up wizard already has fixed, friendly text for those two). Lets
-    the wizard's summary step ("Zusammenfassung", 2026-08-16 — a player
-    picking e.g. "Halb-Ork (Barbar)" saw no indication anywhere of what that
-    choice actually does) show the real rules text instead of just the bare
-    catalog name."""
-    choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    level-up wizard already has fixed, friendly text for those two, and
+    neither has a matching `BaseClassAbilityGrant` to look a description up
+    from anyway). Lets the wizard's summary step ("Zusammenfassung",
+    2026-08-16 — a player picking e.g. "Halb-Ork (Barbar)" saw no indication
+    anywhere of what that choice actually does) show the real rules text
+    instead of just the bare catalog name."""
+    choices = [c for c in favored_class_bonus_race_choices(db, favored_root_id, race_id) if c.name not in ("hp", "skill")]
     descriptions_by_choice_id = _ability_descriptions_by_choice_id(db, [choice.id for choice in choices])
     return {choice.name: descriptions_by_choice_id.get(choice.id, "") for choice in choices}
 
@@ -1070,13 +1095,14 @@ def _favored_class_bonus_descriptions(db: Session, favored_root_id: UUID | None,
 def _favored_class_bonus_short_labels(db: Session, favored_root_id: UUID | None, race_id: UUID) -> dict[str, str]:
     """Choice name -> short, button-sized label (`rules/favored_class_bonuses.py`'s
     `SHORT_LABELS`, e.g. "+1 Rd. Kampfrausch/Tag") for this class's own
-    race-scoped alternates — the level-up wizard's picker chips show this
-    instead of the bare catalog name, so a player doesn't need to hover to
-    understand what a chip does (2026-08-16). Falls back to the catalog name
-    itself for a choice with no short label yet, so a future race's
-    alternates still render *something* before this dict is filled in for
-    them."""
-    choices = favored_class_bonus_race_choices(db, favored_root_id, race_id)
+    race-scoped alternates only ("hp"/"skill" excluded, same reasoning as
+    `_favored_class_bonus_descriptions` above) — the level-up wizard's
+    picker chips show this instead of the bare catalog name, so a player
+    doesn't need to hover to understand what a chip does (2026-08-16).
+    Falls back to the catalog name itself for a choice with no short label
+    yet, so a future race's alternates still render *something* before this
+    dict is filled in for them."""
+    choices = [c for c in favored_class_bonus_race_choices(db, favored_root_id, race_id) if c.name not in ("hp", "skill")]
     return {choice.name: FAVORED_CLASS_BONUS_SHORT_LABELS.get(choice.id, choice.name) for choice in choices}
 
 

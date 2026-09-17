@@ -3166,5 +3166,245 @@
     "id": "2a219a32-f14f-512c-a875-8072e58f0700",
     "group_id": "1155750a-9117-4b83-8b06-03ec4a084098",
     "name": "Visionäre Blutlinie"
+  },
+  {
+    "id": "48add02b-6a23-548a-adef-f3c925e657b5",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "5ae2c79d-cc65-55a2-8292-4ec293207787",
+    "group_id": "20c4554c-5fe0-5220-addb-72dd72cafe2d",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "208a4695-c25e-5bba-b0a5-f5cbf90e8641",
+    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "30e532bc-2f08-58f5-86b9-9a882a151129",
+    "group_id": "0e73dd58-f00a-59a8-a141-640590aaf841",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ce3fa800-a2e6-5ef9-bc93-f0bb56fa1030",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "c8cdeb5c-20a5-5706-967c-569f772109b0",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "7a9cd7a1-f748-5d8b-8103-412b670669e2",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "83be8e0f-d717-5a18-8ca8-d58a4de54d5e",
+    "group_id": "2cd9202f-a2b5-535f-a0e0-f2e56fa09f08",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "67a7a8f9-40fd-538c-8e3a-b52957d86972",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f2814925-99ec-5da3-aa19-31ad5a483f3c",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "0d242f0d-80c4-5b32-855b-9baa5799ba2f",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "508b3377-adfe-50a7-b02f-342b3872dc1a",
+    "group_id": "54cf19bf-25cd-5def-af48-86702f092ee9",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "c8ad7a49-c6b6-564c-9c2f-761a5c7dd671",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f05619f3-f26c-5246-be14-c16854723468",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "b132bd0d-dfbe-5beb-a543-5f91fa675846",
+    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ab8c7964-6f17-562f-bb05-884c350c96f3",
+    "group_id": "d292d010-5347-5745-8c7c-f5cb5368bb50",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "361e12ca-eb5f-5c76-b1ca-3a5b324bb5b3",
+    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ea932de4-8f09-5ce5-a6e1-896c4411fe3e",
+    "group_id": "fa75f043-1e73-5f43-b5ea-9642b730cca5",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "4686b5e7-6a2e-5cd7-b92e-990f46092963",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "be74ea86-b94f-5b32-98e0-dbf09e12a2c5",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "23835510-9e8e-50c4-97fa-dd640c9b632c",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "34d430f3-8502-5b54-b3d6-d41115a37e1f",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "647147df-f1d7-5d29-8007-8514bc576477",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "4ee45d43-32f5-5c49-b8a6-1ec3e79cde25",
+    "group_id": "ccff7870-64f2-5bca-ab76-119c2a5b16fc",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f86b21a2-eda8-551d-b42a-adf41e5b6b87",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "3882d241-487e-56fb-8fe0-f82e2ec5b6c5",
+    "group_id": "a953e94b-93cc-5a8f-9992-c5e2ce6b97a8",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "bbd48ac8-8c53-540a-a537-76fa3ad62d5b",
+    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f236943c-9f63-59a0-9ad5-83053d6cc589",
+    "group_id": "d0709bc8-cbb0-5d35-ba1b-7e98a3536679",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "9e88b403-683d-5789-9195-242769d9d05a",
+    "group_id": "f3bace47-10af-541c-bf89-56d4f699db99",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "62253700-1eaf-5bba-9724-fd26d5b969f2",
+    "group_id": "f3bace47-10af-541c-bf89-56d4f699db99",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
   }
 ]

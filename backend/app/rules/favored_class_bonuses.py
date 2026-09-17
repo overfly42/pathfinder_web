@@ -99,12 +99,18 @@ def pick_counts(character: "Character") -> Counter[UUID]:
     shared here so `sheet.py`'s full-sheet build and `routers/characters.py`'s
     leaner `_ability_context` compute it identically instead of two
     independent implementations drifting apart. "hp"/"skill" picks never
-    contribute — they're not `BaseClassOptionChoice` rows at all (folded
-    directly into HP/skill ranks already)."""
+    contribute — they *are* real `BaseClassOptionChoice` rows now too
+    (`add_generic_favored_class_bonus_choices.py`), but they're excluded
+    here by name on purpose: their effect is already folded directly into
+    HP/skill ranks, so counting them here would surface two meaningless
+    "hp"/"skill" entries in `sheet.py`'s `_build_favored_class_bonuses`
+    display, which is meant for actual class features."""
     return Counter(
         option.choice_id
         for option in character.class_options
-        if option.group_key == "favored_class_bonus" and option.choice_id is not None
+        if option.group_key == "favored_class_bonus"
+        and option.choice_id is not None
+        and option.choice not in ("hp", "skill")
     )
 
 
