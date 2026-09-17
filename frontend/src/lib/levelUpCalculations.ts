@@ -70,6 +70,24 @@ export function featGrantedThisLevel(newLevel: number): boolean {
   return newLevel % 2 === 1;
 }
 
+/** Whether the character's Sekundärklasse (if any, `progression.secondaryClass`)
+ *  replaces this level's normal talent with one of its own features instead —
+ *  `featGrantedThisLevel` still says a talent slot is due on this (odd) level,
+ *  this just tells `LevelFeatStep`/`LevelUpSummaryStep` that slot is spoken for
+ *  by the Sekundärklasse rule rather than pickable, matching what the backend
+ *  actually accepts (`_feat_max`'s `secondary_class_suppressed_feat_count`,
+ *  `routers/characters.py`). A Sekundärklasse tier that itself grants a real
+ *  talent choice (rather than a passive feature) would report a level here
+ *  where a feat *is* still pickable — not modeled yet since no such tier has
+ *  real content (`roadmap.md`'s Sekundärklasse section), but this only checks
+ *  membership in the server-sent milestone list, so it doesn't preclude one. */
+export function secondaryClassFeatureGrantedThisLevel(
+  newLevel: number,
+  progression: CharacterProgression,
+): boolean {
+  return progression.secondaryClass?.featureLevels.includes(newLevel) ?? false;
+}
+
 /** Whether the receiving class grants a bonus feat slot at its own new level (e.g.
  *  Kämpfer's 1st and every even level) — driven by each class's real `bonusFeatLevels`
  *  data (see `ClassDef.bonusFeatLevels`), not a hardcoded class name, since other

@@ -9,6 +9,7 @@ import {
   getOldTotalLevel,
   getReceivingClassAndLevel,
   getReceivingClassName,
+  secondaryClassFeatureGrantedThisLevel,
 } from '../../lib/levelUpCalculations';
 
 interface LevelUpSummaryStepProps {
@@ -60,7 +61,12 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
     : 'Keine (nicht Stufe 4/8/12/16/20).';
 
   const featGranted = featGrantedThisLevel(newLevel);
-  const sumFeat = featGranted ? draft.newFeat || '— noch nicht gewählt —' : 'Keins auf dieser Stufe.';
+  const secondaryFeatureGranted = secondaryClassFeatureGrantedThisLevel(newLevel, progression);
+  const sumFeat = !featGranted
+    ? 'Keins auf dieser Stufe.'
+    : secondaryFeatureGranted
+      ? `Ersetzt durch Sekundärklassen-Feature (${progression.secondaryClass?.name}) — Inhalt noch nicht hinterlegt.`
+      : draft.newFeat || '— noch nicht gewählt —';
 
   const bonusFeatGranted = classBonusFeatGrantedThisLevel(className, info?.level ?? null, options.classes);
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;

@@ -7,6 +7,7 @@ import {
   featGrantedThisLevel,
   getNewLevel,
   getReceivingClassAndLevel,
+  secondaryClassFeatureGrantedThisLevel,
 } from '../../lib/levelUpCalculations';
 import { SingleChipPicker } from './SingleChipPicker';
 
@@ -20,12 +21,17 @@ interface LevelFeatStepProps {
 export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFeatStepProps) {
   const newLevel = getNewLevel(progression);
   const granted = featGrantedThisLevel(newLevel);
+  // The Sekundärklasse rule spends this level's normal talent on one of its
+  // own features instead (see this function's own docstring) — the step
+  // still shows (matches `granted`), but as an info note instead of a picker.
+  const secondaryFeatureGranted = secondaryClassFeatureGrantedThisLevel(newLevel, progression);
+  const baseFeatPickable = granted && !secondaryFeatureGranted;
   const receiving = getReceivingClassAndLevel(progression, draft.target);
   const bonusGranted = classBonusFeatGrantedThisLevel(receiving?.className ?? null, receiving?.level ?? null, options.classes);
 
   useEffect(() => {
-    if (!granted) setDraft((prev) => (prev.newFeat === null ? prev : { ...prev, newFeat: null }));
-  }, [granted, setDraft]);
+    if (!baseFeatPickable) setDraft((prev) => (prev.newFeat === null ? prev : { ...prev, newFeat: null }));
+  }, [baseFeatPickable, setDraft]);
 
   useEffect(() => {
     if (!bonusGranted) setDraft((prev) => (prev.newBonusFeat === null ? prev : { ...prev, newBonusFeat: null }));
@@ -81,7 +87,14 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
 
   return (
     <>
-      {granted && (
+      {granted && secondaryFeatureGranted && (
+        <div className="info-note">
+          Auf dieser Stufe ersetzt die Sekundärklasse ({progression.secondaryClass?.name}) das übliche Talent durch
+          ein eigenes Feature. Der genaue Inhalt ist in der App noch nicht hinterlegt — bitte im Regelwerk
+          nachschlagen.
+        </div>
+      )}
+      {baseFeatPickable && (
         <SingleChipPicker items={available} selected={draft.newFeat} onSelect={select} searchPlaceholder="Talente durchsuchen …" />
       )}
       {bonusGranted && (

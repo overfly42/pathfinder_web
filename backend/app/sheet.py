@@ -118,6 +118,7 @@ from .rules.proficiency import (
     class_granted_proficiency_feat_ids,
     known_weapon_types,
 )
+from .rules.feat_slots import SECONDARY_CLASS_FEATURE_LEVELS
 from .rules.secondary_class import secondary_granted_ability_ids_and_levels
 from .rules.speed import class_speed_bonus, jump_skill_note, race_climb_speed, race_speed
 from .rules.progression import ability_mod, max_hit_points
@@ -531,6 +532,17 @@ def build_character_progression(character: Character, db: Session) -> dict:
     favored_membership = next((m for m in character.class_memberships if m.is_favored), None)
     favored_root_id = favored_membership.base_class_id if favored_membership else None
 
+    # `featureLevels` rides along here (rather than the wizard hardcoding
+    # `SECONDARY_CLASS_FEATURE_LEVELS` a second time) so the fixed Sekundärklasse
+    # milestone levels (3/7/11/15/19, `rules/feat_slots.py`) have exactly one
+    # source of truth — the level-up wizard just checks membership against
+    # what the server actually sends.
+    secondary_class = None
+    if character.secondary_base_class_id is not None:
+        secondary_root = db.get(BaseClass, character.secondary_base_class_id)
+        if secondary_root is not None:
+            secondary_class = {"name": secondary_root.name, "featureLevels": list(SECONDARY_CLASS_FEATURE_LEVELS)}
+
     return {
         "name": character.name,
         "race": race.name if race is not None else "",
@@ -585,6 +597,7 @@ def build_character_progression(character: Character, db: Session) -> dict:
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonusDescriptions": _favored_class_bonus_descriptions(db, favored_root_id, character.race_id),
         "favoredClassBonusShortLabels": _favored_class_bonus_short_labels(db, favored_root_id, character.race_id),
+        "secondaryClass": secondary_class,
         "history": build_character_history(character, db),
     }
 

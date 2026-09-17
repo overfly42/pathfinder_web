@@ -84,5 +84,14 @@ export interface CharacterProgression {
    *  hover to understand what a chip does. Absent for the two hardcoded
    *  mock fixtures. */
   favoredClassBonusShortLabels?: Record<string, string>;
+  /** The "Sekundärklasse" alternate rule's root class, if the character
+   *  opted in at creation (`Character.secondary_base_class_id`) — `null`
+   *  otherwise. `featureLevels` are the total-character-level milestones
+   *  (3/7/11/15/19) at which that class replaces the normal talent with one
+   *  of its own features instead of granting one alongside it (backend
+   *  `rules/feat_slots.py`'s `SECONDARY_CLASS_FEATURE_LEVELS` — sent from
+   *  there rather than duplicated here, so the wizard never drifts from the
+   *  actual rule). Absent for the two hardcoded mock fixtures. */
+  secondaryClass?: { name: string; featureLevels: number[] } | null;
   history: HistoryEntry[];
 }
