@@ -73,7 +73,18 @@ def test_level_up_persists_new_level_on_existing_class(client: TestClient, db_se
     assert response.status_code == 201
     body = response.json()
     assert body["level"] == 2
-    assert body["classes"] == [{"class_name": "Waldläufer", "level": 2, "archetypes": [], "is_favored": True, "options": {}}]
+    # One "hp" pick from creation (`_create_level_n_character`) plus one from this level-up
+    # (`_level_up_payload`'s own default) - two persisted CharacterClassOption rows, same
+    # group_key (`add_generic_favored_class_bonus_choices.py`).
+    assert body["classes"] == [
+        {
+            "class_name": "Waldläufer",
+            "level": 2,
+            "archetypes": [],
+            "is_favored": True,
+            "options": {"favored_class_bonus": ["hp", "hp"]},
+        }
+    ]
 
     sheet = client.get(f"/api/characters/{character_id}").json()
     # Level 1 (auto-maxed d10 + 1 favored-class HP bonus, _character_payload's

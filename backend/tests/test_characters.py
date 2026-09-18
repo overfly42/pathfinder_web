@@ -196,7 +196,15 @@ def test_create_character(client: TestClient, db_session: Session) -> None:
     assert body["race_id"] == race_id
     assert body["level"] == 1
     assert body["classes"] == [
-        {"class_name": "Waldläufer", "level": 1, "archetypes": [], "is_favored": True, "options": {}}
+        {
+            "class_name": "Waldläufer",
+            "level": 1,
+            "archetypes": [],
+            "is_favored": True,
+            # "hp" is a real, persisted CharacterClassOption now too (`add_generic_favored_class_bonus_choices.py`),
+            # not a hardcoded literal that left no trace — see _character_payload's own default pick.
+            "options": {"favored_class_bonus": ["hp"]},
+        }
     ]
     # A freshly created character is undamaged - max HP itself isn't
     # returned by this endpoint (see Character.damage_taken's docstring),
@@ -258,7 +266,15 @@ def test_create_character_with_multiple_classes_persists_per_level_history(
     body = response.json()
     assert body["level"] == 3
     assert body["classes"] == [
-        {"class_name": "Kämpfer", "level": 2, "archetypes": [], "is_favored": True, "options": {}},
+        # Two favored (Kämpfer) levels, each defaulting to "hp" (`_character_payload`) - one
+        # persisted CharacterClassOption per level, same group_key.
+        {
+            "class_name": "Kämpfer",
+            "level": 2,
+            "archetypes": [],
+            "is_favored": True,
+            "options": {"favored_class_bonus": ["hp", "hp"]},
+        },
         {"class_name": "Schurke", "level": 1, "archetypes": [], "is_favored": False, "options": {}},
     ]
     # A freshly created character is undamaged, regardless of computed max.
@@ -436,7 +452,8 @@ def test_create_character_with_archetype_persists_and_round_trips(client: TestCl
             "level": 2,
             "archetypes": ["Zwei-Waffen-Kämpfer"],
             "is_favored": True,
-            "options": {},
+            # Two favored levels, each defaulting to "hp" (`_character_payload`).
+            "options": {"favored_class_bonus": ["hp", "hp"]},
         }
     ]
 
@@ -539,7 +556,12 @@ def test_create_character_with_option_group_choice_persists(client: TestClient, 
     )
     assert response.status_code == 201
     body = response.json()
-    assert body["classes"][0]["options"] == {"domain": ["Domäne der Sonne", "Domäne des Todes"]}
+    # Kleriker is the favored class here too, so its one level's default "hp" pick
+    # (`_character_payload`) shows up alongside the domain choices, same options dict.
+    assert body["classes"][0]["options"] == {
+        "domain": ["Domäne der Sonne", "Domäne des Todes"],
+        "favored_class_bonus": ["hp"],
+    }
 
 
 def test_create_character_with_invalid_option_choice_is_rejected(client: TestClient, db_session: Session) -> None:

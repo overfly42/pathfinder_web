@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
+from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.race_seed import seed_races
 
@@ -10,6 +11,11 @@ DEFAULT_ABILITY_SCORES = {"ST": 10, "GE": 12, "KO": 13, "IN": 10, "WE": 10, "CH"
 def _create_character(client: TestClient, db_session: Session, user_id: str, name: str) -> dict:
     seed_races(db_session)
     seed_classes(db_session)
+    # base_class_option_choices.json's "hp"/"skill" favored-class-bonus rows
+    # FK into base_class_option_groups (`add_generic_favored_class_bonus_choices.py`)
+    # — needed now that the default favored_class_bonus payload below
+    # resolves against real choice rows instead of two hardcoded literals.
+    seed_class_options(db_session)
     race_id = next(r["id"] for r in client.get("/api/races").json() if r["name"] == "Elf")
     return client.post(
         "/api/characters",
