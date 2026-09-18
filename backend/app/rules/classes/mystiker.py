@@ -9,6 +9,7 @@ from uuid import UUID
 
 from ..context import CharacterContext
 from ..modifiers import Modifier, ModifierTarget
+from ..progression import ability_mod
 
 # Mystiker's own root `BaseClass` id (`base_classes.json`) — needed by
 # Luftbarriere's level-scaled AC bonus below, which scales with *this*
@@ -75,6 +76,40 @@ def _luftbarriere_hours_per_day(context: CharacterContext) -> int:
     return context.level_counts_by_root_id.get(MYSTIKER_ROOT_CLASS_ID, 0)
 
 
+# Wind-Mysterium's "Elektrische Berührung" revelation (`base_class_abilities
+# .json` id 9d1c6536-…, option-choice-gated the same way as Luftbarriere
+# above — both sit under the "Wind" mystery choice group). PRD text: "Als
+# Standard-Aktion kannst du einen Berührungsangriff im Nahkampf ausführen,
+# der 1W6 Punkte Elektrizitätsschaden +1 Punkt für je zwei deiner Stufen als
+# Mystiker verursacht. Du kannst diese Fähigkeit täglich in Höhe deines
+# CH-Modifikators +3 einsetzen. Ab der 11. Stufe gilt jede Waffe, die du
+# benutzt, als Blitz-Waffe."
+#
+# Only the daily-use count is modeled here (`DAILY_LIMITS` below) — same
+# "player-reminder text only" scope `rules/classes/hexenmeister.py`'s
+# Wasserstoß already establishes for a touch-attack ability: the touch
+# attack roll itself and its 1d6+½-level electricity damage stay the
+# player's own call, since there's no attack-roll/damage-resolution engine
+# anywhere in this codebase to hang them on (`BaseClassAbility` itself has no
+# damage-dice/damage-type field at all — every implemented ability's damage
+# lives purely in the stored `description` prose). Also not modeled: the
+# 11th-level "every weapon you use counts as a Blitz-Waffe" clause — there's
+# no mechanism anywhere for a class feature to grant a temporary weapon
+# special ability to whichever weapon a character happens to be wielding
+# (`rules/weapon_abilities.py` only resolves real, catalog-backed weapon
+# enchantments already attached to a `CharacterGear` row); sibling revelation
+# Winterliche Berührung (Eis-Waffe at 11th) has the identical gap and is
+# likewise unimplemented.
+ELEKTRISCHE_BERUEHRUNG_ABILITY_ID = UUID("9d1c6536-1914-5fe6-91ce-d47e5479f783")
+
+
+def _elektrische_beruehrung_uses_per_day(context: CharacterContext) -> int:
+    """"täglich in Höhe deines CH-Modifikators +3" — flat CH-mod + 3,
+    doesn't scale with Mystiker level, identical shape to Hexenmeister's
+    Wasserstoß (`rules/classes/hexenmeister.py`)."""
+    return ability_mod(context.ability_scores.get("CH", 10)) + 3
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     LUFTBARRIERE_ABILITY_ID: _luftbarriere,
 }
@@ -84,6 +119,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 # fixed), same locality convention as `HANDLERS` above.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     LUFTBARRIERE_ABILITY_ID: _luftbarriere_hours_per_day,
+    ELEKTRISCHE_BERUEHRUNG_ABILITY_ID: _elektrische_beruehrung_uses_per_day,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `POOL_COST_AT_ACTIVATION`

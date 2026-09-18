@@ -17,13 +17,14 @@ from app.models import (
     BaseClassSpellsKnown,
     BaseSkill,
 )
+from app.rules.classes.mystiker import ELEKTRISCHE_BERUEHRUNG_ABILITY_ID
 from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.skill_seed import seed_skills
 from app.seed.spell_seed import seed_spells
 
-from test_characters import _character_payload, _create_user, _elf_race_id, _race_id, _spells_by_class
+from test_characters import DEFAULT_ABILITY_SCORES, _character_payload, _create_user, _elf_race_id, _race_id, _spells_by_class
 from test_level_up import _level_up_payload
 
 
@@ -511,3 +512,41 @@ def test_katzenvolk_mystiker_favored_bonus_spell_stacks_across_level_ups(
     )
     assert response.status_code == 201
     assert spells["Ausbessern"] in response.json()["spell_ids"][base_class_id]
+
+
+def test_elektrische_beruehrung_uses_per_day_scales_with_charisma_modifier(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_elektrische_beruehrung_uses_per_day` (`rules/classes/mystiker.py`) —
+    same "CH-Modifikator +3" shape as Hexenmeister's Wasserstoß
+    (`test_hexenmeister.py`); the touch attack's own 1d6+½-level electricity
+    damage and the 11th-level Blitz-Waffe clause stay unmodeled prose (see
+    that handler's docstring)."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Mystiker",
+                    "level": 1,
+                    "options": {"mystery": ["Wind"], "revelation": ["Elektrische Berührung"]},
+                }
+            ],
+            ability_scores={**DEFAULT_ABILITY_SCORES, "CH": 14},
+        ),
+    )
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    action = next(a for a in sheet["actions"] if a["sourceId"] == str(ELEKTRISCHE_BERUEHRUNG_ABILITY_ID))
+    assert action["name"] == "Elektrische Berührung"
+    # CH 14 -> mod +2, "täglich in Höhe deines CH-Modifikators +3" -> 5.
+    assert action["usesPerDay"] == 5
+    assert action["usesRemainingToday"] == 5
