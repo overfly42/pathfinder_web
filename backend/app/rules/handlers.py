@@ -117,6 +117,7 @@ from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
 from .classes import POOL_COST_AT_ACTIVATION as _CLASS_POOL_COST_AT_ACTIVATION
 from .classes import POOL_SOURCE_ID as _CLASS_POOL_SOURCE_ID
+from .classes import SAVE_DC_HANDLERS as _CLASS_SAVE_DC_HANDLERS
 from .classes import SITUATIONAL_SKILL_HANDLERS as _CLASS_SITUATIONAL_SKILL_HANDLERS
 from .classes import SPELL_SLOT_DELTA as _CLASS_SPELL_SLOT_DELTA
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
@@ -188,6 +189,18 @@ def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
 # with the same shape would merge in here the same way.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_CLASS_DAILY_LIMITS,
+}
+
+# A daily-limited, discrete-use class ability's own save DC, when it has one
+# (e.g. Hexenmeister's Wasserstoß, "SG 10 + halbe Hexenmeisterstufe +
+# CH-Modifikator") — mirrors how `sheet.py`'s `_build_prepared_spell_grades`
+# already computes a spell's DC (`10 + grade + casting_mod`), just for a
+# class ability instead of a spell grade, and only surfaced (`sheet.py`'s
+# `_build_actions`) for abilities that actually have one; an ability with no
+# entry here shows no `dc` field at all rather than a guessed value. Only
+# class abilities contribute today.
+SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
+    **_CLASS_SAVE_DC_HANDLERS,
 }
 
 # How much a granted ability id adjusts a class's base spells-per-day table

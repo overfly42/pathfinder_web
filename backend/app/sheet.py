@@ -101,6 +101,7 @@ from .rules.handlers import (
     DAILY_LIMIT_UNIT_LABEL,
     DAILY_LIMITS,
     NATURAL_ATTACK_HANDLERS,
+    SAVE_DC_HANDLERS,
     SPELL_LIKE_ABILITY_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
     WEAPON_ENHANCEMENT_HANDLERS,
@@ -1843,6 +1844,12 @@ def _build_actions(
                 "sourceId": str(ability.id),
                 "usesRemainingToday": max(0, remaining_today(db, character, context, ability.id) or 0),
                 "usesPerDay": DAILY_LIMITS[ability.id](context),
+                # Same idea as `_build_prepared_spell_grades`'s own `dc`
+                # (`10 + grade + casting_mod`) — computed only for an
+                # ability actually registered in `SAVE_DC_HANDLERS`
+                # (`rules/handlers.py`'s own docstring); `None` for every
+                # other daily-limited ability rather than a guessed value.
+                "dc": SAVE_DC_HANDLERS[ability.id](context) if ability.id in SAVE_DC_HANDLERS else None,
             }
             for ability in instant_abilities
         ]

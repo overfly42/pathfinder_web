@@ -11,6 +11,9 @@ interface UseAbilityEntry {
   icon: string;
   usesRemainingToday: number;
   usesPerDay: number;
+  /** Computed save DC (`ActionOption.dc`'s own docstring, e.g. Hexenmeister's Wasserstoß) —
+   *  absent for an ability with no `SAVE_DC_HANDLERS` entry. */
+  dc?: number | null;
 }
 
 interface UseAbilityModalProps {
@@ -33,6 +36,7 @@ export function UseAbilityModal({ entry, onCancel, onConfirm }: UseAbilityModalP
           <button type="button" className="modal-close" onClick={onCancel}>✕</button>
         </div>
         <div className="modal-body">
+          {entry?.dc != null && <p><strong>Rettungswurf-SG:</strong> {entry.dc}</p>}
           <p>{entry?.description}</p>
           <p>
             {entry?.usesRemainingToday} von {entry?.usesPerDay} Anwendungen heute übrig. Würfelergebnis bitte

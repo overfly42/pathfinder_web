@@ -38,6 +38,11 @@ export function ActionsPanel({ actions, roundLabel, onActionClick }: ActionsPane
                 {/* Gear toggle state only — a toggle never creates a CharacterEffect row, so this
                     card is the only place its on/off state is visible (not "Aktive Effekte"). */}
                 {action.isActive && <span className="active-badge">Aktiv</span>}
+                {/* Same "(SG X)" convention as Spellbook.tsx's grade badge/CastSpellModal — only
+                    ever set alongside usesRemainingToday (`ActionOption.dc`'s own docstring).
+                    Shown before the uses/day badge so every card's badge order is name/tag ->
+                    static rule info (SG) -> the changing-today count last. */}
+                {action.dc != null && <span className="active-badge">SG {action.dc}</span>}
                 {action.usesRemainingToday != null && (
                   <span className="active-badge">
                     {action.usesRemainingToday}/{action.usesPerDay} heute

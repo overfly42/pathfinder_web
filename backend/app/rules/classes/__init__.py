@@ -11,7 +11,7 @@ concern that already keeps `base_class_abilities.json` split from
 easy to find, easy to blame.
 
 This module only merges every class file's own `HANDLERS`/`DAILY_LIMITS`/
-`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`/
+`SAVE_DC_HANDLERS`/`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`/
 `WEAPON_BONUS_DAMAGE_HANDLERS`/`WEAPON_ENHANCEMENT_HANDLERS`/
 `POOL_COST_AT_ACTIVATION`/`APPLIED_OUTSIDE_HANDLERS_IDS` into one dict (or
 set) apiece, the same merge-only role `rules/handlers.py` plays for every
@@ -41,6 +41,8 @@ from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 from .barbarian import WEAPON_BONUS_DAMAGE_HANDLERS as _BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS
+from .hexenmeister import DAILY_LIMITS as _HEXENMEISTER_DAILY_LIMITS
+from .hexenmeister import SAVE_DC_HANDLERS as _HEXENMEISTER_SAVE_DC_HANDLERS
 from .kampfmagus import APPLIED_OUTSIDE_HANDLERS_IDS as _KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .kampfmagus import DAILY_LIMIT_UNIT_LABEL as _KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL
 from .kampfmagus import DAILY_LIMITS as _KAMPFMAGUS_DAILY_LIMITS
@@ -78,8 +80,15 @@ WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID,
 # docstrings for what each covers.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
+    **_HEXENMEISTER_DAILY_LIMITS,
     **_KAMPFMAGUS_DAILY_LIMITS,
     **_MYSTIKER_DAILY_LIMITS,
+}
+# A daily-limited class ability's own save DC, when it has one (e.g.
+# Hexenmeister's Wasserstoß) — see `rules/handlers.py`'s `SAVE_DC_HANDLERS`
+# docstring for what this covers.
+SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
+    **_HEXENMEISTER_SAVE_DC_HANDLERS,
 }
 # Ability ids whose active effect pays its own `DAILY_LIMITS` pool cost once
 # at activation rather than accruing it per round of active duration — see

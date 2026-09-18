@@ -795,6 +795,7 @@ export function CharacterSheetPage() {
                 icon: usingAbility.icon,
                 usesRemainingToday: usingAbility.usesRemainingToday ?? 0,
                 usesPerDay: usingAbility.usesPerDay ?? 0,
+                dc: usingAbility.dc,
               }
             : null
         }

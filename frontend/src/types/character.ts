@@ -270,6 +270,12 @@ export interface ActionOption {
    *  card is disabled once this reaches 0. */
   usesRemainingToday?: number | null;
   usesPerDay?: number | null;
+  /** Present only for a `usesRemainingToday`-shaped entry whose ability has a computed save DC
+   *  registered in the backend's `SAVE_DC_HANDLERS` (e.g. Hexenmeister's Wasserstoß, "SG 10 + halbe
+   *  Hexenmeisterstufe + CH-Modifikator") — same idea as `PreparedSpellRef.dc`, just for a class
+   *  ability instead of a spell. `undefined`/`null` for every other daily-limited ability rather
+   *  than a guessed value. */
+  dc?: number | null;
   /** Present for a `sourceType: 'class_ability'` entry whose ability is both `is_persistent_effect`
    *  (needs the full `ActivateEffectModal` for duration/target-item, e.g. Kampfrausch, Kampfmagus's
    *  Arkaner Vorrat) *and* daily-pool-limited — deliberately a different pair from
