@@ -3,12 +3,14 @@ import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
 import {
   abilityIncreaseGrantedThisLevel,
+  bonusSpellsUsedThisLevel,
   classBonusFeatGrantedThisLevel,
   featGrantedThisLevel,
   getNewLevel,
   getOldTotalLevel,
   getReceivingClassAndLevel,
   getReceivingClassName,
+  newlyGrantedSpellsThisLevel,
   secondaryClassFeatureGrantedThisLevel,
 } from '../../lib/levelUpCalculations';
 
@@ -95,10 +97,23 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
 
   const classDef = className ? options.classes.find((c) => c.name === className) : undefined;
   const spellType = classDef?.spellType ?? 'none';
+  const bonusSpellsUsed = bonusSpellsUsedThisLevel(progression, options, draft);
   const sumSpell =
     spellType === 'arcane-prepared' || spellType === 'spontaneous'
-      ? draft.newSpells.join(', ') || '— noch keine gewählt —'
+      ? (draft.newSpells.join(', ') || '— noch keine gewählt —') +
+        (bonusSpellsUsed > 0 ? ` (davon ${bonusSpellsUsed} über Bevorzugte-Klasse-Bonus)` : '')
       : 'Keine Änderung nötig.';
+
+  // Automatic option-choice spell grants (Mystiker's mystery/curse/
+  // heilfokus, Hexe's Schutzherr, ...) reaching their trigger level exactly
+  // this level-up — never part of `draft.newSpells`, so without this the
+  // player would only discover them afterward on the character sheet.
+  const newlyGrantedSpells = newlyGrantedSpellsThisLevel(
+    progression,
+    options,
+    target,
+    draft.existingLevelOptionSelections,
+  );
 
   return (
     <>
@@ -166,6 +181,18 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
           <div className="sb-title">Neue Zauber</div>
           <div className="sb-line"><span>{sumSpell}</span></div>
         </div>
+
+        {newlyGrantedSpells.length > 0 && (
+          <div className="summary-block summary-full">
+            <div className="sb-title">Automatisch erhalten</div>
+            {newlyGrantedSpells.map((spell) => (
+              <div className="sb-line" key={spell.id}>
+                <span>{spell.name}</span>
+                <span className="val">Grad {spell.grade}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {progression.history.length > 0 && (

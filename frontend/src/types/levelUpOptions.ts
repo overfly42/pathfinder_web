@@ -8,7 +8,16 @@ import type { ClassLevelOptions } from './classLevelOptions';
  *  level bonus (Human's Geschult) — see `raceGrantsSkillBonusPerLevel`. */
 export type LevelUpOptions = Pick<
   CreationOptions,
-  'classes' | 'feats' | 'skills' | 'skillSpecializations' | 'abilities' | 'spellsByClass' | 'items' | 'spellSchools' | 'races'
+  | 'classes'
+  | 'feats'
+  | 'skills'
+  | 'skillSpecializations'
+  | 'abilities'
+  | 'spellsByClass'
+  | 'grantedSpellsByChoice'
+  | 'items'
+  | 'spellSchools'
+  | 'races'
 > & {
   classLevelOptions: ClassLevelOptions;
 };

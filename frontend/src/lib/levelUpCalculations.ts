@@ -1,7 +1,17 @@
 import type { AbilityKey } from '../types/abilities';
 import type { CharacterProgression } from '../types/characterProgression';
-import type { LevelUpSkillSpecializationEntry, LevelUpTarget } from '../types/levelUpDraft';
-import type { ClassDef, RaceOption, SkillDef } from '../types/creationOptions';
+import type { LevelUpDraft, LevelUpSkillSpecializationEntry, LevelUpTarget } from '../types/levelUpDraft';
+import type { ClassDef, GrantedSpellDef, RaceOption, SkillDef } from '../types/creationOptions';
+import type { LevelUpOptions } from '../types/levelUpOptions';
+import {
+  abilityMod,
+  arcanePreparedBudget,
+  bonusCapGrade,
+  bonusKnownSpellSlot,
+  effectiveCastingAbility,
+  spellGradeBudgetAtLevel,
+  spontaneousBonusOverflowUsed,
+} from './creationCalculations';
 
 export function getOldTotalLevel(progression: CharacterProgression): number {
   return progression.classes.reduce((sum, c) => sum + c.level, 0);
@@ -269,4 +279,114 @@ export function skillSpecializationBonusForLevelUp(
 ): number {
   const totalRanks = existingRanks + entry.newRanks;
   return totalRanks + abilityMod + (isClassSkill && totalRanks > 0 ? 3 : 0);
+}
+
+/** Every one-time class-option choice already in effect for the class this
+ *  level-up targets — an existing class's whole past-picked history
+ *  (`ClassProgressionEntry.options`, e.g. Mystiker's `mystery`/`curse`/
+ *  `heilfokus`) plus this level-up's own fresh picks
+ *  (`existingLevelOptionSelections`), or just the fresh picks for a
+ *  brand-new class row (nothing to have a past yet). */
+function activeOptionChoiceNames(
+  progression: CharacterProgression,
+  target: LevelUpTarget,
+  existingLevelOptionSelections: Record<string, string[]>,
+): string[] {
+  if (target.mode === 'existing') {
+    const c = progression.classes.find((x) => x.id === target.classId);
+    const past = c ? Object.values(c.options).flat() : [];
+    return [...past, ...Object.values(existingLevelOptionSelections).flat()];
+  }
+  return Object.values(target.options).flat();
+}
+
+/** Spells one of the receiving class's already-made option choices grants
+ *  automatically for free the moment *this* level-up's own new class level
+ *  is reached (`BaseClassSpellGrant.level` exactly — an earlier level's own
+ *  grants were already added at that earlier level-up, see
+ *  `routers/characters.py`'s `min_level=receiving_class_level`). E.g. a
+ *  Mystiker with the Wind mystery gains "Windstoß" this way at class level
+ *  4. The backend adds this straight to `new_level.spells` without it ever
+ *  going through `draft.newSpells` (`routers/characters.py`'s "Fixed bonus
+ *  spells..." comment) — invisible anywhere in the wizard otherwise, so
+ *  `LevelUpSummaryStep` uses this to show it instead of surprising the
+ *  player only after the fact (2026-09-19 finding, prompted by Merro
+ *  Mercat's Wind mystery spells). */
+export function newlyGrantedSpellsThisLevel(
+  progression: CharacterProgression,
+  options: LevelUpOptions,
+  target: LevelUpTarget,
+  existingLevelOptionSelections: Record<string, string[]>,
+): GrantedSpellDef[] {
+  const info = getReceivingClassAndLevel(progression, target);
+  const className = getReceivingClassName(progression, target);
+  const byChoice = className ? options.grantedSpellsByChoice[className] : undefined;
+  if (!info || !byChoice) return [];
+
+  const seen = new Set<string>();
+  const result: GrantedSpellDef[] = [];
+  for (const choiceName of activeOptionChoiceNames(progression, target, existingLevelOptionSelections)) {
+    for (const spell of byChoice[choiceName] ?? []) {
+      if (spell.level !== info.level || seen.has(spell.id)) continue;
+      seen.add(spell.id);
+      result.push(spell);
+    }
+  }
+  return result.sort((a, b) => a.grade - b.grade || a.name.localeCompare(b.name));
+}
+
+/** How many of `draft.newSpells` this level-up only fit because of a
+ *  favored-class-bonus "extra known spell" pick (Mystiker's/Hexe's
+ *  race-specific FCB alternates) rather than the class table's own normal
+ *  growth — mirrors `LevelSpellStep.tsx`'s own per-grade (spontaneous) /
+ *  flat (arcane-prepared) bonus-overflow bookkeeping, extracted here so
+ *  `LevelUpSummaryStep` can show the same count without duplicating that
+ *  whole calculation inline. Returns 0 for a non-spellcasting class or one
+ *  with no favored-class-bonus "extra spell" alternate at all. */
+export function bonusSpellsUsedThisLevel(
+  progression: CharacterProgression,
+  options: LevelUpOptions,
+  draft: LevelUpDraft,
+): number {
+  const className = getReceivingClassName(progression, draft.target);
+  const info = getReceivingClassAndLevel(progression, draft.target);
+  const classDef = className ? options.classes.find((c) => c.name === className) : undefined;
+  if (!className || !info || !classDef) return 0;
+  const spellType = classDef.spellType ?? 'none';
+  if (spellType !== 'arcane-prepared' && spellType !== 'spontaneous') return 0;
+
+  const gradeBudget = spellGradeBudgetAtLevel(classDef, info.level);
+  const priorGradeBudget = spellGradeBudgetAtLevel(classDef, info.level - 1);
+  const capGrade = bonusCapGrade(gradeBudget);
+  const thisLevelBonus = bonusKnownSpellSlot(className, draft.favoredClassBonus) ? 1 : 0;
+
+  const alreadyKnownNames = new Set(progression.spellsKnown[className] || []);
+  const grantedNames = new Set(progression.grantedSpellNames?.[className] || []);
+  const alreadyKnownForBudgetNames = new Set([...alreadyKnownNames].filter((name) => !grantedNames.has(name)));
+  const classSpells = options.spellsByClass[className] || [];
+
+  if (spellType === 'spontaneous') {
+    const grades = Object.keys(gradeBudget).map(Number);
+    const alreadyKnownByGrade: Record<number, number> = {};
+    const pickedByGrade: Record<number, number> = {};
+    const priorSurplusByGrade: Record<number, number> = {};
+    for (const grade of grades) {
+      alreadyKnownByGrade[grade] = classSpells.filter((s) => s.grade === grade && alreadyKnownForBudgetNames.has(s.name)).length;
+      const gradeSpellNames = new Set(classSpells.filter((s) => s.grade === grade).map((s) => s.name));
+      pickedByGrade[grade] = draft.newSpells.filter((name) => gradeSpellNames.has(name)).length;
+      priorSurplusByGrade[grade] = Math.max(0, alreadyKnownByGrade[grade] - (Number(priorGradeBudget[String(grade)]) || 0));
+    }
+    return spontaneousBonusOverflowUsed(gradeBudget, alreadyKnownByGrade, pickedByGrade, capGrade, priorSurplusByGrade);
+  }
+
+  // arcane-prepared: one flat (non-per-grade) budget, so "used" collapses to
+  // how far the picked non-grade0 spells overshoot the real table-derived
+  // remaining share, capped at this level's own fresh bonus allowance.
+  const castingAbility = effectiveCastingAbility(classDef, receivingArchetypeNames(progression, draft.target));
+  const mod = castingAbility ? abilityMod(effectiveAbilityTotal(progression, castingAbility, draft.abilityIncrease)) : 0;
+  const alreadyKnownNonGrade0 = classSpells.filter((s) => s.grade !== 0 && alreadyKnownForBudgetNames.has(s.name)).length;
+  const priorSurplusFlat = Math.max(0, alreadyKnownNonGrade0 - arcanePreparedBudget(info.level - 1, mod));
+  const normalRemaining = Math.max(0, arcanePreparedBudget(info.level, mod) - (alreadyKnownNonGrade0 - priorSurplusFlat));
+  const pickedNonGrade0 = draft.newSpells.filter((name) => classSpells.some((s) => s.name === name && s.grade !== 0)).length;
+  return Math.max(0, Math.min(thisLevelBonus, pickedNonGrade0 - normalRemaining));
 }
