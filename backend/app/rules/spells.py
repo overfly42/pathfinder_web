@@ -113,18 +113,45 @@ def spontaneous_grade_overflow(
     picked_by_grade: dict[int, int],
     known_by_grade: dict[int, int],
     budget: dict[int, int],
+    prior_surplus_by_grade: dict[int, int],
     bonus_cap_grade: int,
     bonus_available: int,
 ) -> int | None:
-    """First grade (if any) whose newly-picked spells don't fit the normal
-    per-grade budget even after drawing on `bonus_available` — `None` if
-    every grade's picks fit. The bonus is one shared pool across grades
-    (not its own per-grade slot), consumed in `picked_by_grade` iteration
-    order, and can only cover a grade at or below `bonus_cap_grade` (pass
-    -1 when nothing is known yet, so no grade ever qualifies)."""
+    """First grade (if any) whose newly-picked spells don't fit this level's
+    budget even after drawing on `bonus_available` — `None` if every grade's
+    picks fit.
+
+    `known_by_grade[grade]` mixes two things a level-up already persisted:
+    spells justified by the class table itself, and spells justified by a
+    favored-class-bonus pick spent at an *earlier* level (already a
+    permanent addition, not something this transaction grants again).
+    `prior_surplus_by_grade[grade]` (`known_by_grade[grade]` minus the
+    *previous* level's own table budget at that grade, floored at 0 —
+    the caller's own history-vs-prior-level comparison) is exactly the
+    latter, so subtracting it back out first recovers the table-derived
+    portion alone; the per-grade budget check then only ever measures
+    against real table growth at that same grade, never against a total
+    a past bonus pick already inflated. This must stay a per-grade
+    subtraction — pooling `prior_surplus_by_grade`'s total across every
+    grade (the way `bonus_available` legitimately does for a *fresh*
+    pick, see below) would let an old bonus already spent on one grade
+    silently fund brand-new picks on a *different* grade, well beyond
+    the one extra spell that bonus pick was ever supposed to be worth
+    (confirmed as a real bug against actual tester data, 2026-09-19).
+
+    `bonus_available` is a genuinely shared pool across grades — but it
+    must be *only* this transaction's own fresh bonus allowance (0 or 1,
+    from a favored-class-bonus pick actually being spent right now), not
+    also carrying forward any of `prior_surplus_by_grade`'s already-spent
+    history; that history no longer needs to fund anything, since
+    `table_derived_known` above already gives it back to the table-growth
+    check at its own grade. Consumed in `picked_by_grade` iteration order,
+    and can only cover a grade at or below `bonus_cap_grade` (pass -1 when
+    nothing is known yet, so no grade ever qualifies)."""
     remaining = bonus_available
     for grade, picked_count in picked_by_grade.items():
-        normal_available = max(0, budget.get(grade, 0) - known_by_grade.get(grade, 0))
+        table_derived_known = known_by_grade.get(grade, 0) - prior_surplus_by_grade.get(grade, 0)
+        normal_available = max(0, budget.get(grade, 0) - table_derived_known)
         overflow = picked_count - normal_available
         if overflow > 0:
             if grade > bonus_cap_grade or overflow > remaining:
@@ -137,6 +164,7 @@ def arcane_prepared_overflows_budget(
     known_non_grade0: int,
     picked_grades: Iterable[int],
     budget: int,
+    prior_surplus: int,
     bonus_cap_grade: int,
     bonus_available: int,
 ) -> bool:
@@ -147,9 +175,20 @@ def arcane_prepared_overflows_budget(
     specific pick used the bonus — it only checks that *enough* of the
     picks (at least as many as the overflow) are individually at or below
     `bonus_cap_grade`, a count-based check that's sufficient since a known
-    spell stays known regardless of which slot it nominally came from."""
+    spell stays known regardless of which slot it nominally came from.
+
+    `prior_surplus` (`known_non_grade0` minus the *previous* level's own
+    flat budget, floored at 0 — the caller's own history-vs-prior-level
+    comparison) is subtracted back out of `known_non_grade0` before
+    comparing against `budget`, for the same reason
+    `spontaneous_grade_overflow` nets its own per-grade surplus back out
+    of `known_by_grade` rather than folding it into `bonus_available`: it's
+    an already-spent, already-permanent addition from an earlier favored-
+    class-bonus pick, not fresh room for *this* transaction. `bonus_available`
+    itself must carry only this transaction's own fresh pick (0 or 1)."""
     picked_grades = list(picked_grades)
-    overflow = len(picked_grades) - max(0, budget - known_non_grade0)
+    table_derived_known = known_non_grade0 - prior_surplus
+    overflow = len(picked_grades) - max(0, budget - table_derived_known)
     if overflow <= 0:
         return False
     if overflow > bonus_available:

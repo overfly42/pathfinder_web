@@ -874,7 +874,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                     grade = grade_by_spell_id[spell_id]
                     picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
                 overflow_grade = spontaneous_grade_overflow(
-                    picked_by_grade, {}, budget, bonus_cap_grade, bonus_available
+                    picked_by_grade, {}, budget, {}, bonus_cap_grade, bonus_available
                 )
                 if overflow_grade is not None:
                     raise HTTPException(
@@ -897,7 +897,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 casting_ability_mod = _effective_ability_mod(casting_ability) if casting_ability else 0
                 budget = arcane_prepared_budget(class_level, casting_ability_mod)
                 if arcane_prepared_overflows_budget(
-                    0, (grade_by_spell_id[sid] for sid in non_grade0), budget, bonus_cap_grade, bonus_available
+                    0, (grade_by_spell_id[sid] for sid in non_grade0), budget, 0, bonus_cap_grade, bonus_available
                 ):
                     raise HTTPException(status_code=422, detail=f"Too many spells chosen for {root.name}'s spellbook")
 
@@ -2495,15 +2495,17 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
         # beyond the normal per-level delta) does it become a permanent
         # addition; a pick that goes unused this level-up is wasted, not
         # banked for a later one (deliberate, see `bonus_known_spell_slot`'s
-        # docstring on why an unspent credit must not carry forward). Both
-        # halves matter: `prior_surplus` below measures how much bonus was
-        # already spent as of the *previous* level in this class — without
-        # it, a later level's normal table growth could silently "reabsorb"
-        # an earlier spent bonus spell (the character ends up with no more
-        # known spells than if the bonus had never been taken, even though
-        # that past level was supposed to add one extra); without the
-        # "only if spent" gate, an unspent pick could otherwise be cashed in
-        # at a later, unrelated level-up.
+        # docstring on why an unspent credit must not carry forward).
+        # `this_level_bonus` is only ever this transaction's own *fresh*
+        # pick — a bonus already spent at an earlier level is instead netted
+        # back out, per grade, inside `spontaneous_grade_overflow`/
+        # `arcane_prepared_overflows_budget` themselves (their own
+        # `prior_surplus`/`prior_surplus_by_grade` parameters), not folded
+        # into `bonus_available` here: a shared, cross-grade pool would let
+        # a bonus already spent on one grade silently fund a brand-new pick
+        # on a *different* grade at a later level-up, well beyond the one
+        # extra spell it was ever worth (see those functions' own
+        # docstrings — caught against real tester data, 2026-09-19).
         accessible_grades = known_grades(db, receiving_root.id, receiving_class_level)
         bonus_cap_grade = max(accessible_grades) - 1 if accessible_grades else -1
         this_level_bonus = 1 if bonus_known_spell_slot(receiving_root.name, body.favored_class_bonus) else 0
@@ -2530,16 +2532,16 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 grade = grade_by_spell_id.get(spell_id)
                 if grade is not None:
                     known_by_grade[grade] = known_by_grade.get(grade, 0) + 1
-            prior_surplus = sum(
-                max(0, count - prior_budget.get(grade, 0)) for grade, count in known_by_grade.items()
-            )
-            bonus_available = prior_surplus + this_level_bonus
+            prior_surplus_by_grade = {
+                grade: max(0, count - prior_budget.get(grade, 0)) for grade, count in known_by_grade.items()
+            }
+            bonus_available = this_level_bonus
             picked_by_grade: dict[int, int] = {}
             for spell_id in body.spell_ids:
                 grade = grade_by_spell_id[spell_id]
                 picked_by_grade[grade] = picked_by_grade.get(grade, 0) + 1
             overflow_grade = spontaneous_grade_overflow(
-                picked_by_grade, known_by_grade, budget, bonus_cap_grade, bonus_available
+                picked_by_grade, known_by_grade, budget, prior_surplus_by_grade, bonus_cap_grade, bonus_available
             )
             if overflow_grade is not None:
                 raise HTTPException(
@@ -2561,11 +2563,13 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             known_non_grade0 = sum(
                 1 for spell_id in already_known_non_granted_spells if grade_by_spell_id.get(spell_id, 0) != 0
             )
-            bonus_available = max(0, known_non_grade0 - prior_budget_flat) + this_level_bonus
+            prior_surplus_flat = max(0, known_non_grade0 - prior_budget_flat)
+            bonus_available = this_level_bonus
             if arcane_prepared_overflows_budget(
                 known_non_grade0,
                 (grade_by_spell_id[sid] for sid in body.spell_ids),
                 budget,
+                prior_surplus_flat,
                 bonus_cap_grade,
                 bonus_available,
             ):

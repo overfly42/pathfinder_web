@@ -94,8 +94,15 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
     // below capGrade — see rules/spells.py's arcane_prepared_overflows_budget.
     const alreadyKnownNonGrade0 = classSpells.filter((s) => s.grade !== 0 && alreadyKnownForBudgetNames.has(s.name)).length;
     const priorBudgetFlat = arcanePreparedBudget(priorLevel, mod);
-    const bonusAvailable = Math.max(0, alreadyKnownNonGrade0 - priorBudgetFlat) + thisLevelBonus;
-    const normalRemaining = Math.max(0, arcanePreparedBudget(newLevel, mod) - alreadyKnownNonGrade0);
+    // A bonus already spent at an earlier level is baked permanently into
+    // `alreadyKnownNonGrade0` — netted back out here (not folded into
+    // `bonusAvailable`) so `normalRemaining` measures real table growth
+    // only; `bonusAvailable` carries just this level-up's own fresh pick.
+    // Mirrors the backend's `arcane_prepared_overflows_budget`'s own
+    // `prior_surplus` parameter (caught against real tester data, 2026-09-19).
+    const priorSurplusFlat = Math.max(0, alreadyKnownNonGrade0 - priorBudgetFlat);
+    const bonusAvailable = thisLevelBonus;
+    const normalRemaining = Math.max(0, arcanePreparedBudget(newLevel, mod) - (alreadyKnownNonGrade0 - priorSurplusFlat));
     const remainingBudget = normalRemaining + bonusAvailable;
     const selectable = classSpells.filter(
       (s) => s.grade !== 0 && String(s.grade) in gradeBudget && !alreadyKnownNames.has(s.name),
@@ -149,12 +156,19 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
     const gradeSpellNames = new Set(classSpells.filter((s) => s.grade === grade).map((s) => s.name));
     pickedByGrade[grade] = draft.newSpells.filter((name) => gradeSpellNames.has(name)).length;
   }
-  const priorSurplus = grades.reduce(
-    (sum, grade) => sum + Math.max(0, alreadyKnownByGrade[grade] - (Number(priorGradeBudget[String(grade)]) || 0)),
-    0,
-  );
-  const bonusAvailable = priorSurplus + thisLevelBonus;
-  const bonusUsed = spontaneousBonusOverflowUsed(gradeBudget, alreadyKnownByGrade, pickedByGrade, capGrade);
+  // A bonus already spent at an earlier level is baked permanently into
+  // `alreadyKnownByGrade` — kept per grade here (not summed into one
+  // cross-grade pool) so it only ever nets back against its own grade's
+  // table growth below, never funds a brand-new pick on a *different*
+  // grade. Mirrors the backend's `spontaneous_grade_overflow`'s own
+  // `prior_surplus_by_grade` parameter (caught against real tester data,
+  // 2026-09-19).
+  const priorSurplusByGrade: Record<number, number> = {};
+  for (const grade of grades) {
+    priorSurplusByGrade[grade] = Math.max(0, alreadyKnownByGrade[grade] - (Number(priorGradeBudget[String(grade)]) || 0));
+  }
+  const bonusAvailable = thisLevelBonus;
+  const bonusUsed = spontaneousBonusOverflowUsed(gradeBudget, alreadyKnownByGrade, pickedByGrade, capGrade, priorSurplusByGrade);
   const bonusRemaining = Math.max(0, bonusAvailable - bonusUsed);
 
   return (
@@ -170,8 +184,8 @@ export function LevelSpellStep({ progression, options, draft, setDraft }: LevelS
         </div>
       )}
       {grades.map((grade) => {
-        const alreadyAtGrade = alreadyKnownByGrade[grade];
-        const normalRemaining = Math.max(0, (gradeBudget[String(grade)] ?? 0) - alreadyAtGrade);
+        const tableDerivedKnown = alreadyKnownByGrade[grade] - priorSurplusByGrade[grade];
+        const normalRemaining = Math.max(0, (gradeBudget[String(grade)] ?? 0) - tableDerivedKnown);
         const overflowHere = grade <= capGrade ? Math.max(0, pickedByGrade[grade] - normalRemaining) : 0;
         const remainingCap = normalRemaining + (grade <= capGrade ? overflowHere + bonusRemaining : 0);
         const gradeSpells = classSpells.filter((s) => s.grade === grade && !alreadyKnownNames.has(s.name));

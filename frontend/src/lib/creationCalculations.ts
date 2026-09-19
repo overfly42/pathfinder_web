@@ -250,18 +250,33 @@ export function bonusCapGrade(gradeBudget: Record<string, number | null>): numbe
  *  remaining cap — mirrors the backend's `spontaneous_grade_overflow`
  *  (summed rather than fail-fast, since the UI needs a running total to
  *  gate the *next* pick, not just accept/reject a whole batch). Only grades
- *  at or below `capGrade` can ever draw on the bonus. */
+ *  at or below `capGrade` can ever draw on the bonus.
+ *
+ *  `priorSurplusByGrade[grade]` (level-up only; creation's call leaves it
+ *  empty since nothing is known yet) is `alreadyKnownByGrade[grade]` minus
+ *  the *previous* level's own table budget at that grade, floored at 0 — an
+ *  earlier level's favored-class-bonus pick already spent and baked
+ *  permanently into `alreadyKnownByGrade`. Netting it back out per grade
+ *  before computing `normalRemaining` recovers the table-derived count
+ *  alone, so this only ever measures against real table growth at that
+ *  same grade — mirrors the backend's own per-grade netting in
+ *  `spontaneous_grade_overflow`; pooling it across grades the way a fresh
+ *  bonus legitimately can would let an old bonus already spent on one
+ *  grade silently fund a brand-new pick on a *different* grade (caught
+ *  against real tester data, 2026-09-19). */
 export function spontaneousBonusOverflowUsed(
   gradeBudget: Record<string, number | null>,
   alreadyKnownByGrade: Record<number, number>,
   pickedByGrade: Record<number, number>,
   capGrade: number,
+  priorSurplusByGrade: Record<number, number> = {},
 ): number {
   let used = 0;
   for (const [gradeStr, normalCap] of Object.entries(gradeBudget)) {
     const grade = Number(gradeStr);
     if (grade > capGrade) continue;
-    const normalRemaining = Math.max(0, (normalCap ?? 0) - (alreadyKnownByGrade[grade] ?? 0));
+    const tableDerivedKnown = (alreadyKnownByGrade[grade] ?? 0) - (priorSurplusByGrade[grade] ?? 0);
+    const normalRemaining = Math.max(0, (normalCap ?? 0) - tableDerivedKnown);
     const pickedHere = pickedByGrade[grade] ?? 0;
     used += Math.max(0, pickedHere - normalRemaining);
   }
