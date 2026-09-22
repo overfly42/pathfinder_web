@@ -2473,5 +2473,150 @@
     "option_choice_id": "2a219a32-f14f-512c-a875-8072e58f0700",
     "feat_type": null,
     "feat_id": "2c37ee40-e00c-5a3d-9c69-caa0e9c9ea04"
+  },
+  {
+    "id": "7a9186f1-eeeb-5e90-930c-4d1acfe312f2",
+    "ability_id": "a7cedcc7-7210-5928-a1e4-072e8fa1c138",
+    "option_choice_id": null,
+    "feat_type": "kampfkunst",
+    "feat_id": null,
+    "min_level": null,
+    "waives_prerequisites": true
+  },
+  {
+    "id": "658d645c-c786-5bcb-97a5-7d1455a86c1f",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "2249f151-0809-4c55-80cc-76920111782e",
+    "min_level": null
+  },
+  {
+    "id": "909984c9-0a55-5a5d-b52d-2037065540b7",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "33d663f9-39ba-57ea-bb5a-03226ef7d6bc",
+    "min_level": null
+  },
+  {
+    "id": "6004a66c-fc08-5fc5-9133-1cef49ad78d1",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "067f3644-4829-54e6-b800-05945854c6ed",
+    "min_level": null
+  },
+  {
+    "id": "0b61155a-5df1-5224-afcd-68844aa1e54e",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "1d77dae7-7000-56b9-ac44-e50ad483fa58",
+    "min_level": null
+  },
+  {
+    "id": "87178430-9c34-55ca-b872-2aa866bed717",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "63c0f761-c63b-4291-b7f7-d3ad8b27a655",
+    "min_level": null
+  },
+  {
+    "id": "e649c886-0dc5-5e84-824d-c6ccaaa87b54",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "7e89064a-d477-581e-b03b-88e15f5d2773",
+    "min_level": null
+  },
+  {
+    "id": "b5fcb857-0f2f-57e5-a947-88281d549610",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "0e2c0ea4-45a2-5010-a2f9-2c86ad11dd44",
+    "min_level": null
+  },
+  {
+    "id": "e4f4bd86-edfc-5ead-b2da-f69765d38daa",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "9f0466e4-3690-5045-b39a-f545367c63eb",
+    "min_level": 6
+  },
+  {
+    "id": "4baacbee-b043-5e19-bba9-9616edb3eac1",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "b7c20270-095c-5534-8251-ba7ebc7e3a9b",
+    "min_level": 6
+  },
+  {
+    "id": "a6eefb28-1460-5f23-a87a-c991232e9cb4",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "1a35b692-4aae-57be-8d82-1010d6139d5f",
+    "min_level": 6
+  },
+  {
+    "id": "c5c47080-dc97-524e-8bc6-5558371d73d5",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "d9643e18-5c9a-5887-82e4-ed1330c198fa",
+    "min_level": 6
+  },
+  {
+    "id": "95c0372a-04ef-5597-99db-d52b28ce10ad",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "973f0855-f2be-5465-8d17-de2ee29d738e",
+    "min_level": 6
+  },
+  {
+    "id": "54e93f22-ed97-512c-98d5-3a972e49206e",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "75415676-cc3d-5c52-ac21-4a2bc24682f6",
+    "min_level": 6
+  },
+  {
+    "id": "8fe6bf0b-d20f-59ce-802b-48e02bc18b19",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "535c0232-64fa-5a89-81c6-4c5f89ed4392",
+    "min_level": 10
+  },
+  {
+    "id": "5921a2b2-1ca8-53d8-b8c5-85e44e1c4fa3",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "abd560b9-163c-57da-afe5-15bae81b09db",
+    "min_level": 10
+  },
+  {
+    "id": "85d769fa-267b-5ab6-8086-9b779601bfa3",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "6e32ac64-f635-5a93-b9fa-304eefc08074",
+    "min_level": 10
+  },
+  {
+    "id": "88414d0e-32d7-5b58-b6d9-59d17b825f37",
+    "ability_id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "8747937d-fd7d-54ed-8d8e-2918d75ed521",
+    "min_level": 10
   }
 ]

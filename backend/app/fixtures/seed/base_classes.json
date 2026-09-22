@@ -324,5 +324,31 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "126dea9a-9d87-5957-8ade-e83959ce9a44",
+    "name": "Meister aller Kampfstile",
+    "hit_dice": null,
+    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "36858066-bacc-56b0-a817-0a0a8bba1138",
+    "name": "Beschuppte Faust",
+    "hit_dice": null,
+    "arch_class_of": "4ed3adcc-31e6-408d-a554-5e76a368df9d",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

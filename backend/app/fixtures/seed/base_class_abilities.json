@@ -4425,5 +4425,160 @@
     "id": "8c7c10fa-d438-54d9-823c-214f62238f94",
     "name": "Visionen",
     "description": "(ZF) Auf der 9. Stufe erhältst du im Schlaf Informationen durch prophetische Träume. Einmal am Tag kannst du im Schlaf Informationen über Handlungen in der nächsten Woche erhalten, als hättest du einen Erkenntniszauber gewirkt. Auf der 9. Stufe erhältst du Information hinsichtlich einer einzelnen Frage. Auf der 17. Stufe kannst du dir zwei Fragen im Schlaf beantworten lassen und auf der 20. Stufe drei Fragen. Diese Blutlinienkraft ersetzt Traumformer."
+  },
+  {
+    "id": "13f0d8cf-ef4d-5a80-a22c-fef81a5038fa",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Der Mönch ist im Umgang mit Armbrüsten (leicht oder schwer), Beilen, Dolchen, Kamas, Kampfstäben, Keulen, Kurzspeeren, Kurzschwertern, Nunchakus, Sais, Schleudern, Shuriken, Sianghams, Speeren und Wurfspeeren geübt.\n\nEr ist mit keinerlei Rüstungen oder Schilden vertraut.\n\nSollte der Mönch Rüstung tragen, ein Schild benutzen oder mit mehr als einer leichten Traglast belastet sein, verliert er seinen Rüstungsklassenbonus, seine Schnelle Bewegung und den Schlaghagel."
+  },
+  {
+    "id": "8a4aa09f-00bf-59a5-9eb8-50e53b6e32b2",
+    "name": "Rüstungsklassenbonus",
+    "description": "(AF) Wenn der Mönch nicht gerüstet oder belastet ist, kann er seinen Weisheitsbonus (wenn er einen hat) zu seiner Rüstungsklasse und seiner Kampfmanöververteidigung addieren. Zusätzlich erhält er auf der 4. Stufe einen RK- und KMV-Bonus von +1. Dieser Bonus erhöht sich alle weiteren vier Stufen um eins, bis zu einem Maximum von +5 auf der 20. Stufe.\n\nDieser Bonus hilft dem Mönch auch gegen Berührungsangriffe und wenn er auf dem falschen Fuß erwischt wird. Er verliert den Bonus jedoch, wenn er bewegungsunfähig ist, wenn er hilflos ist, wenn er eine Rüstung trägt, wenn er einen Schild einsetzt, oder wenn er eine mittlere oder schwere Last trägt."
+  },
+  {
+    "id": "e99cf204-6289-53fa-b90e-61853f335a66",
+    "name": "Schlaghagel",
+    "description": "(AF) Ab der 1. Stufe kann ein Mönch mit einer Vollen Aktion einen Schlaghagel austeilen. Wenn er dies möchte, erhält er einen zusätzlichen Angriff mit einem Malus von -2 auf alle Angriffswürfe, als würde er das Talent Kampf mit zwei Waffen einsetzen. Diese Angriffe können jede beliebige Kombination aus Unbewaffneten Angriffen oder Angriffen mit einer speziellen Mönchswaffe (Kama, Kampfstab, Nunchaku, Sai, Siangham und Shuriken) nehmen, als würde er das Talent Kampf mit zwei Waffen einsetzen (unabhängig davon, ob er die Voraussetzungen dafür erfüllt oder nicht). Für den Zweck dieses Angriffes entspricht der Grund-Angriffsbonus des Mönchs seiner Klassenstufe. Für alle anderen Einsatzmöglichkeiten verwendet der Mönch seinen normalen Grund-Angriffsbonus.\n\nAb der 8. Stufe kann ein Mönch zwei zusätzliche Angriffe ausführen, wenn er seine Gegner mit einem Schlaghagel eindeckt, als würde er das Talent Verbesserter Kampf mit zwei Waffen einsetzen (unabhängig davon, ob er die Voraussetzungen erfüllt oder nicht).\n\nAb der 15. Stufe erhält der Mönch drei zusätzliche Angriffe bei dem Einsatz eines Schlaghagels, als ob er das Talent Mächtiger Kampf mit zwei Waffen einsetzen würde (unabhängig davon, ob er die Voraussetzungen erfüllt oder nicht).\n\nDer Mönch erhält auf jeden Angriff im Schlaghagel seinen vollen Stärkebonus, egal ob er den Angriff mit seiner Zweithand oder mit einer beidhändigen Waffe ausführt. Ein Mönch kann einen unbewaffneten Angriff auch durch ein Kampfmanöver der Arten Entwaffnen, Gegenstand zerschmettern oder Zu Fall bringen ersetzen. Der Mönch kann während des Schlaghagels keine Waffe benutzen, die keine Mönchswaffe ist. Ein Mönch mit natürlichen Waffen kann diese weder in einem Schlaghagel einsetzen, noch kann er seine natürlichen Angriffe zusätzlich zu dem Schlaghagel ausführen."
+  },
+  {
+    "id": "9b753aed-2ff8-51cf-841c-3384270da0e4",
+    "name": "Waffenloser Schlag",
+    "description": "Auf der 1. Stufe erhält der Mönch das Talent Verbesserter waffenloser Schlag als Bonustalent. Er kann mit seiner Faust, den Ellenbogen, Knien oder den Füßen angreifen. Das heißt, ein Mönch kann auch wenn er seine Hände voll hat noch unbewaffnete Angriffe durchführen. Für einen Mönch gibt es so etwas wie eine Zweithand nicht. Er addiert auch auf den Schaden aller unbewaffneten Angriffe seinen vollen Stärkebonus.\n\nÜblicherweise verursacht der Mönch mit seinen unbewaffneten Angriffen tödlichen Schaden. Er kann sich jedoch entscheiden, nichttödlichen Schaden zu machen, ohne Abzüge hinzunehmen. Die gleiche Wahl hat er während eines Ringkampfes.\n\nDer waffenlose Angriff des Mönchs zählt sowohl als hergestellte als auch als natürliche Waffe, wenn es um Zaubersprüche und Effekte geht, die Angriffe verbessern.\n\nEin Mönch verursacht mit seinen waffenlosen Angriffen mehr Schaden als ein normaler Nahkämpfer. Für einen mittelgroßen Mönch: 1W6 (Stufe 1-3), 1W8 (4-7), 1W10 (8-11), 2W6 (12-15), 2W8 (16-19), 2W10 (20). Ein kleiner Mönch verursacht weniger (1W4 / 1W6 / 1W8 / 1W10 / 2W6 / 2W8), ein großer Mönch mehr (1W8 / 2W6 / 2W8 / 3W6 / 3W8 / 4W8)."
+  },
+  {
+    "id": "266c2fb4-3411-5f53-91ff-504d8e65b9df",
+    "name": "Betäubender Schlag",
+    "description": "(AF) Auf der 1. Stufe erhält der Mönch Betäubender Schlag als Bonustalent, auch wenn er nicht die Voraussetzungen dafür erfüllt. Auf der 4. Stufe und alle weiteren 4 Stufen danach erhält der Mönch die Möglichkeit, dem Ziel des Betäubenden Schlages einen neuen Zustand zuzufügen. Dieser Zustand ersetzt das Betäuben des Ziels für eine Runde und ein erfolgreicher Rettungswurf lässt den neuen Zustand auch weiterhin nicht wirksam werden. Ab der 4. Stufe kann er sich dafür entscheiden, sein Ziel erschöpft sein zu lassen. Ab der 8. Stufe kann er sein Ziel für eine Minute kränkelnd machen. Ab der 12. Stufe kann er sein Ziel für 1W6+1 Runden wankend machen. Ab der 16. Stufe kann er sein Ziel permanent erblinden oder taub werden lassen. Ab der 20. Stufe kann er sich dafür entscheiden, dass sein Ziel für 1W6+1 Runden gelähmt ist. Der Mönch muss sich dafür entscheiden, welchen Zustand er anwendet, bevor der Angriffswurf gemacht wird. Diese Effekte addieren sich nicht mit sich selber, aber zusätzliche Treffer erhöhen die Dauer des Zustandes."
+  },
+  {
+    "id": "501d5ef4-46db-5980-86ac-36512d6e731a",
+    "name": "Bonustalent",
+    "description": "Auf der 1., der 2. und dann alle vier weiteren Stufen darf der Mönch ein Bonustalent auswählen. Er muss dieses Talent aus der folgenden Liste wählen: Ausweichen, Geschosse abwehren, Improvisierter Fernkampf, Improvisierter Nahkampf, Kampfreflexe, Skorpionstachel, Verbesserter Ringkampf. Auf der 6. Stufe kommen folgende Talente zu dieser Liste hinzu: Gorgonenfaust, Beweglichkeit, Verbesserter Ansturm, Verbessertes Entwaffnen, Verbesserte Finte, Verbessertes Zu-Fall-bringen. Mit dem Erreichen der 10. Stufe stehen weitere Talente zur Verfügung: Geschosse fangen, Medusenzorn, Tänzelnder Angriff, Verbesserter Kritischer Treffer. Der Mönch muss für diese Talente die normalen Voraussetzungen nicht erfüllen."
+  },
+  {
+    "id": "93fc49ee-625f-560a-98a9-c27b85d75863",
+    "name": "Entrinnen",
+    "description": "(AF) Wenn ein Mönch, der mindestens die 2. Stufe erreicht hat, einen Reflexwurf durchführt, um nur halben Schaden zu erleiden, nimmt er bei gelungenem Rettungswurf keinen Schaden. Entrinnen kann der Mönch nur nutzen, wenn er leichte oder keine Rüstung trägt. Ein hilfloser Mönch profitiert nicht von dieser Fähigkeit."
+  },
+  {
+    "id": "9083646f-15f0-59d3-b3be-2b279ea2b00c",
+    "name": "Schnelle Bewegung",
+    "description": "(AF) Ab der 3. Stufe erhält der Mönch einen Verbesserungsbonus zu seiner Bewegungsrate. Ein Mönch, der Rüstung oder mehr als eine leichte Last trägt, verliert diesen Bonus."
+  },
+  {
+    "id": "f0a9150b-9f42-5389-85c9-e8f56687a1fb",
+    "name": "Manövertraining",
+    "description": "(AF) Ab der 3. Stufe benutzt der Mönch seine Stufe als Grund-Angriffsbonus, um seinen Kampfmanöverbonus zu ermitteln (die Kampfmanöververteidigung ist davon nicht betroffen). Der Grund-Angriffsbonus, den er durch andere Klassen erhält, ist hiervon nicht betroffen und wird normal addiert."
+  },
+  {
+    "id": "f7de5540-a3c3-529d-9002-78800b7466af",
+    "name": "Ruhiger Geist",
+    "description": "(AF) Auf der 3. Stufe erhält ein Mönch einen Bonus von +2 auf Rettungswürfe gegen Zauber und Effekte der Zauberschule Verzauberung."
+  },
+  {
+    "id": "849dc36b-6ead-5d90-9ef1-ddee780865c6",
+    "name": "Ki-Vorrat",
+    "description": "(ÜF) Ab der 4. Stufe erhält der Mönch einen Vorrat an Ki-Punkten, eine Art übernatürlicher Energie, mit der er beeindruckende Taten vollführen kann. Die Anzahl an Punkten im Ki-Vorrat eines Mönchs entspricht seiner halben Stufe plus seinen WE-Modifikator. Solange er noch mindestens einen Punkt in seinem Vorrat hat, kann er Ki-Schläge ausführen. Auf der 4. Stufe zählt sein unbewaffneter Angriff, dank Ki-Schlag, als magische Waffe, um Schadensreduzierung und Härte zu überwinden. Ab der 7. Stufe zählen sie als Kaltes Eisen und Silber, ab der 10. Stufe als rechtschaffene Waffe und ab der 16. Stufe als Adamantwaffe um Schadensreduzierungen und Härte zu überwinden.\n\nWenn der Mönch einen Schlaghagel nutzt, kann er einen Ki-Punkt aus seinem Vorrat ausgeben, um einen weiteren Angriff mit seinem höchsten Angriffsbonus durchzuführen. Zudem kann er einen Ki-Punkt ausgeben, um seine Bewegungsrate für eine Runde um 6 m zu erhöhen. Für einen Ki-Punkt erhält der Mönch eine Runde lang einen Ausweichbonus von +4 auf seine Rüstungsklasse. Der Einsatz einer solchen Fähigkeit zählt als Schnelle Aktion. Der Mönch erhält weitere Fähigkeiten, seine Ki-Punkte zu nutzen, wenn er weiter aufsteigt.\n\nDer Ki-Vorrat frischt sich nach acht Stunden Rast oder Meditation wieder auf. Diese Stunden brauchen nicht direkt aufeinander zu folgen."
+  },
+  {
+    "id": "c42f3666-cbac-5462-b68d-544a568d31e6",
+    "name": "Sturz abbremsen",
+    "description": "(AF) Ein Mönch, der mindestens die 4. Stufe erreicht hat und höchstens eine Armlänge von einer Wand entfernt ist, kann diese nutzen, um einen Sturz abzuschwächen. Wenn er diese Fähigkeit erhält, wird die Sturzhöhe zur Bestimmung des Schadens, den er erhält, um 6 m reduziert. Wenn er seine Mönchstufen verbessert, erhöht sich diese Zahl (9 m ab Stufe 6, 12 m ab Stufe 8, 15 m ab Stufe 10, 18 m ab Stufe 12, 21 m ab Stufe 14, 24 m ab Stufe 16, 27 m ab Stufe 18), bis er auf der 20. Stufe in Reichweite einer Wand einen Sturz von jeglicher Höhe abfangen kann."
+  },
+  {
+    "id": "b905ea43-bc03-5ec7-85e9-6338a01d62d3",
+    "name": "Hochsprung",
+    "description": "(AF) Ab der 5. Stufe addiert der Mönch seine Stufe zu allen Fertigkeitswürfen auf Akrobatik, um horizontal oder vertikal zu springen. Außerdem kann er bei seinen Würfen auf Akrobatik immer davon ausgehen, dass er einen Anlauf gehabt hätte. Mit der Ausgabe eines Ki-Punkts erhält der Mönch als Schnelle Aktion für eine Runde einen Bonus von +20 auf seinen Wurf für Akrobatik, um zu springen."
+  },
+  {
+    "id": "c347f154-5c97-57bf-9241-cc8bc491942e",
+    "name": "Reinheit des Körpers",
+    "description": "(AF) Ab der 5. Stufe ist der Mönch gegen alle Krankheiten, auch übernatürliche und magische, immun."
+  },
+  {
+    "id": "b8c09f6b-5d86-58ba-aefb-4273b0842e53",
+    "name": "Unversehrtheit des Körpers",
+    "description": "(AF) Ab der 7. Stufe kann ein Mönch mit einer Standard-Aktion seine eigenen Wunden heilen. Er muss zwei Ki-Punkte ausgeben und kann dann Trefferpunkte in Höhe seiner Stufe heilen."
+  },
+  {
+    "id": "5b52621d-96af-5287-a0a9-dbab05880427",
+    "name": "Verbessertes Entrinnen",
+    "description": "(AF) Ab der 9. Stufe verbessert sich die Fähigkeit eines Mönchs, einem Angriff zu entrinnen. Ist der Mönch einem Angriff ausgesetzt, der einen Reflexwurf für halben Schaden erlaubt, erhält er bei einem gelungenen Rettungswurf wie bisher keinen Schaden, aber bei einem misslungenen Wurf erleidet er nun nur den halben Schaden. Ein hilfloser Mönch kann diese Fähigkeit nicht nutzen."
+  },
+  {
+    "id": "29fceb9d-8864-503c-b021-b1cba016085d",
+    "name": "Diamantkörper",
+    "description": "(ÜF) Auf der 11. Stufe erhält der Mönch Immunität gegen jede Art von Giften."
+  },
+  {
+    "id": "8e3b5d32-741b-5f2a-a229-b80e0c8ab543",
+    "name": "Weiter Schritt",
+    "description": "(ÜF) Ab der 12. Stufe vermag sich der Mönch zwischen den Dimensionen zu bewegen, wie mit dem Zauber Dimensionstür. Um diese Fähigkeit zu nutzen, muss der Mönch zwei Ki-Punkte ausgeben. Als Zauberstufe für diesen Effekt zählt seine Mönchsstufe. Er kann keine anderen Wesen mit sich nehmen, wenn er diese Fähigkeit einsetzt."
+  },
+  {
+    "id": "e8f4a9a1-2760-562f-bab2-58b96127604c",
+    "name": "Diamantseele",
+    "description": "(AF) Ab der 13. Stufe erhält der Mönch eine Zauberresistenz von 10 + seiner aktuellen Mönchstufe. Um den Mönch mit einem Zauber zu betreffen, muss ein Zauberwirker mit einer Zauberstufenprobe (1W20 + Zauberstufe) die Zauberresistenz des Mönchs erreichen oder übertreffen."
+  },
+  {
+    "id": "8e7209b1-b744-52b7-8618-238275d58d41",
+    "name": "Vibrierende Handfläche",
+    "description": "(ÜF) Ab der 15. Stufe kann der Mönch den Körper eines Gegners in Vibration versetzen, die später dann, sollte es der Mönch wünschen, tödlich wirkt. Er kann die Vibrierende Handfläche ein Mal pro Tag einsetzen und muss dies ankündigen, bevor er den Angriffswurf durchführt. Kreaturen, die nicht von kritischen Treffern betroffen werden können, sind immun gegen diese Fähigkeit. Trifft der Mönch ansonsten mit seinem Angriff und verursacht er bei seinem Ziel Schaden, wurde die Fähigkeit erfolgreich eingesetzt. Nach dem Treffer kann der Mönch innerhalb einer Anzahl von Tagen, die seiner Mönchsstufe entspricht, versuchen, sein Opfer zu töten. Der Mönch muss sich den Tod des Ziels nur wünschen (als Freie Aktion). Gelingt dem Opfer kein Zähigkeitswurf (SG: 10 + ½ Stufe des Mönchs + dem WE-Modifikator des Mönchs), stirbt es. Gelingt der Rettungswurf, ist das Ziel nicht mehr in Gefahr durch diesen Einsatz der Fähigkeit. Ein Mönch kann nicht mehr als eine Vibrierende Handfläche zur gleichen Zeit aktiv haben. Setzt der Mönch seine Vibrierende Handfläche ein, während eine andere Anwendung der Fähigkeit noch wirkt, erlischt der frühere Effekt."
+  },
+  {
+    "id": "5195d690-fa95-58ec-abe2-b7a378f7c48b",
+    "name": "Zeitloser Körper",
+    "description": "(AF) Mit dem Erreichen der 17. Stufe nimmt der Mönch keine Attributsverschlechterungen durch das Altern mehr hin und kann auch nicht auf magische Weise altern. Veränderungen, die er vorher erhalten hat, bleiben dadurch unverändert. Boni für das Alter erhält er weiterhin und er stirbt auch, wenn seine Zeit gekommen ist."
+  },
+  {
+    "id": "88db608c-e6ac-5c16-9e84-be331d94e661",
+    "name": "Sprache von Sonne und Mond",
+    "description": "(AF) Ein Mönch der 17. oder höheren Stufe vermag, die Sprache einer jeden lebenden Kreatur zu sprechen."
+  },
+  {
+    "id": "0954b62b-cb48-5123-832f-af6a2f590df9",
+    "name": "Körper lösen",
+    "description": "(ÜF) Mit dem Erreichen der 19. Stufe erhält der Mönch die Fähigkeit, sich für eine Minute in einen ätherischen Zustand zu versetzen, wie durch den Zauber Ätherische Gestalten. Diese Fähigkeit einzusetzen, entspricht einer Bewegungsaktion und kostet den Mönch drei Ki-Punkte. Diese Fähigkeit betrifft nur den Mönch selber und kann nicht eingesetzt werden, um jemand anderen ätherisch zu machen."
+  },
+  {
+    "id": "cec222e4-36b5-5ac5-9158-2e6dabccf88d",
+    "name": "Perfektes Selbst",
+    "description": "Auf der 20. Stufe wird der Mönch ein magisches Wesen. Ab dann zählt er für Zauber und magische Effekte nicht mehr als Humanoider (oder welcher Art der Mönch vorher war), sondern als Externar. Zudem erhält er eine Schadensreduzierung von 10/Chaos, mit der er vom Schaden jedes Angriffs, der nicht mit einer chaotischen Waffe oder mit einer natürlichen Waffe von einem Wesen mit der Unterkategorie chaotisch durchgeführt wurde, zehn Punkte abziehen kann. Anders als sonstige Externare kann der Mönch jedoch, ebenso wie es seiner bisherigen Art entspricht, von den Toten wiedererweckt werden."
+  },
+  {
+    "id": "a7cedcc7-7210-5928-a1e4-072e8fa1c138",
+    "name": "Bonustalente (Meister aller Kampfstile)",
+    "description": "Mit Beginn der 1. Stufe und der 2. Stufe und dann alle weiteren vier Stufen als Mönch kann ein Meister aller Kampfstile ein Bonuskampfkunsttalent oder das Talent Elementarfaust auswählen. Abgesehen von Elementarfaust muss er die Voraussetzungen dieser Talente nicht erfüllen. Alternativ kann er auch anstatt eines dieser Bonustalente ein Kampfkunsttalent eines Kampfstils auswählen, sofern er das passende Kampfkunsttalent für die Kampfhaltung besitzt (bspw. Erdkindgriff); der Meister aller Kampfstile muss ansonsten keine Voraussetzungen erfüllen. Dieses Klassenmerkmal ersetzt die Bonustalente, welche ein Mönch normalerweise erhält."
+  },
+  {
+    "id": "60141dbc-b58a-53d5-9f10-8cb1014169dd",
+    "name": "Kampfstile verschmelzen",
+    "description": "(AF) Mit Beginn der 1. Stufe kann ein Meister aller Kampfstile zwei der ihm bekannten Kampfstile zu einem perfekteren Stil vereinen. Der Meister aller Kampfstile kann die Haltungen zweier Kampfstile zugleich aktivieren. Das Aktivieren einer Haltung erfordert immer noch eine Schnelle Aktion. Sollte der Meister aller Kampfstile seine Haltung wechseln, kann er währenddessen nur eine aktive Haltung aufrechterhalten. Er kann nur Haltungen zweier Kampfstile gleichzeitig aktiv haben.\n\nMit Beginn der 8. Stufe kann der Meister aller Kampfstile drei Kampfkünste miteinander vereinen. Er kann ferner die Haltungen von bis zu drei Kampfstilen mit einer Schnellen Aktion aktivieren.\n\nMit Beginn der 15. Stufe kann der Meister aller Kampfstile vier Kampfkünste miteinander verschmelzen. Er kann die Haltungen von vier Kampfstilen gleichzeitig aktiv haben und die Haltungen von bis zu vier Kampfstilen mit einer Freien Aktion aktivieren, indem er 1 Punkt seines Ki-Vorrats aufwendet. Dieses Klassenmerkmal ersetzt Schlaghagel."
+  },
+  {
+    "id": "a9a61837-31c6-5795-b534-0e15a02f2476",
+    "name": "Perfekter Stil",
+    "description": "(AF) Mit Beginn der 20. Stufe kann ein Meister aller Kampfstile die Haltung von bis zu fünf Kampfstilen aktiv haben und mit einer Freien Aktion ändern. Dieses Klassenmerkmal ersetzt Perfektes Selbst."
+  },
+  {
+    "id": "17e0cf81-2b18-57f0-9eb5-28dc884b4251",
+    "name": "Drachenmacht",
+    "description": "Alle Klassenmerkmale des Mönchs, die Berechnungen anhand seines Weisheitswertes vornehmen (einschließlich Bonustalente mit Schwierigkeitsgraden oder täglichen Anwendungen wie Betäubender Schlag, jedoch nicht auf Weisheit basierende Fertigkeiten oder Willenswürfe), verwenden stattdessen seinen Charismawert.\n\nAußerdem stehen einer Beschuppten Faust als Bonustalente andere Talente zur Auswahl als einem gewöhnlichen Mönch: Drachenstil und Einschüchterndes Auftreten auf der 1. Stufe; Blendender Auftritt und Drachenwildheit auf der 6. Stufe; Entmutigender Auftritt, Drachengebrüll und Zerschmetterte Verteidigung auf der 10. Stufe (keines dieser Talente existiert bislang im Talentkatalog dieser App, siehe Skriptkommentar — die Bonustalent-Auswahl des Mönchs bleibt bis dahin unverändert nutzbar)."
+  },
+  {
+    "id": "7742c99a-6d26-5162-9876-f123093b1c4a",
+    "name": "Drachenmut",
+    "description": "(AF) Ab der 3. Stufe erhält eine Beschuppte Faust einen Bonus von +2 auf Rettungswürfe gegen Furcht-, Lähmungs- und Schlafeffekte. Dieses Klassenmerkmal ersetzt Ruhiger Geist."
+  },
+  {
+    "id": "db49a981-671a-5877-9717-cc4389464b0e",
+    "name": "Drachenfurie",
+    "description": "(ÜF) Ab der 3. Stufe kann eine Beschuppte Faust einen Punkt ihres Ki-Vorrats ausgeben, um ihre unbewaffneten Angriffe für eine Anzahl von Runden in Höhe der Hälfte ihrer Mönchsstufe mit 1W6 zusätzlichem Energieschaden eines gewählten Energietyps zu versehen. Dieses Klassenmerkmal ersetzt Manövertraining."
+  },
+  {
+    "id": "389bcbbe-87aa-5eb6-b361-083d6bebd03c",
+    "name": "Drachenatem",
+    "description": "(ÜF) Ab der 15. Stufe kann eine Beschuppte Faust drei Punkte ihres Ki-Vorrats ausgeben, um als Standardaktion einen Odemangriff in einem 9 m langen Kegel auszuführen, der 1W6 Energieschaden pro Mönchsstufe verursacht. Dieses Klassenmerkmal ersetzt Vibrierende Handfläche."
   }
 ]

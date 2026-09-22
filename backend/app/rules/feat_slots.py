@@ -47,6 +47,7 @@ RACE_BONUS_FEAT_ABILITY_ID = UUID("e55030a3-b066-480f-ba0a-0653a8f132ca")
 BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
     {
         UUID("62ac4cf1-04b9-431b-9047-4156f6cb3481"),  # Kämpfer: Bonus-Kampftalent
+        UUID("501d5ef4-46db-5980-86ac-36512d6e731a"),  # Mönch: Bonustalent
         # Meister aller Kampfstile (Mönch archetype): "Bonustalente (Meister
         # aller Kampfstile)" — replaces the base Mönch's own Bonustalent
         # (same six grant levels: 1st, 2nd, 6th, 10th, 14th, 18th, see
