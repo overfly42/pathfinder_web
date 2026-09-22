@@ -1388,6 +1388,60 @@ def test_create_character_persists_skill_focus_and_spell_focus_sub_choices(
     assert by_feat_id[zauberfokus_id]["chosen_spell_school"] == school
 
 
+def test_create_character_persists_manifestation_sub_choice(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    inbegriff_id = _feat_id(client, db_session, "Inbegriff des Katzenvolkes")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            feats=[_feat_selection(inbegriff_id, chosen_manifestation="Scharfe Krallen")],
+        ),
+    )
+    assert response.status_code == 201
+    body = response.json()
+    by_feat_id = {f["feat_id"]: f for f in body["feats"]}
+    assert by_feat_id[inbegriff_id]["chosen_manifestation"] == "Scharfe Krallen"
+
+
+def test_create_character_rejects_an_unlisted_manifestation(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    inbegriff_id = _feat_id(client, db_session, "Inbegriff des Katzenvolkes")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            feats=[_feat_selection(inbegriff_id, chosen_manifestation="Fliegen")],
+        ),
+    )
+    assert response.status_code == 422
+
+
+def test_create_character_rejects_a_missing_manifestation(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    inbegriff_id = _feat_id(client, db_session, "Inbegriff des Katzenvolkes")
+
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            feats=[_feat_selection(inbegriff_id)],
+        ),
+    )
+    assert response.status_code == 422
+
+
 def test_create_character_persists_kosmopolit_skill_pair(client: TestClient, db_session: Session) -> None:
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)

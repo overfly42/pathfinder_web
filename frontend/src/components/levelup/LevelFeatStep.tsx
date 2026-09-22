@@ -7,6 +7,7 @@ import {
   featGrantedThisLevel,
   getNewLevel,
   getReceivingClassAndLevel,
+  receivingArchetypeNames,
   secondaryClassFeatureGrantedThisLevel,
 } from '../../lib/levelUpCalculations';
 import { SingleChipPicker } from './SingleChipPicker';
@@ -28,6 +29,22 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
   const baseFeatPickable = granted && !secondaryFeatureGranted;
   const receiving = getReceivingClassAndLevel(progression, draft.target);
   const bonusGranted = classBonusFeatGrantedThisLevel(receiving?.className ?? null, receiving?.level ?? null, options.classes);
+  const receivingClass = options.classes.find((c) => c.name === receiving?.className);
+  // An archetype whose own class ability replaces the base class's
+  // bonus-feat grants (e.g. Meister aller Kampfstile swapping Mönch's
+  // closed Bonustalent list for an open `kampfkunst`-type pick) overrides
+  // the options at the same levels rather than adding a new slot — so look
+  // up the receiving row's selected archetype(s) first and fall back to the
+  // base class's own `bonusFeatOptionsByLevel` only if none of them has an
+  // override at this level (see `ClassDef.archetypeBonusFeatOptionsByLevel`
+  // on the backend for why the replaced levels themselves never change).
+  const receivingArchetypes = receivingArchetypeNames(progression, draft.target);
+  const archetypeBonusOptions = receiving
+    ? receivingArchetypes
+        .map((name) => receivingClass?.archetypeBonusFeatOptionsByLevel[name]?.[receiving.level])
+        .find((options) => options !== undefined)
+    : undefined;
+  const bonusOptions = archetypeBonusOptions ?? (receiving ? receivingClass?.bonusFeatOptionsByLevel[receiving.level] : undefined);
 
   useEffect(() => {
     if (!baseFeatPickable) setDraft((prev) => (prev.newFeat === null ? prev : { ...prev, newFeat: null }));
@@ -42,9 +59,22 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
   }
 
   const featByName = new Map(options.feats.map((f) => [f.name, f]));
+  // Closed-list bonus feats (e.g. Mönch's Bonustalent) may be entirely
+  // absent from `options.feats` — that list is prereq-filtered, and a
+  // closed list waives normal prerequisites for its own named feats (see
+  // `bonusFeatOptionsByLevel`'s own doc comment) — so it carries its own
+  // FeatDef data and must be merged in here too for `needingSubChoice` to
+  // resolve them.
+  for (const feat of bonusOptions?.feats ?? []) featByName.set(feat.name, feat);
   const notYetTaken = options.feats.filter((f) => !progression.feats.includes(f.name));
   const available = notYetTaken.map((f) => f.name);
-  const combatAvailable = notYetTaken.filter((f) => f.type === 'combat').map((f) => f.name);
+  const bonusTypeAvailable = notYetTaken
+    .filter((f) => bonusOptions?.types.includes(f.type))
+    .map((f) => f.name);
+  const bonusClosedListAvailable = (bonusOptions?.feats ?? [])
+    .filter((f) => !progression.feats.includes(f.name))
+    .map((f) => f.name);
+  const bonusAvailable = [...new Set([...bonusTypeAvailable, ...bonusClosedListAvailable])];
   const weapons = options.items.filter((i) => i.category === 'weapon');
 
   function select(name: string) {
@@ -100,13 +130,13 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
       {bonusGranted && (
         <>
           <div className="og-heading" style={{ marginTop: granted ? 16 : 0 }}>
-            Bonus-Kampftalent ({receiving?.className}, Stufe {receiving?.level})
+            Bonustalent ({receiving?.className}, Stufe {receiving?.level})
           </div>
           <SingleChipPicker
-            items={combatAvailable}
+            items={bonusAvailable}
             selected={draft.newBonusFeat}
             onSelect={selectBonus}
-            searchPlaceholder="Bonus-Kampftalente durchsuchen …"
+            searchPlaceholder="Bonustalente durchsuchen …"
           />
         </>
       )}
@@ -181,6 +211,17 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
                   <option value="">– Zauberschule wählen –</option>
                   {options.spellSchools.map((school) => (
                     <option key={school} value={school}>{school}</option>
+                  ))}
+                </select>
+              )}
+              {feat.subChoiceType === 'manifestation' && (
+                <select
+                  value={draft.featSubChoices[feat.name] ?? ''}
+                  onChange={(e) => setSubChoice(feat.name, e.target.value)}
+                >
+                  <option value="">– Manifestation wählen –</option>
+                  {(feat.manifestationOptions ?? []).map((option) => (
+                    <option key={option} value={option}>{option}</option>
                   ))}
                 </select>
               )}

@@ -263,7 +263,8 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         its own list (CLAUDE.md), same reasoning as `skill_ranks`. Bare ids
         only, for callers that don't care about a feat's sub-choice (e.g.
         `sheet.py`'s catalog join) — see `feats` for the full pick including
-        `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`."""
+        `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`/
+        `chosen_manifestation`."""
         return [entry.feat_id for level in self.levels for entry in level.feats]
 
     @property
@@ -280,6 +281,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
                 "chosen_skill_id": entry.chosen_skill_id,
                 "chosen_skill_id_2": entry.chosen_skill_id_2,
                 "chosen_spell_school": entry.chosen_spell_school,
+                "chosen_manifestation": entry.chosen_manifestation,
             }
             for level in self.levels
             for entry in level.feats

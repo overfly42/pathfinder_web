@@ -46,14 +46,14 @@ class FeatSelection(BaseModel):
     open-choice feat like Waffenfokus can legitimately appear more than once
     in the same submission, once per distinct weapon/skill/school. Exactly
     one *kind* of sub-choice may be set — `chosen_weapon_id`,
-    `chosen_spell_school`, or the "skill" kind (`chosen_skill_id` alone for
-    `sub_choice_type == "skill"`, or both `chosen_skill_id` and
-    `chosen_skill_id_2` together for `"skill_pair"`, e.g. Kosmopolit) — the
-    two skill fields count as one kind, not two, so submitting them together
-    isn't rejected as multi-kind. Whether a sub-choice is *required*, and
-    which kind, depends on the referenced feat's own `sub_choice_type` —
-    that's catalog data, so it's checked server-side
-    (`routers/characters.py`), not here."""
+    `chosen_spell_school`, `chosen_manifestation`, or the "skill" kind
+    (`chosen_skill_id` alone for `sub_choice_type == "skill"`, or both
+    `chosen_skill_id` and `chosen_skill_id_2` together for `"skill_pair"`,
+    e.g. Kosmopolit) — the two skill fields count as one kind, not two, so
+    submitting them together isn't rejected as multi-kind. Whether a
+    sub-choice is *required*, and which kind, depends on the referenced
+    feat's own `sub_choice_type` — that's catalog data, so it's checked
+    server-side (`routers/characters.py`), not here."""
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -64,6 +64,9 @@ class FeatSelection(BaseModel):
     # own docstring for why it doesn't count as its own kind below.
     chosen_skill_id_2: UUID | None = None
     chosen_spell_school: str | None = None
+    # For `sub_choice_type == "manifestation"` (e.g. "Inbegriff des
+    # Katzenvolkes") — one of the feat's own `BaseFeat.manifestation_options`.
+    chosen_manifestation: str | None = None
 
     @field_validator("chosen_spell_school")
     @classmethod
@@ -72,17 +75,25 @@ class FeatSelection(BaseModel):
             raise ValueError("chosen_spell_school must not be blank")
         return value
 
+    @field_validator("chosen_manifestation")
+    @classmethod
+    def chosen_manifestation_must_not_be_blank(cls, value: str | None) -> str | None:
+        if value is not None and not value.strip():
+            raise ValueError("chosen_manifestation must not be blank")
+        return value
+
     @model_validator(mode="after")
     def at_most_one_sub_choice(self) -> "FeatSelection":
         chosen = [
             self.chosen_weapon_id,
             self.chosen_skill_id or self.chosen_skill_id_2,
             self.chosen_spell_school,
+            self.chosen_manifestation,
         ]
         if sum(1 for value in chosen if value is not None) > 1:
             raise ValueError(
                 "a feat selection may set at most one of chosen_weapon_id/chosen_skill_id"
-                "(+chosen_skill_id_2)/chosen_spell_school"
+                "(+chosen_skill_id_2)/chosen_spell_school/chosen_manifestation"
             )
         if self.chosen_skill_id_2 is not None and self.chosen_skill_id is None:
             raise ValueError("chosen_skill_id_2 requires chosen_skill_id to be set too")

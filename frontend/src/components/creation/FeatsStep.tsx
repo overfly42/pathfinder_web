@@ -120,6 +120,14 @@ export function FeatsStep({ draft, options, setDraft }: FeatsStepProps) {
                   ))}
                 </select>
               )}
+              {feat.subChoiceType === 'manifestation' && (
+                <select value={draft.featSubChoices[feat.id] ?? ''} onChange={(e) => setSubChoice(feat.id, e.target.value)}>
+                  <option value="">– Manifestation wählen –</option>
+                  {(feat.manifestationOptions ?? []).map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              )}
             </div>
           ))}
         </div>

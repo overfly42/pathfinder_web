@@ -12,16 +12,19 @@ from .db import get_db
 from .models import (
     BaseClass,
     BaseClassAbility,
+    BaseClassAbilityFeatOption,
     BaseClassAbilityGrant,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSkill,
     BaseClassSpellsKnown,
+    BaseFeat,
     Character,
 )
 from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
+from .rules.handlers import has_mechanical_effect
 from .sheet import (
     build_character_history,
     build_character_progression,
@@ -195,7 +198,13 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     `archetypeWeaponChoiceAbilityId` (2026-08-25) — same sparse per-archetype
     delta shape, for archetypes granting a class ability whose
     `BaseClassAbility.requires_weapon_choice` is set (Kensai's free
-    martial/exotic weapon choice, `rules/classes/kampfmagus.py`)."""
+    martial/exotic weapon choice, `rules/classes/kampfmagus.py`).
+
+    `archetypeBonusFeatOptionsByLevel` — same sparse per-archetype delta
+    shape again, for an archetype whose own class ability replaces the base
+    class's `bonusFeatOptionsByLevel` (Meister aller Kampfstile replacing
+    Mönch's closed Bonustalent list with an open `kampfkunst`-type pick, see
+    `rules/feat_slots.py`)."""
     classes = load_fixture("classes.json")
     all_base_classes = db.scalars(select(BaseClass)).all()
     roots = [row for row in all_base_classes if row.arch_class_of is None]
@@ -384,6 +393,106 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     for grant in bonus_feat_grants:
         bonus_feat_levels_by_root_id.setdefault(grant.base_class_id, []).append(grant.level)
 
+    # {root_id: {level: {"types": [...], "feats": [FeatDef, ...]}}} — what's
+    # actually eligible for a class's bonus-feat slot at a given occurrence
+    # level, resolved from the real `base_class_ability_feat_options` rows
+    # instead of the frontend hardcoding "any combat-type feat" (only true
+    # for Kämpfer; Mönch's Bonustalent is a closed, level-gated list, see
+    # that ability's own seed data). `"types"` (from a row's `feat_type`
+    # with `waives_prerequisites` false, the default) is a broad category
+    # still subject to the character's normal prerequisite check —
+    # `LevelFeatStep.tsx` intersects it with the already prereq-filtered
+    # `/api/feats?character_id=` result, same as it does today. `"feats"`
+    # (from a row's `feat_id`, or from a `feat_type` row whose
+    # `waives_prerequisites` is true — see `BaseClassAbilityFeatOption`'s
+    # docstring, e.g. Meister aller Kampfstile's "kampfkunst" slot) is a
+    # closed, prerequisite-waived list, returned as full `FeatDef`-shaped
+    # objects (same shape `/api/feats` uses) rather than bare names: a feat
+    # here may be entirely absent from the prereq-filtered
+    # `/api/feats?character_id=` result the rest of the picker uses — this
+    # list must carry its own id/subChoiceType, not rely on that other list
+    # to resolve them. `option_choice_id IS NULL` rows only — no
+    # bonus-feat-slot ability seeded so far scopes its eligible list to a
+    # sibling `BaseClassOptionChoice` (e.g. a bloodline), unlike
+    # Hexenmeister's own "Talent des Blutes" ability, which isn't in
+    # `BONUS_FEAT_SLOT_ABILITY_IDS`.
+    feat_options = db.scalars(
+        select(BaseClassAbilityFeatOption).where(
+            BaseClassAbilityFeatOption.ability_id.in_(BONUS_FEAT_SLOT_ABILITY_IDS),
+            BaseClassAbilityFeatOption.option_choice_id.is_(None),
+        )
+    ).all()
+    waived_types = {opt.feat_type for opt in feat_options if opt.feat_type is not None and opt.waives_prerequisites}
+    feats_by_id = {
+        feat.id: feat
+        for feat in db.scalars(
+            select(BaseFeat).where(
+                BaseFeat.id.in_({opt.feat_id for opt in feat_options if opt.feat_id is not None})
+                | BaseFeat.type.in_(waived_types)
+            )
+        ).all()
+    }
+    feats_by_waived_type: dict = {}
+    for feat in feats_by_id.values():
+        if feat.type in waived_types:
+            feats_by_waived_type.setdefault(feat.type, []).append(feat)
+    options_by_ability_id: dict = {}
+    for opt in feat_options:
+        options_by_ability_id.setdefault(opt.ability_id, []).append(opt)
+
+    def _feat_def(feat: BaseFeat) -> dict:
+        return {
+            "id": str(feat.id),
+            "name": feat.name,
+            "description": feat.description,
+            "type": feat.type,
+            "subChoiceType": feat.sub_choice_type,
+            "manifestationOptions": feat.manifestation_options,
+            "hasHandler": has_mechanical_effect(feat.id),
+        }
+
+    bonus_feat_options_by_root_id: dict = {}
+    for grant in bonus_feat_grants:
+        types: set = set()
+        feats_out: dict = {}
+        for opt in options_by_ability_id.get(grant.ability_id, []):
+            if opt.min_level is not None and opt.min_level > grant.level:
+                continue
+            if opt.feat_type is not None and opt.waives_prerequisites:
+                for feat in feats_by_waived_type.get(opt.feat_type, []):
+                    feats_out[feat.id] = _feat_def(feat)
+            elif opt.feat_type is not None:
+                types.add(opt.feat_type)
+            elif opt.feat_id is not None and opt.feat_id in feats_by_id:
+                feats_out[opt.feat_id] = _feat_def(feats_by_id[opt.feat_id])
+        by_level = bonus_feat_options_by_root_id.setdefault(grant.base_class_id, {})
+        by_level[grant.level] = {
+            "types": sorted(types),
+            "feats": sorted(feats_out.values(), key=lambda f: f["name"]),
+        }
+
+    # archetype name -> its own `{level: {"types": [...], "feats": [...]}}` —
+    # sparse, same "delta the frontend applies once that archetype is
+    # selected" shape as `archetype_casting_ability_by_root_id`. An archetype
+    # whose own class ability replaces the base class's bonus-feat grants
+    # (e.g. Meister aller Kampfstile replacing Mönch's Bonustalent with an
+    # open pick from any `kampfkunst`-type feat, `rules/feat_slots.py`) has
+    # its own `BaseClassAbilityGrant` rows keyed by the *archetype's* own
+    # `BaseClass` id, not the root's — so `bonus_feat_options_by_root_id`
+    # above already holds it under that id, just not yet reachable from the
+    # root class's own payload. `ClassLevelStep.tsx`/`LevelFeatStep.tsx` look
+    # this up first for the receiving class row's selected archetype
+    # (`receivingArchetypeNames`), falling back to the root's own
+    # `bonusFeatOptionsByLevel` otherwise — the replaced grant levels are
+    # identical between base and archetype here, so only the *options* need
+    # overriding, not `bonusFeatLevels` itself.
+    archetype_bonus_feat_options_by_root_id: dict = {}
+    for root_id, archetypes in archetypes_by_root_id.items():
+        for archetype in archetypes:
+            by_level = bonus_feat_options_by_root_id.get(archetype.id)
+            if by_level:
+                archetype_bonus_feat_options_by_root_id.setdefault(root_id, {})[archetype.name] = by_level
+
     # {root_id: {level: {grade: count | None}}} — count is null for
     # arcane-prepared classes (grade-gating only, see rules/spells.py); the
     # frontend's spell-picker budget math (creationCalculations.ts) mirrors
@@ -410,6 +519,10 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             archetype_descriptions_by_root_id.get(root_id, {}) if root_id else {}
         )
         class_def["bonusFeatLevels"] = sorted(bonus_feat_levels_by_root_id.get(root_id, [])) if root_id else []
+        class_def["bonusFeatOptionsByLevel"] = bonus_feat_options_by_root_id.get(root_id, {}) if root_id else {}
+        class_def["archetypeBonusFeatOptionsByLevel"] = (
+            archetype_bonus_feat_options_by_root_id.get(root_id, {}) if root_id else {}
+        )
         class_def["archetypeWeaponChoiceAbilityId"] = (
             archetype_weapon_choice_ability_id_by_root_id.get(root_id, {}) if root_id else {}
         )

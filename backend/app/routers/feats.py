@@ -87,6 +87,10 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
             # JSON shape a consumer wants" precedent as `main.py`'s classes
             # endpoint (`skillPointsBase`, `bonusFeatLevels`, ...).
             "subChoiceType": feat.sub_choice_type,
+            # Valid `chosen_manifestation` values for a `subChoiceType ==
+            # "manifestation"` feat (e.g. Inbegriff des Katzenvolkes) — see
+            # `BaseFeat.manifestation_options`. `None` for every other feat.
+            "manifestationOptions": feat.manifestation_options,
             # Whether this feat's effect is actually computed anywhere —
             # `rules/handlers.py`'s `has_mechanical_effect` checks every
             # registry that family's merge covers, not just the plain

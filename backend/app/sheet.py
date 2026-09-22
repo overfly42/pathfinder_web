@@ -726,6 +726,8 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
             sub_choice_label = skill.name if skill is not None else None
         elif entry.chosen_spell_school is not None:
             sub_choice_label = entry.chosen_spell_school
+        elif entry.chosen_manifestation is not None:
+            sub_choice_label = entry.chosen_manifestation
         name = f"{feat.name} ({sub_choice_label})" if sub_choice_label else feat.name
         result.append(
             {

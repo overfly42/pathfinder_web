@@ -1,7 +1,8 @@
 import type { CharacterProgression } from '../types/characterProgression';
+import type { FeatDef } from '../types/creationOptions';
 import type { LevelUpDraft } from '../types/levelUpDraft';
 import type { LevelUpOptions } from '../types/levelUpOptions';
-import { getReceivingClassName } from './levelUpCalculations';
+import { getReceivingClassAndLevel, getReceivingClassName } from './levelUpCalculations';
 
 interface FeatSelectionBody {
   feat_id: string;
@@ -9,16 +10,17 @@ interface FeatSelectionBody {
   chosen_skill_id: string | null;
   chosen_skill_id_2: string | null;
   chosen_spell_school: string | null;
+  chosen_manifestation: string | null;
 }
 
 function featSelection(
   name: string | null,
-  options: LevelUpOptions,
+  candidates: FeatDef[],
   subChoices: Record<string, string>,
   subChoices2: Record<string, string>,
 ): FeatSelectionBody | null {
   if (!name) return null;
-  const feat = options.feats.find((f) => f.name === name);
+  const feat = candidates.find((f) => f.name === name);
   if (!feat) return null;
   const subChoice = subChoices[name];
   const isSkillKind = feat.subChoiceType === 'skill' || feat.subChoiceType === 'skill_pair';
@@ -28,6 +30,7 @@ function featSelection(
     chosen_skill_id: isSkillKind ? subChoice ?? null : null,
     chosen_skill_id_2: feat.subChoiceType === 'skill_pair' ? subChoices2[name] ?? null : null,
     chosen_spell_school: feat.subChoiceType === 'spell_school' ? subChoice ?? null : null,
+    chosen_manifestation: feat.subChoiceType === 'manifestation' ? subChoice ?? null : null,
   };
 }
 
@@ -41,10 +44,19 @@ function featSelection(
 export function levelUpRequestBody(progression: CharacterProgression, options: LevelUpOptions, draft: LevelUpDraft) {
   const target = draft.target;
   const receivingClassName = getReceivingClassName(progression, target);
+  const receiving = getReceivingClassAndLevel(progression, target);
+  // Closed-list bonus feats (e.g. Mönch's Bonustalent) may be entirely
+  // absent from `options.feats` — that list is prereq-filtered, and a
+  // closed list waives normal prerequisites for its own named feats — so
+  // `newBonusFeat` must also resolve against that list's own FeatDef data,
+  // same reasoning as `LevelFeatStep.tsx`'s own `featByName` merge.
+  const bonusFeats = receiving
+    ? options.classes.find((c) => c.name === receiving.className)?.bonusFeatOptionsByLevel[receiving.level]?.feats ?? []
+    : [];
 
   const feats = [
-    featSelection(draft.newFeat, options, draft.featSubChoices, draft.featSubChoices2),
-    featSelection(draft.newBonusFeat, options, draft.featSubChoices, draft.featSubChoices2),
+    featSelection(draft.newFeat, options.feats, draft.featSubChoices, draft.featSubChoices2),
+    featSelection(draft.newBonusFeat, [...options.feats, ...bonusFeats], draft.featSubChoices, draft.featSubChoices2),
   ].filter((selection): selection is FeatSelectionBody => selection !== null);
 
   const skill_ranks = [

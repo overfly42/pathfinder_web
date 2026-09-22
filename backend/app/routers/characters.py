@@ -257,10 +257,11 @@ def _validate_feat_sub_choice(
 ) -> None:
     """Enforces `BaseFeat.sub_choice_type` against one submitted
     `FeatSelection` (roadmap.md's "Talent-Sub-Wahl-Schema") — which of
-    `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school` must be set,
-    and what it must resolve against, depends on the feat itself, so this
-    can't live in the schema layer (`FeatSelection.at_most_one_sub_choice`
-    only checks that at most one is set at all, not which one is required)."""
+    `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`/
+    `chosen_manifestation` must be set, and what it must resolve against,
+    depends on the feat itself, so this can't live in the schema layer
+    (`FeatSelection.at_most_one_sub_choice` only checks that at most one is
+    set at all, not which one is required)."""
     sub_choice_type = feat.sub_choice_type
     if sub_choice_type is None:
         if (
@@ -268,6 +269,7 @@ def _validate_feat_sub_choice(
             or selection.chosen_skill_id
             or selection.chosen_skill_id_2
             or selection.chosen_spell_school
+            or selection.chosen_manifestation
         ):
             raise HTTPException(status_code=422, detail=f"'{feat.name}' does not take a sub-choice")
         return
@@ -311,6 +313,13 @@ def _validate_feat_sub_choice(
         if selection.chosen_spell_school not in known_spell_schools:
             raise HTTPException(
                 status_code=422, detail=f"chosen_spell_school for '{feat.name}' is not a known spell school"
+            )
+    elif sub_choice_type == "manifestation":
+        if selection.chosen_manifestation is None:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen_manifestation")
+        if selection.chosen_manifestation not in (feat.manifestation_options or []):
+            raise HTTPException(
+                status_code=422, detail=f"chosen_manifestation for '{feat.name}' is not one of its manifestations"
             )
 
 
@@ -1066,6 +1075,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                     chosen_skill_id=selection.chosen_skill_id,
                     chosen_skill_id_2=selection.chosen_skill_id_2,
                     chosen_spell_school=selection.chosen_spell_school,
+                    chosen_manifestation=selection.chosen_manifestation,
                 )
             )
         for trait_id in body.trait_ids:
@@ -2419,6 +2429,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 entry["chosen_skill_id"],
                 entry["chosen_skill_id_2"],
                 entry["chosen_spell_school"],
+                entry["chosen_manifestation"],
             )
             for entry in character.feats
         }
@@ -2433,6 +2444,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 selection.chosen_skill_id,
                 selection.chosen_skill_id_2,
                 selection.chosen_spell_school,
+                selection.chosen_manifestation,
             )
             if key in already_known:
                 raise HTTPException(status_code=422, detail=f"'{feat.name}' with this sub-choice is already known")
@@ -2677,6 +2689,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 chosen_skill_id=selection.chosen_skill_id,
                 chosen_skill_id_2=selection.chosen_skill_id_2,
                 chosen_spell_school=selection.chosen_spell_school,
+                chosen_manifestation=selection.chosen_manifestation,
             )
         )
     for spell_id in body.spell_ids:

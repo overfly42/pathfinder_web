@@ -2368,5 +2368,14 @@
     "type": "general",
     "prerequisite_text": null,
     "sub_choice_type": "skill_pair"
+  },
+  {
+    "id": "459485d5-ae02-551b-8077-b1d0964cbf71",
+    "name": "Inbegriff des Katzenvolkes",
+    "description": "Deine felinen Merkmale sind ausgeprägter als bei anderen Angehörigen deines Volkes. Du kannst das Talent Aspekt der Bestie auswählen, selbst wenn du die Voraussetzungen nicht erfüllst. Ferner manifestiert sich deine katzenartige Natur in einer der folgenden Weisen; du wählst diese mit dem Talent aus und kannst sie später nicht mehr verändern: Scharfe Krallen (AF): Solltest du nicht über das Volksmerkmal Katzenkrallen oder die Klauen der Bestie-Manifestation des Talents Aspekt der Bestie verfügen, erhältst du das Volksmerkmal Katzenkrallen. Solltest du über eine dieser beiden Eigenschaften verfügen, steigt dein Klauenschaden auf 1W6. Schneller Spurter (AF): Du erhältst beim Rennen, einem Sturmangriff und einen Rückzug einen Volksbonus von +3 m auf deine Bewegungsrate. Solltest du über das Volksmerkmal Spurter verfügen, wird dieser Bonus verdoppelt. Verbesserte Sinne (AF): Sofern du das Volksmerkmal Dämmersicht hast, erhältst du auch das Volksmerkmal Geruchssinn und umgekehrt. Speziell: Du kannst dieses Talent mehrfach wählen. Die Effekte sind nicht kumulativ, stattdessen musst du jedes Mal eine andere Manifestation auswählen.",
+    "type": "general",
+    "prerequisite_text": "Katzenvolk.",
+    "sub_choice_type": "manifestation",
+    "manifestation_options": ["Scharfe Krallen", "Schneller Spurter", "Verbesserte Sinne"]
   }
 ]

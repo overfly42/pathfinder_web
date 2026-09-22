@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Boolean, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -50,21 +50,36 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # taking it (roadmap.md's "Talent-Sub-Wahl-Schema") — "weapon" (Waffenfokus,
     # Mächtiger Waffenfokus, Waffenspezialisierung, Mächtige
     # Waffenspezialisierung), "skill" (Fertigkeitsfokus), "spell_school"
-    # (Zauberfokus, Mächtiger Zauberfokus), or "skill_pair" (two *distinct*
+    # (Zauberfokus, Mächtiger Zauberfokus), "skill_pair" (two *distinct*
     # skill picks in one go, e.g. Kosmopolit's "wähle zwei intelligenz-,
     # weisheits- oder charismabasierte Fertigkeiten" — unlike "skill", not
     # reusable by taking the feat twice, since Kosmopolit only costs one feat
     # slot for both picks; `CharacterFeat.chosen_skill_id`/
-    # `chosen_skill_id_2` hold the pair). Same plain-string-tag convention as
-    # `type` — not an FK, since the choice's *target* table differs per value
-    # (base_items/base_skills/a bare BaseSpell.school string) rather than
-    # pointing at one shared catalog. Null means the feat is taken as-is, no
-    # further choice needed (the common case). The actual pick lives on
-    # `CharacterFeat`, one column per possible target; which one is populated
-    # is validated server-side (`routers/characters.py`) against this field,
-    # not enforced by the schema itself — same split as
+    # `chosen_skill_id_2` hold the pair), or "manifestation" (one fixed,
+    # feat-authored named variant with no shared catalog of its own, e.g.
+    # "Inbegriff des Katzenvolkes"' Scharfe Krallen/Schneller Spurter/
+    # Verbesserte Sinne — the valid option strings live on this same row,
+    # `manifestation_options`, rather than a cross-feat table, since unlike
+    # weapon/skill/spell-school there's no reason a future feat's
+    # manifestation list would ever need to share rows with this one's).
+    # Same plain-string-tag convention as `type` — not an FK, since the
+    # choice's *target* table differs per value (base_items/base_skills/a
+    # bare BaseSpell.school string/this row's own manifestation_options)
+    # rather than pointing at one shared catalog. Null means the feat is
+    # taken as-is, no further choice needed (the common case). The actual
+    # pick lives on `CharacterFeat`, one column per possible target; which
+    # one is populated is validated server-side (`routers/characters.py`)
+    # against this field, not enforced by the schema itself — same split as
     # `BaseClassAbilityFeatOption.feat_type`/`feat_id`.
     sub_choice_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    # Valid `CharacterFeat.chosen_manifestation` values for a
+    # `sub_choice_type == "manifestation"` feat — plain JSON list of the
+    # option names as the rulebook itself names them (e.g. "Scharfe
+    # Krallen"), same "small feat-local set, not worth its own catalog
+    # table" reasoning as `chosen_spell_school` being a bare string instead
+    # of an FK. Null for every other feat (mirrors `BaseItem.
+    # applicable_categories`'s JSON-list-column precedent).
+    manifestation_options: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
 
 class BaseFeatRequiredFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -173,15 +188,16 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     career the old-fashioned way (different levels) is still two rows too,
     just at different levels, same as before.
 
-    Exactly one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`
-    is set when `feat.sub_choice_type` is not null (matching that value), and
-    all three are null otherwise — see `BaseFeat.sub_choice_type`'s docstring
-    for why this isn't itself an FK to one shared table. `chosen_skill_id_2`
-    is the odd one out: it's only ever set alongside `chosen_skill_id`, and
-    only for `sub_choice_type == "skill_pair"` (Kosmopolit) — a second target
-    for the same "skill" kind, not a fourth kind of its own. Validated
-    server-side (`routers/characters.py`), not by a DB constraint: a CHECK
-    can't reach across to `base_feats` to compare against `sub_choice_type`."""
+    Exactly one of `chosen_weapon_id`/`chosen_skill_id`/`chosen_spell_school`/
+    `chosen_manifestation` is set when `feat.sub_choice_type` is not null
+    (matching that value), and all four are null otherwise — see
+    `BaseFeat.sub_choice_type`'s docstring for why this isn't itself an FK to
+    one shared table. `chosen_skill_id_2` is the odd one out: it's only ever
+    set alongside `chosen_skill_id`, and only for `sub_choice_type ==
+    "skill_pair"` (Kosmopolit) — a second target for the same "skill" kind,
+    not a kind of its own. Validated server-side (`routers/characters.py`),
+    not by a DB constraint: a CHECK can't reach across to `base_feats` to
+    compare against `sub_choice_type`."""
 
     __tablename__ = "character_feats"
     __table_args__ = (
@@ -192,6 +208,7 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             "chosen_skill_id",
             "chosen_skill_id_2",
             "chosen_spell_school",
+            "chosen_manifestation",
         ),
     )
 
@@ -211,5 +228,9 @@ class CharacterFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # Same plain-string convention as `BaseSpell.school` (not an FK — school
     # isn't its own catalog table, see that column's docstring).
     chosen_spell_school: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    # For `sub_choice_type == "manifestation"` — one of the feat's own
+    # `BaseFeat.manifestation_options` strings, same not-an-FK reasoning as
+    # `chosen_spell_school`.
+    chosen_manifestation: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
     feat: Mapped["BaseFeat"] = relationship()

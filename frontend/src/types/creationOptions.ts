@@ -84,6 +84,29 @@ export interface ClassDef {
    *  and every even level) — real data from `base_class_ability_grants`, not
    *  a hardcoded class name; see `featMax` in `creationCalculations.ts`. */
   bonusFeatLevels: number[];
+  /** What's eligible for that bonus feat slot at each of `bonusFeatLevels`'
+   *  occurrence levels — resolved server-side from
+   *  `base_class_ability_feat_options`, not a hardcoded "any combat feat"
+   *  assumption (only true for Kämpfer; Mönch's Bonustalent is a closed,
+   *  level-gated list). `types` (broad category, e.g. "combat") is still
+   *  subject to the character's normal prerequisite check — intersect with
+   *  the already prereq-filtered feat list. `feats` (an explicit closed
+   *  list, full `FeatDef` objects since a listed feat may be entirely
+   *  absent from that prereq-filtered list) is offered as-is: every class
+   *  seeded with one so far waives normal prerequisites for its own named
+   *  list in its own source text. */
+  bonusFeatOptionsByLevel: Record<number, { types: string[]; feats: FeatDef[] }>;
+  /** archetype name -> its own `bonusFeatOptionsByLevel`, sparse (only
+   *  present where an archetype's own class ability replaces the base
+   *  class's bonus-feat grants, e.g. Meister aller Kampfstile swapping
+   *  Mönch's closed Bonustalent list for an open pick from any
+   *  `kampfkunst`-type feat — see `rules/feat_slots.py` on the backend).
+   *  Look this up first (via `receivingArchetypeNames`) for the receiving
+   *  class row's selected archetype, falling back to `bonusFeatOptionsByLevel`
+   *  otherwise — same "delta the frontend applies once selected" shape as
+   *  `archetypeCastingAbility`. The replaced grant *levels* are unchanged
+   *  (still `bonusFeatLevels`); only the options at those levels differ. */
+  archetypeBonusFeatOptionsByLevel: Record<string, Record<number, { types: string[]; feats: FeatDef[] }>>;
   /** 2-letter ability code the class casts with (e.g. IN for Wizard), or
    *  `null` for non-casters. */
   castingAbility: AbilityKey | null;
@@ -150,7 +173,7 @@ export interface SkillSpecializationDef {
   hasHandler: boolean;
 }
 
-export type FeatSubChoiceType = 'weapon' | 'skill' | 'skill_pair' | 'spell_school' | null;
+export type FeatSubChoiceType = 'weapon' | 'skill' | 'skill_pair' | 'spell_school' | 'manifestation' | null;
 
 export interface FeatDef {
   id: string;
@@ -161,8 +184,14 @@ export interface FeatDef {
    *  (e.g. Waffenfokus -> "weapon") — see `BaseFeat.sub_choice_type` on the
    *  backend. `null` for the common case of a feat with no further choice.
    *  "skill_pair" (Kosmopolit) needs *two* distinct skill picks from one
-   *  feat instance — see `CreationDraft.featSubChoices2`. */
+   *  feat instance — see `CreationDraft.featSubChoices2`. "manifestation"
+   *  (e.g. Inbegriff des Katzenvolkes) picks one of this feat's own
+   *  `manifestationOptions` rather than a target from a shared catalog. */
   subChoiceType: FeatSubChoiceType;
+  /** Valid picks for `subChoiceType === 'manifestation'` (e.g. "Scharfe
+   *  Krallen"/"Schneller Spurter"/"Verbesserte Sinne") — see `BaseFeat.
+   *  manifestation_options` on the backend. `null` for every other feat. */
+  manifestationOptions: string[] | null;
   /** Whether `rules/handlers.py`'s `HANDLERS` registry actually computes this
    *  feat's effect, vs. it only ever showing as name/description text on the
    *  sheet. */

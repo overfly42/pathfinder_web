@@ -132,6 +132,7 @@ export function featSelectionsForSubmission(draft: CreationDraft, options: Creat
       chosen_skill_id: isSkillKind ? subChoice ?? null : null,
       chosen_skill_id_2: feat?.subChoiceType === 'skill_pair' ? draft.featSubChoices2[featId] ?? null : null,
       chosen_spell_school: feat?.subChoiceType === 'spell_school' ? subChoice ?? null : null,
+      chosen_manifestation: feat?.subChoiceType === 'manifestation' ? subChoice ?? null : null,
     };
   });
 }

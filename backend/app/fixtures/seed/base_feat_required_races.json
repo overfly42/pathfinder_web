@@ -436,5 +436,11 @@
     "feat_id": "89ac7ad2-7a0c-562e-a44a-45b2e8273913",
     "group_id": null,
     "race_id": "3d007d77-60e2-4f01-b682-8a3a129a49da"
+  },
+  {
+    "id": "ccda878b-23a7-54fe-876e-e91f885f6cca",
+    "feat_id": "459485d5-ae02-551b-8077-b1d0964cbf71",
+    "group_id": null,
+    "race_id": "b7af198e-2839-44d3-a7fd-b800759ede9c"
   }
 ]

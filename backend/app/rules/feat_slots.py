@@ -47,6 +47,18 @@ RACE_BONUS_FEAT_ABILITY_ID = UUID("e55030a3-b066-480f-ba0a-0653a8f132ca")
 BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
     {
         UUID("62ac4cf1-04b9-431b-9047-4156f6cb3481"),  # Kämpfer: Bonus-Kampftalent
+        # Meister aller Kampfstile (Mönch archetype): "Bonustalente (Meister
+        # aller Kampfstile)" — replaces the base Mönch's own Bonustalent
+        # (same six grant levels: 1st, 2nd, 6th, 10th, 14th, 18th, see
+        # `base_class_ability_replacements.json`) with an open pick from any
+        # `BaseFeat.type == "kampfkunst"` feat instead of the base class's
+        # closed list. Grant rows key off the *archetype's own* `BaseClass`
+        # id, not the Mönch root's, so `main.py`'s `get_classes` surfaces
+        # this under the sparse `archetypeBonusFeatOptionsByLevel` delta
+        # (same "override, not merge, once that archetype is selected"
+        # shape as `archetypeCastingAbility`) rather than the root's own
+        # `bonusFeatOptionsByLevel`.
+        UUID("a7cedcc7-7210-5928-a1e4-072e8fa1c138"),
     }
 )
 

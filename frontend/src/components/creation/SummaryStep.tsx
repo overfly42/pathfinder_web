@@ -55,7 +55,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
         ? itemNameById.get(subChoice)
         : feat.subChoiceType === 'skill'
           ? skillNameById.get(subChoice)
-          : feat.subChoiceType === 'spell_school'
+          : feat.subChoiceType === 'spell_school' || feat.subChoiceType === 'manifestation'
             ? subChoice
             : undefined;
     return label ? `${feat.name} (${label})` : feat.name;

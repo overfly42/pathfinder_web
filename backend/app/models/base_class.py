@@ -390,6 +390,21 @@ class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
       one — i.e. no real choice at all, just reusing this table rather than
       a separate deterministic-grant concept).
 
+    `waives_prerequisites` (`feat_type` rows only; a `feat_id` row is always
+    treated as prerequisite-waiving, same as before this column existed —
+    see the class-level docstring above) — most `feat_type` slots (Kämpfer's
+    "combat") still require the character to actually meet that feat's own
+    prerequisites, same as picking it normally; `main.py`'s `get_classes`
+    reflects that by leaving these as a bare category tag the frontend
+    intersects with the already prereq-filtered feat list. Meister aller
+    Kampfstile's "kampfkunst" slot is the first counter-example (its own
+    source text: "muss er die Voraussetzungen dieser Talente nicht
+    erfüllen") — `True` here makes `get_classes` resolve every current
+    `BaseFeat` of that type into the response's `feats` list instead (same
+    shape a `feat_id` row already produces), rather than adding a second
+    code path. Defaults to `False`, the pre-existing behavior for every
+    `feat_type` row seeded before this column.
+
     `option_choice_id` (nullable) narrows the row to characters who picked
     that `BaseClassOptionChoice`, same meaning as
     `BaseClassAbilityGrant.option_choice_id` — lets "Talent des Blutes"
@@ -418,6 +433,7 @@ class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     feat_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
     feat_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("base_feats.id"), nullable=True)
     min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    waives_prerequisites: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
