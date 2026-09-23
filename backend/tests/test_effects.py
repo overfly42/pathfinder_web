@@ -15,9 +15,12 @@ from app.models import (
     CharacterEffect,
     CharacterSpell,
 )
+from app.rules.effects import DEFENSIV_KAEMPFEN_CONDITION_ID, VOLLE_VERTEIDIGUNG_CONDITION_ID
+from app.rules.feats import KRANICHSTIL
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
 from app.seed.condition_seed import seed_conditions
+from app.seed.feat_seed import seed_feats
 from app.seed.spell_seed import seed_spells
 
 from test_characters import (
@@ -25,6 +28,8 @@ from test_characters import (
     _character_payload,
     _create_user,
     _elf_race_id,
+    _feat_id,
+    _feat_selection,
     _item_id,
     _spells_by_class,
 )
@@ -526,6 +531,95 @@ def test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_
     assert weapon["damage"] == "1W8+2 H"  # base die + Kampfrausch +2 damage
     # 2 temporary HP per Hit Die; this character is level 1.
     assert raging["hp"]["temporary"] == 2
+
+
+def _fmt(mod: int) -> str:
+    return ("+" if mod >= 0 else "") + str(mod)
+
+
+def test_defensiv_kaempfen_applies_ac_dodge_and_attack_penalty(client: TestClient, db_session: Session) -> None:
+    """`rules/effects.py`'s `_defensiv_kaempfen` — "Defensiv kämpfen" (GRW
+    Kampfkapitel) isn't a RAW "Zustand", but is modeled as a `BaseCondition`
+    row purely to reuse this same activate/advance-time machinery instead of
+    a bespoke mechanism (2026-09-23 conversation, same reasoning
+    `_erschoepft`/Kampfrausch above already established for reusing
+    `CharacterEffect`)."""
+    seed_conditions(db_session)
+    character_id = _create_character(client, db_session)
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    client.put(f"/api/characters/{character_id}/slots/hauptwaffe", json={"item_id": langschwert_id})
+
+    baseline = client.get(f"/api/characters/{character_id}").json()
+    baseline_ac = baseline["armorClass"]
+    baseline_attack = int(next(w for w in baseline["weaponAttacks"] if w["key"] == "hauptwaffe")["attackBonus"])
+
+    response = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "condition", "source_id": str(DEFENSIV_KAEMPFEN_CONDITION_ID)},
+    )
+    assert response.status_code == 201
+
+    fighting_defensively = client.get(f"/api/characters/{character_id}").json()
+    assert fighting_defensively["armorClass"] == baseline_ac + 2
+    weapon = next(w for w in fighting_defensively["weaponAttacks"] if w["key"] == "hauptwaffe")
+    assert weapon["attackBonus"] == _fmt(baseline_attack - 4)
+
+
+def test_volle_verteidigung_applies_ac_dodge_only(client: TestClient, db_session: Session) -> None:
+    """`rules/effects.py`'s `_volle_verteidigung` — no `ATTACK` modifier,
+    unlike Defensiv kämpfen: Total Defense spends the whole standard action
+    on defense, no attack to penalize."""
+    seed_conditions(db_session)
+    character_id = _create_character(client, db_session)
+    baseline_ac = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    response = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "condition", "source_id": str(VOLLE_VERTEIDIGUNG_CONDITION_ID)},
+    )
+    assert response.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline_ac + 4
+
+
+def test_kranichstil_reduces_defensiv_kaempfen_penalty_and_adds_dodge_bonus(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/feats.py`'s `_kranichstil` — modeled as passive (like
+    Ausweichen), reacting to whichever of `DEFENSIV_KAEMPFEN_CONDITION_ID`/
+    `VOLLE_VERTEIDIGUNG_CONDITION_ID` is currently active rather than its own
+    activatable toggle (2026-09-23 conversation). `activate_effect` doesn't
+    check feat prerequisites (roadmap slice 6, same gap
+    `test_entfesselter_barbar_kampfrausch_applies_ac_will_attack_damage_and_temp_hp`
+    already relies on), so the test character doesn't need Kranichstil's own
+    prerequisites (Ausweichen, Verbesserter waffenloser Schlag, GAB +2)."""
+    seed_conditions(db_session)
+    kranichstil_id = _feat_id(client, db_session, "Kranichstil")
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    character_id = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, feats=[_feat_selection(kranichstil_id)]),
+    ).json()["id"]
+    langschwert_id = _item_id(client, db_session, "Langschwert")
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": langschwert_id, "quantity": 1})
+    client.put(f"/api/characters/{character_id}/slots/hauptwaffe", json={"item_id": langschwert_id})
+
+    baseline = client.get(f"/api/characters/{character_id}").json()
+    baseline_ac = baseline["armorClass"]
+    baseline_attack = int(next(w for w in baseline["weaponAttacks"] if w["key"] == "hauptwaffe")["attackBonus"])
+
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "condition", "source_id": str(DEFENSIV_KAEMPFEN_CONDITION_ID)},
+    )
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["armorClass"] == baseline_ac + 3  # +2 Defensiv kämpfen, +1 Kranichstil
+    weapon = next(w for w in sheet["weaponAttacks"] if w["key"] == "hauptwaffe")
+    assert weapon["attackBonus"] == _fmt(baseline_attack - 2)  # -4 Malus, +2 Kranichstil-Ausgleich
 
 
 def test_bestientotem_natural_armor_bonus_scales_with_barbarian_level(

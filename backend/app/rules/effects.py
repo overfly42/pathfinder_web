@@ -52,6 +52,58 @@ def _erschoepft(context: CharacterContext) -> list[Modifier]:
     ]
 
 
+# "Defensiv kämpfen" (Fighting Defensively as a standard action, GRW Kampf
+# chapter) — not a RAW "Zustand", but modeled as a `BaseCondition` row
+# (`base_conditions.json` id 2b469d79-…, `default_duration_rounds=1`, "bis
+# zum Beginn deines nächsten Zuges") since that's exactly the round-based
+# activate/duration/advance-time machinery this needs, with no new mechanism
+# required — same reuse as `_erschoepft` above. GRW: "Malus von -4 auf alle
+# Angriffe in deiner Runde... Ausweichbonus +2 auf deine RK." Both modifier
+# types (`dodge`/`untyped`) are in `ALWAYS_STACKS` (`rules/modifiers.py`), so
+# Kranichstils eigener Offset-Bonus (`rules/feats.py`'s `_kranichstil`, +2
+# ATTACK to bring the malus from -4 to -2) einfach dazu addiert wird statt
+# diese Basiszahl ersetzen zu müssen — kein Sonderfall in `stack()` nötig.
+#
+# Known, documented simplification (same shape `_build_weapon_attacks`'s own
+# docstring already flags for `ModifierTarget.ATTACK` generally): this only
+# reaches melee attacks (`sheet.py`'s `melee_attack_bonus`), not ranged ones
+# — PF1e RAW actually penalizes every attack this round, melee and ranged
+# alike, but the app's shared ATTACK-stacking pipeline is melee-only
+# end-to-end today (Kampfrausch's flat +2 has the exact same gap).
+DEFENSIV_KAEMPFEN_CONDITION_ID = UUID("2b469d79-809a-530a-ac06-a1214bdc2181")
+
+
+def _defensiv_kaempfen(context: CharacterContext) -> list[Modifier]:
+    """Doesn't scale with instance count — same "presence, not sum" reasoning
+    `_erschoepft` documents: fighting defensively twice at once isn't a
+    thing."""
+    instances = [e for e in context.active_effects if e.source_id == DEFENSIV_KAEMPFEN_CONDITION_ID]
+    if not instances:
+        return []
+    return [
+        Modifier(source="Defensiv kämpfen", type="dodge", value=2, target=ModifierTarget.AC),
+        Modifier(source="Defensiv kämpfen", type="untyped", value=-4, target=ModifierTarget.ATTACK),
+    ]
+
+
+# "Volle Verteidigung" (Total Defense as a standard action, GRW Kampf
+# chapter) — same "`BaseCondition` row reusing the round-based effect
+# machinery" reasoning as `DEFENSIV_KAEMPFEN_CONDITION_ID` above
+# (`base_conditions.json` id 18eaadc6-…, `default_duration_rounds=1`). GRW:
+# "+4 Ausweichbonus auf RK eine Runde lang." No `ATTACK` modifier: Total
+# Defense makes no attacks at all (a standard action spent entirely on
+# defense), unlike Defensiv kämpfen's attack/AC trade-off.
+VOLLE_VERTEIDIGUNG_CONDITION_ID = UUID("18eaadc6-8ed4-5817-9a6e-d14c67e6ef50")
+
+
+def _volle_verteidigung(context: CharacterContext) -> list[Modifier]:
+    """Same "presence, not sum" reasoning as `_erschoepft`/`_defensiv_kaempfen`."""
+    instances = [e for e in context.active_effects if e.source_id == VOLLE_VERTEIDIGUNG_CONDITION_ID]
+    if not instances:
+        return []
+    return [Modifier(source="Volle Verteidigung", type="dodge", value=4, target=ModifierTarget.AC)]
+
+
 # Magierrüstung (Mage Armor, `base_spells.json` id b987fa2d-…) — first
 # `BaseSpell` marked `is_persistent_effect`. PRD text: +4 armor bonus to AC;
 # the "legendäre" +6/critical-negation upgrade in the same description is a
@@ -149,6 +201,8 @@ def _katzenhafte_anmut(context: CharacterContext) -> list[Modifier]:
 
 EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ERSCHOPFT_CONDITION_ID: _erschoepft,
+    DEFENSIV_KAEMPFEN_CONDITION_ID: _defensiv_kaempfen,
+    VOLLE_VERTEIDIGUNG_CONDITION_ID: _volle_verteidigung,
     MAGIERRUESTUNG_SPELL_ID: _magierruestung,
     SCHILD_DES_GLAUBENS_SPELL_ID: _schild_des_glaubens,
     RINDENHAUT_SPELL_ID: _rindenhaut,

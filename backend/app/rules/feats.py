@@ -15,6 +15,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from .context import CharacterContext
+from .effects import DEFENSIV_KAEMPFEN_CONDITION_ID, VOLLE_VERTEIDIGUNG_CONDITION_ID
 from .modifiers import Modifier, ModifierTarget
 from .progression import ability_mod
 
@@ -133,6 +134,52 @@ def _ausweichen(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Ausweichen", type="dodge", value=1, target=ModifierTarget.AC)]
 
 
+# `base_feats.json`'s "Kranichstil" (Crane Style) row id (ABR II S. 103).
+# Voraussetzungen: Ausweichen, Verbesserter waffenloser Schlag, GAB +2 oder
+# Mönch 1. Vorteil (quoted in full, 2026-09-23 conversation): "Du erleidest
+# nur einen Malus von -2 auf Angriffswürfe, wenn du defensiv kämpfst. Wenn
+# du diesen Kampfstil nutzt und defensiv kämpfst oder die Aktion Volle
+# Verteidigung nutzt, erhältst du einen zusätzlichen Ausweichbonus von +1
+# auf deine Rüstungsklasse."
+#
+# Modeled as passive (like `AUSWEICHEN`/`_ausweichen` above), not gated
+# behind its own activatable `CharacterEffect` toggle like Heftiger Angriff:
+# unlike Kampfrausch/Heftiger Angriff, the feat text never mentions an
+# activation cost, a swift action, or its own duration — "wenn du diesen
+# Kampfstil nutzt" reads as flavor for "while fighting under this
+# discipline," not a second tracked resource. Simplifying assumption, easy
+# to revisit if a later feat in this same family (Kranichschwinge,
+# Kranichriposte) turns out to need Kranichstil's stance tracked as its own
+# state independent of simply knowing the feat.
+KRANICHSTIL = UUID("0d7d316e-c8ca-5934-acc8-c2437f00c781")
+
+
+def _kranichstil(context: CharacterContext) -> list[Modifier]:
+    """Reads `DEFENSIV_KAEMPFEN_CONDITION_ID`/`VOLLE_VERTEIDIGUNG_CONDITION_ID`
+    (`rules/effects.py`) off `context.active_effects` — same "own-state
+    toggle, but reacting to a *different* id's activation" shape as nothing
+    else in this file yet, since Kranichstil's own benefit depends on which
+    combat action the character is currently using, not on anything this
+    feat itself activates. The +1 dodge applies for either action (RAW
+    grants it once, not summed if both were somehow active at once — not
+    RAW-legal simultaneously anyway, no action-economy engine enforces
+    that, same gap `todos.md` already tracks); the -4→-2 attack-malus offset
+    only applies while fighting defensively specifically (Volle Verteidigung
+    makes no attacks at all, nothing to offset)."""
+    fighting_defensively = any(e.source_id == DEFENSIV_KAEMPFEN_CONDITION_ID for e in context.active_effects)
+    total_defense = any(e.source_id == VOLLE_VERTEIDIGUNG_CONDITION_ID for e in context.active_effects)
+    if not fighting_defensively and not total_defense:
+        return []
+    modifiers = [Modifier(source="Kranichstil", type="dodge", value=1, target=ModifierTarget.AC)]
+    if fighting_defensively:
+        # Offsets, not replaces, the -4 `Modifier` `_defensiv_kaempfen`
+        # (`rules/effects.py`) already contributes — both are `untyped`
+        # (`ALWAYS_STACKS`, `rules/modifiers.py`), so -4 + 2 = -2 falls out
+        # of plain additive stacking with no special-cased override.
+        modifiers.append(Modifier(source="Kranichstil", type="untyped", value=2, target=ModifierTarget.ATTACK))
+    return modifiers
+
+
 def power_attack_bonus(bab: int) -> tuple[int, int]:
     """GRW S. 124: "Du kannst wählen, einen Malus von –1 auf alle
     Nahkampf-Angriffswürfe und Kampfmanöver-Würfe zu erhalten. Dafür
@@ -183,6 +230,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
     AUSWEICHEN: _ausweichen,
+    KRANICHSTIL: _kranichstil,
 }
 
 # Feat ids whose class-skill grant is the player's own choice

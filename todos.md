@@ -413,7 +413,8 @@ Weglassen. Erledigte Gruppen wandern wie üblich nach `todos_history.md`.
 Pro Zeile zuerst gegen `prd.5footstep.de`s Zustände-Seite klassifizieren:
 numerischer Modifier-Effekt (→ `Modifier`/`stack()`, wie überall sonst) oder
 rein narrativ/Aktionsökonomie (→ bewusst kein Handler-Eintrag, kein
-Rateinhalt). Noch keine einzige Zeile klassifiziert oder verdrahtet:
+Rateinhalt). Bislang nur drei Zeilen klassifiziert/verdrahtet (siehe deren
+eigene `[x]`-Einträge unten), der Rest noch offen:
 
 - [ ] Benommen
 - [ ] Beschädigt
@@ -421,6 +422,25 @@ Rateinhalt). Noch keine einzige Zeile klassifiziert oder verdrahtet:
 - [ ] Bewusstlos
 - [ ] Blind
 - [ ] Blutung
+- [x] Defensiv kämpfen (2026-09-23, kein RAW-„Zustand", sondern bewusst als
+      `BaseCondition`-Zeile modelliert, um die Kampf-Aktion „Defensiv
+      kämpfen" (GRW Kampfkapitel) über die schon vorhandene
+      `CharacterEffect`/`advance-time`-Maschinerie abzubilden statt über
+      einen neuen Mechanismus — siehe `rules/effects.py`'s
+      `EFFECT_HANDLERS[DEFENSIV_KAEMPFEN_CONDITION_ID]` (-4 ATTACK, +2 AC
+      dodge, beide `ALWAYS_STACKS`). Kranichstil (`rules/feats.py`'s
+      `_kranichstil`) reduziert den Malus auf -2 und addiert +1 AC, sobald
+      diese Condition aktiv ist — dabei bewusst als **passives** Talent
+      modelliert (wie Ausweichen), nicht als eigener aktivierbarer
+      Kampfstil-Toggle wie Heftiger Angriff/Kampfrausch, da der zitierte
+      Talenttext (ABR II S. 103) keine Aktivierungskosten/Schnelle Aktion
+      nennt. Vereinfachende Annahme, leicht zu revidieren, falls ein
+      späteres Talent derselben Familie (Kranichschwinge, Kranichriposte)
+      eine eigene, von der bloßen Talent-Kenntnis unabhängige
+      Kranichstil-Zustandsverfolgung braucht. Bekannte, bewusst
+      übernommene Lücke: der Angriffsmalus wirkt nur auf Nahkampfangriffe
+      (`sheet.py`s `melee_attack_bonus`), nicht auf Fernkampf — dieselbe
+      Einschränkung, die Kampfrausch für `ModifierTarget.ATTACK` schon hat.)
 - [ ] Entkräftet
 - [x] Erschöpft (2026-08-17, `rules/effects.py`'s `EFFECT_HANDLERS[ERSCHOPFT_CONDITION_ID]`
       — -2 ST/GE as `Modifier`s targeting `ModifierTarget.SCORE`; the
@@ -454,6 +474,11 @@ Rateinhalt). Noch keine einzige Zeile klassifiziert oder verdrahtet:
 - [ ] Verstrickt
 - [ ] Verwirrt
 - [ ] Verängstigt
+- [x] Volle Verteidigung (2026-09-23, gleiche Modellierung wie „Defensiv
+      kämpfen" direkt oben — `rules/effects.py`'s
+      `EFFECT_HANDLERS[VOLLE_VERTEIDIGUNG_CONDITION_ID]`, +4 AC dodge, kein
+      Angriffsmalus, da eine volle Verteidigung keine Angriffe zulässt.
+      Kranichstils +1 AC dodge gilt auch hier.)
 - [ ] Wankend
 - [ ] Übelkeit
 

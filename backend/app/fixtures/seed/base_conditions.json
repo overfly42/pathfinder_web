@@ -60,6 +60,16 @@
     "default_successes_required": null
   },
   {
+    "id": "2b469d79-809a-530a-ac06-a1214bdc2181",
+    "name": "Defensiv kämpfen",
+    "description": "Du kannst dich dazu entscheiden, defensiv zu kämpfen. Du erleidest einen Malus von -4 auf alle Angriffe in dieser Runde und erhältst bis zum Beginn deines nächsten Zuges einen Ausweichbonus von +2 auf deine Rüstungsklasse. Die Wirkung währt üblicherweise 1 Runde, bis zum Beginn deines nächsten Zuges.",
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 1,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
+  },
+  {
     "id": "cb0021b3-f390-5eb6-b936-bfe6662b946b",
     "name": "Entkräftet",
     "description": "Ein entkräfteter Charakter kann sich nur mit seiner halben Bewegungsrate fortbewegen, kann nicht rennen und keine Sturmangriffe ausführen und erhält einen Malus von -6 auf Stärke und Geschicklichkeit. Hat ein entkräfteter Charakter sich 1 Stunde lang ausgeruht, ist er nur noch erschöpft. Ein erschöpft Charakter wird wieder entkräftet, wenn er etwas macht, das ihn normalerweise erschöpfen würde.",
@@ -316,6 +326,16 @@
     "type": "condition",
     "default_incubation_rounds": null,
     "default_duration_rounds": null,
+    "default_frequency_rounds": null,
+    "default_successes_required": null
+  },
+  {
+    "id": "18eaadc6-8ed4-5817-9a6e-d14c67e6ef50",
+    "name": "Volle Verteidigung",
+    "description": "Du kannst dich mit einer Standard-Aktion verteidigen. Dabei erhältst du eine Runde lang einen Ausweichbonus von +4 auf deine Rüstungsklasse. Diese verbessert sich sofort bei Beginn dieser Aktion. Aus einer Vollen Verteidigung heraus kannst du keine Gelegenheitsangriffe ausführen. Die Wirkung währt üblicherweise 1 Runde, bis zum Beginn deines nächsten Zuges.",
+    "type": "condition",
+    "default_incubation_rounds": null,
+    "default_duration_rounds": 1,
     "default_frequency_rounds": null,
     "default_successes_required": null
   },

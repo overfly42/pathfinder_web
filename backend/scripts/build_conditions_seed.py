@@ -143,6 +143,13 @@ CORE_CONDITIONS: list[tuple[str, str]] = [
         "Attributsschaden.",
     ),
     (
+        "Defensiv kämpfen",
+        "Du kannst dich dazu entscheiden, defensiv zu kämpfen. Du erleidest einen Malus von -4 auf alle "
+        "Angriffe in dieser Runde und erhältst bis zum Beginn deines nächsten Zuges einen Ausweichbonus "
+        "von +2 auf deine Rüstungsklasse. Die Wirkung währt üblicherweise 1 Runde, bis zum Beginn deines "
+        "nächsten Zuges.",
+    ),
+    (
         "Entkräftet",
         "Ein entkräfteter Charakter kann sich nur mit seiner halben Bewegungsrate fortbewegen, kann nicht "
         "rennen und keine Sturmangriffe ausführen und erhält einen Malus von -6 auf Stärke und "
@@ -418,6 +425,13 @@ CORE_CONDITIONS: list[tuple[str, str]] = [
         "daran, dass eine verwirrte Kreatur keine Gelegenheitsangriffe gegen Feinde ausführen wird, die "
         "sie nicht sowieso schon angreift (entweder auf Grund ihrer Handlung in diesem Zug oder weil sie "
         "gerade angegriffen wurde).",
+    ),
+    (
+        "Volle Verteidigung",
+        "Du kannst dich mit einer Standard-Aktion verteidigen. Dabei erhältst du eine Runde lang einen "
+        "Ausweichbonus von +4 auf deine Rüstungsklasse. Diese verbessert sich sofort bei Beginn dieser "
+        "Aktion. Aus einer Vollen Verteidigung heraus kannst du keine Gelegenheitsangriffe ausführen. Die "
+        "Wirkung währt üblicherweise 1 Runde, bis zum Beginn deines nächsten Zuges.",
     ),
     (
         "Wankend",
