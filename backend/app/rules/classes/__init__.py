@@ -51,6 +51,7 @@ from .kampfmagus import POOL_COST_AT_ACTIVATION as _KAMPFMAGUS_POOL_COST_AT_ACTI
 from .kampfmagus import POOL_SOURCE_ID as _KAMPFMAGUS_POOL_SOURCE_ID
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 from .kampfmagus import WEAPON_ENHANCEMENT_HANDLERS as _KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS
+from .moench import HANDLERS as _MOENCH_HANDLERS
 from .mystiker import DAILY_LIMIT_UNIT_LABEL as _MYSTIKER_DAILY_LIMIT_UNIT_LABEL
 from .mystiker import DAILY_LIMITS as _MYSTIKER_DAILY_LIMITS
 from .mystiker import HANDLERS as _MYSTIKER_HANDLERS
@@ -59,6 +60,7 @@ from .mystiker import POOL_COST_AT_ACTIVATION as _MYSTIKER_POOL_COST_AT_ACTIVATI
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
     **_KAMPFMAGUS_HANDLERS,
+    **_MOENCH_HANDLERS,
     **_MYSTIKER_HANDLERS,
 }
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {

@@ -59,6 +59,14 @@ class ModifierTarget(StrEnum):
     # spell like Spinnenklettern) would stack onto this the same way a class
     # ability stacks onto land speed.
     CLIMB_SPEED = "climb_speed"
+    # Kampfmanöverabwehr (`sheet.py`'s inline `10 + bab + str_mod + dex_mod`
+    # formula) — first producer is Mönch's Rüstungsklassenbonus
+    # (`rules/classes/moench.py`), which grants the same value to both AC
+    # and CMD. Single slot, no `target_id`, same as AC/SPEED/SAVE_*. Unlike
+    # AC, nothing else (gear, dodge bonuses) feeds this yet — PF1e's own
+    # rule that dodge bonuses also apply to CMD isn't modeled here, only
+    # this one ability's explicit "RK- und KMV-Bonus" grant is.
+    CMD = "cmd"
 
 
 @dataclass

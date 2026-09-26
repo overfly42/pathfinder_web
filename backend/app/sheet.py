@@ -314,6 +314,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         character_modifiers(context)
         + race_skill_modifiers(race_ability_ids)
         + granted_ability_modifiers(context, target=ModifierTarget.AC)
+        + granted_ability_modifiers(context, target=ModifierTarget.CMD)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -456,7 +457,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "label": "Kampfmanöverbonus (KMB)",
                 "value": _fmt(bab + str_mod + melee_attack_bonus),
             },
-            {"key": "cmd", "label": "Kampfmanöverabwehr (KMD)", "value": str(10 + bab + str_mod + dex_mod)},
+            {
+                "key": "cmd",
+                "label": "Kampfmanöverabwehr (KMD)",
+                "value": str(10 + bab + str_mod + dex_mod + stacked.get((ModifierTarget.CMD, None), 0)),
+            },
             *concentration,
         ],
         "skills": _build_skills(
