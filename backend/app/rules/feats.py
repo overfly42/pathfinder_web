@@ -14,6 +14,7 @@ import functools
 from collections.abc import Callable
 from uuid import UUID
 
+from .classes.moench import DRACHENMACHT_ABILITY_ID
 from .context import CharacterContext
 from .effects import DEFENSIV_KAEMPFEN_CONDITION_ID, VOLLE_VERTEIDIGUNG_CONDITION_ID
 from .modifiers import Modifier, ModifierTarget
@@ -240,6 +241,63 @@ KOSMOPOLIT = UUID("8df9604c-0a73-505e-94c5-b753e3362911")
 INBEGRIFF_DES_KATZENVOLKES = UUID("459485d5-ae02-551b-8077-b1d0964cbf71")
 SCHARFE_KRALLEN_MANIFESTATION = "Scharfe Krallen"
 
+# `base_feats.json`'s "Betäubender Schlag" (Stunning Fist) row id (GRW S.
+# 120). Full permalink text (prd.5footstep.de/Permalink?page_id=1292):
+# "Vorteil: Du musst die Anwendung dieses Talents ankündigen, bevor du
+# deinen Angriffswurf ausführst [...]. Betäubender Schlag verursacht
+# normalen Schaden und zwingt zusätzlich deinen Gegner dazu, einen
+# Zähigkeitswurf zu machen (SG 10 + ½ Erfahrungsstufe deines Charakters +
+# dein WE-Modifikator). Ein Verteidiger, dessen Zähigkeitswurf misslingt,
+# ist eine Runde lang betäubt [...]. Für je vier Erfahrungsstufen, die dein
+# Charakter erreicht hat, kannst du einen solchen betäubenden Angriff
+# einmal pro Tag versuchen. [...] Speziell: Mönche können das Talent
+# Betäubender Schlag auf der 1. Stufe als Bonustalent auswählen, auch wenn
+# sie die Voraussetzungen dazu nicht erfüllen. Ein Mönch, der dieses Talent
+# wählt, kann jeden Tag so viele betäubende Angriffe versuchen, wie er
+# Klassenstufen als Mönch hat plus einmal je vier Stufen, die er in anderen
+# Klassen als Mönch besitzt."
+#
+# The actual "target is stunned" effect lands on an opponent, which this
+# app has no model for at all (no NPC/monster state) — same "character-
+# facing stats only" scope limit spells' damage rolls already have. Only
+# the two character-facing numbers (uses/day, save DC) below are computed.
+#
+# `DAILY_LIMITS`/`SAVE_DC_HANDLERS` below cover the *generic* case — a
+# character with an actual `CharacterFeat` row for this feat (e.g. a
+# Fighter bonus feat). A monk's own grant (`base_class_abilities.json`'s
+# "Betäubender Schlag" wrapper ability, auto-granted at level 1 with
+# prerequisites waived, `base_class_ability_granted_feats.json`) never
+# creates a `CharacterFeat` row — same "just has it, no pick, no feat-count
+# cost" shape `BaseClassAbilityGrantedFeat`'s own docstring documents for a
+# class-granted proficiency — so it needs its own entry keyed by that
+# wrapper ability's id instead, with the monk-specific uses/day formula
+# ("Speziell" above): `rules/classes/moench.py`'s own `DAILY_LIMITS`/
+# `SAVE_DC_HANDLERS` slice.
+BETAEUBENDER_SCHLAG = UUID("e7ac15b5-29a3-53f1-bbbf-37a594667c1b")
+
+
+def _betaeubender_schlag_dc(context: CharacterContext) -> int:
+    """"SG 10 + ½ Erfahrungsstufe deines Charakters + dein WE-Modifikator."
+    CH instead of WE for a Beschuppte Faust (`rules/classes/moench.py`'s
+    `DRACHENMACHT_ABILITY_ID`, "Alle Klassenmerkmale des Mönchs, die
+    Berechnungen anhand seines Weisheitswertes vornehmen (... wie
+    Betäubender Schlag) ... verwenden stattdessen seinen Charismawert.") —
+    checked here too (not just in `moench.py`'s own copy of this formula)
+    since a Beschuppte-Faust character could in principle also hold an
+    actual `CharacterFeat` pick of this same feat from a non-monk source."""
+    ability = "CH" if DRACHENMACHT_ABILITY_ID in context.granted_ability_ids else "WE"
+    return 10 + context.character_level // 2 + ability_mod(context.ability_scores.get(ability, 10))
+
+
+def _betaeubender_schlag_uses_per_day(context: CharacterContext) -> int:
+    """"Für je vier Erfahrungsstufen, die dein Charakter erreicht hat,
+    kannst du einen solchen betäubenden Angriff einmal pro Tag versuchen."
+    — floor(character level / 4), the generic (non-monk) formula. A monk's
+    own better formula lives in `moench.py` instead (see `BETAEUBENDER_SCHLAG`'s
+    own docstring above)."""
+    return context.character_level // 4
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
@@ -254,6 +312,17 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 # instead of a static frozenset here, since the granted skill ids differ per
 # character. Currently just Kosmopolit.
 DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS: frozenset[UUID] = frozenset({KOSMOPOLIT})
+
+# This module's own slice of `rules/handlers.py`'s merged `DAILY_LIMITS`/
+# `SAVE_DC_HANDLERS` — see `BETAEUBENDER_SCHLAG`'s own docstring above.
+# Only the generic case contributes here; the monk case is
+# `rules/classes/moench.py`'s own slice, merged in separately.
+DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    BETAEUBENDER_SCHLAG: _betaeubender_schlag_uses_per_day,
+}
+SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
+    BETAEUBENDER_SCHLAG: _betaeubender_schlag_dc,
+}
 
 # Feats whose mechanical effect is genuinely computed on the sheet, just not
 # through this module's own `HANDLERS` above — each one's own docstring

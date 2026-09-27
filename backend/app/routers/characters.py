@@ -65,6 +65,7 @@ from ..rules.feat_slots import (
     race_grants_bonus_feat,
     secondary_class_suppressed_feat_count,
 )
+from ..rules.feats import DAILY_LIMITS as FEAT_DAILY_LIMITS
 from ..rules.feats import KOSMOPOLIT
 from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
 from ..rules.point_buy import ABILITY_KEYS, spent_points
@@ -1733,25 +1734,34 @@ def toggle_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
 
 @router.patch("/{character_id}/class-abilities/{ability_id}/use", response_model=CharacterRead)
 def use_class_ability(character_id: UUID, ability_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
-    """Consumes one use of a discrete N/day class ability registered in
-    `DAILY_LIMITS` that has no duration to track as a `CharacterEffect`
+    """Consumes one use of a discrete N/day class ability or feat registered
+    in `DAILY_LIMITS` that has no duration to track as a `CharacterEffect`
     (e.g. Entfesselter Barbar's Erneuerte Lebenskraft, an instantaneous
-    once-per-day self-heal) — the class-ability counterpart to `use_gear`'s
-    simple `uses_remaining_today` decrement. Ones that *do* have a duration
-    (Kampfrausch) stay activated via `POST .../effects` instead, whose own
-    daily-limit consumption happens through `advance_time`'s round-by-round
-    ticking, not here."""
+    once-per-day self-heal; or, since 2026-09-27, Betäubender Schlag when
+    picked as an actual feat rather than a monk's automatic grant) — the
+    counterpart to `use_gear`'s simple `uses_remaining_today` decrement.
+    Ones that *do* have a duration (Kampfrausch) stay activated via
+    `POST .../effects` instead, whose own daily-limit consumption happens
+    through `advance_time`'s round-by-round ticking, not here.
+
+    `source_type` is derived from which family's own `DAILY_LIMITS` slice
+    `ability_id` belongs to (ids are globally unique across every catalog,
+    the same guarantee every other merged registry in this app relies on)
+    rather than taken as a request parameter — the route's own path segment
+    predates feats being a valid source here, so it stays `class-abilities`
+    for both."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
 
     context = _ability_context(db, character)
-    remaining = remaining_today(db, character, context, ability_id)
+    source_type = "feat" if ability_id in FEAT_DAILY_LIMITS else "class_ability"
+    remaining = remaining_today(db, character, context, ability_id, source_type=source_type)
     if remaining is None:
         raise HTTPException(status_code=422, detail="This ability has no daily-use limit")
     if remaining <= 0:
         raise HTTPException(status_code=422, detail="No uses remaining today")
-    record_usage(db, character, ability_id, 1, context)
+    record_usage(db, character, ability_id, 1, context, source_type=source_type)
 
     db.commit()
     db.refresh(character)
@@ -1816,12 +1826,12 @@ def _get_character_effect(character: Character, effect_id: UUID) -> CharacterEff
 def _ability_context(db: Session, character: Character) -> CharacterContext:
     """A `CharacterContext` populated with just the raw inputs a class-
     ability handler needs outside `sheet.py`'s full build (`ability_scores`,
-    `level_counts_by_root_id`, `favored_class_bonus_pick_counts` — the last
-    needed so a `DAILY_LIMITS` handler an ARG racial favored-class bonus
-    augments, e.g. Entfesselter Barbar's Kampfrausch rounds/day, sees the
-    same total here — activation/rest/advance-time — as `sheet.py` displays)
-    — same "every field defaults to empty, a handler that never reads a
-    given field is unaffected" usage `rules/speed.py`'s
+    `character_level`, `level_counts_by_root_id`, `favored_class_bonus_pick_counts`
+    — the last needed so a `DAILY_LIMITS` handler an ARG racial favored-class
+    bonus augments, e.g. Entfesselter Barbar's Kampfrausch rounds/day, sees
+    the same total here — activation/rest/advance-time — as `sheet.py`
+    displays) — same "every field defaults to empty, a handler that never
+    reads a given field is unaffected" usage `rules/speed.py`'s
     `_NO_CHARACTER_CONTEXT` already relies on."""
     race_mods = race_ability_score_mods(db, character.race_id)
     effective_scores = full_effective_ability_scores(db, character, race_mods)
@@ -1830,6 +1840,7 @@ def _ability_context(db: Session, character: Character) -> CharacterContext:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
     return CharacterContext(
         ability_scores=effective_scores,
+        character_level=character.level,
         level_counts_by_root_id=level_counts_by_root_id,
         favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(character),
     )

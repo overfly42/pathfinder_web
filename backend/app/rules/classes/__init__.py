@@ -51,7 +51,9 @@ from .kampfmagus import POOL_COST_AT_ACTIVATION as _KAMPFMAGUS_POOL_COST_AT_ACTI
 from .kampfmagus import POOL_SOURCE_ID as _KAMPFMAGUS_POOL_SOURCE_ID
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 from .kampfmagus import WEAPON_ENHANCEMENT_HANDLERS as _KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS
+from .moench import DAILY_LIMITS as _MOENCH_DAILY_LIMITS
 from .moench import HANDLERS as _MOENCH_HANDLERS
+from .moench import SAVE_DC_HANDLERS as _MOENCH_SAVE_DC_HANDLERS
 from .mystiker import DAILY_LIMIT_UNIT_LABEL as _MYSTIKER_DAILY_LIMIT_UNIT_LABEL
 from .mystiker import DAILY_LIMITS as _MYSTIKER_DAILY_LIMITS
 from .mystiker import HANDLERS as _MYSTIKER_HANDLERS
@@ -84,6 +86,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
     **_HEXENMEISTER_DAILY_LIMITS,
     **_KAMPFMAGUS_DAILY_LIMITS,
+    **_MOENCH_DAILY_LIMITS,
     **_MYSTIKER_DAILY_LIMITS,
 }
 # A daily-limited class ability's own save DC, when it has one (e.g.
@@ -91,6 +94,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 # docstring for what this covers.
 SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_HEXENMEISTER_SAVE_DC_HANDLERS,
+    **_MOENCH_SAVE_DC_HANDLERS,
 }
 # Ability ids whose active effect pays its own `DAILY_LIMITS` pool cost once
 # at activation rather than accruing it per round of active duration — see

@@ -269,6 +269,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # sheet itself displays.
     context = CharacterContext(
         ability_scores=effective_scores,
+        character_level=character.level,
         skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
         feat_ids=frozenset(character.feat_ids),
         trait_ids=frozenset(character.trait_ids),
@@ -1860,6 +1861,41 @@ def _build_actions(
                 "dc": SAVE_DC_HANDLERS[ability.id](context) if ability.id in SAVE_DC_HANDLERS else None,
             }
             for ability in instant_abilities
+        ]
+
+    # Same shape as the discrete once-a-day class-ability block just above,
+    # for a feat registered in `DAILY_LIMITS` instead (2026-09-27,
+    # Betäubender Schlag — a character with an actual `CharacterFeat` pick;
+    # a monk's own no-pick grant surfaces through the class-ability block
+    # above instead, keyed by its own wrapper ability id, `rules/classes/
+    # moench.py`'s own `DAILY_LIMITS` entry). `PATCH .../class-abilities/
+    # {id}/use` (`routers/characters.py`'s `use_class_ability`) accepts a
+    # feat id here too, keyed off the same globally-unique-id guarantee
+    # every other merged registry in this app relies on.
+    daily_limited_feat_ids = [feat_id for feat_id in feat_ids if feat_id in DAILY_LIMITS]
+    if daily_limited_feat_ids:
+        instant_feats = db.scalars(
+            select(BaseFeat).where(
+                BaseFeat.id.in_(daily_limited_feat_ids),
+                BaseFeat.is_persistent_effect.is_(False),
+            )
+        ).all()
+        actions += [
+            {
+                "id": f"feat-use-{feat.id}",
+                "icon": "🎯",
+                "name": feat.name,
+                "tag": None,
+                "description": feat.description,
+                "sourceType": "feat",
+                "sourceId": str(feat.id),
+                "usesRemainingToday": max(
+                    0, remaining_today(db, character, context, feat.id, source_type="feat") or 0
+                ),
+                "usesPerDay": DAILY_LIMITS[feat.id](context),
+                "dc": SAVE_DC_HANDLERS[feat.id](context) if feat.id in SAVE_DC_HANDLERS else None,
+            }
+            for feat in instant_feats
         ]
 
     for entry in gear:

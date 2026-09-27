@@ -62,6 +62,13 @@ class CharacterContext:
     # context.granted_ability_ids`) still works unchanged — `Counter` is a
     # `dict` subclass.
     granted_ability_ids: Counter[UUID] = field(default_factory=Counter)
+    # Total character level (`Character.level`, sum of class levels across
+    # every root class) — the one raw input a handler scaling off overall
+    # character level rather than one class's own levels needs (e.g.
+    # Betäubender Schlag's "SG 10 + ½ Erfahrungsstufe", `rules/feats.py`)
+    # that `level_counts_by_root_id` below doesn't directly carry (that one's
+    # per-root-class, this is their sum).
+    character_level: int = 0
     # Full rows, not just ids: unlike the other composition fields above, a
     # handler resolving an active effect needs to decide *how multiple
     # independent instances of its own id combine* (ability damage from two

@@ -126,8 +126,10 @@ from .classes import WEAPON_ENHANCEMENT_HANDLERS as _CLASS_WEAPON_ENHANCEMENT_HA
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS as _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
+from .feats import DAILY_LIMITS as _FEAT_DAILY_LIMITS
 from .feats import DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS as _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS
 from .feats import HANDLERS as _FEAT_HANDLERS
+from .feats import SAVE_DC_HANDLERS as _FEAT_SAVE_DC_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
@@ -184,11 +186,13 @@ def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
 
 # How many rounds/uses per day a daily-limited ability id grants, computed
 # per character (`rules/daily_limits.py`'s `CharacterAbilityUsage` tracks
-# consumption against whatever this returns). Only class abilities
-# contribute today (`rules/classes`'s own merge) — a future race ability
-# with the same shape would merge in here the same way.
+# consumption against whatever this returns). Class abilities and feats
+# (2026-09-27, Betäubender Schlag — a character with an actual
+# `CharacterFeat` pick, `rules/feats.py`'s own slice) contribute today — a
+# future race ability with the same shape would merge in here the same way.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_CLASS_DAILY_LIMITS,
+    **_FEAT_DAILY_LIMITS,
 }
 
 # A daily-limited, discrete-use class ability's own save DC, when it has one
@@ -197,10 +201,11 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 # already computes a spell's DC (`10 + grade + casting_mod`), just for a
 # class ability instead of a spell grade, and only surfaced (`sheet.py`'s
 # `_build_actions`) for abilities that actually have one; an ability with no
-# entry here shows no `dc` field at all rather than a guessed value. Only
-# class abilities contribute today.
+# entry here shows no `dc` field at all rather than a guessed value. Class
+# abilities and feats (2026-09-27, Betäubender Schlag) contribute today.
 SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_CLASS_SAVE_DC_HANDLERS,
+    **_FEAT_SAVE_DC_HANDLERS,
 }
 
 # How much a granted ability id adjusts a class's base spells-per-day table

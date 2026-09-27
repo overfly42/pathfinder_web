@@ -37,19 +37,33 @@ from ..models import Character, CharacterAbilityUsage
 from .context import CharacterContext
 
 
-def _get_usage(db: Session, character: Character, source_id: UUID) -> CharacterAbilityUsage | None:
+def _get_usage(
+    db: Session, character: Character, source_id: UUID, source_type: str
+) -> CharacterAbilityUsage | None:
     return db.scalar(
         select(CharacterAbilityUsage).where(
             CharacterAbilityUsage.character_id == character.id,
-            CharacterAbilityUsage.source_type == "class_ability",
+            CharacterAbilityUsage.source_type == source_type,
             CharacterAbilityUsage.source_id == source_id,
         )
     )
 
 
-def remaining_today(db: Session, character: Character, context: CharacterContext, source_id: UUID) -> int | None:
+def remaining_today(
+    db: Session,
+    character: Character,
+    context: CharacterContext,
+    source_id: UUID,
+    source_type: str = "class_ability",
+) -> int | None:
     """`None` if `source_id` isn't a daily-limited ability at all; otherwise
-    this day's remaining allowance, which may be `<= 0` once exhausted."""
+    this day's remaining allowance, which may be `<= 0` once exhausted.
+
+    `source_type` defaults to `"class_ability"` (every caller before
+    Betäubender Schlag, 2026-09-27, was one) — a feat with its own
+    `DAILY_LIMITS`/`SAVE_DC_HANDLERS` entry (`rules/feats.py`) passes
+    `source_type="feat"` instead, matching `CharacterEffect.source_type`'s
+    existing "feat" vs "class_ability" discriminator."""
     # Deferred import: `rules/handlers.py` merges every family's registries
     # (including this one's `DAILY_LIMITS`), and `models/character.py`
     # imports `rules/handlers.py` at module level — a module-level import
@@ -61,30 +75,36 @@ def remaining_today(db: Session, character: Character, context: CharacterContext
     if handler is None:
         return None
     pool_id = POOL_SOURCE_ID.get(source_id, source_id)
-    usage = _get_usage(db, character, pool_id)
+    usage = _get_usage(db, character, pool_id, source_type)
     used = usage.used_today if usage is not None else 0
     return handler(context) - used
 
 
 def record_usage(
-    db: Session, character: Character, source_id: UUID, amount: int, context: CharacterContext
+    db: Session,
+    character: Character,
+    source_id: UUID,
+    amount: int,
+    context: CharacterContext,
+    source_type: str = "class_ability",
 ) -> int | None:
     """`None` if `source_id` isn't a daily-limited ability at all (same
     sentinel convention as `remaining_today`, so callers can tell "not
     applicable" apart from "exhausted"); otherwise adds `amount` to its
     usage today (get-or-create the row) and returns the new remaining
     allowance (may go negative — callers decide what that means, e.g.
-    `advance_time` ending the effect once it's `<= 0`)."""
+    `advance_time` ending the effect once it's `<= 0`). `source_type` — see
+    `remaining_today`'s own docstring."""
     from .handlers import DAILY_LIMITS, POOL_SOURCE_ID
 
     handler = DAILY_LIMITS.get(source_id)
     if handler is None:
         return None
     pool_id = POOL_SOURCE_ID.get(source_id, source_id)
-    usage = _get_usage(db, character, pool_id)
+    usage = _get_usage(db, character, pool_id, source_type)
     if usage is None:
         usage = CharacterAbilityUsage(
-            character_id=character.id, source_type="class_ability", source_id=pool_id, used_today=0
+            character_id=character.id, source_type=source_type, source_id=pool_id, used_today=0
         )
         db.add(usage)
     usage.used_today += amount

@@ -279,7 +279,7 @@
   {
     "id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b",
     "name": "Betäubender Schlag",
-    "description": "Gegner mit waffenlosem Schlag betäuben",
+    "description": "Du musst die Anwendung dieses Talents ankündigen, bevor du deinen Angriffswurf ausführst (ein misslungener Angriffswurf lässt den Angriff also scheitern). Betäubender Schlag verursacht normalen Schaden und zwingt zusätzlich deinen Gegner dazu, einen Zähigkeitswurf zu machen (SG 10 + ½ Erfahrungsstufe deines Charakters + dein WE-Modifikator). Ein Verteidiger, dessen Zähigkeitswurf misslingt, ist eine Runde lang betäubt (genau bis zu deiner nächsten Aktion der nächsten Runde). Ein betäubter Charakter lässt alles was er in Händen hält fallen, kann nicht mehr handeln, verliert seinen Geschicklichkeitsbonus auf die RK und erhält einen Malus von -2 auf seine RK. Für je vier Erfahrungsstufen, die dein Charakter erreicht hat, kannst du einen solchen betäubenden Angriff einmal pro Tag versuchen. In jeder Runde darfst du nur einen Betäubenden Schlag versuchen. Konstrukte, Schlicken, Pflanzen, Untote, körperlose Wesen und Kreaturen, die gegen kritische Treffer immun sind, können nicht betäubt werden.\n\nSpeziell: Mönche können das Talent Betäubender Schlag auf der 1. Stufe als Bonustalent auswählen, auch wenn sie die Voraussetzungen dazu nicht erfüllen. Ein Mönch, der dieses Talent wählt, kann jeden Tag so viele betäubende Angriffe versuchen, wie er Klassenstufen als Mönch hat plus einmal je vier Stufen, die er in anderen Klassen als Mönch besitzt.",
     "type": "combat",
     "prerequisite_text": "GE 13, WE 13,  Verbesserter waffenloser Schlag, Grund-Angriffsbonus +8"
   },

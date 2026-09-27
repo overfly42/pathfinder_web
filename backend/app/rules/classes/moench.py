@@ -76,3 +76,47 @@ def _ruestungsklassenbonus(context: CharacterContext) -> list[Modifier]:
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     RUESTUNGSKLASSENBONUS_ABILITY_ID: _ruestungsklassenbonus,
 }
+
+# `base_class_abilities.json`'s "Betäubender Schlag" wrapper ability id — a
+# monk gets the actual "Betäubender Schlag" feat (`rules/feats.py`'s
+# `BETAEUBENDER_SCHLAG`) automatically at level 1 with prerequisites waived
+# (`base_class_ability_grants.json`: this ability, level 1, every monk;
+# `base_class_ability_granted_feats.json` links it to the feat), but that
+# grant never creates an actual `CharacterFeat` row — same "just has it, no
+# pick, no feat-count cost" shape `BaseClassAbilityGrantedFeat`'s own
+# docstring documents for a class-granted proficiency. So this wrapper
+# ability's own id (not the feat's) is what ends up in
+# `context.granted_ability_ids` for every monk, and needs its own
+# `DAILY_LIMITS`/`SAVE_DC_HANDLERS` entry below with the monk-specific
+# uses/day formula — `rules/feats.py`'s own entries only cover a character
+# with an actual `CharacterFeat` pick of the feat itself.
+BETAEUBENDER_SCHLAG_ABILITY_ID = UUID("266c2fb4-3411-5f53-91ff-504d8e65b9df")
+
+
+def _betaeubender_schlag_dc(context: CharacterContext) -> int:
+    """Same "SG 10 + ½ Charakterstufe + WE- (oder CH-, Drachenmacht-)
+    Modifikator" formula `rules/feats.py`'s own `_betaeubender_schlag_dc`
+    uses for the generic case — duplicated rather than imported to avoid a
+    `feats`<->`classes.moench` circular import over three lines of
+    arithmetic (`feats.py` already imports `DRACHENMACHT_ABILITY_ID` from
+    this module for its own copy of this check)."""
+    ability = "CH" if DRACHENMACHT_ABILITY_ID in context.granted_ability_ids else "WE"
+    return 10 + context.character_level // 2 + ability_mod(context.ability_scores.get(ability, 10))
+
+
+def _betaeubender_schlag_uses_per_day(context: CharacterContext) -> int:
+    """"Ein Mönch, der dieses Talent wählt, kann jeden Tag so viele
+    betäubende Angriffe versuchen, wie er Klassenstufen als Mönch hat plus
+    einmal je vier Stufen, die er in anderen Klassen als Mönch besitzt."
+    (GRW S. 120, "Speziell")."""
+    moench_level = context.level_counts_by_root_id.get(MOENCH_ROOT_CLASS_ID, 0)
+    other_levels = context.character_level - moench_level
+    return moench_level + other_levels // 4
+
+
+DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    BETAEUBENDER_SCHLAG_ABILITY_ID: _betaeubender_schlag_uses_per_day,
+}
+SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
+    BETAEUBENDER_SCHLAG_ABILITY_ID: _betaeubender_schlag_dc,
+}
