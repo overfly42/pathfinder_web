@@ -24,9 +24,10 @@ import { UseAbilityModal } from '../components/sheet/UseAbilityModal';
 import { CastSpellModal } from '../components/sheet/CastSpellModal';
 import { RestoreSpellModal } from '../components/sheet/RestoreSpellModal';
 import { ItemDetailModal } from '../components/sheet/ItemDetailModal';
-import type { ActionOption, ConditionType, Effect, EffectsView, PreparedSpellRef } from '../types/character';
+import type { ActionOption, ActivatableRef, ConditionType, Effect, EffectsView, PreparedSpellRef } from '../types/character';
 import type { SearchEntry } from '../search/types';
 import { ROUNDS_PER_UNIT } from '../lib/time';
+import { SOURCE_TYPE_ICONS } from '../lib/effectIcons';
 import './CharacterSheetPage.css';
 
 // The two mock sheet fixtures (`backend/app/main.py`'s CHARACTER_FIXTURES) have no
@@ -617,6 +618,24 @@ export function CharacterSheetPage() {
     });
   }
 
+  // "Bonus" row in the Zauber tab (`SheetTabs.tsx`) — a race-granted at-will spell-like ability
+  // (e.g. Elf's Lichtbringer/Licht, backend `character.activatableSpells`), shown alongside the
+  // character's real known/prepared spells instead of only in the Effekte panel's own picker, since
+  // a player has no reason to expect a spell they have to live outside the spell list. Same
+  // `AvailableEntry` shape and activation modal `RealEffectsPanel`'s own spell entries already use
+  // (`POST .../effects`, no slot cost) — this is just a second entry point into that same flow.
+  function handleActivateRacialSpell(spell: ActivatableRef) {
+    setPicked({
+      domId: `spell-bonus-${spell.key}`,
+      sourceType: 'spell',
+      sourceId: spell.key,
+      name: spell.name,
+      icon: SOURCE_TYPE_ICONS.spell,
+      tag: 'Zauber',
+      durationRoundsPerLevel: spell.durationRoundsPerLevel,
+    });
+  }
+
   async function handleGearAction(itemId: string, kind: 'use' | 'toggle') {
     if (!isRealCharacter) return;
     setEffectError(null);
@@ -714,6 +733,7 @@ export function CharacterSheetPage() {
             onTabChange={setSkillsTab}
             onCastSpell={handleRequestCastSpell}
             onRestoreSpell={handleRequestRestoreSpell}
+            onActivateSpell={handleActivateRacialSpell}
           />
           {spellError && <p style={{ color: '#e29a9a' }}>{spellError}</p>}
 

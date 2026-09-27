@@ -1,5 +1,5 @@
 import { formatBreakdown } from '../../lib/breakdown';
-import type { Character, DescribedEntry, PreparedSpellRef } from '../../types/character';
+import type { ActivatableRef, Character, DescribedEntry, PreparedSpellRef } from '../../types/character';
 import { InfoButton } from '../primitives/InfoButton';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
@@ -63,9 +63,17 @@ interface SheetTabsProps {
   onTabChange: (tab: string) => void;
   onCastSpell: (grade: number, spell: PreparedSpellRef) => void;
   onRestoreSpell: (grade: number, spell: PreparedSpellRef) => void;
+  onActivateSpell: (spell: ActivatableRef) => void;
 }
 
-export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRestoreSpell }: SheetTabsProps) {
+export function SheetTabs({
+  character,
+  activeTab,
+  onTabChange,
+  onCastSpell,
+  onRestoreSpell,
+  onActivateSpell,
+}: SheetTabsProps) {
   const hasPearls = character.spellsKnown.some((grade) => (grade.pearlsTotal ?? 0) > 0);
   return (
     <>
@@ -139,6 +147,30 @@ export function SheetTabs({ character, activeTab, onTabChange, onCastSpell, onRe
               </>
             )}
           </div>
+          {character.activatableSpells.length > 0 && (
+            <div className="spell-tab-block">
+              <div className="spell-table-row">
+                <span className="grade">Bonus</span>
+                <div className="stat">
+                  <span className="stat-label">Uneingeschränkt verfügbar</span>
+                  <span className="stat-val">{character.activatableSpells.length}</span>
+                </div>
+              </div>
+              <div className="chip-row spellprep">
+                {character.activatableSpells.map((spell) => (
+                  <button
+                    key={spell.key}
+                    type="button"
+                    className="chip"
+                    title="Rasseneigenschaft — jederzeit wirkbar, kein Zauberplatz nötig"
+                    onClick={() => onActivateSpell(spell)}
+                  >
+                    {spell.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           {character.spellsKnown.map((grade) => {
             const preparedTotal = grade.spells.reduce((sum, s) => sum + s.preparedCount, 0);
             const usedTotal = grade.spells.reduce((sum, s) => sum + s.usedCount, 0);
