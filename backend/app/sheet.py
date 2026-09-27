@@ -1721,23 +1721,39 @@ def _build_actions(
     db: Session, character: Character, granted_ability_ids: Counter[UUID], gear: list[dict], context: CharacterContext
 ) -> list[dict]:
     """Aktionen panel (roadmap slice 6, thin cut) — only the subset of
-    already-activatable data this character has: persistent-effect spells
-    known, persistent-effect class abilities granted (self/both scope only —
-    `externalClassAbilities` represents what *other* characters can receive
-    from this one, not this character's own action), persistent-effect feats
-    (2026-08-16, e.g. Heftiger Angriff), discrete once-a-day class abilities
-    with no duration to track (2026-08-20, e.g. Erneuerte Lebenskraft — see
-    below), and activatable gear. No action-cost data exists anywhere in the
+    already-activatable data this character has: persistent-effect class
+    abilities granted (self/both scope only — `externalClassAbilities`
+    represents what *other* characters can receive from this one, not this
+    character's own action), persistent-effect feats (2026-08-16, e.g.
+    Heftiger Angriff), discrete once-a-day class abilities/feats with no
+    duration to track (2026-08-20, e.g. Erneuerte Lebenskraft — see below),
+    and activatable gear. No action-cost data exists anywhere in the
     schema, so `tag` is always `None` rather than a guessed value; no
     usable-now/legality filtering either (a thick-pass follow-up) — every
     activatable-flagged entry is listed, with remaining charges/uses folded
     honestly into its description text instead of hidden.
 
+    Deliberately excludes the character's own known/prepared spells
+    (2026-09-27, Schild des Glaubens) — same reasoning
+    `_build_activatable_spells`'s own docstring already gives for dropping
+    them there (2026-09-05): a known spell already has a proper, slot-
+    consuming cast action (`POST .../spells/{id}/cast`, `cast_spell`),
+    which resolves the correct granting class's own caster level itself and
+    creates this same `CharacterEffect` row on a successful cast. Offering
+    it a second time here, as a generic `sourceType: "spell"` card feeding
+    straight into `POST .../effects`, silently reintroduced exactly the bug
+    that fix closed elsewhere: no spell slot gets consumed, and the
+    `ActivateEffectModal`'s "Stufe" field has no per-class caster level to
+    pre-fill from, so it fell back to the character's *total* level across
+    every class — wrong for any multiclassed spellcaster (a Mystiker/Mönch
+    character's Mystiker spells should scale off her Mystiker levels alone,
+    not Mystiker+Mönch combined).
+
     `sourceType`/`sourceId` (and, for gear, `gearActionKind`) let the
-    frontend route a click without re-deriving what an entry is: spell/
-    class_ability/feat entries feed the same `POST .../effects` activation
-    flow the Effekte panel's own picker already uses (same `sourceType`/
-    `sourceId` shape as `EffectActivate`; a feat entry's `defaultDurationRounds`
+    frontend route a click without re-deriving what an entry is: class_ability/
+    feat entries feed the same `POST .../effects` activation flow the
+    Effekte panel's own picker already uses (same `sourceType`/`sourceId`
+    shape as `EffectActivate`; a feat entry's `defaultDurationRounds`
     additionally pre-fills that flow's duration field, same as
     `_build_activatable_feats`); gear entries route to `PATCH .../gear/{id}/use`
     or `/toggle` depending on `gearActionKind`, decided once here rather than
@@ -1745,24 +1761,6 @@ def _build_actions(
     uses/charges (even if it's also toggleable, e.g. a wand), `"toggle"` only
     for a pure on/off item."""
     actions: list[dict] = []
-
-    all_spell_ids = {spell_id for ids in character.spell_ids.values() for spell_id in ids}
-    if all_spell_ids:
-        spells = db.scalars(
-            select(BaseSpell).where(BaseSpell.id.in_(all_spell_ids), BaseSpell.is_persistent_effect.is_(True))
-        ).all()
-        actions += [
-            {
-                "id": f"spell-{spell.id}",
-                "icon": "✨",
-                "name": spell.name,
-                "tag": None,
-                "description": spell.description,
-                "sourceType": "spell",
-                "sourceId": str(spell.id),
-            }
-            for spell in spells
-        ]
 
     if granted_ability_ids:
         abilities = db.scalars(

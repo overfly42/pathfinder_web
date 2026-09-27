@@ -367,21 +367,17 @@ def test_lichtbringer_licht_withheld_below_int_10(client: TestClient, db_session
 def test_sheet_lists_actions_from_activatable_sources(client: TestClient, db_session: Session) -> None:
     """Aktionen panel (roadmap slice 6, thin cut) — `sheet.py`'s `_build_actions`
     reuses the same "activatable" data already computed for the Effects
-    panel (persistent-effect spells known, persistent-effect class abilities
-    granted, activatable gear) rather than a new data source. No action-cost
-    field exists anywhere in the schema, so every entry's `tag` stays `None`
-    (`Berührung des Schicksals` and its worked-example siblings above are
-    exactly this shape: real duration, no real action-cost data)."""
+    panel (persistent-effect class abilities granted, activatable gear)
+    rather than a new data source. No action-cost field exists anywhere in
+    the schema, so every entry's `tag` stays `None` (`Berührung des
+    Schicksals` and its worked-example siblings above are exactly this
+    shape: real duration, no real action-cost data). Known/prepared spells
+    are deliberately absent (2026-09-27) — they already have their own
+    proper, slot-consuming, correctly-caster-leveled activation path
+    (`POST .../spells/{id}/cast`), see `_build_actions`'s own docstring."""
     character_id = _create_character(client, db_session)
     character = db_session.get(Character, UUID(character_id))
     level = character.levels[0]
-
-    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
-    spell_id = next(iter(spells_by_name.values()))
-    spell = db_session.get(BaseSpell, spell_id)
-    spell.is_persistent_effect = True
-    db_session.add(CharacterSpell(level_id=level.id, base_class_id=level.base_class_id, spell_id=UUID(spell_id)))
-    db_session.commit()
 
     grant = db_session.scalar(
         select(BaseClassAbilityGrant).where(
@@ -417,12 +413,6 @@ def test_sheet_lists_actions_from_activatable_sources(client: TestClient, db_ses
 
     sheet = client.get(f"/api/characters/{character_id}").json()
     actions_by_id = {a["id"]: a for a in sheet["actions"]}
-
-    spell_action = actions_by_id[f"spell-{spell_id}"]
-    assert spell_action["tag"] is None
-    assert spell_action["description"] == spell.description
-    assert spell_action["sourceType"] == "spell"
-    assert spell_action["sourceId"] == spell_id
 
     ability_action = actions_by_id[f"ability-{ability.id}"]
     assert ability_action["tag"] is None
