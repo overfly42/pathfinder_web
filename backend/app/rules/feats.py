@@ -49,6 +49,13 @@ AUSWEICHEN = UUID("2249f151-0809-4c55-80cc-76920111782e")
 # weapon is equipped, same reasoning as `power_attack_bonus` below. Passive
 # (no `CharacterEffect` needed), unlike Heftiger Angriff: GRW gives it no
 # activation clause, just possession of the feat.
+#
+# "Speziell: Natürliche Waffen gelten immer als leichte Waffen" (GRW S.
+# 135) — a natural weapon (claws, bite, ...) is unconditionally light for
+# this feat's purposes, no `BaseItem.is_light` to check at all (natural
+# attacks aren't `BaseItem` rows in the first place). `sheet.py`'s
+# `_build_natural_attacks` applies the swap unconditionally whenever the
+# character has this feat, rather than gating it on anything per-attack.
 WAFFENFINESSE = UUID("6f0fd239-157e-567a-b1d8-f5c4c529eeec")
 
 # `base_feats.json`'s "Waffenfokus" (Weapon Focus) row id (GRW S. 131: "+1

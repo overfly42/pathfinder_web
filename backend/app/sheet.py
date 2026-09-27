@@ -398,6 +398,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             context,
             bab,
             str_mod,
+            dex_mod,
             melee_attack_bonus,
             melee_damage_bonus,
         )
@@ -2675,6 +2676,7 @@ def _build_natural_attacks(
     context: CharacterContext,
     bab: int,
     str_mod: int,
+    dex_mod: int,
     melee_attack_bonus: int,
     melee_damage_bonus: int,
 ) -> list[dict]:
@@ -2717,7 +2719,17 @@ def _build_natural_attacks(
     A granted class ability's own extra melee damage die (e.g. Elementare
     Kampfhaltung's energy damage while raging) applies here too, via the
     same `_class_weapon_bonus_damage` helper `_build_weapon_attacks` uses —
-    RAW doesn't limit that kind of bonus to manufactured weapons."""
+    RAW doesn't limit that kind of bonus to manufactured weapons.
+
+    Waffenfinesse (`rules/feats.py`'s `WAFFENFINESSE`) applies to every
+    natural attack unconditionally, not gated on `BaseItem.is_light` the
+    way `_build_weapon_attacks` gates it for a manufactured weapon: the
+    feat's own "Speziell" clause reads "Natürliche Waffen gelten immer als
+    leichte Waffen" (GRW S. 135) — a natural weapon is *always* light for
+    this purpose, so a character with the feat swaps Str for Dex on every
+    natural attack's roll regardless of which one it is. Attack roll only,
+    same as `_build_weapon_attacks` — damage stays Str-based either way,
+    the feat never touches damage."""
     wields_weapon = any(
         (gear_row := gear_by_slot.get(slot)) is not None and items[gear_row.item_id].category == "weapon"
         for slot in _WEAPON_HAND_LABELS
@@ -2731,7 +2743,8 @@ def _build_natural_attacks(
     power_attack_penalty = power_attack[0] if power_attack is not None else 0
     power_attack_damage = power_attack[1] if power_attack is not None else 0
 
-    attack_bonus = bab + str_mod + melee_attack_bonus - (5 if wields_weapon else 0) + power_attack_penalty
+    attack_ability_mod = dex_mod if WAFFENFINESSE in context.feat_ids else str_mod
+    attack_bonus = bab + attack_ability_mod + melee_attack_bonus - (5 if wields_weapon else 0) + power_attack_penalty
     damage_str_mod = str_mod if str_mod < 0 or not wields_weapon else str_mod // 2
     flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
 

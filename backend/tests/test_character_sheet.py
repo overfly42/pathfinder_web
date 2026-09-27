@@ -646,6 +646,40 @@ def test_katzenkrallen_without_inbegriff_stays_at_base_claw_damage(
     assert "1W4" in claws["damage"]
 
 
+def test_waffenfinesse_applies_to_natural_attacks_since_theyre_always_light(
+    client: TestClient, db_session: Session
+) -> None:
+    """Waffenfinesse's own "Speziell" clause (GRW S. 135): "Natürliche Waffen
+    gelten immer als leichte Waffen" — a natural attack (claws, bite, ...)
+    is unconditionally light for this feat, unlike a manufactured weapon
+    (gated on `BaseItem.is_light`). A character with the feat and a low STÄ/
+    high GES should get GES on the claw attack roll, not STÄ — damage stays
+    STÄ-based either way, the feat never touches damage."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    waffenfinesse_id = _feat_id(client, db_session, "Waffenfinesse")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            alt_traits=["Katzenkrallen"],
+            ability_scores={"ST": 8, "GE": 14, "KO": 10, "IN": 10, "WE": 10, "CH": 10},
+            feats=[_feat_selection(waffenfinesse_id)],
+        ),
+    )
+    assert create_response.status_code == 201, create_response.json()
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    claws = next(a for a in body["weaponAttacks"] if a["name"] == "Klauen")
+    # Waldläufer level 1, full BAB -> +1. Katzenvolk's own +2 GE racial bonus
+    # makes base GE 14 -> effective 16 -> +3 mod (not ST 8's -1 mod).
+    assert claws["attackBonus"] == "+4/+4"
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""
