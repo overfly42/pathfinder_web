@@ -594,6 +594,58 @@ def test_armor_class_breakdown_sums_to_armor_class(client: TestClient, db_sessio
     assert sum(entry["value"] for entry in breakdown) == body["armorClass"]
 
 
+def test_inbegriff_katzenvolkes_scharfe_krallen_upgrades_claw_damage(
+    client: TestClient, db_session: Session
+) -> None:
+    """`rules/race_abilities.py`'s `_katzenkrallen` handler: a Katzenvolk
+    character with the Katzenkrallen alternate racial trait who also takes
+    "Inbegriff des Katzenvolkes" with the "Scharfe Krallen" manifestation
+    gets 1W6 claw damage instead of the trait's base 1W4 (GRW: "Solltest du
+    über [Katzenkrallen] ... verfügen, steigt dein Klauenschaden auf
+    1W6")."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+    inbegriff_id = _feat_id(client, db_session, "Inbegriff des Katzenvolkes")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            alt_traits=["Katzenkrallen"],
+            feats=[_feat_selection(inbegriff_id, chosen_manifestation="Scharfe Krallen")],
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    claws = next(a for a in body["weaponAttacks"] if a["name"] == "Klauen")
+    assert "1W6" in claws["damage"]
+    assert "1W4" not in claws["damage"]
+
+
+def test_katzenkrallen_without_inbegriff_stays_at_base_claw_damage(
+    client: TestClient, db_session: Session
+) -> None:
+    """Control for the test above: Katzenkrallen alone (no "Inbegriff des
+    Katzenvolkes" pick) keeps its base 1W4 claw damage."""
+    user_id = _create_user(client)
+    race_id = _race_id(client, db_session, "Katzenvolk")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, alt_traits=["Katzenkrallen"]),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    claws = next(a for a in body["weaponAttacks"] if a["name"] == "Klauen")
+    assert "1W4" in claws["damage"]
+
+
 def test_fixture_character_sheet_is_unaffected(client: TestClient, db_session: Session) -> None:
     """The two hardcoded mock fixtures (character_1/2) must keep working
     exactly as before — this endpoint's fixture branch is untouched."""

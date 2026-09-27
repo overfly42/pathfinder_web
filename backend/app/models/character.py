@@ -302,6 +302,20 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         }
 
     @property
+    def feat_manifestation_choices(self) -> dict[uuid.UUID, str]:
+        """`feat_id -> chosen_manifestation`, for every taken feat with one
+        (`CharacterFeat.chosen_manifestation`, `sub_choice_type ==
+        "manifestation"`, e.g. "Inbegriff des Katzenvolkes") — feeds
+        `rules.context.CharacterContext.feat_manifestation_choices`
+        (`sheet.py`), same reasoning as `feat_skill_pair_choices` above."""
+        return {
+            entry.feat_id: entry.chosen_manifestation
+            for level in self.levels
+            for entry in level.feats
+            if entry.chosen_manifestation is not None
+        }
+
+    @property
     def trait_ids(self) -> list[uuid.UUID]:
         """Every trait taken across all levels, flattened — same reasoning
         as `feat_ids`."""

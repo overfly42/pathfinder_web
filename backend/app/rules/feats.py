@@ -226,6 +226,20 @@ def power_attack_bonus(bab: int) -> tuple[int, int]:
 # all yet (see todos.md).
 KOSMOPOLIT = UUID("8df9604c-0a73-505e-94c5-b753e3362911")
 
+# `base_feats.json`'s "Inbegriff des Katzenvolkes" row id (Katzenvolk racial
+# feat, repeatable, one of three manifestations chosen per pick,
+# `sub_choice_type == "manifestation"`). No `HANDLERS` entry: its "Scharfe
+# Krallen" manifestation upgrades an existing natural attack's damage die
+# rather than contributing a `Modifier`, so it's resolved in
+# `race_abilities.py`'s `_katzenkrallen` (via `context.feat_manifestation_choices`)
+# the same "per-attack decision made where the attack itself is built" way
+# `WAFFENFINESSE`/`WAFFENFOKUS` are. "Schneller Spurter" (Volksbonus +3 m,
+# doubled with Spurter) and "Verbesserte Sinne" (Dämmersicht<->Geruchssinn
+# cross-grant) aren't modeled yet — no movement-bonus-by-action-type or
+# senses concept exists in `rules/` today; see `todos.md`.
+INBEGRIFF_DES_KATZENVOLKES = UUID("459485d5-ae02-551b-8077-b1d0964cbf71")
+SCHARFE_KRALLEN_MANIFESTATION = "Scharfe Krallen"
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
@@ -249,4 +263,6 @@ DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS: frozenset[UUID] = frozenset({KOSMOPOLIT})
 # badge (`hasHandler`) checks this set too, so a feat that's actually applied
 # elsewhere doesn't get mislabeled as flavor-only merely for not being a
 # `HANDLERS` entry.
-COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset({WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF, DERWISCHTANZ})
+COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset(
+    {WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF, DERWISCHTANZ, INBEGRIFF_DES_KATZENVOLKES}
+)

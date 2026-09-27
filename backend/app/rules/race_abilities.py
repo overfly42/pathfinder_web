@@ -52,6 +52,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from .context import CharacterContext
+from .feats import INBEGRIFF_DES_KATZENVOLKES, SCHARFE_KRALLEN_MANIFESTATION
 from .modifiers import Modifier, ModifierTarget, NaturalAttack
 
 # attribute=None means the player picks which attribute at character
@@ -198,9 +199,19 @@ def _reisszaehne(context: CharacterContext) -> NaturalAttack:
 
 
 def _katzenkrallen(context: CharacterContext) -> NaturalAttack:
-    # Unconditional, same reasoning as `_reisszaehne` above.
-    del context
-    return NaturalAttack(name="Klauen", count=2, damage_dice="1W4", damage_type="H")
+    # This handler only ever runs once `KATZENVOLK_KATZENKRALLEN` is already
+    # in the character's granted race-ability ids (`sheet.py`'s
+    # `_build_natural_attacks` dispatch loop), so the trait is always
+    # present by the time we get here — the only open question is whether
+    # "Inbegriff des Katzenvolkes"'s "Scharfe Krallen" manifestation
+    # (`rules/feats.py`) upgrades this trait's claw damage from 1W4 to 1W6
+    # (GRW: "Solltest du über [Katzenkrallen] ... verfügen, steigt dein
+    # Klauenschaden auf 1W6"). The feat's other branch — granting
+    # Katzenkrallen from scratch to a character who doesn't have it — needs
+    # no handling here: that's just this same trait's normal grant path,
+    # already covered by this function once granted.
+    upgraded = context.feat_manifestation_choices.get(INBEGRIFF_DES_KATZENVOLKES) == SCHARFE_KRALLEN_MANIFESTATION
+    return NaturalAttack(name="Klauen", count=2, damage_dice="1W6" if upgraded else "1W4", damage_type="H")
 
 
 # Select by UUID, then call the looked-up function (with the caller's

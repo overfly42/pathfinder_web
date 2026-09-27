@@ -274,6 +274,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         trait_ids=frozenset(character.trait_ids),
         trait_skill_choices=character.trait_skill_choices,
         feat_skill_pair_choices=character.feat_skill_pair_choices,
+        feat_manifestation_choices=character.feat_manifestation_choices,
         granted_ability_ids=granted_ability_ids,
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
