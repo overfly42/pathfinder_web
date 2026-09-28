@@ -299,10 +299,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # Halb-Ork's Einschüchternd or a chosen Kluge Katze/Kletterer alt-trait —
     # SCORE/SPEED already have their own dedicated path, see that function's
     # docstring), granted class
-    # abilities' own AC-target grants (`granted_ability_modifiers`, e.g.
-    # Bestientotem's natural armor bonus — the same per-grant path
-    # `class_speed_bonus` uses for SPEED, generalized), and gear's own AC
-    # bonus (armor/shield `ac_bonus`, any slot's `enhancement`). Combined
+    # abilities' own AC-/CMD-/SWIM_SPEED-target grants (`granted_ability_modifiers`,
+    # e.g. Bestientotem's natural armor bonus or Hexenmeister's Aquatische
+    # Anpassung swim speed — the same per-grant path `class_speed_bonus` uses
+    # for SPEED, generalized), and gear's own AC bonus (armor/shield
+    # `ac_bonus`, any slot's `enhancement`). Combined
     # into one raw list *before* stacking, not stacked separately per source
     # and added: two same-type bonuses (e.g. a composition "armor" bonus and
     # a gear "armor" bonus) must not both apply, and `stack()` can only
@@ -317,6 +318,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + race_skill_modifiers(race_ability_ids)
         + granted_ability_modifiers(context, target=ModifierTarget.AC)
         + granted_ability_modifiers(context, target=ModifierTarget.CMD)
+        + granted_ability_modifiers(context, target=ModifierTarget.SWIM_SPEED)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -382,6 +384,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     base_speed = race_speed(db, character.race_id) or 9
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
     climb_speed = race_climb_speed(race_ability_ids)
+    swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
@@ -429,6 +432,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "initiative": _fmt(dex_mod),
         "speed": f"{total_speed} m",
         "climbSpeed": f"{climb_speed} m" if climb_speed else None,
+        "swimSpeed": f"{swim_speed} m" if swim_speed else None,
         "roundLabel": "Runde 1",
         "abilities": [
             {

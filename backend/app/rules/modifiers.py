@@ -59,6 +59,17 @@ class ModifierTarget(StrEnum):
     # spell like Spinnenklettern) would stack onto this the same way a class
     # ability stacks onto land speed.
     CLIMB_SPEED = "climb_speed"
+    # A swim speed, the water-mode mirror of CLIMB_SPEED above — same
+    # "only exists for a character who actually has the mode" shape. First
+    # producer is Hexenmeister's Meeresblutlinie "Aquatische Anpassung"
+    # (`rules/classes/hexenmeister.py`), reachable either as a real
+    # Hexenmeister's own class ability or via the Sekundärklasse alternate
+    # rule (`rules/secondary_class.py`); resolved the generic
+    # `granted_ability_modifiers` way (`rules/handlers.py`), not through a
+    # dedicated `speed.py` function the way CLIMB_SPEED's race-only
+    # `race_climb_speed` is, since this one comes from a granted class
+    # ability rather than a race grant.
+    SWIM_SPEED = "swim_speed"
     # Kampfmanöverabwehr (`sheet.py`'s inline `10 + bab + str_mod + dex_mod`
     # formula) — first producer is Mönch's Rüstungsklassenbonus
     # (`rules/classes/moench.py`), which grants the same value to both AC

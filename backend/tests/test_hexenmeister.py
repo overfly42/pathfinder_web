@@ -1,7 +1,8 @@
-"""Hexenmeister (`rules/classes/hexenmeister.py`) — first real content:
-Meeresblutlinie's "Wasserstoß" bloodline power, granted at real class level
-1 via the already-seeded `base_class_ability_grants` (option_choice_id
-scoped to the chosen bloodline)."""
+"""Hexenmeister (`rules/classes/hexenmeister.py`) — Meeresblutlinie's
+"Wasserstoß" (1st level) and "Aquatische Anpassung" (3rd/9th level) bloodline
+powers, granted at real class level via the already-seeded
+`base_class_ability_grants` (option_choice_id scoped to the chosen
+bloodline)."""
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -55,3 +56,72 @@ def test_wasserstoss_dc_scales_with_hexenmeister_level(client: TestClient, db_se
     action = next(a for a in sheet["actions"] if a["sourceId"] == str(WASSERSTOSS_ABILITY_ID))
     # Level 4 // 2 = 2, CH mod +2 -> 10 + 2 + 2 = 14.
     assert action["dc"] == 14
+
+
+def test_aquatische_anpassung_grants_swim_speed_at_3rd_level(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Hexenmeister", "level": 3, "options": {"bloodline": ["Meeresblutlinie"]}}],
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["swimSpeed"] == "9 m"
+
+    features = {f["name"]: f for f in sheet["classFeatures"]}
+    assert features["Aquatische Anpassung"]["hasHandler"] is True
+
+
+def test_aquatische_anpassung_grants_natural_armor_at_9th_level(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload_without = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Hexenmeister", "level": 8, "options": {"bloodline": ["Meeresblutlinie"]}}],
+    )
+    without_response = client.post("/api/characters", json=payload_without)
+    assert without_response.status_code == 201
+    ac_at_8th = client.get(f"/api/characters/{without_response.json()['id']}").json()["armorClass"]
+
+    payload_with = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Hexenmeister", "level": 9, "options": {"bloodline": ["Meeresblutlinie"]}}],
+    )
+    with_response = client.post("/api/characters", json=payload_with)
+    assert with_response.status_code == 201
+    sheet = client.get(f"/api/characters/{with_response.json()['id']}").json()
+
+    # Swim speed itself hasn't grown yet (that's the 15th-level upgrade).
+    assert sheet["swimSpeed"] == "9 m"
+    # +1 natural armor kicks in at 9th level.
+    assert sheet["armorClass"] == ac_at_8th + 1
+
+
+def test_aquatische_anpassung_swim_speed_increases_at_15th_level(client: TestClient, db_session: Session) -> None:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Hexenmeister", "level": 15, "options": {"bloodline": ["Meeresblutlinie"]}}],
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    character_id = response.json()["id"]
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["swimSpeed"] == "18 m"

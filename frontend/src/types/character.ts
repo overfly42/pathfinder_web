@@ -424,6 +424,10 @@ export interface Character {
    * Klettern) — `null` for the overwhelming majority of characters who have
    * none. */
   climbSpeed: string | null;
+  /** Non-land movement speed, if any (e.g. Hexenmeister's Aquatische
+   * Anpassung, 9/18 m Schwimmen) — `null` for the overwhelming majority of
+   * characters who have none. */
+  swimSpeed: string | null;
   roundLabel: string;
   abilities: AbilityScore[];
   saves: StatEntry[];
