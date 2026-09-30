@@ -10,15 +10,18 @@ Kämpfer's (Fighter's) recurring bonus combat feat is one shared
 `BaseClassAbilityGrant` rows, one per granting level (1st and every even
 level) — `BaseClassAbilityGrant`'s unique constraint includes `level`
 precisely so the same ability can recur this way instead of needing a
-near-duplicate catalog row per level. Magier's periodic Bonustalent (5th/
-10th/15th/20th) uses the same recurring-grant shape, but is deliberately
-*not* tagged in `rules/feat_slots.py`'s `BONUS_FEAT_SLOT_ABILITY_IDS` — its
-choice is restricted to metamagic/item-creation/spell-mastery feats, not a
-free slot, same reasoning as Waldläufer's Kampfstiltalent. Other classes
-with bonus-feat-shaped features (e.g. a Rogue talent that grants a feat)
-remain unmodeled — add more catalog/grant rows the same way when that data
-is needed. Not a general class-features model — see `BaseClassAbility`'s
-docstring.
+near-duplicate catalog row per level. Kampfmagus's periodic Bonustalent
+(5th/11th/17th, restricted to Kampf/Metamagie/Erschaffung von Gegenständen)
+uses the same recurring-grant shape and *is* tagged in `rules/feat_slots.py`'s
+`BONUS_FEAT_SLOT_ABILITY_IDS`, same as Kämpfer/Mönch — it's a real extra
+feat pick, not a closed class-mechanic list like Waldläufer's
+Kampfstiltalent. Magier's own periodic Bonustalent (5th/10th/15th/20th) uses
+this same shape too but is *not yet* tagged — same gap, not (yet) fixed; see
+`rules/feat_slots.py`'s docstring before assuming its absence is
+intentional. Other classes with bonus-feat-shaped features (e.g. a Rogue
+talent that grants a feat) remain unmodeled — add more catalog/grant rows
+the same way when that data is needed. Not a general class-features model —
+see `BaseClassAbility`'s docstring.
 
 The Zwei-Waffen-Kämpfer archetype is the first archetype with its own
 granted features: its `BaseClassAbilityGrant` rows use the archetype's own

@@ -60,6 +60,13 @@ BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
         # shape as `archetypeCastingAbility`) rather than the root's own
         # `bonusFeatOptionsByLevel`.
         UUID("a7cedcc7-7210-5928-a1e4-072e8fa1c138"),
+        # Kampfmagus: Bonustalent, granted on class levels 5, 11, 17 —
+        # an extra feat pick on top of the normal odd-level progression,
+        # per the ability's own description. Restricted to Kampf,
+        # Metamagie, or Erschaffung-von-Gegenständen feats, prerequisites
+        # not waived (`base_class_ability_feat_options.json`'s rows for
+        # this ability all default `waives_prerequisites` to false).
+        UUID("9aa0a941-ddcd-5302-866e-9812bbfb705b"),
     }
 )
 

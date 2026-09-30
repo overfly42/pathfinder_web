@@ -42,6 +42,22 @@ def test_class_bonus_feat_slot_count_is_cumulative_by_class_level(db_session: Se
     assert class_bonus_feat_slot_count(db_session, [_selection("Kämpfer", 4)]) == 3
 
 
+def test_class_bonus_feat_slot_count_counts_kampfmagus_bonustalent(db_session: Session) -> None:
+    """Kampfmagus's Bonustalent (5th/11th/17th, Kampf/Metamagie/Erschaffung
+    von Gegenständen) is a real extra feat pick, unlike Magier's own
+    Bonustalent or Waldläufer's Kampfstiltalent - see
+    `class_ability_seed.py`'s docstring."""
+    seed_classes(db_session)
+    seed_class_options(db_session)
+    seed_class_abilities(db_session)
+
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kampfmagus", 4)]) == 0
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kampfmagus", 5)]) == 1
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kampfmagus", 10)]) == 1
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kampfmagus", 11)]) == 2
+    assert class_bonus_feat_slot_count(db_session, [_selection("Kampfmagus", 17)]) == 3
+
+
 def test_class_bonus_feat_slot_count_sums_non_contiguous_class_selections(db_session: Session) -> None:
     seed_classes(db_session)
     seed_class_options(db_session)
