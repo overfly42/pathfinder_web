@@ -137,6 +137,13 @@
     "masterwork_price_delta": null
   },
   {
+    "id": "622cfbb9-9390-4c08-b6a7-95f5e700053b",
+    "name": "Armbrustbolzen (10)",
+    "category": "gear",
+    "price": 1,
+    "masterwork_price_delta": null
+  },
+  {
     "id": "f826abd4-3e5c-454f-b045-8d80d928d9a8",
     "name": "Fackel",
     "category": "gear",
@@ -155,6 +162,13 @@
     "name": "Kletterausrüstung",
     "category": "gear",
     "price": 80,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "7c434413-f2db-4a14-8d60-482bf0b060ea",
+    "name": "Köcher",
+    "category": "gear",
+    "price": 0,
     "masterwork_price_delta": null
   },
   {
@@ -183,6 +197,20 @@
     "name": "Pergament (Blatt)",
     "category": "gear",
     "price": 0.2,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "46815920-07b8-4dde-b3c7-97f589166f5b",
+    "name": "Pfeil",
+    "category": "gear",
+    "price": 0.05,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "ec2aa57c-05d8-4be5-aa5b-35edaadd3ec0",
+    "name": "Pfeile (20)",
+    "category": "gear",
+    "price": 1,
     "masterwork_price_delta": null
   },
   {
