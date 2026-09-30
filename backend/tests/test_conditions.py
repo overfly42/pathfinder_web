@@ -11,7 +11,7 @@ def test_list_conditions_is_database_backed(client: TestClient, db_session: Sess
     assert response.status_code == 200
     conditions = response.json()
 
-    assert len(conditions) == 79
+    assert len(conditions) == 81  # includes Defensiv-kämpfen/Volle-Verteidigung (e236ecd)
     expected_fields = {
         "id", "name", "description", "type",
         "defaultIncubationRounds", "defaultDurationRounds",
