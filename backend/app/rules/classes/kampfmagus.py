@@ -220,15 +220,31 @@ OPPORTUNE_PARADE_UND_RIPOSTE_ABILITY_ID = UUID("5e03ce1e-389b-55a5-9045-cc858e19
 # models.
 PERFEKTER_SCHLAG_ABILITY_ID = UUID("4d470f31-bea9-5557-910a-33372a4cab74")
 
+# `base_feats.json`'s "Zusätzlicher Arkaner Vorrat" row id (Ausbauregeln:
+# Magie S. 159, prerequisite "Klassenmerkmal Arkaner Vorrat"): "Dein Arkaner
+# Vorrat steigt um 2." Referenced here (not a `rules/feats.py` `HANDLERS`
+# entry) since its only effect is a flat addend to this class's own pool-size
+# formula, the same "implemented where the formula lives" shape
+# `_betaeubender_schlag_dc`'s `DRACHENMACHT_ABILITY_ID` check uses — see
+# `rules/feats.py`'s `COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS` for the "Nur Text"
+# badge registration. No "kann mehrfach gewählt werden" clause in the source
+# text (unlike e.g. `INBEGRIFF_DES_KATZENVOLKES`), so treated as a one-time,
+# presence-only +2 — matches `context.feat_ids` being a plain set with no
+# repeat-count tracking.
+ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID = UUID("ebe5dce8-c536-5698-886d-8e5f5f0e3203")
+
 
 def _arkaner_vorrat_pool_points(context: CharacterContext) -> int:
     """"Eine Anzahl an Punkten in Höhe seiner halben Stufe als Kampfmagus
     (Minimum 1) + seines IN-Modifikators" — the "Minimum 1" floors the
     halved-level term specifically (a 1st-level Kampfmagus already has a
-    1-point pool before any Int bonus), not the sum as a whole."""
+    1-point pool before any Int bonus), not the sum as a whole. Plus 2 if the
+    character has taken "Zusätzlicher Arkaner Vorrat" (see that feat id's own
+    docstring)."""
     kampfmagus_level = context.level_counts_by_root_id.get(KAMPFMAGUS_ROOT_CLASS_ID, 0)
     int_mod = ability_mod(context.ability_scores.get("IN", 10))
-    return max(1, kampfmagus_level // 2) + int_mod
+    feat_bonus = 2 if ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID in context.feat_ids else 0
+    return max(1, kampfmagus_level // 2) + int_mod + feat_bonus
 
 
 def _arkaner_vorrat_weapon_enhancement(context: CharacterContext) -> tuple[UUID, int] | None:

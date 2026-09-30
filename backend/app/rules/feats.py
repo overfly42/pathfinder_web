@@ -14,6 +14,7 @@ import functools
 from collections.abc import Callable
 from uuid import UUID
 
+from .classes.kampfmagus import ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID
 from .classes.moench import DRACHENMACHT_ABILITY_ID
 from .context import CharacterContext
 from .effects import DEFENSIV_KAEMPFEN_CONDITION_ID, VOLLE_VERTEIDIGUNG_CONDITION_ID
@@ -340,5 +341,14 @@ SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
 # elsewhere doesn't get mislabeled as flavor-only merely for not being a
 # `HANDLERS` entry.
 COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset(
-    {WAFFENFINESSE, WAFFENFOKUS, HEFTIGER_ANGRIFF, DERWISCHTANZ, INBEGRIFF_DES_KATZENVOLKES}
+    {
+        WAFFENFINESSE,
+        WAFFENFOKUS,
+        HEFTIGER_ANGRIFF,
+        DERWISCHTANZ,
+        INBEGRIFF_DES_KATZENVOLKES,
+        # Implemented in `rules/classes/kampfmagus.py`'s own
+        # `_arkaner_vorrat_pool_points`, see that id's own docstring.
+        ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID,
+    }
 )

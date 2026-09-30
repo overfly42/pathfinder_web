@@ -16,5 +16,11 @@
     "feat_id": "4f6f45d1-b2a7-575b-9cee-dadcd7b60af3",
     "group_id": "492ee7aa-41c3-5f61-ba9a-94e30798859a",
     "ability_id": "ad985f6f-3b03-5861-bccf-a016ebaba4ec"
+  },
+  {
+    "id": "e4aa01d6-3fbb-5035-9f62-4dcaa990cefc",
+    "feat_id": "ebe5dce8-c536-5698-886d-8e5f5f0e3203",
+    "group_id": null,
+    "ability_id": "571a2783-adb7-5222-8040-a1c4d40b4b0c"
   }
 ]

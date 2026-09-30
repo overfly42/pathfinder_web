@@ -10,7 +10,7 @@ unlock — see that module's own docstring."""
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from test_characters import _character_payload, _create_user, _elf_race_id, _item_id
+from test_characters import _character_payload, _create_user, _elf_race_id, _feat_id, _feat_selection, _item_id
 
 ARKANER_VORRAT_ABILITY_ID = "571a2783-adb7-5222-8040-a1c4d40b4b0c"
 PERFEKTER_SCHLAG_ABILITY_ID = "4d470f31-bea9-5557-910a-33372a4cab74"
@@ -53,6 +53,28 @@ def test_arkaner_vorrat_pool_size_scales_with_half_level_and_int_mod(
     level5_id = _create_kampfmagus(client, db_session, level=5)
     sheet = client.get(f"/api/characters/{level5_id}").json()
     assert _arkaner_vorrat_entry(sheet)["description"] == "3 von 3 Punkten heute übrig"
+
+
+def test_arkaner_vorrat_pool_size_increased_by_zusaetzlicher_arkaner_vorrat_feat(
+    client: TestClient, db_session: Session
+) -> None:
+    """"Dein Arkaner Vorrat steigt um 2" (base_feats.json's "Zusätzlicher
+    Arkaner Vorrat", prerequisite "Klassenmerkmal Arkaner Vorrat") — level-1
+    baseline pool is 2 (see the test above), +2 from the feat = 4."""
+    feat_id = _feat_id(client, db_session, "Zusätzlicher Arkaner Vorrat")
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    payload = _character_payload(
+        user_id,
+        race_id,
+        db_session,
+        classes=[{"class_name": "Kampfmagus", "level": 1}],
+        feats=[_feat_selection(feat_id)],
+    )
+    response = client.post("/api/characters", json=payload)
+    assert response.status_code == 201
+    sheet = client.get(f"/api/characters/{response.json()['id']}").json()
+    assert _arkaner_vorrat_entry(sheet)["description"] == "4 von 4 Punkten heute übrig"
 
 
 def test_arkaner_vorrat_weapon_bonus_scales_with_level_and_costs_one_point(

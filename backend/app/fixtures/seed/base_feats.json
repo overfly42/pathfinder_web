@@ -2377,5 +2377,12 @@
     "prerequisite_text": "Katzenvolk.",
     "sub_choice_type": "manifestation",
     "manifestation_options": ["Scharfe Krallen", "Schneller Spurter", "Verbesserte Sinne"]
+  },
+  {
+    "id": "ebe5dce8-c536-5698-886d-8e5f5f0e3203",
+    "name": "Zusätzlicher Arkaner Vorrat",
+    "description": "Dein Arkaner Vorrat steigt um 2",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal  Arkaner Vorrat."
   }
 ]
