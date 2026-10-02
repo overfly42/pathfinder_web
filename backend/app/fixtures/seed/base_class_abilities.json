@@ -1429,7 +1429,8 @@
     "name": "Luftschwingen",
     "description": "Als Schnelle Aktion kannst du ein Paar durchsichtiger, wolkenartiger Schwingen ausbilden, welche dir eine Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit gewähren. Auf der 10. Stufe steigt die Bewegungsrate auf 27 Meter und die Manövrierfähigkeit auf Perfekt. Du kannst diese Flügel täglich für 1 Minute für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute abgerechnet. Du musst mindestens die 7. Stufe erreicht haben, bevor du diese Offenbarung auswählen kannst.",
     "is_persistent_effect": true,
-    "activation_scope": "self"
+    "activation_scope": "self",
+    "default_duration_rounds": 10
   },
   {
     "id": "f186dc51-4400-5f14-855a-515dcdba4846",

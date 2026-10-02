@@ -46,7 +46,7 @@ from sqlalchemy.orm import Session
 
 from .context import CharacterContext
 from .modifiers import Modifier, ModifierTarget, SkillNote, stack
-from .skill_ids import AKROBATIK_SKILL_ID, KLETTERN_SKILL_ID
+from .skill_ids import AKROBATIK_SKILL_ID, KLETTERN_SKILL_ID, SCHWIMMEN_SKILL_ID
 
 RACE_NORMAL_SPEED_ABILITY_ID = UUID("2e0186d5-e532-4532-b7f7-b4c6f4834bde")
 RACE_SLOW_SPEED_ABILITY_ID = UUID("9a5db666-54d4-4112-b750-dbb1abf1265d")
@@ -152,6 +152,38 @@ def race_climb_speed(race_ability_ids: set[UUID]) -> int | None:
         if handler is not None:
             modifiers.extend(m for m in handler(_NO_CHARACTER_CONTEXT) if m.target == ModifierTarget.CLIMB_SPEED)
     return stack(modifiers) if modifiers else None
+
+
+def movement_mode_skill_modifiers(*, climb_speed: int | None, swim_speed: int | None) -> list[Modifier]:
+    """PF1e RAW (GRW "Bewegung"/Klettern/Schwimmen): a creature with a climb
+    or swim speed gets a +8 racial bonus on Klettern/Schwimmen checks. Derived
+    here from whatever source ended up granting the speed (race trait, class
+    ability, item), rather than each source bundling its own +8 — so a new
+    swim/climb-speed source gets the bonus for free. Typed "racial", so it
+    doesn't stack with a source that still declares its own racial +8
+    (Katzenvolk's Kletterer, `_kletterer` above): only one counts."""
+    modifiers: list[Modifier] = []
+    if climb_speed:
+        modifiers.append(
+            Modifier(
+                source="Kletterbewegungsrate",
+                type="racial",
+                value=8,
+                target=ModifierTarget.SKILL,
+                target_id=str(KLETTERN_SKILL_ID),
+            )
+        )
+    if swim_speed:
+        modifiers.append(
+            Modifier(
+                source="Schwimmbewegungsrate",
+                type="racial",
+                value=8,
+                target=ModifierTarget.SKILL,
+                target_id=str(SCHWIMMEN_SKILL_ID),
+            )
+        )
+    return modifiers
 
 
 def class_speed_bonus(context: CharacterContext) -> int:

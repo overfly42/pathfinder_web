@@ -70,6 +70,13 @@ class ModifierTarget(StrEnum):
     # `race_climb_speed` is, since this one comes from a granted class
     # ability rather than a race grant.
     SWIM_SPEED = "swim_speed"
+    # A fly speed in meters — like CLIMB_SPEED/SWIM_SPEED, only present for a
+    # character who actually has the mode. First producer is Mystiker's
+    # Luftschwingen (`rules/classes/mystiker.py`), an activatable revelation,
+    # so it reaches `sheet.py` through `character_modifiers`' active-effect
+    # branch. Single slot, no `target_id`. Maneuverability (a label, not a
+    # number) rides along as `Modifier.detail`.
+    FLY_SPEED = "fly_speed"
     # Kampfmanöverabwehr (`sheet.py`'s inline `10 + bab + str_mod + dex_mod`
     # formula) — first producer is Mönch's Rüstungsklassenbonus
     # (`rules/classes/moench.py`), which grants the same value to both AC
@@ -87,6 +94,9 @@ class Modifier:
     value: int
     target: ModifierTarget
     target_id: str | None = None
+    # Free-text presentation detail a number can't carry (FLY_SPEED's
+    # maneuverability label); never read by stacking.
+    detail: str | None = None
 
 
 @dataclass(frozen=True)

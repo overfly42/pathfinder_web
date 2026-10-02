@@ -727,7 +727,13 @@ Pro Fähigkeit einzeln abhaken:
       (`tests/test_effects.py`). Weiterhin nicht modelliert: die
       50%-Fehlschlagchance gegen Fernkampfangriffe ab Stufe 13 (kein
       Fehlschlagchance-Mechanismus existiert irgendwo im Code).
-- [ ] Mystiker: Luftschwingen
+- [x] Mystiker: Luftschwingen — Flugbewegungsrate 18 m/„Durchschnittlich“
+      (ab Stufe 10: 27 m/„Perfekt“) solange aktiv, Tagesbudget 1 Minute je
+      Mystiker-Stufe, pro Aktivierung eine ganze Minute abgerechnet (wie
+      Luftbarriere, `POOL_COST_AT_ACTIVATION`; Standarddauer 10 Runden).
+      Neuer `ModifierTarget.FLY_SPEED` (`rules/modifiers.py`), `flySpeed`/
+      `flyManeuverability` auf dem Bogen, Anzeige in der Bewegung-Kachel.
+      Tests: `tests/test_mystiker.py` (`test_luftschwingen_*`).
 - [ ] Mystiker: Schlachtruf
 - [ ] Mystiker: Stahlharte Haut
 - [ ] Mystiker: Sternenmantel

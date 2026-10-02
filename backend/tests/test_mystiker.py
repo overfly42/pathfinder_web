@@ -550,3 +550,74 @@ def test_elektrische_beruehrung_uses_per_day_scales_with_charisma_modifier(
     # CH 14 -> mod +2, "täglich in Höhe deines CH-Modifikators +3" -> 5.
     assert action["usesPerDay"] == 5
     assert action["usesRemainingToday"] == 5
+
+
+LUFTSCHWINGEN_ABILITY_ID = "fface2cd-971d-5f26-958d-e62743f07000"
+
+
+def _create_mystiker_with_luftschwingen(client: TestClient, db_session: Session, level: int) -> str:
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            classes=[
+                {
+                    "class_name": "Mystiker",
+                    "level": level,
+                    "options": {"mystery": ["Wind"], "revelation": ["Luftschwingen"]},
+                }
+            ],
+        ),
+    )
+    assert response.status_code == 201, response.text
+    return response.json()["id"]
+
+
+def test_luftschwingen_grant_fly_speed_with_minute_budget_while_active(
+    client: TestClient, db_session: Session
+) -> None:
+    """`_luftschwingen`/`_luftschwingen_minutes_per_day` (`rules/classes/mystiker.py`):
+    18 m / Durchschnittlich while active, budget of 1 minute per Mystiker
+    level, billed once per activation like Luftbarriere's hours."""
+    character_id = _create_mystiker_with_luftschwingen(client, db_session, level=7)
+
+    def entry(sheet: dict) -> dict:
+        return next(a for a in sheet["activatableClassAbilities"] if a["key"] == LUFTSCHWINGEN_ABILITY_ID)
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["flySpeed"] is None
+    assert entry(sheet)["description"] == "7 von 7 Minuten heute übrig"
+    assert entry(sheet)["defaultDurationRounds"] == 10
+
+    activation = client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": LUFTSCHWINGEN_ABILITY_ID, "duration_remaining": 10},
+    )
+    assert activation.status_code == 201
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["flySpeed"] == "18 m"
+    assert sheet["flyManeuverability"] == "Durchschnittlich"
+    assert entry(sheet)["description"] == "6 von 7 Minuten heute übrig"
+
+    # Duration runs out -> the wings disappear again.
+    client.post(f"/api/characters/{character_id}/advance-time", json={"unit": "minute"})
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["flySpeed"] is None
+    assert sheet["flyManeuverability"] is None
+
+
+def test_luftschwingen_improve_at_level_10(client: TestClient, db_session: Session) -> None:
+    character_id = _create_mystiker_with_luftschwingen(client, db_session, level=10)
+    client.post(
+        f"/api/characters/{character_id}/effects",
+        json={"source_type": "class_ability", "source_id": LUFTSCHWINGEN_ABILITY_ID, "duration_remaining": 10},
+    )
+
+    sheet = client.get(f"/api/characters/{character_id}").json()
+    assert sheet["flySpeed"] == "27 m"
+    assert sheet["flyManeuverability"] == "Perfekt"

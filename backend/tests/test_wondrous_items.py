@@ -164,3 +164,79 @@ def test_toggle_rejected_for_non_activatable_item(client: TestClient, db_session
 
     response = client.patch(f"/api/characters/{character_id}/gear/{dolch_id}/toggle")
     assert response.status_code == 422
+
+
+def _equip(client: TestClient, db_session: Session, character_id: str, name: str, slot: str, enhancement: int = 0) -> None:
+    item_id = _item_id(client, db_session, name)
+    client.post(f"/api/characters/{character_id}/gear", json={"item_id": item_id, "quantity": 1})
+    if enhancement:
+        client.patch(f"/api/characters/{character_id}/gear/{item_id}", json={"enhancement": enhancement})
+    assert client.put(f"/api/characters/{character_id}/slots/{slot}", json={"item_id": item_id}).status_code == 200
+
+
+def _save(sheet: dict, key: str) -> int:
+    return int(next(s["value"] for s in sheet["saves"] if s["key"] == key))
+
+
+def _skill(sheet: dict, label: str) -> int:
+    return int(next(s["value"] for s in sheet["skills"] if s["label"] == label))
+
+
+def test_amulett_der_natuerlichen_ruestung_adds_enhancement_to_ac(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    before = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    _equip(client, db_session, character_id, "Amulett der natürlichen Rüstung", "hals", enhancement=2)
+
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == before + 2
+
+
+def test_resistenzumhang_adds_to_all_saves_but_not_ac(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    before = client.get(f"/api/characters/{character_id}").json()
+
+    _equip(client, db_session, character_id, "Resistenzumhang", "schultern", enhancement=3)
+
+    after = client.get(f"/api/characters/{character_id}").json()
+    for key in ("fort", "ref", "will"):
+        assert _save(after, key) == _save(before, key) + 3
+    assert after["armorClass"] == before["armorClass"]
+
+
+def test_swimmer_rings_add_competence_bonus_to_swimming(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    before = _skill(client.get(f"/api/characters/{character_id}").json(), "Schwimmen")
+
+    _equip(client, db_session, character_id, "Schwimmerring", "ring-links")
+    assert _skill(client.get(f"/api/characters/{character_id}").json(), "Schwimmen") == before + 5
+
+    # Same competence bonus type: the improved ring replaces, not adds to it.
+    _equip(client, db_session, character_id, "Verbesserter Schwimmerring", "ring-rechts")
+    assert _skill(client.get(f"/api/characters/{character_id}").json(), "Schwimmen") == before + 10
+
+
+def test_wondrous_item_enhancement_without_handler_does_not_change_ac(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    before = client.get(f"/api/characters/{character_id}").json()["armorClass"]
+
+    _equip(client, db_session, character_id, "Chamäleonring", "ring-links", enhancement=2)
+
+    assert client.get(f"/api/characters/{character_id}").json()["armorClass"] == before
+
+
+def test_ring_des_waessrigen_weges_grants_swim_speed_and_racial_bonus_that_stacks_with_swimmer_ring(
+    client: TestClient, db_session: Session
+) -> None:
+    character_id = _create_character(client, db_session)
+    before = client.get(f"/api/characters/{character_id}").json()
+    assert before["swimSpeed"] is None
+
+    _equip(client, db_session, character_id, "Ring des wässrigen Weges", "ring-links")
+    after = client.get(f"/api/characters/{character_id}").json()
+    assert after["swimSpeed"] == "9 m"
+    assert _skill(after, "Schwimmen") == _skill(before, "Schwimmen") + 8
+
+    # Competence (Schwimmerring) and racial (swim speed) are different bonus types.
+    _equip(client, db_session, character_id, "Schwimmerring", "ring-rechts")
+    both = client.get(f"/api/characters/{character_id}").json()
+    assert _skill(both, "Schwimmen") == _skill(before, "Schwimmen") + 13

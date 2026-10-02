@@ -74,6 +74,9 @@ def test_aquatische_anpassung_grants_swim_speed_at_3rd_level(client: TestClient,
 
     sheet = client.get(f"/api/characters/{character_id}").json()
     assert sheet["swimSpeed"] == "9 m"
+    # A swim speed carries the +8 Volksbonus on Schwimmen.
+    schwimmen = next(s for s in sheet["skills"] if s["label"] == "Schwimmen")
+    assert {"label": "Schwimmbewegungsrate", "value": 8} in schwimmen["breakdown"]
 
     features = {f["name"]: f for f in sheet["classFeatures"]}
     assert features["Aquatische Anpassung"]["hasHandler"] is True

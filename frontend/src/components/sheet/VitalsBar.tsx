@@ -92,6 +92,13 @@ export function VitalsBar({ character, onApplyHp, onSetTempHp }: VitalsBarProps)
           {character.speed}
           {character.climbSpeed && <span className="vital-note"> (Klettern {character.climbSpeed})</span>}
           {character.swimSpeed && <span className="vital-note"> (Schwimmen {character.swimSpeed})</span>}
+          {character.flySpeed && (
+            <span className="vital-note">
+              {' '}
+              (Fliegen {character.flySpeed}
+              {character.flyManeuverability ? `, ${character.flyManeuverability}` : ''})
+            </span>
+          )}
         </div>
       </div>
     </div>

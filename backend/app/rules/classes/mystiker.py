@@ -67,6 +67,49 @@ def _luftbarriere(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Luftbarriere", type="armor", value=bonus, target=ModifierTarget.AC)]
 
 
+# Mystiker's "Luftschwingen" revelation (`base_class_abilities.json`, Wind
+# mystery like Luftbarriere). PRD text: "Als Schnelle Aktion kannst du ein
+# Paar durchsichtiger, wolkenartiger Schwingen ausbilden, welche dir eine
+# Flugbewegungsrate von 18 m und eine durchschnittliche Manövrierfähigkeit
+# gewähren. Auf der 10. Stufe steigt die Bewegungsrate auf 27 Meter und die
+# Manövrierfähigkeit auf Perfekt. Du kannst diese Flügel täglich für 1 Minute
+# für je eine deiner Stufen als Mystiker verwenden. Diese Zeit muss nicht
+# aufeinander folgen, wird aber in Einheiten von jeweils 1 Minute
+# abgerechnet."
+#
+# Billed exactly like Luftbarriere above (`POOL_COST_AT_ACTIVATION`: one
+# whole "Minute" charged at activation, `default_duration_rounds: 10` = one
+# minute of 6-second rounds pre-fills the popup), see that ability's comment
+# for the known simplification.
+LUFTSCHWINGEN_ABILITY_ID = UUID("fface2cd-971d-5f26-958d-e62743f07000")
+
+
+def _luftschwingen(context: CharacterContext) -> list[Modifier]:
+    """Active (toggled) wings: a fly speed with maneuverability, both
+    scaling at 10th Mystiker level. `type="base"` like the other
+    movement-mode speeds, so a second fly-speed source would take the better
+    one rather than add."""
+    if not context.has_active(LUFTSCHWINGEN_ABILITY_ID):
+        return []
+    mystiker_level = context.level_counts_by_root_id.get(MYSTIKER_ROOT_CLASS_ID, 0)
+    speed, maneuverability = (27, "Perfekt") if mystiker_level >= 10 else (18, "Durchschnittlich")
+    return [
+        Modifier(
+            source="Luftschwingen",
+            type="base",
+            value=speed,
+            target=ModifierTarget.FLY_SPEED,
+            detail=maneuverability,
+        )
+    ]
+
+
+def _luftschwingen_minutes_per_day(context: CharacterContext) -> int:
+    """"1 Minute für je eine deiner Stufen als Mystiker" — pool counted in
+    whole minutes, the unit it is billed in."""
+    return context.level_counts_by_root_id.get(MYSTIKER_ROOT_CLASS_ID, 0)
+
+
 def _luftbarriere_hours_per_day(context: CharacterContext) -> int:
     """"1 Stunde für je eine deiner Stufen als Mystiker" — unlike
     Kampfrausch's rounds/day pool, this one is never touched by
@@ -112,6 +155,7 @@ def _elektrische_beruehrung_uses_per_day(context: CharacterContext) -> int:
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     LUFTBARRIERE_ABILITY_ID: _luftbarriere,
+    LUFTSCHWINGEN_ABILITY_ID: _luftschwingen,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `DAILY_LIMITS` — how
@@ -119,6 +163,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 # fixed), same locality convention as `HANDLERS` above.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     LUFTBARRIERE_ABILITY_ID: _luftbarriere_hours_per_day,
+    LUFTSCHWINGEN_ABILITY_ID: _luftschwingen_minutes_per_day,
     ELEKTRISCHE_BERUEHRUNG_ABILITY_ID: _elektrische_beruehrung_uses_per_day,
 }
 
@@ -128,6 +173,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
 # continuously.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     LUFTBARRIERE_ABILITY_ID: 1,
+    LUFTSCHWINGEN_ABILITY_ID: 1,
 }
 
 # This class's slice of `rules/handlers.py`'s merged `DAILY_LIMIT_UNIT_LABEL`
@@ -136,4 +182,5 @@ POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
 # hours.
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     LUFTBARRIERE_ABILITY_ID: "Stunden",
+    LUFTSCHWINGEN_ABILITY_ID: "Minuten",
 }

@@ -112,6 +112,7 @@ from .rules.handlers import (
     has_mechanical_effect,
     situational_skill_notes,
 )
+from .rules.items import equipped_item_modifiers
 from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
 from .rules.proficiency import (
     DUAL_NATURE_WEAPON_FEAT_IDS,
@@ -121,7 +122,13 @@ from .rules.proficiency import (
 )
 from .rules.feat_slots import SECONDARY_CLASS_FEATURE_LEVELS
 from .rules.secondary_class import secondary_granted_ability_ids_and_levels
-from .rules.speed import class_speed_bonus, jump_skill_note, race_climb_speed, race_speed
+from .rules.speed import (
+    class_speed_bonus,
+    jump_skill_note,
+    movement_mode_skill_modifiers,
+    race_climb_speed,
+    race_speed,
+)
 from .rules.progression import ability_mod, max_hit_points
 from .rules.spells import (
     find_open_spontaneous_grade,
@@ -313,6 +320,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # each one re-filtering/re-stacking. `items`/`gear_by_slot` were already
     # fetched above, ahead of `context`.
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
+    gear_ac_modifiers += equipped_item_modifiers(list(gear_by_slot.values()))
     all_modifiers = (
         character_modifiers(context)
         + race_skill_modifiers(race_ability_ids)
@@ -385,6 +393,17 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
     climb_speed = race_climb_speed(race_ability_ids)
     swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
+    fly_speed = stacked.get((ModifierTarget.FLY_SPEED, None), 0) or None
+    fly_modifiers = contributing(groups.get((ModifierTarget.FLY_SPEED, None), []))
+    fly_maneuverability = max(fly_modifiers, key=lambda m: m.value).detail if fly_modifiers else None
+    # A climb/swim speed from any source carries a +8 Volksbonus on the
+    # matching skill (`movement_mode_skill_modifiers`). Folded into
+    # `groups`/`stacked` here, after the speeds are known but before
+    # `_build_skills` reads them below.
+    for modifier in movement_mode_skill_modifiers(climb_speed=climb_speed, swim_speed=swim_speed):
+        key = (modifier.target, modifier.target_id)
+        groups.setdefault(key, []).append(modifier)
+        stacked[key] = stack(groups[key])
     gear = _build_gear(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
@@ -433,6 +452,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "speed": f"{total_speed} m",
         "climbSpeed": f"{climb_speed} m" if climb_speed else None,
         "swimSpeed": f"{swim_speed} m" if swim_speed else None,
+        "flySpeed": f"{fly_speed} m" if fly_speed else None,
+        "flyManeuverability": fly_maneuverability if fly_speed else None,
         "roundLabel": "Runde 1",
         "abilities": [
             {
@@ -2219,17 +2240,23 @@ def _gear_ac_modifiers(
     items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear]
 ) -> tuple[list[Modifier], int | None]:
     """Raw AC `Modifier`s from equipped gear (armor/shield's real
-    `BaseItem.ac_bonus`, any slot's `enhancement`), plus armor's
+    `BaseItem.ac_bonus` + `enhancement`), plus armor's
     `max_dex_bonus` cap. Returns the raw list, not a stacked total: the
     caller (`build_character_sheet`) combines it with composition-driven AC
     modifiers *before* stacking, so a same-type bonus from either source
     still only counts once (`rules/modifiers.py`'s `stack_by_target`
     docstring). Only armor ("ruestung") and shield ("schild") have real
-    `ac_bonus` data (`rules/equipment_slots.SLOT_CATEGORY`) — other slots
-    only contribute via `enhancement`, if set."""
+    `ac_bonus` data (`rules/equipment_slots.SLOT_CATEGORY`); other slots'
+    effects are `rules/items.py`'s job, merged by the caller."""
     modifiers: list[Modifier] = []
     max_dex_bonus: int | None = None
     for slot_key, category in SLOT_CATEGORY.items():
+        # Only armor/shield contribute through the generic `ac_bonus` +
+        # `enhancement` path: a weapon's or wondrous item's `enhancement` is
+        # not an AC bonus. Wondrous/ring effects come from
+        # `rules/items.py`'s per-item `ITEM_HANDLERS` instead.
+        if category not in ("armor", "shield"):
+            continue
         gear_row = gear_by_slot.get(slot_key)
         item = items.get(gear_row.item_id) if gear_row else None
         if item is None:

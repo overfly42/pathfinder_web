@@ -428,6 +428,10 @@ export interface Character {
    * Anpassung, 9/18 m Schwimmen) — `null` for the overwhelming majority of
    * characters who have none. */
   swimSpeed: string | null;
+  /** Fly speed while an activatable source is running (Mystiker's Luftschwingen), plus its
+   * maneuverability label ("Durchschnittlich"/"Perfekt") — both `null` otherwise. */
+  flySpeed: string | null;
+  flyManeuverability: string | null;
   roundLabel: string;
   abilities: AbilityScore[];
   saves: StatEntry[];
