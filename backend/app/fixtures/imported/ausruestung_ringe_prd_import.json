@@ -1,0 +1,344 @@
+[
+  {
+    "name": "Arkaner Siegelring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "1.000 GM",
+    "weight_raw": "-",
+    "description": "Ein formloser Block rosigen Kristalls von etwa 2,50 cm Kantenlänge dominiert diesen ansonsten schmucklosen Kupferring. Wenn eine Person ihn sich das erste Mal an den Finger steckt, formt der Kristall sich zu einer besonderen Rune, einem Siegel oder einem Identifikationszeichen aus. Sollte der Träger mit dem Effekt rechnen, kann er bestimmen, welche Form der Kristall annehmen soll. Sollte der Träger nicht damit rechnen, dass derartiges passiert, nimmt der Kristall stattdessen eine Form an, welche den Träger oder einen vorherrschenden Aspekt seiner Persönlichkeit repräsentiert. Sobald der Kristall einmal diese Form angenommen hat, tut er es immer, wenn der Träger den Ring aufsteckt. Der Träger kann mit einer Standard-Aktion sein Zeichen jedem Gegenstand aufdrücken (wie durch den Zauber Arkanes Siegel), indem er den Ring dagegen presst. Der Träger kann bei jeder Nutzung des Ringes die Farbe und andere kosmetische Einzelheiten seines Siegels bestimmen. Das aufgedrückte Zeichen ist dauerhaft, kann aber mittels Magie bannen, Austilgen oder einem noch mächtigeren Zauber entfernt werden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Arkaner Siegelring"
+  },
+  {
+    "name": "Energieschleierring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "19.500 GM",
+    "weight_raw": "-",
+    "description": "Ein Energieschleierring scheint immer aus Glas oder Kristall hergestellt worden zu sein, welches in einem roten, blauen, grünen oder gelben Farbton schattiert ist. Beinäherer Betrachtung offenbart sich ein kleines Metallband innerhalb des Glases oder des Kristalls. Geschätzt von Frontkämpfern und jedem, der einen Thaumaturgen zum Verbündeten hat, funktionieren Energieschleierringe normalerweise wie schwache Ringe der Energieresistenz. Einmal pro Tag kann der Träger dieses Rings mit Hilfe einer augenblicklichen Aktion den Schaden drohender Elektrizitäts-, Feuer-, Kälte oder Säureenergieeffekte von sich selbst (jedoch nicht von anderen Kreaturen, die von dem Zauber oder dem Effekt betroffen sind) abwehren. Der Schaden wird in einen Energieschleier verwandelt, der sich um den Körper des Trägers windet. Dabei verhält er sich wie unter den Effekten von Elementaraura EXP. Der Elementarauraeffekt ist von derselben Energieart wie der abgewehrte Schaden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Energieschleierring"
+  },
+  {
+    "name": "Gelehrtenring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "8.700 GM",
+    "weight_raw": "-",
+    "description": "Ein Gelehrtenring verleiht vollständiges Verständnis für jeden geschriebenen Text oder jede gesprochene Sprache, sogar wenn der Träger ihnen vorher noch nie begegnet ist (dies funktioniert wie Sprachen verstehen). Zudem verleiht der Ring einen Kompetenzbonus von +5 auf Fertigkeitswürfe für Wissen (Geschichte). Des Weiteren kann der Träger alle 5 Tage einmal Sagenkunde auf etwas wirken, wenn es in Verbindung mit einem Subjekt steht, das er in der vorherigen Woche studiert hat. sofern er einen Fertigkeitswurf für Wissen (Geschichte) mit Unterstützung des Ringes versucht ablegt hat.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Gelehrtenring"
+  },
+  {
+    "name": "Heilerring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "10.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser einfache Kupferring ist ein Segen für diejenigen, die ihr Leben geben, um andere zu heilen. Wann immer der Träger eines Heilerrings eine Beschwörung aus der Schule der Heilung wirkt, steigen die maximalen Werte von stufenabhängigen Heilungen, die Zauber mit sich bringen, um 2 Punkte. Leichte Wunden heilen würde beispielsweise eine maximale Heilung von 1W8+7 (auf der 7. Stufe) liefern, während Heilung ein Maximum an 170 Schadenspunkten heilen würde. Dieser Ring steigert weder die derzeitige Zauberstufe des Trägers noch die Menge an stufenabhängigen Heilungen, die durch solch einen Zauber geliefert werden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Heilerring"
+  },
+  {
+    "name": "Kerkerring",
+    "category": "ring",
+    "slot_raw": "Keiner",
+    "price_raw": "16.000 GM (Kerkermeisterring), 250 GM (Gefangenenring)",
+    "weight_raw": "-",
+    "description": "Der Kerkermeisterring ist aus Gold gearbeitet und mit einem Karneol besetzt. Der Ring ist magisch auf einen oder mehrere Gefangenenringe eingestimmt. Wenn der Träger eines Kerkermeisterringes einen Gefangenenring einem Wesen anlegt, kann der Gefangene den Ring nicht ohne Fluch brechen, Begrenzter Wunsch, Wunder oder Wunsch entfernen. Der Träger des Kerkermeisterringes kann einen mit seinem Ring verbundenen Gefangenenring jeder Zeit entfernen. Der Kerkermeister ist sich des Zustandes des Trägers jedes mit seinem Ring verbundenen Gefangenenringes bewusst. Zudem zählen alle mit dem Träger verbundenen Gefangenenringe als vertraut in Hinsicht auf Zauber wie Ausspähung und Teleportieren.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Kerkerring"
+  },
+  {
+    "name": "Kletterring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "2.500 GM",
+    "weight_raw": "-",
+    "description": "Bei diesem Ring handelt es sich tatsächlich um ein magisches Lederband, das um den Finger gewickelt wird. Es verleiht dem Träger dauerhaft einen Kompetenzbonus von +5 auf Würfe für Klettern.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Kletterring"
+  },
+  {
+    "name": "Kreis der Stahlhand",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "12.000 GM",
+    "weight_raw": "-",
+    "description": "Wenn der Ring getragen wird, erhält die Haut des Trägers einen kaum wahrnehmbaren Glanz. Durch den Ring ignoriert der Träger die ersten 5 Härtepunke eines Objektes, wenn er das Kampfmanöver Gegenstand zerschmettern ausführt oder wenn er auf einen Gegenstand einschlägt. Er erleidet auch nicht den normalen Malus von -4 für den Einsatz des Kampfmanövers Entwaffnen, wenn er unbewaffnet ist. Zudem kann der Träger des Rings dessen gesamte Macht fokussieren, um möglicherweise einen verheerenden Schlag abzuwehren. Einmal pro Tag, wenn ein kritischer Treffer oder ein Hinterhältiger Angriff den Träger trifft, besteht eine Chance von 50%, dass der kritische Treffer oder der hinterhältige Angriff negiert werden und der Schaden stattdessen normal ausgewürfelt wird. Diese Eigenschaft zu nutzen ist eine augenblickliche Aktion. Der Träger muss sich zur Nutzung entscheiden, ehe der Schaden des kritischen Treffers oder des hinterhältigen Angriffs ausgewürfelt wurde.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Kreis der Stahlhand"
+  },
+  {
+    "name": "Offenbarungsring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "10.000 GM (schwach), 16.000 GM (mächtig), 24.000 GM (überlegen)",
+    "weight_raw": "-",
+    "description": "Ein Offenbarungsring ist ein auf ein bestimmtes Mysterium eingestimmter göttlicher Gegenstand (siehe die Klassenbeschreibung des Mystikers) und enthält eine mit diesem Mysterium in Verbindung stehende Offenbarung. Diese kann von einem Mystiker genutzt werden, sofern er sie als normales Klassenmerkmal verwenden könnte. Das Orakel muss über das passende Mysterium verfügen, um den Ring benutzen zu können, und die Stufenanforderung erfüllen, so es eine gibt. Beispiel: Ein Offenbarungsring (Kampfheiler) ist nur für einen Mystiker der wenigstens 7. Stufe mit der Offenbarung der Schlachten nutzbar. Sollte der Mystiker bereits über die Offenbarung verfügen und diese Offenbarung ihm eine begrenzte Zahl von Anwendungen am Tag ermöglichen, kann er sie dank des Ringes ein weiteres Mal am Tag nutzen. Für andere Klassen als Mystiker ist der Ring nutzlos. Ein Schwacher Offenbarungsring enthält eine Offenbarung ohne Stufenvoraussetzungen oder mit einer Voraussetzung, die nicht größer ist als die 6. Stufe. Ein Mächtiger Offenbarungsring enthält eine Offenbarung, welche erfordert, dass der Mystiker wenigstens die 7. Stufe erreicht hat. Ein Überlegener Offenbarungsring enthält eine Offenbarung, die nur von einem Mystiker der 11. oder höheren Stufe verwendet werden kann.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Offenbarungsring"
+  },
+  {
+    "name": "Rattenzahnring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "5.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Knochenring hat die Form einer langgestreckten Ratte, die sich selbst in den Schwanz beißt. Der Träger erhält einen Bissangriff als natürlichen Primärangriff. Dieser Angriff verursacht 1W4 Punkte Stichwaffenschaden bei einem mittelgroßen Träger oder 1W3 bei einem kleinen Träger. Wenn der Träger den Ring eine Woche getragen hat, wirkt er äußerlich einer Ratte ähnlicher, auch wenn er immer noch wie ein Angehöriger seines Volkes aussieht (ein Mensch könnte z.B. hervorstehende Zähne erhalten).",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Rattenzahnring"
+  },
+  {
+    "name": "Ring der arkanen Herrschaft",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "20.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring ist zierlich und wurde aus solidem Stahl geschmiedet. Er hat die Form einer Schlange, die in ihren eigenen Schwanz beißt. Er wurde magisch aufgeladen, um die Geheimnisse der arkanen Herrschaft für seinen Träger zu enthüllen. Der Ring erlaubt einem Träger mit einem Arkanen Vorrat bis zu 4 Punkte aus seinem Arkanen Vorrat in dem Ring zu speichern (dies ist eine schnelle Aktion), bis sie benötigt werden. Ein Träger kann die in dem Ring gespeicherten Arkanen Vorratspunkte ausgeben, als ob es seine eigenen wären, oder er kann sie auf eine der folgenden Weisen ausgeben.  Der Träger kann mit Hilfe einer freien Aktion 1 in dem Ring gespeicherten Arkanen Vorratspunkt ausgeben, um für eine Runde einen Bonus von +2 auf Konzentrationswürfe zu erhalten.  Der Träger kann mit Hilfe einer Standard-Aktion 1 in dem Ring gespeicherten Arkanen Vorratspunkt ausgeben, um das Arkana Vorratsschlag auszuführen. Um den Effekt zu bestimmen, wird die die Kampfmagus stufe des Trägers zurate gezogen.  Der Träger kann mit Hilfe einer augenblicklichen Aktion bis zu 4 in dem Ring gespeicherte Arkane Vorratspunkte ausgeben, um das Arkana Reflexion zu nutzen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der arkanen Herrschaft"
+  },
+  {
+    "name": "Ring der ektoplasmischen Belebung",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "12.000 GM",
+    "weight_raw": "-",
+    "description": "Ein Paktmagier, der einen Ring der ektoplasmischen Belebung trägt, kann sein Klassenmerkmal Ruf des Schöpfers nutzen, um sein Eidolon zu absorbieren (während dieses Prozesses wird es entlassen), anstelle es an seine Seite zu rufen. Er erhält 2 temporäre Trefferpunkte pro Trefferwürfel des Eidolons und die Vorteile von Teilweise Genesung. Das Eidolon muss sich hierfür immer innerhalb der Reichweite von Ruf des Schöpfers befinden. Jeder gewährte temporäre Trefferpunkt verschwindet nach 1 Stunde oder wenn das Eidolon erneut beschworen wird. Ein Träger mit der Fähigkeit Platztausch kann sich selbst auf das Feld des Eidolons transportieren (wobei er es noch immer absorbiert und entlässt), anstelle das Eidolon zu sich selbst zu rufen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der ektoplasmischen Belebung"
+  },
+  {
+    "name": "Ringe der elementaren Herrschaft",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "200.000 GM",
+    "weight_raw": "-",
+    "description": "Alle vier Versionen des Ringes der elementaren Herrschaft sind äußerst mächtig. Bis zu ihrer Aktivierung scheint es sich bei diesen Gegenständen einfach nur um schwächere magische Ringe zu handeln. Sie werden durch ein spezielles Ereignis aktiviert, wie etwa durch das eigenständige Töten eines Elementars der entsprechenden Art oder indem man heligem Material des entsprechenden Elementes ausgesetzt wird. Alle Ringe haben einige gemeinsame Eigenschaften und spezielle einmalige Eigenschaften. Elementare der Ebene, auf die der Ring abgestimmt ist, können den Träger nicht angreifen oder sich ihm auf 1,50 m nähern. Wenn der Träger es wünscht, kann er auf diesen Schutz verzichten. Stattdessen kann er versuchen den Elementar zu bezaubern (wie Monster bezaubern; Willen, SG 17, keine Wirkung). Wenn die Bezauberung fehlschlägt, ist der vollkommene Schutz allerdings verloren und es kann kein weiterer Bezauberung sversuch unternommen werden. Kreaturen von der Ebene, auf die der Ring abgestimmt ist, welche den Träger angreifen, erleiden einen Malus von -1 auf ihre Angriffswürfe. Der Ringträger erhält auf Rettungswürfe gegen die Angriffe dieser extraplanaren Kreaturen einen Resistenzbonus von +2, sofern Rettungswürfe zugelassen sind. Außerdem erhält er einen Moralbonus von +4 auf Angriffswürfe gegen solche Kreaturen. Des Weiteren durchdringen die Waffen des Trägers die Schadensreduzierung solcher Kreaturen, unabhängig davon, welche Eigenschaften die Waffen tatsächlich besitzen. Der Träger des Rings ist in der Lage mit Kreaturen von der Ebene zu kommunizieren, auf die der Ring abgestimmt ist. Diese Kreaturen erkennen, dass er den Ring trägt, und zollen dem Träger einen gesunden Respekt, sollten sie dieselbe Gesinnung wie er haben. Wenn die Gesinnungen entgegengesetzt sind, fürchten die Kreaturen den Träger, wenn dieser stark ist. Wenn er schwach ist, hassen sie ihn und trachten ihm nach dem Leben. Der Besitzer eines Rings der elementaren Herrschaft erleidet stets den folgenden Malus auf Rettungswürfe. Element Rettungswurfmalus Luft -2 gegen Angriffe, die auf Erde basieren Erde -2 gegen Angriffe, die auf Luft oder Elektrizität basieren Feuer -2 gegen Angriffe, die auf Wasser oder Kälte basieren Wasser -2 gegen Angriffe, die auf Feuer basieren Zusätzlich zu den oben beschriebenen Kräften verleiht jeder Ring seinem Träger die folgenden einzigartigen Eigenschaften. RING DER ELEMENTAREN HERRSCHAFT (ERDE)  Erde und Gestein erweichen (beliebig oft)  Mit Stein verschmelzen (beliebig oft, nur der Träger)  Stein formen (zweimal pro Tag)  Steinhaut (einmal pro Woche, nur der Träger)  Wände passieren (zweimal pro Woche)  Solange die Bedingung nicht erfüllt wurde, um die wahre Kraft des Ringes zu aktivieren, erscheint er als Ring, mit dem man beliebig oft Mit Stein verschmelzen wirken kann. Jedes Mal, wenn der Ring einen neuen Träger bekommt, muss er erneut aktiviert werden. RING DER ELEMENTAREN HERRSCHAFT (FEUER)  Energien widerstehen (Feuer) (wie ein normaler Ring der Energieresistenz [Feuer])  Brennende Hände (beliebig oft)  Flammenkugel (zweimal pro Tag)  Feuerwerk (zweimal pro Tag)  Feuerwand (einmal pro Tag)  Flammenschlag (zweimal pro Woche)  Solange die Bedingung nicht erfüllt wurde, um die wahre Kraft des Ringes zu aktivieren, erscheint er als normaler Ring der Energieresistenz (Feuer). Jedes Mal, wenn der Ring einen neuen Träger bekommt, muss er erneut aktiviert werden. RING DER ELEMENTAREN HERRSCHAFT (LUFT) ● Windwall (beliebig oft) ● Federfall (beliebig oft, nur der Träger) ● Energien widerstehen (Elektrizität) (beliebig oft, nur der Träger) ● Windstoß (zweimal pro Tag)  Luftweg (einmal pro Tag, nur der Träger)  Kugelblitz (einmal pro Woche)  Solange die Bedingung nicht erfüllt wurde, um die wahre Kraft des Ringes zu aktivieren, erscheint er als Federfallring. Jedes Mal, wenn der Ring einen neuen Träger bekommt, muss er erneut aktiviert werden. RING DER ELEMENTAREN HERRSCHAFT (WASSER)  Wasser erschaffen (beliebig oft)  Wasser atmen (beliebig oft)  Auf Wasser gehen (beliebig oft)  Eiswand (einmal pro Tag)  Eissturm (zweimal pro Woche)  Wasser kontrollieren (zweimal pro Woche)  Solange die Bedingung nicht erfüllt wurde, um die wahre Kraft des Ringes zu aktivieren, erscheint er als Ring des Wasserwandelns. Jedes Mal, wenn der Ring einen neuen Träger bekommt, muss er erneut aktiviert werden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ringe der elementaren Herrschaft"
+  },
+  {
+    "name": "Ring der Feinsinnigen",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "11.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser kleine, einfache Silberring ist bei städtischen Halb-Elfen, Menschen und Halblingen sehr beliebt. Er trägt einen rechteckig geschnittenen Saphir, während ins Metall ein labyrinthartiges Muster eingraviert ist. Der Ring wird oft am kleinen Finger getragen und verleiht seinem Träger einen Kompetenzbonus von +4 auf Würfe für Motiv erkennen und Wissen (Lokales). Ferner kann er einmal am Tag genutzt werden, um entweder Gegenstand aufspüren oder Kreatur aufspüren zu wirken. Ferner kann der Träger beliebig oft dem Ring befehlen, ihm die Richtung zur nächsten Schänke, Kneipe oder einem ähnlichen Etablissement anzuzeigen, solange die Wirtschaft sich in einer Ortschaft mit einer Bevölkerung entsprechend einer Ansiedlung oder größer befindet und diese nicht weiter als 30 km von ihm entfernt ist.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Feinsinnigen"
+  },
+  {
+    "name": "Ring der inneren Kraft",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "variiert Schwacher 18.000 GM, Normaler 42.000 GM, Mächtiger 66.000 GM",
+    "weight_raw": "-",
+    "description": "Diamanten und Rubine schmücken abwechselnd dieses Band aus Weißgold. Ein schwacher Ring der inneren Kraft reduziert Attributsschaden oder temporäre Attributsmali, die der Träger erleidet, um 2 Punkte und Attributsentzug um 1 Punkt. Wenn ein Effekt auf mehrere Eigenschaftswerte abzielt (beispielsweise Entkräftung, Erschöpfung oder Hauch des Stumpfsinns), reduziert der Ring den Schaden, Entzug oder Malus für alle Eigenschaftswerte. Ein normaler Ring der inneren Kraft reduziert Attributsschaden oder temporäre Mali um 4 Punkte und reduziert Attributsentzug um 2 Punkte. Ein mächtiger Ring der inneren Kraft reduziert Attributsschaden oder temporäre Mali um 6 Punkte und reduziert Attributsentzug um 3 Punkte. Das Tragen eines Ringes der inneren Kraft macht nicht immun gegen Zustände wie Entkräftet oder Erschöpft, sogar, wenn der Träger den ganzen Attributsschaden, Entzug oder die Mali des Zustandes ignoriert. ERSCHAFFUNGSVORRAUSSETZUNGEN KOSTEN variieren, Schwächer 9.000 GM, Normaler 21.000 GM, Mächtiger 33.000 GM Ring schmieden, Genesung",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der inneren Kraft"
+  },
+  {
+    "name": "Ring der Ki-meisterschaft",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "10.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring besteht zur Hälfte aus Onyx und zur Hälfte aus klarem, weißen Kristall. Sie wurden magisch miteinander verschmolzen und auf die Stärke von Stahl gehärtet. Der Ring erlaubt einem Träger mit Ki-Vorrat bis zu 2 Ki-Punkte als schnelle Aktion in dem Ring zu speichern. Diese Punkte bleiben in dem Ring, bis sie verbraucht werden. Der Träger kann diese Ki-Punkte normal nutzen oder die folgenden Vorteile erlangen, wenn er Ki-Punkte in dem Ring gespeichert hat. Solange mindestens 1 Ki-Punkt in dem Ring gespeichert ist, erhält der Träger einen Bonus von +2 auf seine KMV gegen Ringkampf, Versetzen und Zu-Fall-bringen. Solange mindestens 2 Ki-Punkte in dem Ring gespeichert sind, reduziert der Träger die Anzahl an Ki-Punkten, die er für einen Ninjatrick oder eine Ki Fähigkeit benötigt werden, um 1 (Minimum 1 Ki-Punkt).",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Ki-meisterschaft"
+  },
+  {
+    "name": "Ring der magischen Herstellung",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "12.000 GM",
+    "weight_raw": "1 Pfd.",
+    "description": "Ein Ring der Magischen Herstellung trägt stets ein Werkzeugsymbol. Für den Träger des Ringes ähneln Zauber dem Handwerk und umgekehrt. Der Ringträger kann anstelle von Fertigkeitswürfen für Zauberkunde Würfe für Handwerk ablegen, um einen Gegenstand zu identifizieren, der mit diesem Handwerk hergestellt wurde. Der Träger kann zudem einen Zauberplatz oder einen vorbereiteten Zauber aufwenden, um einen Verbesserungsbonus in Höhe des Zaubergrades auf einen Fertigkeitswurf für Beruf oder Handwerk zu erhalten, unabhängig davon, wie lange er für diesen Wurf benötigt.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der magischen Herstellung"
+  },
+  {
+    "name": "Ring der Schneidmeisterschaft",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "6.840 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring wurde aus geschmolzenen Feuerwaffenkugeln hergestellt, was ihn zu einem grob anmutenden, aber durchaus eindrucksvollen Ring macht. Zweimal pro Tag kann der Träger, wenn er Schneidpunkte zurückerhält, mit Hilfe einer freien Aktion entscheiden, diese in den Ring der Schneidmeisterschaft zu speichern, anstelle den Schneidpunkt zurückzugewinnen. Er kann bis zu 2 Schneidpunkte in dem Ring speichern und jene folgenderweise ausgeben. Einmal pro Tag kann der Träger, ohne dass eine Aktion dafür nötig ist, 1 Schneidpunkt aus dem Ring verwenden, um einen Verständnisbonus von +2 auf seine Initiative zu erhalten. Einmal pro Tag kann der Träger des Ringes mit Hilfe einer Standard-Aktion 2 in dem Ring gespeicherte Schneidpunkte ausgeben, um einen Kugelschild ABR II zu aktivieren. Jeder in dem Ring gespeicherte Schneidpunkt verschwindet zu Beginn eines neuen Tages.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Schneidmeisterschaft"
+  },
+  {
+    "name": "Ring der Stärkezehrung",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "8.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring wurde aus schwarzem Stahl hergestellt und fühlt sich unheimlich kalt an. Wenn der Träger eine lebende Kreatur mit einem waffenlosen Angriff trifft, kann der Ringträger einmal pro Tag mit einer schnellen Aktion Stärkeschaden verursachen. Dem Ziel muss ein Zähigkeitswurf gegen SG 20 gelingen oder es erleidet 1W4 Stärkeschaden zusätzlich zu dem normalen Schaden des Angriffs. Sobald das Ziel des Angriffs Stärkeschaden durch diesen Angrifferleidet, erhält der Träger des Rings für 1 Minute einen Verbesserungsbonus von +2 auf seine Stärke.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Stärkezehrung"
+  },
+  {
+    "name": "Ring der taktischen Präzision",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "11.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Stahlring wurde mit Einlegearbeiten in Form von Schwertern und Schilden aus Adamant verziert. Der Träger erhält einen Kompetenzbonus von +5 auf Fertigkeitswürfe für Beruf (Soldat). Immer wenn der Träger einen numerischen Bonus durch ein Gemeinschaftstalent oder durch die Aktion Jemand anderem helfen gibt oder erhält, ist dieser Bonus um 1 Punkt höher. Wenn sie diesen Ring für 1 Stunde trägt, kann eine Kreatur ihn für 24 Stunden mit einem ihr bekannten Gemeinschaftstalent aufladen. Während dieser Zeit kann jede Kreatur, die diesen Ring trägt, das Gemeinschaftstalent nutzen, wenn sie mit der Kreatur zusammenarbeitet, die es in den Ring geladen hat. Dies funktioniert nicht bei anderen Kreaturen, auch wenn diese das besagte Gemeinschaftstalent besitzen. Wenn der Ring mit einem neuen Gemeinschaftstalent aufgeladen wird, ersetzt dieses das vorherige Talent.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der taktischen Präzision"
+  },
+  {
+    "name": "Ring der Täuschung",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "12.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring ist auf den ersten Blick nur ein breiter Ring aus spiegelähnlichem Metall. Wann immer der Träger dieses Ringes die Aktion Rückzug ausführt oder den Zustand Hilflos erhält (einschließlich des Zustandes Bewusstlos), macht der Ring diesen augenblicklich für 3 Runden unsichtbar. Zudem erschafft er vier illusionäre Duplikate, die entweder in entgegengesetzte Richtungen fortrennen oder andere plausible Aktionen ausführen, welche die Aufmerksamkeit des Feindes vom Träger ablenken könnten. Die Duplikate bleiben für 3 Runden bestehen, ehe sie verschwinden. Allerdings hören sie sofort auf zu existieren, wenn sie von einem Angriff getroffen werden (RK 10) und können angezweifelt werden (Willen, SG 19). Verbündete des Trägers kennen immer dessen wahren Aufenthaltsort und können uneingeschränkt Hilfe oder Beistand leisten.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Täuschung"
+  },
+  {
+    "name": "Ring der vielen Stiche",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "6.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring besteht aus gehärteten Lederstreifen, mit denen Fellstücke, Federn, Knochen und Elfenbeinsplitter verwoben wurden. Der Träger kann zwei Mal am Tag, wenn er einen Gegner in die Zange nimmt, als Schnelle Aktion bei einem erfolgreichen Nahkampfangriff +1W6 Schadenspunkte verursachen. Dieser Schaden wird als Hinterhältiger Schaden behandelt, Effekte, welchen solchen Schaden reduzieren oder aufheben, kommen zur Geltung.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der vielen Stiche"
+  },
+  {
+    "name": "Ring der Weiterführung",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "56.000 GM",
+    "weight_raw": "-",
+    "description": "Dieses geflochtene Band aus Kupferdrähten pulsiert immer in Harmonie mit dem Herzschlag des Trägers. Wann immer der Träger dieses Ringes einen Zauber mit der Reichweite persönlich wirkt, der mindestens 10 Minuten pro Stufe (oder länger) andauert, bleibt dieser Zauber für 24 Stunden aktiv oder bis der Träger einen anderen Zauber mit dieser Reichweite wirkt (je nachdem, was zuerst eintritt). Zauber, die für gewöhnlich nur eine bestimmte Aktion betreffen (wie das Durchführen eines besonderen Angriffs), sind nach dieser Aktion aufgebraucht. Dies verringert nicht die Dauer von Zaubern, die normalerweise länger als 24 Stunden bestehen. Ein Zauber, der aufgrund seiner Dauer weiterhin anhalten würde, wird durch einen neuen Zauber nicht beendet. Versuche, die darauf ausgerichtet sind, einen Zauber zu bannen oder anderweitig zu entfernen, während der Zauber noch immer durch den Ring aufrecht gehalten wird, funktionieren normal. Sollte der Zauber von dem Ring erfolgreich entfernt werden, verliert sein Träger alle Vorteile dieses Zaubers.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring der Weiterführung"
+  },
+  {
+    "name": "Ring des Energiebändigers",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "8.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring negiert jeden Energie-Zauber oder zauberähnliche Fähigkeit, die gegen den Träger gerichtet ist. Dabei erhält der Ring eine Anzahl von Ladungen gleich dem Zaubergrad des Krafteffektes. Der Ring kann höchstens neun Ladungen halten. Sollte ein Krafteffekt dieses Maximum überschreiten, negiert der Ring ihn nicht und erhält auch keine Ladungen – der Träger wird von dem Effekt normal betroffen. Auf Befehl des Trägers kann der Ring seine Ladungen nutzen und Magisches Geschoss wirken. Pro Ladung wird ein Geschoss erzeugt (1W4+1 Punkte Energieschaden), der Ring kann in einer Runde aber nicht mehr als fünf Geschosses erzeugen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Energiebändigers"
+  },
+  {
+    "name": "Ring des Fallenmeisters",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "5.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser täuschend wertvoll wirkende Ring verleiht seinem Träger einen Bonus von +5 bei allen Würfen auf Handwerk (Fallen) und Mechanismus ausschalten. Selbst wenn er keine Ränge in diesen Fertigkeiten besitzen sollte, kann der Träger sie nutzen, als wäre er in ihnen geübt.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Fallenmeisters"
+  },
+  {
+    "name": "Ring des Feindfokus",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "10.000 GM 5",
+    "weight_raw": "-",
+    "description": "Dieser Ring aus gezacktem Stahl erweckt den Eindruck, dass er aus einem Rüstungsstück stammt, und dann zu einem Ring gebogen wurde. Der Träger des Rings kann beliebig oft einen beliebigen Gegner kennzeichnen, den er als besonders gefährlichen Gegner wahrnimmt. Der Träger erhält einen Bonus von +2 auf seine RK und die Rettungswürfe gegen Angriffe von diesen Gegner, bis er einen neuen Gegner kennzeichnet.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Feindfokus"
+  },
+  {
+    "name": "Ring des gierigen Grabes",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "2.000 GM",
+    "weight_raw": "-",
+    "description": "Der Träger dieses Ringes kann einen Berührungsangriff im Nahkampf gegen untote Kreaturen ausführen, die nicht mehr als eine Größenkategorie größer als er sind. Dabei trennt er diese Kreatur von ihrer unsterblichen Energie. Der Träger leidet nie an Krankheit seffekten, die normalerweise auftreten können, wenn man in physischen Kontakt mit einer untoten Kreatur kommt, die man auf diese Weise berührt hat. Bei einem erfolgreichen Treffer kann die untote Kreatur für 1W4 Runden nicht durch negative Energieeffekte geheilt oder unterstützt werden. Während dieser Zeit beeinträchtigt positive Energie die untote Kreatur normal.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des gierigen Grabes"
+  },
+  {
+    "name": "Ring des heiligen Mistelzweiges",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "6.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser winzige Ring aus einer lebendigen Mistel scheint sich um den Finger des Trägers zu wickeln. Der Träger erhält durch ihn einen einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Mit Tieren umgehen, Tierempathie und Wissen (Natur). Zudem kann sich ein Träger mit der Fähigkeit Unterholz durchqueren mühelos und ohne Beeinträchtigungen fortbewegen, sogar wenn dort magische oder manipulierte Pflanzen sein sollten. Dies erlaubt dem Träger allerdings nicht, sich durch feste Objekte oder Kreaturen zu bewegen. Zudem kann der Träger einmal pro Tag Shillelagh nutzen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des heiligen Mistelzweiges"
+  },
+  {
+    "name": "Ring des Kirchenoberhauptes",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "28.500 GM",
+    "weight_raw": "-",
+    "description": "In diesen verzierten Ring aus geheiligtem Silber wurde ein goldenes Siegel eingraviert, welches das heilige Symbol der Gottheit des Trägers verkörpert, nachdem er für 24 Stunden getragen wurde. Der Ring kann beliebig oft genutzt werden, um Pergamente zu versiegeln oder eine Oberfläche wie durch Arkanes Siegel zu markieren. Der Träger ist als gelehrter Anführer seines Glaubens gekennzeichnet und erhält einen Kompetenzbonus von +5 auf Fertigkeitswürfe für Diplomatie und Wissen (Religion). Wenn der Träger das Talent Anführen besitzt, erhalten seine Gefolgsleute aufgrund ihrer eifrigen Verehrung einen Moralbonus von +4 auf ihre Willenswürfe gegen Zauber der Schule der Verzauberung und Verzauberungseffekte. Einmal pro Tag kann der Träger des Rings Blick durch eigene Augen und Gebet nutzen. Oftmals nutzt er ersteres um durch Portraits, Statuen und sogar geprägte Münzen zu sprechen und zu beobachten, die sein Bildnis tragen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Kirchenoberhauptes"
+  },
+  {
+    "name": "Ring des Platztausches",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "10.800 GM",
+    "weight_raw": "-",
+    "description": "Auf Befehl kann der Träger diesen Ring gegen einen anderen Ring, egal ob magisch oder nicht, drücken und diesen an den Ring des Platztausches binden. Einmal pro Tag kann der Träger des Ringes ein Befehlswort aussprechen, wodurch er mit der Kreatur, die den gebundenen Ring trägt, die Plätze tauscht. Allerdings muss sich diese innerhalb von 240 m Entfernung befinden, so als ob Dimensonstür gegen eine bereitwilliges Ziel gewirkt würde. Während dieses Vorganges tauscht der Ring des Platztausches den Platz mit dem Ring, den die andere Kreatur trägt, und die Verbindung zwischen den beiden Ringen zerbricht. Die Bindungseigenschaft des Ringes des Platztausches kann so oft wie gewünscht eingesetzt werden. Jedes Mal wird eine eingegangene Verbindung zu der Zeit zerbrochen, wenn der Ring genutzt wird. Eine existierende Bindung kann durch einen erfolgreichen Bannwurf gegen die Zauberstufe des Rings gebrochen werden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Platztausches"
+  },
+  {
+    "name": "Ringe des Spiritualisten",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "70.000 GM",
+    "weight_raw": "-",
+    "description": "Diese vier auffallenden und farbenprächtigen Ringe müssen an einer Hand getragen werden, allerdings nehmen sie nur einen einzigen Ring-Ausrüstungsplatz in Beschlag. Sie verleihen dem Träger die Fähigkeit, mit den Toten zu sprechen und auf diese folgendermaßen einzuwirken. ● Der Träger kann dreimal pro Tag Mit Toten sprechen nutzen. Es dauert 10 Minuten, diese Fähigkeit zu nutzen. ● Der Träger kann dreimal pro Tag Geisterhand nutzen. ● Die Waffe des Trägers erhält die besondere Eigenschaft Geisterhafte Berührung, solange der Träger diese Waffe führt. ● Der Träger erhält einen heiligen oder unheiligen Bonus auf Rettungswürfe gegen positive und negative Energieeffekte. Der Bonus hängt von der Gesinnung des Trägers ab – gut gesinnte Träger erhalten einen heiligen Bonus, böse gesinnte Träger einen unheiligen Bonus. Neutral gesinnte Gegner suchen sich entweder einen heiligen oder einen unheiligen Bonus aus, wenn sie den Ring das erste Mal anstecken. Diese Entscheidung kann später nicht mehr geändert werden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ringe des Spiritualisten"
+  },
+  {
+    "name": "Ring des verzögerten Verderbens",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "45.000 GM",
+    "weight_raw": "-",
+    "description": "In diesen Ring sind neun Granatsteine eingesetzt. Wenn der Körper oder der Geist des Trägers Ziel eines schädlichen Effektes wird, welcher einen Rettungswurf gestattet, um ihm ganz oder teilweise zu widerstehen, und er bei seinem Rettungswurf scheitert, kann er den Eintritt dieses Effektes um 1 Minute verzögern, ehe der Effekt zu wirken beginnt. Dabei zerfällt einer der Granatsteine zu Staub. Nach Ablauf der Minute kann der Träger den Effekt mit einer Augenblicklichen Aktion weiterhin verzögern, zerstört dabei aber den nächsten Granat, usw. Der verzögerte Effekt tritt ein, wenn der Träger bewusstlos wird, der Ring entfernt wird, oder 1 Minute seit der letzten Nutzung des Ringes verstrichen ist; die Runden, um welche der Effekt verzögert wird, zählen nicht gegen die Wirkungsdauer des Effektes (so hält ein Fluch mit einer Wirkungsdauer von 5 Runden auch seine vollen 5 Runden an, sobald er eintritt, egal wie lange das Eintreten des Effektes verzögert wurde). Effekte, welche den schädlichen Effekt negieren oder den Träger vor ihm schützen, funktionieren normal während der Effekt verzögert wird, so kann z.B. Gift neutralisieren auf den Träger gewirkt werden, während er die Auswirkungen eines giftigen Bisses verzögert, um die Vergiftung zu heilen.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des verzögerten Verderbens"
+  },
+  {
+    "name": "Ring des wässrigen Weges",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "14.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring ist aus einem einzelnen Stück tiefblauen Kristalls hergestellt worden. Dieser Ring verleiht seinem Träger eine Bewegungsrate * Schwimmen) von 9 m und einen Volksbonus von +8 auf Fertigkeitswürfe für Schwimmen. Zudem kann der Träger einmal pro Tag mit einer schnellen Aktion Dimensionstür nutzen, solange er in Kontakt mit Flüssigkeit steht. Allerdings müssen Startpunkt und Ausgangsort durch eine ausreichende Menge an Flüssigkeit miteinander verbunden sein.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des wässrigen Weges"
+  },
+  {
+    "name": "Ring des wilden Aufbegehrens",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "3.000 GM",
+    "weight_raw": "1 Pfd.",
+    "description": "Dieser Ring gestattet es seinem Träger, physische oder mentale Traumata zu überstehen, welche seine Handlungen einschränken. Der Ring verfügt über 5 Ladungen, die sich jeden Tag erneuern. Sollte der Träger zu Beginn seines Zuges wankend sein, kann er als Freie Aktion eine Ladung aufwenden, um den Ring zu aktivieren und den Zustand Wankend bis zum Beginn seines nächsten Zuges zu ignorieren.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des wilden Aufbegehrens"
+  },
+  {
+    "name": "Ring des Zauberwissens",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "VARIIEREN Typ I 1.500 GM Typ II 6.000 GM Typ III 13.500 GM Typ IV 24.000 GM",
+    "weight_raw": "-",
+    "description": "Diesen Ring gibt es in vier Varianten: Ring des Zauberwissens I, Ring des Zauberwissens II, Ring des Zauberwissens III und Ring des Zauberwissens IV. Alle von ihnen sind nützlich, aber nur für spontan zaubernde arkane Zauberkundige. Durch Studium kann der Träger das Wissen eines einzigen Zaubers zusätzlich zu denen erlangen, die ihm durch seine Klasse und Stufe zustehen. Ein Ring des Zauberwissens I kann nur Zauber des 1. Grads aufnehmen, ein Ring des Zauberwissens II kann Zauber des 1. oder 2. Grades aufnehmen, ein Ring des Zauberwissens III kann Zauber des 3. Grades oder niedriger aufnehmen und ein Ring des Zauberwissens IV kann Zauber bis zum 4. Grad aufnehmen. Ein Ring des Zauberwissens ist nur ein Speicher. Der Träger muss immer noch einer geschriebenen, aktiven oder gewirkten Version des Zaubers begegnen und einen Fertigkeitswurf für Zauberkunde gegen SG 20 bestehen, um den Zauber in den Ring zu übertragen. Danach kann der arkane Zauberkundige den Zauber wirken, als ob er diesen kennen und er auf seiner Liste der Zaubersprüche stehen würde. Arkane Zauber, die nicht auf der Klassenliste des Trägers erscheinen, werden behandelt, als ob sie in allen Belangen (Speichern und Wirken) eine Stufe höher wären.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Ring des Zauberwissens"
+  },
+  {
+    "name": "Rückkehrring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "33.600 GM",
+    "weight_raw": "-",
+    "description": "Dieser Goldring ist mit drei Steinen besetzt: einem blauen, einem grünen und einem roten. Dreimal pro Tag kann der Träger den Ring mit Hilfe einer Bewegungsaktion benutzen, um eine Verbindung mit einem bestimmten 1,50 m großen Feld herzustellen, das er in diesem Moment belegt. Dadurch fängt einer der Steine in dem Ring zu glühen an. Als schnelle Aktion kann der Träger des Rings sich zu jedem freien verknüpften Feld innerhalb von 30 m teleportieren.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Rückkehrring"
+  },
+  {
+    "name": "Sternschnuppenring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "50.000 GM",
+    "weight_raw": "-",
+    "description": "Dieser Ring kann auf zwei verschiedene Weisen angewendet werden: erstens in dämmrigem Licht oder nachts im Freien oder zweitens nachts unter der Erde oder in Innenräumen. Wird der Ring nachts im Freien oder in einem dämmrigen oder dunklen Gebiet angewandt, kann er eine der folgenden Funktionen auf Befehl ausführen.Tanzende Lichter (einmal pro Stunde) Licht (zweimal pro Nacht) Blitzkugeln (speziell, einmal pro Nacht) Sternschnuppen (speziell, dreimal pro Woche) Die erste Sonderfunktion (Blitzkugeln) erzeugt ein bis vier Blitzkugeln (nach Wunsch des Trägers). Diese leuchtenden Kugeln ähneln Tanzenden Lichtern und werden auch auf ähnliche Weise kontrolliert (siehe die Beschreibung des Zaubers Tanzende Lichter). Die Kugeln haben eine Reichweite von 40 m und eine Wirkungsdauer von 4 Runden. Sie können sich maximal 40 m pro Runde bewegen. Jede Sphäre hat einen Durchmesser von circa 90 cm. Kreaturen, welche sich einer der Kugeln auf mehr als 1,50 m nähern, bringen diese dazu, sich zu entladen. Der Betroffene erleidet soviel Elektrizitätsschaden, wie Kugeln erschaffen wurden (siehe folgende Tabelle). Anzahl der Blitzkugeln Schaden pro Kugel 1 Blitzkugel 4W6 Punkte Elektrizitätsschaden 2 Blitzkugeln 3W6 Punkte Elektrizitätsschaden pro Kugel 3 Blitzkugeln 2W6 Punkte Elektrizitätsschaden pro Kugel 4 Blitzkugeln 1W6 Punkte Elektrizitätsschaden pro Kugel Ist diese Funktion erst einmal aktiviert worden, können die Blitzkugeln zu jedem beliebigen Zeitpunkt freigesetzt werden, bevor die Sonne aufgeht. Es können mehrere Kugeln in derselben Runde freigesetzt werden. Die zweite Sonderfunktion erzeugt drei Sternschnuppen, die entweder alle auf einmal oder einzeln pro Woche freigesetzt werden können. Sie verursachen beim Einschlag 12 Schadenspunkte und in einer Ausbreitung mit einem Radius von 1,50 m 24 Schadenspunkte (wie ein Feuerball). Eine Kreatur, die von einer Sternschnuppe getroff en wurde, erleidet den vollen Schaden des Einschlags und der Ausbreitung, außer es gelingt ihr ein Reflexwurf (SG 13). Kreaturen, die nicht direkt getroff en wurden, aber innerhalb der Ausbreitung stehen, können den Schaden des Einschlags ignorieren und erleiden bei einem erfolgreichen Reflexwurf (SG 13) nur den halben Schaden der Ausbreitung. Die Reichweite der Sternschnuppen beträgt 23 m. Eine Sternschuppe explodiert, wenn sie entweder das Ende der Reichweite oder eine Kreatur oder einen Gegenstand trifft. Sie fliegt immer auf einer geraden Linie und alle Kreaturen auf ihrer Flugbahn müssen einen Rettungswurf machen, um nicht getroffen zu werden. Nachts unter der Erde oder in einem Innenraum hat der Sternschnuppenringdie folgenden Eigenschaft en:Feenfeuer (zweimal pro Tag) Funkenregen (speziell, einmal pro Tag) Bei dem Funkenregen handelt es sich um eine schwebende Wolke aus rot glühenden Funken, die sich vom Ring ausgehend in einem 3 m weiten Bogen bis zu 6 m weit ausbreitet. Kreaturen innerhalb dieses Bereichs erleiden 2W8 Punkte Schaden, wenn sie keine Metallrüstungen oder -waff en tragen. Wenn sie solche Waffen oder Rüstungentragen, erleiden sie 4W8 Punkte Schaden.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Sternschnuppenring"
+  },
+  {
+    "name": "Troglodytenring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "12.000 GM",
+    "weight_raw": "-",
+    "description": "Der Träger dieses Ringes kann zweimal pro Tag auf Befehl einen entsetzlichen Geruch produzieren, der alle lebenden Kreaturen in einer Radius von 3 m beeinträchtigt, abgesehen vom Träger selbst. Einmal geschaffen, bleibt der Geruch auf dem Träger (mit ihm als Zentrum), bis er ihn mit Hilfe einer freien Aktion auflöst. Dies ist ein Gifteffekt. Jeder Kreatur, die von diesem grauenvollen, durch den Ring produzierten Aroma beeinträchtigt wird, muss einen Zähigkeitswurf gegen SG 14 bestehen, wenn sie ihren Zug in dem Wirkungsbereich des Gestankes des Rings startet. Wenn ihr der Rettungswurf misslingt, erhält sie für 1 Runde den Zustand Kränkelnd. Wenn sie bereits den Zustand Kränkelnd besitzt, erhält sie stattdessen den Zustand Übelkeit.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Troglodytenring"
+  },
+  {
+    "name": "Vergeltungsring",
+    "category": "ring",
+    "slot_raw": "Ring",
+    "price_raw": "15.000 GM",
+    "weight_raw": "-",
+    "description": "Einmal am Tag kann der Träger dieses verkohlten Knochenringes mit einer Augenblicklichen Aktion eine Detonation mit 9 m Radius erzeugen, die 10W6 Punkte Feuerschaden verursacht (Reflex SG 14 halbiert). Sollte der Träger durch diese Detonation getötet werden, müssen die von ihm getragenen magischen Gegenstände erfolgreich Rettungswürfe ablegen oder Feuerschaden nehmen, während nichtmagische Ausrüstung den Schaden ohne Rettungswurf erleidet. Die Detonation zerstört niemals den Ring selbst.",
+    "source_url": "http://prd.5footstep.de/Ausruestungskompendium/RingeZaubersteckenZauberzepter/Ringe#Vergeltungsring"
+  }
+]
