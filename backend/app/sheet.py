@@ -1623,7 +1623,13 @@ def _format_spell_components(component: BaseSpellComponent | None) -> str:
     if component.material:
         parts.append(f"M ({component.material_description})" if component.material_description else "M")
     if component.focus:
-        parts.append(f"F ({component.focus_description})" if component.focus_description else "F")
+        # `scripts/build_spell_components_seed.py` stores a plain Göttlicher
+        # Fokus as `focus_description == "Göttlicher Fokus"`; print the PRD's
+        # own "GF" abbreviation for it instead of a misleading "F (...)".
+        if component.focus_description == "Göttlicher Fokus":
+            parts.append("GF")
+        else:
+            parts.append(f"F ({component.focus_description})" if component.focus_description else "F")
     return ", ".join(parts) if parts else "—"
 
 
