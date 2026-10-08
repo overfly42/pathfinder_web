@@ -2,8 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useSearchParams } from 'react-router-dom';
 import { apiGet, apiPost } from '../api/client';
 import type { User } from '../types/user';
+import type { Language } from '../lib/spellComponents';
 
 interface AppStateValue {
+  /** UI language (header dropdown). Only drives pieces that already have a translation table
+   *  (e.g. `lib/spellComponents.ts`); remaining UI text is still German-only. */
+  language: Language;
+  setLanguage: (language: Language) => void;
   users: User[];
   currentUserId: string;
   setCurrentUserId: (id: string) => void;
@@ -36,6 +41,24 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // what's actually shown.
   const [searchParams, setSearchParams] = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
+  const [language, setLanguageState] = useState<Language>(() => {
+    try {
+      return localStorage.getItem('language') === 'en' ? 'en' : 'de';
+    } catch {
+      return 'de';
+    }
+  });
+  const setLanguage = useCallback((next: Language) => {
+    setLanguageState(next);
+    try {
+      localStorage.setItem('language', next);
+    } catch {
+      // storage unavailable (private mode): the choice just doesn't persist
+    }
+  }, []);
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
   const [currentUserId, setCurrentUserIdState] = useState(() => searchParams.get('user') ?? '');
 
   const [characterIds, setCharacterIds] = useState<string[]>(INITIAL_CHARACTER_IDS);
@@ -149,6 +172,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<AppStateValue>(
     () => ({
+      language,
+      setLanguage,
       users,
       currentUserId,
       setCurrentUserId,
@@ -161,6 +186,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       removeCharacter,
     }),
     [
+      language,
+      setLanguage,
       users,
       currentUserId,
       setCurrentUserId,

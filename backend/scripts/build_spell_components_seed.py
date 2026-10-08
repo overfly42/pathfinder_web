@@ -16,8 +16,8 @@ can produce an arcane and a divine row that differ:
 Göttlicher Fokus is stored as `focus=True` with `focus_description`
 "Göttlicher Fokus" (joined with `; ` onto a real Fokus' own description if
 the spell has both), since the table has no separate divine-focus flag; the
-sheet's `_format_spell_components` therefore prints it as
-"F (Göttlicher Fokus)".
+sheet's `_spell_components_payload` therefore exposes a plain one as a
+separate `divineFocus` flag (GF/DF per UI language).
 
 Which traditions a spell has comes from the classes that cast it
 (`base_class_spells.json` + `base_classes.json`'s `spell_tradition`).

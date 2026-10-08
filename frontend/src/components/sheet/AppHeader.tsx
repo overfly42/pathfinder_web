@@ -6,6 +6,7 @@ import { useAppState } from '../../state/AppStateContext';
 import { useCharacterNames } from '../../hooks/useCharacterNames';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { GlobalSearch } from './GlobalSearch';
+import type { Language } from '../../lib/spellComponents';
 
 interface AppHeaderProps {
   /** Null when the current user owns no characters yet (e.g. right after being created). */
@@ -180,6 +181,7 @@ function AddUserButton() {
 }
 
 export function AppHeader({ character, effects, conditionsCatalog, onJump }: AppHeaderProps) {
+  const { language, setLanguage } = useAppState();
   return (
     <header>
       <div className="brand">
@@ -215,10 +217,8 @@ export function AppHeader({ character, effects, conditionsCatalog, onJump }: App
           className="lang-select"
           title="Sprache"
           aria-label="Sprache"
-          defaultValue="de"
-          onChange={(e) => {
-            document.documentElement.lang = e.target.value;
-          }}
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as Language)}
         >
           <option value="de">DE</option>
           <option value="en">EN</option>

@@ -1,12 +1,34 @@
+import { useAppState } from '../../state/AppStateContext';
+import type { Language } from '../../lib/spellComponents';
+import { formatSpellComponents } from '../../lib/spellComponents';
+import type { SpellComponents } from '../../types/character';
+
 /** Confirmation popup for casting a prepared spell from the "Zauber" cast bar (`SheetTabs.tsx`) —
  *  shows components and the spell's full description before actually consuming a prepared copy,
  *  same "confirm before spending a resource" shape as `UseAbilityModal`. */
+/** Popup field labels per UI language (the values themselves are German PRD text for now). */
+const LABELS: Record<Language, Record<string, string>> = {
+  de: {
+    school: 'Schule', castingTime: 'Zeitaufwand', components: 'Komponenten', range: 'Reichweite',
+    target: 'Ziel', duration: 'Wirkungsdauer', savingThrow: 'Rettungswurf', spellResistance: 'Zauberresistenz', dc: 'SG',
+  },
+  en: {
+    school: 'School', castingTime: 'Casting Time', components: 'Components', range: 'Range',
+    target: 'Target', duration: 'Duration', savingThrow: 'Saving Throw', spellResistance: 'Spell Resistance', dc: 'DC',
+  },
+};
+
 interface CastSpellEntry {
   name: string;
   description: string;
-  components: string;
+  components: SpellComponents | null;
+  school: string | null;
+  castingTime: string | null;
   range: string | null;
+  target: string | null;
+  duration: string | null;
   savingThrow: string | null;
+  spellResistance: string | null;
   dc?: number;
   remaining: number;
   preparedCount: number;
@@ -19,6 +41,8 @@ interface CastSpellModalProps {
 }
 
 export function CastSpellModal({ entry, onCancel, onConfirm }: CastSpellModalProps) {
+  const { language } = useAppState();
+  const t = LABELS[language];
   return (
     <div
       className={`modal-overlay${entry ? ' open' : ''}`}
@@ -32,12 +56,17 @@ export function CastSpellModal({ entry, onCancel, onConfirm }: CastSpellModalPro
           <button type="button" className="modal-close" onClick={onCancel}>✕</button>
         </div>
         <div className="modal-body">
-          <p><strong>Komponenten:</strong> {entry?.components}</p>
-          <p><strong>Reichweite:</strong> {entry?.range ?? '—'}</p>
+          {entry?.school && <p><strong>{t.school}:</strong> {entry.school}</p>}
+          {entry?.castingTime && <p><strong>{t.castingTime}:</strong> {entry.castingTime}</p>}
+          <p><strong>{t.components}:</strong> {formatSpellComponents(entry?.components, language)}</p>
+          <p><strong>{t.range}:</strong> {entry?.range ?? '—'}</p>
+          {entry?.target && <p><strong>{t.target}:</strong> {entry.target}</p>}
+          {entry?.duration && <p><strong>{t.duration}:</strong> {entry.duration}</p>}
           <p>
-            <strong>Rettungswurf:</strong> {entry?.savingThrow ?? '—'}
-            {entry?.savingThrow != null && entry?.dc != null ? ` (SG ${entry.dc})` : ''}
+            <strong>{t.savingThrow}:</strong> {entry?.savingThrow ?? '—'}
+            {entry?.savingThrow != null && entry?.dc != null ? ` (${t.dc} ${entry.dc})` : ''}
           </p>
+          {entry?.spellResistance && <p><strong>{t.spellResistance}:</strong> {entry.spellResistance}</p>}
           <p>{entry?.description}</p>
           <p>{entry?.remaining} von {entry?.preparedCount} heute noch verfügbar.</p>
         </div>
