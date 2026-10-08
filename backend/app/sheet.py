@@ -43,7 +43,7 @@ real PF1e — not modeled here)."""
 from collections import Counter, defaultdict
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from .models import (
@@ -405,6 +405,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         groups.setdefault(key, []).append(modifier)
         stacked[key] = stack(groups[key])
     gear = _build_gear(db, character)
+    wands = _build_wands(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
     weapon_attacks = (
@@ -503,6 +504,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
         "spellsKnown": spells_known,
         "gear": gear,
+        "wands": wands,
         "weaponAttacks": weapon_attacks,
         "equipmentSlots": equipment_slots,
         "spellbook": spellbook,
@@ -1499,9 +1501,14 @@ def _build_prepared_spell_grades(
                 "preparedCount": prepared_count,
                 "usedCount": used_count,
                 "description": spell.description,
-                "components": _format_spell_components(components_by_spell_id.get(spell.id)),
+                "components": _spell_components_payload(components_by_spell_id.get(spell.id)),
+                "school": spell.school,
+                "castingTime": spell.casting_time,
                 "range": spell.range,
+                "target": spell.target_or_area,
+                "duration": spell.duration,
                 "savingThrow": spell.saving_throw,
+                "spellResistance": spell.spell_resistance,
                 "dc": 10 + grade + casting_mod,
             }
 
@@ -1603,34 +1610,31 @@ def _build_prepared_spell_grades(
     return spellbook, spells_known
 
 
-def _format_spell_components(component: BaseSpellComponent | None) -> str:
-    """"V, S, M (Fledermausguano und Schwefel)"-style display string for the
-    cast-confirmation popup — pre-formatted here rather than left to the
-    frontend since it's a fixed, small set of flags plus optional
-    descriptive text, the same "format for display in sheet.py" convention
-    every other stat-block-shaped field on this sheet already follows (e.g.
-    `_fmt`'s +/- signs). `None` (no `BaseSpellComponent` row for this
-    spell/tradition — not every PRD spell page restates its own component
-    line) renders as an explicit "—" rather than an empty string, so the
-    popup can't be mistaken for "no components" vs. "not seeded"."""
+def _spell_components_payload(component: BaseSpellComponent | None) -> dict | None:
+    """Structured component flags for the cast-confirmation popup — the
+    frontend turns them into the language-specific abbreviation string
+    ("V, G, M (...)" vs. "V, S, M (...)", "GF" vs. "DF"; see
+    `frontend/src/lib/spellComponents.ts`), so the label choice never needs a
+    backend round-trip when the user flips the language dropdown. `None` (no
+    `BaseSpellComponent` row for this spell/tradition — not every PRD spell
+    page restates its own component line) lets the popup render an explicit
+    "—", so it can't be mistaken for "no components" vs. "not seeded".
+    `descriptive text` fields stay German until content translation exists."""
     if component is None:
-        return "—"
-    parts = []
-    if component.verbal:
-        parts.append("V")
-    if component.somatic:
-        parts.append("S")
-    if component.material:
-        parts.append(f"M ({component.material_description})" if component.material_description else "M")
-    if component.focus:
-        # `scripts/build_spell_components_seed.py` stores a plain Göttlicher
-        # Fokus as `focus_description == "Göttlicher Fokus"`; print the PRD's
-        # own "GF" abbreviation for it instead of a misleading "F (...)".
-        if component.focus_description == "Göttlicher Fokus":
-            parts.append("GF")
-        else:
-            parts.append(f"F ({component.focus_description})" if component.focus_description else "F")
-    return ", ".join(parts) if parts else "—"
+        return None
+    # `scripts/build_spell_components_seed.py` stores a plain Göttlicher
+    # Fokus as `focus_description == "Göttlicher Fokus"`; expose that as its
+    # own flag instead of a misleading "F (...)".
+    divine_focus = component.focus and component.focus_description == "Göttlicher Fokus"
+    return {
+        "verbal": component.verbal,
+        "somatic": component.somatic,
+        "material": component.material,
+        "materialDescription": component.material_description,
+        "focus": component.focus and not divine_focus,
+        "focusDescription": None if divine_focus else component.focus_description,
+        "divineFocus": divine_focus,
+    }
 
 
 def _build_activatable_spells(db: Session, context: CharacterContext, race_ability_ids: set[UUID]) -> list[dict]:
@@ -2224,6 +2228,41 @@ def _build_gear(db: Session, character: Character) -> list[dict]:
             if spell is not None:
                 entry["storedSpell"] = spell.name
         result.append(entry)
+    return result
+
+
+def _build_wands(db: Session, character: Character) -> list[dict]:
+    """One entry per `CharacterWand`, each with its own charge counter. The
+    wand's minimum spell grade is the lowest grade any class has the stored
+    spell at, and its caster level is the minimum needed to cast that grade
+    (`2 * grade - 1`, at least 1) — PF1e RAW's default wand caster level.
+    Approximated with the full-caster progression for every class."""
+    if not character.wands:
+        return []
+    spell_ids = {w.spell_id for w in character.wands}
+    spells = {s.id: s for s in db.scalars(select(BaseSpell).where(BaseSpell.id.in_(spell_ids))).all()}
+    min_grades = dict(
+        db.execute(
+            select(BaseClassSpell.spell_id, func.min(BaseClassSpell.grade))
+            .where(BaseClassSpell.spell_id.in_(spell_ids))
+            .group_by(BaseClassSpell.spell_id)
+        ).all()
+    )
+    result = []
+    for wand in character.wands:
+        spell = spells[wand.spell_id]
+        grade = min_grades.get(wand.spell_id, 0)
+        result.append(
+            {
+                "id": str(wand.id),
+                "spellId": str(wand.spell_id),
+                "spellName": spell.name,
+                "spellGrade": grade,
+                "casterLevel": max(1, 2 * grade - 1),
+                "chargesRemaining": wand.charges_remaining,
+                "maxCharges": wand.max_charges,
+            }
+        )
     return result
 
 

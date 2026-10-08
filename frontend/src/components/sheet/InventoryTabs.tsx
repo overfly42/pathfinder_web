@@ -2,6 +2,7 @@ import type { Character } from '../../types/character';
 import type { ItemCatalogEntry, SpellDef } from '../../types/creationOptions';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 import { GearList } from './GearList';
+import { WandList } from './WandList';
 import { EquipmentSlots } from './EquipmentSlots';
 import { Spellbook } from './Spellbook';
 
@@ -21,6 +22,10 @@ interface InventoryTabsProps {
   onSaveGear: (id: string, qty: number) => void;
   onRemoveGear: (id: string) => void;
   onOpenItemDetail: (id: string) => void;
+  wandSpellCatalog: SpellDef[];
+  onAddWand: (spellId: string) => void;
+  onUseWand: (id: string) => void;
+  onRemoveWand: (id: string) => void;
   onSlotChange: (key: string, value: string) => void;
   onPrepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
   onUnprepareSpell: (grade: number, spellKey: string, baseClassId: string) => void;
@@ -38,6 +43,10 @@ export function InventoryTabs({
   onSaveGear,
   onRemoveGear,
   onOpenItemDetail,
+  wandSpellCatalog,
+  onAddWand,
+  onUseWand,
+  onRemoveWand,
   onSlotChange,
   onPrepareSpell,
   onUnprepareSpell,
@@ -59,6 +68,15 @@ export function InventoryTabs({
             onRemove={onRemoveGear}
             onOpenDetail={onOpenItemDetail}
           />
+          {character.wands && (
+            <WandList
+              wands={character.wands}
+              spellCatalog={wandSpellCatalog}
+              onAdd={onAddWand}
+              onUse={onUseWand}
+              onRemove={onRemoveWand}
+            />
+          )}
         </TabPanel>
 
         <TabPanel active={activeTab} tabKey="slots">

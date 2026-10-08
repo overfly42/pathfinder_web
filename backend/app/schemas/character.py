@@ -544,6 +544,14 @@ class HpAdjust(BaseModel):
     temporary_hit_points: int | None = None
 
 
+class WandCreate(BaseModel):
+    """Body for `POST /api/characters/{id}/wands` — which spell the new wand
+    stores. Charges start at the PF1e default (50); minimum caster level and
+    spell grade are derived from the spell, not sent."""
+
+    spell_id: UUID
+
+
 class GearUpdate(BaseModel):
     """Body for `PATCH /api/characters/{id}/gear/{item_id}` — any subset of
     quantity/enhancement/is_masterwork/properties/special_ability_ids/

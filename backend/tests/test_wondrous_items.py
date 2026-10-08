@@ -67,26 +67,67 @@ def test_both_ring_slots_can_be_equipped_independently(client: TestClient, db_se
     assert slots_by_key["ring-rechts"]["selected"] == ring_b
 
 
-def test_wand_charges_start_at_max_and_deplete_on_use(client: TestClient, db_session: Session) -> None:
+def _spell_id_by_name(client: TestClient, db_session: Session, class_name: str, spell_name: str) -> str:
+    _, spells_by_name = _spells_by_class(client, db_session, class_name)
+    return spells_by_name[spell_name]
+
+
+def test_wands_count_charges_independently(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
+    first_name, second_name = list(spells_by_name)[:2]
+
+    first = client.post(f"/api/characters/{character_id}/wands", json={"spell_id": spells_by_name[first_name]})
+    second = client.post(f"/api/characters/{character_id}/wands", json={"spell_id": spells_by_name[second_name]})
+    assert first.status_code == 201
+    assert second.status_code == 201
+
+    # Keyed by spell name: `created_at` ties inside the test's single rolled-back
+    # transaction, so list order isn't meaningful here.
+    def wands_by_spell() -> dict[str, dict]:
+        wands = client.get(f"/api/characters/{character_id}").json()["wands"]
+        return {w["spellName"]: w for w in wands}
+
+    wands = wands_by_spell()
+    assert set(wands) == {first_name, second_name}
+    assert all(w["chargesRemaining"] == 50 and w["maxCharges"] == 50 for w in wands.values())
+
+    use = client.patch(f"/api/characters/{character_id}/wands/{wands[first_name]['id']}/use")
+    assert use.status_code == 200
+    wands = wands_by_spell()
+    assert wands[first_name]["chargesRemaining"] == 49
+    assert wands[second_name]["chargesRemaining"] == 50
+
+    deleted = client.delete(f"/api/characters/{character_id}/wands/{wands[first_name]['id']}")
+    assert deleted.status_code == 204
+    assert set(wands_by_spell()) == {second_name}
+
+
+def test_wand_caster_level_is_derived_from_lowest_spell_grade(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
+    client.post(f"/api/characters/{character_id}/wands", json={"spell_id": next(iter(spells_by_name.values()))})
+
+    wand = client.get(f"/api/characters/{character_id}").json()["wands"][0]
+    assert wand["casterLevel"] == max(1, 2 * wand["spellGrade"] - 1)
+
+
+def test_wand_cannot_run_below_zero_charges(client: TestClient, db_session: Session) -> None:
+    character_id = _create_character(client, db_session)
+    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
+    client.post(f"/api/characters/{character_id}/wands", json={"spell_id": next(iter(spells_by_name.values()))})
+    wand_id = client.get(f"/api/characters/{character_id}").json()["wands"][0]["id"]
+
+    for _ in range(50):
+        assert client.patch(f"/api/characters/{character_id}/wands/{wand_id}/use").status_code == 200
+    assert client.patch(f"/api/characters/{character_id}/wands/{wand_id}/use").status_code == 422
+
+
+def test_wand_item_cannot_be_added_as_plain_gear(client: TestClient, db_session: Session) -> None:
     character_id = _create_character(client, db_session)
     wand_id = _item_id(client, db_session, "Zauberstab")
-    _, spells_by_name = _spells_by_class(client, db_session, "Magier")
-    spell_id = next(iter(spells_by_name.values()))
-
-    client.post(f"/api/characters/{character_id}/gear", json={"item_id": wand_id, "quantity": 1})
-    set_spell = client.patch(f"/api/characters/{character_id}/gear/{wand_id}", json={"stored_spell_id": spell_id})
-    assert set_spell.status_code == 200
-
-    sheet = client.get(f"/api/characters/{character_id}").json()
-    gear = next(g for g in sheet["gear"] if g["id"] == wand_id)
-    assert gear["chargesRemaining"] == 50
-    assert gear["maxCharges"] == 50
-
-    use = client.patch(f"/api/characters/{character_id}/gear/{wand_id}/use")
-    assert use.status_code == 200
-    sheet = client.get(f"/api/characters/{character_id}").json()
-    gear = next(g for g in sheet["gear"] if g["id"] == wand_id)
-    assert gear["chargesRemaining"] == 49
+    response = client.post(f"/api/characters/{character_id}/gear", json={"item_id": wand_id, "quantity": 1})
+    assert response.status_code == 422
 
 
 def test_stored_spell_id_rejected_for_non_wand_item(client: TestClient, db_session: Session) -> None:

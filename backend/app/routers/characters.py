@@ -6,7 +6,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -39,6 +39,7 @@ from ..models import (
     CharacterSpell,
     CharacterSpellPreparation,
     CharacterTrait,
+    CharacterWand,
     User,
 )
 from ..rules.context import CharacterContext
@@ -102,6 +103,7 @@ from ..schemas.character import (
     LevelUp,
     SkillRankSelection,
     SlotUpdate,
+    WandCreate,
     SpellbookAdd,
     SpellPrepare,
 )
@@ -1588,6 +1590,10 @@ def add_gear(character_id: UUID, body: GearSelection, db: Annotated[Session, Dep
     item = db.get(BaseItem, body.item_id)
     if item is None:
         raise HTTPException(status_code=422, detail="Unknown item_id")
+    if item.category == "wand":
+        # Wands are per-physical-wand rows with their own spell and charges
+        # (`CharacterWand`), not a pooled quantity counter like gear.
+        raise HTTPException(status_code=422, detail="Wands are added via POST .../wands")
 
     existing = next((g for g in character.gear if g.item_id == body.item_id), None)
     if existing is not None:
@@ -2086,6 +2092,58 @@ def remove_gear(character_id: UUID, item_id: UUID, db: Annotated[Session, Depend
     if gear_row is None:
         raise HTTPException(status_code=404, detail="Item not found in inventory")
     db.delete(gear_row)
+    db.commit()
+
+
+@router.post("/{character_id}/wands", response_model=CharacterRead, status_code=201)
+def add_wand(character_id: UUID, body: WandCreate, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Give a character a new wand storing `spell_id`, with a full charge
+    counter. Each call creates a separate wand (see `CharacterWand`), so two
+    wands — even of the same spell — count their charges independently. Only
+    a spell some class actually has on its list can be stored (a wand holds a
+    spell of grade 4 or lower, PF1e RAW)."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    if db.get(BaseSpell, body.spell_id) is None:
+        raise HTTPException(status_code=422, detail="Unknown spell_id")
+    min_grade = db.scalar(select(func.min(BaseClassSpell.grade)).where(BaseClassSpell.spell_id == body.spell_id))
+    if min_grade is None:
+        raise HTTPException(status_code=422, detail="Spell is on no class spell list")
+    if min_grade > 4:
+        raise HTTPException(status_code=422, detail="A wand can only store a spell of grade 4 or lower")
+    character.wands.append(CharacterWand(spell_id=body.spell_id))
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/wands/{wand_id}/use", response_model=CharacterRead)
+def use_wand(character_id: UUID, wand_id: UUID, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Spend one charge of this wand — never resets on its own."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    wand = next((w for w in character.wands if w.id == wand_id), None)
+    if wand is None:
+        raise HTTPException(status_code=404, detail="Wand not found")
+    if wand.charges_remaining <= 0:
+        raise HTTPException(status_code=422, detail="No charges remaining")
+    wand.charges_remaining -= 1
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.delete("/{character_id}/wands/{wand_id}", status_code=204)
+def remove_wand(character_id: UUID, wand_id: UUID, db: Annotated[Session, Depends(get_db)]) -> None:
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    wand = next((w for w in character.wands if w.id == wand_id), None)
+    if wand is None:
+        raise HTTPException(status_code=404, detail="Wand not found")
+    db.delete(wand)
     db.commit()
 
 

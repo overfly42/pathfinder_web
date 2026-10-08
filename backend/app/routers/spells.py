@@ -2,7 +2,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
@@ -116,3 +116,19 @@ def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dic
         for entries in by_choice.values():
             entries.sort(key=lambda s: (s["level"], s["name"]))
     return result
+
+
+@router.get("/wand-spells")
+def list_wand_spells(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
+    """Spells a wand can store (PF1e RAW: grade 4 or lower) for the wand
+    picker — across every class's list, not just the character's, since a
+    wand can be used regardless of the user's own class. `grade` is the
+    lowest grade any class has the spell at."""
+    rows = db.execute(
+        select(BaseSpell.id, BaseSpell.name, func.min(BaseClassSpell.grade).label("grade"))
+        .join(BaseClassSpell, BaseClassSpell.spell_id == BaseSpell.id)
+        .group_by(BaseSpell.id, BaseSpell.name)
+        .having(func.min(BaseClassSpell.grade) <= 4)
+        .order_by(func.min(BaseClassSpell.grade), BaseSpell.name)
+    ).all()
+    return [{"id": str(row.id), "name": row.name, "grade": row.grade} for row in rows]

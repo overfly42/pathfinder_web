@@ -21,6 +21,7 @@ from .character import (
     CharacterLevel,
     CharacterRacialChoice,
     CharacterSkillRank,
+    CharacterWand,
 )
 from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect
 from .feat import (
@@ -100,6 +101,8 @@ __all__ = [
     "CharacterClassAbilityWeaponChoice",
     "CharacterClassOption",
     "CharacterGear",
+    "CharacterWand",
+    "CharacterWand",
     "CharacterGearSpecialAbility",
     "CharacterLevel",
     "CharacterRacialChoice",

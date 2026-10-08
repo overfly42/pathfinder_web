@@ -15,6 +15,7 @@ import { VitalsBar } from '../components/sheet/VitalsBar';
 import { AbilityScores } from '../components/sheet/AbilityScores';
 import { SavesAndCombat } from '../components/sheet/SavesAndCombat';
 import { SheetTabs } from '../components/sheet/SheetTabs';
+import { useWandSpellsCatalog } from '../hooks/useWandSpellsCatalog';
 import { InventoryTabs } from '../components/sheet/InventoryTabs';
 import { ActionsPanel } from '../components/sheet/ActionsPanel';
 import { EffectsPanel, type TimeUnit } from '../components/sheet/EffectsPanel';
@@ -53,6 +54,7 @@ export function CharacterSheetPage() {
   const { catalog: conditionsCatalog, loading: conditionsLoading, error: conditionsError } = useConditionsCatalog();
   const { catalog: itemsCatalog, loading: itemsLoading, error: itemsError } = useItemsCatalog();
   const { catalog: spellsByClassCatalog } = useSpellsByClassCatalog();
+  const wandSpellCatalog = useWandSpellsCatalog() ?? [];
   const [skillsTab, setSkillsTab] = useState('skills');
   const [inventoryTab, setInventoryTab] = useState('inventory');
   const [itemDetailId, setItemDetailId] = useState<string | null>(null);
@@ -260,6 +262,33 @@ export function CharacterSheetPage() {
       setGearError('Gegenstand konnte nicht entfernt werden.');
     }
   }
+
+  async function handleWandRequest(call: () => Promise<unknown>, errorMessage: string) {
+    if (!isRealCharacter) return;
+    setGearError(null);
+    try {
+      await call();
+      refetch();
+    } catch {
+      setGearError(errorMessage);
+    }
+  }
+
+  const handleAddWand = (spellId: string) =>
+    handleWandRequest(
+      () => apiPost(`/api/characters/${currentCharacterId}/wands`, { spell_id: spellId }),
+      'Zauberstab konnte nicht hinzugefügt werden.',
+    );
+  const handleUseWand = (id: string) =>
+    handleWandRequest(
+      () => apiPatch(`/api/characters/${currentCharacterId}/wands/${id}/use`),
+      'Ladung konnte nicht verbraucht werden.',
+    );
+  const handleRemoveWand = (id: string) =>
+    handleWandRequest(
+      () => apiDelete(`/api/characters/${currentCharacterId}/wands/${id}`),
+      'Zauberstab konnte nicht entfernt werden.',
+    );
 
   async function handleSlotChange(key: string, value: string) {
     if (!isRealCharacter) {
@@ -527,9 +556,14 @@ export function CharacterSheetPage() {
                     preparedCount: 0,
                     usedCount: 0,
                     description: '',
-                    components: '',
+                    components: null,
                     range: null,
                     savingThrow: null,
+                    school: null,
+                    castingTime: null,
+                    target: null,
+                    duration: null,
+                    spellResistance: null,
                   },
                 ],
               },
@@ -748,6 +782,10 @@ export function CharacterSheetPage() {
             onSaveGear={handleSaveGear}
             onRemoveGear={handleRemoveGear}
             onOpenItemDetail={setItemDetailId}
+            wandSpellCatalog={wandSpellCatalog}
+            onAddWand={handleAddWand}
+            onUseWand={handleUseWand}
+            onRemoveWand={handleRemoveWand}
             onSlotChange={handleSlotChange}
             onPrepareSpell={handlePrepareSpell}
             onUnprepareSpell={handleUnprepareSpell}
@@ -830,8 +868,13 @@ export function CharacterSheetPage() {
                 name: pendingCastSpell.spell.name,
                 description: pendingCastSpell.spell.description,
                 components: pendingCastSpell.spell.components,
+                school: pendingCastSpell.spell.school,
+                castingTime: pendingCastSpell.spell.castingTime,
                 range: pendingCastSpell.spell.range,
+                target: pendingCastSpell.spell.target,
+                duration: pendingCastSpell.spell.duration,
                 savingThrow: pendingCastSpell.spell.savingThrow,
+                spellResistance: pendingCastSpell.spell.spellResistance,
                 dc: pendingCastSpell.spell.dc,
                 remaining: pendingCastSpell.spell.preparedCount - pendingCastSpell.spell.usedCount,
                 preparedCount: pendingCastSpell.spell.preparedCount,

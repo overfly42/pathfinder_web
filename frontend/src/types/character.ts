@@ -1,3 +1,13 @@
+export interface SpellComponents {
+  verbal: boolean;
+  somatic: boolean;
+  material: boolean;
+  materialDescription: string | null;
+  focus: boolean;
+  focusDescription: string | null;
+  divineFocus: boolean;
+}
+
 export interface AbilityScore {
   key: string;
   label: string;
@@ -95,14 +105,23 @@ export type PreparedSpellRef = SpellRef & {
   usedCount: number;
   /** Spell's full description text, for the cast-confirmation popup (`CastSpellModal`). */
   description: string;
-  /** Pre-formatted "V, S, M (...)" display string (`sheet.py`'s `_format_spell_components`) —
-   *  "—" when no `BaseSpellComponent` row exists for this spell/tradition yet. */
-  components: string;
+  /** Component flags (`sheet.py`'s `_spell_components_payload`), formatted per language by
+   *  `lib/spellComponents.ts` — `null` when no `BaseSpellComponent` row exists for this
+   *  spell/tradition yet. */
+  components: SpellComponents | null;
   /** `BaseSpell.range`/`BaseSpell.saving_throw` free-text PRD stat-block fields — `null` where
    *  not yet imported for this spell (most spells' components are missing this way too; see
    *  `components`'s own docstring). */
   range: string | null;
   savingThrow: string | null;
+  /** Remaining PRD stat-block fields (`BaseSpell.school`/`casting_time`/`target_or_area`/
+   *  `duration`/`spell_resistance`), shown in the cast-confirmation popup; free text, German only
+   *  for now. `null` where not imported. */
+  school: string | null;
+  castingTime: string | null;
+  target: string | null;
+  duration: string | null;
+  spellResistance: string | null;
   /** Save DC for this spell (`10 + grade + casting ability modifier`, `sheet.py`'s
    *  `casting_mod`) — same value for every spell in the same grade/class, carried per-spell
    *  (rather than only on the grade) so the cast-confirmation popup (`CastSpellModal`) can show
@@ -220,6 +239,19 @@ export interface GearItem {
   isActive?: boolean;
   /** Spell stored in a wand instance (PATCH .../gear/{item_id} with stored_spell_id). */
   storedSpell?: string;
+}
+
+/** One physical wand (`CharacterWand`) — own stored spell and own charge counter. */
+export interface Wand {
+  id: string;
+  spellId: string;
+  spellName: string;
+  /** Lowest grade any class has the stored spell at. */
+  spellGrade: number;
+  /** Minimum caster level for that grade (`2 * grade - 1`, at least 1). */
+  casterLevel: number;
+  chargesRemaining: number;
+  maxCharges: number;
 }
 
 export interface EquipmentSlotOption {
@@ -453,6 +485,8 @@ export interface Character {
   favoredClassBonuses?: FavoredClassBonusEntry[];
   spellsKnown: CastableSpellGrade[];
   gear: GearItem[];
+  /** Absent for the two hardcoded mock fixtures. */
+  wands?: Wand[];
   weaponAttacks: WeaponAttack[];
   equipmentSlots: EquipmentSlot[];
   spellbook: PreparableSpellGrade[];

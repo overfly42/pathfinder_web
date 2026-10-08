@@ -111,6 +111,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     class_options: Mapped[list["CharacterClassOption"]] = relationship(cascade="all, delete-orphan")
     class_memberships: Mapped[list["CharacterClass"]] = relationship(cascade="all, delete-orphan")
     gear: Mapped[list["CharacterGear"]] = relationship(cascade="all, delete-orphan")
+    wands: Mapped[list["CharacterWand"]] = relationship(cascade="all, delete-orphan", order_by="CharacterWand.created_at")
     effects: Mapped[list["CharacterEffect"]] = relationship(cascade="all, delete-orphan")
     ability_usages: Mapped[list["CharacterAbilityUsage"]] = relationship(cascade="all, delete-orphan")
     ability_damage: Mapped[list["CharacterAbilityDamage"]] = relationship(cascade="all, delete-orphan")
@@ -664,6 +665,27 @@ class CharacterGear(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     is_active: Mapped[bool] = mapped_column(Boolean, default=False)
 
     special_abilities: Mapped[list["CharacterGearSpecialAbility"]] = relationship(cascade="all, delete-orphan")
+
+
+class CharacterWand(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One physical wand a character owns — its stored spell and its own
+    depleting charge counter. Deliberately *not* a `CharacterGear` row:
+    that table is unique per `(character_id, item_id)` (a pooled `quantity`
+    counter per catalog item), which can't hold two wands with different
+    spells and independent charges. A wand is identified by its own `id`
+    (the generic catalog "Zauberstab" row only prices/describes the item
+    type). `max_charges` is copied from the PF1e default (50) at creation so
+    a house-ruled or partially charged wand needs no catalog change;
+    `charges_remaining` counts down on use and never resets. The wand's
+    minimum caster level/spell grade is not stored — it is derived from
+    `spell_id` when the sheet is built (`sheet._build_wands`)."""
+
+    __tablename__ = "character_wands"
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    spell_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_spells.id"))
+    charges_remaining: Mapped[int] = mapped_column(Integer, default=50)
+    max_charges: Mapped[int] = mapped_column(Integer, default=50)
 
 
 class CharacterAbilityDamage(Base, UUIDPrimaryKeyMixin, TimestampMixin):
