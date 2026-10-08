@@ -7146,5 +7146,23 @@
     "slot": "ring",
     "weight_lb": null,
     "description": "Einmal am Tag kann der Träger dieses verkohlten Knochenringes mit einer Augenblicklichen Aktion eine Detonation mit 9 m Radius erzeugen, die 10W6 Punkte Feuerschaden verursacht (Reflex SG 14 halbiert). Sollte der Träger durch diese Detonation getötet werden, müssen die von ihm getragenen magischen Gegenstände erfolgreich Rettungswürfe ablegen oder Feuerschaden nehmen, während nichtmagische Ausrüstung den Schaden ohne Rettungswurf erleidet. Die Detonation zerstört niemals den Ring selbst."
+  },
+  {
+    "id": "089a47be-2971-5487-8ae0-4c74bbf2be7b",
+    "name": "Unterarmscheide",
+    "category": "gear",
+    "price": 5.0,
+    "masterwork_price_delta": null,
+    "weight_lb": "1 Pfd."
+  },
+  {
+    "id": "fd38094c-bddc-5619-a61c-d393cb07343c",
+    "name": "Lagerfeuerperle",
+    "category": "wondrous",
+    "price": 720.0,
+    "slot": null,
+    "weight_lb": null,
+    "description": "Diese kleine Glaskugel verwandelt sich in einen kleinen Haufen brennenden Feuerholzes (etwa 60 cm hoch), wenn das Befehlswort gesprochen wird. Das Feuer brennt 8 Stunden lang oder bis es gelöscht wird, dann verwandelt es sich in die Glaskugel zurück. Der Besitzer des Gegenstandes muss zweimal so lange warten, wie das Feuer gebrannt hat, ehe er der Kugel wieder befehlen kann, sich in ein Lagerfeuer zu verwandeln.",
+    "masterwork_price_delta": null
   }
 ]
