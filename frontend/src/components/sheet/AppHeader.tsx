@@ -181,7 +181,7 @@ function AddUserButton() {
 }
 
 export function AppHeader({ character, effects, conditionsCatalog, onJump }: AppHeaderProps) {
-  const { language, setLanguage } = useAppState();
+  const { language, setLanguage, currentUserId } = useAppState();
   return (
     <header>
       <div className="brand">
@@ -207,6 +207,11 @@ export function AppHeader({ character, effects, conditionsCatalog, onJump }: App
           <span className="plus">+</span>
           Neuer Charakter
         </Link>
+        {character && (
+          <Link className="btn-outline" to={`/print?${currentUserId ? `user=${currentUserId}&` : ''}character=${character.id}`}>
+            Drucken
+          </Link>
+        )}
         {character && (
           <Link className="btn-levelup" to={`/levelup/${character.id}`}>
             <span className="star">✦</span>
