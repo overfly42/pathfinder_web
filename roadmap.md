@@ -794,8 +794,8 @@ the character (a persistent spell/class ability, which also shows up under
 "verfügbare Aktionen"). A wand/potion/scroll doesn't need a third source:
 using one is "cast this known spell from a charge," reusing the spell path
 — charge bookkeeping already lives in slice 4's `CharacterGear`. Animal
-companions/familiars/eidolons don't exist in this app and are out of scope
-entirely, not a category here.
+companions and familiars are tracked as their own slice (see "10. Tiergefährten,
+Reittiere & Vertraute" below), not as a category of effects; eidolons stay out of scope.
 
 - [x] `BaseCondition` catalog (`id`, `name`, `description`, `type`) —
       identity only, for conditions/poisons/diseases/curses that aren't
@@ -1733,6 +1733,488 @@ incremental model every other class follows).
       allows it, minus real levels there) and "Umschulen" (retraining) of
       the Sekundärklasse choice — both explicitly deferred, the latter
       blocked on this app having no retraining system at all yet.
+
+### 10. Tiergefährten, Reittiere & Vertraute (concept decided 2026-10-11, rechecked same day, checked against the PRD Druide/Mit-Tieren-umgehen/Monster-Talente pages 2026-10-14, nothing built)
+Reverses the earlier "companions are out of scope" call (slice 5 intro);
+eidolons stay out of scope. Also covers the two open abilities Magier
+"Arkane Verbindung" (familiar type) and Waldläufer "Bund mit Gefährten"
+(`todos.md`).
+
+**Prerequisite: Druide as a complete class (decided 2026-10-14)**
+The Druide is the reference class for companions but is practically
+unseeded: only `hit_dice`/BAB/saves/skill points on the class row, the
+`bond` and favored-class-bonus option groups, and no plain class ability
+grants at all (`todos.md` still lists it as "0 corrected, removal
+candidate" — that is superseded: the Druide is built out fully, not
+removed). Source: `prd.5footstep.de/Grundregelwerk/Klassen/Druide`.
+- Class abilities per level, as `BaseClassAbility` + grants: Bund mit der
+  Natur (1), Naturgespür (1, +2 Wissen (Natur)/Überlebenskunst — handler),
+  Tierempathie (1, d20 + class level + CH mod; **decided 2026-10-14: same
+  ability as the Waldläufer's existing "Tierempathie" row `ebd5060b…`** —
+  the Druide gets a grant of that row, no new row; it has no handler yet,
+  the new one uses the summed levels of every class granting it, Druide +
+  Waldläufer), Unterholz durchqueren (2; reuse the existing row if the
+  text is identical), Spurloser Schritt (3), Lockruf der Natur widerstehen
+  (4, +4 vs fey SLA/SU and plant-targeting spells — situational note),
+  Tiergestalt (4; uses/day 1 at 4, +1 every 2 levels to 8 at 18, unlimited
+  at 20; form tiers Bestiengestalt I–III / Elementargestalt I–IV /
+  Pflanzengestalt I–III by level — daily-limited ability, forms as
+  descriptive text for now, the existing "Tiergestalt: +1/3 natürlicher
+  Rüstungsbonus" favored-class rows already hang off it), Immunität gegen
+  Gifte (9), Tausend Gesichter (13), Zeitloser Körper (15).
+- Proficiencies (Dolch, Kampfstab, Keule, Krummsäbel, Kurzspeer, Schleuder,
+  Sichel, Sense, Speer, Wurfpfeil; light/medium armor; shields except tower
+  shields) via the existing `rules/proficiency.py` path. The no-metal-armor/
+  wood-only-shield restriction (24 h loss of spells and SU/SP abilities) is
+  a rule warning, not a proficiency gap.
+- Bonus languages Sylvanisch, Druidisch (secret language) — same shape as
+  the Kleriker's "Bonussprachen" row.
+- Spontaneous casting of *Verbündeten der Natur herbeizaubern* (same shape
+  as Kleriker "Spontanes Zaubern"); alignment restriction (any neutral
+  component) as creation validation.
+- `bond` choices get their choice-scoped grants: "Tiergefährte" → a
+  companion trigger ability; "Domäne (Natur)" → a sub-choice restricted to
+  Erde, Feuer, Luft, Pflanzen, Tiere, Wasser, Wetter (the existing Kleriker
+  domain choice rows), Druide level counting as Kleriker level for domain
+  powers/spells, plus the domain bonus slot. The bonus slot is the same
+  open mechanism as "Domänenzauber (Kleriker)" in slice 6 — build it once
+  for both classes, not twice.
+- Druide archetypes are not part of this prerequisite; add them later per
+  archetype like the other classes.
+
+**Prerequisite: Paladin as a complete class (decided 2026-10-14)**
+Same situation as the Druide: class row only (W10, full BAB, 2 + IN), no
+class abilities. Source: `prd.5footstep.de/Grundregelwerk/Klassen/Paladin`.
+- Class abilities per level: Aura des Guten (1), Böses entdecken (1, at
+  will), Böses niederstrecken (1; 1/day, +1 at 4 and every 3 levels, max 7
+  at 19; CH to attack, Paladin level to damage, 2× vs evil outsider/dragon/
+  undead, CH deflection vs the target — an active effect on the Paladin
+  like Kampfrausch, daily-limited), Göttliche Würde (2, CH bonus on all
+  saves — handler), Handauflegen (2; uses/day ½ level + CH mod, 1W6 per 2
+  levels — daily-limited, also the pool for Positive Energie fokussieren),
+  Aura der Tapferkeit (3, fear immunity + ally note), Göttliche Gesundheit
+  (3, disease immunity), Gnaden (3, +1 every 3 levels; option group with
+  tiered choice lists at 3/6/9/12 and prerequisites between choices —
+  Entkräftet needs Erschöpft, Übelkeit needs Kränkelnd, Verängstigt needs
+  Erschüttert), Positive Energie fokussieren (4, costs 2 Handauflegen, as
+  Kleriker of Paladin level), Göttlicher Bund (5, option group `divine_bond`:
+  weapon spirit or mount, see "Triggers" below), Aura der Entschlossenheit
+  (8), Aura der Gerechtigkeit (11), Aura des Glaubens (14), Aura der
+  Rechtschaffenheit (17, SR 5/Böses), Heiliger Streiter (20, SR 10/Böses).
+- Spells from 4th level, CH-based, divine-prepared, caster level = Paladin
+  level − 3. Checked 2026-10-14: the Paladin row has `casting_ability`/
+  `spell_tradition` null and zero `base_class_spells_known` rows — set
+  both (CH, divine) and seed the per-day table and Paladin spell list
+  (same shape as the Waldläufer, the other ½-caster from 4th level).
+- Proficiencies: all simple + martial weapons, all armor, shields except
+  tower shields.
+- Alignment rechtschaffen gut (creation validation); code of conduct is
+  descriptive text only.
+- Weapon-spirit variant of Göttlicher Bund (+1 enhancement at 5, +1 per 3
+  levels, max +6; spendable on listed weapon special abilities; 1/day +1
+  per 4 levels) — no existing mechanism to reuse (no weapon-enhancement
+  pool anywhere yet), so first pass: daily-limited ability with a
+  descriptive breakdown, the actual +X on the weapon later.
+- Paladin archetypes later, per archetype.
+
+**Guiding decisions**
+- **A companion is a `Character` row**, not a parallel mini-sheet: new
+  nullable `Character.master_character_id`. `build_character_sheet`, the
+  print page, effects, damage/HP tracking, gear and feat-prerequisite checks
+  then work unchanged — duplicating `sheet.py` for a second sheet type is
+  explicitly rejected. This holds for familiars too (see "Familiar" below).
+  Species = a `BaseRace` row marked as companion/familiar species (new
+  column, e.g. `companion_kind`; `routers/races.py`'s `list_races` must
+  filter these out of the character-creation race picker). HD/BAB/saves/
+  skill points of an animal companion = a pseudo root class `Tiergefährte`;
+  table-driven bonuses = `BaseCompanionProgression` rows read by handlers.
+  `CharacterContext` gains `master_effective_level: int | None` plus the
+  master→companion channel below. The migration is additive (nullable
+  columns only, plus `Character.point_budget` becoming nullable — a companion
+  has no point buy); run `backup_db.sh` first anyway (real tester data).
+- **Reittier (mount) = Tiergefährte.** Mystiker "Gebundenes Reittier",
+  Paladin's mount bond, monstrous mounts ("Bestienreiter") are the same
+  mechanism on the same track; they differ only by the allowed species list
+  (data on the entitlement, see below) and by extra abilities the source
+  grants the animal (e.g. Paladin mount's celestial template/SR, via the
+  master→companion channel). No separate `mount` track.
+- **Effective master level is never stored**, always computed per request
+  from `CharacterContext` (`character_level`, `level_counts_by_root_id`,
+  `granted_ability_ids`, `feat_ids`).
+- **One function owns the companion level**: `companion_effective_level(
+  master_ctx, companion)`. Every caller (sync, sheet, level-up, validation)
+  goes through it — this is the entire provision for later variants (below).
+- **Composition vs computation** as in CLAUDE.md: which source grants what is
+  data; the formula is shared (`secondary_effective_level` in
+  `rules/secondary_class.py` becomes a neutral `effective_level(...)` used by
+  both modules); exceptions get a handler, never extra condition columns.
+
+**Triggers: every source must be a granted ability**
+- Druide (`bond` → "Tiergefährte"), Magier (`arcane_bond` → "Vertrauter"),
+  Waldläufer (`hunter_bond` → "Tiergefährte") are option *choices*, not plain
+  abilities. Only Waldläufer (`a98d91f5…`) and Kampfmagus' Arkanum
+  "Vertrauter" (`f1a09dc4…`) already have a `BaseClassAbilityGrant(
+  option_choice_id=…)` row; Druide and Magier don't, so nothing reaches
+  `granted_ability_ids` for them today. Slice 1 seeds those choice-scoped
+  abilities/grants first (existing pattern), so triggers stay uniformly
+  "ability id in `granted_ability_ids`" or "feat id in `feat_ids`".
+- Checked 2026-10-14: the Paladin has no class abilities seeded at all
+  (only its favored-class-bonus group), so the mount bond can't be a source
+  until "Göttlicher Bund" exists. PRD
+  (`prd.5footstep.de/Grundregelwerk/Klassen/Paladin`): Göttlicher Bund at
+  5th level, choice between weapon spirit and mount (fixed once chosen →
+  option group `divine_bond` with two choices, the mount choice granting
+  the trigger ability). Mount: acts as a Druide's animal companion with
+  **Paladin level as effective Druide level** (source: `class_level`,
+  offset 0, but only from level 5 because the grant is at 5). Allowed
+  species: Pferd (schweres Streitross, medium Paladin) / Pony
+  (Kriegspony, small Paladin) as the default, Wildschwein, Hund, Kamel as
+  exotic options → slot species list, size-dependent. Extra mount rules
+  through the master→companion channel, keyed by the Paladin's mount
+  ability: IN at least 6; from 11 celestial template + counts as magical
+  beast for spells; from 15 SR = Paladin level + 11; call mount to side
+  1/day at 5, +1 per 4 levels (max 4 at 17), daily-limited ability on the
+  Paladin. Mount death: no new mount for 30 days or until next level, −1
+  attack/damage meanwhile (a condition/effect, not companion logic). The Hexe has no "Vertrauter" ability yet (slice 4 only).
+  Entfesselter Barbar "Wildes Reittier" / "Wildes Reittier, Mächtiges" are
+  seeded and granted but missing from the source list below — add them
+  (offset from the PRD).
+
+**Effective master level (per track)**
+- Track = stacking group: `animal_companion` (incl. mounts) and `familiar`.
+  Sources in the same track add up (PF1e: companion levels from different
+  sources stack; familiar-granting class levels stack).
+- `BaseCompanionLevelSource` (pure data): `track`, trigger = exactly one of
+  `class_ability_id` / `feat_id` (check constraint), `kind` (`class_level` |
+  `character_level` | `flat_bonus`), `root_class_id` (only `class_level`),
+  `offset`, `divisor`, `minimum`, `stack_group` (nullable; same group = max
+  instead of sum, only fill when a concrete case needs it). A source counts
+  only if its trigger is in `granted_ability_ids`/`feat_ids`.
+- Seeds (all present in the data): Druide full level; Waldläufer level −3;
+  Kleriker Tier-Domäne "Tiergefährte" Kleriker level −3; Hexenmeister
+  bloodline "Tiergefährte" Hexenmeister level −3 (min 1); Mystiker
+  "Gebundenes Reittier"; Paladin mount bond; "Stallmeister" flat +1
+  (companion or mount). Familiar: Magier full level; Hexenmeister "Arkane
+  Verbindung" (stacks with Magier per its text); Hexe; Kampfmagus
+  "Vertrauter" (Kampfmagus level as Magier level). Paladin = full Paladin
+  level (PRD, checked 2026-10-14). Exact offsets for Mystiker/Hexe/
+  Entfesselter Barbar "Wildes Reittier" still to be read from the PRD
+  before seeding.
+- Edge case needing a `COMPANION_LEVEL_HANDLERS` entry: the Tier-Domäne taken
+  by a Druide via "Bund der Natur" uses *Druide* level −3, not Kleriker level
+  — same ability id, different root class, so a fixed `root_class_id` can't
+  express it.
+- **Sekundärklasse (= Variant Multiclassing) needs no source of its own.**
+  `secondary_granted_ability_ids_and_levels` already puts the tier's ability
+  into `granted_ability_ids` and a synthetic effective level into
+  `level_counts_by_root_id` (e.g. Merro Mercat: Hexenmeister as
+  Sekundärklasse), so the normal `class_level` source works unchanged and
+  the tier's own `effective_level_offset/divisor/minimum` is not duplicated.
+  Caveats: only Hexenmeister (and one Mönch tier) Sekundärklasse rows are
+  seeded so far — Druide/Magier as Sekundärklasse feed a companion/familiar
+  only once their tiers exist; the existing "most-recently-unlocked tier
+  wins" simplification applies to the companion level too.
+- `master_effective_level(track, ctx)` (`rules/companions.py`) = sum of
+  non-negative level contributions + flat bonuses, **capped at
+  `character_level`** (cap applied last, after the flat bonus).
+  `COMPANION_LEVEL_HANDLERS: dict[UUID, Callable]` (keyed by source id)
+  overrides the formula for a source that needs real logic.
+- **Boon Companion is per companion, not per track** (RAW: +4, applies to
+  *one* companion *or* familiar of the player's choice, capped at character
+  level). Not in `base_feats.json` yet; when seeded it needs a target
+  (`CharacterCompanion.boon_companion` flag or a feat sub-choice) and is
+  applied in `companion_effective_level`, not in `master_effective_level`.
+  Same shape for any later per-companion bonus feat.
+- Sheet shows the breakdown ("Druide 4 + Waldläufer 6−3 + Stallmeister +1
+  = 8") so wrong data is visible immediately.
+
+**Companion entitlements (multiple companions / archetypes)**
+- `BaseCompanionSlotGrant`: `ability_id` (trigger), `track`, `slot_key`
+  (`primary`, `second`, ...), `level_offset`/`divisor`/`minimum` relative to
+  the track's master level, plus the **allowed species list** (child table
+  `BaseCompanionSlotSpecies`; this is where Tiergefährte vs. Reittier vs.
+  Waldläufer's fixed list differ, incl. size-dependent mount options).
+  Base Druide ability grants `primary`, offset 0.
+- Archetypes replace the ability through the existing
+  `BaseClassAbilityReplacement`; because entitlements hang off
+  `granted_ability_ids`, the replaced entitlement disappears automatically.
+  Which archetypes grant several companions and how they scale still has to
+  be read from the PRD before seeding (not yet checked).
+- Companion level = `min(master_effective_level(track) + slot.offset
+  [+ per-companion bonus], character_level)`.
+- `CharacterCompanion` (master, companion `Character`, `slot_key`), unique
+  `(master_id, slot_key)`. If the master loses the entitlement the companion
+  is kept and flagged "ohne Anspruch", not deleted.
+- **Pool variant (shared level pool) — not built, retrofit is cheap:** nullable
+  `CharacterCompanion.allocated_levels` (one additive migration), a
+  `companion_level_allocations: dict[slot_key, int]` field on
+  `CharacterContext`, one `COMPANION_LEVEL_HANDLERS` entry keyed by the
+  archetype ability, a "sum ≤ pool" validation and a small allocation UI.
+  Sources, entitlements, progression, sync and sheet stay untouched. Do not
+  add the column on spec.
+
+**Master ↔ companion channel**
+- Master → companion: several master choices change the companion — favored
+  class bonuses (Katzenvolk Druide +1 TP, Waldläufer "Tiergefährte: +1 TP",
+  Ork Druide +½ natural-attack damage), Waldläufer's shared Erzfeind/
+  bevorzugtes Gelände bonuses, Paladin mount's extra abilities. The
+  companion's `CharacterContext` gets the master's raw composition it needs
+  (`master_granted_ability_ids`, `master_favored_class_bonus_pick_counts`),
+  and a `COMPANION_MODIFIER_HANDLERS` family keyed by the *master's* ability/
+  choice id produces modifiers for the companion. Raw data only, same rule
+  as every other context field.
+- Companion → master: a familiar grants its master a bonus by species (cat:
+  +3 Heimlichkeit, ...) and Alertness while within arm's reach — a master-side
+  handler keyed by the familiar's species id, fed by a
+  `familiar_species_ids` field on the master's context.
+- Not a channel (decided 2026-10-14): the animal companion's "Verbindung"
+  (+4 situational bonus on the master's Tierempathie / Mit Tieren umgehen
+  checks concerning this companion) is a situational bonus, so it is just
+  the companion-side handler of the "Verbindung" ability emitting a
+  situational note on the companion sheet — no master-side handler, no
+  extra context field.
+
+**Species advancement (animal companions)**
+- Every companion species changes at 4th or 7th level (size, ability score
+  deltas, natural attacks; e.g. Wolf at 7th: groß, ST +8, GE −2, KO +4,
+  Biss 1W8). A `BaseRace` row has a fixed size, so this is data:
+  `BaseCompanionSpeciesAdvancement` (species, effective level, size, ability
+  deltas, replacement natural attacks/abilities), applied by
+  `companion_effective_level`, never written back into the stored scores.
+  Not every advancement changes size (Kamel, Pferd, Pony, Vogel: scores and
+  abilities only), and an advancement can add natural armor and whole new
+  attacks (Dinosaurier: 2 Krallen + Biss + 2 Klauen at 7th).
+- **Advancement alternative (PRD):** instead of the species' 4th/7th-level
+  advancement the player may take +2 GE and +2 KO. That is a per-companion
+  choice → stored on the companion (e.g. a `CharacterCompanion` column
+  `advancement_choice`: `species` | `dex_con`), read by
+  `companion_effective_level`.
+- **Species data the model can't hold yet** (all 17 Druide species need it):
+  - **Size** — `BaseRace` has no size field; size is flavor text only and
+    there is no size modifier on AC/attack/KMB/KMV/Heimlichkeit
+    (`rules/modifiers.py`: "no size scaling yet"). Companions change size on
+    advancement, so size has to become real data plus a generic size-
+    modifier step *before* the species/advancement tables are created
+    (slice 2), otherwise the schema gets reworked twice. Benefits PCs too
+    (small races).
+  - **Movement modes** — climb, swim, fly (with maneuverability), burrow;
+    `rules/speed.py` only knows base land speed.
+  - **Natural attacks** — name, damage die, primary/secondary (Pferd's
+    hooves are secondary), riders (Zu-Fall-bringen, Gift, Ergreifen), 1.5×
+    ST on a sole attack.
+  - **Special abilities** as catalog rows (descriptive + handler where
+    computable): Dämmersicht/Geruchssinn exist as race abilities and are
+    reused; new: Blindgespür, Anspringen, Ergreifen, Krallen, Würgen,
+    Todesrolle, Sprint, Zu Fall bringen, Wildheit, Gift, Kampfrausch
+    (6 rounds/day), Spucken, Luft anhalten, kampfsicher.
+  - **Creature type** `Tier` (matters for which spells affect it).
+- **Species are open-ended data (decided 2026-10-14):** the Druide page's 17
+  species are only the first source; more must be addable later from other
+  sources (Monsterhandbücher "Monster als Tiergefährten", Paladin/Mystiker
+  mount lists, Bestienreiter, splatbooks) as a pure data/fixture change —
+  no species list in code, a `source` reference per species row, and the
+  importer written so a new source page is a new input, not a new script
+  shape. Which species a slot allows stays on `BaseCompanionSlotSpecies`.
+
+**Size (slice 2a; checked against the code 2026-10-14)**
+Today: size is not modeled at all. Races carry "Klein"/"Mittelgroß" only
+as handler-less flavor `BaseRaceAbility` rows (`fa596c0c…`/`c98915e3…`);
+`sheet.py`'s module docstring documents AC/CMB/CMD as "assume Medium";
+`NaturalAttack` dice are fixed per ability; `sheet.py` reads only
+`BaseItem.damage_medium` although `damage_small` is seeded; there is no
+carrying capacity/encumbrance and no reach/space anywhere. `todos.md`'s
+"Rassengröße" item (2026-08-16) already decided the shape: size as race
+abilities (one "Größe: X" grant per race, like `rules/speed.py`), not a
+column. What is missing:
+1. **One size value per character, resolved not stored:** `size` on the
+   sheet/context = base size (race ability; for a companion the species
+   row, overridden by the advancement row at 4th/7th) shifted by size-
+   changing effects (Person vergrößern/verkleinern, Tiergestalt/
+   Bestiengestalt). Effects shift in steps, the result is clamped to the
+   nine categories Mini … Kolossal. Familiars need Sehr klein/Winzig, so
+   the full scale, not just Klein/Mittelgroß/Groß.
+2. **One size table + one handler** (`rules/size.py`): per category the
+   AC/attack size modifier (+8/+4/+2/+1/0/−1/−2/−4/−8), CMB/CMD special
+   size modifier (the inverse), Heimlichkeit (+16 … −16), Fliegen (+8 …
+   −8), space/natural reach (tall vs long — quadruped companions are
+   "long": a large horse has 3 m space but 1.5 m reach). Emits ordinary
+   `Modifier`s, so AC, attack, CMB/CMD, skills pick it up through the
+   existing stacking; the Klein/Mittelgroß race rows get this handler and
+   lose their "flavor only" status (corrects every existing Small PC —
+   tester-visible change, mention it in the release note).
+3. **Weapon damage by wielder size:** use `damage_small` for Small
+   wielders; other sizes via the standard damage-step progression (the
+   same step table *Verbesserter Natürlicher Angriff* needs — build it
+   once in `rules/size.py`).
+4. **Natural attacks scale with size** when the attack's dice are given
+   for a base size (PC races, Tiergestalt); companion species rows give
+   explicit dice per advancement stage, so they bypass scaling.
+5. **Movement modes:** climb/swim/fly (+ maneuverability)/burrow speeds as
+   additional `ModifierTarget`s next to land speed (`rules/speed.py`
+   already has a SWIM_SPEED target — extend the same pattern); the sheet
+   shows all non-zero ones.
+6. **Out of scope for 2a, note only:** carrying capacity/encumbrance (size
+   and quadruped multipliers) — not modeled for anyone yet; separate item
+   if wanted, needed for mounts carrying a rider.
+
+**Choices (stored in existing tables, per companion `CharacterLevel` = HD)**
+- HD count comes from the progression row (not equal to master level).
+  With "row count = HD", the existing rules already give the right numbers
+  (verified 2026-10-14 against all 20 rows of the PRD "Tabelle:
+  Tiergefährte"): feat count `(HD+1)//2` (`rules/feat_slots.py`'s
+  `base_feat_count`), ability increase every 4 HD, BAB = ¾ × HD, good
+  **Ref/Fort** and poor Will (not the Druide's Fort/Will!), skill ranks =
+  HD — so the pseudo class is: W8, `bab_progression` 0.75, `fort_save`/
+  `ref_save` true, `wil_save` false, `skill_points_base` 2 (2 + IN mod,
+  minimum 1 per HD; check that `rules/skill_points.py` applies the minimum).
+  `BaseCompanionProgression` only carries HD per effective level, natural
+  armor, ST/GE bonus, bonus trick count and special abilities (Verbindung,
+  Zauber teilen, Entrinnen, Hingabe, Mehrfachangriff, Verbessertes
+  Entrinnen).
+- Special-ability handlers: Mehrfachangriff = the Mehrfachangriff feat as a
+  bonus feat if the companion has ≥ 3 natural attacks, otherwise one extra
+  attack with one natural weapon at −5 (conditional → handler); Hingabe =
+  +4 morale on Will saves vs enchantment (situational note); Entrinnen/
+  Verbessertes Entrinnen descriptive.
+- Feat → `CharacterFeat` at the level (existing prerequisite logic). The
+  PRD's "Tiertalente" list is only a recommendation ("sollten") — show it
+  as a filter/hint, don't enforce it. The one hard rule: the companion's
+  first feat may not require BAB +1 (validation). Three monster feats on
+  that list are missing from `base_feats.json` and must be seeded
+  (`prd.5footstep.de/Monsterhandbuch/MonsterTalente/...`):
+  - *Verbesserte Natürliche Rüstung* — prereq natural armor, KO 13; +1
+    natural armor; repeatable (stacks per pick).
+  - *Verbesserter Natürlicher Angriff* — prereq natural weapon, BAB +4;
+    one natural attack's damage die steps up one size step (1W2 → 1W3 →
+    1W4 → 1W6 → 1W8 → 2W6 → 3W6 → 4W6 → 6W6 → 8W6 → 12W6; 1W10 → 2W8 →
+    3W8 → 4W8 → 6W8 → 8W8 → 12W8); repeatable, each time a different
+    attack → needs a per-pick target (which natural attack), same shape as
+    other feat sub-choices.
+  - *Mehrfachangriff* (Kampf) — prereq three or more natural attacks;
+    secondary natural attacks at −2 instead of −5.
+  The "natural armor"/"natural weapon"/"three natural attacks" prereqs need
+  new prerequisite checks fed by the species data above.
+- Ability increase → `CharacterLevel.ability_increase`; fixed table bonuses
+  are not stored but computed by handlers. Skill ranks →
+  `CharacterSkillRank`. Allowed skills: Akrobatik, Einschüchtern,
+  Entfesselungskunst, Fliegen, Heimlichkeit, Klettern, Schwimmen,
+  Überlebenskunst, Wahrnehmung; only Akrobatik, Fliegen, Heimlichkeit,
+  Klettern, Schwimmen, Wahrnehmung are *class* skills. With IN ≥ 3 any skill
+  may get ranks (so "allowed" is a rule, not just the pseudo class skill
+  list). Fixed table abilities → derived into the companion's
+  `granted_ability_ids`. Abilities with a pick → `CharacterClassOption`
+  against a `BaseClassOptionGroup` of the pseudo class. HP →
+  `CharacterLevel.hit_points`; the pseudo class needs a flag so
+  `is_valid_rolled_hit_points` doesn't force the first HD to max (that rule
+  is for PC class levels only).
+- **Tricks are descriptive only (decided 2026-10-14):** no trick tables, no
+  stored trick picks, no IN-limit validation. The companion sheet shows the
+  bonus-trick count from the progression row plus a help text with the
+  trick list and rules from
+  `prd.5footstep.de/Grundregelwerk/Fertigkeiten/MitTierenumgehen` (tricks
+  with DC, trainings ("Aufgaben"), IN 1 → max 3 / IN 2 → max 6 taught
+  tricks, bonus tricks don't count against that limit). Static help
+  content, not rule data.
+- Sync step: when the effective level rises, new `CharacterLevel` rows with
+  empty choices are created (shown as open slots, filled like a level-up).
+  Runs in the same transaction as the master's level-up and any change to
+  feats/abilities that affect the master level. **No downward sync**: the app
+  has no level removal and no retraining, so the master level can't
+  currently fall; and since level-up bumps `Character.ability_score_*` in
+  place, deleting rows would also have to revert `ability_increase`. If the
+  effective level ever drops below the HD count, flag "überzählige TW"
+  instead of deleting.
+
+**Familiar**
+- Also a `Character` row (damage, effects, conditions, gear, print page and
+  direct URL all reused), but **fully derived: no `CharacterLevel` rows, no
+  choices, no sync, no level-up**. With 0 levels the existing feat/skill-
+  point/HP logic adds nothing; a derivation hook in `build_character_sheet`
+  (by `kind`) fills in:
+
+  | Value | Source |
+  |---|---|
+  | Species, size, base scores, natural attacks | Familiar species row (`BaseRace`) |
+  | Species feats (e.g. Waffenfinesse) and own skill ranks | Species data (not `CharacterFeat`/`CharacterSkillRank`, both need a `level_id`) |
+  | HD (for effects) | Master's character level |
+  | HP | Half the master's max HP, without temporary HP, rounded down |
+  | BAB | Master's BAB |
+  | Base saves | Better of the species' own and the master's, per save |
+  | Skill ranks | Better of the species' own and the master's, per skill |
+  | Natural armor adj., IN, special abilities (Empathische Verbindung, Berührungszauber übertragen, Mit Meister sprechen, ZR = level + 5, Ausspähen, ...) | Familiar table keyed by the `familiar` track's master effective level |
+
+- "Verbesserter Vertrauter" swaps the species for one from a list gated by
+  master level (data on the feat).
+- The Hexe's familiar as spell storage stays modeled on the Hexe herself;
+  the familiar sheet only shows it.
+
+**API / UI**
+- Canonical URL `/characters/:companionId`, the same route/endpoint/page as
+  any character (companions must be reachable directly so players can work
+  in several tabs/tablets). Payload carries `kind: "companion" | "familiar"`
+  and `master: {id, name, effective_level, breakdown}`; the nested route
+  `/characters/:id/companions/:cid`, if added, is only a redirect.
+- The character list filters `master_character_id IS NULL`; companions are
+  reached via a switcher on the master sheet (`Meister | Wolf | Rabe`) or
+  directly. The companion gets the master's `user_id` (auth-later checks stay
+  identical). Orphaned companions show a "ohne Anspruch" banner.
+- Companion sheet: banner with breakdown; spells/class pick/favored class/
+  traits/starting wealth hidden by `kind`; extra sections for tricks (bonus
+  count + help text), statblock
+  header and open slots linking to the companion level-up mode (the existing
+  level-up wizard without class choice and spells). Print page works
+  unchanged, one sheet per companion.
+- Open tabs must refetch since the sync runs server-side on the master's
+  changes. Checked: `CharacterSheetPage` only refetches after its own
+  actions, there is no focus/visibility refetch yet — add one
+  (`visibilitychange`/`focus` → `refetch()`).
+
+**Slices**
+Order decided 2026-10-14: 0a → 0b → 1 → 2a → 2b → 3 → 4. Slice 2a is
+deliberately *not* pulled forward even though it also corrects existing
+Small PCs; when it lands, testers must be told that AC/attack/CMB/CMD of
+Small characters change (values become correct, not a regression).
+- [ ] 0a. Druide as a complete class (see "Prerequisite" above): class
+      abilities 1–20 with handlers, proficiencies, bonus languages,
+      spontaneous Verbündeten der Natur herbeizaubern, alignment check,
+      `bond` choice grants incl. the 7-domain sub-choice, shared
+      Tierempathie; domain bonus slot together with the open Kleriker
+      "Domänenzauber" item (slice 6).
+- [ ] 0b. Paladin as a complete class (see "Prerequisite" above), incl.
+      Gnaden option group and `divine_bond` group with the mount trigger.
+- [ ] 1. Thin: choice-scoped trigger abilities for Druide/Magier,
+      `BaseCompanionLevelSource`, `rules/companions.py`
+      (`master_effective_level`, shared `effective_level`), breakdown in the
+      sheet endpoint, seeds for the sources above, combination/cap/
+      Sekundärklasse tests (e.g. Merro Mercat-style Hexenmeister
+      Sekundärklasse). No companions yet.
+- [ ] 2a. Size as real data + generic size-modifier step, movement modes
+      beyond land speed, natural attacks (primary/secondary) — usable by
+      PCs too; must land before 2b. Details: "Size (slice 2a)" below.
+- [ ] 2b. Schema: `master_character_id`, entitlements with species lists,
+      pseudo class, species (incl. race-picker filter, `source`,
+      creature type), progression and advancement tables; importer for the
+      PRD Druide page ("Tabelle: Tiergefährte" + 17 species) written so
+      further source pages are just new input; first animal companion/mount
+      (one entitlement), sheet reuse, list filter, direct URL, focus
+      refetch.
+- [ ] 3. HD sync (upward only) and choices (feats incl. the three monster
+      feats and the first-feat BAB rule, ability increase, skills, advance-
+      ment vs +2 GE/KO), trick help text, companion mode in the level-up
+      wizard, master→companion channel (favored class bonuses, shared
+      Erzfeind), Verbindung/Hingabe/Mehrfachangriff handlers.
+- [ ] 4. Multiple entitlements/archetypes, per-companion bonus feats (Boon
+      Companion), then the familiar (derivation hook, Arkane Verbindung,
+      Hexenmeister, Hexe, Kampfmagus, companion→master bonus, Verbesserter
+      Vertrauter).
+- [ ] Open: gear for companions (just the companion's own
+      `Character.gear`, since it is a Character — check barding/saddle
+      slots), share spells / deliver touch spells, PRD offsets for Mystiker/
+      Hexe/Entfesselter-Barbar ("Wildes Reittier") sources, Paladin
+      "Göttlicher Bund" (rules captured above; Paladin has no class
+      abilities seeded — full Paladin build-out or just the bond group is
+      still to decide), Druide/Magier Sekundärklasse tiers, Druide
+      archetypes.
 
 ## Explicitly out of scope here
 
