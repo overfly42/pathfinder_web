@@ -36,7 +36,7 @@ Do not migrate remaining mock behavior to the real stack as a side effect of unr
 - `backend/app/config.py`, `backend/app/db.py` — `Settings` (env-driven, defaults matching `docker-compose.yml`) and the SQLAlchemy engine/session/`get_db` dependency.
 - `backend/app/models/` — `Base` plus `UUIDPrimaryKeyMixin`/`TimestampMixin`, the schema conventions every future table should use (UUID PKs, English names per `readme.md`/`requirements_v2.md` §5, timestamps on mutable rows).
 - `backend/alembic/`, `backend/alembic.ini` — migrations, wired to `app.config.settings` and `app.models.Base.metadata`. No revisions yet (no tables yet).
-- `backend/tests/` — pytest integration harness: `conftest.py` spins up a dedicated `<db>_test` Postgres database (auto-created, schema reset per session) and gives tests a rolled-back-per-test `db_session` and a `client` (FastAPI `TestClient` with `get_db` overridden).
+- `backend/tests/` — pytest integration harness: `conftest.py` spins up a dedicated `<db>_test` Postgres database (`<db>_test_gwN` per worker under `pytest -n`; auto-created, schema reset per session), seeds the whole catalog into it **once** per session (the `seed_*` calls inside tests are no-ops — re-seeding per test was ~90 % of the suite's runtime), and gives tests a rolled-back-per-test `db_session` and a `client` (FastAPI `TestClient` with `get_db` overridden). A test must not assume some catalog data is absent; full suite: ~2.5 min with `-n 8`, ~10 min serial.
 - `frontend/src/api/client.ts` — `apiGet`/`apiPost`/`apiPatch`/`apiDelete` fetch helpers.
 - `backend/scripts/` — one-off import scripts pulling rule data from the German PRD (`prd.5footstep.de`) into `backend/app/fixtures/imported/`, staging material for expanding the feat catalog and implementing `HANDLERS` one feat at a time. `backend/scripts/README.md` documents the site's data shapes (bulk JSON index vs. permalink-resolved full-text feat pages vs. prose-only class pages) and known quirks (duplicate index rows, display-name/canonical-name mismatches) — read it before writing another importer against this site.
 - `backup_db.sh` — dumps the dev Postgres database (`pg_dump` via `podman exec`, gzipped) to `db_backups/` and prunes to the 7 most recent. Run automatically by `dev.sh` right after the db container comes up, so every dev session starts with a snapshot of whatever was there before migrations/seeding touch it. Added after the 2026-09-07 incident below — the dev DB had no backups at all before this.
@@ -62,7 +62,8 @@ podman-compose up -d                                # Postgres, per docker-compo
 pip install -r backend/requirements-dev.txt         # backend app + test deps
 cd backend && alembic upgrade head                  # apply migrations (no-op until slice 1 adds tables)
 uvicorn app.main:app --reload --port 8000           # backend dev server
-python -m pytest                                    # backend/tests, uses the <db>_test database
+python -m pytest -n 8                               # backend/tests in parallel (pytest-xdist), one <db>_test_gwN database per worker
+python -m pytest tests/test_druide.py               # a single file while iterating; plain serial run uses <db>_test
 
 cd frontend && npm install && npm run dev           # frontend dev server
 ```

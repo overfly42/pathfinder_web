@@ -270,9 +270,8 @@ def test_secondary_class_sub_choice_resolves_only_the_chosen_option(client: Test
     picked) — `_resolve_sub_choice_ability_id` (rules/secondary_class.py)
     instead reuses the same `BaseClassAbilityGrant.option_choice_id` link a
     real, primary-class Hexenmeister's own bloodline pick already resolves
-    against. Seed two candidate rows for the same milestone (one per
-    bloodline, real content shape once `base_secondary_class_ability_grants.
-    json` is filled in) and verify only the one matching this character's
+    against. With two candidate rows seeded for the same milestone (one per
+    bloodline, `base_secondary_class_ability_grants.json`), verify only the one matching this character's
     actual pick ("Arkane Blutlinie") shows up — not Meeresblutlinie's."""
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
@@ -306,25 +305,19 @@ def test_secondary_class_sub_choice_resolves_only_the_chosen_option(client: Test
     wasserstoss_id = db_session.scalar(select(BaseClassAbility.id).where(BaseClassAbility.name == "Wasserstoß"))
     assert arkane_verbindung_id is not None and wasserstoss_id is not None
 
-    db_session.add_all(
-        [
-            BaseSecondaryClassAbilityGrant(
-                secondary_base_class_id=hexenmeister.id,
-                character_level=3,
-                ability_id=arkane_verbindung_id,
-                option_group_key="bloodline",
-                option_choice_id=arkane_blutlinie_id,
-            ),
-            BaseSecondaryClassAbilityGrant(
-                secondary_base_class_id=hexenmeister.id,
-                character_level=3,
-                ability_id=wasserstoss_id,
-                option_group_key="bloodline",
-                option_choice_id=meeresblutlinie_id,
-            ),
-        ]
-    )
-    db_session.commit()
+    # Both candidate rows for the 3rd-level milestone are real seeded data
+    # (`base_secondary_class_ability_grants.json`, seeded once per test
+    # database by `conftest.py`), one per bloodline.
+    seeded = {
+        (row.ability_id, row.option_choice_id)
+        for row in db_session.scalars(
+            select(BaseSecondaryClassAbilityGrant).where(
+                BaseSecondaryClassAbilityGrant.secondary_base_class_id == hexenmeister.id,
+                BaseSecondaryClassAbilityGrant.character_level == 3,
+            )
+        )
+    }
+    assert {(arkane_verbindung_id, arkane_blutlinie_id), (wasserstoss_id, meeresblutlinie_id)} <= seeded
 
     sheet = client.get(f"/api/characters/{character_id}").json()
     feature_keys = {f["key"] for f in sheet["classFeatures"]}
