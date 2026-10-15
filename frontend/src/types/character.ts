@@ -67,6 +67,10 @@ export interface DescribedEntry {
    *  `undefined` for every other `DescribedEntry` use (skills/feats/traits/
    *  race abilities never set this field at all). */
   isSecondary?: boolean;
+  /** Only ever set on `classFeatures` entries: a short computed read-out
+   *  (backend `FEATURE_SUMMARY_HANDLERS`, e.g. Tierempathie's "1W20 + 7"),
+   *  `null` when the feature has none. */
+  summary?: string | null;
 }
 
 /** One race-scoped favored-class-bonus choice the character has picked at

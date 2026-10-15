@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { ClassRow, CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import { createId } from '../../lib/id';
-import { availableOptionGroups } from '../../lib/classOptions';
+import { availableOptionGroups, pruneUnmetPrerequisites } from '../../lib/classOptions';
 import { classDef, totalLevel } from '../../lib/creationCalculations';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
@@ -93,7 +93,8 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
         if (idx !== -1) next = chosen.filter((c) => c !== choice);
         else if (chosen.length < max) next = [...chosen, choice];
         else next = chosen;
-        return { ...row, options: { ...row.options, [groupKey]: next } };
+        const groups = classDef(options, row.className)?.optionGroups ?? [];
+        return { ...row, options: pruneUnmetPrerequisites(groups, { ...row.options, [groupKey]: next }) };
       }),
     }));
   }
@@ -126,7 +127,11 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
       if (idx !== -1) next = chosen.filter((c) => c !== choice);
       else if (chosen.length < max) next = [...chosen, choice];
       else next = chosen;
-      return { ...prev, secondaryClassOptions: { ...prev.secondaryClassOptions, [groupKey]: next } };
+      const groups = prev.secondaryClassName ? (classDef(options, prev.secondaryClassName)?.optionGroups ?? []) : [];
+      return {
+        ...prev,
+        secondaryClassOptions: pruneUnmetPrerequisites(groups, { ...prev.secondaryClassOptions, [groupKey]: next }),
+      };
     });
   }
 
@@ -140,7 +145,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
   // milestone-tied) isn't offered here at all — see `ClassOptionGroup`'s
   // docstring.
   const secondaryCls = draft.secondaryClassName ? classDef(options, draft.secondaryClassName) : undefined;
-  const secondaryGroups = availableOptionGroups(secondaryCls?.optionGroups ?? [], 1, [], {}).filter(
+  const secondaryGroups = availableOptionGroups(secondaryCls?.optionGroups ?? [], 1, [], {}, draft.secondaryClassOptions).filter(
     (g) => g.isSecondaryInitialPick,
   );
 
@@ -160,6 +165,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
             row.level,
             row.archetypes,
             cls?.archetypeOptionOverrides ?? {},
+            row.options,
           );
           return (
             <div className="class-row-wrap" key={row.id}>

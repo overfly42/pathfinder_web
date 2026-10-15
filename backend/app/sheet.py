@@ -100,6 +100,7 @@ from .rules.feats import (
 from .rules.handlers import (
     DAILY_LIMIT_UNIT_LABEL,
     DAILY_LIMITS,
+    FEATURE_SUMMARY_HANDLERS,
     NATURAL_ATTACK_HANDLERS,
     SAVE_DC_HANDLERS,
     SPELL_LIKE_ABILITY_HANDLERS,
@@ -200,7 +201,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # itself is flattened across every level's picks. A race ability's own
     # fixed named-weapon list (`rules/handlers.py`'s `WEAPON_PROFICIENCY_HANDLERS`,
     # e.g. Elf's "Elfische Waffenvertrautheit") folds in the same way, for
-    # every race ability id this character actually has.
+    # every race ability id this character actually has — and a class
+    # ability's named list (the Druide's) for every granted class ability id.
     chosen_weapon_ids = (
         frozenset(
             entry.chosen_weapon_id
@@ -212,7 +214,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
            if KENSAI_WEAPON_CHOICE_ABILITY_ID in weapon_choice_by_ability_id else set())
         | frozenset(
             item_id
-            for ability_id in race_ability_ids
+            for ability_id in (*race_ability_ids, *granted_ability_ids)
             for item_id in WEAPON_PROFICIENCY_HANDLERS.get(ability_id, ())
         )
     )
@@ -306,9 +308,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # Halb-Ork's Einschüchternd or a chosen Kluge Katze/Kletterer alt-trait —
     # SCORE/SPEED already have their own dedicated path, see that function's
     # docstring), granted class
-    # abilities' own AC-/CMD-/SWIM_SPEED-target grants (`granted_ability_modifiers`,
-    # e.g. Bestientotem's natural armor bonus or Hexenmeister's Aquatische
-    # Anpassung swim speed — the same per-grant path `class_speed_bonus` uses
+    # abilities' own AC-/CMD-/SWIM_SPEED-/SKILL-target grants (`granted_ability_modifiers`,
+    # e.g. Bestientotem's natural armor bonus, Hexenmeister's Aquatische
+    # Anpassung swim speed or the Druide's Naturgespür skill bonus — the same per-grant path `class_speed_bonus` uses
     # for SPEED, generalized), and gear's own AC bonus (armor/shield
     # `ac_bonus`, any slot's `enhancement`). Combined
     # into one raw list *before* stacking, not stacked separately per source
@@ -327,6 +329,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.AC)
         + granted_ability_modifiers(context, target=ModifierTarget.CMD)
         + granted_ability_modifiers(context, target=ModifierTarget.SWIM_SPEED)
+        + granted_ability_modifiers(context, target=ModifierTarget.SKILL)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -498,7 +501,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         ),
         "feats": _build_feats(db, character),
         "traits": _build_traits(db, character),
-        "classFeatures": _build_class_features(db, granted_ability_ids, frozenset(secondary_ability_ids)),
+        "classFeatures": _build_class_features(db, granted_ability_ids, context, frozenset(secondary_ability_ids)),
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
@@ -1085,16 +1088,24 @@ def granted_class_ability_ids(
 
 
 def _build_class_features(
-    db: Session, granted_ability_ids: Counter[UUID], secondary_ability_ids: frozenset[UUID] = frozenset()
+    db: Session,
+    granted_ability_ids: Counter[UUID],
+    context: CharacterContext,
+    secondary_ability_ids: frozenset[UUID] = frozenset(),
 ) -> list[dict]:
     """`secondary_ability_ids` (`rules/secondary_class.py`) tags which of
     these were granted by the Sekundärklasse alternate rule rather than a
     real class level, so the sheet can badge them distinctly (e.g.
     "Sekundärklassenmerkmal") — same "computed flag on the described row"
-    shape as `_described`'s own `hasHandler`."""
+    shape as `_described`'s own `hasHandler`. `summary` is the feature's
+    computed read-out (`rules/handlers.py`'s `FEATURE_SUMMARY_HANDLERS`, e.g.
+    Tierempathie's "1W20 + 7"), `None` for every feature without one."""
     entries = _described(db, BaseClassAbility, list(granted_ability_ids))
     for entry in entries:
-        entry["isSecondary"] = UUID(entry["key"]) in secondary_ability_ids
+        ability_id = UUID(entry["key"])
+        entry["isSecondary"] = ability_id in secondary_ability_ids
+        summary_handler = FEATURE_SUMMARY_HANDLERS.get(ability_id)
+        entry["summary"] = summary_handler(context) if summary_handler is not None else None
     return entries
 
 

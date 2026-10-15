@@ -2180,6 +2180,38 @@ Small characters change (values become correct, not a regression).
       `bond` choice grants incl. the 7-domain sub-choice, shared
       Tierempathie; domain bonus slot together with the open Kleriker
       "Domänenzauber" item (slice 6).
+      **Done 2026-10-15** (`scripts/import_druide.py`,
+      `rules/classes/druide.py`, `tests/test_druide.py`): class skills
+      corrected to the page's 13 (Entfesselungskunst dropped — its
+      `base_class_skills` row `50620e7d-…` must be deleted by hand in an
+      already-seeded DB, the upsert seed never deletes); all class features
+      as abilities + grants (descriptive where nothing computes:
+      Unterholz durchqueren as its own row since the Waldläufer's text
+      differs, Spontanes Zaubern/Bonussprachen like the Kleriker's);
+      Naturgespür (+2 skill handler — `sheet.py` now also folds class-granted
+      SKILL modifiers, previously only AC/CMD/SWIM_SPEED); Tiergestalt as a
+      daily-limited action (1/Tag at 4 … 8 at 18; "beliebig" at 20 is a
+      99-uses stand-in) with its unlocked form spells as a summary;
+      Tierempathie shared with the Waldläufer (description made
+      class-neutral, summed Druide + Waldläufer levels + CH); armor/shield
+      proficiency as granted feats, the named weapon list via
+      `WEAPON_PROFICIENCY_HANDLERS` (now also read for class abilities);
+      `bond` choice grants ("Tiergefährte (Druide)" trigger ability,
+      "Domäne (Natur)"); new one-time group `nature_domain` (7 choices with
+      `requires_choice_id` → "Domäne (Natur)") whose grants reuse the
+      Kleriker domain ability rows at the same levels, so Druide level
+      counts as Kleriker level by construction. New generic pieces:
+      `FEATURE_SUMMARY_HANDLERS` (computed one-line read-out shown under a
+      class feature on sheet/print/PDF) and `requiresChoice` on
+      `/api/classes` choices — the creation/multiclass wizards hide a choice
+      until its prerequisite is picked and prune dependent picks when it's
+      un-picked (also benefits Mystiker revelations/Hexenmeister bloodline
+      powers).
+      **Still open in 0a:** the domain bonus spell slot (shared with the
+      Kleriker "Domänenzauber" item — needs the per-domain spell lists
+      parsed into `BaseClassSpellGrant` rows first) and the alignment
+      check (no alignment field on characters yet; the Paladin in 0b needs
+      the same field, so build it once there).
 - [ ] 0b. Paladin as a complete class (see "Prerequisite" above), incl.
       Gnaden option group and `divine_bond` group with the mount trigger.
 - [ ] 1. Thin: choice-scoped trigger abilities for Druide/Magier,

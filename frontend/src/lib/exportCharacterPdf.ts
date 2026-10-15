@@ -126,10 +126,20 @@ export async function exportCharacterPdf(character: Character, language: Languag
     { colWidths: { 1: 16 } },
   );
 
-  const described = (title: string, entries: { name: string; description: string; isSecondary?: boolean }[]) => {
+  const described = (
+    title: string,
+    entries: { name: string; description: string; isSecondary?: boolean; summary?: string | null }[],
+  ) => {
     if (!entries.length) return;
     heading(title);
-    table(['Name', 'Beschreibung'], entries.map((e) => [e.name + (e.isSecondary ? ' (Sekundaerklasse)' : ''), e.description]), { colWidths: { 0: 45 } });
+    table(
+      ['Name', 'Beschreibung'],
+      entries.map((e) => [
+        e.name + (e.isSecondary ? ' (Sekundaerklasse)' : ''),
+        e.summary ? `[${e.summary}] ${e.description}` : e.description,
+      ]),
+      { colWidths: { 0: 45 } },
+    );
   };
   described('Talente', character.feats);
   described('Wesenszuege', character.traits);

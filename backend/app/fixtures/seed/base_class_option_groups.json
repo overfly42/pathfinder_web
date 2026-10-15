@@ -278,5 +278,13 @@
     "label": "Schutzherr",
     "max_choices": 1,
     "is_secondary_class_initial_pick": true
+  },
+  {
+    "id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "key": "nature_domain",
+    "label": "Naturdomäne",
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   }
 ]

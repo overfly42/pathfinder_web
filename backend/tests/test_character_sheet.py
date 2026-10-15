@@ -146,12 +146,10 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     user_id = _create_user(client)
     race_id = _elf_race_id(client, db_session)
 
-    # Druide has no `BaseClassAbilityGrant` data yet (unlike Kämpfer/
-    # Waldläufer/Magier/Barbar) — the default Waldläufer payload now has real
-    # level-1 class features (Erzfeind, Spuren lesen, ...), Magier now has
-    # its own (Arkane Schule, Arkane Verbindung, ...), and Barbar now has its
-    # own too (Kampfrausch, Schnelle Bewegung, ...), so none of those three
-    # can stand in for "no class features" anymore.
+    # Every class now has real level-1 class features (the Druide got its own
+    # 2026-10-15, `import_druide.py`), so `classFeatures` can't be empty for
+    # any class anymore — asserted below as exactly the Druide's
+    # unconditional level-1 set (no bond picked, so no bond-scoped feature).
     payload = _character_payload(user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}])
     seed_spells(db_session)  # base_class_spells_known FKs into base_classes, seeded just above; needed for spellbook below
     create_response = client.post("/api/characters", json=payload)
@@ -175,7 +173,18 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     )
     assert body["feats"] == []
     assert body["traits"] == []
-    assert body["classFeatures"] == []
+    assert {f["name"] for f in body["classFeatures"]} == {
+        "Umgang mit Waffen und Rüstungen",
+        "Zauber",
+        "Spontanes Zaubern",
+        "Böse, Chaotische, Gute und Rechtschaffene Zauber",
+        "Gebete",
+        "Bonussprachen",
+        "Bund mit der Natur",
+        "Naturgespür",
+        "Tierempathie",
+        "Ehemalige Druiden",
+    }
     # spellsKnown stays empty (nothing prepared yet), but spellbook is no
     # longer empty for a divine-prepared class now that real prepared-
     # spellcasting is wired up (`sheet.py`'s `_build_prepared_spell_grades`)

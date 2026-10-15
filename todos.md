@@ -894,6 +894,10 @@ Slice-Arbeit.
         verifizieren. Barbar ist davon ausgenommen und inzwischen vollständig
         korrigiert (siehe `todos_history.md`) — ein Löschen hätte jetzt echte,
         sourced Daten verworfen statt geratenes Platzhaltermaterial.
+        **Überholt für Druide/Mönch/Paladin:** Mönch ist inzwischen
+        vollständig importiert; Druide (2026-10-15, `import_druide.py`) und
+        Paladin werden als Voraussetzung für Tiergefährten voll ausgebaut
+        statt entfernt (`roadmap.md` Slice 10, Schritte 0a/0b).
 
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):

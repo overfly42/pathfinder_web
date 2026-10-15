@@ -306,10 +306,28 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     # this to only ever render choices the character-row's current level
     # actually qualifies for, instead of listing every choice a group will
     # ever offer across a whole career.
+    # `requiresChoice` (`BaseClassOptionChoice.requires_choice_id`) names the
+    # prerequisite choice by its group key + name — the same shape the
+    # wizards keep their own picks in — so `lib/classOptions.ts` can hide a
+    # choice until its prerequisite is picked (e.g. the Druide's
+    # Naturdomäne only after the "Domäne (Natur)" bond). Display only;
+    # `_validate_options` enforces it server-side.
+    all_choices = db.scalars(select(BaseClassOptionChoice)).all()
+    group_key_by_id = {group.id: group.key for group in db.scalars(select(BaseClassOptionGroup)).all()}
+    choice_by_id = {choice.id: choice for choice in all_choices}
     choices_by_group_id: dict = {}
-    for choice in db.scalars(select(BaseClassOptionChoice)).all():
+    for choice in all_choices:
+        prerequisite = choice_by_id.get(choice.requires_choice_id) if choice.requires_choice_id else None
         choices_by_group_id.setdefault(choice.group_id, []).append(
-            {"name": choice.name, "minLevel": choice.min_level}
+            {
+                "name": choice.name,
+                "minLevel": choice.min_level,
+                "requiresChoice": (
+                    {"groupKey": group_key_by_id[prerequisite.group_id], "name": prerequisite.name}
+                    if prerequisite is not None
+                    else None
+                ),
+            }
         )
     ability_ids_by_name_map = ability_ids_by_name(db)
     option_groups_by_root_id: dict = {}

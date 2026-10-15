@@ -39,6 +39,7 @@ function Described({ entries }: { entries: DescribedEntry[] }) {
         <div className="print-entry" key={entry.key}>
           <strong>{entry.name}</strong>
           {entry.isSecondary && ' (Sekundärklasse)'}
+          {entry.summary && <> [{entry.summary}]</>}
           {entry.description && <> — {entry.description}</>}
         </div>
       ))}

@@ -13,7 +13,8 @@ easy to find, easy to blame.
 This module only merges every class file's own `HANDLERS`/`DAILY_LIMITS`/
 `SAVE_DC_HANDLERS`/`TEMP_HP_GRANTS`/`ON_END`/`SITUATIONAL_SKILL_HANDLERS`/
 `WEAPON_BONUS_DAMAGE_HANDLERS`/`WEAPON_ENHANCEMENT_HANDLERS`/
-`POOL_COST_AT_ACTIVATION`/`APPLIED_OUTSIDE_HANDLERS_IDS` into one dict (or
+`POOL_COST_AT_ACTIVATION`/`WEAPON_PROFICIENCY_HANDLERS`/`FEATURE_SUMMARY_HANDLERS`/
+`APPLIED_OUTSIDE_HANDLERS_IDS` into one dict (or
 set) apiece, the same merge-only role `rules/handlers.py` plays for every
 family —
 `rules/handlers.py` imports this package's dicts, not each class file
@@ -41,6 +42,11 @@ from .barbarian import ON_END as _BARBARIAN_ON_END
 from .barbarian import SITUATIONAL_SKILL_HANDLERS as _BARBARIAN_SITUATIONAL_SKILL_HANDLERS
 from .barbarian import TEMP_HP_GRANTS as _BARBARIAN_TEMP_HP_GRANTS
 from .barbarian import WEAPON_BONUS_DAMAGE_HANDLERS as _BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS
+from .druide import DAILY_LIMIT_UNIT_LABEL as _DRUIDE_DAILY_LIMIT_UNIT_LABEL
+from .druide import DAILY_LIMITS as _DRUIDE_DAILY_LIMITS
+from .druide import FEATURE_SUMMARY_HANDLERS as _DRUIDE_FEATURE_SUMMARY_HANDLERS
+from .druide import HANDLERS as _DRUIDE_HANDLERS
+from .druide import WEAPON_PROFICIENCY_HANDLERS as _DRUIDE_WEAPON_PROFICIENCY_HANDLERS
 from .hexenmeister import DAILY_LIMITS as _HEXENMEISTER_DAILY_LIMITS
 from .hexenmeister import HANDLERS as _HEXENMEISTER_HANDLERS
 from .hexenmeister import SAVE_DC_HANDLERS as _HEXENMEISTER_SAVE_DC_HANDLERS
@@ -62,6 +68,7 @@ from .mystiker import POOL_COST_AT_ACTIVATION as _MYSTIKER_POOL_COST_AT_ACTIVATI
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
+    **_DRUIDE_HANDLERS,
     **_HEXENMEISTER_HANDLERS,
     **_KAMPFMAGUS_HANDLERS,
     **_MOENCH_HANDLERS,
@@ -86,6 +93,7 @@ WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID,
 # docstrings for what each covers.
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
+    **_DRUIDE_DAILY_LIMITS,
     **_HEXENMEISTER_DAILY_LIMITS,
     **_KAMPFMAGUS_DAILY_LIMITS,
     **_MOENCH_DAILY_LIMITS,
@@ -117,6 +125,7 @@ POOL_SOURCE_ID: dict[UUID, UUID] = {
 # Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's sheet text
 # — see `rules/classes/kampfmagus.py`'s own docstring.
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
+    **_DRUIDE_DAILY_LIMIT_UNIT_LABEL,
     **_KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL,
     **_MYSTIKER_DAILY_LIMIT_UNIT_LABEL,
 }
@@ -136,6 +145,19 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
 # the one consumer).
 SPELL_SLOT_DELTA: dict[UUID, int] = {
     **_KAMPFMAGUS_SPELL_SLOT_DELTA,
+}
+
+# Exact `BaseItem` ids a granted class ability makes the character
+# proficient with — the class half of `rules/handlers.py`'s
+# `WEAPON_PROFICIENCY_HANDLERS` (Druide's named weapon list).
+WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
+    **_DRUIDE_WEAPON_PROFICIENCY_HANDLERS,
+}
+# A short computed read-out shown next to a class feature on the sheet
+# (e.g. Tierempathie's "1W20 + 7") — see `rules/handlers.py`'s
+# `FEATURE_SUMMARY_HANDLERS` docstring.
+FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
+    **_DRUIDE_FEATURE_SUMMARY_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above, but a plain id set rather than a

@@ -3406,5 +3406,61 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": null
+  },
+  {
+    "id": "a576b866-6f28-59f2-95a8-83bd392c0c74",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Erde",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "1df252fa-49a1-53c9-87a0-50162eafa19b",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne des Feuers",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "183744ed-30f1-5577-8fc6-c24bde5d1377",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Luft",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "2c7d4de1-b617-524e-9829-b51149e73af4",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Pflanzen",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "4331ca35-148a-538a-84f9-3d7366a92f9e",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Tiere",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "0e89b86f-d9e4-56d7-aa32-9181f094ee8f",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne des Wassers",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
+  },
+  {
+    "id": "f812cc13-9e4a-5843-b196-b93b4780802d",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne des Wetters",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null
   }
 ]

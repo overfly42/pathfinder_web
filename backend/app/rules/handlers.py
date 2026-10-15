@@ -112,6 +112,7 @@ from uuid import UUID
 from .classes import APPLIED_OUTSIDE_HANDLERS_IDS as _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .classes import DAILY_LIMIT_UNIT_LABEL as _CLASS_DAILY_LIMIT_UNIT_LABEL
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
+from .classes import FEATURE_SUMMARY_HANDLERS as _CLASS_FEATURE_SUMMARY_HANDLERS
 from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
@@ -123,6 +124,7 @@ from .classes import SPELL_SLOT_DELTA as _CLASS_SPELL_SLOT_DELTA
 from .classes import TEMP_HP_GRANTS as _CLASS_TEMP_HP_GRANTS
 from .classes import WEAPON_BONUS_DAMAGE_HANDLERS as _CLASS_WEAPON_BONUS_DAMAGE_HANDLERS
 from .classes import WEAPON_ENHANCEMENT_HANDLERS as _CLASS_WEAPON_ENHANCEMENT_HANDLERS
+from .classes import WEAPON_PROFICIENCY_HANDLERS as _CLASS_WEAPON_PROFICIENCY_HANDLERS
 from .context import CharacterContext
 from .effects import EFFECT_HANDLERS as _EFFECT_HANDLERS
 from .feats import COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS as _FEAT_APPLIED_OUTSIDE_HANDLERS_IDS
@@ -233,10 +235,21 @@ NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack |
 # these into `chosen_weapon_ids` for whichever race ability ids the
 # character actually has, the same "exact weapon id, not a category" check
 # `rules/proficiency.py`'s module docstring already covers for a picked
-# single-weapon feat or a Kensai's own free choice. Only race abilities
-# contribute today.
+# single-weapon feat or a Kensai's own free choice. Race abilities and
+# class abilities (the Druide's named weapon list) contribute.
 WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
     **_RACE_WEAPON_PROFICIENCY_HANDLERS,
+    **_CLASS_WEAPON_PROFICIENCY_HANDLERS,
+}
+
+# A short computed read-out for a granted class feature whose "effect" is a
+# number the player rolls with at the table rather than a stat on the sheet
+# (Tierempathie's "1W20 + Druiden-/Waldläuferstufe + CH", Tiergestalt's
+# uses/day and unlocked forms) — `sheet.py`'s `_build_class_features` puts
+# it into that feature's `summary`. Text, not a `Modifier`: nothing here is
+# folded into any stat. Only class abilities contribute today.
+FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
+    **_CLASS_FEATURE_SUMMARY_HANDLERS,
 }
 
 # Which spell id a granted ability id makes castable as a spell-like ability,
@@ -355,6 +368,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS
         or ability_id in SPELL_SLOT_DELTAS
         or ability_id in DAILY_LIMITS
+        or ability_id in FEATURE_SUMMARY_HANDLERS
         or ability_id in TEMP_HP_GRANTS
         or ability_id in ON_END
         or ability_id in APPLIED_OUTSIDE_HANDLERS_IDS

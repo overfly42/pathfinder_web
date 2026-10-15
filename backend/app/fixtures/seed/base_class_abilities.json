@@ -131,7 +131,7 @@
   {
     "id": "ebd5060b-066a-4bc0-bdfa-064222de85bf",
     "name": "Tierempathie",
-    "description": "Ein Waldläufer kann die Einstellung eines Tieres ihm gegenüber verbessern. Diese Fähigkeit funktioniert genau wie ein Fertigkeitswurf auf Diplomatie, um die Einstellung einer Person zu verändern. Der Waldläufer würfelt 1W20 und addiert sowohl seine Waldläuferstufe als auch seinen CH-Modifikator zu dem Wurf. Ein domestiziertes Tier beginnt mit einer gleichgültigen Einstellung, während ein wildes Tier zunächst unfreundlich ist. Um Tierempathie einsetzen zu können, müssen sich Tier und Waldläufer betrachten können; im Normalfall nicht weiter als 9 m voneinander entfernt, und das Beeinflussen eines Tieres dauert im Großen und Ganzen eine Minute. Ein Waldläufer kann mit dieser Fähigkeit auch versuchen, magische Bestien mit einem Intelligenzwert von 1 oder 2 zu beeinflussen, nimmt dabei jedoch einen Malus von -4 auf seine Probe in Kauf."
+    "description": "Der Charakter kann die Einstellung eines Tieres ihm gegenüber verbessern. Diese Fähigkeit funktioniert genau wie ein Wurf auf Diplomatie, um die Einstellung einer Person zu verändern. Er würfelt 1W20 und addiert sowohl seine Stufe in der Klasse, die ihm Tierempathie gewährt (Druide bzw. Waldläufer; Stufen in mehreren solchen Klassen addieren sich), als auch seinen CH-Modifikator zu dem Wurf. Ein zahmes Tier beginnt mit einer gleichgültigen Einstellung, während ein wildes Tier zunächst unfreundlich ist.\n\nUm Tierempathie einsetzen zu können, dürfen sich unter normalen Umständen Tier und Charakter nicht weiter als 9 m voneinander entfernt befinden. Im Allgemeinen dauert das Beeinflussen eines Tieres eine Minute, im Einzelfall kann es aber auch schneller oder langsamer gehen.\n\nMit dieser Fähigkeit kann er auch versuchen, magische Bestien mit einem Intelligenzwert von 1 oder 2 zu beeinflussen, nimmt dabei jedoch einen Malus von -4 auf seinen Wurf in Kauf."
   },
   {
     "id": "2438f403-ea53-475e-b542-5b5e8a4ccfa8",
@@ -4581,5 +4581,95 @@
     "id": "389bcbbe-87aa-5eb6-b361-083d6bebd03c",
     "name": "Drachenatem",
     "description": "(ÜF) Ab der 15. Stufe kann eine Beschuppte Faust drei Punkte ihres Ki-Vorrats ausgeben, um als Standardaktion einen Odemangriff in einem 9 m langen Kegel auszuführen, der 1W6 Energieschaden pro Mönchsstufe verursacht. Dieses Klassenmerkmal ersetzt Vibrierende Handfläche."
+  },
+  {
+    "id": "88dde2d5-5916-53eb-9a5d-1caeafce2c5f",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Der Druide ist im Umgang mit folgenden Waffen geübt: Dolch, Kampfstab, Keule, Krummsäbel, Kurzspeer, Schleuder, Sichel, Sense, Speer und Wurfpfeil. Er ist ebenfalls mit jeder natürlichen Waffe geübt, die ihm in Tiergestalt zur Verfügung steht. Druiden sind mit dem Umgang leichter und mittelschwerer Rüstungen vertraut, dürfen aber keine Metallrüstung tragen, so dass sie die Auswahl zwischen Waffenrock, Lederrüstung oder Fellrüstung haben. Ein Druide kann auch hölzerne Panzerung tragen, die mit einem Zauber Eisenholz verändert wurde. Druiden können mit Schilden, außer Turmschilden, umgehen, dürfen aber nur Schilde einsetzen, die aus Holz hergestellt wurden.\n\nEin Druide, der eine verbotene Rüstung trägt oder ein verbotenes Schild einsetzt, kann währenddessen und danach für weitere 24 Stunden weder zaubern, noch seine übernatürlichen und zauberähnlichen Klassenmerkmale anwenden."
+  },
+  {
+    "id": "8530f750-3275-580b-ada8-3f8ae5ef1f7c",
+    "name": "Zauber",
+    "description": "Ein Druide wirkt göttliche Zauber, die er aus der Zauberliste für Druiden auswählt. Ein Druide muss seine Zauber vorher auswählen und vorbereiten. Um einen Zauber vorbereiten und wirken zu können, muss der Druide mindestens eine Weisheit von 10 + Grad des Zaubers besitzen. Der SG des Rettungswurfs gegen die Zauber des Druiden ist 10 + Grad des Zaubers + WE-Modifikator des Druiden. Zusätzlich erhält er Bonuszauber für eine hohe Weisheit.\n\nDer Druide verbringt eine Stunde am Tag in einer tranceähnlichen Meditation über die Mysterien der Natur, um seine Zauber wieder zu erlangen. Er kann jeden Zauber aus der Druidenliste wählen, vorausgesetzt ihm steht der Grad des Zaubers schon zur Verfügung."
+  },
+  {
+    "id": "c78eef8a-a988-5fc9-a9a0-0e68c2037508",
+    "name": "Spontanes Zaubern",
+    "description": "Ein Druide kann vorbereitete Zauberkraft nutzen, um Verbündete herbei zu zaubern. Der Druide kann einen seiner vorbereiteten Zauber aufgeben, um im gleichen oder einem niedrigeren Grad einen Verbündeten der Natur herbeizaubern zu wirken."
+  },
+  {
+    "id": "8fff4a7c-623b-569d-919c-1f65a79c3837",
+    "name": "Böse, Chaotische, Gute und Rechtschaffene Zauber",
+    "description": "Ein Druide kann keinen Zauber wirken, dessen Gesinnung seiner oder der seiner Gottheit (wenn er einer folgt) entgegensteht. Zauber, die eine bestimmte Gesinnung voraussetzen, tragen eine entsprechende Bezeichnung in der Zauberbeschreibung."
+  },
+  {
+    "id": "7b4c5cf3-c192-5052-84b1-92f73bc5a497",
+    "name": "Gebete",
+    "description": "Der Druide kann jeden Tag eine Anzahl von Gebeten, oder Zaubern des 0. Grades, vorbereiten, wie es der Angabe in der Tabelle: Druide unter Zauber pro Tag entspricht. Diese Zauber werden wie andere Zauber gewirkt, nur dass sie keinen Zauberplatz verbrauchen und wieder verwendet werden dürfen."
+  },
+  {
+    "id": "5f4bd5f8-77b6-5940-8723-529baeebcf55",
+    "name": "Bonussprachen",
+    "description": "Ein Druide kann, zusätzlich zu der Auswahl seines Volks, Sylvanisch, die Sprache der Waldkreaturen, lernen.\n\nDer Druide lernt auf der 1. Stufe zudem die geheime Sprache Druidisch. Diese Sprache erhält der Druide zusätzlich zu seinen sonstigen Sprachen. Druiden ist es verboten, diese Sprache an andere weiterzugeben. Druidisch verfügt über ein eigenes Alphabet."
+  },
+  {
+    "id": "7f56a45c-6919-5117-b49a-244cbd4dd322",
+    "name": "Bund mit der Natur",
+    "description": "(AF) Ein Druide der 1. Stufe geht einen Bund mit der Natur ein. Dieser kann zwei verschiedene Formen haben und der Druide muss sich für eine entscheiden: entweder einen engen Bund mit der Natur, der ihm Zugriff auf eine der Klerikerdomänen Erde, Feuer, Luft, Pflanzen, Tiere, Wasser oder Wetter gewährt, oder einen Tiergefährten."
+  },
+  {
+    "id": "27df2b87-4cb4-5b9b-86a4-39c5454e785c",
+    "name": "Naturgespür",
+    "description": "(AF) Der Druide erhält einen Fertigkeitsbonus von +2 auf Würfe für Wissen (Natur) und Überlebenskunst."
+  },
+  {
+    "id": "95736a8a-8579-5552-a517-b661ab09c59d",
+    "name": "Unterholz durchqueren",
+    "description": "(AF) Ab der 2. Stufe kann sich ein Druide mit seiner vollen Bewegungsrate durch jede Art von Unterholz (wie natürliche Dornen, Gestrüpp, verwilderte Landschaften und ähnliches Terrain) bewegen, ohne Verletzungen oder Behinderungen zu erleiden. Dornen und anderes Unterholz, das magisch verändert wurde, um die Bewegung zu erschweren, betreffen den Druiden jedoch normal."
+  },
+  {
+    "id": "37d6646b-116b-5c19-a29f-e88b7a2e29ed",
+    "name": "Spurloser Schritt",
+    "description": "(AF) Ab der 3. Stufe hinterlässt der Druide in natürlicher Umgebung keine Spuren und kann auch mit Spurenlesen nicht verfolgt werden. Er kann sich aber durchaus dazu entscheiden, Spuren zu hinterlassen."
+  },
+  {
+    "id": "f2982c5c-b8bc-5aee-8de8-c2209cc08da0",
+    "name": "Lockruf der Natur widerstehen",
+    "description": "(AF) Ab der 4. Stufe erhält der Druide einen Bonus von +4 auf Rettungswürfe gegen zauberähnliche und übernatürliche Fähigkeiten von Feenwesen. Dieser Bonus wirkt auch bei Zaubern, die Pflanzen betreffen, wie Dornenwuchs, Dürre, Holz krümmen und Verstricken."
+  },
+  {
+    "id": "248a0b40-17ab-5124-a2bc-cf50e76692e1",
+    "name": "Tiergestalt",
+    "description": "(ÜF) Ab der 4. Stufe erhält der Druide die Fähigkeit, sich ein Mal pro Tag in ein kleines oder mittelgroßes Tier und wieder zurück zu verwandeln. Er kann sich hierbei für jede Kreatur mit der Bezeichnung Tier entscheiden. Diese Fähigkeit funktioniert, bis auf folgende Ausnahmen, genau wie der Zauber Bestiengestalt I. Die Verwandlung hält für eine Stunde pro Druidenstufe an, es sei denn, er verwandelt sich vorher zurück. Die Verwandlung (in ein Tier oder wieder zurück) ist eine Standard-Aktion und provoziert keine Gelegenheitsangriffe. Der Druide kann nur eine Tiergestalt wählen, die er kennt.\n\nIn Tiergestalt verliert der Druide seine Fähigkeit zu sprechen und ist auf die Geräusche des untrainierten Tieres begrenzt. Er kann sich aber sehr wohl mit anderen Tieren seiner neuen Form verständigen.\n\nDer Druide kann diese Fähigkeit ab der 6. und dann allen weiteren zwei Stufen ein weiteres Mal pro Tag nutzen, bis zu einem Maximum von acht Mal auf der 18. Stufe. Mit dem Erreichen der 20. Stufe kann sich der Druide jederzeit entscheiden, seine Gestalt zu ändern. Jede Verwandlung verbraucht, unabhängig von der Form, eine Anwendung der Fähigkeit.\n\nAb der 6. Stufe kann der Druide sich in ein großes oder sehr kleines Tier verwandeln oder die Gestalt eines kleinen Elementars annehmen (Bestiengestalt II bzw. Elementargestalt I).\n\nAuf der 8. Stufe kann er sich in ein riesiges oder winziges Tier verwandeln, oder in einen mittelgroßen Elementar oder eine kleine oder mittelgroße Pflanzenkreatur (Bestiengestalt III, Elementargestalt II bzw. Pflanzengestalt I).\n\nAb der 10. Stufe kann sich der Druide für eine große Elementargestalt oder die einer großen Pflanzenkreatur entscheiden (Elementargestalt III bzw. Pflanzengestalt II).\n\nAb der 12. Stufe kann sich der Druide für eine riesige Elementargestalt oder die einer riesigen Pflanzenkreatur entscheiden (Elementargestalt IV bzw. Pflanzengestalt III)."
+  },
+  {
+    "id": "602014e3-1ade-5152-99b5-11af857eefa4",
+    "name": "Immunität gegen Gifte",
+    "description": "(AF) Ab der 9. Stufe wird der Druide immun gegen jedes Gift."
+  },
+  {
+    "id": "9a54edcf-f04e-573d-bcc5-f88126907921",
+    "name": "Tausend Gesichter",
+    "description": "(ÜF) Ab der 13. Stufe kann der Druide sein Aussehen jederzeit ändern. Die Fähigkeit wirkt wie der Zauber Gestalt verändern. Er kann dieses nur, solange er in seiner natürlichen Form ist."
+  },
+  {
+    "id": "da2ebf2e-e098-53d4-8dbd-ec75abe4cd3c",
+    "name": "Zeitloser Körper",
+    "description": "(AF) Mit dem Erreichen der 15. Stufe nimmt der Druide keine Abzüge auf die Attribute durch das Altern mehr in Kauf und kann auch nicht auf magische Weise altern. Veränderungen, die er vorher erhalten hat, werden hiervon nicht betroffen. Boni für das Alter erhält er weiterhin und er stirbt auch, wenn seine Zeit gekommen ist."
+  },
+  {
+    "id": "df890c46-ebb7-56ae-af31-7a3ab3a0c363",
+    "name": "Ehemalige Druiden",
+    "description": "Ein Druide, der aufhört, die Natur zu verehren, zu einer verbotenen Gesinnung wechselt oder einem Nicht-Druiden Druidisch beibringt, verliert sowohl seine Zauber und Druidenfähigkeiten als auch seinen Tiergefährten. Die Fähigkeiten im Umgang mit Waffen und Rüstungen sind nicht betroffen. Er kann auch nicht weiter als Druide aufsteigen, bis er Buße getan hat (siehe den Zauber Buße)."
+  },
+  {
+    "id": "1e421552-622f-583b-a8f9-62944ace3dc5",
+    "name": "Tiergefährte (Druide)",
+    "description": "(AF) Der Druide beginnt das Spiel mit einem Tiergefährten. Der Gefährte ist dem Druiden gegenüber loyal und begleitet ihn auf seine Abenteuer, wie es für seine Tierart angemessen ist.\n\nAnders als bei normalen Tieren steigen bei einem Tiergefährten die Trefferwürfel, seine Attribute, seine Fertigkeiten und seine Talente in einem ähnlichem Maße, wie auch der Druide neue Stufen erlangt. Sollte ein Charakter einen Tiergefährten aus mehr als einer Quelle erhalten, addieren sich seine effektiven Druidenstufen, wenn es darum geht, die Spielwerte und Fähigkeiten des Gefährten zu ermitteln. Die meisten Tiergefährten wachsen in ihrer Größe, wenn der Druide die 4. oder 7. Stufe erreicht, abhängig von der Tierart des Gefährten. Entlässt ein Druide einen Tiergefährten aus seinem Dienst, kann er nach einem Ritual von 24 Stunden ununterbrochenen Gebets in der Umgebung, wo die Tierart des neuen Gefährten normalerweise seinen Lebensraum hat, einen neuen Gefährten an sich binden. Mit einem solchen Ritual kann der Druide auch einen neuen Gefährten erlangen, wenn sein bisheriger Tiergefährte gestorben ist."
+  },
+  {
+    "id": "46d4d27b-96d0-5a6d-b934-e5984ad9ffc9",
+    "name": "Domäne (Natur)",
+    "description": "(AF) Der Druide geht einen engen Bund mit der Natur ein, der ihm Zugriff auf eine der Klerikerdomänen Erde, Feuer, Luft, Pflanzen, Tiere, Wasser oder Wetter gewährt (Auswahl unter „Naturdomäne“). Um die Kräfte und Zauber dieser Domäne zu bestimmen, zählt die Stufe des Druiden wie die Stufe des Klerikers. Ein Druide, der diese Form des Bundes wählt, erhält außerdem einen zusätzlichen Zauberplatz für Domänenzauber, genau wie ein Kleriker. Er muss einen Domänenzauber in diesem Zauberplatz vorbereiten und kann diesen Zauber nicht einsetzen, um einen spontanen Zauber zu wirken."
   }
 ]

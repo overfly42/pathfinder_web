@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { CharacterProgression } from '../../types/characterProgression';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
-import { availableOptionGroups } from '../../lib/classOptions';
+import { availableOptionGroups, pruneUnmetPrerequisites } from '../../lib/classOptions';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassLevelStepProps {
@@ -58,7 +58,10 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
       if (idx !== -1) next = chosen.filter((c) => c !== choice);
       else if (chosen.length < max) next = [...chosen, choice];
       else next = chosen;
-      return { ...prev, target: { ...prev.target, options: { ...prev.target.options, [groupKey]: next } } };
+      const className = prev.target.className;
+      const groups = options.classes.find((c) => c.name === className)?.optionGroups ?? [];
+      const nextOptions = pruneUnmetPrerequisites(groups, { ...prev.target.options, [groupKey]: next });
+      return { ...prev, target: { ...prev.target, options: nextOptions } };
     });
   }
 
@@ -129,7 +132,13 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
             // Narbiger Hexendoktor archetype removing Hexe's level-1
             // `hexerei` pick), plus filters `choices` by each choice's own
             // `minLevel`.
-            const groups = availableOptionGroups(newClassDef.optionGroups, 1, target.archetypes, newClassDef.archetypeOptionOverrides);
+            const groups = availableOptionGroups(
+              newClassDef.optionGroups,
+              1,
+              target.archetypes,
+              newClassDef.archetypeOptionOverrides,
+              target.options,
+            );
             return groups.length > 0 ? (
               <div className="class-options">
                 {groups.map((g) => (

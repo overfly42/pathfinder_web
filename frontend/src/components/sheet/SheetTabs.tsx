@@ -50,6 +50,7 @@ function DescribedList({ entries, idPrefix }: { entries: DescribedEntry[]; idPre
               <NoHandlerBadge title="Wird noch nicht automatisch berechnet — Wirkung selbst am Tisch anwenden." />
             )}
           </div>
+          {entry.summary && <div className="feature-summary">{entry.summary}</div>}
           <div className="desc">{entry.description}</div>
         </div>
       ))}

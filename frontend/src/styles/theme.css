@@ -158,6 +158,8 @@ body {
 .trait-item:last-child { border-bottom: none; }
 .trait-item .name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
 .trait-item .desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; line-height: 1.4; }
+/* Computed read-out of a class feature (backend `FEATURE_SUMMARY_HANDLERS`, e.g. "1W20 + 7"). */
+.trait-item .feature-summary { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--forest); margin-top: 2px; }
 
 /* Marks a DescribedEntry with no `HANDLERS` entry on the backend (see `SheetTabs.tsx`'s
    `NoHandlerBadge`) — its effect isn't computed anywhere on the sheet, only shown as text. */

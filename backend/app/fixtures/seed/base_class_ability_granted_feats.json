@@ -263,5 +263,20 @@
     "id": "69d59102-40fb-5650-9c55-0f8eba485155",
     "ability_id": "266c2fb4-3411-5f53-91ff-504d8e65b9df",
     "feat_id": "e7ac15b5-29a3-53f1-bbbf-37a594667c1b"
+  },
+  {
+    "id": "a6469f84-75b7-5ad8-aa9a-e4292eb9d0b9",
+    "ability_id": "88dde2d5-5916-53eb-9a5d-1caeafce2c5f",
+    "feat_id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6"
+  },
+  {
+    "id": "46ba5f8e-59fb-5181-b416-aa559fa2a0ed",
+    "ability_id": "88dde2d5-5916-53eb-9a5d-1caeafce2c5f",
+    "feat_id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a"
+  },
+  {
+    "id": "6ef98970-1fb7-5259-a545-59cf68db1917",
+    "ability_id": "88dde2d5-5916-53eb-9a5d-1caeafce2c5f",
+    "feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
   }
 ]

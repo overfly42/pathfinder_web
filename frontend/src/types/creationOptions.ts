@@ -37,6 +37,13 @@ export interface ClassOptionChoice {
    *  frontend uses it purely to avoid listing a choice the current row level
    *  can't legally take yet — see `ClassStep.tsx`'s `availableOptionGroups`. */
   minLevel: number | null;
+  /** Another choice of the same class (by its group key + name) that must be
+   *  picked before this one is legal (`BaseClassOptionChoice.requires_choice_id`),
+   *  e.g. the Druide's Naturdomäne choices need the "Domäne (Natur)" bond.
+   *  `null` for a choice with no prerequisite. Backend-enforced
+   *  (`_validate_options`); the frontend hides the choice until it's met — see
+   *  `lib/classOptions.ts`. */
+  requiresChoice: { groupKey: string; name: string } | null;
 }
 
 export interface ClassOptionGroup {
