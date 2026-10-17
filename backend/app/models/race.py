@@ -13,6 +13,16 @@ class BaseRace(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     code: Mapped[str] = mapped_column(String(64), unique=True)
     name: Mapped[str] = mapped_column(String(255))
     short_description: Mapped[str] = mapped_column(Text)
+    # Roadmap slice 10 step 2b: a companion species is a race row too, so a
+    # companion `Character` reuses everything race-shaped. `companion_kind`
+    # ("animal_companion" | "familiar", `None` for a player race) keeps it out
+    # of the character-creation race picker (`routers/races.py`);
+    # `creature_type` ("Tier") matters for which spells affect it; `source`
+    # names where the statblock comes from ("Grundregelwerk: Druide") so
+    # further source pages can add species as plain data.
+    companion_kind: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    creature_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
 
 class BaseRaceAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):

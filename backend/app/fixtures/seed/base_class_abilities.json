@@ -4865,5 +4865,35 @@
     "id": "91a0b27d-8fb2-5aca-93de-7d544354ece2",
     "name": "Vertrauter (Magier)",
     "description": "(AF) Der Magier hat für seine Arkane Verbindung einen Vertrauten gewählt. Ein Vertrauter ist ein magisches Haustier, das die Fähigkeiten des Magiers verbessert und ihm als Begleiter und Diener dient. Die Magierstufe bestimmt die Fähigkeiten des Vertrauten; Stufen in anderen Klassen, die einen Vertrauten gewähren, addieren sich dabei."
+  },
+  {
+    "id": "e373697e-ded5-5ec8-aff2-9c386967a88a",
+    "name": "Verbindung",
+    "description": "(AF) Der Meister kann mit dem Gefährten als Freie Aktion umgehen und ihn mit einer Bewegungsaktion antreiben, selbst wenn er keinen Rang in Mit Tieren umgehen haben sollte. Der Meister erhält einen Situationsbonus von +4 auf alle Würfe auf Tierempathie und Mit Tieren umgehen, die den Gefährten betreffen."
+  },
+  {
+    "id": "4776e362-81b3-53ce-9674-fdc21039c5ac",
+    "name": "Zauber teilen",
+    "description": "(AF) Der Meister kann Zauber, die er nur auf sich selber sprechen könnte, auch auf den Gefährten wirken (als Zauber mit der Reichweite Berührung). Dies können auch Zauber sein, die normalerweise keinen Effekt auf Tiere haben. Zauber, die auf diese Art gewirkt werden, müssen von einer Klasse kommen, die einen Tiergefährten gewährt. Diese Fähigkeit erlaubt es nicht, mit einem Tiergefährten Eigenschaften zu teilen, die keine Zauber sind, auch wenn sie wie Zauber funktionieren."
+  },
+  {
+    "id": "18d69c89-60be-54eb-8332-58f7e0187bf2",
+    "name": "Entrinnen",
+    "description": "(AF) Ist der Gefährte einem Angriff ausgesetzt, der einen Reflexwurf für halben Schaden erlaubt, erhält der Gefährte bei gelungenem Rettungswurf keinen Schaden."
+  },
+  {
+    "id": "68174d66-9730-5400-b702-71d24aaf4747",
+    "name": "Hingabe",
+    "description": "(AF) Der Gefährte erhält einen Moralbonus von +4 auf Willenswürfe gegen Verzauberungen und Verzauberungseffekte."
+  },
+  {
+    "id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7",
+    "name": "Mehrfachangriff",
+    "description": "Der Gefährte erhält, sofern er es nicht schon hat, Mehrfachangriff als Bonustalent, wenn er über drei oder mehr natürliche Angriffe verfügt. Hat er keine drei natürlichen Angriffe, erhält er einen zusätzlichen Angriff mit einer seiner natürlichen Waffen, wenn auch mit einem Malus von –5."
+  },
+  {
+    "id": "d613a371-31dd-5b6f-8a86-1b72902cba96",
+    "name": "Verbessertes Entrinnen",
+    "description": "(AF) Ist der Gefährte einem Angriff ausgesetzt, der einen Reflexwurf für halben Schaden erlaubt, erhält der Gefährte bei gelungenem Rettungswurf keinen und bei misslungenem Wurf nur halben Schaden."
   }
 ]

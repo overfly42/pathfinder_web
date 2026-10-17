@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "eb4efdf3-293c-5778-9db8-6bb12650a69c",
+    "race_id": "18654867-57d6-545b-9ae0-5163d7ebdbc4",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 17,
+      "KO": 10,
+      "IN": 2,
+      "WE": 12,
+      "CH": 7
+    },
+    "speeds": {
+      "land": 9,
+      "climb": 9
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "24e2b84a-8485-574d-b2b5-798be6c6334d",
+    "race_id": "18654867-57d6-545b-9ae0-5163d7ebdbc4",
+    "level": 4,
+    "size": "Groß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 8,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "ade05db5-3b74-593b-bb8c-2a107c51877f",
+    "race_id": "b627fa42-ba0d-58c5-998e-a672a4f00353",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 15,
+      "GE": 15,
+      "KO": 13,
+      "IN": 2,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W3",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "9a872f33-bb26-5188-91db-2c793eb9bc84",
+    "race_id": "b627fa42-ba0d-58c5-998e-a672a4f00353",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "9493e76d-cf6d-5e7f-8c14-809584d4ea4b",
+    "race_id": "68bc3c2b-bfe4-588c-bf27-be821e9aa644",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 10,
+      "GE": 17,
+      "KO": 15,
+      "IN": 2,
+      "WE": 12,
+      "CH": 10
+    },
+    "speeds": {
+      "land": 9,
+      "burrow": 3,
+      "climb": 3
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W3",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "169a79a1-d927-5edf-af21-1801507afb0b",
+    "race_id": "68bc3c2b-bfe4-588c-bf27-be821e9aa644",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "feaf3ff0-c371-5f35-81aa-9c880408a62e",
+    "race_id": "2b657099-20af-5a56-a1ee-d3130329c1f4",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 11,
+      "GE": 17,
+      "KO": 17,
+      "IN": 2,
+      "WE": 12,
+      "CH": 14
+    },
+    "speeds": {
+      "land": 18
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "a69a63a6-6241-54d5-9bfe-e9b96df23712",
+    "race_id": "2b657099-20af-5a56-a1ee-d3130329c1f4",
+    "level": 7,
+    "size": "Mittelgroß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W8",
+        "damage_type": "H",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "3b09b192-e78d-5f57-bbc5-5aca57c36168",
+    "race_id": "f60fc2a9-b7eb-5fab-94ab-6797a55f4799",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 4,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 15,
+      "KO": 15,
+      "IN": 1,
+      "WE": 12,
+      "CH": 2
+    },
+    "speeds": {
+      "swim": 18
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "2ff7d9e5-13e8-5f94-8570-1683bd72a606",
+    "race_id": "f60fc2a9-b7eb-5fab-94ab-6797a55f4799",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "cd26b7f6-ee0f-5cc5-b97f-7d876dafef19",
+    "race_id": "f81b6a50-a277-5824-8a07-2c76a02f0439",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 17,
+      "KO": 15,
+      "IN": 2,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "d6a21bca-2a56-551a-a342-2088b49ce407",
+    "race_id": "f81b6a50-a277-5824-8a07-2c76a02f0439",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "7eb9544f-1d45-55ff-bbfb-4de58adf8891",
+    "race_id": "294f67b6-47d6-5ac8-866e-8a4ebdfa042f",
+    "level": 1,
+    "size": "Groß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 18,
+      "GE": 16,
+      "KO": 14,
+      "IN": 2,
+      "WE": 11,
+      "CH": 4
+    },
+    "speeds": {
+      "land": 15
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Spucken",
+        "count": 1,
+        "dice": null,
+        "damage_type": null,
+        "secondary": true,
+        "note": "Berührungsangriff aus der Entfernung, Ziel ist kränkelnd für 1W4 Runden, Reichweite 3 m",
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "5d71abb5-3809-50eb-880d-de283b7cb105",
+    "race_id": "294f67b6-47d6-5ac8-866e-8a4ebdfa042f",
+    "level": 4,
+    "size": null,
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": null
+  },
+  {
+    "id": "9c034723-8eca-5aac-9719-1ee4d5dfbc8f",
+    "race_id": "03f22459-9488-5aa0-9615-a35092284d9a",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 4,
+    "ability_scores": {
+      "ST": 15,
+      "GE": 14,
+      "KO": 15,
+      "IN": 1,
+      "WE": 12,
+      "CH": 2
+    },
+    "speeds": {
+      "land": 6,
+      "swim": 9
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "4b381e11-bc4f-5645-86da-01806197c4c7",
+    "race_id": "03f22459-9488-5aa0-9615-a35092284d9a",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W8",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Schwanzschlag",
+        "count": 1,
+        "dice": "1W12",
+        "damage_type": "W",
+        "secondary": true,
+        "note": null,
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "6aa8d2e4-8678-5d3d-96d7-2c5c552da44f",
+    "race_id": "50c30571-8720-5906-b44d-8afc4bed8f5c",
+    "level": 1,
+    "size": "Groß",
+    "natural_armor": 4,
+    "ability_scores": {
+      "ST": 16,
+      "GE": 13,
+      "KO": 15,
+      "IN": 2,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 15
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Hufe",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "W",
+        "secondary": true,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "545661e0-3707-5965-b917-141fd2d5802d",
+    "race_id": "50c30571-8720-5906-b44d-8afc4bed8f5c",
+    "level": 4,
+    "size": null,
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": null
+  },
+  {
+    "id": "8ebc65f9-5821-5d54-a5ab-2c92f8a431cd",
+    "race_id": "54541b2f-8453-5dfc-95d5-7b441c7cd627",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 13,
+      "KO": 12,
+      "IN": 2,
+      "WE": 11,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Hufe",
+        "count": 2,
+        "dice": "1W3",
+        "damage_type": "W",
+        "secondary": true,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "33fd503d-9e7d-5e59-acda-13a33b9c1dc4",
+    "race_id": "54541b2f-8453-5dfc-95d5-7b441c7cd627",
+    "level": 4,
+    "size": null,
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": null
+  },
+  {
+    "id": "4c8dea98-08ff-5574-92c8-043242f9ff5b",
+    "race_id": "c189e296-01d0-543e-b684-8c5ad7952074",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 17,
+      "KO": 13,
+      "IN": 2,
+      "WE": 15,
+      "CH": 10
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H",
+        "secondary": false,
+        "note": "nur gegen einen festgehaltenen Gegner",
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "ed3f566a-9cff-56f1-bbdf-1a93e3dd48f0",
+    "race_id": "c189e296-01d0-543e-b684-8c5ad7952074",
+    "level": 7,
+    "size": "Groß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 8,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W8",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H",
+        "secondary": false,
+        "note": "nur gegen einen festgehaltenen Gegner",
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "32e09515-b9a0-54e0-a74e-6bdd14a8bd01",
+    "race_id": "f28165a9-9d0e-5114-a1ea-5bc4978181f4",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 12,
+      "GE": 21,
+      "KO": 13,
+      "IN": 2,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 15
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Zu-Fall-bringen",
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W2",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "3916393b-25b5-5817-9a9a-30ef274574c3",
+    "race_id": "f28165a9-9d0e-5114-a1ea-5bc4978181f4",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Zu-Fall-bringen",
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W3",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "008adece-185f-506e-8120-492c35a5662f",
+    "race_id": "75b5edcc-0955-51ff-966c-5dfd25636f48",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 8,
+      "GE": 17,
+      "KO": 11,
+      "IN": 1,
+      "WE": 12,
+      "CH": 2
+    },
+    "speeds": {
+      "land": 6,
+      "climb": 6,
+      "swim": 6
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Gift (Frequenz 1 Runde (6), Effekt: 1 KO Schaden, Heilung 1 Wurf, SG basiert auf KO)",
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "3fb12400-f0c0-5531-992a-d1fd10bcb7dd",
+    "race_id": "75b5edcc-0955-51ff-966c-5dfd25636f48",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Gift",
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "e2c29845-9877-5eb3-bae4-3b425132e804",
+    "race_id": "1ad2da71-fcc3-50ab-9b5a-4b0ae9cbf5d8",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 15,
+      "GE": 17,
+      "KO": 13,
+      "IN": 1,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 6,
+      "climb": 6,
+      "swim": 6
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "1dcf4f80-a20c-54c2-ac92-aad8edc5a8d1",
+    "race_id": "1ad2da71-fcc3-50ab-9b5a-4b0ae9cbf5d8",
+    "level": 4,
+    "size": "Groß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 8,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Würgen",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "W",
+        "secondary": false,
+        "note": "bei gelungenem Ringkampfwurf",
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "9888e295-4e15-56f7-88da-7ae471bfdf07",
+    "race_id": "6b15c1cb-65a4-559d-a874-d9ab47730697",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 10,
+      "GE": 15,
+      "KO": 12,
+      "IN": 2,
+      "WE": 14,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 3,
+      "fly": 24
+    },
+    "fly_maneuverability": "Durchschnittlich",
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "bb977f7b-7b81-5621-ba1a-28e2ab65c324",
+    "race_id": "6b15c1cb-65a4-559d-a874-d9ab47730697",
+    "level": 4,
+    "size": null,
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": null
+  },
+  {
+    "id": "037be79e-0e7a-5bf8-9577-ca48014246e0",
+    "race_id": "355823cf-2683-5f6b-bae5-fc80d2368071",
+    "level": 1,
+    "size": "Klein",
+    "natural_armor": 6,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 12,
+      "KO": 15,
+      "IN": 2,
+      "WE": 13,
+      "CH": 4
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Durchbohren",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "S",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "653cdae7-f01b-5ae6-92e5-41ec5d4a81c9",
+    "race_id": "355823cf-2683-5f6b-bae5-fc80d2368071",
+    "level": 4,
+    "size": "Mittelgroß",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 2
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Durchbohren",
+        "count": 1,
+        "dice": "1W8",
+        "damage_type": "S",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "e2aad7f2-b25f-525b-b45a-5528d2b37ccd",
+    "race_id": "285538da-dbd5-5529-a172-6dbb05ebbf8e",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 13,
+      "GE": 15,
+      "KO": 15,
+      "IN": 2,
+      "WE": 12,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 15
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Zu Fall bringen",
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "7fd2e2e2-784b-5a8d-bbf0-6183fc7e2e51",
+    "race_id": "285538da-dbd5-5529-a172-6dbb05ebbf8e",
+    "level": 7,
+    "size": "Groß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 8,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W8",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Zu Fall bringen",
+        "alternative": false
+      }
+    ]
+  }
+]

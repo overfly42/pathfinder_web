@@ -11,6 +11,7 @@ import { useSpellsByClassCatalog } from '../hooks/useSpellsByClassCatalog';
 import { Panel } from '../components/primitives/Panel';
 import { AppHeader } from '../components/sheet/AppHeader';
 import { CharacterHeader } from '../components/sheet/CharacterHeader';
+import { CompanionBanner, CompanionSwitcher } from '../components/sheet/CompanionPanels';
 import { VitalsBar } from '../components/sheet/VitalsBar';
 import { AbilityScores } from '../components/sheet/AbilityScores';
 import { SavesAndCombat } from '../components/sheet/SavesAndCombat';
@@ -46,7 +47,7 @@ const ACTIVATABLE_ACTION_TAGS: Record<NonNullable<ActionOption['sourceType']>, s
 };
 
 export function CharacterSheetPage() {
-  const { currentCharacterId, nameOverrides } = useAppState();
+  const { currentCharacterId, setCurrentCharacterId, nameOverrides, reloadCharacters } = useAppState();
   const { character: rawCharacter, setCharacter, loading, error, refetch } = useCharacter(currentCharacterId);
   const nameOverride = nameOverrides[currentCharacterId];
   const character = rawCharacter && nameOverride ? { ...rawCharacter, name: nameOverride } : rawCharacter;
@@ -215,6 +216,13 @@ export function CharacterSheetPage() {
     } catch {
       setHpError('Temporäre Trefferpunkte konnten nicht aktualisiert werden.');
     }
+  }
+
+  // A new companion is a new character id: reload the user's list first so the id counts as a
+  // valid selection, then open it.
+  function handleCompanionCreated(id: string) {
+    reloadCharacters();
+    setCurrentCharacterId(id);
   }
 
   async function handleChangeAlignment(alignment: string | null) {
@@ -762,10 +770,12 @@ export function CharacterSheetPage() {
 
       <div className="main">
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
+          <CompanionSwitcher character={character} onOpen={setCurrentCharacterId} />
           <CharacterHeader
             character={character}
-            onChangeAlignment={isRealCharacter ? handleChangeAlignment : undefined}
+            onChangeAlignment={isRealCharacter && character.kind !== 'companion' ? handleChangeAlignment : undefined}
           />
+          <CompanionBanner character={character} />
           <VitalsBar character={character} onApplyHp={handleApplyHp} onSetTempHp={handleSetTempHp} />
           {hpError && <p style={{ color: '#e29a9a' }}>{hpError}</p>}
 
@@ -781,6 +791,8 @@ export function CharacterSheetPage() {
             onCastSpell={handleRequestCastSpell}
             onRestoreSpell={handleRequestRestoreSpell}
             onActivateSpell={handleActivateRacialSpell}
+            onOpenCharacter={setCurrentCharacterId}
+            onCompanionCreated={handleCompanionCreated}
           />
           {spellError && <p style={{ color: '#e29a9a' }}>{spellError}</p>}
 

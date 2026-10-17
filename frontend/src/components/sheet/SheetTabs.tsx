@@ -1,7 +1,7 @@
 import { formatBreakdown } from '../../lib/breakdown';
 import type { ActivatableRef, Character, DescribedEntry, PreparedSpellRef } from '../../types/character';
 import { InfoButton } from '../primitives/InfoButton';
-import { companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
+import { CompanionLevelsSection } from './CompanionPanels';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
 const TABS: TabDef[] = [
@@ -66,6 +66,10 @@ interface SheetTabsProps {
   onCastSpell: (grade: number, spell: PreparedSpellRef) => void;
   onRestoreSpell: (grade: number, spell: PreparedSpellRef) => void;
   onActivateSpell: (spell: ActivatableRef) => void;
+  /** Opens another character's sheet (a companion, roadmap slice 10 step 2b). */
+  onOpenCharacter: (id: string) => void;
+  /** A companion was just created for this character. */
+  onCompanionCreated: (id: string) => void;
 }
 
 export function SheetTabs({
@@ -75,6 +79,8 @@ export function SheetTabs({
   onCastSpell,
   onRestoreSpell,
   onActivateSpell,
+  onOpenCharacter,
+  onCompanionCreated,
 }: SheetTabsProps) {
   const hasPearls = character.spellsKnown.some((grade) => (grade.pearlsTotal ?? 0) > 0);
   return (
@@ -111,21 +117,7 @@ export function SheetTabs({
 
         <TabPanel active={activeTab} tabKey="classfeatures">
           <DescribedList entries={character.classFeatures} idPrefix="classfeature" />
-          {character.companionLevels && character.companionLevels.length > 0 && (
-            <>
-              <div className="section-label" style={{ marginTop: 14 }}>
-                Gefährten
-              </div>
-              {character.companionLevels.map((entry) => (
-                <div className="trait-item" id={`companionlevel-${entry.track}`} key={entry.track}>
-                  <div className="name">
-                    {entry.label} — {companionLevelName(entry)} {entry.level}
-                  </div>
-                  <div className="desc">{formatCompanionBreakdown(entry)}</div>
-                </div>
-              ))}
-            </>
-          )}
+          <CompanionLevelsSection character={character} onOpen={onOpenCharacter} onCreated={onCompanionCreated} />
           {character.favoredClassBonuses && character.favoredClassBonuses.length > 0 && (
             <>
               <div className="section-label" style={{ marginTop: 14 }}>

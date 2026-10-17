@@ -381,5 +381,19 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "name": "Tiergefährte",
+    "hit_dice": 8,
+    "arch_class_of": null,
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": 0.75,
+    "fort_save": true,
+    "ref_save": true,
+    "wil_save": false,
+    "skill_points_base": 2,
+    "is_companion_class": true
   }
 ]

@@ -17,6 +17,13 @@ interface AppStateValue {
   /** Characters owned by currentUserId — what the header picker/sheet should offer. A new user
    *  starts with none (Requirement: users own characters, not the other way around). */
   visibleCharacterIds: string[];
+  /** `visibleCharacterIds` minus companions (backend `master_character_id` set) — what the
+   *  character picker lists. A companion is reached from its master's sheet or its own URL,
+   *  and stays a valid selection because it's still in `visibleCharacterIds`. */
+  pickerCharacterIds: string[];
+  /** Re-fetches the current user's character list — after creating a companion, so its new id
+   *  counts as a valid selection before switching to it. */
+  reloadCharacters: () => void;
   /** '' means the current user owns no characters yet. */
   currentCharacterId: string;
   setCurrentCharacterId: (id: string) => void;
@@ -67,6 +74,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // (roadmap slice 2's follow-up) — kept separate from the fixture bookkeeping above since
   // ownership here is server-authoritative, not locally assigned.
   const [dbCharacterIds, setDbCharacterIds] = useState<string[]>([]);
+  const [companionIds, setCompanionIds] = useState<Set<string>>(new Set());
+  const [charactersReloadKey, setCharactersReloadKey] = useState(0);
   // Whether dbCharacterIds reflects currentUserId yet — the "keep selection
   // valid" effect below must not treat a URL-supplied currentCharacterId as
   // invalid just because this fetch hasn't resolved yet (it starts `[]` on
@@ -96,10 +105,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return;
     }
     setCharactersLoaded(false);
-    apiGet<{ id: string }[]>(`/api/users/${currentUserId}/characters`)
+    apiGet<{ id: string; master_character_id: string | null }[]>(`/api/users/${currentUserId}/characters`)
       .then((data) => {
         if (!cancelled) {
           setDbCharacterIds(data.map((c) => c.id));
+          setCompanionIds(new Set(data.filter((c) => c.master_character_id).map((c) => c.id)));
           setCharactersLoaded(true);
         }
       })
@@ -110,11 +120,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [currentUserId]);
+  }, [currentUserId, charactersReloadKey]);
+
+  const reloadCharacters = useCallback(() => setCharactersReloadKey((key) => key + 1), []);
 
   const visibleCharacterIds = useMemo(
     () => [...characterIds.filter((id) => characterOwners[id] === currentUserId), ...dbCharacterIds],
     [characterIds, characterOwners, currentUserId, dbCharacterIds],
+  );
+  const pickerCharacterIds = useMemo(
+    () => visibleCharacterIds.filter((id) => !companionIds.has(id)),
+    [visibleCharacterIds, companionIds],
   );
 
   // Keeps the current selection valid whenever the visible set changes (user switch, a character
@@ -123,8 +139,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // currentCharacterId survives the moment between mount and that fetch resolving.
   useEffect(() => {
     if (!charactersLoaded) return;
-    setCurrentCharacterId((current) => (visibleCharacterIds.includes(current) ? current : visibleCharacterIds[0] ?? ''));
-  }, [visibleCharacterIds, charactersLoaded]);
+    setCurrentCharacterId((current) => (visibleCharacterIds.includes(current) ? current : pickerCharacterIds[0] ?? ''));
+  }, [visibleCharacterIds, pickerCharacterIds, charactersLoaded]);
 
   // Mirrors the current selection into the URL (replacing, not pushing, so
   // switching users/characters doesn't fill up the back-button history).
@@ -179,6 +195,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setCurrentUserId,
       addUser,
       visibleCharacterIds,
+      pickerCharacterIds,
+      reloadCharacters,
       currentCharacterId,
       setCurrentCharacterId,
       nameOverrides,
@@ -193,6 +211,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setCurrentUserId,
       addUser,
       visibleCharacterIds,
+      pickerCharacterIds,
+      reloadCharacters,
       currentCharacterId,
       nameOverrides,
       renameCharacter,

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "4f9a95a2-7334-5888-9238-13f2c944c9c1",
+    "level": 1,
+    "ability_id": "e373697e-ded5-5ec8-aff2-9c386967a88a"
+  },
+  {
+    "id": "e10a36bb-aa70-5f73-8a53-71711796b361",
+    "level": 1,
+    "ability_id": "4776e362-81b3-53ce-9674-fdc21039c5ac"
+  },
+  {
+    "id": "675a224f-98c6-52d6-9566-39ec6cba0db6",
+    "level": 3,
+    "ability_id": "18d69c89-60be-54eb-8332-58f7e0187bf2"
+  },
+  {
+    "id": "02074807-64b8-5a7f-886e-e86d7c4beddf",
+    "level": 6,
+    "ability_id": "68174d66-9730-5400-b702-71d24aaf4747"
+  },
+  {
+    "id": "7e308a47-3e7e-5495-8063-23c5503007eb",
+    "level": 9,
+    "ability_id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7"
+  },
+  {
+    "id": "2c3d084f-21a7-5b99-9583-eee1ae163b1c",
+    "level": 15,
+    "ability_id": "d613a371-31dd-5b6f-8a86-1b72902cba96"
+  }
+]

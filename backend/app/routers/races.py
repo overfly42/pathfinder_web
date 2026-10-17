@@ -193,7 +193,9 @@ def resolve_alt_trait(db: Session, race_id: UUID, name: str) -> tuple[UUID, set[
 
 @router.get("")
 def list_races(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
-    races = db.scalars(select(BaseRace).order_by(BaseRace.name)).all()
+    # Companion species are race rows too (roadmap slice 10 step 2b) but never
+    # a player's race.
+    races = db.scalars(select(BaseRace).where(BaseRace.companion_kind.is_(None)).order_by(BaseRace.name)).all()
     return [_race_option(db, race) for race in races]
 
 

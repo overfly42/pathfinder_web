@@ -105,6 +105,11 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # A deity-dependent rule (Kleriker: within one step of the deity) has no
     # deity to check against yet and stays unrestricted.
     allowed_alignments: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    # A pseudo class only companions take levels in ("Tiergefährte": one
+    # level per HD, roadmap slice 10 step 2b) — never offered to or accepted
+    # from a player (`routers/characters.py`'s `resolve_root_class`), and its
+    # first level isn't maxed for HP.
+    is_companion_class: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
     parent: Mapped["BaseClass | None"] = relationship(
         remote_side="BaseClass.id", back_populates="archetypes", foreign_keys="BaseClass.arch_class_of"

@@ -74,7 +74,7 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability_score_ch: Mapped[int] = mapped_column(Integer)
     # Point-buy budget the scores above were purchased against (10/15/20/25);
     # kept alongside the scores for display/audit, not re-validated on read.
-    point_budget: Mapped[int] = mapped_column(Integer)
+    point_budget: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     # Whether this character uses the "Hintergrundfertigkeiten" alternate
     # rule (http://prd.5footstep.de/Alternativregeln/Fertigkeiten/
@@ -109,6 +109,13 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # restricted class is only rejected once an alignment has been set and
     # doesn't fit (`routers/characters.py`'s `_check_alignment`).
     alignment: Mapped[str | None] = mapped_column(String(2), nullable=True)
+
+    # Set for a companion (roadmap slice 10 step 2b, `CharacterCompanion`):
+    # its master. A companion has no point buy (`point_budget` is `None`),
+    # takes the master's `user_id`, and is left out of the character picker.
+    master_character_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("characters.id"), nullable=True
+    )
 
     racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
     class_ability_weapon_choices: Mapped[list["CharacterClassAbilityWeaponChoice"]] = relationship(

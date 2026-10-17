@@ -1,0 +1,56 @@
+[
+  {
+    "id": "e74bf736-f4a4-5f53-9a7e-d85132cacbc4",
+    "class_ability_id": "1e421552-622f-583b-a8f9-62944ace3dc5",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "db4afcd2-297d-552c-8767-ab27d9fdadb9",
+    "class_ability_id": "38fe2b58-a26e-5733-b9db-3a61baf89508",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "b50048b0-7077-5395-9771-8a5a1bb2ede9",
+    "class_ability_id": "ed50152f-572e-5ef2-9a67-1f9f3f399c4e",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "ec1d1346-1550-53ee-a18e-cba6ff580349",
+    "class_ability_id": "a98d91f5-2dff-506e-8bcc-03b3166ae731",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "ce7a8b33-ba4b-549d-ad2d-11af1a6e6865",
+    "class_ability_id": "0028e0bb-6d8f-5051-bdb8-3f960dcf1009",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "ca9dd491-3e98-510c-9da9-c63e7102c415",
+    "class_ability_id": "399600a9-0ff4-5988-a3dd-f94d88427bb7",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  }
+]

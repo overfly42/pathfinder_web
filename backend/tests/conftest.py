@@ -55,7 +55,7 @@ _SEED_FUNCTIONS: list[tuple[object, str]] = [
     (class_ability_option_seed, "seed_class_ability_options"),
     (class_ability_granted_feat_seed, "seed_class_ability_granted_feats"),
     (secondary_class_seed, "seed_secondary_class_abilities"),
-    (companion_seed, "seed_companion_level_sources"),
+    (companion_seed, "seed_companions"),
     (spell_seed, "seed_spells"),
     (item_seed, "seed_items"),
     (item_seed, "seed_item_granted_spells"),

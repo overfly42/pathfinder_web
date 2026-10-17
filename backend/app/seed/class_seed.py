@@ -43,6 +43,7 @@ def _upsert_base_class(db: Session, row: dict) -> None:
         "wil_save": row.get("wil_save"),
         "skill_points_base": row.get("skill_points_base"),
         "allowed_alignments": row.get("allowed_alignments"),
+        "is_companion_class": row.get("is_companion_class", False),
     }
     instance = db.get(BaseClass, row_id)
     if instance is None:

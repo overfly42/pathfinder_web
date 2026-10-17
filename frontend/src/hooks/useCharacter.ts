@@ -50,6 +50,21 @@ export function useCharacter(id: string): UseCharacterResult {
     };
   }, [id, reloadKey]);
 
+  // Other tabs/devices can change this character (a companion's level follows its master's
+  // changes server-side), so refetch whenever the page becomes visible or focused again.
+  useEffect(() => {
+    if (!id) return;
+    function onVisible() {
+      if (document.visibilityState === 'visible') setReloadKey((key) => key + 1);
+    }
+    window.addEventListener('focus', onVisible);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.removeEventListener('focus', onVisible);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [id]);
+
   function refetch() {
     setReloadKey((key) => key + 1);
   }

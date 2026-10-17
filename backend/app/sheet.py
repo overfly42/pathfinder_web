@@ -41,6 +41,7 @@ ordinary stacking as `Modifier`s (AC, every attack, CMB/CMD, Heimlichkeit,
 Fliegen); weapon and natural-attack damage dice are stepped to it."""
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from uuid import UUID
 
 from sqlalchemy import func, select
@@ -77,6 +78,7 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
 from .rules.class_options import favored_class_bonus_race_choices
+from .companions import companion_payload, companion_slots, companion_state, slots_payload
 from .rules.companions import TRACK_LABELS, TRACKS, master_effective_level
 from .rules.size import SIZE_TABLE, SIZES, base_size, format_meters, resolve_size, size_modifiers, step_damage, weapon_damage
 from .rules.context import CharacterContext
@@ -198,6 +200,14 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     race_ability_ids = effective_race_ability_ids(
         db, character.race_id, {choice.ability_id for choice in character.racial_choices}
     )
+    # A companion (roadmap slice 10 step 2b, `app/companions.py`): its species
+    # stage's special abilities stand in for race abilities, its progression's
+    # class abilities join the granted ones, and size/speeds/natural armor/
+    # ability deltas/natural attacks come from the species and progression.
+    companion = companion_state(db, character)
+    if companion is not None:
+        race_ability_ids = set(race_ability_ids) | companion.species_ability_ids
+        granted_ability_ids.update(companion.progression_ability_ids)
     class_granted_weapon_feat_ids = class_granted_proficiency_feat_ids(db, granted_ability_ids)
     # Weapon a class ability's own one-off choice named (`CharacterClassAbilityWeaponChoice`,
     # e.g. Kensai's kensai weapon) — keyed by ability id, read once here for
@@ -335,7 +345,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # fetched above, ahead of `context`.
     # Resolved here, not stored and not on `context` (computed, not raw):
     # the race's size ability shifted by active size-changing effects.
-    size = resolve_size(base_size(race_ability_ids), context)
+    size = resolve_size(companion.size if companion else base_size(race_ability_ids), context)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     gear_ac_modifiers += equipped_item_modifiers(list(gear_by_slot.values()))
     all_modifiers = (
@@ -352,6 +362,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.FLY_SPEED)
         + granted_ability_modifiers(context, target=ModifierTarget.BURROW_SPEED)
         + size_modifiers(size)
+        + (companion.modifiers if companion else [])
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -414,7 +425,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     armor_class_flat_footed_breakdown = _ac_breakdown_flat_footed(groups)
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
-    base_speed = race_speed(db, character.race_id) or 9
+    base_speed = (companion.land_speed if companion else None) or race_speed(db, character.race_id) or 9
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
     climb_speed = max(race_climb_speed(race_ability_ids) or 0, stacked.get((ModifierTarget.CLIMB_SPEED, None), 0)) or None
     burrow_speed = stacked.get((ModifierTarget.BURROW_SPEED, None), 0) or None
@@ -456,6 +467,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             melee_attack_bonus + any_attack_bonus,
             melee_damage_bonus + any_damage_bonus,
             size=size,
+            extra_attacks=companion.natural_attacks if companion else (),
         )
         + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context, any_attack_bonus)
     )
@@ -527,9 +539,10 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "value": str(10 + bab + str_mod + dex_mod + stacked.get((ModifierTarget.CMD, None), 0)),
             },
             *concentration,
+            # Size with space / natural reach, e.g. "Klein (1,5 m / 1,5 m)".
             {
                 "key": "size",
-                "label": "Größe (Angriffsfläche/Reichweite)",
+                "label": "Größe",
                 "value": (
                     f"{size} ({format_meters(SIZE_TABLE[size].space)} / "
                     f"{format_meters(SIZE_TABLE[size].reach_tall)})"
@@ -542,7 +555,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "feats": _build_feats(db, character),
         "traits": _build_traits(db, character),
         "classFeatures": _build_class_features(db, granted_ability_ids, context, frozenset(secondary_ability_ids)),
-        "companionLevels": _build_companion_levels(db, context),
+        "companionLevels": [] if companion else _build_companion_levels(db, character, context),
+        # "character" | "companion" — the frontend hides what a companion
+        # doesn't have (spells, favored class, level-up) by this.
+        "kind": "companion" if companion else "character",
+        "companion": companion_payload(companion, character) if companion else None,
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
@@ -1167,7 +1184,7 @@ def _build_class_features(
     return entries
 
 
-def _build_companion_levels(db: Session, context: CharacterContext) -> list[dict]:
+def _build_companion_levels(db: Session, character: Character, context: CharacterContext) -> list[dict]:
     """Effective master level per companion track (roadmap slice 10 step 1,
     `rules/companions.py`) with its breakdown, so wrong source data is
     visible on the sheet ("Druide 4 + Waldläufer 6 − 3 + Stallmeister +1").
@@ -1176,6 +1193,7 @@ def _build_companion_levels(db: Session, context: CharacterContext) -> list[dict
     if not sources:
         return []
     class_names = {row.id: row.name for row in db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None)))}
+    slots = slots_payload(db, companion_slots(db, character, context))
     result = []
     for track in TRACKS:
         track_level = master_effective_level(track, sources, context, class_names)
@@ -1190,6 +1208,9 @@ def _build_companion_levels(db: Session, context: CharacterContext) -> list[dict
                 "breakdown": [
                     {"label": c.label, "value": c.value, "detail": c.detail} for c in track_level.contributions
                 ],
+                # Entitlements of this track (roadmap slice 10 step 2b): allowed
+                # species and the companion filling each, if any.
+                "slots": [slot for slot in slots if slot["track"] == track],
             }
         )
     return result
@@ -2881,6 +2902,7 @@ def _build_natural_attacks(
     melee_attack_bonus: int,
     melee_damage_bonus: int,
     size: str = "Mittelgroß",
+    extra_attacks: Iterable[NaturalAttack] = (),
 ) -> list[dict]:
     """Bite/claw-style natural weapon attacks a character's race/class
     abilities grant (e.g. Halb-Ork's Reißzähne, Entfesselter Barbar's
@@ -2928,7 +2950,11 @@ def _build_natural_attacks(
     attack that is secondary by nature (`NaturalAttack.is_secondary`) is
     always treated like the weapon-wielding case above; and a creature whose
     only natural attack is one primary attack adds 1½ × ST to its damage
-    (PF1e "Natürliche Angriffe").
+    (PF1e "Natürliche Angriffe"). A creature with only one kind of attack
+    makes it as a primary attack even if that kind is secondary by nature
+    (the Pony's hooves). `extra_attacks` are attacks not granted by an
+    ability handler — a companion species' own statblock (`app/companions.py`);
+    an `alternative` attack is listed but never counts for these rules.
 
     Waffenfinesse (`rules/feats.py`'s `WAFFENFINESSE`) applies to every
     natural attack unconditionally, not gated on `BaseItem.is_light` the
@@ -2956,12 +2982,15 @@ def _build_natural_attacks(
             continue
         attack = handler(context)
         if attack is not None:
-            attacks.append((ability_id, attack))
-    is_sole_attack = len(attacks) == 1 and attacks[0][1].count == 1 and not wields_weapon
+            attacks.append((str(ability_id), attack))
+    attacks += [(f"species-{index}", attack) for index, attack in enumerate(extra_attacks)]
+    routine = [attack for _key, attack in attacks if not attack.alternative]
+    is_sole_attack = len(routine) == 1 and routine[0].count == 1 and not wields_weapon
+    routine_kinds = {attack.name for attack in routine}
 
     results = []
-    for ability_id, attack in attacks:
-        secondary = wields_weapon or attack.is_secondary
+    for key, attack in attacks:
+        secondary = wields_weapon or (attack.is_secondary and len(routine_kinds | {attack.name}) > 1)
         # Natural attacks never get Power Attack's 150% two-handed scaling (no
         # "hands" concept for them at all) — only the secondary-attack 50%
         # halving, reusing `_power_attack_effect`'s `is_off_hand` parameter
@@ -2974,22 +3003,29 @@ def _build_natural_attacks(
             damage_str_mod = str_mod
         elif secondary:
             damage_str_mod = str_mod // 2
-        elif is_sole_attack:
+        elif is_sole_attack and not attack.alternative:
             damage_str_mod = str_mod * 3 // 2
         else:
             damage_str_mod = str_mod
         flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
-        dice = step_damage(attack.damage_dice, SIZES.index(size) - SIZES.index(attack.base_size))
-        damage_parts = [f"{dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}"]
-        damage_parts.extend(f"{bonus_dice} {damage_type}" for bonus_dice, damage_type in class_bonus_damage)
+        if attack.damage_dice:
+            dice = step_damage(attack.damage_dice, SIZES.index(size) - SIZES.index(attack.base_size))
+            damage_parts = [f"{dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}".strip()]
+            damage_parts.extend(f"{bonus_dice} {damage_type}" for bonus_dice, damage_type in class_bonus_damage)
+        else:
+            damage_parts = ["—"]
+        hand = "Naturangriff (sekundär)" if secondary and not wields_weapon else "Naturangriff"
+        if attack.alternative:
+            hand = "Naturangriff (alternativ)"
         result = {
-            "key": f"natural-{ability_id}",
-            "hand": "Naturangriff (sekundär)" if attack.is_secondary else "Naturangriff",
+            "key": f"natural-{key}",
+            "hand": hand,
             "name": attack.name,
             "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
             "damage": " + ".join(damage_parts),
         }
-        if power_attack is not None:
-            result["note"] = "Heftiger Angriff aktiv"
+        notes = [n for n in (attack.note, "Heftiger Angriff aktiv" if power_attack is not None else None) if n]
+        if notes:
+            result["note"] = "; ".join(notes)
         results.append(result)
     return results

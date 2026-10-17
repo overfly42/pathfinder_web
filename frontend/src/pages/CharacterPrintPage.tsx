@@ -146,7 +146,7 @@ function PrintableSheet({ character }: { character: Character }) {
         <Described entries={character.classFeatures} />
         {character.companionLevels?.map((entry) => (
           <div className="print-entry" key={entry.track}>
-            <strong>{entry.label}</strong> — {companionLevelName(entry)}{' '}
+            <strong>{entry.label}</strong> — {companionLevelName(entry.track)}{' '}
             {entry.level}: {formatCompanionBreakdown(entry)}
           </div>
         ))}

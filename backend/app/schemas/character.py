@@ -724,6 +724,27 @@ class CharacterUpdate(BaseModel):
         return stripped
 
 
+class CompanionCreate(BaseModel):
+    """`POST /api/characters/{master_id}/companions` (roadmap slice 10 step
+    2b): a companion for one of the master's free entitlements. `hit_points`
+    has one value per HD of the current effective level (W8 each, the first
+    one isn't maxed — a companion's HD aren't class levels of a PC)."""
+
+    slot_key: str = "primary"
+    species_id: UUID
+    name: str
+    hit_points: list[int]
+    advancement_choice: Literal["species", "dex_con"] = "species"
+
+    @field_validator("name")
+    @classmethod
+    def name_must_not_be_blank(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("name must not be blank")
+        return stripped
+
+
 class AlignmentUpdate(BaseModel):
     """`PATCH /api/characters/{id}/alignment` — sets or changes the
     alignment, checked against every class the character already has."""
@@ -752,12 +773,15 @@ class CharacterRead(BaseModel):
     bab: int
     saves: dict[str, int]
     ability_scores: dict[str, int]
-    point_budget: int
+    point_budget: int | None
     flex_ability: str | None
     alt_traits: list[str]
     use_background_skills: bool
     secondary_base_class_id: UUID | None
     alignment: str | None
+    # Set for a companion (roadmap slice 10 step 2b) — the character picker
+    # leaves these out, the direct URL still reaches them.
+    master_character_id: UUID | None
     skill_ranks: dict[str, int]
     feats: list[FeatSelection]
     trait_ids: list[UUID]

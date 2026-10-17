@@ -523,5 +523,85 @@
     "id": "71094c60-647a-49f6-a8ee-b519f46b6091",
     "name": "Neugierde",
     "description": "Erhält einen Bonus von +4 auf Fertigkeitswürfe für Diplomatie zum Sammeln von Informationen. Wissen (Geschichte) und Wissen (Lokales) sind stets Klassenfertigkeiten; ist eine davon bereits Klassenfertigkeit, wird stattdessen ein Volksbonus von +2 auf die jeweilige Fertigkeit gewährt. Dieses Volksmerkmal ersetzt Natürlicher Jäger."
+  },
+  {
+    "id": "f5a4bb9b-3c0f-50e5-984d-10e627305523",
+    "name": "Geruchssinn",
+    "description": "(AF) Diese besondere Fähigkeit erlaubt es den Kreaturen, die sie besitzen, die Annäherung von Feinden zu entdecken, sie anhand ihres Geruchs in ihrem Versteck ausfindig zu machen und ihre oder andere Geruchsspuren zu verfolgen. Kreaturen mit der Fähigkeit Geruchssinn können ihnen vertraute Gerüche genauso leicht erkennen, wie Menschen einen vertrauten Anblick wiedererkennen."
+  },
+  {
+    "id": "09feaa92-55ea-5410-9dec-ecad49836e39",
+    "name": "Blindgespür",
+    "description": "(AF) Mit Hilfe ihrer übrigen Sinne, zum Beispiel einem guten Geruchssinn oder einem guten Gehör, kann eine Kreatur mit Blindgespür Dinge wahrnehmen, die sie nicht sehen kann. Die Kreatur muss für gewöhnlich keine Würfe auf Wahrnehmung ausführen, um den genauen Standort eines Wesens innerhalb der Reichweite ihres Blindgespürs zu bestimmen, solange sie freie Schusslinie zu dem Wesen hat. Allerdings hat jeder Gegner, den die Kreatur mit Blindgespür nicht sehen kann, gegen diese nach wie vor vollständige Tarnung. Die Kreatur hat also bei Angriffen auf Gegner mit Tarnung nach wie vor die normale Fehlschlagchance. Die Bewegung einer Kreatur mit Blindgespür wird nach wie vor durch ihre Sicht beeinflusst. Kreaturen mit Blindgespür verlieren außerdem genau wie andere Kreaturen ihren Geschicklichkeitsbonus auf die Rüstungsklasse, wenn sie von Kreaturen angegriffen werden, die sie nicht sehen können."
+  },
+  {
+    "id": "e50e52dd-25dc-58e5-90c5-c4a93ff6aa31",
+    "name": "Anspringen",
+    "description": "(AF) Wenn eine Kreatur mit dieser besonderen Fähigkeit einen Sturmangriff ausführt, kann sie einen vollen Angriff machen (eingeschlossen Krallenangriffe, falls die Kreatur auch diese besondere Fähigkeit besitzt)."
+  },
+  {
+    "id": "889478d8-5cd9-531d-a35e-a9b44cbdf0e0",
+    "name": "Ergreifen",
+    "description": "(AF) Wenn eine Kreatur mit diesem besonderen Angriff einen Treffer mit dem jeweiligen Angriff erzielt (im Normalfall ein Klauen- oder Bissangriff), verursacht sie den normalen Schaden und versucht gleichzeitig mit einer Freien Aktion einen Ringkampf zu starten. Dabei riskiert sie keinen Gelegenheitsangriff. Diese hat die Wahl, ob sie einen normalen Ringkampf beginnen möchte oder ob sie einfach den Körperteil, mit dem sie Ergreifen eingesetzt hat, dazu verwenden möchte, den Gegner festzuhalten. Im zweiten Fall erhält sie einen Malus von -20 auf ihren Kampfmanöverwurf, mit dem sie den Ringkampf beginnen und aufrecht erhalten will, gilt aber nicht selbst als im Ringkampf befindlich. Ein erfolgreicher Haltegriff verursacht nur dann Extraschaden, wenn die Kreatur auch noch über den besonderen Angriff Würgen verfügt. Wenn die Kreatur ihren Gegner nicht würgt, verursacht sie mit jedem erfolgreichen Wurf auf Ringkampf, den sie in aufeinander folgenden Runden erzielt, automatisch den Schaden, der auch durch den Angriff verursacht wird, mit dem sie den Haltegriff einleitete. In dem anderen Fall verursacht sie auch zusätzlichen Würgeschaden (dessen Höhe in der Beschreibung der Kreatur angegeben ist)."
+  },
+  {
+    "id": "f3418ac2-3ea2-5265-8aa7-789e9422b0d6",
+    "name": "Krallen",
+    "description": "(AF) Kreaturen mit diesem besonderen Angriff erhalten unter gewissen Umständen zusätzliche natürliche Angriffe. Das ist meistens der Fall, wenn sie sich mit einem Gegner im Ringkampf befinden. Zusätzlich zu den Optionen, die allen Ringkämpfern offen stehen, erhält ein Monster mit der Fähigkeit Krallen zwei zusätzliche Klauenangriffe, die es nur gegen einen festgehaltenen Feind einsetzen kann. Monster mit der Fähigkeit Krallen müssen ihren Zug bereits im Ringkampf befindlich beginnen, wenn sie die Krallen einsetzen wollen, können also nicht in derselben Runde einen Ringkampf starten und ihre Klauen einsetzen."
+  },
+  {
+    "id": "a804e755-4a6b-51dd-a3b7-0ebd47365942",
+    "name": "Würgen",
+    "description": "(AF) Kreaturen, die diesen besonderen Angriff besitzen, können ihre Gegner zerquetschen, indem sie Wuchtschaden verursachen, wenn ihnen ein Wurf auf Ringkampf gelingt (dieser Effekt gilt zusätzlich zu allen anderen durch einen erfolgreichen Wurf auf Ringkampf verursachten Effekten, inklusive Zusatzschaden)."
+  },
+  {
+    "id": "36816512-141f-5ed1-9407-ae5b8968146f",
+    "name": "Todesrolle",
+    "description": "(AF) Wenn die Kreatur einen Gegner ihrer Größenkategorie oder kleiner in den Ringkampf verwickelt hat, kann sie mit einem erfolgreichen Ringkampfangriff eine Todesrolle ausführen. Das Tier klammert sich an seinen Gegner, zieht seine Beine an den Rumpf und beginnt herumzurollen, wobei es an seinem Opfer reißt. Dieses erleidet den Bissschaden der Kreatur und wird zu Boden geworfen. Ist die Kreatur bei dem Versuch erfolgreich, bleibt sie im Ringkampf."
+  },
+  {
+    "id": "bb42b677-8276-537f-aab5-9261c219adc8",
+    "name": "Sprint",
+    "description": "(AF) Die Kreatur kann einmal in der Minute ihre Bewegungsrate auf Land für eine Runde auf 12 m erhöhen."
+  },
+  {
+    "id": "21b5e06b-3e3f-5296-92c0-25d58aedfeb6",
+    "name": "Sprinten",
+    "description": "(AF) Die Kreatur kann einmal in der Stunde bei einem Sturmangriff das 10fache ihrer Bewegungsrate erreichen."
+  },
+  {
+    "id": "1d5251e7-0541-5819-9741-d44249732ce5",
+    "name": "Zu-Fall-bringen",
+    "description": "(AF) Kreaturen mit dem besonderen Angriff Zu-Fall-bringen können versuchen ihre Gegner mit einer Freien Aktion zu Fall zu bringen, ohne dabei einen Gelegenheitsangriff zu provozieren. Dazu müssen sie mit einem bestimmten Angriff einen Treffer erzielen. Wenn der Versuch fehlschlägt, wird die angreifende Kreatur nicht selbst zu Boden geworfen."
+  },
+  {
+    "id": "13b7f118-400f-5a86-ac43-5bf3eef6d2c0",
+    "name": "Wildheit",
+    "description": "(AF) Wilde Kreaturen bleiben auch dann bei Bewusstsein und kampffähig, wenn ihre TP unter 0 fallen. Die Kreatur befindet sich im Zustand wankend und verliert in jeder Runde 1 TP. Wenn die Anzahl der TP dem negativen Konstitutionswert der jeweiligen Kreatur entspricht, stirbt diese."
+  },
+  {
+    "id": "f60dc1fc-f907-5cfd-ab7f-0be396776e17",
+    "name": "Gift",
+    "description": "(AF) Kreaturen mit dieser Fähigkeit können diejenigen, die sie angreifen, vergiften. Der Rettungswurf gegen ein Gift ist meistens ein Zähigkeitswurf gegen SG 10 + 1/2 Volkstrefferwürfel + KO-Modifikator der vergiftenden Kreatur. Gifte können durch Gift neutralisieren und ähnliche Effekte geheilt werden."
+  },
+  {
+    "id": "22cecd00-4c58-54c6-92f7-598ce7bb6db6",
+    "name": "Kampfrausch",
+    "description": "(AF) Die Kreatur kann wie ein Barbar in Kampfrausch verfallen, für 6 Runden am Tag."
+  },
+  {
+    "id": "172d05cd-46b3-50d8-80fa-39f8c310e1eb",
+    "name": "Spucken",
+    "description": "(AF) Einmal in der Stunde kann die Kreatur ihren Mageninhalt hochwürgen und diesen auf ein einzelnes Ziel innerhalb von 3 m spucken (Berührungsangriff im Fernkampf). Das Ziel ist für 1W4 Runden kränkelnd."
+  },
+  {
+    "id": "d4b9205f-769b-5cc9-a789-c0bd9af317d4",
+    "name": "Luft anhalten",
+    "description": "(AF) Die Kreatur kann für einen Zeitraum entsprechend ihres Konstitutionsattributswertes x 6 in Minuten die Luft anhalten, ehe sie zu ertrinken droht."
+  },
+  {
+    "id": "2bc3a074-067d-54b3-9d45-ac725d6f4e66",
+    "name": "Kampfsicher",
+    "description": "(AF) Das Tier ist dazu ausgebildet, einen Reiter in den Kampf zu tragen (Kampfausbildung): es kennt die Tricks Angreifen, Bei Fuß gehen, Kommen, Verteidigen, Wachen und Zurückziehen."
   }
 ]

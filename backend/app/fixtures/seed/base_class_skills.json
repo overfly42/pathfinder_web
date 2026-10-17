@@ -1722,5 +1722,41 @@
     "base_class_id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
     "skill_id": "8532ffd7-4849-4b27-b10b-1fd0c84b7ebe",
     "option_choice_id": null
+  },
+  {
+    "id": "dda3a517-ff83-5339-bc10-f44691584de6",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "61a2cb21-fcda-4a2d-8fb5-8ed12133c648",
+    "option_choice_id": null
+  },
+  {
+    "id": "e5341924-d58f-5476-acd5-01b9af9b78b4",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "a71cd8ed-15b2-4594-9819-0e320071513c",
+    "option_choice_id": null
+  },
+  {
+    "id": "a94d2d13-4eb3-5046-9421-e575781cdd6c",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "432bdbaa-0286-4203-a117-1dbc4d68056b",
+    "option_choice_id": null
+  },
+  {
+    "id": "8887f3e7-d140-509c-aca2-2a9f7e0c43ea",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7",
+    "option_choice_id": null
+  },
+  {
+    "id": "b6b3bf49-7e76-5c63-bcb9-f75a390cbd13",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "e5fa3283-96aa-49ee-8836-ba3062bae32d",
+    "option_choice_id": null
+  },
+  {
+    "id": "6ec3d215-a5fa-507e-a88c-0c6bbd62f3f6",
+    "base_class_id": "da84a25e-4fd8-52ae-a60a-2aae969313fa",
+    "skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb",
+    "option_choice_id": null
   }
 ]

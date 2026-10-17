@@ -4,7 +4,10 @@ a second implementation — see `readme.md`'s Guiding Decisions).
 
 PF1e stacking rule: two bonuses of the same named type don't stack (only the
 higher applies); dodge/circumstance/untyped bonuses always stack with
-anything, including each other. "armor"/"shield" (`sheet.py`'s AC from
+anything, including each other. Penalties (negative values) always stack,
+whatever their type — the type cap only ever picks between *bonuses*
+(fixed 2026-10-17: a typed penalty used to be dropped, because the per-type
+maximum started from 0). "armor"/"shield" (`sheet.py`'s AC from
 equipped gear) and "enhancement" (`sheet.py`'s gear-granted ability-score
 bonuses) are the types actually produced today; the type-max logic for
 everything else is inert until effects start contributing other typed
@@ -189,13 +192,26 @@ class NaturalAttack:
     # damage; a primary one only becomes secondary while a manufactured
     # weapon is wielded.
     is_secondary: bool = False
+    # A rider or explanation shown with the attack ("Zu-Fall-bringen", "nur
+    # gegen einen festgehaltenen Gegner").
+    note: str | None = None
+    # Not part of the normal attack routine — an "… oder …" alternative
+    # (Krokodil's Schwanzschlag) or a special attack (Krallen against a
+    # grappled foe, Würgen, Spucken): listed, but it doesn't count as another
+    # attack for the 1½ ST / primary-secondary rules.
+    alternative: bool = False
+
+
+def _always_counts(modifier: Modifier) -> bool:
+    """Stacks with everything: an always-stacking type, or any penalty."""
+    return modifier.type in ALWAYS_STACKS or modifier.value < 0
 
 
 def stack(modifiers: list[Modifier]) -> int:
     total = 0
     best_by_type: dict[str, int] = {}
     for modifier in modifiers:
-        if modifier.type in ALWAYS_STACKS:
+        if _always_counts(modifier):
             total += modifier.value
         else:
             best_by_type[modifier.type] = max(best_by_type.get(modifier.type, 0), modifier.value)
@@ -203,8 +219,8 @@ def stack(modifiers: list[Modifier]) -> int:
 
 
 def contributing(modifiers: list[Modifier]) -> list[Modifier]:
-    """Same type-cap rule as `stack()` (`ALWAYS_STACKS` types all count;
-    every other type only counts its highest-value entry), but returns the
+    """Same type-cap rule as `stack()` (`ALWAYS_STACKS` types and penalties
+    all count; every other type only counts its highest bonus), but returns the
     surviving `Modifier`s themselves instead of collapsing them to a single
     int — for provenance/breakdown display (`sheet.py`'s skill/AC breakdown),
     where the caller needs to know *which* modifiers actually counted toward
@@ -213,7 +229,7 @@ def contributing(modifiers: list[Modifier]) -> list[Modifier]:
     result: list[Modifier] = []
     best_by_type: dict[str, Modifier] = {}
     for modifier in modifiers:
-        if modifier.type in ALWAYS_STACKS:
+        if _always_counts(modifier):
             result.append(modifier)
         else:
             current = best_by_type.get(modifier.type)

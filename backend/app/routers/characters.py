@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from ..companions import create_companion
 from ..db import get_db
 from ..models import (
     BaseClass,
@@ -28,6 +29,7 @@ from ..models import (
     Character,
     CharacterClass,
     CharacterClassAbilityWeaponChoice,
+    CharacterCompanion,
     CharacterClassOption,
     CharacterEffect,
     CharacterFeat,
@@ -91,6 +93,7 @@ from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
     AlignmentUpdate,
+    CompanionCreate,
     CharacterCreate,
     CharacterRead,
     CharacterUpdate,
@@ -149,7 +152,8 @@ def resolve_root_class(db: Session, class_name: str) -> BaseClass:
     function (not inlined in `create_character`) so a future level-up
     endpoint can reuse it per new level, not just at creation."""
     root = db.scalar(select(BaseClass).where(BaseClass.name == class_name, BaseClass.arch_class_of.is_(None)))
-    if root is None:
+    # The companion pseudo class ("Tiergefährte") is never a player's class.
+    if root is None or root.is_companion_class:
         raise HTTPException(status_code=422, detail="Unknown class_name")
     return root
 
@@ -561,7 +565,8 @@ def _check_alignment(alignment: str | None, roots: Iterable[BaseClass], *, requi
 def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_db)]) -> Character:
     if db.get(User, body.user_id) is None:
         raise HTTPException(status_code=422, detail="Unknown user_id")
-    if db.get(BaseRace, body.race_id) is None:
+    race = db.get(BaseRace, body.race_id)
+    if race is None or race.companion_kind is not None:
         raise HTTPException(status_code=422, detail="Unknown race_id")
 
     roots = [resolve_root_class(db, selection.class_name) for selection in body.classes]
@@ -1131,6 +1136,25 @@ def rename_character(
     db.commit()
     db.refresh(character)
     return character
+
+
+@router.post("/{character_id}/companions", response_model=CharacterRead, status_code=201)
+def add_companion(character_id: UUID, body: CompanionCreate, db: Annotated[Session, Depends(get_db)]) -> Character:
+    """Creates a companion for one of this character's entitlements
+    (`app/companions.py`'s `create_companion` validates slot, species and
+    HP). The companion is a `Character` of its own, reachable at its own id."""
+    master = db.get(Character, character_id)
+    if master is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    return create_companion(
+        db,
+        master,
+        slot_key=body.slot_key,
+        species_id=body.species_id,
+        name=body.name,
+        hit_points=body.hit_points,
+        advancement_choice=body.advancement_choice,
+    )
 
 
 @router.patch("/{character_id}/alignment", response_model=CharacterRead)
@@ -2266,6 +2290,21 @@ def delete_character(character_id: UUID, db: Annotated[Session, Depends(get_db)]
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
+    # Companions (roadmap slice 10 step 2b): deleting a companion removes its
+    # link; deleting a master removes its companions with it — a companion
+    # without any master would have nothing to derive its level from.
+    for link in db.scalars(
+        select(CharacterCompanion).where(
+            (CharacterCompanion.master_character_id == character.id)
+            | (CharacterCompanion.companion_character_id == character.id)
+        )
+    ).all():
+        companion = db.get(Character, link.companion_character_id) if link.master_character_id == character.id else None
+        db.delete(link)
+        db.flush()
+        if companion is not None:
+            db.delete(companion)
+            db.flush()
     db.delete(character)
     db.commit()
 
@@ -2278,7 +2317,12 @@ def _class_selections_and_roots(db: Session, character: Character) -> tuple[list
     character's classes before this level and once after, and diff the two
     for this level's own delta rather than writing new budget arithmetic."""
     selections = [ClassSelection.model_validate(entry) for entry in character.classes]
-    roots = [resolve_root_class(db, selection.class_name) for selection in selections]
+    # Not `resolve_root_class`: an existing companion's pseudo class must
+    # resolve here even though a player may never pick it.
+    roots = [
+        db.scalar(select(BaseClass).where(BaseClass.name == selection.class_name, BaseClass.arch_class_of.is_(None)))
+        for selection in selections
+    ]
     return selections, roots
 
 

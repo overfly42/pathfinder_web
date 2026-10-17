@@ -215,9 +215,7 @@ def _size_change_scores(spell_id: UUID, name: str, plus: str, minus: str) -> Cal
             return []
         return [
             Modifier(source=name, type="size", value=2, target=ModifierTarget.SCORE, target_id=plus),
-            # "untyped": a typed penalty would be dropped by `stack()` (see
-            # `rules/size.py`'s `_size_typed`).
-            Modifier(source=name, type="untyped", value=-2, target=ModifierTarget.SCORE, target_id=minus),
+            Modifier(source=name, type="size", value=-2, target=ModifierTarget.SCORE, target_id=minus),
         ]
 
     return handler

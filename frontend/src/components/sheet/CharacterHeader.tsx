@@ -15,7 +15,9 @@ export function CharacterHeader({ character, onChangeAlignment }: CharacterHeade
       <div>
         <p className="char-name">{character.name}</p>
         <p className="char-sub">
-          {character.race} · {character.className} ({character.archetype}) · Stufe {character.level}
+          {character.companion
+            ? `${character.race} · ${character.companion.trackLabel} · ${character.level} TW`
+            : `${character.race} · ${character.className} (${character.archetype}) · Stufe ${character.level}`}
           {!onChangeAlignment && character.alignment && <> · {alignmentLabel(character.alignment)}</>}
         </p>
         {onChangeAlignment && (

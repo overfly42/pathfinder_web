@@ -123,14 +123,6 @@ def resolve_size(base: str, context: CharacterContext) -> str:
     return SIZES[index]
 
 
-def _size_typed(value: int) -> str:
-    """A bonus is typed "size" (one size bonus at a time); a penalty is
-    "untyped" because `rules/modifiers.py`'s `stack()` keeps only a type's
-    highest value from 0 up — a typed penalty would silently vanish (PF1e
-    penalties stack anyway)."""
-    return "size" if value > 0 else "untyped"
-
-
 def size_modifiers(size: str) -> list[Modifier]:
     """The size category's modifiers as ordinary `Modifier`s: AC and every
     weapon attack (`ANY_ATTACK`, melee and ranged), the inverse on CMB/CMD,
@@ -140,18 +132,18 @@ def size_modifiers(size: str) -> list[Modifier]:
     modifiers: list[Modifier] = []
     if row.ac_attack:
         modifiers += [
-            Modifier(source=source, type=_size_typed(row.ac_attack), value=row.ac_attack, target=ModifierTarget.AC),
-            Modifier(source=source, type=_size_typed(row.ac_attack), value=row.ac_attack, target=ModifierTarget.ANY_ATTACK),
-            Modifier(source=source, type=_size_typed(row.special), value=row.special, target=ModifierTarget.CMB),
-            Modifier(source=source, type=_size_typed(row.special), value=row.special, target=ModifierTarget.CMD),
+            Modifier(source=source, type="size", value=row.ac_attack, target=ModifierTarget.AC),
+            Modifier(source=source, type="size", value=row.ac_attack, target=ModifierTarget.ANY_ATTACK),
+            Modifier(source=source, type="size", value=row.special, target=ModifierTarget.CMB),
+            Modifier(source=source, type="size", value=row.special, target=ModifierTarget.CMD),
         ]
     if row.stealth:
         modifiers.append(
-            Modifier(source=source, type=_size_typed(row.stealth), value=row.stealth, target=ModifierTarget.SKILL, target_id=str(HEIMLICHKEIT_SKILL_ID))
+            Modifier(source=source, type="size", value=row.stealth, target=ModifierTarget.SKILL, target_id=str(HEIMLICHKEIT_SKILL_ID))
         )
     if row.fly:
         modifiers.append(
-            Modifier(source=source, type=_size_typed(row.fly), value=row.fly, target=ModifierTarget.SKILL, target_id=str(FLIEGEN_SKILL_ID))
+            Modifier(source=source, type="size", value=row.fly, target=ModifierTarget.SKILL, target_id=str(FLIEGEN_SKILL_ID))
         )
     return modifiers
 

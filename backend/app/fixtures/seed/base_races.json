@@ -34,5 +34,158 @@
     "code": "katzenvolk",
     "name": "Katzenvolk",
     "short_description": "+2 GES, −2 WEI, +2 CHA; Dämmersicht; Katzenglück; Natürlicher Jäger; Spurter."
+  },
+  {
+    "id": "18654867-57d6-545b-9ae0-5163d7ebdbc4",
+    "code": "companion-affe",
+    "name": "Affe",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "b627fa42-ba0d-58c5-998e-a672a4f00353",
+    "code": "companion-b-r",
+    "name": "Bär",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "68bc3c2b-bfe4-588c-bf27-be821e9aa644",
+    "code": "companion-dachs",
+    "name": "Dachs (Vielfrass)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "2b657099-20af-5a56-a1ee-d3130329c1f4",
+    "code": "companion-dinosaurier",
+    "name": "Dinosaurier (Deinonychus, Velociraptor)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "f60fc2a9-b7eb-5fab-94ab-6797a55f4799",
+    "code": "companion-hai",
+    "name": "Hai",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "f81b6a50-a277-5824-8a07-2c76a02f0439",
+    "code": "companion-hund",
+    "name": "Hund",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "294f67b6-47d6-5ac8-866e-8a4ebdfa042f",
+    "code": "companion-kamel",
+    "name": "Kamel",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "03f22459-9488-5aa0-9615-a35092284d9a",
+    "code": "companion-krokodil",
+    "name": "Krokodil (Alligator)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "50c30571-8720-5906-b44d-8afc4bed8f5c",
+    "code": "companion-pferd",
+    "name": "Pferd",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "54541b2f-8453-5dfc-95d5-7b441c7cd627",
+    "code": "companion-pony",
+    "name": "Pony",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "c189e296-01d0-543e-b684-8c5ad7952074",
+    "code": "companion-raubkatze-gro",
+    "name": "Raubkatze, Groß (Löwe, Tiger)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "f28165a9-9d0e-5114-a1ea-5bc4978181f4",
+    "code": "companion-raubkatze-klein",
+    "name": "Raubkatze, Klein (Gepard, Leopard)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "75b5edcc-0955-51ff-966c-5dfd25636f48",
+    "code": "companion-giftschlange",
+    "name": "Giftschlange",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "1ad2da71-fcc3-50ab-9b5a-4b0ae9cbf5d8",
+    "code": "companion-w-rgeschlange",
+    "name": "Würgeschlange",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "6b15c1cb-65a4-559d-a874-d9ab47730697",
+    "code": "companion-vogel",
+    "name": "Vogel (Adler, Falke, Eule)",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "355823cf-2683-5f6b-bae5-fc80d2368071",
+    "code": "companion-wildschwein",
+    "name": "Wildschwein",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
+  },
+  {
+    "id": "285538da-dbd5-5529-a172-6dbb05ebbf8e",
+    "code": "companion-wolf",
+    "name": "Wolf",
+    "short_description": "Tiergefährte (Grundregelwerk: Druide)",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Grundregelwerk: Druide"
   }
 ]

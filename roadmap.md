@@ -2287,17 +2287,51 @@ Small characters change (values become correct, not a regression).
       Sheet: "Größe (Angriffsfläche/Reichweite)" combat line. **Tester
       note:** Small characters' AC/attack (+1), CMB/CMD (−1), Heimlichkeit
       (+4) and weapon damage change — the values are now correct. Found
-      along the way: `stack()` drops a *typed* penalty (it keeps a type's
-      maximum starting from 0), so penalties are emitted as "untyped".
+      along the way: `stack()` dropped a *typed* penalty (it kept a type's
+      maximum starting from 0) — fixed 2026-10-17 in `rules/modifiers.py`:
+      penalties always stack, the type cap only picks between bonuses.
       Not in 2a: carrying capacity, Tiergestalt forms, quadruped "long"
       reach on the sheet (companion species bring it in 2b).
-- [ ] 2b. Schema: `master_character_id`, entitlements with species lists,
+- [x] 2b. Schema: `master_character_id`, entitlements with species lists,
       pseudo class, species (incl. race-picker filter, `source`,
       creature type), progression and advancement tables; importer for the
       PRD Druide page ("Tabelle: Tiergefährte" + 17 species) written so
       further source pages are just new input; first animal companion/mount
       (one entitlement), sheet reuse, list filter, direct URL, focus
       refetch.
+      **Done 2026-10-17** (migration `db3ee20a6bdb`,
+      `scripts/import_companion_species.py`, `app/companions.py`,
+      `tests/test_companions.py`): species = `BaseRace` rows
+      (`companion_kind`/`creature_type`/`source`, filtered from the race
+      picker and rejected at PC creation) with `BaseCompanionSpeciesStage`
+      rows (start + 4th/7th advancement: size, natural armor, score
+      deltas, speeds, natural attacks as JSON, special abilities via
+      `BaseCompanionSpeciesStageAbility` with PRD Monsterhandbuch texts);
+      `BaseCompanionProgression` (+ `…Ability` keyed by effective level,
+      not HD); pseudo class "Tiergefährte" (`BaseClass.is_companion_class`,
+      W8, ¾ GAB, good Fort/Ref, class skills per PRD, rejected as a player
+      class); entitlements `BaseCompanionSlotGrant`/`…SlotSpecies` seeded
+      for every animal-companion trigger ("primary" slot; Paladin/Mystiker
+      lists by master size, Mystiker Eber/Hund from 4th; Waldläufer's
+      Schreckensratte left out, no statblock). `CharacterCompanion` links
+      master and companion `Character` (`advancement_choice` species |
+      dex_con). `companion_effective_level` = track level (+ slot offset),
+      capped at the master's level; companion sheet derives size, natural
+      armor (one combined "natural" bonus), ST/GE table bonus, advancement,
+      speeds, species attacks (one-kind-of-attack = primary; "oder"
+      alternatives and Krallen/Würgen/Spucken listed as alternative) and
+      progression abilities. `POST /api/characters/{id}/companions` creates
+      one (HP per HD, W8, first not maxed); deleting a master deletes its
+      companions. Orphaned companions are kept, flagged, stats from the
+      highest table row matching their HD. Frontend: picker without
+      companions (they stay valid selections, direct URL works),
+      "Meister | Gefährte" switcher, companion banner (level breakdown, HD
+      vs table, bonus tricks + static trick help), "Gefährten anlegen" form
+      under Klassenfähigkeiten, no level-up/alignment for companions,
+      refetch on focus/visibility. Verified in the browser against an
+      isolated database. Not yet (step 3): HD sync on the master's level-up,
+      feats/skills/ability increases, companion level-up mode, master →
+      companion channel.
 - [ ] 3. HD sync (upward only) and choices (feats incl. the three monster
       feats and the first-feat BAB rule, ability increase, skills, advance-
       ment vs +2 GE/KO), trick help text, companion mode in the level-up

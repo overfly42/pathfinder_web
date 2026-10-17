@@ -1,0 +1,162 @@
+[
+  {
+    "id": "60cbd65d-40de-517e-9117-dc7f6c9ecccc",
+    "level": 1,
+    "hit_dice": 2,
+    "natural_armor": 0,
+    "str_dex_bonus": 0,
+    "bonus_tricks": 1
+  },
+  {
+    "id": "1795f311-bc95-5681-a3c4-5104deaccba9",
+    "level": 2,
+    "hit_dice": 3,
+    "natural_armor": 0,
+    "str_dex_bonus": 0,
+    "bonus_tricks": 1
+  },
+  {
+    "id": "31e9ca63-bb66-5e2d-abac-5b82cb02712a",
+    "level": 3,
+    "hit_dice": 3,
+    "natural_armor": 2,
+    "str_dex_bonus": 1,
+    "bonus_tricks": 2
+  },
+  {
+    "id": "fc126b59-0f75-5e43-b2af-cb6cbf5fa7f2",
+    "level": 4,
+    "hit_dice": 4,
+    "natural_armor": 2,
+    "str_dex_bonus": 1,
+    "bonus_tricks": 2
+  },
+  {
+    "id": "6aa83a88-9643-511a-aa42-50c176943f5e",
+    "level": 5,
+    "hit_dice": 5,
+    "natural_armor": 2,
+    "str_dex_bonus": 1,
+    "bonus_tricks": 2
+  },
+  {
+    "id": "1b7da9c8-3793-5f81-aa6b-3b93c1a1c2f9",
+    "level": 6,
+    "hit_dice": 6,
+    "natural_armor": 4,
+    "str_dex_bonus": 2,
+    "bonus_tricks": 3
+  },
+  {
+    "id": "1d5a5a8b-dc07-57f9-80eb-bc52f7da3b0b",
+    "level": 7,
+    "hit_dice": 6,
+    "natural_armor": 4,
+    "str_dex_bonus": 2,
+    "bonus_tricks": 3
+  },
+  {
+    "id": "5b149537-e816-5366-bc23-496fdf91c4a5",
+    "level": 8,
+    "hit_dice": 7,
+    "natural_armor": 4,
+    "str_dex_bonus": 2,
+    "bonus_tricks": 3
+  },
+  {
+    "id": "ae01a5f3-3d27-5473-b50a-3481f65d6929",
+    "level": 9,
+    "hit_dice": 8,
+    "natural_armor": 6,
+    "str_dex_bonus": 3,
+    "bonus_tricks": 4
+  },
+  {
+    "id": "fa4a231b-18c0-52b7-8c48-386a19ab45df",
+    "level": 10,
+    "hit_dice": 9,
+    "natural_armor": 6,
+    "str_dex_bonus": 3,
+    "bonus_tricks": 4
+  },
+  {
+    "id": "9c1ffa1a-ef9d-5363-9f94-d94b46ebd836",
+    "level": 11,
+    "hit_dice": 9,
+    "natural_armor": 6,
+    "str_dex_bonus": 3,
+    "bonus_tricks": 4
+  },
+  {
+    "id": "b61982d8-ef65-5ba1-9e81-d1c5be212802",
+    "level": 12,
+    "hit_dice": 10,
+    "natural_armor": 8,
+    "str_dex_bonus": 4,
+    "bonus_tricks": 5
+  },
+  {
+    "id": "85f290b9-15f3-5d2d-a8e7-de59982b1213",
+    "level": 13,
+    "hit_dice": 11,
+    "natural_armor": 8,
+    "str_dex_bonus": 4,
+    "bonus_tricks": 5
+  },
+  {
+    "id": "bf069b94-b57a-5f15-8c26-d03de0f12a39",
+    "level": 14,
+    "hit_dice": 12,
+    "natural_armor": 8,
+    "str_dex_bonus": 4,
+    "bonus_tricks": 5
+  },
+  {
+    "id": "d3c658e0-5c68-5216-ba93-cd4cfd2e9bd3",
+    "level": 15,
+    "hit_dice": 12,
+    "natural_armor": 10,
+    "str_dex_bonus": 5,
+    "bonus_tricks": 6
+  },
+  {
+    "id": "5d9a1c80-561d-5503-a0e6-2c5c55a535e7",
+    "level": 16,
+    "hit_dice": 13,
+    "natural_armor": 10,
+    "str_dex_bonus": 5,
+    "bonus_tricks": 6
+  },
+  {
+    "id": "943908d9-0e67-5073-b794-5434dc7d0903",
+    "level": 17,
+    "hit_dice": 14,
+    "natural_armor": 10,
+    "str_dex_bonus": 5,
+    "bonus_tricks": 6
+  },
+  {
+    "id": "7edcc3bc-9363-5d21-a1fe-798fd1bc0e08",
+    "level": 18,
+    "hit_dice": 15,
+    "natural_armor": 12,
+    "str_dex_bonus": 6,
+    "bonus_tricks": 7
+  },
+  {
+    "id": "99715eb8-7b8a-5135-bd7a-7e91bb0e0bd9",
+    "level": 19,
+    "hit_dice": 15,
+    "natural_armor": 12,
+    "str_dex_bonus": 6,
+    "bonus_tricks": 7
+  },
+  {
+    "id": "b397d3f9-ebdf-5fe7-a420-634b44d3f282",
+    "level": 20,
+    "hit_dice": 16,
+    "natural_armor": 12,
+    "str_dex_bonus": 6,
+    "bonus_tricks": 7
+  }
+]

@@ -50,6 +50,7 @@ function UserPicker() {
 
 function CharacterPicker({ currentCharacterName }: { currentCharacterName: string }) {
   const {
+    pickerCharacterIds,
     visibleCharacterIds,
     currentCharacterId,
     setCurrentCharacterId,
@@ -86,10 +87,10 @@ function CharacterPicker({ currentCharacterName }: { currentCharacterName: strin
         <div className="chev">▾</div>
       </button>
       <div className={`search-results${open ? ' open' : ''}`}>
-        {visibleCharacterIds.length === 0 && (
+        {pickerCharacterIds.length === 0 && (
           <div className="search-empty">Diesem Nutzer sind noch keine Charaktere zugeordnet.</div>
         )}
-        {visibleCharacterIds.map((id) => (
+        {pickerCharacterIds.map((id) => (
           <div className="search-result-item" key={id} style={{ justifyContent: 'space-between' }}>
             {renamingId === id ? (
               <>
@@ -212,7 +213,8 @@ export function AppHeader({ character, effects, conditionsCatalog, onJump }: App
             Drucken
           </Link>
         )}
-        {character && (
+        {/* A companion levels up with its master (roadmap slice 10 step 3), not on its own. */}
+        {character && character.kind !== 'companion' && (
           <Link className="btn-levelup" to={`/levelup/${character.id}`}>
             <span className="star">✦</span>
             Stufenaufstieg

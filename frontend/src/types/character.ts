@@ -439,6 +439,35 @@ export interface CompanionLevel {
   /** Sum before that cap. */
   uncapped: number;
   breakdown: { label: string; value: number; detail: string | null }[];
+  /** This track's entitlements (backend `app/companions.py`): allowed species and the
+   *  companion filling each slot. `hitDice` = HP values a new companion needs right now. */
+  slots: CompanionSlot[];
+}
+
+export interface CompanionSlot {
+  track: 'animal_companion' | 'familiar';
+  slotKey: string;
+  level: number;
+  hitDice: number | null;
+  species: { id: string; name: string }[];
+  companion: { id: string; name: string } | null;
+}
+
+/** A companion's own sheet section (backend `companion_payload`). */
+export interface CompanionInfo {
+  master: { id: string; name: string };
+  track: 'animal_companion' | 'familiar';
+  trackLabel: string;
+  slotKey: string;
+  /** `null` once the master lost the entitlement (`orphaned`). */
+  effectiveLevel: number | null;
+  breakdown: { label: string; value: number; detail: string | null }[];
+  orphaned: boolean;
+  hitDice: number;
+  expectedHitDice: number | null;
+  bonusTricks: number;
+  advancementChoice: 'species' | 'dex_con';
+  advanced: boolean;
 }
 
 export interface Character {
@@ -496,6 +525,9 @@ export interface Character {
   /** Effective master level per companion track (backend `rules/companions.py`) — only tracks
    *  the character has a companion source for. Absent for the two hardcoded mock fixtures. */
   companionLevels?: CompanionLevel[];
+  /** "companion" for an animal companion's own sheet. Absent for the two mock fixtures. */
+  kind?: 'character' | 'companion';
+  companion?: CompanionInfo | null;
   raceAbilities: DescribedEntry[];
   /** Values currently legal for a favored-class-bonus level-up pick
    *  (`"hp"`/`"skill"` plus this character's race+class-specific

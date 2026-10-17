@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import CheckConstraint, ForeignKey, Integer, String
+from sqlalchemy import JSON, CheckConstraint, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -60,3 +60,136 @@ class BaseCompanionLevelSource(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     divisor: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
     minimum: Mapped[int | None] = mapped_column(Integer, nullable=True)
     stack_group: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+
+class BaseCompanionSpeciesStage(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One stage of a companion species (`BaseRace` with `companion_kind`
+    set): `level` 1 is the species' starting statblock ("Spielwerte zu
+    Beginn"), a later row its advancement ("Aufstieg auf die vierte/siebte
+    Stufe", keyed by the *effective master level* it unlocks at) — roadmap
+    slice 10 step 2b. Pure data, applied at read time by
+    `app/companions.py`, never written back into the companion's stored
+    scores.
+
+    Columns read differently on the starting row vs. an advancement row:
+    - `ability_scores`: starting row = the species' base scores (copied onto
+      the companion `Character` when it's created); advancement = deltas.
+    - `natural_armor`: starting row = the species' natural armor;
+      advancement = additional natural armor ("RK: +2 natürliche RK").
+    - `size`: starting row = base size; advancement = new size, `None` if
+      unchanged (Kamel, Pferd, Pony, Vogel).
+    - `natural_attacks`: a list of `{name, count, dice, damage_type,
+      secondary, note, alternative}`; on an advancement row it *replaces*
+      the earlier list, `None` keeps it.
+    - `speeds` (`{"land": 9, "climb": 9, ...}`, meters) and
+      `fly_maneuverability` only on the starting row."""
+
+    __tablename__ = "base_companion_species_stages"
+    __table_args__ = (UniqueConstraint("race_id", "level", name="uq_companion_species_stage_level"),)
+
+    race_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"))
+    level: Mapped[int] = mapped_column(Integer)
+    size: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    natural_armor: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    ability_scores: Mapped[dict] = mapped_column(JSON)
+    speeds: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    fly_maneuverability: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    natural_attacks: Mapped[list | None] = mapped_column(JSON, nullable=True)
+
+
+class BaseCompanionSpeciesStageAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A special ability (a `BaseRaceAbility` catalog row: Dämmersicht,
+    Geruchssinn, Anspringen, ...) a species stage adds — cumulative, a later
+    stage never removes an earlier stage's abilities."""
+
+    __tablename__ = "base_companion_species_stage_abilities"
+    __table_args__ = (UniqueConstraint("stage_id", "ability_id", name="uq_companion_stage_ability"),)
+
+    stage_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_species_stages.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_race_abilities.id"))
+
+
+class BaseCompanionProgression(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One row of the PRD's "Tabelle: Tiergefährte", keyed by the effective
+    master level (1–20). BAB/saves/skill ranks/feat count aren't columns:
+    they follow from the companion's `CharacterLevel` rows (one per HD) of
+    the pseudo class "Tiergefährte" (`BaseClass.is_companion_class`) —
+    verified against all 20 rows (roadmap slice 10)."""
+
+    __tablename__ = "base_companion_progression"
+
+    level: Mapped[int] = mapped_column(Integer, unique=True)
+    hit_dice: Mapped[int] = mapped_column(Integer)
+    natural_armor: Mapped[int] = mapped_column(Integer)
+    str_dex_bonus: Mapped[int] = mapped_column(Integer)
+    bonus_tricks: Mapped[int] = mapped_column(Integer)
+
+
+class BaseCompanionProgressionAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A companion class ability (Verbindung, Zauber teilen, Entrinnen,
+    Hingabe, Mehrfachangriff, Verbessertes Entrinnen) unlocked at an
+    effective master level — keyed by that level, not by HD, because
+    several levels share an HD count (Entrinnen comes at level 3, which has
+    the same 3 HD as level 2)."""
+
+    __tablename__ = "base_companion_progression_abilities"
+    __table_args__ = (UniqueConstraint("level", "ability_id", name="uq_companion_progression_ability"),)
+
+    level: Mapped[int] = mapped_column(Integer)
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+
+class BaseCompanionSlotGrant(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """An entitlement to one companion: while `class_ability_id` is granted,
+    the master may have a companion of `track` in `slot_key` ("primary",
+    ...). Several triggers naming the same slot (a Druide/Waldläufer)
+    mean *one* companion whose species may come from any of their lists.
+    `level_offset`/`divisor`/`minimum` adjust the track's master level for
+    this slot (all 0/1/None for every base class; archetypes with a second,
+    weaker companion will use them)."""
+
+    __tablename__ = "base_companion_slot_grants"
+
+    class_ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    track: Mapped[str] = mapped_column(String(32))
+    slot_key: Mapped[str] = mapped_column(String(32))
+    level_offset: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    divisor: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
+    minimum: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+
+class BaseCompanionSlotSpecies(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A species an entitlement allows. `master_sizes` (e.g. `["Klein"]`
+    for the Paladin's Kriegspony) restricts it to masters of those sizes,
+    `min_level` to an effective master level (the Mystiker's Eber/Hund from
+    4th); both `None` = always."""
+
+    __tablename__ = "base_companion_slot_species"
+    __table_args__ = (UniqueConstraint("slot_grant_id", "race_id", name="uq_companion_slot_species"),)
+
+    slot_grant_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_slot_grants.id"))
+    race_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"))
+    master_sizes: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+
+class CharacterCompanion(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """Links a companion `Character` (`Character.master_character_id` set)
+    to its master's slot. The companion is a full `Character` row so the
+    sheet, effects, HP, gear and print page work unchanged.
+
+    `advancement_choice`: "species" (the species' 4th/7th-level
+    advancement) or "dex_con" (+2 GE and +2 KO instead, PRD "Auswahl einer
+    Tierart"). A master who loses the entitlement keeps the companion —
+    shown as "ohne Anspruch", never deleted."""
+
+    __tablename__ = "character_companions"
+    __table_args__ = (UniqueConstraint("master_character_id", "slot_key", name="uq_character_companion_slot"),)
+
+    master_character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    companion_character_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("characters.id"), unique=True
+    )
+    track: Mapped[str] = mapped_column(String(32))
+    slot_key: Mapped[str] = mapped_column(String(32))
+    advancement_choice: Mapped[str] = mapped_column(String(16), default="species", server_default="species")

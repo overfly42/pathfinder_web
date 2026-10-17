@@ -37,3 +37,26 @@ def test_group_by_target_groups_match_stack_totals() -> None:
     groups = group_by_target(modifiers)
     assert stack(groups[(ModifierTarget.SKILL, "x")]) == 3
     assert stack(groups[(ModifierTarget.AC, None)]) == 2
+
+
+def test_typed_penalties_always_count() -> None:
+    """A penalty is never capped by its type — before 2026-10-17 a typed
+    penalty (e.g. "size" −1) was silently dropped, because the per-type
+    maximum started from 0."""
+    modifiers = [
+        Modifier(source="Größe (Groß)", type="size", value=-1, target=ModifierTarget.AC),
+        Modifier(source="Fluch", type="size", value=-2, target=ModifierTarget.AC),
+        Modifier(source="Schild", type="shield", value=2, target=ModifierTarget.AC),
+    ]
+
+    assert stack(modifiers) == -1 - 2 + 2
+    assert sum(m.value for m in contributing(modifiers)) == stack(modifiers)
+
+
+def test_a_typed_penalty_does_not_cancel_the_same_types_bonus_cap() -> None:
+    bonus_low = Modifier(source="A", type="size", value=1, target=ModifierTarget.AC)
+    bonus_high = Modifier(source="B", type="size", value=2, target=ModifierTarget.AC)
+    penalty = Modifier(source="C", type="size", value=-1, target=ModifierTarget.AC)
+
+    assert stack([bonus_low, bonus_high, penalty]) == 2 - 1
+    assert contributing([bonus_low, bonus_high, penalty]) == [penalty, bonus_high]
