@@ -430,6 +430,17 @@ export interface ActiveEffect {
   removable: boolean;
 }
 
+export interface CompanionLevel {
+  track: 'animal_companion' | 'familiar';
+  /** "Tiergefährte/Reittier" | "Vertrauter". */
+  label: string;
+  /** Capped at the character level. */
+  level: number;
+  /** Sum before that cap. */
+  uncapped: number;
+  breakdown: { label: string; value: number; detail: string | null }[];
+}
+
 export interface Character {
   id: string;
   name: string;
@@ -479,6 +490,9 @@ export interface Character {
   feats: DescribedEntry[];
   traits: DescribedEntry[];
   classFeatures: DescribedEntry[];
+  /** Effective master level per companion track (backend `rules/companions.py`) — only tracks
+   *  the character has a companion source for. Absent for the two hardcoded mock fixtures. */
+  companionLevels?: CompanionLevel[];
   raceAbilities: DescribedEntry[];
   /** Values currently legal for a favored-class-bonus level-up pick
    *  (`"hp"`/`"skill"` plus this character's race+class-specific

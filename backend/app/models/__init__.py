@@ -23,6 +23,7 @@ from .character import (
     CharacterSkillRank,
     CharacterWand,
 )
+from .companion import BaseCompanionLevelSource
 from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect
 from .feat import (
     BaseFeat,
@@ -53,6 +54,7 @@ from .user import User
 
 __all__ = [
     "Base",
+    "BaseCompanionLevelSource",
     "TimestampMixin",
     "UUIDPrimaryKeyMixin",
     "User",

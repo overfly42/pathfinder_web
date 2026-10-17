@@ -1,6 +1,7 @@
 import { formatBreakdown } from '../../lib/breakdown';
 import type { ActivatableRef, Character, DescribedEntry, PreparedSpellRef } from '../../types/character';
 import { InfoButton } from '../primitives/InfoButton';
+import { companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
 import { TabBar, TabPanel, type TabDef } from '../primitives/Tabs';
 
 const TABS: TabDef[] = [
@@ -110,6 +111,21 @@ export function SheetTabs({
 
         <TabPanel active={activeTab} tabKey="classfeatures">
           <DescribedList entries={character.classFeatures} idPrefix="classfeature" />
+          {character.companionLevels && character.companionLevels.length > 0 && (
+            <>
+              <div className="section-label" style={{ marginTop: 14 }}>
+                Gefährten
+              </div>
+              {character.companionLevels.map((entry) => (
+                <div className="trait-item" id={`companionlevel-${entry.track}`} key={entry.track}>
+                  <div className="name">
+                    {entry.label} — {companionLevelName(entry)} {entry.level}
+                  </div>
+                  <div className="desc">{formatCompanionBreakdown(entry)}</div>
+                </div>
+              ))}
+            </>
+          )}
           {character.favoredClassBonuses && character.favoredClassBonuses.length > 0 && (
             <>
               <div className="section-label" style={{ marginTop: 14 }}>

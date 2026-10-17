@@ -4860,5 +4860,10 @@
     "id": "4d1f8309-3afd-5df9-a341-3af26025fee9",
     "name": "Reittier herbeirufen",
     "description": "(ZF) Ein Mal pro Tag kann der Paladin eine Volle Aktion aufwenden und sein Reittier an seine Seite rufen. Diese Fähigkeit entspricht dem Zauber eines Grades in Höhe eines Drittels der Stufe des Paladins. Das Reittier erscheint sofort direkt neben dem Paladin. Der Paladin kann diese Fähigkeit einmal am Tag ab der 5. Stufe einsetzen, und ein weiteres Mal für alle vier weiteren Paladinstufen, bis zu einem Maximum von viermal am Tag ab der 17. Stufe."
+  },
+  {
+    "id": "91a0b27d-8fb2-5aca-93de-7d544354ece2",
+    "name": "Vertrauter (Magier)",
+    "description": "(AF) Der Magier hat für seine Arkane Verbindung einen Vertrauten gewählt. Ein Vertrauter ist ein magisches Haustier, das die Fähigkeiten des Magiers verbessert und ihm als Begleiter und Diener dient. Die Magierstufe bestimmt die Fähigkeiten des Vertrauten; Stufen in anderen Klassen, die einen Vertrauten gewähren, addieren sich dabei."
   }
 ]

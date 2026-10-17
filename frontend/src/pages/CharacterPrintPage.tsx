@@ -7,6 +7,7 @@ import { formatSpellComponents } from '../lib/spellComponents';
 import { gearLine } from '../lib/gearSummary';
 import { exportCharacterPdf } from '../lib/exportCharacterPdf';
 import { alignmentLabel } from '../lib/alignment';
+import { companionLevelName, formatCompanionBreakdown } from '../lib/companionLevels';
 import type { Character, DescribedEntry, StatEntry } from '../types/character';
 import './CharacterPrintPage.css';
 
@@ -142,6 +143,12 @@ function PrintableSheet({ character }: { character: Character }) {
       <Section title="Wesenszüge"><Described entries={character.traits} /></Section>
       <Section title="Klassenfähigkeiten">
         <Described entries={character.classFeatures} />
+        {character.companionLevels?.map((entry) => (
+          <div className="print-entry" key={entry.track}>
+            <strong>{entry.label}</strong> — {companionLevelName(entry)}{' '}
+            {entry.level}: {formatCompanionBreakdown(entry)}
+          </div>
+        ))}
         {character.favoredClassBonuses && character.favoredClassBonuses.length > 0 && (
           <>
             <h3>Bevorzugte Klasse</h3>

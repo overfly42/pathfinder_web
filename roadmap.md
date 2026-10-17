@@ -1878,8 +1878,8 @@ class abilities. Source: `prd.5footstep.de/Grundregelwerk/Klassen/Paladin`.
   Paladin. Mount death: no new mount for 30 days or until next level, −1
   attack/damage meanwhile (a condition/effect, not companion logic). The Hexe has no "Vertrauter" ability yet (slice 4 only).
   Entfesselter Barbar "Wildes Reittier" / "Wildes Reittier, Mächtiges" are
-  seeded and granted but missing from the source list below — add them
-  (offset from the PRD).
+  seeded and granted but are *not* sources (checked 2026-10-17: they only
+  extend the Barbar's rage to the mount he rides, no companion/druid level).
 
 **Effective master level (per track)**
 - Track = stacking group: `animal_companion` (incl. mounts) and `familiar`.
@@ -2244,12 +2244,32 @@ Small characters change (values become correct, not a regression).
       creation wizard picker (Grunddaten), editable on the sheet, shown on
       print/PDF. Not modeled: auras' ally effects, immunities, DR /Böses,
       ex-Paladin, mount/weapon-loss penalties, Paladin archetypes.
-- [ ] 1. Thin: choice-scoped trigger abilities for Druide/Magier,
+- [x] 1. Thin: choice-scoped trigger abilities for Druide/Magier,
       `BaseCompanionLevelSource`, `rules/companions.py`
       (`master_effective_level`, shared `effective_level`), breakdown in the
       sheet endpoint, seeds for the sources above, combination/cap/
       Sekundärklasse tests (e.g. Merro Mercat-style Hexenmeister
       Sekundärklasse). No companions yet.
+      **Done 2026-10-17** (`scripts/build_companion_level_sources.py`,
+      `app/seed/companion_seed.py`, migration `d7a2c4e81b35`,
+      `tests/test_companion_levels.py`): new trigger "Vertrauter (Magier)"
+      on the `arcane_bond` choice (the Druide's came with 0a); 10 sources
+      (Druide, Waldläufer −3, Kleriker Tiere −3, Hexenmeister Sylvanisch −3
+      min 1, Mystiker Gebundenes Reittier, Paladin Göttlicher Bund:
+      Reittier, Stallmeister +1; familiar: Magier, Hexenmeister Arkane
+      Blutlinie, Kampfmagus Arkanum). A track exists only if a non-flat
+      source counts; capped at character level after flat bonuses;
+      `stack_group` = max. The Tier-Domäne handler reads the new
+      `CharacterContext.granting_root_ids_by_ability` (which root class
+      granted an ability — `sheet.py`'s `granted_class_ability_ids_with_roots`,
+      Sekundärklasse grants mapped to the secondary class), so a Druide's
+      nature domain counts Druide level −3. Sheet: `companionLevels` with
+      per-source breakdown, shown under Klassenmerkmale and on the print
+      page. Found while seeding: Entfesselter Barbar "Wildes Reittier" (and
+      "Mächtiges") only shares rage with any ridden mount — not a level
+      source, deliberately not seeded. Not yet: Hexe (no familiar ability),
+      "Shared `effective_level`"/per-companion bonuses (Boon Companion) —
+      those need `CharacterCompanion` (step 2b/4).
 - [ ] 2a. Size as real data + generic size-modifier step, movement modes
       beyond land speed, natural attacks (primary/secondary) — usable by
       PCs too; must land before 2b. Details: "Size (slice 2a)" below.

@@ -48,6 +48,7 @@ from sqlalchemy.orm import Session
 
 from .models import (
     BaseClass,
+    BaseCompanionLevelSource,
     BaseClassAbility,
     BaseClassAbilityGrant,
     BaseClassAbilityReplacement,
@@ -76,6 +77,7 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
 from .rules.class_options import favored_class_bonus_race_choices
+from .rules.companions import TRACK_LABELS, TRACKS, master_effective_level
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
@@ -171,7 +173,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     level_counts_by_root_id: dict[UUID, int] = {}
     for lvl in character.levels:
         level_counts_by_root_id[lvl.base_class_id] = level_counts_by_root_id.get(lvl.base_class_id, 0) + 1
-    granted_ability_ids = granted_class_ability_ids(db, character, level_counts_by_root_id)
+    granted_ability_ids, granting_root_ids_by_ability = granted_class_ability_ids_with_roots(
+        db, character, level_counts_by_root_id
+    )
     # Sekundärklasse alternate rule (`rules/secondary_class.py`) — merged
     # straight into the same structures real class levels populate above, so
     # every downstream consumer (skills, speed, daily limits, ...) sees a
@@ -181,6 +185,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     secondary_ability_ids, secondary_level_counts_by_root_id = secondary_granted_ability_ids_and_levels(db, character)
     granted_ability_ids.update(secondary_ability_ids)
     level_counts_by_root_id.update(secondary_level_counts_by_root_id)
+    if character.secondary_base_class_id is not None:
+        for ability_id in secondary_ability_ids:
+            granting_root_ids_by_ability[ability_id] = granting_root_ids_by_ability.get(
+                ability_id, frozenset()
+            ) | {character.secondary_base_class_id}
     # Resolved ahead of `chosen_weapon_ids` below (not just where
     # `_build_natural_attacks` needs it further down) so a race ability like
     # Elf's "Elfische Waffenvertrautheit" can fold its named weapons into
@@ -287,6 +296,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         feat_skill_pair_choices=character.feat_skill_pair_choices,
         feat_manifestation_choices=character.feat_manifestation_choices,
         granted_ability_ids=granted_ability_ids,
+        granting_root_ids_by_ability=granting_root_ids_by_ability,
         active_effects=character.effects,
         gear_item_ids=frozenset(g.item_id for g in character.gear),
         level_counts_by_root_id=level_counts_by_root_id,
@@ -513,6 +523,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "feats": _build_feats(db, character),
         "traits": _build_traits(db, character),
         "classFeatures": _build_class_features(db, granted_ability_ids, context, frozenset(secondary_ability_ids)),
+        "companionLevels": _build_companion_levels(db, context),
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
@@ -1024,6 +1035,14 @@ def _build_skills(
 def granted_class_ability_ids(
     db: Session, character: Character, level_counts_by_root_id: dict[UUID, int]
 ) -> Counter[UUID]:
+    """See `granted_class_ability_ids_with_roots` — this is its first half,
+    for every caller that doesn't care which class granted an ability."""
+    return granted_class_ability_ids_with_roots(db, character, level_counts_by_root_id)[0]
+
+
+def granted_class_ability_ids_with_roots(
+    db: Session, character: Character, level_counts_by_root_id: dict[UUID, int]
+) -> tuple[Counter[UUID], dict[UUID, frozenset[UUID]]]:
     """Which `BaseClassAbility` ids this character actually has, resolved
     against their level count/archetype/option picks — shared by
     `_build_class_features` (display, only cares which ids are present) and
@@ -1041,9 +1060,15 @@ def granted_class_ability_ids(
     (`list(counter)`), but a speed-bonus handler keyed by ability id can
     multiply its per-grant value by how many of that ability's grants are
     currently met, so a repeating class feature is only computed once
-    (here) rather than every consumer re-deriving it."""
+    (here) rather than every consumer re-deriving it.
+
+    Second element (2026-10-17, roadmap slice 10 step 1): which root
+    class(es) actually granted each ability — the raw input
+    `rules/companions.py` needs when one ability counts a different class's
+    level depending on who granted it (the Kleriker's Tier-Domäne taken by a
+    Druide via "Bund mit der Natur", `CharacterContext.granting_root_ids_by_ability`)."""
     if not level_counts_by_root_id:
-        return Counter()
+        return Counter(), {}
 
     # Archetypes don't have independent levels — an archetype's own grants
     # (`BaseClassAbilityGrant.base_class_id` = the archetype's id, see that
@@ -1086,16 +1111,19 @@ def granted_class_ability_ids(
         )
 
     ability_counts: Counter[UUID] = Counter()
+    granting_roots: dict[UUID, set[UUID]] = {}
     for grant in grants:
         if grant.id in replaced_grant_ids:
             continue
-        if grant.level > level_counts_by_root_id[root_id_by_class_id[grant.base_class_id]]:
+        root_id = root_id_by_class_id[grant.base_class_id]
+        if grant.level > level_counts_by_root_id[root_id]:
             continue
         if grant.option_choice_id is not None and grant.option_choice_id not in chosen_option_ids:
             continue
         ability_counts[grant.ability_id] += 1
+        granting_roots.setdefault(grant.ability_id, set()).add(root_id)
 
-    return ability_counts
+    return ability_counts, {ability_id: frozenset(roots) for ability_id, roots in granting_roots.items()}
 
 
 def _build_class_features(
@@ -1118,6 +1146,34 @@ def _build_class_features(
         summary_handler = FEATURE_SUMMARY_HANDLERS.get(ability_id)
         entry["summary"] = summary_handler(context) if summary_handler is not None else None
     return entries
+
+
+def _build_companion_levels(db: Session, context: CharacterContext) -> list[dict]:
+    """Effective master level per companion track (roadmap slice 10 step 1,
+    `rules/companions.py`) with its breakdown, so wrong source data is
+    visible on the sheet ("Druide 4 + Waldläufer 6 − 3 + Stallmeister +1").
+    Only tracks the character actually has a companion source for."""
+    sources = db.scalars(select(BaseCompanionLevelSource)).all()
+    if not sources:
+        return []
+    class_names = {row.id: row.name for row in db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None)))}
+    result = []
+    for track in TRACKS:
+        track_level = master_effective_level(track, sources, context, class_names)
+        if track_level is None:
+            continue
+        result.append(
+            {
+                "track": track,
+                "label": TRACK_LABELS[track],
+                "level": track_level.level,
+                "uncapped": track_level.uncapped,
+                "breakdown": [
+                    {"label": c.label, "value": c.value, "detail": c.detail} for c in track_level.contributions
+                ],
+            }
+        )
+    return result
 
 
 def _build_race_abilities(db: Session, race_ability_ids: set[UUID]) -> list[dict]:

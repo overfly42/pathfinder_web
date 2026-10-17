@@ -8657,5 +8657,12 @@
     "ability_id": "4d1f8309-3afd-5df9-a341-3af26025fee9",
     "option_choice_id": "331eba13-6de0-5ef1-97b1-4a9d6727822d",
     "level": 5
+  },
+  {
+    "id": "eaa7c4ad-f6a8-5723-b846-345ec2521701",
+    "base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "ability_id": "91a0b27d-8fb2-5aca-93de-7d544354ece2",
+    "option_choice_id": "bf26983e-e7be-4eba-8e63-0dfb3237b9e2",
+    "level": 1
   }
 ]

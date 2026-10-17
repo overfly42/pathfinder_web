@@ -62,6 +62,13 @@ class CharacterContext:
     # context.granted_ability_ids`) still works unchanged — `Counter` is a
     # `dict` subclass.
     granted_ability_ids: Counter[UUID] = field(default_factory=Counter)
+    # Which root class(es) granted each of `granted_ability_ids` (a real
+    # class level, or the Sekundärklasse track's own class) — raw
+    # composition, for the rare handler whose result depends on *who*
+    # granted an ability (`rules/companions.py`: the Kleriker's Tier-Domäne
+    # "Tiergefährte" counts Druide level −3 when a Druide took it via "Bund
+    # mit der Natur"). Empty where `sheet.py` doesn't build the context.
+    granting_root_ids_by_ability: dict[UUID, frozenset[UUID]] = field(default_factory=dict)
     # Total character level (`Character.level`, sum of class levels across
     # every root class) — the one raw input a handler scaling off overall
     # character level rather than one class's own levels needs (e.g.
