@@ -966,5 +966,40 @@
     "race_id": "c189e296-01d0-543e-b684-8c5ad7952074",
     "master_sizes": null,
     "min_level": null
+  },
+  {
+    "id": "6ba72c27-3fff-5f02-9ea1-ca771c8d8bae",
+    "slot_grant_id": "e74bf736-f4a4-5f53-9a7e-d85132cacbc4",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "master_sizes": null,
+    "min_level": null
+  },
+  {
+    "id": "5233b97e-3a0f-5868-ae67-d42f2ba6f847",
+    "slot_grant_id": "db4afcd2-297d-552c-8767-ab27d9fdadb9",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "master_sizes": null,
+    "min_level": null
+  },
+  {
+    "id": "0ca61916-6935-5d65-b086-87a3998f5b86",
+    "slot_grant_id": "b50048b0-7077-5395-9771-8a5a1bb2ede9",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "master_sizes": null,
+    "min_level": null
+  },
+  {
+    "id": "851e6972-b214-5b34-b8c8-8870b66c9432",
+    "slot_grant_id": "5dd67ece-8785-5361-8b75-9fdf0b611922",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "master_sizes": null,
+    "min_level": null
+  },
+  {
+    "id": "2a974944-e2db-5d19-81a2-6ff5f1e9e1ff",
+    "slot_grant_id": "8fb6df72-88c3-57a6-b141-26b724c966a1",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "master_sizes": null,
+    "min_level": null
   }
 ]

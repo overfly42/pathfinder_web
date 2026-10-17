@@ -413,5 +413,30 @@
     "id": "d696f574-995d-5e67-af6b-17fe8bc20216",
     "stage_id": "3386d423-d656-5b5a-9d13-fa38cc93eab1",
     "ability_id": "cf6b0a50-bf3d-5aeb-8f10-8cc86f4c1a2d"
+  },
+  {
+    "id": "339e45f3-1696-5249-b348-61c271be4531",
+    "stage_id": "da60f76c-153a-575c-a358-b0e9f33819c1",
+    "ability_id": "753a04ab-cabf-4bcc-9377-f5da1d737ac5"
+  },
+  {
+    "id": "dd8cd8ed-4b7a-5ded-a622-eee8aacaf4b7",
+    "stage_id": "da60f76c-153a-575c-a358-b0e9f33819c1",
+    "ability_id": "f5a4bb9b-3c0f-50e5-984d-10e627305523"
+  },
+  {
+    "id": "58813878-6d59-5084-8b6d-07a69133bc4a",
+    "stage_id": "da60f76c-153a-575c-a358-b0e9f33819c1",
+    "ability_id": "889478d8-5cd9-531d-a35e-a9b44cbdf0e0"
+  },
+  {
+    "id": "c3fa5102-91e6-59b2-a607-243b1fb11c67",
+    "stage_id": "da60f76c-153a-575c-a358-b0e9f33819c1",
+    "ability_id": "733e10a6-774f-5951-872a-20ba5dde053a"
+  },
+  {
+    "id": "d605fe50-b754-521d-8e23-e4f4ef4fe942",
+    "stage_id": "75307f70-21c2-5e4a-a533-eb8112f1e9a5",
+    "ability_id": "e50e52dd-25dc-58e5-90c5-c4a93ff6aa31"
   }
 ]

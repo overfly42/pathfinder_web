@@ -723,5 +723,10 @@
     "id": "cf6b0a50-bf3d-5aeb-8f10-8cc86f4c1a2d",
     "name": "Bonus für den Meister",
     "description": "Der Meister erhält einen Bonus von +2 auf Reflexwürfe."
+  },
+  {
+    "id": "733e10a6-774f-5951-872a-20ba5dde053a",
+    "name": "Säbelzahnbiss",
+    "description": "Säbelzahnbiss (AF): Die Säbelzahnkatze kann diesen Biss nur bei einem Ringkampfwurf einsetzen, um Schaden zu verursachen (1W10, ab dem Aufstieg auf der 7. Stufe 2W8). Etwas kleiner als der wildere Säbelzahntiger, ist die Säbelzahnkatze dennoch ein beeindruckendes Raubtier."
   }
 ]

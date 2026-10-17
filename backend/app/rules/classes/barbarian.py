@@ -326,7 +326,7 @@ def _wilder_seemann_notes(context: CharacterContext) -> list[SkillNote]:
 
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
-    BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(fast_movement, meters=3),
+    BARBAR_SCHNELLE_BEWEGUNG_ABILITY_ID: functools.partial(fast_movement, meters=3, not_in_heavy_armor=True),
     KAMPFRAUSCH_ENTFESSELTER_BARBAR_ABILITY_ID: _kampfrausch_entfesselter_barbar,
     BESTIENTOTEM_ABILITY_ID: _bestientotem,
 }

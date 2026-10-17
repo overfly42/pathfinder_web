@@ -67,7 +67,7 @@ def test_ruestungsklassenbonus_scales_with_level(client: TestClient, db_session:
 
 def test_ruestungsklassenbonus_lost_when_armored_or_shielded(client: TestClient, db_session: Session) -> None:
     lederruestung_id = _item_id(client, db_session, "Lederrüstung")
-    rundschild_id = _item_id(client, db_session, "Rundschild")
+    rundschild_id = _item_id(client, db_session, "Leichter Stahlschild")  # the former mock "Rundschild"
     ability_scores = {**DEFAULT_ABILITY_SCORES, "WE": 16}
 
     armored = _create_moench(

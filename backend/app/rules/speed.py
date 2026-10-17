@@ -77,7 +77,7 @@ def _kletterer(context: CharacterContext) -> list[Modifier]:
     ]
 
 
-def fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
+def fast_movement(context: CharacterContext, *, meters: int, not_in_heavy_armor: bool = False) -> list[Modifier]:
     """A flat, always-stacking (`type="untyped"`) bonus to land speed —
     the shape PF1e's various "fast movement"-style class features share
     (Barbar/Entfesselter Barbar's "Schnelle Bewegung", Mönch's
@@ -89,10 +89,13 @@ def fast_movement(context: CharacterContext, *, meters: int) -> list[Modifier]:
     again at higher levels) stacks correctly with no change needed here —
     each class file just registers its own ability id against this same
     factory, parameterized with its own `meters`."""
-    # Unconditional: ownership/repetition count is already decided by the
-    # caller (`class_speed_bonus`'s per-grant loop below), not by anything
-    # this handler would read off `context` itself.
-    del context
+    # Ownership/repetition count is decided by the caller
+    # (`class_speed_bonus`'s per-grant loop below). `not_in_heavy_armor`:
+    # the Barbar's "Dies gilt nur, wenn er gar keine, leichte oder
+    # mittelschwere Rüstung trägt" (its "keine schwere Last" half needs
+    # encumbrance, which isn't modeled).
+    if not_in_heavy_armor and context.equipped_armor_weight_class == "heavy":
+        return []
     return [Modifier(source="Schnelle Bewegung", type="untyped", value=meters, target=ModifierTarget.SPEED)]
 
 

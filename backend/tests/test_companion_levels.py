@@ -231,7 +231,7 @@ def test_druide_sekundaerklasse_companion_from_7th_level(client: TestClient, db_
 
     assert _track(at_6, "animal_companion") is None
     assert _track(at_7, "animal_companion")["level"] == 3
-    assert len(_track(at_7, "animal_companion")["slots"][0]["species"]) == 17
+    assert len(_track(at_7, "animal_companion")["slots"][0]["species"]) == 18  # 17 + Säbelzahnkatze (Hausregel)
     assert _track(at_11, "animal_companion")["level"] == 11
     empathy = next(f for f in at_7["classFeatures"] if f["name"] == "Tierempathie")
     assert "7" in empathy["summary"]

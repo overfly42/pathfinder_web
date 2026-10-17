@@ -113,3 +113,10 @@ Bei Mehrklassencharakteren werden die Werte aus allen Klassen kumulativ berechne
 
 ## 9. Ausblick
 - Die Anforderungen werden im nächsten Schritt in detailierte Qualitätsanforderungen unterteilt.
+
+## 10. Hausregeln
+Regelinhalte kommen grundsätzlich aus dem deutschen PRD (prd.5footstep.de). Abweichungen und Ergänzungen, die die Gruppe bewusst zulässt, stehen hier und sind in den Daten als „Hausregel“ gekennzeichnet.
+
+| Hausregel | Inhalt | Umsetzung | Seit |
+| --- | --- | --- | --- |
+| Säbelzahnkatze als Tiergefährte | Die Säbelzahnkatze (Ausbauregeln X: Wildnis, nicht im PRD) ist als Tiergefährte wählbar — überall, wo die volle Druiden-Tierliste gilt (Druide, Kleriker mit Tier-Domäne, Hexenmeister mit sylvanischer Blutlinie, Druide als Sekundärklasse), und für den Löwenschamanen zusätzlich zum Löwen. Werte nach dem englischen Eintrag („Saber-Toothed Cat“, d20pfsrd). | `backend/scripts/import_hausregel_saebelzahnkatze.py`; Tierart „Säbelzahnkatze (Hausregel)“ | 2026-10-17 |

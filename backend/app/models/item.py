@@ -154,6 +154,12 @@ class BaseItem(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     price: Mapped[float] = mapped_column(Float)
     ac_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
     max_dex_bonus: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Rüstungsmalus (armor/shield, PRD "Tabelle: Rüstungen und Schilde",
+    # 0 or negative) — `rules/armor.py`: on every ST/GE-based skill, and on
+    # attacks while not proficient. Masterwork lowers it by 1 (computed from
+    # `CharacterGear.is_masterwork`); a catalogued magic armor's value is
+    # already its masterwork one.
+    armor_check_penalty: Mapped[int | None] = mapped_column(Integer, nullable=True)
     weapon_group: Mapped[str | None] = mapped_column(String(64), nullable=True)
     damage_small: Mapped[str | None] = mapped_column(String(32), nullable=True)
     damage_medium: Mapped[str | None] = mapped_column(String(32), nullable=True)

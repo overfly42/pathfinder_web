@@ -152,7 +152,7 @@ Kurzfassung als Einstiegspunkt:
       Improvisations-Malus zu vermeiden) — `CharacterGear` ist bisher nur an
       die AC-Berechnung angebunden, keine Verbindung zu Fertigkeitswürfen
       existiert. `roadmap.md`.
-- [ ] Rüstungsmalus (Armor Check Penalty) fehlt komplett — `BaseItem` hat für
+- [x] Rüstungsmalus (Armor Check Penalty) fehlt komplett — `BaseItem` hat für
       Rüstung/Schild nur `ac_bonus`/`max_dex_bonus` (`models/item.py`s
       Docstring nennt explizit nur diese zwei als "echte" Felder), kein
       Rüstungsmalus-Feld; `sheet.py`s `_build_skills` zieht entsprechend
@@ -162,7 +162,16 @@ Kurzfassung als Einstiegspunkt:
       Brustplatte des Freibeuters. Derselbe fehlende Hebel würde auch den
       Rüstungskompetenz-Malus (Nichtwaffenkundig bei Rüstung) speisen, siehe
       "Waffen-/Rüstungskompetenz" weiter unten (2026-08-25).
-- [ ] Bewegungsrate in mittelschwerer/schwerer Rüstung wird bei
+      **Erledigt 2026-10-17** (`rules/armor.py`, `scripts/import_ruestungen_prd.py`):
+      neues `BaseItem.armor_check_penalty` mit den Werten der PRD-Tabelle
+      (alle 12 Rüstungen und 6 Schilde jetzt im Katalog; die vier
+      Mock-Zeilen "Halbplatte"/"Vollplatte"/"Lederrüstung, verstärkt"/
+      "Rundschild" heißen jetzt Plattenpanzer/Ritterrüstung/Beschlagene
+      Lederrüstung/Leichter Stahlschild mit PRD-Werten). Malus auf alle
+      ST/GE-Fertigkeiten, Rüstung und Schild addiert, Meisterarbeit −1
+      (Meisterarbeit für alle Rüstungen/Schilde wählbar, +150 GM); ungeübt
+      zusätzlich auf alle Angriffe. Turmschild begrenzt den GE-Bonus auf +2.
+- [x] Bewegungsrate in mittelschwerer/schwerer Rüstung wird bei
       Spielercharakteren nicht gesenkt (GRW: 9 m → 6 m, 6 m → 4,5 m; Zwerge
       mit "Langsam und beständig" ausgenommen) — `sheet.py` rechnet die
       Bewegungsrate ohne Blick auf `BaseItem.armor_weight_class`, ein Mensch
@@ -172,7 +181,15 @@ Kurzfassung als Einstiegspunkt:
       verallgemeinern; die Traglast (mittlere/schwere Last senkt ebenso)
       ist gar nicht modelliert. Bewusst nicht nebenbei eingebaut, weil es die
       Werte bestehender Tester-Charaktere ändert. Aufgefallen 2026-10-17 bei
-      den Slice-10-Restpunkten.
+      den Slice-10-Restpunkten. **Erledigt 2026-10-17** auf Wunsch
+      (`rules/armor.py`'s `armored_speed`, für alle Träger; Gefährten
+      zusätzlich ohne Flug). Zwerge sind noch nicht im Katalog — ihr
+      "Langsam und beständig" gehört dann in
+      `SPEED_UNAFFECTED_BY_ARMOR_ABILITY_IDS`.
+- [ ] Traglast/Belastung nicht modelliert: keine Tragkraft nach ST und
+      Größe, also auch keine Senkung der Bewegungsrate, kein Max-GE und kein
+      Rüstungsmalus durch mittlere/schwere Last, kein ×3 beim Rennen in
+      schwerer Rüstung. Abgespalten 2026-10-17 aus dem Rüstungspunkt oben.
 - [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
       `roadmap.md`.
 - [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.
@@ -1103,7 +1120,7 @@ Legende: ✅ implementiert (Mock/Fixture, GET-only) · ❌ nicht implementiert
 **Waffen-/Rüstungskompetenz** — Waffenkompetenz-Malus ✅ (2026-08-25), Rüstungskompetenz/arkaner Patzer weiterhin ❌:
 - [x] **Waffenkompetenz-Malus (2026-08-25)**: Bis dahin existierte im ganzen Projekt kein Proficiency-System — alle 13 "Umgang mit Waffen und Rüstungen"-Klassenfertigkeiten (jede Klasse) waren reiner Text ohne Handler, aufgeworfen bei der Umsetzung von Kampfmagus/Kensai. Neu: `rules/proficiency.py` löst aus `BaseClassAbilityGrantedFeat` (automatischer Klassen-Grant) plus tatsächlich gewählten Talenten auf, welche `BaseItem.weapon_type`-Kategorien (einfach/Kriegswaffe/exotisch) ein Charakter beherrscht; `sheet.py`s `_build_weapon_attacks` zieht bei einer nicht beherrschten Waffe PF1e's -4-Angriffsmalus ab und zeigt "Nicht geübt (-4)" als Waffen-Notiz. Wirkt automatisch für jede Klasse mit vorhandenen `BaseClassAbilityGrantedFeat`-Daten, nicht nur Kampfmagus/Kensai — reine Berechnung über bereits vorhandene Kompositionsdaten, kein neuer Klassen-Handler nötig (CLAUDE.mds Komposition-vs-Berechnung-Prinzip). Kensai-Fixture-Lücke dabei geschlossen: `base_class_ability_granted_feats.json` hatte für die Kensai-Variante von "Umgang mit Waffen und Rüstungen" bisher gar keine Zeile (nicht einmal die einfachen Waffen).
 - [x] **Kensais freie Einzelwaffen-Wahl + Archetyp-Bonustalent-Slots als neues Konzept (2026-08-25)**: "Umgang mit Kriegswaffen"/"Umgang mit exotischen Waffen" sind jetzt dual-natured — automatisch von einer Klasse verliehen (z. B. Kämpfer) bleiben sie blanket-Kategorie; von einem Spieler selbst gewählt (`sub_choice_type="weapon"`, wie Waffenfokus) benennen sie stattdessen eine einzelne Waffe (`rules/proficiency.py`s Moduldocstring). Kensais Fertigkeit ist dafür jetzt ein echter, automatisch gezählter Bonustalent-Slot (`BONUS_FEAT_SLOT_ABILITY_IDS`) — dafür musste `rules/feat_slots.py`s `class_bonus_feat_slot_count` erstmals auch Archetyp-Grants zählen (bisher nur Wurzelklassen/Rasse), inklusive Pendant im `/api/classes`-Endpunkt (neues Feld `archetypeBonusFeatLevels`) und im Frontend (`featMax` in `creationCalculations.ts`) — eine wiederverwendbare Fähigkeit für jeden künftigen Archetyp mit eigenem Bonustalent, nicht nur Kensai. `base_class_ability_feat_options.json` bekam die passende Eligibility-Liste (beide Feats als Kandidaten) — wird aber, wie bei jedem anderen Bonustalent-Slot in diesem Projekt (Kämpfer, Magier, …), serverseitig noch nicht erzwungen, nur als Datenmodell hinterlegt (`BaseClassAbilityFeatOption`s Docstring).
-- [ ] **Offen (bewusst nicht in diesem Durchgang)**: Rüstungskompetenz-Malus (Nichtwaffenkundig bei Rüstung) — hängt am fehlenden Armor-Check-Penalty-Feld, siehe "Rüstungsmalus (Armor Check Penalty) fehlt komplett" oben; die "Umgang mit Waffen und Rüstungen"-Fertigkeiten zeigen den Rüstungsteil weiterhin nur als Text.
+- [x] **Offen (bewusst nicht in diesem Durchgang)**: Rüstungskompetenz-Malus (Nichtwaffenkundig bei Rüstung) — **erledigt 2026-10-17** mit dem Rüstungsmalus (`rules/armor.py`) — hängt am fehlenden Armor-Check-Penalty-Feld, siehe "Rüstungsmalus (Armor Check Penalty) fehlt komplett" oben; die "Umgang mit Waffen und Rüstungen"-Fertigkeiten zeigen den Rüstungsteil weiterhin nur als Text.
 - [ ] **Offen (bewusst nicht in diesem Durchgang)**: arkaner Patzer (Zauberpatzerchance bei mittelschwerer/schwerer Rüstung bzw. Schild) — kein Zauberpatzer-System existiert irgendwo im Projekt (0 Treffer bei der Recherche), beträfe nicht nur Kampfmagus/Kensai, sondern jeden arkanen Zauberwirker. Kampfmagus'/Kensais Ausnahme-Regel für leichte Rüstung bleibt entsprechend Text.
 - [ ] Feuerwaffen (`BaseItem.weapon_type == "firearm"`) sind an keine Kompetenz-Kategorie angebunden — PF1e-RAW bräuchte dafür eine eigene "Umgang mit Feuerwaffen"-Ausprägung der Exotische-Waffen-Kompetenz, die es in den Fixtures nicht gibt. Jede equippte Feuerwaffe zeigt deshalb aktuell immer den Nichtwaffenkundig-Malus — eine harmlose Vereinfachung, da derzeit keine Klasse Feuerwaffenkompetenz vergibt (`rules/proficiency.py`s Docstring).
 

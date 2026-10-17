@@ -1,63 +1,75 @@
 [
   {
     "id": "be4ac20e-7875-4731-9c3f-769be0565dff",
-    "name": "Halbplatte",
+    "name": "Plattenpanzer",
     "category": "armor",
-    "price": 600,
-    "ac_bonus": 9,
+    "price": 600.0,
+    "ac_bonus": 8,
     "max_dex_bonus": 0,
     "armor_weight_class": "heavy",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -7,
+    "weight_lb": "50 Pfd."
   },
   {
     "id": "540303fe-b4f0-4348-bb5a-d8b4eceabb6c",
     "name": "Kettenhemd",
     "category": "armor",
-    "price": 100,
+    "price": 100.0,
     "ac_bonus": 4,
     "max_dex_bonus": 4,
     "armor_weight_class": "light",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -2,
+    "weight_lb": "25 Pfd."
   },
   {
     "id": "80f55a62-a017-498c-9586-c89489c78bbc",
     "name": "Lederrüstung",
     "category": "armor",
-    "price": 10,
+    "price": 10.0,
     "ac_bonus": 2,
     "max_dex_bonus": 6,
     "armor_weight_class": "light",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": 0,
+    "weight_lb": "15 Pfd."
   },
   {
     "id": "495054d7-729b-49a8-821b-182f1ec03cc4",
-    "name": "Lederrüstung, verstärkt",
+    "name": "Beschlagene Lederrüstung",
     "category": "armor",
-    "price": 25,
+    "price": 25.0,
     "ac_bonus": 3,
     "max_dex_bonus": 5,
     "armor_weight_class": "light",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -1,
+    "weight_lb": "20 Pfd."
   },
   {
     "id": "ade1ce00-43ba-4e6b-bcf8-03e5360b5ebc",
     "name": "Schuppenpanzer",
     "category": "armor",
-    "price": 50,
+    "price": 50.0,
     "ac_bonus": 5,
     "max_dex_bonus": 3,
     "armor_weight_class": "medium",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -4,
+    "weight_lb": "30 Pfd."
   },
   {
     "id": "f6f79fd0-e822-400b-b6e9-df23bb9e0b8f",
-    "name": "Vollplatte",
+    "name": "Ritterrüstung",
     "category": "armor",
-    "price": 1500,
+    "price": 1500.0,
     "ac_bonus": 9,
     "max_dex_bonus": 1,
     "armor_weight_class": "heavy",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -6,
+    "weight_lb": "50 Pfd."
   },
   {
     "id": "4c6ed3a5-6020-4282-82cc-010e4d61956a",
@@ -285,21 +297,27 @@
   },
   {
     "id": "222bf999-2f07-4726-ac36-c66894835191",
-    "name": "Rundschild",
+    "name": "Leichter Stahlschild",
     "category": "shield",
-    "price": 9,
+    "price": 9.0,
     "ac_bonus": 1,
     "max_dex_bonus": null,
-    "masterwork_price_delta": null
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -1,
+    "armor_weight_class": null,
+    "weight_lb": "6 Pfd."
   },
   {
     "id": "44b091af-8c4f-48f0-a6c0-7c85c1fb838c",
     "name": "Turmschild",
     "category": "shield",
-    "price": 30,
+    "price": 30.0,
     "ac_bonus": 4,
-    "max_dex_bonus": null,
-    "masterwork_price_delta": null
+    "max_dex_bonus": 2,
+    "masterwork_price_delta": 150,
+    "armor_check_penalty": -10,
+    "armor_weight_class": null,
+    "weight_lb": "45 Pfd."
   },
   {
     "id": "286b9b81-2c35-50f7-99f0-b74c283b281e",
@@ -6803,7 +6821,8 @@
     "armor_weight_class": "medium",
     "weight_lb": "30 Pfd.",
     "description": "Diese Brustplatte +1 besteht aus einem glänzenden, bernsteinfarbenen Metall und wurde mit schwachen Wellen- und Wassermotiven geschmückt. Sie erlaubt ihrem Träger, permanent die Effekte von Auf Wasser gehen zu nutzen.",
-    "masterwork_price_delta": null
+    "masterwork_price_delta": null,
+    "armor_check_penalty": -3
   },
   {
     "id": "00982f3b-e6f8-5481-938a-d76158a92e8e",
@@ -7220,5 +7239,125 @@
     "category": "gear",
     "price": 2,
     "masterwork_price_delta": null
+  },
+  {
+    "id": "f49597fa-2a3a-5c06-b993-20527315443c",
+    "masterwork_price_delta": 150,
+    "name": "Waffenrock",
+    "category": "armor",
+    "price": 5.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": 8,
+    "armor_check_penalty": 0,
+    "armor_weight_class": "light",
+    "weight_lb": "10 Pfd."
+  },
+  {
+    "id": "d951eca3-46b5-53a2-b89a-15f91ab2d3b3",
+    "masterwork_price_delta": 150,
+    "name": "Fellrüstung",
+    "category": "armor",
+    "price": 15.0,
+    "ac_bonus": 4,
+    "max_dex_bonus": 4,
+    "armor_check_penalty": -3,
+    "armor_weight_class": "medium",
+    "weight_lb": "25 Pfd."
+  },
+  {
+    "id": "dd2a9dd5-c4d8-5e1c-89d6-9a1b503f287a",
+    "masterwork_price_delta": 150,
+    "name": "Kettenpanzer",
+    "category": "armor",
+    "price": 150.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 2,
+    "armor_check_penalty": -5,
+    "armor_weight_class": "medium",
+    "weight_lb": "40 Pfd."
+  },
+  {
+    "id": "7ffcc6b5-3d74-596f-9d06-62618857ded0",
+    "masterwork_price_delta": 150,
+    "name": "Brustplatte",
+    "category": "armor",
+    "price": 200.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -4,
+    "armor_weight_class": "medium",
+    "weight_lb": "30 Pfd."
+  },
+  {
+    "id": "7a9ffd67-88ff-5c62-9f4a-cc5f51830ee5",
+    "masterwork_price_delta": 150,
+    "name": "Schienenpanzer",
+    "category": "armor",
+    "price": 200.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 0,
+    "armor_check_penalty": -7,
+    "armor_weight_class": "heavy",
+    "weight_lb": "45 Pfd."
+  },
+  {
+    "id": "55392696-e63d-5923-b863-507c3b0d5404",
+    "masterwork_price_delta": 150,
+    "name": "Bänderpanzer",
+    "category": "armor",
+    "price": 250.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 1,
+    "armor_check_penalty": -6,
+    "armor_weight_class": "heavy",
+    "weight_lb": "35 Pfd."
+  },
+  {
+    "id": "cec30640-c6e8-52da-9106-c899fc4a6d1a",
+    "masterwork_price_delta": 150,
+    "name": "Tartsche",
+    "category": "shield",
+    "price": 5.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -1,
+    "armor_weight_class": null,
+    "weight_lb": "5 Pfd."
+  },
+  {
+    "id": "b6c79061-253e-5c07-b7ea-c71d5bbf2712",
+    "masterwork_price_delta": 150,
+    "name": "Leichter Holzschild",
+    "category": "shield",
+    "price": 3.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -1,
+    "armor_weight_class": null,
+    "weight_lb": "5 Pfd."
+  },
+  {
+    "id": "61405244-6494-582c-baee-622d9b8f849a",
+    "masterwork_price_delta": 150,
+    "name": "Schwerer Holzschild",
+    "category": "shield",
+    "price": 7.0,
+    "ac_bonus": 2,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "10 Pfd."
+  },
+  {
+    "id": "b991478f-9ae1-5183-8799-0fb76cbcdd32",
+    "masterwork_price_delta": 150,
+    "name": "Schwerer Stahlschild",
+    "category": "shield",
+    "price": 20.0,
+    "ac_bonus": 2,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "15 Pfd."
   }
 ]

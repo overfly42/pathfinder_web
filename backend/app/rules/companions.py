@@ -396,18 +396,7 @@ def familiar_master_skill_notes(context: CharacterContext) -> list[SkillNote]:
 
 # ---- barding (Pferdeharnisch) ----
 # Any armor a companion wears is barding (PRD Grundregelwerk, Ausrüstung,
-# "Pferdeharnisch"): "verlangsamt ein mittelschwerer oder schwerer
-# Pferdeharnisch das Reittier" (12 m -> 9 m, 15 m -> 10,5 m, 18 m -> 12 m —
-# the general armor table, extended to the slower speeds with the same
-# steps), and "Fliegende Reittiere können in einem mittelschweren oder
-# schweren Pferdeharnisch nicht fliegen".
-BARDING_SPEEDS: dict[float, float] = {6: 4.5, 9: 6, 12: 9, 15: 10.5, 18: 12}
-SLOWING_ARMOR = frozenset({"medium", "heavy"})
-
-
-def barded_speed(speed: float) -> float:
-    """Land speed in medium/heavy barding; a speed off the table loses a
-    third, rounded down to whole 1,5-m squares."""
-    if speed in BARDING_SPEEDS:
-        return BARDING_SPEEDS[speed]
-    return int(speed * 2 / 3 / 1.5) * 1.5
+# "Pferdeharnisch"). Its speed reduction is the general armor rule
+# (`rules/armor.py`'s `armored_speed`, applied to every wearer); the one
+# companion-only part is "Fliegende Reittiere können in einem mittelschweren
+# oder schweren Pferdeharnisch nicht fliegen" (`sheet.py`).

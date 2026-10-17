@@ -21,7 +21,7 @@ def test_list_items_is_database_backed(client: TestClient, db_session: Session) 
     assert response.status_code == 200
     items = response.json()
 
-    assert len(items) == 556  # + 8 riding gear items (import_reittier_zubehoer.py)
+    assert len(items) == 566  # + 8 riding gear items (import_reittier_zubehoer.py), + 10 PRD armor/shields (import_ruestungen_prd.py)
     assert all({"id", "name", "category", "price", "acBonus", "maxDexBonus"} <= set(item) for item in items)
 
     dolch = next(i for i in items if i["name"] == "Dolch")
@@ -34,7 +34,7 @@ def test_list_items_is_database_backed(client: TestClient, db_session: Session) 
     assert lederruestung["category"] == "armor"
     assert lederruestung["acBonus"] == 2
     assert lederruestung["maxDexBonus"] == 6
-    assert lederruestung["masterworkPriceDelta"] is None
+    assert lederruestung["masterworkPriceDelta"] == 150  # PRD: armor in Meisterarbeit +150 GM
 
     diebeswerkzeug = next(i for i in items if i["name"] == "Diebeswerkzeug")
     assert diebeswerkzeug["masterworkPriceDelta"] == 70

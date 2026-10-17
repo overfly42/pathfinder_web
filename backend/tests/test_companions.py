@@ -71,12 +71,13 @@ def test_species_and_pseudo_class_stay_out_of_player_choices(client: TestClient,
     assert client.post("/api/characters", json=payload).status_code == 422
 
 
-def test_druide_has_one_companion_slot_with_all_17_species(client: TestClient, db_session: Session) -> None:
+def test_druide_has_one_companion_slot_with_all_species(client: TestClient, db_session: Session) -> None:
     slot = _slot(_druide(client, db_session, 1))
 
     assert slot["level"] == 1
     assert slot["hitDice"] == 2
-    assert len(slot["species"]) == 17
+    # The PRD's 17 plus the house-rule Säbelzahnkatze.
+    assert len(slot["species"]) == 18
     assert slot["companion"] is None
 
 
@@ -481,3 +482,21 @@ def test_tiny_wearer_gets_half_the_armor_bonus(client: TestClient, db_session: S
     armored = _equip_armor(client, cat["id"], "Kettenhemd")
     entry = next(e for e in armored["armorClassBreakdown"] if e["label"] == "Kettenhemd")
     assert entry["value"] == 2  # 4 halved
+
+
+def test_saebelzahnkatze_house_rule(client: TestClient, db_session: Session) -> None:
+    """House rule (requirements_v2.md, "Hausregeln"): the Säbelzahnkatze
+    from Ausbauregeln X: Wildnis is a companion species."""
+    cat = _companion(client, _druide(client, db_session, 1), "Säbelzahnkatze")
+    claws = _attack(cat, "Klauen")
+    assert claws["attackBonus"] == "+3/+3"  # GAB 1 + ST 15 (+2)
+    assert claws["damage"] == "1W4+2 H/W"
+    assert claws["note"] == "plus Ergreifen"
+    bite = _attack(cat, "Säbelzahnbiss")
+    assert bite["hand"] == "Naturangriff (alternativ)"
+    assert bite["damage"].startswith("1W10")
+    assert {"Ergreifen", "Säbelzahnbiss", "Geruchssinn"} <= {r["name"] for r in cat["raceAbilities"]}
+
+    advanced = _companion(client, _druide(client, db_session, 7), "Säbelzahnkatze")
+    assert _attack(advanced, "Säbelzahnbiss")["damage"].startswith("2W8")
+    assert "Anspringen" in {r["name"] for r in advanced["raceAbilities"]}

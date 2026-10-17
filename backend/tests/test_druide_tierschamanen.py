@@ -63,7 +63,11 @@ def test_totem_companion_species_only(client: TestClient, db_session: Session) -
     lion_track = next(t for t in lion["companionLevels"] if t["track"] == "animal_companion")
     assert bear_track["level"] == 3
     assert [s["name"] for s in bear_track["slots"][0]["species"]] == ["Bär"]
-    assert [s["name"] for s in lion_track["slots"][0]["species"]] == ["Raubkatze, Groß (Löwe, Tiger)"]
+    # The lion, plus the house-rule Säbelzahnkatze.
+    assert [s["name"] for s in lion_track["slots"][0]["species"]] == [
+        "Raubkatze, Groß (Löwe, Tiger)",
+        "Säbelzahnkatze (Hausregel)",
+    ]
 
 
 def test_domain_choices_are_scoped_to_the_archetype(client: TestClient, db_session: Session) -> None:

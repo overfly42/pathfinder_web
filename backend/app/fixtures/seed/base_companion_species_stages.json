@@ -1523,5 +1523,78 @@
         "chosen_skill_id": null
       }
     ]
+  },
+  {
+    "id": "da60f76c-153a-575c-a358-b0e9f33819c1",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 15,
+      "GE": 15,
+      "KO": 13,
+      "IN": 2,
+      "WE": 13,
+      "CH": 8
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": "plus Ergreifen",
+        "alternative": false
+      },
+      {
+        "name": "Säbelzahnbiss",
+        "count": 1,
+        "dice": "1W10",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "nur bei einem Ringkampfwurf, um Schaden zu verursachen",
+        "alternative": true
+      }
+    ]
+  },
+  {
+    "id": "75307f70-21c2-5e4a-a533-eb8112f1e9a5",
+    "race_id": "c7911aea-4f31-5e8f-9b15-c79be0f9f155",
+    "level": 7,
+    "size": "Groß",
+    "natural_armor": 2,
+    "ability_scores": {
+      "ST": 8,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": "plus Ergreifen",
+        "alternative": false
+      },
+      {
+        "name": "Säbelzahnbiss",
+        "count": 1,
+        "dice": "2W8",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "nur bei einem Ringkampfwurf, um Schaden zu verursachen",
+        "alternative": true
+      }
+    ]
   }
 ]

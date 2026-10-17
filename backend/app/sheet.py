@@ -93,14 +93,18 @@ from .companions import (
 )
 from .rules.companions import (
     FAMILIAR_CLASS_SKILL_IDS,
-    SLOWING_ARMOR,
     TRACK_LABELS,
     TRACKS,
-    barded_speed,
     familiar_master_modifiers,
     familiar_master_skill_notes,
     master_companion_modifiers,
     master_effective_level,
+)
+from .rules.armor import (
+    SLOWING_ARMOR,
+    SPEED_UNAFFECTED_BY_ARMOR_ABILITY_IDS,
+    armor_modifiers,
+    armored_speed,
 )
 from .rules.size import (
     SIZE_TABLE,
@@ -401,6 +405,18 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     size = resolve_size(companion.size if companion else base_size(race_ability_ids), context)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot, size)
     gear_ac_modifiers += equipped_item_modifiers(list(gear_by_slot.values()))
+    # Rüstungsmalus on ST/GE skills, and on attacks with armor/shield the
+    # character isn't proficient with (`rules/armor.py`).
+    equipped_armor = [
+        (items[row.item_id], row)
+        for slot_key in ("ruestung", "schild")
+        if (row := gear_by_slot.get(slot_key)) is not None and row.item_id in items
+    ]
+    gear_ac_modifiers += armor_modifiers(
+        equipped_armor,
+        context.feat_ids | context.class_granted_proficiency_feat_ids,
+        (str(skill_id) for skill_id in db.scalars(select(BaseSkill.id).where(BaseSkill.ability.in_(("ST", "GE"))))),
+    )
     all_modifiers = (
         character_modifiers(context)
         + race_skill_modifiers(race_ability_ids)
@@ -485,12 +501,21 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = (companion.land_speed if companion else None) or race_speed(db, character.race_id) or 9
-    # A companion's armor is barding: medium/heavy slows it and grounds a
-    # flyer (`rules/companions.py`'s `barded_speed`).
-    heavy_barding = companion is not None and armor_item is not None and armor_item.armor_weight_class in SLOWING_ARMOR
-    if heavy_barding:
-        base_speed = barded_speed(base_speed)
-    total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
+    # Medium/heavy armor slows its wearer (`rules/armor.py`); a companion's
+    # armor is barding, which also grounds a flyer.
+    slowed_by_armor = (
+        armor_item is not None
+        and armor_item.armor_weight_class in SLOWING_ARMOR
+        and not set(race_ability_ids) & SPEED_UNAFFECTED_BY_ARMOR_ABILITY_IDS
+    )
+    # A class's fast movement counts before the armor ("Dieser Bonus wird
+    # angewandt, noch bevor die Bewegungsrate … durch … Rüstungen modifiziert
+    # wird"), other speed bonuses after it.
+    land_speed = base_speed + class_speed_bonus(context)
+    if slowed_by_armor:
+        land_speed = armored_speed(land_speed)
+    heavy_barding = companion is not None and slowed_by_armor
+    total_speed = land_speed + stacked.get((ModifierTarget.SPEED, None), 0)
     climb_speed = max(race_climb_speed(race_ability_ids) or 0, stacked.get((ModifierTarget.CLIMB_SPEED, None), 0)) or None
     burrow_speed = stacked.get((ModifierTarget.BURROW_SPEED, None), 0) or None
     swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
@@ -2638,8 +2663,9 @@ def _gear_ac_modifiers(
                 target=ModifierTarget.AC,
             )
         )
-        if category == "armor":
-            max_dex_bonus = item.max_dex_bonus
+        # Armor's cap, and a shield's own one (Turmschild: +2) — the lower wins.
+        if item.max_dex_bonus is not None and category in ("armor", "shield"):
+            max_dex_bonus = item.max_dex_bonus if max_dex_bonus is None else min(max_dex_bonus, item.max_dex_bonus)
     return modifiers, max_dex_bonus
 
 
