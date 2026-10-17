@@ -85,6 +85,7 @@ export async function exportCharacterPdf(character: Character, language: Languag
     `Land ${character.speed}`,
     character.climbSpeed && `Klettern ${character.climbSpeed}`,
     character.swimSpeed && `Schwimmen ${character.swimSpeed}`,
+    character.burrowSpeed && `Graben ${character.burrowSpeed}`,
     character.flySpeed && `Fliegen ${character.flySpeed}${character.flyManeuverability ? ` (${character.flyManeuverability})` : ''}`,
   ].filter(Boolean) as string[];
   table(

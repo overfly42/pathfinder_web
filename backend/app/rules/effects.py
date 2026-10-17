@@ -199,6 +199,30 @@ def _katzenhafte_anmut(context: CharacterContext) -> list[Modifier]:
     return [Modifier(source="Katzenhafte Anmut", type="enhancement", value=4, target=ModifierTarget.SCORE, target_id="GE")]
 
 
+# Person vergrößern / Person verkleinern (`base_spells.json` ids 02b2b44d-…/
+# 53aa254b-…, roadmap slice 10 step 2a). The size step itself — and with it
+# the −1/+1 on attack and AC the PRD text names — is `rules/size.py`'s
+# `SIZE_STEP_HANDLERS`; only the ability-score changes are modifiers here
+# ("Größenbonus von +2 auf Stärke, Größenmalus von −2 auf Geschicklichkeit"
+# and the reverse). Presence, not sum.
+PERSON_VERGROESSERN_SPELL_ID = UUID("02b2b44d-660a-5896-9efa-fac7c3de9bdd")
+PERSON_VERKLEINERN_SPELL_ID = UUID("53aa254b-30aa-559a-bde1-1d7fa7ff6904")
+
+
+def _size_change_scores(spell_id: UUID, name: str, plus: str, minus: str) -> Callable[[CharacterContext], list[Modifier]]:
+    def handler(context: CharacterContext) -> list[Modifier]:
+        if not context.has_active(spell_id):
+            return []
+        return [
+            Modifier(source=name, type="size", value=2, target=ModifierTarget.SCORE, target_id=plus),
+            # "untyped": a typed penalty would be dropped by `stack()` (see
+            # `rules/size.py`'s `_size_typed`).
+            Modifier(source=name, type="untyped", value=-2, target=ModifierTarget.SCORE, target_id=minus),
+        ]
+
+    return handler
+
+
 EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     ERSCHOPFT_CONDITION_ID: _erschoepft,
     DEFENSIV_KAEMPFEN_CONDITION_ID: _defensiv_kaempfen,
@@ -207,4 +231,6 @@ EFFECT_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     SCHILD_DES_GLAUBENS_SPELL_ID: _schild_des_glaubens,
     RINDENHAUT_SPELL_ID: _rindenhaut,
     KATZENHAFTE_ANMUT_SPELL_ID: _katzenhafte_anmut,
+    PERSON_VERGROESSERN_SPELL_ID: _size_change_scores(PERSON_VERGROESSERN_SPELL_ID, "Person vergrößern", "ST", "GE"),
+    PERSON_VERKLEINERN_SPELL_ID: _size_change_scores(PERSON_VERKLEINERN_SPELL_ID, "Person verkleinern", "GE", "ST"),
 }

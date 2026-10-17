@@ -232,7 +232,13 @@ Kurzfassung als Einstiegspunkt:
       Zauberplätze pro Tag bei arkanen Zauberkundigen mit Zauberbuch), und die
       archetypspezifischen Arkana-Einschränkungen (kein `archetype_id`-Feld
       auf `BaseClassOptionChoice`).
-- [ ] Rassengröße (Klein/Mittelgroß/...) nicht modelliert — `BaseRace` hat
+- [x] **Erledigt 2026-10-17** (`roadmap.md` Slice 10 Schritt 2a,
+      `rules/size.py`): Größe wird aus der Rassenfähigkeit „Klein"/
+      „Mittelgroß" plus Größeneffekten aufgelöst und wirkt auf RK, alle
+      Angriffe, KMB/KMV, Heimlichkeit, Fliegen, Waffen- und
+      Naturangriffsschaden. Tragkraft weiterhin nicht modelliert.
+      Ursprünglicher Eintrag:
+      Rassengröße (Klein/Mittelgroß/...) nicht modelliert — `BaseRace` hat
       kein Size-Feld; `sheet.py`s AC/KMB/KMD nehmen fest Mittelgroß an
       (siehe `sheet.py`s Moduldocstring). Sollte, analog zum
       `rules/speed.py`-Präzedenzfall (Bewegungsrate wurde bewusst von einer

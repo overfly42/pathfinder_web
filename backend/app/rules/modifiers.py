@@ -83,6 +83,13 @@ class ModifierTarget(StrEnum):
     # branch. Single slot, no `target_id`. Maneuverability (a label, not a
     # number) rides along as `Modifier.detail`.
     FLY_SPEED = "fly_speed"
+    # A burrow speed in meters — same "only present for a character who has
+    # the mode" shape as CLIMB/SWIM/FLY (roadmap slice 10 step 2a, needed by
+    # companion species like the badger; no PC source yet).
+    BURROW_SPEED = "burrow_speed"
+    # Kampfmanöverbonus (`sheet.py`'s `bab + str_mod + …`) — first producer
+    # is the size category's special size modifier (`rules/size.py`).
+    CMB = "cmb"
     # Kampfmanöverabwehr (`sheet.py`'s inline `10 + bab + str_mod + dex_mod`
     # formula) — first producer is Mönch's Rüstungsklassenbonus
     # (`rules/classes/moench.py`), which grants the same value to both AC
@@ -155,9 +162,8 @@ class NaturalAttack:
     extra attack-roll/damage-roll line `sheet.py`'s `_build_natural_attacks`
     turns into a `WeaponAttack`-shaped entry so it renders in the sheet's
     existing "Waffen" section alongside equipped-weapon attacks. Dice/type/
-    count are fixed per ability (no size scaling yet — `BaseRace` has no
-    size field, same "honest simplification" the rest of the sheet already
-    documents, see todos.md's "Rassengröße"). Whether a manufactured weapon
+    count are fixed per ability for its `base_size`; `sheet.py` scales the
+    dice to the character's resolved size (`rules/size.py`). Whether a manufactured weapon
     is wielded (full vs. half BAB/Str) is resolved uniformly by
     `_build_natural_attacks` itself, not per handler — but a handler *does*
     still take `CharacterContext`, because not every natural attack is
@@ -172,6 +178,17 @@ class NaturalAttack:
     count: int
     damage_dice: str
     damage_type: str
+    # The creature size `damage_dice` is given for (roadmap slice 10 step 2a):
+    # `sheet.py` steps the dice by the difference to the character's actual
+    # size (`rules/size.py`'s `step_damage`) — a Small race's bite deals less
+    # than a Medium one's, Person vergrößern makes it hit harder. Companion
+    # species rows will give their dice per advancement stage instead.
+    base_size: str = "Mittelgroß"
+    # PF1e primary vs. secondary natural attack (a tail slap is secondary by
+    # nature): a secondary one always rolls at BAB −5 and adds only ½ ST to
+    # damage; a primary one only becomes secondary while a manufactured
+    # weapon is wielded.
+    is_secondary: bool = False
 
 
 def stack(modifiers: list[Modifier]) -> int:

@@ -56,6 +56,7 @@ function PrintableSheet({ character }: { character: Character }) {
     `Land ${character.speed}`,
     character.climbSpeed && `Klettern ${character.climbSpeed}`,
     character.swimSpeed && `Schwimmen ${character.swimSpeed}`,
+    character.burrowSpeed && `Graben ${character.burrowSpeed}`,
     character.flySpeed && `Fliegen ${character.flySpeed}${character.flyManeuverability ? ` (${character.flyManeuverability})` : ''}`,
   ].filter(Boolean);
   // Spellbook entries (full text, independent of today's preparation) are the spell list; casters

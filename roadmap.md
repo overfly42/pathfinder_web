@@ -2270,9 +2270,27 @@ Small characters change (values become correct, not a regression).
       source, deliberately not seeded. Not yet: Hexe (no familiar ability),
       "Shared `effective_level`"/per-companion bonuses (Boon Companion) —
       those need `CharacterCompanion` (step 2b/4).
-- [ ] 2a. Size as real data + generic size-modifier step, movement modes
+- [x] 2a. Size as real data + generic size-modifier step, movement modes
       beyond land speed, natural attacks (primary/secondary) — usable by
       PCs too; must land before 2b. Details: "Size (slice 2a)" below.
+      **Done 2026-10-17** (`rules/size.py`, `tests/test_size.py`): nine
+      categories Mini … Kolossal with AC/attack, CMB/CMD (new
+      `ModifierTarget.CMB`), Heimlichkeit, Fliegen, space and tall/long
+      reach; base size from the race's "Klein"/"Mittelgroß" ability (no
+      longer flavor-only), shifted by `SIZE_STEP_HANDLERS` — Person
+      vergrößern/verkleinern are now activatable spells (size step +
+      ±2 ST/GE). One damage-dice step table (`step_damage`) for weapons
+      (`damage_small` for Klein, stepped otherwise) and natural attacks
+      (`NaturalAttack.base_size`). Natural attacks: `is_secondary` (always
+      BAB −5, ½ ST), a sole primary attack adds 1½ ST. Movement: class-
+      granted climb/fly and new `BURROW_SPEED` folded in, "Graben" shown.
+      Sheet: "Größe (Angriffsfläche/Reichweite)" combat line. **Tester
+      note:** Small characters' AC/attack (+1), CMB/CMD (−1), Heimlichkeit
+      (+4) and weapon damage change — the values are now correct. Found
+      along the way: `stack()` drops a *typed* penalty (it keeps a type's
+      maximum starting from 0), so penalties are emitted as "untyped".
+      Not in 2a: carrying capacity, Tiergestalt forms, quadruped "long"
+      reach on the sheet (companion species bring it in 2b).
 - [ ] 2b. Schema: `master_character_id`, entitlements with species lists,
       pseudo class, species (incl. race-picker filter, `source`,
       creature type), progression and advancement tables; importer for the

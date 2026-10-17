@@ -137,6 +137,7 @@ from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
 from .race_abilities import SPELL_LIKE_ABILITY_HANDLERS as _RACE_SPELL_LIKE_ABILITY_HANDLERS
 from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIENCY_HANDLERS
+from .size import BASE_SIZE_BY_ABILITY as _BASE_SIZE_BY_ABILITY
 from .speed import HANDLERS as _SPEED_HANDLERS
 from .traits import CLASS_SKILL_GRANTS as _TRAIT_CLASS_SKILL_GRANTS
 from .traits import HANDLERS as _TRAIT_HANDLERS
@@ -372,6 +373,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in TEMP_HP_GRANTS
         or ability_id in ON_END
         or ability_id in APPLIED_OUTSIDE_HANDLERS_IDS
+        or ability_id in _BASE_SIZE_BY_ABILITY
     )
 
 

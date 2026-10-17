@@ -35,10 +35,10 @@ not fabricated placeholder content:
   cast, so `usedCount` is derived live from that pool rather than stored
   per spell — see `_build_prepared_spell_grades`'s own docstring.
 
-Likewise `armorClass`/`combat`'s CMB/CMD assume an unarmored, Medium
-creature: `BaseRace` has no size field yet, so no size modifier is applied
-(a Small race like Halfling/Gnome should get +1 AC/attack, -1 CMB/CMD in
-real PF1e — not modeled here)."""
+Size (roadmap slice 10 step 2a, `rules/size.py`) is resolved from the
+race's own size ability plus active size-changing effects and fed into the
+ordinary stacking as `Modifier`s (AC, every attack, CMB/CMD, Heimlichkeit,
+Fliegen); weapon and natural-attack damage dice are stepped to it."""
 
 from collections import Counter, defaultdict
 from uuid import UUID
@@ -78,6 +78,7 @@ from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
 from .rules.class_options import favored_class_bonus_race_choices
 from .rules.companions import TRACK_LABELS, TRACKS, master_effective_level
+from .rules.size import SIZE_TABLE, SIZES, base_size, format_meters, resolve_size, size_modifiers, step_damage, weapon_damage
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
@@ -117,7 +118,7 @@ from .rules.handlers import (
     situational_skill_notes,
 )
 from .rules.items import equipped_item_modifiers
-from .rules.modifiers import Modifier, ModifierTarget, SkillNote, contributing, group_by_target, stack
+from .rules.modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote, contributing, group_by_target, stack
 from .rules.proficiency import (
     DUAL_NATURE_WEAPON_FEAT_IDS,
     NOT_PROFICIENT_ATTACK_PENALTY,
@@ -332,6 +333,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # into AC/saves/speed/skills below as plain dict lookups rather than
     # each one re-filtering/re-stacking. `items`/`gear_by_slot` were already
     # fetched above, ahead of `context`.
+    # Resolved here, not stored and not on `context` (computed, not raw):
+    # the race's size ability shifted by active size-changing effects.
+    size = resolve_size(base_size(race_ability_ids), context)
     gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
     gear_ac_modifiers += equipped_item_modifiers(list(gear_by_slot.values()))
     all_modifiers = (
@@ -344,6 +348,10 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.SAVE_FORT)
         + granted_ability_modifiers(context, target=ModifierTarget.SAVE_REF)
         + granted_ability_modifiers(context, target=ModifierTarget.SAVE_WILL)
+        + granted_ability_modifiers(context, target=ModifierTarget.CLIMB_SPEED)
+        + granted_ability_modifiers(context, target=ModifierTarget.FLY_SPEED)
+        + granted_ability_modifiers(context, target=ModifierTarget.BURROW_SPEED)
+        + size_modifiers(size)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -408,7 +416,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
 
     base_speed = race_speed(db, character.race_id) or 9
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
-    climb_speed = race_climb_speed(race_ability_ids)
+    climb_speed = max(race_climb_speed(race_ability_ids) or 0, stacked.get((ModifierTarget.CLIMB_SPEED, None), 0)) or None
+    burrow_speed = stacked.get((ModifierTarget.BURROW_SPEED, None), 0) or None
     swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
     fly_speed = stacked.get((ModifierTarget.FLY_SPEED, None), 0) or None
     fly_modifiers = contributing(groups.get((ModifierTarget.FLY_SPEED, None), []))
@@ -433,7 +442,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     weapon_attacks = (
         _build_weapon_attacks(
             items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
-            granted_ability_ids, any_attack_bonus=any_attack_bonus, any_damage_bonus=any_damage_bonus,
+            granted_ability_ids, any_attack_bonus=any_attack_bonus, any_damage_bonus=any_damage_bonus, size=size,
         )
         + _build_natural_attacks(
             items,
@@ -446,8 +455,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             dex_mod,
             melee_attack_bonus + any_attack_bonus,
             melee_damage_bonus + any_damage_bonus,
+            size=size,
         )
-        + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context)
+        + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context, any_attack_bonus)
     )
     spellbook, spells_known = _build_prepared_spell_grades(
         db, character, level_counts_by_root_id, ability_mods, granted_ability_ids, items
@@ -478,6 +488,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "climbSpeed": f"{climb_speed} m" if climb_speed else None,
         "swimSpeed": f"{swim_speed} m" if swim_speed else None,
         "flySpeed": f"{fly_speed} m" if fly_speed else None,
+        "burrowSpeed": f"{burrow_speed} m" if burrow_speed else None,
         "flyManeuverability": fly_maneuverability if fly_speed else None,
         "roundLabel": "Runde 1",
         "abilities": [
@@ -508,7 +519,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             {
                 "key": "cmb",
                 "label": "Kampfmanöverbonus (KMB)",
-                "value": _fmt(bab + str_mod + melee_attack_bonus),
+                "value": _fmt(bab + str_mod + melee_attack_bonus + stacked.get((ModifierTarget.CMB, None), 0)),
             },
             {
                 "key": "cmd",
@@ -516,6 +527,14 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "value": str(10 + bab + str_mod + dex_mod + stacked.get((ModifierTarget.CMD, None), 0)),
             },
             *concentration,
+            {
+                "key": "size",
+                "label": "Größe (Angriffsfläche/Reichweite)",
+                "value": (
+                    f"{size} ({format_meters(SIZE_TABLE[size].space)} / "
+                    f"{format_meters(SIZE_TABLE[size].reach_tall)})"
+                ),
+            },
         ],
         "skills": _build_skills(
             db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, groups, context
@@ -2593,6 +2612,7 @@ def _build_weapon_attacks(
     *,
     any_attack_bonus: int = 0,
     any_damage_bonus: int = 0,
+    size: str = "Mittelgroß",
 ) -> list[dict]:
     """Computed attack-bonus/damage-dice readout for whatever's equipped in
     the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
@@ -2628,8 +2648,10 @@ def _build_weapon_attacks(
     too, not modeled.
 
     `any_attack_bonus`/`any_damage_bonus` (`ModifierTarget.ANY_ATTACK`/
-    `ANY_DAMAGE`, e.g. the Paladin's Böses niederstrecken) apply to melee
-    and ranged weapons alike.
+    `ANY_DAMAGE`, e.g. the Paladin's Böses niederstrecken, or the size
+    modifier) apply to melee and ranged weapons alike. `size` (the
+    wielder's resolved size) picks the damage dice (`rules/size.py`'s
+    `weapon_damage`: `damage_small` for Klein, stepped otherwise).
 
     `context` only feeds Heftiger Angriff's attack/damage trade-off while
     actually activated (`_power_attack_effect`) — melee only, same reasoning
@@ -2726,7 +2748,8 @@ def _build_weapon_attacks(
         )
 
         damage_parts: list[str] = []
-        if item.damage_medium:
+        damage_dice = weapon_damage(item.damage_medium, item.damage_small, size)
+        if damage_dice:
             damage_str_mod = (
                 dex_mod
                 if derwischtanz_active
@@ -2739,7 +2762,7 @@ def _build_weapon_attacks(
                 + power_attack_damage
                 + any_damage_bonus
             )
-            piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
+            piece = damage_dice + (_fmt(flat_damage) if flat_damage else "")
             if item.damage_type:
                 piece += f" {item.damage_type}"
             damage_parts.append(piece)
@@ -2778,7 +2801,13 @@ def _build_weapon_attacks(
 
 
 def _build_spell_touch_attacks(
-    db: Session, character: Character, bab: int, str_mod: int, dex_mod: int, context: CharacterContext
+    db: Session,
+    character: Character,
+    bab: int,
+    str_mod: int,
+    dex_mod: int,
+    context: CharacterContext,
+    any_attack_bonus: int = 0,
 ) -> list[dict]:
     """Two generic touch-attack helper lines for the "Angriffe" section
     (2026-08-27, prompted by Kampfzauberei) — PF1e distinguishes exactly two
@@ -2823,14 +2852,14 @@ def _build_spell_touch_attacks(
             "key": "nahkampfberuehrung",
             "hand": "Zauber",
             "name": "Nahkampfberührung",
-            "attackBonus": _fmt(bab + melee_touch_ability_mod + kampfzauberei_penalty),
+            "attackBonus": _fmt(bab + melee_touch_ability_mod + kampfzauberei_penalty + any_attack_bonus),
             "damage": "—",
         },
         {
             "key": "fernkampfberuehrung",
             "hand": "Zauber",
             "name": "Fernkampfberührung",
-            "attackBonus": _fmt(bab + dex_mod + kampfzauberei_penalty),
+            "attackBonus": _fmt(bab + dex_mod + kampfzauberei_penalty + any_attack_bonus),
             "damage": "—",
         },
     ]
@@ -2851,6 +2880,7 @@ def _build_natural_attacks(
     dex_mod: int,
     melee_attack_bonus: int,
     melee_damage_bonus: int,
+    size: str = "Mittelgroß",
 ) -> list[dict]:
     """Bite/claw-style natural weapon attacks a character's race/class
     abilities grant (e.g. Halb-Ork's Reißzähne, Entfesselter Barbar's
@@ -2893,6 +2923,13 @@ def _build_natural_attacks(
     same `_class_weapon_bonus_damage` helper `_build_weapon_attacks` uses —
     RAW doesn't limit that kind of bonus to manufactured weapons.
 
+    Roadmap slice 10 step 2a: dice are stepped from the attack's own
+    `base_size` to the character's resolved `size` (`rules/size.py`); an
+    attack that is secondary by nature (`NaturalAttack.is_secondary`) is
+    always treated like the weapon-wielding case above; and a creature whose
+    only natural attack is one primary attack adds 1½ × ST to its damage
+    (PF1e "Natürliche Angriffe").
+
     Waffenfinesse (`rules/feats.py`'s `WAFFENFINESSE`) applies to every
     natural attack unconditionally, not gated on `BaseItem.is_light` the
     way `_build_weapon_attacks` gates it for a manufactured weapon: the
@@ -2906,23 +2943,11 @@ def _build_natural_attacks(
         (gear_row := gear_by_slot.get(slot)) is not None and items[gear_row.item_id].category == "weapon"
         for slot in _WEAPON_HAND_LABELS
     )
-    # Natural attacks never get Power Attack's 150% two-handed scaling (no
-    # "hands" concept for them at all, same simplification the Str-mod
-    # halving just below already makes) — only the secondary-attack 50%
-    # halving via `wields_weapon`, reusing `_power_attack_effect`'s
-    # `is_off_hand` parameter for that same halving rule.
-    power_attack = _power_attack_effect(bab, context, hands=None, is_off_hand=wields_weapon)
-    power_attack_penalty = power_attack[0] if power_attack is not None else 0
-    power_attack_damage = power_attack[1] if power_attack is not None else 0
-
     attack_ability_mod = dex_mod if WAFFENFINESSE in context.feat_ids else str_mod
-    attack_bonus = bab + attack_ability_mod + melee_attack_bonus - (5 if wields_weapon else 0) + power_attack_penalty
-    damage_str_mod = str_mod if str_mod < 0 or not wields_weapon else str_mod // 2
-    flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
-
     class_bonus_damage = _class_weapon_bonus_damage(class_ability_ids, context)
+
     ability_ids = sorted(set(race_ability_ids) | set(class_ability_ids), key=str)
-    results = []
+    attacks: list[tuple[UUID, NaturalAttack]] = []
     for ability_id in ability_ids:
         if not context.requirement_met(ability_id):
             continue
@@ -2930,13 +2955,36 @@ def _build_natural_attacks(
         if handler is None:
             continue
         attack = handler(context)
-        if attack is None:
-            continue
-        damage_parts = [f"{attack.damage_dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}"]
-        damage_parts.extend(f"{dice} {damage_type}" for dice, damage_type in class_bonus_damage)
+        if attack is not None:
+            attacks.append((ability_id, attack))
+    is_sole_attack = len(attacks) == 1 and attacks[0][1].count == 1 and not wields_weapon
+
+    results = []
+    for ability_id, attack in attacks:
+        secondary = wields_weapon or attack.is_secondary
+        # Natural attacks never get Power Attack's 150% two-handed scaling (no
+        # "hands" concept for them at all) — only the secondary-attack 50%
+        # halving, reusing `_power_attack_effect`'s `is_off_hand` parameter
+        # for that same halving rule.
+        power_attack = _power_attack_effect(bab, context, hands=None, is_off_hand=secondary)
+        power_attack_penalty = power_attack[0] if power_attack is not None else 0
+        power_attack_damage = power_attack[1] if power_attack is not None else 0
+        attack_bonus = bab + attack_ability_mod + melee_attack_bonus - (5 if secondary else 0) + power_attack_penalty
+        if str_mod < 0:
+            damage_str_mod = str_mod
+        elif secondary:
+            damage_str_mod = str_mod // 2
+        elif is_sole_attack:
+            damage_str_mod = str_mod * 3 // 2
+        else:
+            damage_str_mod = str_mod
+        flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
+        dice = step_damage(attack.damage_dice, SIZES.index(size) - SIZES.index(attack.base_size))
+        damage_parts = [f"{dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}"]
+        damage_parts.extend(f"{bonus_dice} {damage_type}" for bonus_dice, damage_type in class_bonus_damage)
         result = {
             "key": f"natural-{ability_id}",
-            "hand": "Naturangriff",
+            "hand": "Naturangriff (sekundär)" if attack.is_secondary else "Naturangriff",
             "name": attack.name,
             "attackBonus": "/".join(_fmt(attack_bonus) for _ in range(attack.count)),
             "damage": " + ".join(damage_parts),

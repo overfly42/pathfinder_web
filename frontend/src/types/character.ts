@@ -482,6 +482,9 @@ export interface Character {
    * maneuverability label ("Durchschnittlich"/"Perfekt") — both `null` otherwise. */
   flySpeed: string | null;
   flyManeuverability: string | null;
+  /** Burrow speed (backend `ModifierTarget.BURROW_SPEED`), `null` without one. Absent for the
+   *  two hardcoded mock fixtures. */
+  burrowSpeed?: string | null;
   roundLabel: string;
   abilities: AbilityScore[];
   saves: StatEntry[];
