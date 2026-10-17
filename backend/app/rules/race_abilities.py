@@ -97,6 +97,22 @@ _BLUFFEN_SKILL_ID = "144fa65e-50ce-4eb7-b861-177692a86858"
 _DIPLOMATIE_SKILL_ID = "b72e7417-7ae3-4ce1-8d8c-5c5a378c602c"
 _MOTIV_ERKENNEN_SKILL_ID = "9a4debc2-0c8f-4461-9a37-bd667d8535ee"
 
+# Aasimar's "Bewandert" (`import_aasimar.py`) and the flat skill-bonus
+# clause of three of its alternate racial traits. Sprachenmeister/
+# Himmelsgeboren/Unsterblicher Lebensfunke each say "einen Bonus von +2"
+# (untyped, unlike Bewandert's Volksbonus) and bundle further clauses with no
+# lever to hook into yet (two languages per Sprachenkunde rank, +1 caster
+# level for Gutes/Licht spells, +2 saves vs death effects and a once-a-day
+# spell-like ability) — only the skill bonus is modeled, same partial
+# approach as Lichtbringer below.
+AASIMAR_BEWANDERT = UUID("c6ba1c4e-2587-48dc-9de8-7a8aa235cf44")
+AASIMAR_SPRACHENMEISTER = UUID("67a751f6-2b89-4852-9d91-f369fe991749")
+AASIMAR_HIMMELSGEBOREN = UUID("6580a1af-8d2f-40fb-8628-ceb9882aac6f")
+AASIMAR_UNSTERBLICHER_LEBENSFUNKE = UUID("07425573-7c5c-4f65-881b-8fbd0a5381d3")
+_SPRACHENKUNDE_SKILL_ID = "042a33bd-ac38-403f-b8aa-d4cfeb4db3c3"
+_WISSEN_DIE_EBENEN_SKILL_ID = "80b9c08a-4cef-40d1-b446-caefccbff302"
+_WISSEN_GESCHICHTE_SKILL_ID = "3870a249-e599-45b6-b19c-bfe38dc3d84f"
+
 # Katzenvolk's "Katzenkrallen" alternate racial trait (`race_ability_grants.json`,
 # `is_alternate=True`; replaces "Natürlicher Jäger" per
 # `race_ability_replacements.json`) — two primary claw attacks, same shape
@@ -161,7 +177,9 @@ def _attribute_bonus(context: CharacterContext, *, attribute: str | None, value:
     ]
 
 
-def _skill_bonus(context: CharacterContext, *, source: str, skill_id: str, value: int) -> list[Modifier]:
+def _skill_bonus(
+    context: CharacterContext, *, source: str, skill_id: str, value: int, bonus_type: str = "racial"
+) -> list[Modifier]:
     # Unconditional, same reasoning as `_attribute_bonus` above — a race's
     # flat skill Volksbonus never depends on anything about the character.
     # Unlike `_attribute_bonus`'s generic "race ability" (ability-score
@@ -169,22 +187,23 @@ def _skill_bonus(context: CharacterContext, *, source: str, skill_id: str, value
     # for now), `source` is the ability's own name here: `sheet.py`'s skill
     # breakdown (`_build_skills`) surfaces `Modifier.source` directly to the
     # player, so it must identify *which* ability granted the bonus, not
-    # just "a race ability".
+    # just "a race ability". `bonus_type` is "untyped" for a trait whose
+    # text says just "einen Bonus" rather than "einen Volksbonus".
     del context
     return [
-        Modifier(source=source, type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
+        Modifier(source=source, type=bonus_type, value=value, target=ModifierTarget.SKILL, target_id=skill_id)
     ]
 
 
 def _multi_skill_bonus(
-    context: CharacterContext, *, source: str, skill_ids: tuple[str, ...], value: int
+    context: CharacterContext, *, source: str, skill_ids: tuple[str, ...], value: int, bonus_type: str = "racial"
 ) -> list[Modifier]:
     # Unconditional, same reasoning as `_skill_bonus` above — just spread
     # across more than one skill (Katzenvolk's Natürlicher Jäger/Kluge
     # Katze) instead of exactly one.
     del context
     return [
-        Modifier(source=source, type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
+        Modifier(source=source, type=bonus_type, value=value, target=ModifierTarget.SKILL, target_id=skill_id)
         for skill_id in skill_ids
     ]
 
@@ -253,6 +272,29 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
         skill_ids=(_BLUFFEN_SKILL_ID, _DIPLOMATIE_SKILL_ID, _MOTIV_ERKENNEN_SKILL_ID),
         value=2,
     ),
+    AASIMAR_BEWANDERT: functools.partial(
+        _multi_skill_bonus,
+        source="Bewandert",
+        skill_ids=(_DIPLOMATIE_SKILL_ID, _WAHRNEHMUNG_SKILL_ID),
+        value=2,
+    ),
+    AASIMAR_SPRACHENMEISTER: functools.partial(
+        _multi_skill_bonus,
+        source="Sprachenmeister",
+        skill_ids=(_MOTIV_ERKENNEN_SKILL_ID, _SPRACHENKUNDE_SKILL_ID),
+        value=2,
+        bonus_type="untyped",
+    ),
+    AASIMAR_HIMMELSGEBOREN: functools.partial(
+        _skill_bonus, source="Himmelsgeboren", skill_id=_WISSEN_DIE_EBENEN_SKILL_ID, value=2, bonus_type="untyped"
+    ),
+    AASIMAR_UNSTERBLICHER_LEBENSFUNKE: functools.partial(
+        _skill_bonus,
+        source="Unsterblicher Lebensfunke",
+        skill_id=_WISSEN_GESCHICHTE_SKILL_ID,
+        value=2,
+        bonus_type="untyped",
+    ),
 }
 
 # This module's own slice of `rules/handlers.py`'s merged
@@ -292,6 +334,21 @@ def _lichtbringer_spell_like_ability(context: CharacterContext) -> UUID | None:
     return _LICHT_SPELL_ID if context.ability_scores.get("IN", 0) >= 10 else None
 
 
+# Aasimar's "Heiligenschein" alternate racial trait (replaces Dunkelsicht) —
+# at-will *Licht*, unconditional unlike Lichtbringer's INT gate. Its
+# circumstance bonus against evil creatures/blindness has no stated value on
+# the PRD page and isn't modeled. Aasimar's once-a-day spell-like abilities
+# (Tageslicht, Charakterstark, Unsterblicher Lebensfunke) are deliberately
+# not registered here: this registry is at-will only, with no daily cap
+# (`sheet.py`'s `_build_activatable_spells`).
+AASIMAR_HEILIGENSCHEIN = UUID("b95e1855-157d-489f-aa72-7abd7e190eba")
+
+
+def _heiligenschein_spell_like_ability(context: CharacterContext) -> UUID | None:
+    del context
+    return _LICHT_SPELL_ID
+
+
 # This module's own slice of `rules/handlers.py`'s merged
 # `SPELL_LIKE_ABILITY_HANDLERS` — race-granted spell-like abilities. Returns
 # `None` when the granting condition (here, an ability-score threshold) isn't
@@ -300,4 +357,22 @@ def _lichtbringer_spell_like_ability(context: CharacterContext) -> UUID | None:
 # uses.
 SPELL_LIKE_ABILITY_HANDLERS: dict[UUID, Callable[[CharacterContext], UUID | None]] = {
     LICHTBRINGER_ABILITY_ID: _lichtbringer_spell_like_ability,
+    AASIMAR_HEILIGENSCHEIN: _heiligenschein_spell_like_ability,
+}
+
+# This module's own slice of `rules/handlers.py`'s merged
+# `PARTIAL_EFFECT_NOTES` — race abilities whose handler above computes only
+# some of their clauses. The note names what the player still has to apply
+# at the table; the sheet shows it as a "Teilweise" badge instead of no
+# badge at all (`has_mechanical_effect` alone can't tell "fully computed"
+# from "one clause of three computed").
+PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
+    LICHTBRINGER_ABILITY_ID: "Immunität gegen lichtbasierte Blindheit/Blendung und +1 Zauberstufe für eigene "
+    "Lichtzauber werden nicht berechnet.",
+    AASIMAR_SPRACHENMEISTER: "Zwei Sprachen pro Fertigkeitsrang in Sprachenkunde werden nicht berechnet.",
+    AASIMAR_HIMMELSGEBOREN: "ZS +1 für Zauber der Kategorien Gutes oder Licht wird nicht berechnet.",
+    AASIMAR_UNSTERBLICHER_LEBENSFUNKE: "+2 auf Rettungswürfe gegen Todeseffekte und Schwächere Resistenz gegen "
+    "Alterung (1/Tag) werden nicht berechnet.",
+    AASIMAR_HEILIGENSCHEIN: "Situationsbonus auf Einschüchtern gegen böse Kreaturen und auf Rettungswürfe gegen "
+    "Blindheit/Blendung wird nicht berechnet.",
 }

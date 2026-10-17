@@ -1414,5 +1414,11 @@
     "feat_id": "e3ed7db7-928f-5bf8-b983-f39508f1823d",
     "group_id": null,
     "required_feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec"
+  },
+  {
+    "id": "db97e4c1-ee8e-5e75-8062-1a8354975505",
+    "feat_id": "278d994a-4035-5dc4-a030-fc9f5e656ed5",
+    "group_id": null,
+    "required_feat_id": "4a9d8e09-9aa5-44d0-b34e-f23ec5491fed"
   }
 ]

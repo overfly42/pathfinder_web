@@ -3598,5 +3598,45 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": null
+  },
+  {
+    "id": "3f2db066-a94e-54f9-a8f7-0f970f65cca4",
+    "group_id": "5d86d008-c03a-5c2d-be1f-ff6ab6d2d958",
+    "name": "Aasimar (Barde)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
+  },
+  {
+    "id": "920a13d2-ffcb-5665-8018-4dbc4f557815",
+    "group_id": "42c38265-e682-5788-8bcd-f2d5e6d1f846",
+    "name": "Aasimar (Hexenmeister)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
+  },
+  {
+    "id": "b1b4a501-31ec-53b6-ad81-8af2421bf3ea",
+    "group_id": "59841a06-3004-50ab-be79-9561f97be822",
+    "name": "Aasimar (Kleriker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
+  },
+  {
+    "id": "8acfdef7-6e95-54a7-95c8-d889877a1973",
+    "group_id": "8b2214e4-8691-5218-9f05-68934f51bc67",
+    "name": "Aasimar (Mystiker)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
+  },
+  {
+    "id": "21af67cc-5f06-57c7-83da-93768a20ec8f",
+    "group_id": "88c8651d-c231-5b72-b314-80fbfd12dd74",
+    "name": "Aasimar (Paladin)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
   }
 ]

@@ -276,6 +276,55 @@ Kurzfassung als Einstiegspunkt:
       `has_mechanical_effect()` in `rules/handlers.py`, das alle
       Effekt-Registries prüft (siehe `readme.md`s "Request pipeline").
       2026-08-25.
+- [ ] **„Teilweise“-Badge für alle Bereiche nachtragen.** Seit 2026-10-17
+      unterscheidet der Bogen drei Zustände: vollständig berechnet (kein
+      Badge), „Teilweise“ (`partialNote`, Tooltip nennt den nicht
+      berechneten Teil) und „Nur Text“. Gepflegt wird das über je eine
+      `PARTIAL_EFFECT_NOTES`-Liste pro Bereich, die `rules/handlers.py`
+      zusammenführt (`partial_effect_note()`). Befüllt ist bisher nur der
+      Bereich Völker (`rules/race_abilities.py`: Lichtbringer, Aasimar-
+      Sprachenmeister/Himmelsgeboren/Unsterblicher Lebensfunke/
+      Heiligenschein). Klassenmerkmale, Effekte und Talente mit nur
+      teilweise umgesetzter Regel zeigen weiterhin kein Badge und wirken
+      dadurch vollständig berechnet. Kandidaten laut Code-Kommentaren
+      („not modeled“, „only … is modeled“): `rules/classes/barbarian.py`
+      (u. a. Krit-Bonus der 12. Stufe), `kampfmagus.py`, `mystiker.py`,
+      `hexenmeister.py`, `moench.py`, `rules/effects.py`, `rules/feats.py`.
+      Nur Anzeige, keine Fehlberechnung. Wird eine Teilregel später
+      vollständig umgesetzt, muss ihr Eintrag wieder raus, sonst bleibt das
+      Badge fälschlich stehen.
+- [ ] **Aasimar (2026-10-17, `scripts/import_aasimar.py`) — nicht berechnete
+      Volksmerkmale.** Nur als Text: Celestische Resistenz, Erhabene
+      Resistenz, Unsterblicher Geist (Energie-/Zauberresistenzen, kein
+      Resistenz-Konzept vorhanden), Celestischer Kreuzfahrer (Boni gegen
+      böse Externare), Einheimischer Externar/Spross der Menschheit (Spross'
+      „zählt als Mensch für Talentvoraussetzungen“ wird bei
+      `base_feat_required_races` nicht berücksichtigt). Die 1/Tag-
+      Zauberähnlichen Fähigkeiten (Tageslicht, Charakterstark,
+      Unsterblicher Lebensfunke) brauchen ein Tageslimit,
+      `SPELL_LIKE_ABILITY_HANDLERS` kennt nur beliebig oft. Spross der
+      Menschheit ersetzt eigentlich die Sprache Celestisch (Sprachen nirgends
+      modelliert) und ist ersatzweise als Ersatz für „Einheimischer
+      Externar“ eingetragen. Nicht importiert: Bevorzugte-Klasse-Optionen
+      für Inquisitor/Paktmagier/Ritter (Klassen nicht vorhanden), die
+      Volksarchetypen Besonnener Wächter (Paladin)/Läuterer (Mystiker) sowie
+      Talente, Ausrüstung, magische Gegenstände und Zauber der Seite.
+- [ ] **Magisches Erbe (2026-10-17, `scripts/import_feat_magisches_erbe.py`)
+      ohne Wirkung.** Blutlinienwahl und Blutlinienkraft der 1. Stufe
+      (effektive Hexenmeisterstufe = Charakterstufe − 2) nicht umgesetzt.
+      Voraussetzungen nur teilweise geprüft: CH 13 und Fertigkeitsfokus
+      (beliebige Fertigkeit). Nicht abbildbar sind die Mindest-Charakterstufe
+      (keine Tabelle dafür) und Fertigkeitsfokus genau für die
+      Klassenfertigkeit der gewählten Blutlinie. Folgetalente Verbessertes/
+      Mächtiges/Legendäres Magisches Erbe liegen nur im Import-Staging.
+      *Schwächere Blutwut* setzt „Magisches Erbe oder Hexenmeisterblutlinie“
+      voraus, das ist bisher nur Text und nicht als Oder-Gruppe verknüpft.
+- [ ] **Magie zweier Welten (2026-10-17,
+      `scripts/import_trait_magie_zweier_welten.py`) ohne Wirkung.** Ein
+      Zauber des Grads 0 einer fremden Klassenliste soll in die eigene
+      Klassenliste wandern (bzw. Grad 1 ohne Grad-0-Zauber). Dafür fehlen
+      eine Zauber-Unterwahl beim Wesenszug und eine Erweiterung der
+      Klassenzauberliste pro Charakter.
 
 ## Handler-Migration zu `CharacterContext` — noch offen
 

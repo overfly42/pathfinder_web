@@ -24,7 +24,7 @@ from .models import (
 from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
-from .rules.handlers import has_mechanical_effect
+from .rules.handlers import has_mechanical_effect, partial_effect_note
 from .sheet import (
     build_character_history,
     build_character_progression,
@@ -467,6 +467,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             "subChoiceType": feat.sub_choice_type,
             "manifestationOptions": feat.manifestation_options,
             "hasHandler": has_mechanical_effect(feat.id),
+            "partialNote": partial_effect_note(feat.id),
         }
 
     bonus_feat_options_by_root_id: dict = {}

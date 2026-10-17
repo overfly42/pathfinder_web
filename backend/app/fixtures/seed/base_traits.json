@@ -1325,5 +1325,11 @@
     "description": "Wähle eine charismabasierte Fertigkeit. Du legst Fertigkeitswürfe für diese Fertigkeit mit deinem IN-Modifikator anstelle deines CH-Modifikators ab.",
     "area": "social",
     "skill_choice_ability": "CH"
+  },
+  {
+    "id": "c40f9cef-8d9a-5bcd-a74a-5e84989bc98b",
+    "name": "Magie zweier Welten",
+    "description": "Du hast die Kluft zwischen der natürlichen Magie der Ureinwohner und der verfeinerten Magie der Kolonisten überbrückt. Such dir einen Zauber der Stufe 0 aus einer Liste der Klassenzauber aus, die nicht deine ist. Dieser Zauber ist nun ein Zauber der Stufe 0 auf deiner Klassenzauberliste (oder ein Zauber der 1. Stufe, wenn deine Klasse keine Zauber der Stufe 0 besitzt). Bist du zum Beispiel ein Druide, könntest du Magierhand auswählen und ihn danach als Druidenzauber der Stufe 0 vorbereiten. Bist du ein Hexenmeister, könntest du Richtung wissen als einen dir nun bekannten Hexenmeisterzauber auswählen.",
+    "area": "magic"
   }
 ]

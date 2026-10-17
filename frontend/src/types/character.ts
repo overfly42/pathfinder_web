@@ -61,6 +61,10 @@ export interface DescribedEntry {
    *  entry's mechanical effect, vs. it only ever being name/description
    *  text with no effect applied anywhere on the sheet. */
   hasHandler: boolean;
+  /** Set when `hasHandler` is true but only some of the effect is computed —
+   *  what the player still applies at the table (`rules/handlers.py`'s
+   *  `partial_effect_note`). `SheetTabs.tsx` badges it "Teilweise". */
+  partialNote?: string | null;
   /** Only ever set on `classFeatures` entries: whether this feature came
    *  from the "Sekundärklasse" alternate rule (`rules/secondary_class.py`)
    *  rather than a real class level — `SheetTabs.tsx` badges it distinctly.

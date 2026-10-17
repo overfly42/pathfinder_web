@@ -628,5 +628,12 @@
     "group_id": null,
     "ability": "GE",
     "minimum_score": 13
+  },
+  {
+    "id": "55533e03-a32e-5f42-99ca-c58a8b7039d2",
+    "feat_id": "278d994a-4035-5dc4-a030-fc9f5e656ed5",
+    "group_id": null,
+    "ability": "CH",
+    "minimum_score": 13
   }
 ]

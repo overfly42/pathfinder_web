@@ -117,6 +117,7 @@ from .rules.handlers import (
     granted_ability_modifiers,
     granted_class_skill_ids,
     has_mechanical_effect,
+    partial_effect_note,
     situational_skill_notes,
 )
 from .rules.items import equipped_item_modifiers
@@ -773,7 +774,13 @@ def _described(db: Session, model: type, ids: list[UUID]) -> list[dict]:
         return []
     rows = db.scalars(select(model).where(model.id.in_(ids))).all()
     return [
-        {"key": str(row.id), "name": row.name, "description": row.description, "hasHandler": has_mechanical_effect(row.id)}
+        {
+            "key": str(row.id),
+            "name": row.name,
+            "description": row.description,
+            "hasHandler": has_mechanical_effect(row.id),
+            "partialNote": partial_effect_note(row.id),
+        }
         for row in rows
     ]
 
@@ -831,6 +838,7 @@ def _build_feats(db: Session, character: Character) -> list[dict]:
                 "name": name,
                 "description": feat.description,
                 "hasHandler": has_mechanical_effect(feat.id),
+                "partialNote": partial_effect_note(feat.id),
             }
         )
     return result
@@ -875,6 +883,7 @@ def _build_traits(db: Session, character: Character) -> list[dict]:
                 "name": name,
                 "description": trait.description,
                 "hasHandler": has_mechanical_effect(trait.id),
+                "partialNote": partial_effect_note(trait.id),
             }
         )
     return result

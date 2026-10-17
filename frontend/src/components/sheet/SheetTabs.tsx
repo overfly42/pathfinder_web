@@ -25,6 +25,16 @@ function NoHandlerBadge({ title }: { title: string }) {
   );
 }
 
+/** Marks an entry whose effect is only partly computed (`entry.partialNote`) — the tooltip names
+ *  what the player still has to apply at the table. */
+function PartialHandlerBadge({ title }: { title: string }) {
+  return (
+    <span className="no-handler-badge" title={`Teilweise berechnet: ${title}`}>
+      Teilweise
+    </span>
+  );
+}
+
 /** Marks a `classFeatures` entry granted by the "Sekundärklasse" alternate rule
  *  (`entry.isSecondary`) rather than a real class level — see `DescribedEntry`'s
  *  own docstring. */
@@ -50,6 +60,7 @@ function DescribedList({ entries, idPrefix }: { entries: DescribedEntry[]; idPre
             {!entry.hasHandler && (
               <NoHandlerBadge title="Wird noch nicht automatisch berechnet — Wirkung selbst am Tisch anwenden." />
             )}
+            {entry.hasHandler && entry.partialNote && <PartialHandlerBadge title={entry.partialNote} />}
           </div>
           {entry.summary && <div className="feature-summary">{entry.summary}</div>}
           <div className="desc">{entry.description}</div>

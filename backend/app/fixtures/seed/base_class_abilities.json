@@ -4895,5 +4895,30 @@
     "id": "d613a371-31dd-5b6f-8a86-1b72902cba96",
     "name": "Verbessertes Entrinnen",
     "description": "(AF) Ist der Gefährte einem Angriff ausgesetzt, der einen Reflexwurf für halben Schaden erlaubt, erhält der Gefährte bei gelungenem Rettungswurf keinen und bei misslungenem Wurf nur halben Schaden."
+  },
+  {
+    "id": "b8476793-8190-5f74-94db-78e029a48d48",
+    "name": "Aasimar (Barde)",
+    "description": "Wähle einen Bardenauftritt, dessen Effekte einen Bonus von +1/2 auf die effektive Bardenstufe erhalten."
+  },
+  {
+    "id": "fcf89e94-97bf-591e-9faa-e6f04cae53a0",
+    "name": "Aasimar (Hexenmeister)",
+    "description": "Addiere +1/4 auf die Zauberstufe des Hexenmeisters, wenn er Zauber der Kategorie Gutes wirkt."
+  },
+  {
+    "id": "1ba17b43-56ff-5605-988b-38af4c9e3245",
+    "name": "Aasimar (Kleriker)",
+    "description": "Addiere +1/2 auf den Schaden positiver Energie, die der Kleriker gegen Untote einsetzt, sowie auf den Schaden von Gesinnung fokussieren gegenüber bösen Externaren."
+  },
+  {
+    "id": "58e741c8-455d-5e8b-bc0d-84f45fc21ae3",
+    "name": "Aasimar (Mystiker)",
+    "description": "Addiere +1/2 auf die effektive Mystikerstufe hinsichtlich der Effekte einer seiner Offenbarungen."
+  },
+  {
+    "id": "6cf26ebc-b81b-5813-8e11-f9feb0d71001",
+    "name": "Aasimar (Paladin)",
+    "description": "Addiere +1/6 auf den Moralbonus auf Rettungswürfe, den die Auren des Paladins generieren."
   }
 ]

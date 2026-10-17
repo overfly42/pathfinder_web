@@ -135,6 +135,7 @@ from .feats import SAVE_DC_HANDLERS as _FEAT_SAVE_DC_HANDLERS
 from .modifiers import Modifier, ModifierTarget, NaturalAttack, SkillNote
 from .race_abilities import HANDLERS as _RACE_ABILITY_HANDLERS
 from .race_abilities import NATURAL_ATTACK_HANDLERS as _RACE_NATURAL_ATTACK_HANDLERS
+from .race_abilities import PARTIAL_EFFECT_NOTES as _RACE_PARTIAL_EFFECT_NOTES
 from .race_abilities import SPELL_LIKE_ABILITY_HANDLERS as _RACE_SPELL_LIKE_ABILITY_HANDLERS
 from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIENCY_HANDLERS
 from .size import BASE_SIZE_BY_ABILITY as _BASE_SIZE_BY_ABILITY
@@ -375,6 +376,23 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in APPLIED_OUTSIDE_HANDLERS_IDS
         or ability_id in _BASE_SIZE_BY_ABILITY
     )
+
+
+# Abilities `has_mechanical_effect` reports as computed although only some
+# of their clauses are — each family owns its own slice, same pattern as
+# every registry above. Value: what isn't computed, shown to the player.
+PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
+    **_RACE_PARTIAL_EFFECT_NOTES,
+}
+
+
+def partial_effect_note(ability_id: UUID) -> str | None:
+    """The sheet's "Teilweise" badge (`partialNote` on the wire, next to
+    `hasHandler`): `None` both for a fully computed ability and for one with
+    no computed effect at all (that's `hasHandler: false`'s "Nur Text")."""
+    if not has_mechanical_effect(ability_id):
+        return None
+    return PARTIAL_EFFECT_NOTES.get(ability_id)
 
 
 def resolve_ids(ability_ids: Iterable[UUID], context: CharacterContext) -> list[Modifier]:

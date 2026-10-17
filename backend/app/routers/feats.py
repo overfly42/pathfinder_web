@@ -9,7 +9,7 @@ from ..db import get_db
 from ..models import BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
-from ..rules.handlers import has_mechanical_effect
+from ..rules.handlers import has_mechanical_effect, partial_effect_note
 from ..rules.proficiency import effective_proficiency_feat_ids
 from ..rules.secondary_class import secondary_granted_ability_ids_and_levels
 from ..sheet import granted_class_ability_ids
@@ -98,6 +98,7 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
             # text on the sheet. See CLAUDE.md's composition-vs-computation
             # split.
             "hasHandler": has_mechanical_effect(feat.id),
+            "partialNote": partial_effect_note(feat.id),
         }
         for feat in feats
     ]

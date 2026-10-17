@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from ..models import BaseRace, BaseRaceAbility, RaceAbilityGrant, RaceAbilityReplacement
 from ..rules.context import CharacterContext
-from ..rules.handlers import HANDLERS, has_mechanical_effect
+from ..rules.handlers import HANDLERS, has_mechanical_effect, partial_effect_note
 from ..rules.modifiers import Modifier, ModifierTarget
 from ..rules.race_abilities import ABILITY_ANY_PLUS2
 
@@ -238,7 +238,12 @@ def _race_option(db: Session, race: BaseRace) -> dict:
             # Waffenvertrautheit") — not the same as a purely flavor-only
             # ability with no computed effect anywhere.
             traits.append(
-                {"name": ability.name, "desc": ability.description, "hasHandler": has_mechanical_effect(ability.id)}
+                {
+                    "name": ability.name,
+                    "desc": ability.description,
+                    "hasHandler": has_mechanical_effect(ability.id),
+                    "partialNote": partial_effect_note(ability.id),
+                }
             )
 
     alt: list[dict] = []
@@ -265,6 +270,7 @@ def _race_option(db: Session, race: BaseRace) -> dict:
                 "desc": ability.description,
                 "replaces": replaces,
                 "hasHandler": has_mechanical_effect(ability.id),
+                "partialNote": partial_effect_note(ability.id),
             }
         )
 

@@ -25,9 +25,9 @@ def test_list_feats_is_database_backed(client: TestClient, db_session: Session) 
     feats = response.json()
 
     assert (
-        len(feats) == 339
+        len(feats) == 340
     )  # includes the 9 Ork-specific feats (import_ork_feats.py) + Derwischtanz + Zusätzliche Hexerei +
-    # Kosmopolit + Inbegriff des Katzenvolkes + Zusätzlicher Arkaner Vorrat
+    # Kosmopolit + Inbegriff des Katzenvolkes + Zusätzlicher Arkaner Vorrat + Magisches Erbe
     assert all({"id", "name", "description", "type"} <= set(feat) for feat in feats)
 
     waffenfokus = next(f for f in feats if f["name"] == "Waffenfokus")

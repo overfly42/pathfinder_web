@@ -603,5 +603,70 @@
     "id": "2bc3a074-067d-54b3-9d45-ac725d6f4e66",
     "name": "Kampfsicher",
     "description": "(AF) Das Tier ist dazu ausgebildet, einen Reiter in den Kampf zu tragen (Kampfausbildung): es kennt die Tricks Angreifen, Bei Fuß gehen, Kommen, Verteidigen, Wachen und Zurückziehen."
+  },
+  {
+    "id": "3b31195f-c408-4352-8f73-fa2247f6654a",
+    "name": "Einheimischer Externar",
+    "description": "Aasimare sind Externare mit der Unterart Einheimisch."
+  },
+  {
+    "id": "c6ba1c4e-2587-48dc-9de8-7a8aa235cf44",
+    "name": "Bewandert",
+    "description": "Erhält einen Volksbonus von +2 auf Fertigkeitswürfe für Diplomatie und Wahrnehmung."
+  },
+  {
+    "id": "9c5f9478-53db-4937-9dcc-6aab0e0cabc4",
+    "name": "Celestische Resistenz",
+    "description": "Hat Resistenz Elektrizität 5, Kälte 5 und Säure 5."
+  },
+  {
+    "id": "908a5a57-89d5-421a-a012-42ec4a6b230f",
+    "name": "Zauberähnliche Fähigkeit (Tageslicht)",
+    "description": "Kann einmal am Tag Tageslicht als zauberähnliche Fähigkeit benutzen (die Zauberstufe entspricht der Klassenstufe des Aasimar)."
+  },
+  {
+    "id": "2a5cf4e9-fe62-4592-baa2-3670632fe3d8",
+    "name": "Charakterstark",
+    "description": "Kann einmal am Tag als zauberähnliche Fähigkeit Oppositionsresistenz gegen Böses wirken. Wendet der Aasimar diese Fähigkeit auf sich selbst an, steigt die Wirkungsdauer auf 1 Stunde pro Stufe. Dieses Volksmerkmal ersetzt Zauberähnliche Fähigkeit."
+  },
+  {
+    "id": "63b583c8-38ec-4202-b719-e9d8a24f216b",
+    "name": "Celestischer Kreuzfahrer",
+    "description": "Erhält einen Verständnisbonus von +1 auf Angriffswürfe und RK gegen böse Externare und einen Volksbonus von +2 auf Fertigkeitswürfe für Wissen (Die Ebenen) und Zauberkunde, um böse Externare oder von ihnen erschaffene Gegenstände und Effekte zu identifizieren; kann diese Fertigkeiten dazu ungeübt nutzen. Dieses Volksmerkmal ersetzt Bewandert und Celestische Resistenz."
+  },
+  {
+    "id": "4b9ec209-479a-4372-8bfd-d973b9979cf1",
+    "name": "Erhabene Resistenz",
+    "description": "Erhält Zauberresistenz 5 + Stufe gegen Zauber und zauberähnliche Fähigkeiten der Kategorie Böses sowie gegen alle Zauber und zauberähnlichen Fähigkeiten böser Externare. Dieses Volksmerkmal ersetzt Celestische Resistenz."
+  },
+  {
+    "id": "b95e1855-157d-489f-aa72-7abd7e190eba",
+    "name": "Heiligenschein",
+    "description": "Kann beliebig oft als zauberähnliche Fähigkeit Licht auf den eigenen Kopf zentriert erschaffen und erhält dabei einen Situationsbonus auf Fertigkeitswürfe für Einschüchtern gegenüber bösen Kreaturen und auf Rettungswürfe gegen Blindheit, Blind und Geblendet. Dieses Volksmerkmal ersetzt Dunkelsicht."
+  },
+  {
+    "id": "6580a1af-8d2f-40fb-8628-ceb9882aac6f",
+    "name": "Himmelsgeboren",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Wissen (Die Ebenen) und wirkt Zauber der Kategorien Gutes oder Licht mit ZS +1. Dieses Volksmerkmal ersetzt Bewandert und Zauberähnliche Fähigkeit."
+  },
+  {
+    "id": "8f8d29f6-5687-45f8-bca1-d2aa048e23c2",
+    "name": "Spross der Menschheit",
+    "description": "Zählt als Externar (Einheimischer) und Humanoider (Mensch) hinsichtlich aller Effekte, die sich auf die Volkszugehörigkeit beziehen, einschließlich Talentvoraussetzungen und Zaubern, welche Humanoide betreffen. Kann als Mensch durchgehen, ohne sich verkleiden zu müssen. Dieses Volksmerkmal ersetzt die Sprache Celestisch und verändert die Unterart Einheimischer."
+  },
+  {
+    "id": "67a751f6-2b89-4852-9d91-f369fe991749",
+    "name": "Sprachenmeister",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Motiv erkennen und Sprachenkunde. Für jeden Fertigkeitsrang in Sprachenkunde erlernt er zwei Sprachen. Dieses Volksmerkmal ersetzt Bewandert."
+  },
+  {
+    "id": "599ef5d8-9890-4887-8753-b09a94e94f2b",
+    "name": "Unsterblicher Geist",
+    "description": "Erhält Resistenz 5 gegen negativen Energieschaden, verliert keine TP durch negative Stufen und erhält einen Volksbonus von +2 auf Rettungswürfe gegen Todeseffekte, Lebenskraftentzug, negative Energie und Zauber oder zauberähnliche Fähigkeiten der Schule der Nekromantie. Dieses Volksmerkmal ersetzt Celestische Resistenz."
+  },
+  {
+    "id": "07425573-7c5c-4f65-881b-8fbd0a5381d3",
+    "name": "Unsterblicher Lebensfunke",
+    "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Wissen (Geschichte) und auf Rettungswürfe gegen Todeseffekte. Kann einmal am Tag als zauberähnliche Fähigkeit Schwächere Resistenz gegen Alterung wirken. Dieses Volksmerkmal ersetzt Bewandert und Zauberähnliche Fähigkeit."
   }
 ]

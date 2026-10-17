@@ -10,6 +10,9 @@ export interface RaceTrait {
    *  effect (a SKILL/SPEED modifier), vs. it only ever being flavor/name+desc
    *  text with no mechanical effect applied anywhere. */
   hasHandler: boolean;
+  /** Set when `hasHandler` is true but only some of the effect is computed — what the
+   *  player still applies by hand (`rules/handlers.py`'s `partial_effect_note`). */
+  partialNote: string | null;
 }
 
 export interface RaceAltTrait {
@@ -17,6 +20,9 @@ export interface RaceAltTrait {
   desc: string;
   replaces: string[];
   hasHandler: boolean;
+  /** Set when `hasHandler` is true but only some of the effect is computed — what the
+   *  player still applies by hand (`rules/handlers.py`'s `partial_effect_note`). */
+  partialNote: string | null;
 }
 
 export interface RaceOption {
@@ -207,6 +213,9 @@ export interface FeatDef {
    *  feat's effect, vs. it only ever showing as name/description text on the
    *  sheet. */
   hasHandler: boolean;
+  /** Set when `hasHandler` is true but only some of the effect is computed — what the
+   *  player still applies by hand (`rules/handlers.py`'s `partial_effect_note`). */
+  partialNote: string | null;
 }
 
 export interface TraitDef {
@@ -223,6 +232,9 @@ export interface TraitDef {
    *  three. `null` (every other trait) means no sub-choice is needed. */
   skillChoiceAbility: string | null;
   hasHandler: boolean;
+  /** Set when `hasHandler` is true but only some of the effect is computed — what the
+   *  player still applies by hand (`rules/handlers.py`'s `partial_effect_note`). */
+  partialNote: string | null;
 }
 
 export interface AbilityDef {

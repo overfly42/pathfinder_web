@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..models import BaseTrait
-from ..rules.handlers import has_mechanical_effect
+from ..rules.handlers import has_mechanical_effect, partial_effect_note
 
 router = APIRouter(prefix="/api/traits", tags=["traits"])
 
@@ -25,6 +25,7 @@ def list_traits(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             # `routers/feats.py`'s `subChoiceType`.
             "skillChoiceAbility": trait.skill_choice_ability,
             "hasHandler": has_mechanical_effect(trait.id),
+            "partialNote": partial_effect_note(trait.id),
         }
         for trait in traits
     ]

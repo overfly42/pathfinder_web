@@ -20,8 +20,8 @@ def test_list_races_reconstructs_fixture_shape(client: TestClient, db_session: S
     # test_elf_standard_traits_and_alternates_are_real) since it's also the
     # reference race used throughout the character-creation test suite. Ork
     # was added straight from the source (`import_ork.py`), never a guessed
-    # placeholder.
-    assert set(races) == {"Mensch", "Elf", "Halbling", "Halb-Ork", "Ork", "Katzenvolk"}
+    # placeholder. Aasimar likewise (`import_aasimar.py`).
+    assert set(races) == {"Mensch", "Elf", "Halbling", "Halb-Ork", "Ork", "Katzenvolk", "Aasimar"}
 
     elf = races["Elf"]
     assert elf["flex"] is False

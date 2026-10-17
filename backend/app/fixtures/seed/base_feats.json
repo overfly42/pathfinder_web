@@ -2384,5 +2384,12 @@
     "description": "Dein Arkaner Vorrat steigt um 2",
     "type": "general",
     "prerequisite_text": "Klassenmerkmal  Arkaner Vorrat."
+  },
+  {
+    "id": "278d994a-4035-5dc4-a030-fc9f5e656ed5",
+    "name": "Magisches Erbe",
+    "description": "Du entstammst einer langen Reihe von Hexenmeistern und ein Teil ihrer Macht fließt in deinen Adern. Wähle eine Hexenmeisterblutlinie. Du musst das Talent Fertigkeitsfokus für die Klassenfertigkeit besitzen, welche diese Blutlinie einem Hexenmeister auf der 1. Stufe gibt (beispielsweise Heilkunde bei der Himmlischen Blutlinie). Du erhältst die Blutlinienkraft der 1. Stufe dieser Blutlinie. Hinsichtlich dieser Kraft entspricht deine effektive Stufe als Hexenmeister deiner Charakterstufe -2, selbst wenn du über Stufen als Hexenmeister verfügen solltest. Du erhältst keine anderen Blutlinienkräfte.",
+    "type": "general",
+    "prerequisite_text": "CH 13, Fertigkeitsfokus mit der Klassenfertigkeit der mit diesem Talent gewählten Blutlinie, Charakterstufe 3+."
   }
 ]
