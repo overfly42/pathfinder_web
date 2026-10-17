@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Dumps the Postgres database to db_backups/, keeping the 7 most recent dumps.
+# Dumps the Postgres database to db_backups/, keeping every dump from the last
+# KEEP_DAYS days or the KEEP most recent dumps, whichever is more.
 # Called from dev.sh right after the db container comes up, so each dev
 # session starts by snapshotting whatever was there before migrations/seeding
 # touch it. Safe to run standalone too.
@@ -11,6 +12,7 @@ DB_USER="pathfinder"
 DB_NAME="pathfinder"
 BACKUP_DIR="${ROOT}/db_backups"
 KEEP=7
+KEEP_DAYS=7
 
 mkdir -p "$BACKUP_DIR"
 
@@ -36,5 +38,12 @@ backup_file="${BACKUP_DIR}/pathfinder-${timestamp}.sql.gz"
 podman exec "$CONTAINER" pg_dump -U "$DB_USER" "$DB_NAME" | gzip > "$backup_file"
 echo "backup_db.sh: wrote $backup_file"
 
-# Prune to the KEEP most recent backups.
-ls -1t "$BACKUP_DIR"/pathfinder-*.sql.gz 2>/dev/null | tail -n "+$((KEEP + 1))" | xargs -r rm --
+# Prune: a dump is deleted only if it is neither among the KEEP most recent
+# nor younger than KEEP_DAYS days — so a busy day never pushes out the
+# previous days' dumps, and a long break never leaves fewer than KEEP.
+cutoff=$(( $(date +%s) - KEEP_DAYS * 24 * 60 * 60 ))
+ls -1t "$BACKUP_DIR"/pathfinder-*.sql.gz 2>/dev/null | tail -n "+$((KEEP + 1))" | while read -r old; do
+  if [ "$(stat -c %Y "$old")" -lt "$cutoff" ]; then
+    rm -- "$old"
+  fi
+done
