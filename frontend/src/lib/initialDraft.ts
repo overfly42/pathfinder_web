@@ -12,6 +12,7 @@ export function createInitialDraft(): CreationDraft {
       { id: createId(), className: 'Waldläufer', level: 1, archetypes: [], options: {} },
     ],
     secondaryClassName: null,
+    alignment: '',
     secondaryClassOptions: {},
     favoredClassBonus: {},
     hitPoints: {},

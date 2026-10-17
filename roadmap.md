@@ -1734,7 +1734,7 @@ incremental model every other class follows).
       the Sekundärklasse choice — both explicitly deferred, the latter
       blocked on this app having no retraining system at all yet.
 
-### 10. Tiergefährten, Reittiere & Vertraute (concept decided 2026-10-11, rechecked same day, checked against the PRD Druide/Mit-Tieren-umgehen/Monster-Talente pages 2026-10-14, nothing built)
+### 10. Tiergefährten, Reittiere & Vertraute (concept decided 2026-10-11, rechecked same day, checked against the PRD Druide/Mit-Tieren-umgehen/Monster-Talente pages 2026-10-14; prerequisites 0a/0b built 2026-10-15/17, no companions yet)
 Reverses the earlier "companions are out of scope" call (slice 5 intro);
 eidolons stay out of scope. Also covers the two open abilities Magier
 "Arkane Verbindung" (familiar type) and Waldläufer "Bund mit Gefährten"
@@ -1860,7 +1860,8 @@ class abilities. Source: `prd.5footstep.de/Grundregelwerk/Klassen/Paladin`.
   "ability id in `granted_ability_ids`" or "feat id in `feat_ids`".
 - Checked 2026-10-14: the Paladin has no class abilities seeded at all
   (only its favored-class-bonus group), so the mount bond can't be a source
-  until "Göttlicher Bund" exists. PRD
+  until "Göttlicher Bund" exists (built 2026-10-17 in 0b: trigger ability
+  "Göttlicher Bund: Reittier" `0028e0bb-…`). PRD
   (`prd.5footstep.de/Grundregelwerk/Klassen/Paladin`): Göttlicher Bund at
   5th level, choice between weapon spirit and mount (fixed once chosen →
   option group `divine_bond` with two choices, the mount choice granting
@@ -2211,9 +2212,38 @@ Small characters change (values become correct, not a regression).
       Kleriker "Domänenzauber" item — needs the per-domain spell lists
       parsed into `BaseClassSpellGrant` rows first) and the alignment
       check (no alignment field on characters yet; the Paladin in 0b needs
-      the same field, so build it once there).
-- [ ] 0b. Paladin as a complete class (see "Prerequisite" above), incl.
+      the same field, so build it once there). **Alignment check done
+      2026-10-17 with 0b** (Druide: any neutral component).
+- [x] 0b. Paladin as a complete class (see "Prerequisite" above), incl.
       Gnaden option group and `divine_bond` group with the mount trigger.
+      **Done 2026-10-17** (`scripts/import_paladin.py`,
+      `rules/classes/paladin.py`, `tests/test_paladin.py`): class skills
+      corrected to the page's 10 (Beruf, Mit Tieren umgehen, Zauberkunde
+      added); all class features 1–20 as abilities + grants; proficiencies
+      as granted feats; Böses niederstrecken as a self effect (one daily
+      use paid at activation, CH on every weapon attack incl. ranged via
+      the new `ModifierTarget.ANY_ATTACK`/`ANY_DAMAGE`, Paladin level on
+      damage, CH deflection — shown while active, RAW only vs the target);
+      Göttliche Würde (class-granted SAVE modifiers are now folded by
+      `sheet.py`); Handauflegen uses/day + summary; Positive Energie
+      fokussieren and Aura der Gerechtigkeit spend two uses of the
+      Handauflegen/Niederstrecken pool (`PATCH .../use` now honors
+      `POOL_COST_AT_ACTIVATION`); `mercy` group (label "Gnade", recurring
+      3/6/…/18, 15 choices with tier `min_level` and the three
+      prerequisites); `divine_bond` group at 5 — "Waffe" (weapon spirit as a
+      self effect on a chosen weapon, temporary enhancement +1…+6 capped at
+      +5 like Arkaner Vorrat; special abilities stay text) or "Reittier"
+      ("Göttlicher Bund: Reittier" trigger ability + "Reittier herbeirufen"
+      daily action). Spells: CH/divine, per-day table shared with the
+      Waldläufer (`build_spells_per_day_seed.py`), list from the PRD index
+      incl. 47 Paladin-only spells newly added to `base_spells.json`.
+      Alignment: new `characters.alignment` (LG … CE, nullable) and
+      `base_classes.allowed_alignments` (migration `c3f1a7d29e04`); required
+      at creation when a class restricts it, checked on level-up (legacy
+      characters without alignment pass) and on `PATCH .../alignment`;
+      creation wizard picker (Grunddaten), editable on the sheet, shown on
+      print/PDF. Not modeled: auras' ally effects, immunities, DR /Böses,
+      ex-Paladin, mount/weapon-loss penalties, Paladin archetypes.
 - [ ] 1. Thin: choice-scoped trigger abilities for Druide/Magier,
       `BaseCompanionLevelSource`, `rules/companions.py`
       (`master_effective_level`, shared `effective_level`), breakdown in the
@@ -2242,11 +2272,9 @@ Small characters change (values become correct, not a regression).
 - [ ] Open: gear for companions (just the companion's own
       `Character.gear`, since it is a Character — check barding/saddle
       slots), share spells / deliver touch spells, PRD offsets for Mystiker/
-      Hexe/Entfesselter-Barbar ("Wildes Reittier") sources, Paladin
-      "Göttlicher Bund" (rules captured above; Paladin has no class
-      abilities seeded — full Paladin build-out or just the bond group is
-      still to decide), Druide/Magier Sekundärklasse tiers, Druide
-      archetypes.
+      Hexe/Entfesselter-Barbar ("Wildes Reittier") sources,
+      Druide/Magier Sekundärklasse tiers, Druide archetypes. (Paladin
+      "Göttlicher Bund" decided: full build-out, done in 0b.)
 
 ## Explicitly out of scope here
 

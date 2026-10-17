@@ -552,6 +552,10 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["fortSave"] = root.fort_save if root else None
         class_def["refSave"] = root.ref_save if root else None
         class_def["willSave"] = root.wil_save if root else None
+        # `BaseClass.allowed_alignments` (null = any) — the creation wizard
+        # narrows its Gesinnung picker with it; `routers/characters.py`'s
+        # `_check_alignment` is what enforces it.
+        class_def["allowedAlignments"] = root.allowed_alignments if root else None
         if root is not None:
             class_def["skillPointsBase"] = root.skill_points_base
     return classes

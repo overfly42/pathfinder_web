@@ -217,6 +217,16 @@ export function CharacterSheetPage() {
     }
   }
 
+  async function handleChangeAlignment(alignment: string | null) {
+    setHpError(null);
+    try {
+      await apiPatch(`/api/characters/${currentCharacterId}/alignment`, { alignment });
+      refetch();
+    } catch {
+      setHpError('Diese Gesinnung ist für die Klassen des Charakters nicht erlaubt.');
+    }
+  }
+
   async function handleAddGear(itemId: string, qty: number) {
     if (!isRealCharacter) {
       const item = itemsCatalog?.find((i) => i.id === itemId);
@@ -752,7 +762,10 @@ export function CharacterSheetPage() {
 
       <div className="main">
         <Panel title="Charakter" hint={`Stufe ${character.level} · ${character.className}`}>
-          <CharacterHeader character={character} />
+          <CharacterHeader
+            character={character}
+            onChangeAlignment={isRealCharacter ? handleChangeAlignment : undefined}
+          />
           <VitalsBar character={character} onApplyHp={handleApplyHp} onSetTempHp={handleSetTempHp} />
           {hpError && <p style={{ color: '#e29a9a' }}>{hpError}</p>}
 

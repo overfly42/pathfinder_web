@@ -286,5 +286,21 @@
     "label": "Naturdomäne",
     "max_choices": 1,
     "is_secondary_class_initial_pick": false
+  },
+  {
+    "id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "base_class_id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
+    "key": "mercy",
+    "label": "Gnade",
+    "max_choices": 6,
+    "is_secondary_class_initial_pick": false
+  },
+  {
+    "id": "c07ea8b2-7ba0-5a91-ad8c-5d954b6576d1",
+    "base_class_id": "561465fe-7c72-4e47-b58e-05a8dbbf0a3e",
+    "key": "divine_bond",
+    "label": "Göttlicher Bund",
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   }
 ]

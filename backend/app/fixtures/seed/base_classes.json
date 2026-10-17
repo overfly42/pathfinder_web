@@ -10,7 +10,15 @@
     "fort_save": true,
     "ref_save": false,
     "wil_save": false,
-    "skill_points_base": 4
+    "skill_points_base": 4,
+    "allowed_alignments": [
+      "NG",
+      "CG",
+      "N",
+      "CN",
+      "NE",
+      "CE"
+    ]
   },
   {
     "id": "d86ed793-9019-4df6-a004-ded7e21c760b",
@@ -36,7 +44,14 @@
     "fort_save": true,
     "ref_save": false,
     "wil_save": true,
-    "skill_points_base": 4
+    "skill_points_base": 4,
+    "allowed_alignments": [
+      "NG",
+      "LN",
+      "N",
+      "CN",
+      "NE"
+    ]
   },
   {
     "id": "ceb02ad1-268c-4a1c-a7c9-ea8a1cbbe67e",
@@ -101,7 +116,12 @@
     "fort_save": true,
     "ref_save": true,
     "wil_save": true,
-    "skill_points_base": 4
+    "skill_points_base": 4,
+    "allowed_alignments": [
+      "LG",
+      "LN",
+      "LE"
+    ]
   },
   {
     "id": "949fe615-12a0-4eed-9e2e-25eaab3e3153",
@@ -122,13 +142,16 @@
     "name": "Paladin",
     "hit_dice": 10,
     "arch_class_of": null,
-    "casting_ability": null,
-    "spell_tradition": null,
+    "casting_ability": "CH",
+    "spell_tradition": "divine",
     "bab_progression": 1.0,
     "fort_save": true,
     "ref_save": false,
     "wil_save": true,
-    "skill_points_base": 2
+    "skill_points_base": 2,
+    "allowed_alignments": [
+      "LG"
+    ]
   },
   {
     "id": "08e2442c-c672-490b-a7d0-b89cdd89454c",
@@ -206,7 +229,15 @@
     "fort_save": true,
     "ref_save": false,
     "wil_save": false,
-    "skill_points_base": 4
+    "skill_points_base": 4,
+    "allowed_alignments": [
+      "NG",
+      "CG",
+      "N",
+      "CN",
+      "NE",
+      "CE"
+    ]
   },
   {
     "id": "2ac0bd62-8800-4db8-9395-22b4391a9646",

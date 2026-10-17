@@ -442,6 +442,9 @@ export interface Character {
    *  the two hardcoded mock fixtures, which predate this field. */
   classes?: { id: string; className: string }[];
   archetype: string;
+  /** Alignment code (`lib/alignment.ts`) or `null` — characters created before alignment
+   *  existed have none. Absent for the two hardcoded mock fixtures. */
+  alignment?: string | null;
   level: number;
   hp: { current: number; max: number; temporary: number };
   armorClass: number;

@@ -55,6 +55,9 @@ returns garbage rather than a real error):
   9-grade caster in PF1e, same progression as Wizard).
 - Kampfmagus: http://prd.5footstep.de/AusbauregelnMagie/Kampfmagus ("Tabelle: Kampfmagus")
 - Waldläufer: http://prd.5footstep.de/Grundregelwerk/Klassen/Waldlaeufer
+- Paladin: http://prd.5footstep.de/Grundregelwerk/Klassen/Paladin — cell-for-cell
+  the Waldläufer's table, same grade-unlock levels (verified 2026-10-17), so
+  it shares `RANGER_*`.
 - Hexenmeister: http://prd.5footstep.de/Grundregelwerk/Klassen/Hexenmeister
   ("Tabelle: Hexenmeister") — a full 9-grade caster, but *not* Magier's
   progression: each grade unlocks one class level later (grade 2 at level
@@ -261,7 +264,7 @@ def _bard_value(level: int, grade: int) -> int | None:
 # class name -> (grade-unlock table, spells/day lookup)
 FULL_9_GRADE_CLASSES = ("Magier", "Hexe", "Kleriker", "Druide")
 KAMPFMAGUS_CLASSES = ("Kampfmagus",)
-RANGER_CLASSES = ("Waldläufer",)
+RANGER_CLASSES = ("Waldläufer", "Paladin")
 SPONTANEOUS_9_GRADE_CLASSES = ("Hexenmeister", "Mystiker")
 BARD_CLASSES = ("Barde",)
 

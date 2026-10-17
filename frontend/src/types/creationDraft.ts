@@ -1,4 +1,5 @@
 import type { AbilityKey } from './abilities';
+import type { Alignment } from '../lib/alignment';
 
 export type Gender = '' | 'maennlich' | 'weiblich';
 
@@ -57,6 +58,9 @@ export interface CreationDraft {
    *  Must never match one of `classRows`' own class names — `ClassStep.tsx`
    *  clears it automatically if a later edit would create that conflict. */
   secondaryClassName: string | null;
+  /** Alignment code (`lib/alignment.ts`), `''` while unset. Required as soon as one of the
+   *  picked classes restricts it (Paladin, Druide). */
+  alignment: Alignment | '';
   /** Chosen value(s) for `secondaryClassName`'s own option group(s) flagged
    *  `ClassOptionGroup.isSecondaryInitialPick` (e.g. Hexenmeister's
    *  `bloodline`) — the sub-choice RAW requires immediately at 1st level

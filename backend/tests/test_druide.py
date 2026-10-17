@@ -34,7 +34,8 @@ def _create_druide(client: TestClient, db_session: Session, classes: list[dict])
     user_id = _create_user(client)
     race_id = _human_race_id(client, db_session)
     response = client.post(
-        "/api/characters", json=_character_payload(user_id, race_id, db_session, classes=classes, flex_ability="CH")
+        "/api/characters",
+        json=_character_payload(user_id, race_id, db_session, classes=classes, flex_ability="CH", alignment="N"),
     )
     assert response.status_code == 201, response.text
     return client.get(f"/api/characters/{response.json()['id']}").json()
@@ -148,6 +149,7 @@ def test_nature_domain_without_the_domain_bond_is_rejected(client: TestClient, d
                 "options": {"bond": ["Tiergefährte"], "nature_domain": ["Domäne der Erde"]},
             }
         ],
+        alignment="N",
     )
 
     response = client.post("/api/characters", json=payload)

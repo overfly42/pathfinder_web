@@ -1,6 +1,7 @@
 import { formatBreakdown } from './breakdown';
 import { gearLine } from './gearSummary';
 import { formatSpellComponents, type Language } from './spellComponents';
+import { alignmentLabel } from './alignment';
 import type { Character } from '../types/character';
 
 /** The built-in PDF fonts only cover WinAnsi — swap the few common glyphs outside it. */
@@ -74,7 +75,8 @@ export async function exportCharacterPdf(character: Character, language: Languag
   doc.text(clean(character.name), margin, y + 7);
   y += 10;
   paragraph(
-    `${character.race} - ${character.className}${character.archetype ? ` (${character.archetype})` : ''} - Stufe ${character.level}`,
+    `${character.race} - ${character.className}${character.archetype ? ` (${character.archetype})` : ''} - Stufe ${character.level}` +
+      (character.alignment ? ` - ${alignmentLabel(character.alignment)}` : ''),
     10,
   );
 

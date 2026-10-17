@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, Float, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, Boolean, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -96,6 +96,15 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     spell_list_source_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
     )
+    # Alignment codes (`rules/alignment.py`'s `ALIGNMENTS`) a character must
+    # have to take levels in this class — `None` (the default, most classes)
+    # means no restriction. Pure data, only set on root rows: Paladin
+    # (["LG"]), Druide (any neutral component), Mönch (lawful), Barbar/
+    # Entfesselter Barbar (any non-lawful). Enforced by
+    # `routers/characters.py` at creation, level-up and alignment change.
+    # A deity-dependent rule (Kleriker: within one step of the deity) has no
+    # deity to check against yet and stays unrestricted.
+    allowed_alignments: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
     parent: Mapped["BaseClass | None"] = relationship(
         remote_side="BaseClass.id", back_populates="archetypes", foreign_keys="BaseClass.arch_class_of"

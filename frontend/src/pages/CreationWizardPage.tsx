@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../api/client';
+import { alignmentConflicts } from '../lib/alignment';
 import {
   abilityIncreaseLevels,
   classWeaponChoicesForSubmission,
@@ -96,6 +97,14 @@ export function CreationWizardPage() {
         setSubmitErrorMessage('Bitte Name und Klasse ausfüllen.');
         return;
       }
+      const alignmentConflictNames = alignmentConflicts(draft, opts);
+      if (alignmentConflictNames.length > 0) {
+        setSubmitState('error');
+        setSubmitErrorMessage(
+          `Bitte im Schritt „Grunddaten" eine Gesinnung wählen, die ${alignmentConflictNames.join(', ')} erlaubt.`,
+        );
+        return;
+      }
       const race = selectedRace(draft, opts);
       if (race?.flex && !draft.flexAbility) {
         setSubmitState('error');
@@ -165,6 +174,7 @@ export function CreationWizardPage() {
             options: row.options,
           })),
           secondary_class_name: draft.secondaryClassName,
+          alignment: draft.alignment || null,
           secondary_class_options: draft.secondaryClassOptions,
           hit_points: Object.fromEntries(requiredHpLevels.map((lvl) => [String(lvl), draft.hitPoints[String(lvl)]])),
           favored_class_bonus: Object.fromEntries(favLevels.map((lvl) => [String(lvl), draft.favoredClassBonus[String(lvl)]])),

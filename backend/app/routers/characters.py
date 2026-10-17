@@ -42,6 +42,7 @@ from ..models import (
     CharacterWand,
     User,
 )
+from ..rules.alignment import alignment_conflicts
 from ..rules.context import CharacterContext
 from ..rules.class_options import (
     ability_ids_by_name,
@@ -89,6 +90,7 @@ from ..rules.spells import (
 from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
+    AlignmentUpdate,
     CharacterCreate,
     CharacterRead,
     CharacterUpdate,
@@ -537,6 +539,24 @@ def _validate_options(
                 )
 
 
+def _check_alignment(alignment: str | None, roots: Iterable[BaseClass], *, required: bool) -> None:
+    """Rejects an alignment that doesn't fit one of `roots`' own
+    `BaseClass.allowed_alignments` (Paladin: LG; Druide: any neutral
+    component). `required=False` lets a character with no alignment at all
+    through — the case for every legacy character created before alignment
+    existed (`Character.alignment`'s docstring), which must still be able to
+    level up; creation always passes `required=True`."""
+    if alignment is None and not required:
+        return
+    conflicts = alignment_conflicts(alignment, roots)
+    if conflicts:
+        if alignment is None:
+            detail = f"Alignment required — {', '.join(conflicts)} restricts it"
+        else:
+            detail = f"Alignment '{alignment}' isn't allowed for {', '.join(conflicts)}"
+        raise HTTPException(status_code=422, detail=detail)
+
+
 @router.post("", response_model=CharacterRead, status_code=201)
 def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_db)]) -> Character:
     if db.get(User, body.user_id) is None:
@@ -545,6 +565,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         raise HTTPException(status_code=422, detail="Unknown race_id")
 
     roots = [resolve_root_class(db, selection.class_name) for selection in body.classes]
+    _check_alignment(body.alignment, roots, required=True)
 
     # Sekundärklasse alternate rule (`rules/secondary_class.py`) — resolved
     # up front, same as every other root class, so it can feed `_feat_max`
@@ -932,6 +953,7 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         point_budget=body.point_budget,
         use_background_skills=body.use_background_skills,
         secondary_base_class_id=secondary_base_class_id,
+        alignment=body.alignment,
     )
     if flex_ability_id is not None:
         character.racial_choices.append(CharacterRacialChoice(ability_id=flex_ability_id))
@@ -1106,6 +1128,26 @@ def rename_character(
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
     character.name = body.name
+    db.commit()
+    db.refresh(character)
+    return character
+
+
+@router.patch("/{character_id}/alignment", response_model=CharacterRead)
+def update_alignment(
+    character_id: UUID, body: AlignmentUpdate, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Sets or changes the alignment — checked against every class the
+    character already has levels in, so e.g. a Paladin can't be switched to
+    a non-lawful-good alignment here (RAW "Ehemaliger Paladin" isn't
+    modeled). Clearing it (`null`) is only allowed when no class restricts
+    it."""
+    character = db.get(Character, character_id)
+    if character is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    _, roots = _class_selections_and_roots(db, character)
+    _check_alignment(body.alignment, roots, required=True)
+    character.alignment = body.alignment
     db.commit()
     db.refresh(character)
     return character
@@ -1755,7 +1797,12 @@ def use_class_ability(character_id: UUID, ability_id: UUID, db: Annotated[Sessio
     the same guarantee every other merged registry in this app relies on)
     rather than taken as a request parameter — the route's own path segment
     predates feats being a valid source here, so it stays `class-abilities`
-    for both."""
+    for both.
+
+    `POOL_COST_AT_ACTIVATION` (2026-10-17) sets how many pool points one use
+    costs when that's more than 1 — e.g. the Paladin's Positive Energie
+    fokussieren spends two Handauflegen uses (`POOL_SOURCE_ID` points it at
+    that pool), Aura der Gerechtigkeit two Böses-niederstrecken uses."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -1765,9 +1812,10 @@ def use_class_ability(character_id: UUID, ability_id: UUID, db: Annotated[Sessio
     remaining = remaining_today(db, character, context, ability_id, source_type=source_type)
     if remaining is None:
         raise HTTPException(status_code=422, detail="This ability has no daily-use limit")
-    if remaining <= 0:
+    cost = POOL_COST_AT_ACTIVATION.get(ability_id, 1)
+    if remaining < cost:
         raise HTTPException(status_code=422, detail="No uses remaining today")
-    record_usage(db, character, ability_id, 1, context, source_type=source_type)
+    record_usage(db, character, ability_id, cost, context, source_type=source_type)
 
     db.commit()
     db.refresh(character)
@@ -2312,6 +2360,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             status_code=422,
             detail=f"Can't take real levels in '{receiving_root.name}' — it's this character's Sekundärklasse",
         )
+    _check_alignment(character.alignment, [receiving_root], required=False)
 
     # This class-taken's archetype(s), for _resolve_casting_ability below
     # (arcane-prepared spellbook budget) — a brand-new class-taken uses what

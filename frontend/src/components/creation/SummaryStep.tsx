@@ -1,5 +1,6 @@
 import type { CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
+import { alignmentLabel } from '../../lib/alignment';
 import {
   abilityIncreaseLevels,
   abilityMod,
@@ -111,6 +112,7 @@ export function SummaryStep({ draft, options, submitState, submitErrorMessage }:
           <div className="sb-title">Grunddaten</div>
           <div className="sb-line"><span>Name</span><span className="val">{draft.name.trim() || '—'}</span></div>
           <div className="sb-line"><span>Geschlecht</span><span className="val">{genderLabel(draft.gender)}</span></div>
+          <div className="sb-line"><span>Gesinnung</span><span className="val">{alignmentLabel(draft.alignment)}</span></div>
           <div className="sb-line"><span>Rasse</span><span className="val">{race ? race.name : '—'}</span></div>
           <div className="sb-line">
             <span>Rassenbonus-Attribut</span>

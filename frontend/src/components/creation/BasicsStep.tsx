@@ -3,6 +3,7 @@ import type { CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import type { AbilityKey } from '../../types/abilities';
 import { replacedTraitNames, selectedRace as findSelectedRace } from '../../lib/creationCalculations';
+import { ALIGNMENTS } from '../../lib/alignment';
 
 interface BasicsStepProps {
   draft: CreationDraft;
@@ -63,6 +64,19 @@ export function BasicsStep({ draft, options, setDraft }: BasicsStepProps) {
             <option value="maennlich">Männlich</option>
             <option value="weiblich">Weiblich</option>
             <option value="">Keine Angabe</option>
+          </select>
+        </div>
+        <div className="field-row">
+          <div className="field-label">Gesinnung</div>
+          <select
+            className="text-input"
+            value={draft.alignment}
+            onChange={(e) => setDraft((prev) => ({ ...prev, alignment: e.target.value as CreationDraft['alignment'] }))}
+          >
+            <option value="">— Gesinnung wählen —</option>
+            {ALIGNMENTS.map((a) => (
+              <option value={a.code} key={a.code}>{a.label}</option>
+            ))}
           </select>
         </div>
       </div>

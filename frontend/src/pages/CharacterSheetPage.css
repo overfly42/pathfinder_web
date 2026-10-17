@@ -63,6 +63,7 @@
 }
 .char-name { font-family: 'Cinzel', serif; font-size: 21px; font-weight: 600; color: var(--ink); margin: 0; }
 .char-sub { font-family: 'Spectral', serif; font-style: italic; font-size: 13px; color: var(--ink-soft); margin-top: 3px; }
+.char-alignment { font-family: 'Spectral', serif; font-style: italic; font-size: 13px; color: var(--ink-soft); background: transparent; border: 1px solid var(--parchment-shadow); border-radius: 4px; padding: 1px 4px; }
 
 .vitals { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 20px; }
 .vital { background: rgba(255,255,255,0.35); border: 1px solid var(--parchment-shadow); border-radius: 8px; padding: 8px 10px; position: relative; }

@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import (
+    BaseClass,
     Character,
     CharacterFeat,
     CharacterGear,
@@ -13,6 +14,7 @@ from app.models import (
     CharacterSkillRank,
     CharacterTrait,
 )
+from app.rules.alignment import ALIGNMENTS
 from app.rules.context import CharacterContext
 from app.rules.race_abilities import HANDLERS
 from app.seed.class_ability_granted_feat_seed import seed_class_ability_granted_feats
@@ -134,6 +136,21 @@ def _cantrip_ids(client: TestClient, class_name: str) -> list[str]:
     return [s["id"] for s in by_class[class_name] if s["grade"] == 0]
 
 
+def _fitting_alignment(db_session: Session, class_names: list[str]) -> str | None:
+    """The first alignment every class in `class_names` allows
+    (`BaseClass.allowed_alignments`), or `None` if none restricts it — so a
+    test character of a restricted class (Paladin, Mönch, Barbar, ...) is
+    valid by default without every test spelling out an alignment."""
+    restrictions = [
+        set(base_class.allowed_alignments)
+        for base_class in db_session.scalars(select(BaseClass).where(BaseClass.name.in_(class_names))).all()
+        if base_class.allowed_alignments
+    ]
+    if not restrictions:
+        return None
+    return next((code for code in ALIGNMENTS if all(code in allowed for allowed in restrictions)), None)
+
+
 def _character_payload(user_id: str, race_id: str, db_session: Session, **overrides) -> dict:
     seed_classes(db_session)  # base_class_option_groups/base_class_ability_grants FK into base_classes
     seed_class_options(db_session)
@@ -180,6 +197,7 @@ def _character_payload(user_id: str, race_id: str, db_session: Session, **overri
         "ability_increases": {str(level): "ST" for level in range(4, total_level + 1, 4)},
         "ability_scores": DEFAULT_ABILITY_SCORES,
         "point_budget": 20,
+        "alignment": _fitting_alignment(db_session, [selection["class_name"] for selection in classes]),
     }
     payload.update(overrides)
     return payload

@@ -101,6 +101,15 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_classes.id"), nullable=True
     )
 
+    # Alignment code (`rules/alignment.py`'s `ALIGNMENTS`, e.g. "LG"/"N") —
+    # stored language-neutral, labelled by the frontend. Nullable: every
+    # character created before roadmap slice 10 step 0b (2026-10-17) has
+    # none, and a class restriction (`BaseClass.allowed_alignments`) is only
+    # *required* at creation; for such a legacy character a level-up into a
+    # restricted class is only rejected once an alignment has been set and
+    # doesn't fit (`routers/characters.py`'s `_check_alignment`).
+    alignment: Mapped[str | None] = mapped_column(String(2), nullable=True)
+
     racial_choices: Mapped[list["CharacterRacialChoice"]] = relationship(cascade="all, delete-orphan")
     class_ability_weapon_choices: Mapped[list["CharacterClassAbilityWeaponChoice"]] = relationship(
         cascade="all, delete-orphan"

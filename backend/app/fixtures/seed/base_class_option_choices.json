@@ -3462,5 +3462,141 @@
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
     "race_id": null
+  },
+  {
+    "id": "50c45376-93a5-518a-a034-7850988df11e",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Erschöpft",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "a165edef-8403-5524-941d-e5c5bfb12b6b",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Erschüttert",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "966e2d93-c875-5e3b-9b35-75b29032f886",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Kränkelnd",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "7eadce3d-9949-5797-a761-1ba9115ac686",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Benommen",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "1c09fc2c-4cd1-54ca-a84e-561c5bd76c97",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Krank",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "04fa1401-5433-5daf-9884-c63df81bc236",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Wankend",
+    "min_level": 6,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "855f8643-f6fa-55d9-b07d-e8b551e1adec",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Entkräftet",
+    "min_level": 9,
+    "requires_choice_id": "50c45376-93a5-518a-a034-7850988df11e",
+    "race_id": null
+  },
+  {
+    "id": "265adbe6-4087-55eb-9287-568ac0c26616",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Übelkeit",
+    "min_level": 9,
+    "requires_choice_id": "966e2d93-c875-5e3b-9b35-75b29032f886",
+    "race_id": null
+  },
+  {
+    "id": "d9a77b1a-b0c9-5c93-8208-e9612b5ab39d",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Verängstigt",
+    "min_level": 9,
+    "requires_choice_id": "a165edef-8403-5524-941d-e5c5bfb12b6b",
+    "race_id": null
+  },
+  {
+    "id": "cdd3e6f3-69aa-52e1-ae44-03d7a56c108e",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Verflucht",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "6d68a988-2fc1-5297-8515-baef303f7c80",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Vergiftet",
+    "min_level": 9,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "71e2d5df-3db7-5607-9cdc-b61b4bd67a75",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Betäubt",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "6e6147b8-4472-5171-b647-e5e1e40e4a57",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Blind",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f7a34ce6-032c-54f0-82a9-c773d337812c",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Gelähmt",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "eacc6e16-8a3a-5050-a031-263d2bd8d0a5",
+    "group_id": "497e9527-edb8-519d-b95f-15d704517e03",
+    "name": "Taub",
+    "min_level": 12,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "ab618101-2723-50ac-9ffc-59e60b36354a",
+    "group_id": "c07ea8b2-7ba0-5a91-ad8c-5d954b6576d1",
+    "name": "Waffe",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "331eba13-6de0-5ef1-97b1-4a9d6727822d",
+    "group_id": "c07ea8b2-7ba0-5a91-ad8c-5d954b6576d1",
+    "name": "Reittier",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
   }
 ]

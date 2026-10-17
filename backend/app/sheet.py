@@ -102,6 +102,7 @@ from .rules.handlers import (
     DAILY_LIMITS,
     FEATURE_SUMMARY_HANDLERS,
     NATURAL_ATTACK_HANDLERS,
+    POOL_COST_AT_ACTIVATION,
     SAVE_DC_HANDLERS,
     SPELL_LIKE_ABILITY_HANDLERS,
     WEAPON_BONUS_DAMAGE_HANDLERS,
@@ -330,6 +331,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.CMD)
         + granted_ability_modifiers(context, target=ModifierTarget.SWIM_SPEED)
         + granted_ability_modifiers(context, target=ModifierTarget.SKILL)
+        + granted_ability_modifiers(context, target=ModifierTarget.SAVE_FORT)
+        + granted_ability_modifiers(context, target=ModifierTarget.SAVE_REF)
+        + granted_ability_modifiers(context, target=ModifierTarget.SAVE_WILL)
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -411,10 +415,15 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     wands = _build_wands(db, character)
     melee_attack_bonus = stacked.get((ModifierTarget.ATTACK, None), 0)
     melee_damage_bonus = stacked.get((ModifierTarget.DAMAGE, None), 0)
+    # Melee *and* ranged (`ModifierTarget.ANY_ATTACK`'s docstring) — added to
+    # every weapon below; natural attacks are melee, so they just get it
+    # folded into their melee bonus.
+    any_attack_bonus = stacked.get((ModifierTarget.ANY_ATTACK, None), 0)
+    any_damage_bonus = stacked.get((ModifierTarget.ANY_DAMAGE, None), 0)
     weapon_attacks = (
         _build_weapon_attacks(
             items, gear_by_slot, gear, bab, str_mod, dex_mod, melee_attack_bonus, melee_damage_bonus, context,
-            granted_ability_ids,
+            granted_ability_ids, any_attack_bonus=any_attack_bonus, any_damage_bonus=any_damage_bonus,
         )
         + _build_natural_attacks(
             items,
@@ -425,8 +434,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             bab,
             str_mod,
             dex_mod,
-            melee_attack_bonus,
-            melee_damage_bonus,
+            melee_attack_bonus + any_attack_bonus,
+            melee_damage_bonus + any_damage_bonus,
         )
         + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context)
     )
@@ -446,6 +455,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         # local var already computed above for `favored`/`class_name`, just reshaped here.
         "classes": [{"id": c["id"], "className": c["class_name"]} for c in classes],
         "archetype": archetype,
+        # `Character.alignment` code (LG … CE) or `None` — labelled by the frontend.
+        "alignment": character.alignment,
         "level": total_level,
         "hp": {"current": hp_current, "max": hp_max, "temporary": character.temporary_hit_points},
         "armorClass": armor_class,
@@ -1896,8 +1907,14 @@ def _build_actions(
                 "description": ability.description,
                 "sourceType": "class_ability",
                 "sourceId": str(ability.id),
-                "usesRemainingToday": max(0, remaining_today(db, character, context, ability.id) or 0),
-                "usesPerDay": DAILY_LIMITS[ability.id](context),
+                # Counted in uses of *this* ability, so one costing several
+                # points of a shared pool (`POOL_COST_AT_ACTIVATION`, e.g. the
+                # Paladin's Positive Energie fokussieren = 2 Handauflegen)
+                # shows how often it can still be used, and its card disables
+                # once fewer points than one use costs are left.
+                "usesRemainingToday": max(0, remaining_today(db, character, context, ability.id) or 0)
+                // POOL_COST_AT_ACTIVATION.get(ability.id, 1),
+                "usesPerDay": DAILY_LIMITS[ability.id](context) // POOL_COST_AT_ACTIVATION.get(ability.id, 1),
                 # Same idea as `_build_prepared_spell_grades`'s own `dc`
                 # (`10 + grade + casting_mod`) — computed only for an
                 # ability actually registered in `SAVE_DC_HANDLERS`
@@ -2517,6 +2534,9 @@ def _build_weapon_attacks(
     melee_damage_bonus: int,
     context: CharacterContext,
     class_ability_ids: Counter[UUID],
+    *,
+    any_attack_bonus: int = 0,
+    any_damage_bonus: int = 0,
 ) -> list[dict]:
     """Computed attack-bonus/damage-dice readout for whatever's equipped in
     the "hauptwaffe"/"nebenwaffe" paperdoll slots (roadmap.md's Slice-4
@@ -2550,6 +2570,10 @@ def _build_weapon_attacks(
     bonus to every "ranged" item would incorrectly buff a bow; Kampfrausch's
     thrown-weapon-damage nuance is therefore a known, documented gap here
     too, not modeled.
+
+    `any_attack_bonus`/`any_damage_bonus` (`ModifierTarget.ANY_ATTACK`/
+    `ANY_DAMAGE`, e.g. the Paladin's Böses niederstrecken) apply to melee
+    and ranged weapons alike.
 
     `context` only feeds Heftiger Angriff's attack/damage trade-off while
     actually activated (`_power_attack_effect`) — melee only, same reasoning
@@ -2641,7 +2665,8 @@ def _build_weapon_attacks(
             + power_attack_penalty
             + kampfzauberei_penalty
             + proficiency_penalty
-            + weapon_focus_bonus,
+            + weapon_focus_bonus
+            + any_attack_bonus,
         )
 
         damage_parts: list[str] = []
@@ -2652,7 +2677,11 @@ def _build_weapon_attacks(
                 else 0 if is_ranged else _weapon_damage_str_mod(str_mod, item.hands, slot_key == "nebenwaffe")
             )
             flat_damage = (
-                damage_str_mod + enhancement + (0 if is_ranged else melee_damage_bonus) + power_attack_damage
+                damage_str_mod
+                + enhancement
+                + (0 if is_ranged else melee_damage_bonus)
+                + power_attack_damage
+                + any_damage_bonus
             )
             piece = item.damage_medium + (_fmt(flat_damage) if flat_damage else "")
             if item.damage_type:

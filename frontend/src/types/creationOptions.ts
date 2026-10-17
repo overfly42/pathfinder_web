@@ -1,3 +1,4 @@
+import type { Alignment } from '../lib/alignment';
 import type { AbilityKey } from './abilities';
 
 export type SpellType = 'none' | 'divine-prepared' | 'arcane-prepared' | 'spontaneous';
@@ -76,6 +77,9 @@ export interface ClassDef {
   archetypes: string[];
   skillPointsBase: number;
   spellType: SpellType;
+  /** Alignment codes this class requires (`BaseClass.allowed_alignments` — Paladin ["LG"],
+   *  Druide any neutral component); `null` = any. Enforced server-side on creation. */
+  allowedAlignments: Alignment[] | null;
   classSkills: string[];
   optionGroups: ClassOptionGroup[];
   /** archetype name -> option group key -> occurrence levels that

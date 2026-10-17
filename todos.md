@@ -65,6 +65,18 @@ Aus der Checkliste in `requirements_v2.md` (§8), Stand dort noch offen:
       größerer Scope (Sprachen-Katalog, Charakter-Sprachen-Tabelle,
       DE/EN-Lokalisierung der Sprachnamen, UI), nicht im Rahmen der
       Kosmopolit-Umsetzung mitgebaut.
+- [ ] **Kleriker-Gesinnung (Gottheiten fehlen).** Aufgeworfen 2026-10-17 beim
+      Gesinnungsfeld (`Character.alignment`, `BaseClass.allowed_alignments`,
+      `roadmap.md` Slice 10 Schritt 0b): Paladin (RG), Druide (neutraler
+      Anteil), Mönch (rechtschaffen) und Barbar/Entfesselter Barbar
+      (nicht rechtschaffen) sind als feste Listen hinterlegt. Der Kleriker muss
+      laut PF1e RAW höchstens eine Stufe von der Gesinnung seiner Gottheit
+      entfernt sein — das lässt sich nicht als feste Liste ausdrücken, und es
+      gibt kein Gottheiten-Modell (kein `BaseDeity`, keine Gottheitswahl beim
+      Charakter, keine Zuordnung Gottheit → Domänen). Braucht zuerst einen
+      Gottheiten-Katalog; dann eine Prüfung „Abstand ≤ 1 auf beiden Achsen"
+      als Handler statt Datenliste, plus ggf. Einschränkung der Domänenwahl
+      auf die Domänen der Gottheit.
 - [~] **Bevorzugte-Klasse-Bonus "Zusätzlicher Zauber" (Mystiker/Hexe)** —
       2026-09-06/07 aufgeworfen, 2026-09-07 Backend umgesetzt, Frontend
       offen. Vier Wahlmöglichkeiten — Mystiker (Halb-Ork/Katzenvolk, geteilte
@@ -897,7 +909,8 @@ Slice-Arbeit.
         **Überholt für Druide/Mönch/Paladin:** Mönch ist inzwischen
         vollständig importiert; Druide (2026-10-15, `import_druide.py`) und
         Paladin werden als Voraussetzung für Tiergefährten voll ausgebaut
-        statt entfernt (`roadmap.md` Slice 10, Schritte 0a/0b).
+        statt entfernt (`roadmap.md` Slice 10, Schritte 0a/0b). Paladin
+        erledigt 2026-10-17 (`import_paladin.py`, `rules/classes/paladin.py`).
 
   - [ ] **Bekannte Berechnungslücken, entdeckt bei der Halbling-Korrektur**
         (nicht Halbling-spezifisch, betrifft potenziell jede Rasse):

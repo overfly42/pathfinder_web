@@ -817,6 +817,18 @@
     "spell_resistance": "Ja"
   },
   {
+    "id": "7e38765a-1a12-582a-8c56-e80d56e573d7",
+    "name": "Aufopferung des Paladins",
+    "school": "Bannzauber",
+    "description": "Du stellst eine kurze, aber mächtige Verbindung zwischen dir und einer anderen Kreatur her, durch die du jeglichen Schaden und andere Effekte erhältst, die das Ziel erleidet. Wenn eine Kreatur innerhalb der Reichweite des Zaubers von einem Angriff getroffen wird oder bei einem Rettungswurf scheitert, kannst du diesen Zauber wirken. Die Wunden und/oder Effekte des Ziels werden auf dich übertragen. Das wirkt sich aus, als ob du von dem betreffenden Angriffgetroffen wurdest oder bei dem Rettungswurf versagt hast. Du musst den gesamten Schaden sowie alle negativen Effekte hinnehmen. Alle deine Immunitäten oder Resistenzen funktionieren normal, aber du kannst Schaden oder Effekte auf keine andere Weise abschwächen oder aufheben.\n\nBenutzt du diesen Zauber gegen einen Effekt, der auch dich zum Ziel hat oder in dessen Wirkungsbereich du dich befindest, erleidest du die Effekte sowohl für dich als auch für die Zielkreatur. Damit ist es möglich, dass du zweimal Schaden hinnehmen musst, oder alle anderen Resultate doppelt wirken.",
+    "casting_time": "1 Augenblickliche Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "Augenblicklich",
+    "saving_throw": "Zähigkeit, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
+  },
+  {
     "id": "69c2aa61-b5f0-5bc8-9907-5b7443a18db7",
     "name": "Aufspüren",
     "school": "Erkenntnis",
@@ -889,6 +901,18 @@
     "spell_resistance": "Ja"
   },
   {
+    "id": "3805ab48-b53d-569f-98e6-cf6734bca6e6",
+    "name": "Aura der mächtigen Tapferkeit",
+    "school": "Bannzauber",
+    "description": "Mit diesem Zauber stärkst du deine Aura der Tapferkeit. Bis zum Ende der Wirkungsdauer sind alle Verbündeten innerhalb der Aura immun gegen Furcht (magische oder gewöhnliche). Wenn du die Klassenfähigkeit Aura der Tapferkeit nicht besitzt, hat dieser Zauber keine Wirkung.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "10 Minuten/Stufe",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Zauberresistenz Ja (harmlos)"
+  },
+  {
     "id": "68d4ab06-05b2-5b94-83ed-8ec6a042c838",
     "name": "Aura des Archonten",
     "school": "Hervorrufung",
@@ -935,6 +959,30 @@
     "duration": "1 Min./Stufe",
     "saving_throw": "Willen, keine Wirkung (siehe Text)",
     "spell_resistance": "Zauberresistenz Ja"
+  },
+  {
+    "id": "fbb6f132-c50b-5e0b-aa98-bed53d2fd00f",
+    "name": "Auren ausdehnen",
+    "school": "Verwandlung",
+    "description": "Die Reichweite deiner Antipaladin- oder Paladinauren wird verdoppelt. Wenn du z.B. ein Paladin bist, wirkt deine Aura des Mutes auf alle Verbündeten innerhalb von 6 m statt der normalen 3 m.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Minute/Stufe (A)",
+    "saving_throw": null,
+    "spell_resistance": null
+  },
+  {
+    "id": "2fe26e76-db35-5c6d-8a39-a67130591802",
+    "name": "Auren verleihen",
+    "school": "Bannmagie",
+    "description": "Du überträgst eine oder mehrere deiner (Anti-)Paladinauren auf eine andere Kreatur (z.B. deine Aura der Entschlossenheit und deine Aura des Mutes). Du behältst den persönlichen Effekt der Aura, während das Ziel an deiner Stelle zum Zentrum des Auraeffekts wird. Wenn du z.B. deine Aura des Mutes überträgst, bist du weiterhin immun gegen Furcht, allerdings wird das Ziel zum Zentrum der Aura, welche einen Moralbonus von +4 auf Rettungswürfe gegen Furchteffekte verleiht. Sollte eine Aura nur funktionieren, während du bei Bewusstsein bist, funktioniert sie in diesem Fall nur, während das Ziel bei Bewusstsein ist. Sollte eine Aura nur funktionieren, wenn du Anwendungen anderer Fähigkeiten aufwendest, z.B. bei Aura der Gerechtigkeit oder Aura der Rache, dann funktioniert die übertragene Aura nur, wenn das Ziel ebenfalls über diese anderen Fähigkeiten verfügt und sie nutzt, um die Aura zu aktivieren.\n\nDu kannst keine Aura übertragen, welche ausschließlich dich betrifft, z.B. Aura des Guten.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Minute/Stufe (A)",
+    "saving_throw": "WIL, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja"
   },
   {
     "id": "c5f2074d-3489-5189-a196-0c89144e705d",
@@ -2095,6 +2143,18 @@
     "spell_resistance": "Nein"
   },
   {
+    "id": "6802adb8-cab7-5788-8323-b8d4c3310986",
+    "name": "Böses herausfordern",
+    "school": "Verzauberung",
+    "description": "Du forderst eine böse Kreatur heraus, mit dir zu kämpfen oder negative Konsequenzen zu erleiden. Du erhältst einen heiligen Bonus auf alle Nahkampfangriffe gegen das Ziel. Am Ende seines Zuges muss das Ziel wenigstens einen Angriff gegen dich durchgeführt haben. Ansonsten kränkelt es. Wenn du dich vom Ziel entfernst, endet der Zauber.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Eine böse Kreatur",
+    "duration": "1 Minute/Stufe (A)",
+    "saving_throw": "Willen, keine Wirkung",
+    "spell_resistance": "Ja"
+  },
+  {
     "id": "68c650cc-4a2b-52cb-8980-380ea95ed16e",
     "name": "Böswillige Verwandlung",
     "school": "Verwandlung",
@@ -2791,6 +2851,18 @@
     "spell_resistance": "Ja (harmlos, Gegenstand)"
   },
   {
+    "id": "382aa6ff-7940-59d8-8611-d2ba9a2bd248",
+    "name": "Eid der Aufopferung",
+    "school": "Bannzauber",
+    "description": "Du erzeugst ein mächtiges Band zwischen dir und einer einzigen Kreatur. Bis zum Ende der Wirkungsdauer kannst du den vollen Schaden eines Angriffs oder alle anderen Effekte auf dich nehmen, unter denen die Kreatur leidet. Dies gilt nur, wenn es Opfer eines Angriffs wurde oder bei einem Rettungswurf scheiterte. Wenn du die Entscheidung triffst, Schaden und Effekte nicht auf dich zu nehmen, erleidest du anstatt dessen Schaden in Höhe deines Konstitutionswerts. Jegliche deiner Immunitäten und Resistenzen wirken normal, aber du kannst den Schaden nicht anderweitig lindern oder aufheben, egal ob er durch den Transfer zustande kam oder durch die Rückwirkung einer Weigerung deinerseits. Sollten du oder das Ziel sich aus der Sichtlinie des anderen bewegen, endet der Zauber.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Kreatur",
+    "duration": "1 Minute/Stufe",
+    "saving_throw": "Zähigkeit, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
+  },
+  {
     "id": "2ad012d6-98cb-5b69-bac4-428fa94bc285",
     "name": "Eigenständiges Trugbild",
     "school": "Illusion",
@@ -2860,6 +2932,18 @@
     "target_or_area": "Eine lebende Kreatur",
     "duration": "siehe Text",
     "saving_throw": "WIL, anzweifeln, dann ZÄH, keine Wirkung, oder WIL, keine Wirkung (siehe Text)",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "3802784b-58d6-53c8-bc23-8fa5f8aeff24",
+    "name": "Einhalt gebieten",
+    "school": "Verzauberung",
+    "description": "Du löst ein Zittern im Waffenarm eines Gegners aus und verhinderst, dass er eine andere Kreatur schlagen kann. Du kannst diesen Zauber wirken, wenn das Ziel gerade einen Nahkampfangriff gegen eine andere Kreatur ausführen will. Scheitert der Gegner bei seinem Rettungswurf, kann er diesen Angriff nicht durchführen, womit auch die ganze Aktion für diese Runde verloren geht. Bei einem erfolgreichen Rettungswurf kann das Ziel angreifen, indem es den Zwang besiegt. Aber seine Zielgenauigkeit und Kraft leiden darunter, so dass es einen Malus von -5 sowohl auf Angriffs- als auch auf Schadenswurf hinnehmen muss. Unabhängig davon, ob der Rettungswurf des Ziels fehlschlägt oder nicht, leidet es während der Wirkungsdauer dieses Zaubers unter einem Malus von -2 auf Angriffs- und Schadenswürfe gegen die Kreatur, die es ursprünglich angreifen wollte.",
+    "casting_time": "1 Augenblickliche Aktion",
+    "range": "Mittel (30 m + 3 m/Stufe)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "1 Runde/Stufe und speziell (siehe Text)",
+    "saving_throw": "Willen, teilweise",
     "spell_resistance": "Ja"
   },
   {
@@ -3607,6 +3691,18 @@
     "spell_resistance": "Nein"
   },
   {
+    "id": "b596fc67-22a3-5b2c-841d-7ab22d4314df",
+    "name": "Erzwungene Reue",
+    "school": "Verzauberung",
+    "description": "Du zwingst eine böse Kreatur, die nicht der Unterart Böse angehört, vorübergehend über ihre vergangenen Taten nachzudenken. Die Kreatur wird von Gram und ihrem Gewissen überwältigt. Sie fällt augenblicklich zu Boden und beginnt lauthals, alle ihre Sünden und Untaten dem Wirker des Zaubers gegenüber zu gestehen, solange der Zauber andauert. Der Zauber endet sofort, wenn du aus der Sichtlinie des Ziels trittst oder es angegriffen wird.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Eine böse Kreatur, die nicht der Unterart Böse angehört",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Willen, keine Wirkung",
+    "spell_resistance": "Ja"
+  },
+  {
     "id": "b6af273f-fe46-50fb-aac8-e4c314cea642",
     "name": "Erzwungene Stille",
     "school": "Verwandlung",
@@ -4333,6 +4429,18 @@
     "spell_resistance": "Ja"
   },
   {
+    "id": "65818a2c-2694-5998-9d32-ad99d5d10f27",
+    "name": "Flamme der Herrlichkeit",
+    "school": "Beschwörung",
+    "description": "Du wirst ohnmächtig, löst aber gleichzeitig eine spektakulär anzusehende Welle von heiliger Energie aus, welche deine Verbündeten heilt und stärkt, aber deine Gegner schwächt und verletzt. Du kannst diesen Zauber entweder als eine Standard-Aktion wirken, wenn du am Zug bist, oder als Augenblickliche Aktion, wenn deine Trefferpunkte unter 0 fallen. Wenn du den Zauber als Standard-Aktion wirkst, fallen sofort darauf deine Trefferpunkte auf -1. Dabei wirst du aber auch stabilisiert.\n\nWenn du diesen Zauber wirkst, heilst du jeder guten Kreatur im Wirkungsbereich 1W6 Schadenspunkte für jeweils 2 Zauberstufen. Alle bösen Kreaturen erleiden die gleiche Menge an Schadenspunkten (ein erfolgreicher Rettungswurf halbiert diesen Schaden). Zusätzlich werden alle Verbündeten und Gegner im Wirkungsbereich für 1 Runde pro Zauberstufe wie vom Zauber Gebet betroffen.",
+    "casting_time": "1 Standard-Aktion oder Augenblickliche Aktion;Siehe Text",
+    "range": null,
+    "target_or_area": "Auf dich zentrierte Explosion mit 9 m Radius",
+    "duration": "Augenblicklich und 1 Runde/Stufe;Siehe Text",
+    "saving_throw": "Willen, teilweise",
+    "spell_resistance": "Ja"
+  },
+  {
     "id": "e7d7552b-ff37-5787-a1fa-cbaeb7fa14d5",
     "name": "Flammen erzeugen",
     "school": "Hervorrufung",
@@ -4342,6 +4450,30 @@
     "target_or_area": "Flamme in deiner Handfl äche",
     "duration": "1 Min./Stufe (A)",
     "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "36d7b54f-828f-53c5-b408-df883f55404c",
+    "name": "Flammende Vergeltung",
+    "school": "Hervorrufung",
+    "description": "Die nächste Kreatur, die du mit der Fähigkeit Böses niederstrecken angreifst, wird in heilige Flammen gehüllt, die aufflammen, wenn das Ziel eine andere Kreatur als dich angreift. Wenn die Zielkreatur während der Wirkungsdauer des Effektes von Böses niederstrecken einen Angriff durchführt, der dich nicht zum Ziel hat, erleidet sie 3W8 Punkte Feuerschaden. Wenn dieser Effekt einmal ausgelöst wurde oder der Effekt deiner Fähigkeit Böses niederstrecken endet, endet auch dieser Zauber.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Speziell (siehe Text)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "Siehe Text",
+    "saving_throw": "Nein",
+    "spell_resistance": "Nein"
+  },
+  {
+    "id": "161bb0ec-58b1-5ffc-902d-e02961e5d2ab",
+    "name": "Flammende Verstrickung",
+    "school": "Hervorrufung",
+    "description": "Die nächste Kreatur, die du mit der Fähigkeit Böses niederstrecken angreifst, wird in Flammen gehüllt, welche ihre Bewegungen behindern. Das Ziel ist während der Wirkungsdauer verstrickt. Wenn das Ziel seinen Zug du dir benachbart beginnt, wird es behandelt, als wäre es mit einem feststehenden Gegenstand (mit dir) verstrickt und kann sich nicht bewegen. Ein Ziel, welches seinen erfolgreichen Rettungswurf absolviert, wird von diesem Zauber nur eine Runde lang betroffen.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Speziell (siehe Text)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Reflex, teilweise",
     "spell_resistance": "Ja"
   },
   {
@@ -4355,6 +4487,18 @@
     "duration": "1 Runde/Stufe (A)",
     "saving_throw": "Reflex, halbiert (siehe Text)",
     "spell_resistance": "Nein"
+  },
+  {
+    "id": "c57b1c13-02be-5959-a138-8e433d127a29",
+    "name": "Flammendes Urteil",
+    "school": "Hervorrufung",
+    "description": "Die nächste Kreatur, die du mit der Fähigkeit Böses niederstrecken angreifst, wird in Flammen aus positiver Energie gehüllt. Zu Beginn seines Zugs erleidet das Ziel 1W6 Schaden sowie weitere 1W6, wenn es eine andere Kreatur als dich angreift. Ist die Zielkreatur ein Externar der Unterart Böse, ein böser Drache von böser Gesinnung oder eine untote Kreatur, steigt dieser Schaden auf 1W10. Bei einem erfolgreichen Rettungswurf wird das Ziel nur eine Runde lang betroffen. Der Schaden ist göttlicher Natur und durchdringt jede Art von SR des Ziels.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Speziell (siehe Text)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Willen, teilweise",
+    "spell_resistance": "Ja"
   },
   {
     "id": "613fe71e-4b7a-5cda-a640-598119e7eae2",
@@ -4714,6 +4858,18 @@
     "target_or_area": "Eine extraplanare Kreatur",
     "duration": "Augenblicklich",
     "saving_throw": "Willen, keine Wirkung (siehe Text);",
+    "spell_resistance": null
+  },
+  {
+    "id": "53a90c9a-7ed3-5ab4-9670-a6c35c8b6f03",
+    "name": "Friedensschwur",
+    "school": "Bannzauber",
+    "description": "Du bittest deine Gottheit um Hilfe, indem du einen zeitweiligen Friedenseid ablegst. Dieser verleiht dir überlegene Verteidigungsfähigkeiten. Dafür kannst du während der Wirkungsdauer nicht angreifen. Solange du unter dem Effekt dieses Zaubers stehst, besitzt du einen heiligen Bonus von +5 auf deine RK und Rettungswürfe sowie SR 10/Böses. Wenn du einen direkten oder indirekten Angriff durchführst oder jegliche Art von Feindseligkeit einer anderen Kreatur gegenüber zeigst, endet der Zauber augenblicklich.\n\nLegendärer Friedensschwur\n\nDu provozierst keine Gelegenheitsangriffe bei Fertigkeitswürfen für Heilkunde, wenn du gezielte Zauber der Kategorie Harmlos wirkst oder positive Energieeffekte nutzt, um lebende Kreaturen zu heilen.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": null,
     "spell_resistance": null
   },
   {
@@ -5611,6 +5767,18 @@
     "spell_resistance": null
   },
   {
+    "id": "b8e937bf-b490-5ba3-96d7-09c5f71a0d12",
+    "name": "Gerechte Kraft",
+    "school": "Verzauberung",
+    "description": "Du erfüllst das Ziel mit einer Welle zorniger göttlicher Energie, welche die Fähigkeit der Kreatur erhöht, einen Gegner zu treffen. Dies basiert auf der Menge der Angriffe, die diesen Gegner bereits getroffen haben. Jedes Mal, wenn das Ziel einen Gegner mit einem erfolgreichen Nahkampfangriff trifft, erhält es einen kumulativen Moralbonus von +1 auf Angriffswürfe (maximal +4) sowie 1W8 temporäre Trefferpunkte (maximal 20). Geht ein Angriff fehl, so fällt der Angriffsbonus auf 0 zurück. Die angesammelten temporären Trefferpunkte bleiben aber bestehen. Sie verschwinden erst am Ende der Wirkungsdauer.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Kreatur",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Zauberresistenz Ja (harmlos)"
+  },
+  {
     "id": "43177acd-011f-5e61-a021-2459b55a9497",
     "name": "Gerechte Macht",
     "school": "Verwandlung",
@@ -6343,6 +6511,18 @@
     "spell_resistance": null
   },
   {
+    "id": "c096c204-0177-525a-80a5-a28f9764ca16",
+    "name": "Göttliche Stärkung",
+    "school": "Nekromantie",
+    "description": "Mit einer einzigen Berührung kannst du einen Teil deiner Lebenskraft in Form von Lebenspunkten und deiner Entschlossenheit übertragen. Wenn du das Ziel berührst, kannst du ihm eine Anzahl deiner Trefferpunkte geben, die deinem Konstitutionswert entspricht. Diese Trefferpunkte heilen das Ziel, können aber dessen Trefferpunkte nicht über ihren normalen Höchstwert steigern. Zusätzlich erhält das Ziel SR/Böses gleich deinem Charismabonus (wenn du einen hast), solange der Zauber anhält.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Eine berührte, lebende Kreatur",
+    "duration": "Augenblicklich + 1 Runde/Stufe (Siehe Text)",
+    "saving_throw": "Zähigkeit, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
+  },
+  {
     "id": "645297a3-d9d6-54bc-ad6f-9d445c5478a0",
     "name": "Göttliche Wahrheitssuche",
     "school": "Verzauberung:",
@@ -6365,6 +6545,18 @@
     "duration": null,
     "saving_throw": null,
     "spell_resistance": null
+  },
+  {
+    "id": "7ff5af87-5b28-5972-aa81-c04410ce2fd5",
+    "name": "Göttlicher Pfeil",
+    "school": "Verwandlung",
+    "description": "Du lädst ein Projektil – z.B. einen Pfeil oder ein Schuriken – mit heiliger Energie auf, sodass es bei Untoten zusätzlichen Schaden in Höhe des Schadens verursacht, den du mit deinem Klassenmerkmal Handauflegen zufügst. Dieser zusätzliche Schaden wird bei einem Kritischen Treffer nicht multipliziert. Obwohl dir dieser Zauber keine zusätzlichen Anwendungen von Handauflegen verschafft, musst du mindestens eine Anwendung vorrätig haben, um diesen Zauber zu wirken. Sollte das Projektil ein Ziel treffen oder zerstört werden, bevor die Wirkungsdauer ausläuft, endet der Zauber.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "1 Projektil",
+    "duration": "1 Runde/Stufe oder bis entladen",
+    "saving_throw": "Keiner",
+    "spell_resistance": "Nein"
   },
   {
     "id": "3f6b14ae-98a3-5d4a-85c3-e3583b9a9869",
@@ -6649,6 +6841,18 @@
     "spell_resistance": null
   },
   {
+    "id": "22a72511-4a25-5229-ac99-1b3f62f5c38b",
+    "name": "Heiliges Schwert",
+    "school": "Hervorrufung",
+    "description": "Dieser Zauber ermöglicht es dir, heilige Energie in dein Schwert oder eine andere Nahkampfwaffe deiner Wahl zu lenken. Die Waffe funktioniert dann wie eine heilige Waffe +5 (Verbesserungsbonus von +5 auf alle Angriffs- und Schadenswürfe und 2W6 zusätzlicher Schaden gegen böse Gegner). Die Waffe strahlt außerdem einen Schutzkreis gegen Böses aus (wie der Zauber). Endet der Schutzkreis, erschafft das Schwert in deinem Zug mit einer freien Aktion einen neuen. Der Zauber endet automatisch nach 1 Runde, wenn die Waffe deine Hand verlässt. Du kannst nicht mehr als ein Heiliges Schwert auf einmal besitzen.\n\nWird dieser Zauber auf eine magische Waffe gewirkt, überschreibt die Wirkung des Zaubers die Kräfte, welche die Waffe normalerweise besitzt. Der Verbesserungsbonus und die anderen Kräfte, welche die Waffe sonst hat, sind für die Dauer des Zaubers außer Kraft gesetzt. Heiliges Schwert ist nicht kumulativ mit Waffe weihen oder anderen Zaubern, welche die Eigenschaften einer Waffe auf irgendeine Art und Weise verändern. Der Zauber wirkt nicht auf Artefakte und auch die Boni einer Meisterarbeit auf den Angriff sind nicht mit dem Verbesserungsbonus für den Angriff kumulativ.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Nahkampfwaffe",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Nein",
+    "spell_resistance": "Nein"
+  },
+  {
     "id": "988835a2-a459-5d68-ae02-0667ba3f33ef",
     "name": "Heiliges Wort",
     "school": "Hervorrufung",
@@ -6658,6 +6862,18 @@
     "target_or_area": "Nicht gute Kreaturen innerhalb einer Ausbreitung mit einem Radius von 12 m mit dir im Zentrum",
     "duration": "Augenblicklich",
     "saving_throw": "Willen, teilweise",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "aef576ff-d3e7-5369-a6e7-087571965447",
+    "name": "Heiliges flüstern",
+    "school": "Hervorrufung",
+    "description": "Du flüsterst ein einziges Wort in der urtümlichen Sprache des Guten, welche allem Bösen ein Gräuel ist. Damit stärkst du die Entschlossenheit aller gut gesinnten Kreaturen. Betroffene böse gesinnte Kreaturen müssen einen Zähigkeitswurf bestehen oder eine Runde/Stufe lang kränkeln. Böse gesinnte Externare der Unterart Böse, böse gesinnte Drachen sowie Untote innerhalb des Wirkungsbereichs erleiden bei einem gescheiterten Rettungswurf zusätzlich 2W8 Punkte Schaden. Gut gesinnte Kreaturen im Wirkungsbereich erhalten eine Runde lang einen heiligen Bonus von +2 auf Angriffs- und Schadenswürfe.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "9 m",
+    "target_or_area": "Kegelförmige Explosion",
+    "duration": "Augenblicklich",
+    "saving_throw": "Zähigkeit, keine Wirkung (siehe Text)",
     "spell_resistance": "Ja"
   },
   {
@@ -6719,6 +6935,18 @@
     "duration": "10 Min./Stufe",
     "saving_throw": "Willen, keine Wirkung (harmlos)",
     "spell_resistance": "Ja (harmlos)"
+  },
+  {
+    "id": "3fade0a8-d6cd-512a-bfec-391498f1d242",
+    "name": "Heldenhafter Widerstand",
+    "school": "Beschwörung",
+    "description": "In dem Augenblick, bevor du auf oder unter 0 Trefferpunkte fallen würdest, kannst du eine Anwendung der Fähigkeit Handauflegen dazu verwenden, den entsprechenden Heilungseffekt augenblicklich zu erhalten. Du heilst außerdem zusätzliche 1W6 Trefferpunkte. Steigen deine Trefferpunkte dadurch über 0, wirst du nicht bewusstlos und kannst weiter normal agieren. Hast du bereits alle Anwendungen von Handauflegen verbraucht, hat dieser Zauber keinen Effekt.",
+    "casting_time": "1 Augenblickliche Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "Augenblicklich",
+    "saving_throw": null,
+    "spell_resistance": null
   },
   {
     "id": "56ebac1a-9e0f-5472-9abe-28bc0d46c24f",
@@ -6838,6 +7066,18 @@
     "target_or_area": "Geisterhafte Hand",
     "duration": "1 Stunde/ Stufe",
     "saving_throw": "Nein",
+    "spell_resistance": "Nein"
+  },
+  {
+    "id": "79c932e1-2d45-54c3-9943-ff11e30f7353",
+    "name": "Himmelsschleier",
+    "school": "Bannzauber",
+    "description": "Du umgibst dich selbst mit einem Schleier aus positiver Energie, welcher es bösen Externaren erschwert, dich zu verletzen. Für die Wirkungsdauer dieses Zaubers erhältst du einen heiligen Bonus von +2 auf deine RK und Rettungswürfe. Beide Boni gelten nur gegen Angriffe und Effekte, welche von Externaren der Unterart Böse ausgehen. Du kannst diesen Zauber als Schnelle Aktion beenden, um allen solchen Externaren innerhalb von 1,50 m Entfernung 1W8 Schadenspunkte +1 Punkt pro Paladinstufe zuzufügen. Ein Willenswurf halbiert diesen Schaden.",
+    "casting_time": "Standard-Aktion",
+    "range": "Persönlich oder 1,50 m; siehe Text",
+    "target_or_area": "Du oder alle Kreaturen innerhalb von 1,50 m Entfernung; siehe Text",
+    "duration": "10 Minuten/Stufe (A)",
+    "saving_throw": "WIL, halbiert",
     "spell_resistance": "Nein"
   },
   {
@@ -7686,6 +7926,18 @@
     "target_or_area": "1W3 herbeigezauberte Kreaturen",
     "duration": "1 Runde/Stufe (A)",
     "saving_throw": "Keiner",
+    "spell_resistance": "Nein"
+  },
+  {
+    "id": "d26e5b36-2c6a-5b57-b8ba-6704176d0a1b",
+    "name": "Klinge des strahlenden Sieges",
+    "school": "Verwandlung",
+    "description": "Du stärkst das Band zwischen deiner durch Göttlicher Bund verbesserten Waffe und ihrem himmlischen Geist. Die Waffe erhält die Eigenschaft Geisterhafte Berührung. Du kannst die Schadensart der Waffe (Hieb, Stich oder Wucht) mit einer Schnellen Aktion ändern. Des Weiteren erhältst du einen heiligen Bonus in Höhe deiner halben Zauberstufe auf deine KMV gegen Entwaffnen und Zerschmettern, wenn dies gegen deine durch Göttlicher Bund verbesserte Waffe gerichtet ist.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Deine durch Göttlicher Bund verbesserte Paladinwaffe",
+    "duration": "1 Min./Stufe",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
     "spell_resistance": "Nein"
   },
   {
@@ -9693,6 +9945,18 @@
     "spell_resistance": "Ja (harmlos, Gegenstand)"
   },
   {
+    "id": "1506f331-2cb4-5481-b3e6-c90fed320725",
+    "name": "Leuchtender Weg",
+    "school": "Hervorrufung",
+    "description": "Du hinterlässt mit deinem Reittier eine Spur aus leuchtendem, himmlischem Nebel, wenn ihr euch bewegt. In diesem Nebel können sich gute Kreaturen leichter bewegen, während er böse Kreaturen behindert. Die leuchtende Spur aus Nebel erscheint in einer geraden Linie, die dort beginnt, wo du den Zauber gewirkt hast, und dort endet, wo dein Reittier aufhört sich zu bewegen. Der Nebel sieht aus wie ein 3 m breiter Pfad, der bis zu 36 m lang ist und immer knapp über dem Boden schwebt (bis zu 30 cm). Der Nebel bleibt bis zu 1 Runde pro Stufe bestehen. Gute Kreaturen können auf ihm laufen, als wäre er fest, und behandeln vom Nebel bedeckte Felder mit schwierigem Gelände als normales Gelände. Bösen Kreaturen erscheint der Nebel dick und widerlich. Sie behandeln vom Nebel bedeckte Felder mit normalem Gelände wie schwieriges Gelände. Neutrale Kreaturen werden vom Zaubereffekt nicht betroffen. Der Nebel hat keine Auswirkungen auf Hindernisse oder anderweitig unpassierbares Gelände. Er behindert nicht die Sicht und bietet keine Tarnung.\n\nReittiere verwenden die Gesinnung ihres Reiters, um zu bestimmen, wie der Nebel sie beeinflusst. Ausnahmen bestätigen die Regel (wie z.B. bei celestischen oder infernalischen Reittieren). Du musst beritten sein, um die Vorteile dieses Zaubers nutzen zu können. Steigst du ab, wirst abgeworfen oder unternimmst du irgendeine andere Aktion, die dich von deinem Reittier trennt, endet der Zauber augenblicklich. Der Nebel bleibt aber für die restliche Wirkungsdauer bestehen.\n\nEin Leuchtender Weg kann nicht über Wasser, unter Wasser oder in der Luft erscheinen, selbst wenn dein Reittier über Wasser laufen, schwimmen oder fliegen kann.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "36 m",
+    "target_or_area": "Ein 3 m breiter Pfad in einer geraden Linie, bis zu 36 m lang",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
     "id": "b124c2ff-3f0d-5827-bb17-56cc93241362",
     "name": "Licht",
     "school": "Hervorrufung",
@@ -9716,6 +9980,18 @@
     "duration": "Augenblicklich",
     "saving_throw": "Zähigkeit, keine Wirkung",
     "spell_resistance": "Ja"
+  },
+  {
+    "id": "4b121e55-945c-5d85-88a6-8cf3544cf8a2",
+    "name": "Lichtlanze",
+    "school": "Hervorrufung",
+    "description": "Du erzeugst einen herrlichen Strahl von blendender Leuchtkraft, welcher als Heilige Lanze +1 fungiert, die deiner Größenkategorie entspricht. Du musst beim Wirken dieses Zaubers eine Hand frei haben. Ist die Lanze erst einmal entstanden, kannst du auch nicht die Hand wechseln oder die Waffe ablegen, ohne den Zauber vorzeitig zu beenden. Während du die Lanze in der Hand hältst, kannst du dich dafür entscheiden, nicht mit ihr anzugreifen. Stattdessen hast du die Möglichkeit, die Lichtlanze als Standard-Aktion empor zu recken, damit sie als Leuchtfeuer der Wahrheit dient. Dabei erzeugt sie einen hellen Lichtschein mit einem Radius von 30 m. Behältst du diesen Effekt eine oder mehr Runden lang aufrecht, geht von der Lanze ein Lichtspeer aus, der in den Himmel ragt. Während er in den Himmel wächst, wird er immer deutlicher sichtbar. Nachts oder in anderer Dunkelheit kann man diesen Lichtspeer in einer Entfernung von 3 km pro Runde sehen, solange der Strahl durch nichts unterbrochen wird und du die Lanze in den Himmel reckst (3 km in der zweiten Runde, 6 km in der dritten usw.).",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Eine Lanze aus Licht",
+    "duration": "1 Runde + 1 Runde/Stufe (A)",
+    "saving_throw": null,
+    "spell_resistance": null
   },
   {
     "id": "4043a999-3665-5b57-bf1b-27de00dddf0f",
@@ -9764,6 +10040,126 @@
     "duration": "1 Minute/Stufe",
     "saving_throw": "Keiner",
     "spell_resistance": "Nein"
+  },
+  {
+    "id": "8f618c45-d2da-56ae-a68b-d54844ec8fb6",
+    "name": "Litanei der Faulheit",
+    "school": "Verzauberung",
+    "description": "Mit dieser Litanei machst du das Ziel schwerfälliger. Es kann keine Gelegenheitsangriffe ausführen oder defensiv zaubern.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "97c3ce1a-d5e2-59df-b7e4-c1c516753bed",
+    "name": "Litanei der Rache",
+    "school": "Verwandlung",
+    "description": "Diese Litanei lässt deinen Gegner Treffer stärker spüren. Jede Kreatur, die das Ziel mit einer Attacke trifft erhält einen Heiligen oder Unheiligen Bonus (abhängig von der Gesinnung des Zauberkundigen) von +5 auf den Schadenswurf.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "37168052-0469-5667-a661-8fec43ad57b7",
+    "name": "Litanei der Reaktion",
+    "school": "Verwandlung",
+    "description": "Durch diese Litanei wirst du deiner Gegner besser gewahr. Du kannst zwei zusätzliche Gelegenheitsangriffe in dieser Runde ausführen. Ferner erhältst du einen Heiligen Bonus von +2 auf deine RK gegen Gelegenheitsangriffe.\n\nWährend du unter der Wirkung dieses Zaubers stehst, kannst du nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Runde",
+    "saving_throw": null,
+    "spell_resistance": null
+  },
+  {
+    "id": "f8329d8a-8362-5f35-a948-f0713f8945dd",
+    "name": "Litanei der Rechtschaffenheit",
+    "school": "Hervorrufung",
+    "description": "Mit dieser Litanei des Anathemas machst du eine böse Kreatur empfindlicher gegen die Angriffe guter Kreaturen. Sollte das Ziel von böser Gesinnung sein, erleidet es doppelten Schaden durch Angriffe von Kreaturen mit einer guten Aura (Klassenmerkmal oder Kreatur der Unterart Gut). Sollte das Ziel zudem der Unterart Böse angehören und von Kreaturen mit einer guten Aura getroffen werden, ist es zudem für 1W4 Runden benommen. Sollte der Zauber eine nicht-böse Kreatur zum Ziel haben, die auch nicht der Unterart Böse angehört, hat er keinen Effekt und ist verschwendet.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufe)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "0df4e28f-1246-52e5-9905-ac066594b56b",
+    "name": "Litanei der Redegewandtheit",
+    "school": "Verzauberung",
+    "description": "Deine Litanei ist derart fesselnd, dass dein Ziel nichts anderes tun kann als zuzuhören. Das Ziel ist fasziniert.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "f3eb2fcf-b8cc-533a-a241-b7b13257cf6f",
+    "name": "Litanei der Verstrickung",
+    "school": "Beschwörung",
+    "description": "Deine Litanei beschwört Ketten aus Energie, die aus dem Boden schießen und die Bewegung des Zieles behindern. Das Ziel wird verstrickt. Dieser Zauber hat keinen Effekt auf fliegende Kreaturen oder Kreaturen, die nicht auf festem Boden stehen.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Willen, keine Wirkung",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "9401b8b8-c2be-504d-b18b-93370e69ca3b",
+    "name": "Litanei der Verteidigung",
+    "school": "Verwandlung",
+    "description": "Diese Litanei stärkt deine Verteidigung. Jeder Verzauberungsbonus deiner Rüstung wird verdoppelt und du wirst immun gegen Furcht.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Runde",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "397ea8cd-8dd3-5a07-a8e0-d7d5cc26d6b2",
+    "name": "Litanei des Donners",
+    "school": "Hervorrufung",
+    "description": "Du rufst ohrenbetäubenden Donner auf deinen Feind hernieder. Das Ziel ist taub, bis dieser Zustand aufgehoben wird, und für 1 Runde verwirrt.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Zähigkeit, keine Wirkung",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "7d34dd45-07a9-5f8c-887e-3d9b9dbc6a79",
+    "name": "Litanei des Entkommens",
+    "school": "Beschwörung",
+    "description": "Mit einem gewaltigen Gebet bittest du die Diener deines Gottes, einen Freund aus einem Ringkampf zu befreien. Das Ziel verliert sowohl die Zustände Ringend als auch Im Haltegriff und wird 3 m weit teleportiert.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 bereitwillige, im Ringkampf befi ndliche Kreatur",
+    "duration": "Augenblicklich",
+    "saving_throw": "Nein",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "7c1c3e57-4f19-59bc-8f40-5e60940213d8",
+    "name": "Litanei des Sehvermögens",
+    "school": "Erkenntnis",
+    "description": "Diese Litanei enthüllt dir unsichtbare Kreaturen und Gegenstände innerhalb von 9 m.\n\nWährend das Ziel unter der Wirkung dieses Zaubers steht, kann es nicht das Ziel eines anderen Litanei-Zaubers werden.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Runde",
+    "saving_throw": null,
+    "spell_resistance": null
   },
   {
     "id": "c7ec9769-a85b-57a2-8b81-afceb95e8c1c",
@@ -10126,6 +10522,18 @@
     "duration": "Permanent (siehe Text)",
     "saving_throw": "Nein",
     "spell_resistance": "Ja"
+  },
+  {
+    "id": "a0d3d0b0-7041-5f68-a77f-a8c6226b288b",
+    "name": "Mal des Verbots",
+    "school": "Bannzauber",
+    "description": "Mal des Verbots brandmarkt zwei Kreaturen auf magische Weise und verhindert so, dass sie gegeneinander gewalttätig werden. Wenn du diesen Zauber wirkst, wähle einen Gegner und einen Verbündeten in Reichweite aus. Beide Ziele erhalten ein Mal in Form eines Bannsiegels. Bis zum Ende der Wirkungsdauer muss ihnen ein Willenswurf gelingen, damit sie den jeweils anderen angreifen können. Bei einem Erfolg können sie das auch ganz normal tun. Schlägt der Wurf jedoch fehl, kann das Ziel des Zaubers die Handlung nicht durchführen, sodass sowohl Angriff als auch die dazu benötigte Aktion aufgebraucht werden. Dieser Zauber verhindert nicht, dass seine Ziele sich mit Flächenzaubern oder entsprechenden Fähigkeiten angreifen.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Ein Gegner und ein Verbündeter",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Willen, keine Wirkung (siehe Text)",
+    "spell_resistance": "Zauberresistenz Ja"
   },
   {
     "id": "c148469f-fa5e-5f32-b980-d9c59854fbe3",
@@ -11496,6 +11904,18 @@
     "spell_resistance": null
   },
   {
+    "id": "bc0b1609-34be-572c-b893-6e736d79ea68",
+    "name": "Nachhallender Schlag",
+    "school": "Hervorrufung",
+    "description": "Du musst eine Nahkampfwaffe in der Hand halten, wenn du diesen Zauber wirkst. Bei einem erfolgreichen Nahkampfangriff erklingt deine Waffe mit donnerndem Lärm. Das Ziel erleidet 1W6 Punkte Schallschaden. Deine Waffe wird durch den Angriff nicht beschädigt.\n\nWenn du deine Richtspruch- oder Niederstrecken-Fähigkeit gegen das Ziel verwendest, wankt es eine Runde lang nach einem erfolgreichen Angriff. Ein erfolgreicher Zähigkeitswurf hebt den Effekt Wankend auf.\n\nBei einem erfolgreichen kritischen Treffer ist das Ziel eine Runde lang betäubt sowie 1W6 Runden lang taub. Ein erfolgreicher Zähigkeitswurf negiert diese beiden Effekte. Wenn du zusätzlich Richtspruch oder Niederstrecken anwendest, muss dein Gegner nur einen Rettungswurf gegen alle Effekte machen.Dieser Zauber endet augenblicklich, wenn die Waffe deine Hand verlässt. Nachhallender Schlag ist mit der Waffeneigenschaft Donner kumulativ.",
+    "casting_time": "1 Schnelle Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du",
+    "duration": "1 Runde/Stufe",
+    "saving_throw": "Zähigkeit, teilweise (siehe Text)",
+    "spell_resistance": "Zauberresistenz Nein"
+  },
+  {
     "id": "3ecfe666-49e8-52c9-b2e2-cde91fa25309",
     "name": "Nachladende Hände",
     "school": "Beschwörung",
@@ -11818,6 +12238,18 @@
     "duration": "Augenblicklich; siehe Text",
     "saving_throw": "Zähigkeit, teilweise (siehe Text)",
     "spell_resistance": "Ja"
+  },
+  {
+    "id": "835443d1-4b39-5ff1-b9c3-fcf107906d25",
+    "name": "Oppositionsresistenz",
+    "school": "Bannzauber",
+    "description": "Du verleihst der Zielkreatur einen begrenzten Schutz gegen magische Effekte, welche Schaden auf der Grundlage der Gesinnung der Zielkreatur verursachen (z.B. Heiliger Schlag, Zorn der Ordnung, die Fähigkeit Böses niederstrecken des Paladins oder eine unheilige Waffe). Wähle eine Art Gesinnung aus Böses, Chaos, Gutes oder Ordnung aus. Das Ziel erleidet 5 Punkte weniger Schaden durch Effekte, welche gezielt Kreaturen mit dieser Gesinnung verletzen. Die Höhe des Schutzes steigt auf Stufe 7 auf 10 Punkte und auf Stufe 11 auf 15 Punkte. Der Zauber schützt auch die Ausrüstung des Empfängers.\n\nOppositionsresistenz schützt gegen Zauber, zauberähnliche Fähigkeiten sowie Spezialfähigkeiten, aber nicht gegen physische Angriffe. Oppositionsresistenz schützt nur gegen Schaden. Das Ziel kann immer noch weitere Effekte durch Angriffe erleiden. Wenn du diesen Zauber benutzt, um eine bestimmte Gesinnung zu schützen, erhält er die entsprechende Kategorie.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Kreatur",
+    "duration": "10 Minuten/Stufe",
+    "saving_throw": "Zähigkeit, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
   },
   {
     "id": "7566f3ee-33ff-5285-b949-a52a50661500",
@@ -12630,6 +13062,18 @@
     "spell_resistance": "Nein"
   },
   {
+    "id": "5578bbf3-16e3-5f32-8ced-1b008ee8a996",
+    "name": "Reittier heilen",
+    "school": "Beschwörung",
+    "description": "Funktioniert wie Heilung, betrifft aber nur das besondere Reittier eines Paladins (üblicherweise ein Pferd).",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Dein berührtes Reittier",
+    "duration": "Augenblicklich",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
+  },
+  {
     "id": "2e040465-c0a9-5657-a089-57f338404582",
     "name": "Reittier, Gemeinschaftliches",
     "school": "Beschwörung",
@@ -12764,6 +13208,30 @@
     "duration_rounds_per_level": 100
   },
   {
+    "id": "468d126e-9c2d-560c-842c-87aac4b08319",
+    "name": "Ritterliche Herausforderung",
+    "school": "Verzauberung",
+    "description": "Du zwingst einen Gegner, sich dir im Kampf zu stellen. Wenn er am Zug ist, bewegt sich der Gegner mit seiner Bewegungsrate auf dich zu und vermeidet dabei alle anderen Gefahren entlang seines Weges (einschließlich Bewegungen, die Gelegenheitsangriffe provozieren würden). Das Ziel darf während seines Zugs nichts weiter tun als sich zu bewegen. Beendet es den Zug in einem Feld, welches an deines angrenzt, kannst du einen Gelegenheitsangriff gegen es durchführen.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "1 Runde",
+    "saving_throw": "Willen, keine Wirkung",
+    "spell_resistance": "Ja"
+  },
+  {
+    "id": "7c91b71c-4f08-5fa9-828c-618a45641bc5",
+    "name": "Rochade",
+    "school": "Beschwörung",
+    "description": "Dieser Zauber erlaubt es dir, den Aufenthaltsort mit einem Verbündeten zu tauschen. Beim Wirken wählst du einen einzigen Verbündeten innerhalb der Reichweite aus. Du teleportierst an den Ort dieses Verbündeten, während dieser an deinen ehemaligen Aufenthaltsort versetzt wird.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "Eine Kreatur",
+    "duration": "Augenblicklich",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Zauberresistenz Ja (harmlos)"
+  },
+  {
     "id": "6169647b-62d9-5640-bcce-5232ff9ff394",
     "name": "Romantische Anziehungskraft",
     "school": "Verzauberung",
@@ -12884,6 +13352,18 @@
     "spell_resistance": "Ja (harmlos)"
   },
   {
+    "id": "1c35ad94-7c9c-5784-8e5c-e228cc908b76",
+    "name": "Rüstung weihen",
+    "school": "Bannzauber",
+    "description": "Du durchdringst deine Rüstung mit einer Aura der Redlichkeit. Sie erhält einen Verbesserungsbonus von +1 pro vier Zauberstufen (maximal +5 auf Stufe 20). Wenn du die Fähigkeiten Richtspruch oder Niederstrecken anwendest, erhältst du außerdem SR 5/Böses.\n\nNormale Kleidung gilt für diesen Zauber als Rüstung, die keinen Rüstungsbonus verleiht.\n\nLegendäres Rüstung weihen\n\nDu erhältst SR 5/Böses, solange du die Zielrüstung trägst. Wenn du deine Klassenfähigkeit Richtspruch oder Niederstrecken nutzt, steigt die SR auf 10/Böses.\n\nVerbessert (3. Legendenstufe): Wenn du zwei Anwendungen deiner Legendenkraft nutzt, erhältst du deine ½ Legendenstufe als heiligen Bonus auf deine RK, wenn du Richtspruch oder Niederstrecken einsetzt.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Rüstung",
+    "duration": "1 Minute/Stufe",
+    "saving_throw": "Willen, keine Wirkung (Gegenstand, harmlos)",
+    "spell_resistance": "Ja (Gegenstand, harmlos)"
+  },
+  {
     "id": "1975a4ce-251b-5347-90db-e6943f08ab7c",
     "name": "Sagenkunde",
     "school": "Erkenntnis",
@@ -12894,6 +13374,18 @@
     "duration": "Siehe Text",
     "saving_throw": null,
     "spell_resistance": null
+  },
+  {
+    "id": "ea5c1c2f-7883-5c4d-b8d1-5126b90a4d4b",
+    "name": "Sammelpunkt",
+    "school": "Verzauberung",
+    "description": "Du erzeugst einen Ort, der die Macht hat, jede gute Kreatur zu stärken, die in seine Nähe kommt. Eine gute Kreatur, welche das Feld betritt (selbst wenn das nur als Teil ihrer normalen Bewegung geschieht), erhält für eine Runde einen Moralbonus von +2 auf Angriffe und Rettungswürfe sowie zwei temporäre Trefferpunkte pro Zauberstufe. Kreaturen, die nicht guter Gesinnung sind, können von diesem Zauber nicht profitieren. Eine Kreatur kann pro Zauberdauer nur einmal Boni erhalten.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "1,50 m",
+    "target_or_area": "Ein Quadrat mit 1,50 m Kantenlänge",
+    "duration": "1 Minute/Stufe (A)",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Zauberresistenz Ja (harmlos)"
   },
   {
     "id": "f8daf562-8f87-5eeb-91f2-893cd503104d",
@@ -12930,6 +13422,18 @@
     "duration": "1 Tag/Stufe",
     "saving_throw": "Willen, keine Wirkung (Gegenstand)",
     "spell_resistance": "Ja (Gegenstand)"
+  },
+  {
+    "id": "9bc10c83-d599-5eb1-a62a-90c0e3604b1a",
+    "name": "Sattelfestigkeit",
+    "school": "Verwandlung",
+    "description": "Du und dein Reittier bilden eine synergetische Verbindung, die euch beiden Vorteile verleiht, die darauf basieren, wie weit ihr euch jede Runde bewegt. Für jede 1,50 m, die ihr euch in einer Runde fortbewegt, erhältst du einen Kompetenzbonus von +1 auf Würfe für Reiten. Du und dein Reittier erhalten eine Runde lang jeweils einen Moralbonus von +1 auf Schadenswürfe mit Waffen oder natürlichen Angriffen. Wenn sich zum Beispiel dein Reittier in einer Runde zwölf Meter bewegt hat, würdest du einen Bonus von +8 auf Würfe für Reiten und ihr beide einen Bonus von +8 auf Schadenswürfe für eine Runde erhalten. Der Bonus wird durch deine Zauberstufe begrenzt. Du musst auf deinem Reittier sitzen, damit ihr die Boni erhaltet. Wenn du absteigst, herunter gestoßen wirst oder irgendeine andere Aktion ausführst, die dich von deinem Reittier trennt, endet der Zauber augenblicklich.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich",
+    "target_or_area": "Du und dein Reittier",
+    "duration": "1 Runde/Stufe (A) (siehe Text)",
+    "saving_throw": null,
+    "spell_resistance": null
   },
   {
     "id": "4ee6c695-d1f1-5871-b0eb-9c573571896a",
@@ -13376,6 +13880,18 @@
     "duration": "Konzentration oder +1 Stunde/Stufe (A)",
     "saving_throw": "Willen, keine Wirkung, siehe Text",
     "spell_resistance": "Ja, siehe Text"
+  },
+  {
+    "id": "f6e86031-e570-5c4d-a917-f8f92174c4b2",
+    "name": "Schleier aus positiver Energie",
+    "school": "Bannzauber",
+    "description": "Du umgibst dich mit einem Schleier positiver Energie, der es untoten Kreaturen schwieriger macht, dich zu verletzen. Durch den Effekt dieses Zaubers erhältst du einen heiligen Bonus von +2 auf deine RK sowie auf Rettungswürfe. Beide Boni wirken nur gegen Angriffe oder Effekte, die von untoten Kreaturen stammen. Du kannst diesen Zauber vor seinem eigentlichen Ende mit einer Schnellen Aktion während deines Zuges aufheben, um untoten Kreaturen die sich 1,50 m von dir entfernt befinden, Schaden durch positive Energie zuzufügen, der deiner Zauberstufe entspricht.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Persönlich oder 1,50 m (siehe Text)",
+    "target_or_area": "Du oder alle Kreaturen innerhalb von 1,50 m (siehe Text)",
+    "duration": "10 Minuten/Stufe (A)",
+    "saving_throw": null,
+    "spell_resistance": null
   },
   {
     "id": "30c47e9f-e483-596b-9d2f-473f9e342e0e",
@@ -15504,6 +16020,18 @@
     "range": "0 m oder 3 m/Stufe",
     "target_or_area": "Bogen oder Brücke aus Licht",
     "duration": "1 Minute/Stufe oder bis zur Entladung (siehe Text)",
+    "saving_throw": "Keiner",
+    "spell_resistance": "Nein"
+  },
+  {
+    "id": "ef2c6ccb-fc7b-5aa3-807a-bb42eec9a524",
+    "name": "Streitergewand",
+    "school": "Bannzauber",
+    "description": "Dieser Zauber funktioniert wie Magisches Schutzgewand, wirkt aber nur auf eine Rüstung oder einen Schild, die oder den du trägst, bzw. bei dir führst. Sollte jemand anderes die Rüstung oder den Schild tragen, wird die Wirkung des Zaubers unterbrochen, lebt aber wieder auf, sobald du die Rüstung oder den Schild wieder trägst.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Rüstung oder berührter Schild",
+    "duration": "1 Min./Stufe",
     "saving_throw": "Keiner",
     "spell_resistance": "Nein"
   },
@@ -18382,6 +18910,18 @@
     "spell_resistance": "Nein"
   },
   {
+    "id": "a716f3e3-2af1-5863-9817-497254cdd082",
+    "name": "Waffe weihen",
+    "school": "Verwandlung",
+    "description": "Dieser Verwandlungszauber macht eine Waffe wirkungsvoller gegen böse Feinde. Die Waffe wird behandelt, als hätte sie einen Verbesserungsbonus von +1, wenn es darum geht, die Schadensreduzierung einer bösen Kreatur zu umgehen oder körperlose böse Kreaturen zu treffen (der Zauber verleiht aber nicht wirklich einen Verbesserungsbonus). Die Waffe wird außerdem zu einer guten Waffe, was bedeutet, dass sie die Schadensreduzierung bestimmter Kreaturen umgehen kann. (Der Effekt überlagert und unterdrückt jede andere Gesinnung, welche die Waffe sonst vielleicht hat.) Einzelne Pfeile oder Bolzen können ebenfalls verwandelt werden. Betroffene Fernkampfwaffen (wie etwa Bögen) übertragen die Wirkung jedoch nicht auf die von ihnen verschossenen Projektile.\n\nAußerdem sind alle kritischen Treffer, die gegen böse Feinde erzielt werden, automatisch erfolgreich – jede Bedrohung wird zu einem kritischen Treffer. Dieser zuletzt genannte Effekt betrifft keine Waffen, die bereits über einen magischen Effekt verfügen, der sich auf kritische Treffer bezieht, wie etwa eine Waffe der Schärfe oder der Hinrichtung.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Berührte Waffe",
+    "duration": "1 Min./Stufe",
+    "saving_throw": "Nein",
+    "spell_resistance": "Nein"
+  },
+  {
     "id": "fc8350d8-a754-56c5-acd9-90da709869cb",
     "name": "Waffengesinnung",
     "school": "Verwandlung",
@@ -19150,6 +19690,18 @@
     "spell_resistance": "Ja"
   },
   {
+    "id": "1bafef2f-e8c9-5e7c-ac18-896eea9de91f",
+    "name": "Wort der Entschlossenheit",
+    "school": "Bannzauber",
+    "description": "Du fokussierst deine Aura auf einen Verbündeten und ermöglichst ihm, einen gescheiterten Rettungswurf gegen einen Furcht- oder Bezauberungseffekt mit einem Bonus von +4 zu wiederholen. Solltest du nicht über die Klassenfähigkeit Aura der Tapferkeit verfügen, hat dieser Zauber bei Furchteffekten auf das Ziel keine Wirkung. Solltest du nicht über die Klassenfähigkeit Aura der Entschlossenheit verfügen, hat der Zauber bei Bezauberungseffekten auf das Ziel keine Wirkung.",
+    "casting_time": "1 Augenblickliche Aktion",
+    "range": "Nah (7,50 m + 1,50 m/2 Stufen)",
+    "target_or_area": "1 Verbündeter",
+    "duration": "Augenblicklich",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Ja (harmlos)"
+  },
+  {
     "id": "747408ac-5369-5284-a94e-4b468c93b580",
     "name": "Wort der Macht: Betäubung",
     "school": "Verzauberung",
@@ -19328,6 +19880,18 @@
     "duration": "1 Runde/Stufe (siehe Text)",
     "saving_throw": "Ja (harmlos)",
     "spell_resistance": "Ja (harmlos)"
+  },
+  {
+    "id": "87b35a46-bc85-5d46-bd55-834ee63174db",
+    "name": "Würde verleihen",
+    "school": "Bannzauber",
+    "description": "Mit diesem Zauber kannst du deine Göttliche Würde für kurze Zeit einer anderen Kreatur verleihen, indem du das Ziel mit einem Teil deiner göttlichen Tugend füllst. Wenn du das Ziel berührst, erhält es einen heiligen Bonus zu seinen Rettungswürfen, welcher seinem Charismabonus (wenn es einen besitzt) entspricht.",
+    "casting_time": "1 Standard-Aktion",
+    "range": "Berührung",
+    "target_or_area": "Eine gut gesinnte berührte Kreatur",
+    "duration": "1 Minute/Stufe",
+    "saving_throw": "Willen, keine Wirkung (harmlos)",
+    "spell_resistance": "Zauberresistenz Ja (harmlos)"
   },
   {
     "id": "d9d30030-3746-5b87-a3cc-d7ff848664e2",

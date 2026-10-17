@@ -150,7 +150,9 @@ def test_character_sheet_for_character_without_extras_has_empty_lists(
     # 2026-10-15, `import_druide.py`), so `classFeatures` can't be empty for
     # any class anymore — asserted below as exactly the Druide's
     # unconditional level-1 set (no bond picked, so no bond-scoped feature).
-    payload = _character_payload(user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}])
+    payload = _character_payload(
+        user_id, race_id, db_session, classes=[{"class_name": "Druide", "level": 1}], alignment="N"
+    )
     seed_spells(db_session)  # base_class_spells_known FKs into base_classes, seeded just above; needed for spellbook below
     create_response = client.post("/api/characters", json=payload)
     assert create_response.status_code == 201

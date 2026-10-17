@@ -319,7 +319,7 @@
   {
     "name": "Paladin",
     "skillPointsBase": 2,
-    "spellType": "none",
+    "spellType": "divine-prepared",
     "classSkills": [
       "diplomatie",
       "heilkunde",

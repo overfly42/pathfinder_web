@@ -65,6 +65,13 @@ from .mystiker import DAILY_LIMIT_UNIT_LABEL as _MYSTIKER_DAILY_LIMIT_UNIT_LABEL
 from .mystiker import DAILY_LIMITS as _MYSTIKER_DAILY_LIMITS
 from .mystiker import HANDLERS as _MYSTIKER_HANDLERS
 from .mystiker import POOL_COST_AT_ACTIVATION as _MYSTIKER_POOL_COST_AT_ACTIVATION
+from .paladin import DAILY_LIMIT_UNIT_LABEL as _PALADIN_DAILY_LIMIT_UNIT_LABEL
+from .paladin import DAILY_LIMITS as _PALADIN_DAILY_LIMITS
+from .paladin import FEATURE_SUMMARY_HANDLERS as _PALADIN_FEATURE_SUMMARY_HANDLERS
+from .paladin import HANDLERS as _PALADIN_HANDLERS
+from .paladin import POOL_COST_AT_ACTIVATION as _PALADIN_POOL_COST_AT_ACTIVATION
+from .paladin import POOL_SOURCE_ID as _PALADIN_POOL_SOURCE_ID
+from .paladin import WEAPON_ENHANCEMENT_HANDLERS as _PALADIN_WEAPON_ENHANCEMENT_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
@@ -73,6 +80,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_KAMPFMAGUS_HANDLERS,
     **_MOENCH_HANDLERS,
     **_MYSTIKER_HANDLERS,
+    **_PALADIN_HANDLERS,
 }
 NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
     **_BARBARIAN_NATURAL_ATTACK_HANDLERS,
@@ -83,9 +91,10 @@ WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str,
 # An ability id's currently active temporary enhancement bonus on one
 # specific `CharacterGear` row, or `None` if not currently active — see
 # `rules/handlers.py`'s own merged `WEAPON_ENHANCEMENT_HANDLERS` docstring.
-# Only Kampfmagus's Arkaner Vorrat contributes today.
+# Kampfmagus's Arkaner Vorrat and the Paladin's weapon-spirit Göttlicher Bund.
 WEAPON_ENHANCEMENT_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[UUID, int] | None]] = {
     **_KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS,
+    **_PALADIN_WEAPON_ENHANCEMENT_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above — see `rules/handlers.py`'s
@@ -98,6 +107,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_KAMPFMAGUS_DAILY_LIMITS,
     **_MOENCH_DAILY_LIMITS,
     **_MYSTIKER_DAILY_LIMITS,
+    **_PALADIN_DAILY_LIMITS,
 }
 # A daily-limited class ability's own save DC, when it has one (e.g.
 # Hexenmeister's Wasserstoß) — see `rules/handlers.py`'s `SAVE_DC_HANDLERS`
@@ -114,6 +124,7 @@ SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     **_KAMPFMAGUS_POOL_COST_AT_ACTIVATION,
     **_MYSTIKER_POOL_COST_AT_ACTIVATION,
+    **_PALADIN_POOL_COST_AT_ACTIVATION,
 }
 # An ability id -> the id of the pool it actually draws from, when that
 # differs from its own id (`rules/daily_limits.py`'s own docstring). Absent
@@ -121,6 +132,7 @@ POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
 # Vorrat-spending tricks.
 POOL_SOURCE_ID: dict[UUID, UUID] = {
     **_KAMPFMAGUS_POOL_SOURCE_ID,
+    **_PALADIN_POOL_SOURCE_ID,
 }
 # Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's sheet text
 # — see `rules/classes/kampfmagus.py`'s own docstring.
@@ -128,6 +140,7 @@ DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     **_DRUIDE_DAILY_LIMIT_UNIT_LABEL,
     **_KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL,
     **_MYSTIKER_DAILY_LIMIT_UNIT_LABEL,
+    **_PALADIN_DAILY_LIMIT_UNIT_LABEL,
 }
 TEMP_HP_GRANTS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_TEMP_HP_GRANTS,
@@ -158,6 +171,7 @@ WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
 # `FEATURE_SUMMARY_HANDLERS` docstring.
 FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
     **_DRUIDE_FEATURE_SUMMARY_HANDLERS,
+    **_PALADIN_FEATURE_SUMMARY_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above, but a plain id set rather than a

@@ -44,6 +44,12 @@ class ModifierTarget(StrEnum):
     # `target_id`, same as AC/SPEED/SAVE_*.
     ATTACK = "attack"
     DAMAGE = "damage"
+    # Every weapon attack/damage roll, melee *and* ranged (natural attacks
+    # included) — unlike ATTACK/DAMAGE above, which are melee-only. First
+    # producer is the Paladin's Böses niederstrecken ("zu allen
+    # Angriffswürfen", `rules/classes/paladin.py`).
+    ANY_ATTACK = "any_attack"
+    ANY_DAMAGE = "any_damage"
     # Konzentrationswürfe (`sheet.py`'s `_build_concentration`) — first
     # producer is Fokussierter Verstand's flat +2 trait bonus
     # (`rules/traits.py`). Single slot, no `target_id`, same as AC/SPEED/

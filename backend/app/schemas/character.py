@@ -5,6 +5,10 @@ from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 from ..rules.point_buy import ABILITY_KEYS
 
+# `rules/alignment.py`'s `ALIGNMENTS`, spelled out as a `Literal` so pydantic
+# rejects an unknown code before any route runs.
+Alignment = Literal["LG", "NG", "CG", "LN", "N", "CN", "LE", "NE", "CE"]
+
 
 class ClassSelection(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -213,6 +217,10 @@ class CharacterCreate(BaseModel):
     # `create_character`) against `body.classes` — a character can't name
     # their own primary/multiclassed class as its own Sekundärklasse.
     secondary_class_name: str | None = None
+    # Alignment code (`Character.alignment`). Optional in general, but
+    # required by `create_character` as soon as one of `classes` restricts
+    # it (`BaseClass.allowed_alignments` — Paladin, Druide).
+    alignment: Alignment | None = None
     # Chosen value(s) for `secondary_class_name`'s own option group(s) flagged
     # `BaseClassOptionGroup.is_secondary_class_initial_pick` (e.g. Hexenmeister's
     # `bloodline` — see that column's docstring) — the sub-choice RAW requires
@@ -716,6 +724,13 @@ class CharacterUpdate(BaseModel):
         return stripped
 
 
+class AlignmentUpdate(BaseModel):
+    """`PATCH /api/characters/{id}/alignment` — sets or changes the
+    alignment, checked against every class the character already has."""
+
+    alignment: Alignment | None
+
+
 class CharacterRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -742,6 +757,7 @@ class CharacterRead(BaseModel):
     alt_traits: list[str]
     use_background_skills: bool
     secondary_base_class_id: UUID | None
+    alignment: str | None
     skill_ranks: dict[str, int]
     feats: list[FeatSelection]
     trait_ids: list[UUID]

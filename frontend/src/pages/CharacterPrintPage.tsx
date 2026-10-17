@@ -6,6 +6,7 @@ import { formatBreakdown } from '../lib/breakdown';
 import { formatSpellComponents } from '../lib/spellComponents';
 import { gearLine } from '../lib/gearSummary';
 import { exportCharacterPdf } from '../lib/exportCharacterPdf';
+import { alignmentLabel } from '../lib/alignment';
 import type { Character, DescribedEntry, StatEntry } from '../types/character';
 import './CharacterPrintPage.css';
 
@@ -69,6 +70,7 @@ function PrintableSheet({ character }: { character: Character }) {
         <p>
           {character.race} · {character.className}
           {character.archetype ? ` (${character.archetype})` : ''} · Stufe {character.level}
+          {character.alignment ? ` · ${alignmentLabel(character.alignment)}` : ''}
         </p>
       </header>
 
