@@ -78,8 +78,19 @@ from .models import (
 from .routers.characters import _class_def
 from .routers.races import effective_race_ability_ids, race_ability_score_mods, race_skill_modifiers
 from .rules.class_options import favored_class_bonus_race_choices
-from .companions import companion_payload, companion_slots, companion_state, slots_payload
-from .rules.companions import TRACK_LABELS, TRACKS, master_effective_level
+from .companions import (
+    allowed_skill_ids,
+    companion_class,
+    companion_context_fields,
+    companion_intelligence,
+    companion_payload,
+    companion_slots,
+    companion_state,
+    is_first_feat_level,
+    pending_levels,
+    slots_payload,
+)
+from .rules.companions import TRACK_LABELS, TRACKS, master_companion_modifiers, master_effective_level
 from .rules.size import SIZE_TABLE, SIZES, base_size, format_meters, resolve_size, size_modifiers, step_damage, weapon_damage
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
@@ -93,10 +104,13 @@ from .rules.classes.kampfmagus import (
     KENSAI_WEAPON_CHOICE_ABILITY_ID,
     KENSAI_WEAPON_FOCUS_ABILITY_ID,
 )
+from .rules.classes.tiergefaehrte import has_multiattack_bonus_feat
 from .rules.feats import (
     DERWISCHTANZ,
     DERWISCHTANZ_WEAPON_ID,
     HEFTIGER_ANGRIFF,
+    MEHRFACHANGRIFF,
+    VERBESSERTER_NATUERLICHER_ANGRIFF,
     WAFFENFINESSE,
     WAFFENFOKUS,
     WAFFENFOKUS_ATTACK_BONUS,
@@ -307,6 +321,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         trait_skill_choices=character.trait_skill_choices,
         feat_skill_pair_choices=character.feat_skill_pair_choices,
         feat_manifestation_choices=character.feat_manifestation_choices,
+        feat_pick_counts=Counter(character.feat_ids),
+        feat_manifestation_picks=_feat_manifestation_picks(character),
         granted_ability_ids=granted_ability_ids,
         granting_root_ids_by_ability=granting_root_ids_by_ability,
         active_effects=character.effects,
@@ -321,6 +337,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         has_shield_equipped=shield_gear_row is not None and items.get(shield_gear_row.item_id) is not None,
         equipped_weapon_ids=equipped_weapon_ids,
         kensai_chosen_weapon_id=weapon_choice_by_ability_id.get(KENSAI_WEAPON_CHOICE_ABILITY_ID),
+        # A companion's master/species inputs (roadmap slice 10 step 3).
+        **(companion_context_fields(companion) if companion else {}),
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -363,7 +381,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.FLY_SPEED)
         + granted_ability_modifiers(context, target=ModifierTarget.BURROW_SPEED)
         + size_modifiers(size)
-        + (companion.modifiers if companion else [])
+        + (companion.modifiers + master_companion_modifiers(context) if companion else [])
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`
@@ -406,7 +424,9 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
 
     total_level = character.level
-    hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level)
+    hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level) + stacked.get(
+        (ModifierTarget.HIT_POINTS, None), 0
+    )
     # Legacy characters created before HP was computed at all may still have
     # a null damage_taken (see Character.damage_taken's docstring) — treated
     # as undamaged. `hp.current` (remaining HP) is derived here, not stored;
@@ -469,6 +489,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             melee_damage_bonus + any_damage_bonus,
             size=size,
             extra_attacks=companion.natural_attacks if companion else (),
+            natural_damage_bonus=stacked.get((ModifierTarget.NATURAL_DAMAGE, None), 0),
         )
         + _build_spell_touch_attacks(db, character, bab, str_mod, dex_mod, context, any_attack_bonus)
     )
@@ -560,7 +581,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         # "character" | "companion" — the frontend hides what a companion
         # doesn't have (spells, favored class, level-up) by this.
         "kind": "companion" if companion else "character",
-        "companion": companion_payload(companion, character) if companion else None,
+        "companion": companion_payload(companion, character, context) if companion else None,
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),
@@ -580,6 +601,16 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "externalClassAbilities": _build_external_class_abilities(db),
         "externalSpells": _build_external_spells(db),
     }
+
+
+def _feat_manifestation_picks(character: Character) -> dict[UUID, tuple[str, ...]]:
+    """`CharacterContext.feat_manifestation_picks`: every named pick per feat."""
+    picks: dict[UUID, list[str]] = {}
+    for level in character.levels:
+        for entry in level.feats:
+            if entry.chosen_manifestation is not None:
+                picks.setdefault(entry.feat_id, []).append(entry.chosen_manifestation)
+    return {feat_id: tuple(names) for feat_id, names in picks.items()}
 
 
 def build_character_progression(character: Character, db: Session) -> dict:
@@ -697,6 +728,76 @@ def build_character_progression(character: Character, db: Session) -> dict:
         "favoredClassBonusShortLabels": _favored_class_bonus_short_labels(db, favored_root_id, character.race_id),
         "secondaryClass": secondary_class,
         "history": build_character_history(character, db),
+        **(_companion_progression(db, character) if character.master_character_id is not None else {}),
+    }
+
+
+def _companion_progression(db: Session, companion: Character) -> dict:
+    """The level-up wizard's companion mode (roadmap slice 10 step 3): the
+    wizard fills in the lowest open HD, so `classes` reports the HD *before*
+    it (the wizard's "new level" is then exactly that HD, and its budgets —
+    skill points, feat at odd HD, ability increase every 4th — line up
+    without a second code path), and `companion` carries what's different:
+    the pseudo class as a `ClassDef` (it isn't on `/api/classes`), whether
+    the HD still needs its HP roll, the skills allowed while IN < 3 and the
+    PRD's recommended feats."""
+    pseudo_class = companion_class(db)
+    pending = pending_levels(companion)
+    open_hit_die = pending[0] if pending else None
+    completed = open_hit_die.level - 1 if open_hit_die else companion.level
+    class_skill_ids = [
+        str(skill_id)
+        for skill_id in db.scalars(
+            select(BaseClassSkill.skill_id).where(
+                BaseClassSkill.base_class_id == pseudo_class.id, BaseClassSkill.option_choice_id.is_(None)
+            )
+        )
+    ]
+    allowed = allowed_skill_ids(pseudo_class, companion_intelligence(db, companion))
+    return {
+        "classes": [
+            {
+                "id": str(pseudo_class.id),
+                "className": pseudo_class.name,
+                "level": completed,
+                "archetypes": [],
+                "options": {},
+                "isFavored": False,
+            }
+        ],
+        "companion": {
+            "openHitDie": open_hit_die.level if open_hit_die else None,
+            "openHitDice": len(pending),
+            "hitPointsOpen": open_hit_die is not None and open_hit_die.hit_points is None,
+            "firstFeat": open_hit_die is not None and is_first_feat_level(open_hit_die.level),
+            "allowedSkillIds": sorted(str(skill_id) for skill_id in allowed) if allowed is not None else None,
+            "recommendedFeatIds": pseudo_class.recommended_feat_ids or [],
+            "classDef": {
+                "id": str(pseudo_class.id),
+                "name": pseudo_class.name,
+                "archetypes": ["Keiner"],
+                "skillPointsBase": pseudo_class.skill_points_base,
+                "spellType": "none",
+                "allowedAlignments": None,
+                "classSkills": class_skill_ids,
+                "optionGroups": [],
+                "archetypeOptionOverrides": {},
+                "archetypeCastingAbility": {},
+                "archetypeDescriptions": {},
+                "bonusFeatLevels": [],
+                "bonusFeatOptionsByLevel": {},
+                "archetypeBonusFeatOptionsByLevel": {},
+                "archetypeWeaponChoiceAbilityId": {},
+                "castingAbility": None,
+                "spellTradition": None,
+                "spellsKnownByLevel": {},
+                "babProgression": pseudo_class.bab_progression,
+                "hitDice": pseudo_class.hit_dice,
+                "fortSave": pseudo_class.fort_save,
+                "refSave": pseudo_class.ref_save,
+                "willSave": pseudo_class.wil_save,
+            },
+        },
     }
 
 
@@ -2912,6 +3013,7 @@ def _build_natural_attacks(
     melee_damage_bonus: int,
     size: str = "Mittelgroß",
     extra_attacks: Iterable[NaturalAttack] = (),
+    natural_damage_bonus: int = 0,
 ) -> list[dict]:
     """Bite/claw-style natural weapon attacks a character's race/class
     abilities grant (e.g. Halb-Ork's Reißzähne, Entfesselter Barbar's
@@ -2965,6 +3067,14 @@ def _build_natural_attacks(
     ability handler — a companion species' own statblock (`app/companions.py`);
     an `alternative` attack is listed but never counts for these rules.
 
+    Roadmap slice 10 step 3: Mehrfachangriff (the feat, or a companion's
+    "Mehrfachangriff" with three or more natural attacks) lowers the
+    secondary-attack penalty from −5 to −2; each Verbesserter Natürlicher
+    Angriff pick steps its chosen attack's dice one size up
+    (`context.feat_manifestation_picks`); `natural_damage_bonus` (stacked
+    `ModifierTarget.NATURAL_DAMAGE`, e.g. the Ork Druide's favored-class
+    bonus on the companion) adds to natural attacks only.
+
     Waffenfinesse (`rules/feats.py`'s `WAFFENFINESSE`) applies to every
     natural attack unconditionally, not gated on `BaseItem.is_light` the
     way `_build_weapon_attacks` gates it for a manufactured weapon: the
@@ -2993,6 +3103,8 @@ def _build_natural_attacks(
         if attack is not None:
             attacks.append((str(ability_id), attack))
     attacks += [(f"species-{index}", attack) for index, attack in enumerate(extra_attacks)]
+    secondary_penalty = 2 if MEHRFACHANGRIFF in context.feat_ids or has_multiattack_bonus_feat(context) else 5
+    improved_attack_names = context.feat_manifestation_picks.get(VERBESSERTER_NATUERLICHER_ANGRIFF, ())
     routine = [attack for _key, attack in attacks if not attack.alternative]
     is_sole_attack = len(routine) == 1 and routine[0].count == 1 and not wields_weapon
     routine_kinds = {attack.name for attack in routine}
@@ -3007,7 +3119,9 @@ def _build_natural_attacks(
         power_attack = _power_attack_effect(bab, context, hands=None, is_off_hand=secondary)
         power_attack_penalty = power_attack[0] if power_attack is not None else 0
         power_attack_damage = power_attack[1] if power_attack is not None else 0
-        attack_bonus = bab + attack_ability_mod + melee_attack_bonus - (5 if secondary else 0) + power_attack_penalty
+        attack_bonus = (
+            bab + attack_ability_mod + melee_attack_bonus - (secondary_penalty if secondary else 0) + power_attack_penalty
+        )
         if str_mod < 0:
             damage_str_mod = str_mod
         elif secondary:
@@ -3016,9 +3130,10 @@ def _build_natural_attacks(
             damage_str_mod = str_mod * 3 // 2
         else:
             damage_str_mod = str_mod
-        flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage
+        flat_damage = damage_str_mod + melee_damage_bonus + power_attack_damage + natural_damage_bonus
         if attack.damage_dice:
-            dice = step_damage(attack.damage_dice, SIZES.index(size) - SIZES.index(attack.base_size))
+            steps = SIZES.index(size) - SIZES.index(attack.base_size) + improved_attack_names.count(attack.name)
+            dice = step_damage(attack.damage_dice, steps)
             damage_parts = [f"{dice}{_fmt(flat_damage) if flat_damage else ''} {attack.damage_type}".strip()]
             damage_parts.extend(f"{bonus_dice} {damage_type}" for bonus_dice, damage_type in class_bonus_damage)
         else:

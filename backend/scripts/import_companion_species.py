@@ -257,6 +257,30 @@ def uid(*parts: str) -> str:
     return str(uuid.uuid5(ID_NAMESPACE, "|".join(parts)))
 
 
+def _list_after(text: str, heading: str, lead: str) -> list[str]:
+    """The comma/"und"-separated list in the paragraph right after the
+    section heading line `heading` (its last occurrence as a line of its
+    own — the first is the page's table of contents), starting after
+    `lead`."""
+    lines = text.split("\n")
+    start = max(index for index, line in enumerate(lines) if line == heading)
+    items = lines[start + 1].split(lead, 1)[1].split(". ", 1)[0].rstrip(".")
+    return [item.strip() for item in re.split(r",| und ", items) if item.strip()]
+
+
+def parse_animal_skills(text: str) -> list[str]:
+    """"Tierfertigkeiten": the skills a companion may put ranks into (the
+    class skills are the starred ones, `COMPANION_CLASS_SKILLS`)."""
+    return [re.sub(r"\*?\s*\([A-Z]{2}\)$", "", item).strip() for item in _list_after(
+        text, "Tierfertigkeiten", "folgenden Fertigkeiten erlangen:"
+    )]
+
+
+def parse_animal_feats(text: str) -> list[str]:
+    """"Tiertalente": the PRD's recommended companion feats."""
+    return _list_after(text, "Tiertalente", "folgenden Talenten auswählen:")
+
+
 def load(filename: str) -> list[dict]:
     return json.loads((SEED_DIR / filename).read_text(encoding="utf-8"))
 
@@ -548,6 +572,11 @@ def main() -> None:
     save("base_companion_progression_abilities.json", progression_abilities)
 
     # ---- pseudo class ----
+    skills = load("base_skills.json")
+    skill_id_by_name = {s["name"]: s["id"] for s in skills}
+    allowed_skill_ids = [skill_id_by_name[name] for name in parse_animal_skills(text)]
+    feat_id_by_name = {f["name"].lower(): f["id"] for f in load("base_feats.json")}
+    recommended_feat_ids = [feat_id_by_name[name.lower()] for name in parse_animal_feats(text)]
     base_classes = load("base_classes.json")
     companion_class_id = uid("class", COMPANION_CLASS_NAME)
     base_classes.append(
@@ -564,10 +593,11 @@ def main() -> None:
             "wil_save": False,
             "skill_points_base": 2,
             "is_companion_class": True,
+            "allowed_skill_ids": allowed_skill_ids,
+            "recommended_feat_ids": recommended_feat_ids,
         }
     )
     save("base_classes.json", base_classes)
-    skill_id_by_name = {s["name"]: s["id"] for s in load("base_skills.json")}
     class_skills = load("base_class_skills.json")
     for name in COMPANION_CLASS_SKILLS:
         class_skills.append(

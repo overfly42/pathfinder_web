@@ -190,7 +190,22 @@ export interface SkillSpecializationDef {
   hasHandler: boolean;
 }
 
-export type FeatSubChoiceType = 'weapon' | 'skill' | 'skill_pair' | 'spell_school' | 'manifestation' | null;
+export type FeatSubChoiceType =
+  | 'weapon'
+  | 'skill'
+  | 'skill_pair'
+  | 'spell_school'
+  | 'manifestation'
+  | 'natural_attack'
+  | null;
+
+/** Feats whose sub-choice is a named pick from `FeatDef.manifestationOptions` — a feat's own
+ *  list ("manifestation") or the character's natural attacks ("natural_attack", Verbesserter
+ *  Natürlicher Angriff; the backend fills `manifestationOptions` with them when the feat list
+ *  is fetched for a character). Both submit it as `chosen_manifestation`. */
+export function isNamedPickSubChoice(type: FeatSubChoiceType): boolean {
+  return type === 'manifestation' || type === 'natural_attack';
+}
 
 export interface FeatDef {
   id: string;
@@ -207,8 +222,13 @@ export interface FeatDef {
   subChoiceType: FeatSubChoiceType;
   /** Valid picks for `subChoiceType === 'manifestation'` (e.g. "Scharfe
    *  Krallen"/"Schneller Spurter"/"Verbesserte Sinne") — see `BaseFeat.
-   *  manifestation_options` on the backend. `null` for every other feat. */
+   *  manifestation_options` on the backend — or the character's own natural
+   *  attacks for `'natural_attack'`. `null` for every other feat. */
   manifestationOptions: string[] | null;
+  /** Repeatable with the same pick, every pick adding up (Verbesserte Natürliche Rüstung). */
+  isRepeatable?: boolean;
+  /** On a companion's feat list: one of the PRD's recommended "Tiertalente". */
+  recommended?: boolean;
   /** Whether `rules/handlers.py`'s `HANDLERS` registry actually computes this
    *  feat's effect, vs. it only ever showing as name/description text on the
    *  sheet. */

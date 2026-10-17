@@ -1,5 +1,6 @@
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
 import type { CharacterProgression } from '../../types/characterProgression';
+import { isNamedPickSubChoice } from '../../types/creationOptions';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
 import {
@@ -54,8 +55,15 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
     if (!bonusGranted) setDraft((prev) => (prev.newBonusFeat === null ? prev : { ...prev, newBonusFeat: null }));
   }, [bonusGranted, setDraft]);
 
+  const companion = progression.companion;
   if (!granted && !bonusGranted) {
-    return <div className="warning-note">Auf dieser Stufe gibt es kein neues Talent (nur auf Stufe 1 und ungeraden Stufen).</div>;
+    return (
+      <div className="warning-note">
+        {companion
+          ? 'Auf diesem Trefferwürfel gibt es kein neues Talent (nur auf TW 1 und ungeraden TW).'
+          : 'Auf dieser Stufe gibt es kein neues Talent (nur auf Stufe 1 und ungeraden Stufen).'}
+      </div>
+    );
   }
 
   const featByName = new Map(options.feats.map((f) => [f.name, f]));
@@ -66,7 +74,14 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
   // FeatDef data and must be merged in here too for `needingSubChoice` to
   // resolve them.
   for (const feat of bonusOptions?.feats ?? []) featByName.set(feat.name, feat);
-  const notYetTaken = options.feats.filter((f) => !progression.feats.includes(f.name));
+  // A repeatable feat (every pick adds up) and a natural-attack feat (a different attack each
+  // pick) stay pickable after the first pick; the backend rejects an identical repeat.
+  const notYetTaken = options.feats.filter(
+    (f) => !progression.feats.includes(f.name) || f.isRepeatable || f.subChoiceType === 'natural_attack',
+  );
+  const recommended = companion
+    ? new Set(options.feats.filter((f) => companion.recommendedFeatIds.includes(f.id)).map((f) => f.name))
+    : undefined;
   const available = notYetTaken.map((f) => f.name);
   const bonusTypeAvailable = notYetTaken
     .filter((f) => bonusOptions?.types.includes(f.type))
@@ -124,8 +139,21 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
           nachschlagen.
         </div>
       )}
+      {companion && baseFeatPickable && (
+        <div className="info-note">
+          ★ = empfohlene Tiertalente laut Regelwerk; andere Talente sind erlaubt, aber nicht jedes ist für ein Tier
+          nutzbar (z.B. Umgang mit Kriegswaffen).
+          {companion.firstFeat && ' Das erste Talent eines Gefährten darf keinen Grund-Angriffsbonus von +1 voraussetzen.'}
+        </div>
+      )}
       {baseFeatPickable && (
-        <SingleChipPicker items={available} selected={draft.newFeat} onSelect={select} searchPlaceholder="Talente durchsuchen …" />
+        <SingleChipPicker
+          items={available}
+          selected={draft.newFeat}
+          onSelect={select}
+          searchPlaceholder="Talente durchsuchen …"
+          recommended={recommended}
+        />
       )}
       {bonusGranted && (
         <>
@@ -214,12 +242,14 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
                   ))}
                 </select>
               )}
-              {feat.subChoiceType === 'manifestation' && (
+              {isNamedPickSubChoice(feat.subChoiceType) && (
                 <select
                   value={draft.featSubChoices[feat.name] ?? ''}
                   onChange={(e) => setSubChoice(feat.name, e.target.value)}
                 >
-                  <option value="">– Manifestation wählen –</option>
+                  <option value="">
+                    {feat.subChoiceType === 'natural_attack' ? '– Natürlichen Angriff wählen –' : '– Manifestation wählen –'}
+                  </option>
                   {(feat.manifestationOptions ?? []).map((option) => (
                     <option key={option} value={option}>{option}</option>
                   ))}

@@ -31,13 +31,41 @@ const STEPS: StepDef[] = [
   { key: 'summary', label: 'Zusammenfassung' },
 ];
 
+// A companion's "level-up" fills in its lowest open HD (roadmap slice 10 step 3): no class
+// choice, no spells; HP only while that HD has none yet.
+const COMPANION_STEP_KEYS = new Set(['hitPoints', 'ability', 'skills', 'feat', 'summary']);
+
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
+
+function emptyDraft(progression: CharacterProgression): LevelUpDraft {
+  return {
+    target: { mode: 'existing', classId: progression.classes[0].id },
+    hitPoints: null,
+    favoredClassBonus: null,
+    existingLevelOptionSelections: {},
+    abilityIncrease: null,
+    skillIncreases: {},
+    skillSpecializationIncreases: (progression.skillRankDetails ?? []).map((detail) => ({
+      localId: createId(),
+      skillId: detail.skillId,
+      specializationId: detail.specializationId,
+      customSpecialization: detail.customSpecialization,
+      newRanks: 0,
+    })),
+    newFeat: null,
+    newBonusFeat: null,
+    featSubChoices: {},
+    featSubChoices2: {},
+    newSpells: [],
+  };
+}
 
 export function LevelUpWizardPage() {
   const { characterId = '1' } = useParams();
   const { progression: fetchedProgression, loading: progressionLoading, error: progressionError } =
     useCharacterProgression(characterId);
-  const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions(characterId);
+  const [optionsReloadKey, setOptionsReloadKey] = useState(0);
+  const { options, loading: optionsLoading, error: optionsError } = useLevelUpOptions(characterId, optionsReloadKey);
   const [draft, setDraft] = useState<LevelUpDraft | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
@@ -47,28 +75,13 @@ export function LevelUpWizardPage() {
   const [confirmedProgression, setConfirmedProgression] = useState<CharacterProgression | null>(null);
   const progression = confirmedProgression ?? fetchedProgression;
 
+  // Whether this HD asks for HP — fixed when the draft starts, so the step list doesn't shift
+  // under the summary once the saved HD no longer reports its HP as open.
+  const [askHitPoints, setAskHitPoints] = useState(true);
   useEffect(() => {
     if (progression && !draft) {
-      setDraft({
-        target: { mode: 'existing', classId: progression.classes[0].id },
-        hitPoints: null,
-        favoredClassBonus: null,
-        existingLevelOptionSelections: {},
-        abilityIncrease: null,
-        skillIncreases: {},
-        skillSpecializationIncreases: (progression.skillRankDetails ?? []).map((detail) => ({
-          localId: createId(),
-          skillId: detail.skillId,
-          specializationId: detail.specializationId,
-          customSpecialization: detail.customSpecialization,
-          newRanks: 0,
-        })),
-        newFeat: null,
-        newBonusFeat: null,
-        featSubChoices: {},
-        featSubChoices2: {},
-        newSpells: [],
-      });
+      setDraft(emptyDraft(progression));
+      setAskHitPoints(!progression.companion || progression.companion.hitPointsOpen);
     }
   }, [progression, draft]);
 
@@ -91,8 +104,25 @@ export function LevelUpWizardPage() {
   }
 
   const prog = progression;
-  const opts = options;
+  const companion = prog.companion;
+  // The companion's pseudo class isn't on `/api/classes` — the progression carries it.
+  const opts = companion ? { ...options, classes: [...options.classes, companion.classDef] } : options;
   const currentDraft = draft;
+  const steps = companion
+    ? STEPS.filter((s) => COMPANION_STEP_KEYS.has(s.key) && (s.key !== 'hitPoints' || askHitPoints))
+    : STEPS;
+  const sheetLink = '/';
+
+  if (companion && companion.openHitDie === null && submitState !== 'success') {
+    return (
+      <div className="app">
+        <p style={{ color: '#e2d3ab', padding: 24 }}>
+          {prog.name} hat keine offenen Trefferwürfel. Neue TW kommen mit dem Stufenaufstieg des Meisters.{' '}
+          <Link to={sheetLink}>Zurück zum Charakterbogen</Link>
+        </p>
+      </div>
+    );
+  }
 
   const setLevelUpDraft: Dispatch<SetStateAction<LevelUpDraft>> = (value) => {
     setDraft((prev) => {
@@ -102,14 +132,25 @@ export function LevelUpWizardPage() {
   };
 
   function goToStep(n: number) {
-    if (n < 0 || n > STEPS.length - 1) return;
+    if (n < 0 || n > steps.length - 1) return;
     setStepIndex(n);
   }
 
+  /** After completing one open HD, start on the next one. */
+  async function continueWithNextHitDie() {
+    const refreshed = await apiGet<CharacterProgression>(`/api/characters/${characterId}/progression`);
+    setConfirmedProgression(refreshed);
+    setDraft(emptyDraft(refreshed));
+    setAskHitPoints(!refreshed.companion || refreshed.companion.hitPointsOpen);
+    setOptionsReloadKey((key) => key + 1);
+    setStepIndex(0);
+    setSubmitState('idle');
+  }
+
   async function nextStep() {
-    if (stepIndex === STEPS.length - 1) {
+    if (stepIndex === steps.length - 1) {
       if (submitState === 'success' || submitState === 'submitting') return;
-      if (currentDraft.hitPoints === null) {
+      if (currentDraft.hitPoints === null && askHitPoints) {
         setSubmitState('error');
         setSubmitErrorMessage('Bitte im Schritt „Trefferpunkte" einen Wert eintragen.');
         return;
@@ -138,7 +179,7 @@ export function LevelUpWizardPage() {
   }
 
   function renderStep() {
-    switch (STEPS[stepIndex].key) {
+    switch (steps[stepIndex].key) {
       case 'classLevel':
         return <ClassLevelStep progression={prog} options={opts} draft={currentDraft} setDraft={setLevelUpDraft} />;
       case 'classChoice':
@@ -174,24 +215,34 @@ export function LevelUpWizardPage() {
           <div className="sigil">P</div>
           <div>
             <div className="title">GEFÄHRTENBUCH</div>
-            <span className="subtitle">Stufenaufstieg</span>
+            <span className="subtitle">
+              {companion ? `Gefährte: TW ${companion.openHitDie ?? prog.classes[0].level} ausfüllen` : 'Stufenaufstieg'}
+            </span>
           </div>
         </div>
         <div className="spacer" />
-        <Link className="btn-outline" to="/">← Zurück zum Charakterbogen</Link>
+        <Link className="btn-outline" to={sheetLink}>← Zurück zum Charakterbogen</Link>
       </header>
 
       <div className="wizard-wrap">
         <div className="wizard">
           <CharContextBanner progression={prog} />
 
-          <Stepper steps={STEPS} activeIndex={stepIndex} onSelect={goToStep} />
+          <Stepper steps={steps} activeIndex={stepIndex} onSelect={goToStep} />
 
-          <Panel title={STEPS[stepIndex].label} hint={`Schritt ${stepIndex + 1} von ${STEPS.length}`}>
+          <Panel title={steps[stepIndex].label} hint={`Schritt ${stepIndex + 1} von ${steps.length}`}>
             {renderStep()}
           </Panel>
 
           {submitState === 'error' && <p className="warning-note">{submitErrorMessage}</p>}
+          {companion && submitState === 'success' && companion.openHitDie !== null && (
+            <p className="info-note">
+              Noch {companion.openHitDice} offene{companion.openHitDice === 1 ? 'r' : ''} TW.{' '}
+              <button type="button" className="companion-link" onClick={continueWithNextHitDie}>
+                Nächsten TW ausfüllen →
+              </button>
+            </p>
+          )}
 
           <div className="wizard-nav">
             <button type="button" className="btn-nav prev" disabled={stepIndex === 0} onClick={() => goToStep(stepIndex - 1)}>
@@ -201,12 +252,14 @@ export function LevelUpWizardPage() {
               type="button"
               className="btn-nav next"
               onClick={nextStep}
-              disabled={stepIndex === STEPS.length - 1 && submitState === 'submitting'}
+              disabled={stepIndex === steps.length - 1 && submitState === 'submitting'}
             >
-              {stepIndex === STEPS.length - 1
+              {stepIndex === steps.length - 1
                 ? submitState === 'submitting'
                   ? 'Speichert …'
-                  : 'Stufenaufstieg übernehmen ✦'
+                  : companion
+                    ? 'TW übernehmen ✦'
+                    : 'Stufenaufstieg übernehmen ✦'
                 : 'Weiter →'}
             </button>
           </div>

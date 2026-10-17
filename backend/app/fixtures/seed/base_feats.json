@@ -2376,7 +2376,11 @@
     "type": "general",
     "prerequisite_text": "Katzenvolk.",
     "sub_choice_type": "manifestation",
-    "manifestation_options": ["Scharfe Krallen", "Schneller Spurter", "Verbesserte Sinne"]
+    "manifestation_options": [
+      "Scharfe Krallen",
+      "Schneller Spurter",
+      "Verbesserte Sinne"
+    ]
   },
   {
     "id": "ebe5dce8-c536-5698-886d-8e5f5f0e3203",
@@ -2391,5 +2395,32 @@
     "description": "Du entstammst einer langen Reihe von Hexenmeistern und ein Teil ihrer Macht fließt in deinen Adern. Wähle eine Hexenmeisterblutlinie. Du musst das Talent Fertigkeitsfokus für die Klassenfertigkeit besitzen, welche diese Blutlinie einem Hexenmeister auf der 1. Stufe gibt (beispielsweise Heilkunde bei der Himmlischen Blutlinie). Du erhältst die Blutlinienkraft der 1. Stufe dieser Blutlinie. Hinsichtlich dieser Kraft entspricht deine effektive Stufe als Hexenmeister deiner Charakterstufe -2, selbst wenn du über Stufen als Hexenmeister verfügen solltest. Du erhältst keine anderen Blutlinienkräfte.",
     "type": "general",
     "prerequisite_text": "CH 13, Fertigkeitsfokus mit der Klassenfertigkeit der mit diesem Talent gewählten Blutlinie, Charakterstufe 3+."
+  },
+  {
+    "id": "b4b8c4c7-63eb-5a29-ba24-74298d785da5",
+    "name": "Mehrfachangriff",
+    "description": "Die Kreatur ist besonders gut darin, mit ihren natürlichen Waffen anzugreifen.\nVoraussetzungen: Drei oder mehr natürliche Angriffe.\nVorteil: Die sekundären Angriffe der Kreatur mit ihren natürlichen Waffen erhalten nur einen Malus von -2.\nNormal: Ohne dieses Talent erhielten die sekundären Angriffe der Kreatur mit natürlichen Waffen einen Malus von -5.",
+    "type": "combat",
+    "prerequisite_text": "Drei oder mehr natürliche Angriffe.",
+    "sub_choice_type": null,
+    "is_repeatable": false
+  },
+  {
+    "id": "14479bf3-1065-5cba-8384-bfed0ad35127",
+    "name": "Verbesserte Natürliche Rüstung",
+    "description": "Die Haut der Kreatur ist widerstandsfähiger, als das normalerweise der Fall ist.\nVoraussetzungen: Natürliche Rüstung, KO 13.\nVorteil: Der natürliche Rüstungsbonus der Kreatur steigt um +1.\nSpeziell: Dieses Talent kann mehrmals gewählt werden. Der Rüstungsbonus steigt dann jedes Mal um einen weiteren Punkt.",
+    "type": "general",
+    "prerequisite_text": "Natürliche Rüstung, KO 13.",
+    "sub_choice_type": null,
+    "is_repeatable": true
+  },
+  {
+    "id": "77e13c2b-c21d-5fcb-be2a-a5a54e930504",
+    "name": "Verbesserter Natürlicher Angriff",
+    "description": "Einer der natürlichen Angriffe der Kreatur hinterlässt schreckliche Wunden.\nVoraussetzungen: Natürliche Waffe, Grund-Angriffsbonus +4.\nVorteil: Suche dir einen der natürlichen Angriffe der Kreatur aus (nicht Waffenloser Schlag). Der Schaden dieses Angriffs steigt um einen Schritt, als wäre die Größenkategorie der Kreatur um einen Schritt gestiegen – siehe die folgende Liste. Die Schadenswürfel verbessern sie wie folgt: 1W2, 1W3, 1W4, 1W6, 1W8, 2W6, 3W6, 4W6, 6W6, 8W6, 12W6.\nWaffen oder Angriffe, die 1W10 Punkte Schaden verursachen, verbessern sich wie folgt: 1W10, 2W8, 3W8, 4W8, 6W8, 8W8, 12W8. Du kannst dieses Talent mehrfach ausgewählen. Jedes Mal, wenn du das Talent auswählst, wirkt es auf einen anderen natürlichen Angriff.",
+    "type": "general",
+    "prerequisite_text": "Natürliche Waffe, Grund-Angriffsbonus +4.",
+    "sub_choice_type": "natural_attack",
+    "is_repeatable": false
   }
 ]

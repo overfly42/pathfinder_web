@@ -1,5 +1,5 @@
 import type { CharacterProgression } from '../types/characterProgression';
-import type { FeatDef } from '../types/creationOptions';
+import { isNamedPickSubChoice, type FeatDef } from '../types/creationOptions';
 import type { LevelUpDraft } from '../types/levelUpDraft';
 import type { LevelUpOptions } from '../types/levelUpOptions';
 import { getReceivingClassAndLevel, getReceivingClassName } from './levelUpCalculations';
@@ -30,7 +30,7 @@ function featSelection(
     chosen_skill_id: isSkillKind ? subChoice ?? null : null,
     chosen_skill_id_2: feat.subChoiceType === 'skill_pair' ? subChoices2[name] ?? null : null,
     chosen_spell_school: feat.subChoiceType === 'spell_school' ? subChoice ?? null : null,
-    chosen_manifestation: feat.subChoiceType === 'manifestation' ? subChoice ?? null : null,
+    chosen_manifestation: isNamedPickSubChoice(feat.subChoiceType) ? subChoice ?? null : null,
   };
 }
 

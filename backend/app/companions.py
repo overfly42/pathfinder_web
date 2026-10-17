@@ -23,8 +23,21 @@ companion whose master lost the entitlement keeps its sheet, flagged
 "ohne Anspruch", with its stats taken from the highest progression row its
 current HD still matches.
 
-Not yet (step 3): HD sync when the master levels up, feat/skill/ability-
-increase choices, the companion level-up mode, the master→companion channel.
+Step 3 adds the choices and the master → companion channel:
+
+- **HD sync** (`sync_companion_hit_dice`, upward only): when the master's
+  level-up raises the effective level, the missing HD are appended with
+  `choices_pending` set and no HP yet. Never removes HD — the app has no
+  level removal, and a companion with more HD than its table row is shown
+  as such instead.
+- **Open HD** are filled lowest first by the level-up endpoint's companion
+  mode (`routers/characters.py`'s `_complete_companion_level`): HP (if still
+  open), skill ranks (2 + IN per HD, min. 1; only "Tierfertigkeiten" while
+  IN < 3), feats ((HD + 1) // 2; the first may not require GAB +1) and the
+  ability increase every 4th HD. A new companion's HD start open too.
+- **Channel** (`rules/companions.py`'s `COMPANION_MODIFIER_HANDLERS`/
+  `COMPANION_NOTE_HANDLERS`): the companion's context carries the master's
+  raw composition (`companion_context_fields`).
 """
 
 from collections import Counter
@@ -50,8 +63,11 @@ from .models import (
     CharacterCompanion,
     CharacterLevel,
 )
-from .rules.companions import TRACK_LABELS, TrackLevel, master_effective_level
+from .rules.companions import TRACK_LABELS, TrackLevel, master_companion_notes, master_effective_level
 from .rules.context import CharacterContext
+from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
+from .rules.feat_slots import base_feat_count
+from .rules.feats import NaturalWeaponFacts
 from .rules.modifiers import Modifier, ModifierTarget, NaturalAttack
 from .rules.secondary_class import secondary_effective_level
 
@@ -92,6 +108,12 @@ class CompanionState:
     species_ability_ids: set[UUID] = field(default_factory=set)
     progression_ability_ids: Counter[UUID] = field(default_factory=Counter)
     advanced: bool = False
+    master_context: CharacterContext | None = None
+    # The combined natural armor bonus (species, advancement, table).
+    natural_armor: int = 0
+    # How many natural attacks the species' current statblock lists,
+    # alternatives not counted (`CharacterContext.natural_attack_count`).
+    natural_attack_count: int = 0
 
 
 def master_context(db: Session, master: Character) -> CharacterContext:
@@ -117,7 +139,32 @@ def master_context(db: Session, master: Character) -> CharacterContext:
         granting_root_ids_by_ability=roots,
         feat_ids=frozenset(master.feat_ids),
         level_counts_by_root_id=level_counts,
+        favored_class_bonus_pick_counts=favored_class_bonus_pick_counts(master),
     )
+
+
+def master_class_options(master: Character) -> dict[str, tuple[str, ...]]:
+    """The master's class option picks by group key (the Waldläufer's
+    "enemy"/"terrain", ...), for `CharacterContext.master_class_options`."""
+    options: dict[str, list[str]] = {}
+    for option in master.class_options:
+        options.setdefault(option.group_key, []).append(option.choice)
+    return {key: tuple(choices) for key, choices in options.items()}
+
+
+def companion_context_fields(state: "CompanionState") -> dict:
+    """The `CharacterContext` fields a companion's sheet sets from its
+    master and species (`sheet.py`'s `build_character_sheet`)."""
+    master_ctx = state.master_context
+    return {
+        "natural_attack_count": state.natural_attack_count,
+        "master_granted_ability_ids": master_ctx.granted_ability_ids if master_ctx else Counter(),
+        "master_favored_class_bonus_pick_counts": (
+            master_ctx.favored_class_bonus_pick_counts if master_ctx else Counter()
+        ),
+        "master_class_options": master_class_options(state.master),
+        "master_level_counts_by_root_id": master_ctx.level_counts_by_root_id if master_ctx else {},
+    }
 
 
 def _class_names(db: Session) -> dict[UUID, str]:
@@ -189,11 +236,13 @@ def companion_slots(db: Session, master: Character, context: CharacterContext | 
     return [slot for slot in slots.values() if slot.level >= 1]
 
 
-def companion_effective_level(db: Session, master: Character, link: CharacterCompanion) -> tuple[int | None, TrackLevel | None]:
+def companion_effective_level(
+    db: Session, master: Character, link: CharacterCompanion, context: CharacterContext | None = None
+) -> tuple[int | None, TrackLevel | None]:
     """The companion's effective level ("effektive Druidenstufe") — `None`
     when the master no longer has the entitlement. The single function the
-    sheet, creation (and later sync/level-up) all use."""
-    for slot in companion_slots(db, master):
+    sheet, creation, the HD sync and the level-up all use."""
+    for slot in companion_slots(db, master, context):
         if slot.track == link.track and slot.slot_key == link.slot_key:
             return slot.level, slot.track_level
     return None, None
@@ -238,7 +287,8 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
     master = db.get(Character, companion.master_character_id)
     if link is None or master is None:
         return None
-    effective_level, track_level = companion_effective_level(db, master, link)
+    master_ctx = master_context(db, master)
+    effective_level, track_level = companion_effective_level(db, master, link, master_ctx)
     orphaned = effective_level is None
     if orphaned:
         # Highest progression row the companion's current HD still matches.
@@ -327,10 +377,13 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
         species_ability_ids=species_ability_ids,
         progression_ability_ids=progression_ability_ids,
         advanced=advanced,
+        master_context=master_ctx,
+        natural_armor=natural_armor,
+        natural_attack_count=sum(row["count"] for row in attacks if not row.get("alternative", False)),
     )
 
 
-def companion_payload(state: CompanionState, companion: Character) -> dict:
+def companion_payload(state: CompanionState, companion: Character, context: CharacterContext | None = None) -> dict:
     """The companion sheet's own section: who the master is, where the level
     comes from, HD expected vs. present, bonus tricks."""
     track_level = state.track_level
@@ -351,6 +404,13 @@ def companion_payload(state: CompanionState, companion: Character) -> dict:
         "bonusTricks": state.progression.bonus_tricks if state.progression else 0,
         "advancementChoice": state.link.advancement_choice,
         "advanced": state.advanced,
+        # Open HD (step 3): choices still to make in the level-up wizard's
+        # companion mode, and how many of those still need their HP roll.
+        "openHitDice": len(pending_levels(companion)),
+        "openHitPoints": sum(1 for level in pending_levels(companion) if level.hit_points is None),
+        # What the master shares that the sheet only describes (Waldläufer's
+        # Erzfeinde, Paladin mount extras).
+        "masterNotes": master_companion_notes(context) if context is not None else [],
     }
 
 
@@ -371,7 +431,9 @@ def create_companion(
     """Creates the companion `Character` for one of `master`'s free slots:
     species' starting scores, one pseudo-class level per HD of the current
     effective level, the given HP per HD (W8, the first one not maxed).
-    Feats, skill ranks and ability increases stay open (step 3)."""
+    Every HD starts with its choices open (`choices_pending`) — feats,
+    skill ranks and ability increases are made in the level-up wizard's
+    companion mode afterwards."""
     if master.master_character_id is not None:
         raise HTTPException(status_code=422, detail="A companion can't have companions of its own")
     slot = next((s for s in companion_slots(db, master) if s.slot_key == slot_key), None)
@@ -407,7 +469,9 @@ def create_companion(
         damage_taken=0,
     )
     for hd, value in enumerate(hit_points, start=1):
-        companion.levels.append(CharacterLevel(level=hd, base_class_id=pseudo_class.id, hit_points=value))
+        companion.levels.append(
+            CharacterLevel(level=hd, base_class_id=pseudo_class.id, hit_points=value, choices_pending=True)
+        )
     companion.class_memberships.append(CharacterClass(base_class_id=pseudo_class.id, is_favored=False))
     db.add(companion)
     db.flush()
@@ -439,3 +503,90 @@ def slots_payload(db: Session, slots: list[CompanionSlot]) -> list[dict]:
         }
         for slot in slots
     ]
+
+
+def pending_levels(companion: Character) -> list[CharacterLevel]:
+    """The companion's HD whose choices are still open, lowest first."""
+    return sorted((level for level in companion.levels if level.choices_pending), key=lambda level: level.level)
+
+
+def sync_companion_hit_dice(db: Session, master: Character) -> None:
+    """Upward-only HD sync (roadmap slice 10 step 3): every companion of
+    `master` gets the HD its current effective level's table row has and
+    it doesn't — appended with open choices and no HP yet. Runs inside the
+    master's own level-up transaction (`routers/characters.py`), so the
+    caller commits."""
+    pseudo_class = companion_class(db)
+    for slot in companion_slots(db, master):
+        if slot.companion is None:
+            continue
+        progression = progression_row(db, slot.level)
+        if progression is None:
+            continue
+        companion = slot.companion
+        for hd in range(companion.level + 1, progression.hit_dice + 1):
+            companion.levels.append(
+                CharacterLevel(level=hd, base_class_id=pseudo_class.id, hit_points=None, choices_pending=True)
+            )
+
+
+# "Tiergefährten mit einer Intelligenz von 3 oder mehr können Ränge in
+# beliebigen Fertigkeiten erwerben" — below that, only the companion class's
+# `allowed_skill_ids` ("Tierfertigkeiten").
+ANY_SKILL_MIN_INTELLIGENCE = 3
+
+
+def allowed_skill_ids(companion_class_row: BaseClass, intelligence: int) -> set[UUID] | None:
+    """The skills a companion may put ranks into — `None` means any skill."""
+    if intelligence >= ANY_SKILL_MIN_INTELLIGENCE or not companion_class_row.allowed_skill_ids:
+        return None
+    return {UUID(skill_id) for skill_id in companion_class_row.allowed_skill_ids}
+
+
+def is_first_feat_level(hit_die: int) -> bool:
+    """Whether completing HD `hit_die` grants the companion's first feat —
+    the one that may not require GAB +1 ("Außerdem dürfen Tiergefährten
+    ein Talent mit der Vorraussetzung eines Grund-Angriffsbonus von +1 (oder
+    besser) nicht als erstes Talent wählen")."""
+    return base_feat_count(hit_die - 1) == 0 and base_feat_count(hit_die) > 0
+
+
+def natural_weapon_facts(db: Session, character: Character) -> NaturalWeaponFacts:
+    """Natural armor and natural attacks, for the monster feats'
+    prerequisites and Verbesserter Natürlicher Angriff's sub-choice: a
+    companion's species statblock, or a PC's always-present racial natural
+    attacks (an attack only some state unlocks — a rage power's claws —
+    doesn't count; PCs have no natural armor source modeled here)."""
+    state = companion_state(db, character)
+    if state is not None:
+        return NaturalWeaponFacts(
+            natural_armor=state.natural_armor,
+            natural_attack_names=tuple(dict.fromkeys(attack.name for attack in state.natural_attacks)),
+            natural_attack_count=state.natural_attack_count,
+        )
+    from .routers.races import effective_race_ability_ids
+    from .rules.handlers import NATURAL_ATTACK_HANDLERS
+
+    race_ability_ids = effective_race_ability_ids(
+        db, character.race_id, {choice.ability_id for choice in character.racial_choices}
+    )
+    attacks = [
+        attack
+        for ability_id in race_ability_ids
+        if (handler := NATURAL_ATTACK_HANDLERS.get(ability_id)) is not None
+        and (attack := handler(CharacterContext())) is not None
+    ]
+    return NaturalWeaponFacts(
+        natural_attack_names=tuple(dict.fromkeys(attack.name for attack in attacks)),
+        natural_attack_count=sum(attack.count for attack in attacks if not attack.alternative),
+    )
+
+
+def companion_intelligence(db: Session, companion: Character) -> int:
+    """The IN the companion's sheet shows (species, ability increases,
+    master → companion bonuses such as the Paladin mount's "IN mind. 6") —
+    decides whether any skill may get ranks."""
+    from .sheet import build_character_sheet
+
+    sheet = build_character_sheet(companion, db)
+    return next(ability["score"] for ability in sheet["abilities"] if ability["key"] == "IN")

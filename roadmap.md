@@ -1734,7 +1734,7 @@ incremental model every other class follows).
       the Sekundärklasse choice — both explicitly deferred, the latter
       blocked on this app having no retraining system at all yet.
 
-### 10. Tiergefährten, Reittiere & Vertraute (concept decided 2026-10-11, rechecked same day, checked against the PRD Druide/Mit-Tieren-umgehen/Monster-Talente pages 2026-10-14; prerequisites 0a/0b built 2026-10-15/17, no companions yet)
+### 10. Tiergefährten, Reittiere & Vertraute (concept decided 2026-10-11, rechecked same day, checked against the PRD Druide/Mit-Tieren-umgehen/Monster-Talente pages 2026-10-14; prerequisites 0a/0b built 2026-10-15/17, steps 1–3 built 2026-10-17)
 Reverses the earlier "companions are out of scope" call (slice 5 intro);
 eidolons stay out of scope. Also covers the two open abilities Magier
 "Arkane Verbindung" (familiar type) and Waldläufer "Bund mit Gefährten"
@@ -2332,11 +2332,48 @@ Small characters change (values become correct, not a regression).
       isolated database. Not yet (step 3): HD sync on the master's level-up,
       feats/skills/ability increases, companion level-up mode, master →
       companion channel.
-- [ ] 3. HD sync (upward only) and choices (feats incl. the three monster
+- [x] 3. HD sync (upward only) and choices (feats incl. the three monster
       feats and the first-feat BAB rule, ability increase, skills, advance-
       ment vs +2 GE/KO), trick help text, companion mode in the level-up
       wizard, master→companion channel (favored class bonuses, shared
       Erzfeind), Verbindung/Hingabe/Mehrfachangriff handlers.
+      **Done 2026-10-17** (migration `e5b8d3f1a6c2`,
+      `scripts/import_monster_feats.py`, `rules/classes/tiergefaehrte.py`,
+      `tests/test_companions.py`): `CharacterLevel.choices_pending` marks a
+      companion HD whose choices are still open — set on every HD creation
+      makes (companions created in 2b were migrated to open) and on every
+      HD the sync adds. Sync (`sync_companion_hit_dice`) runs at the end of
+      the master's level-up, upward only, new HD without HP. The level-up
+      endpoint's companion mode (`_complete_companion_level`) fills the
+      lowest open HD: HP only if still null, 2 + IN skill points (min. 1,
+      IN retroactive), ranks ≤ HD, only the 9 "Tierfertigkeiten"
+      (`BaseClass.allowed_skill_ids`, parsed from the PRD) while the
+      sheet's IN < 3, feats `(HD+1)//2`, ability increase every 4th HD, no
+      favored class/options/spells, first feat without a GAB +1
+      requirement. The feat list for a companion uses the GAB of its open
+      HD and marks the PRD's 29 "Tiertalente" (`recommended_feat_ids`,
+      hint only). Monster feats seeded with the PRD import ids:
+      Mehrfachangriff (secondary −2), Verbesserte Natürliche Rüstung (new
+      `BaseFeat.is_repeatable`, untyped +1 per pick), Verbesserter
+      Natürlicher Angriff (sub-choice `natural_attack`, the attack's name in
+      `chosen_manifestation`, dice one size step up); their natural
+      armor/weapon/three-attacks prerequisites are `PREREQUISITE_CHECKS` in
+      `rules/feats.py`. Companion abilities: Verbindung/Hingabe as
+      summaries (situational), Mehrfachangriff = the feat with ≥ 3 natural
+      attacks, else a "+1 attack at −5" summary. Channel: Katzenvolk Druide
+      +1 TP per pick (new `ModifierTarget.HIT_POINTS`), Ork Druide +½ natural
+      attack damage per pick (`NATURAL_DAMAGE`), Paladin mount IN at least
+      6 plus celestial/SR notes, Waldläufer's Erzfeinde/Gelände listed as
+      shared (`masterNotes` — the Waldläufer's own bonuses aren't computed
+      yet). Frontend: wizard companion mode (HP step only when open, no
+      class/spell steps, "TW x → y", ★ recommended feats, skills filtered,
+      "Nächsten TW ausfüllen"), "Offene TW (n)" header button and banner
+      note. Verified in the browser against an isolated database (found and
+      fixed there: options not refetched per HD, step list shifting after
+      the last HD). Advancement vs +2 GE/KO and the trick help were already
+      done in 2b. Not in 3: Waffenfokus etc. on natural attacks (needs a
+      weapon id), the Waldläufer's own Erzfeind numbers, a feat
+      prerequisite check on the server for PCs (still only the list filter).
 - [ ] 4. Multiple entitlements/archetypes, per-companion bonus feats (Boon
       Companion), then the familiar (derivation hook, Arkane Verbindung,
       Hexenmeister, Hexe, Kampfmagus, companion→master bonus, Verbesserter

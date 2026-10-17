@@ -72,6 +72,8 @@ from .paladin import HANDLERS as _PALADIN_HANDLERS
 from .paladin import POOL_COST_AT_ACTIVATION as _PALADIN_POOL_COST_AT_ACTIVATION
 from .paladin import POOL_SOURCE_ID as _PALADIN_POOL_SOURCE_ID
 from .paladin import WEAPON_ENHANCEMENT_HANDLERS as _PALADIN_WEAPON_ENHANCEMENT_HANDLERS
+from .tiergefaehrte import APPLIED_OUTSIDE_HANDLERS_IDS as _TIERGEFAEHRTE_APPLIED_OUTSIDE_HANDLERS_IDS
+from .tiergefaehrte import FEATURE_SUMMARY_HANDLERS as _TIERGEFAEHRTE_FEATURE_SUMMARY_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
@@ -172,10 +174,13 @@ WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
 FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
     **_DRUIDE_FEATURE_SUMMARY_HANDLERS,
     **_PALADIN_FEATURE_SUMMARY_HANDLERS,
+    **_TIERGEFAEHRTE_FEATURE_SUMMARY_HANDLERS,
 }
 
 # Merged the same way as `HANDLERS` above, but a plain id set rather than a
 # dict — see `kampfmagus.py`'s own `APPLIED_OUTSIDE_HANDLERS_IDS` docstring
 # for what this covers (`rules/handlers.py`'s `has_mechanical_effect` reads
 # the merged result).
-APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = frozenset(_KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS)
+APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = (
+    _KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS | _TIERGEFAEHRTE_APPLIED_OUTSIDE_HANDLERS_IDS
+)

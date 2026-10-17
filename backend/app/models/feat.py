@@ -80,6 +80,12 @@ class BaseFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # of an FK. Null for every other feat (mirrors `BaseItem.
     # applicable_categories`'s JSON-list-column precedent).
     manifestation_options: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    # "Dieses Talent kann mehrmals gewählt werden" with the *same* sub-choice
+    # (or none) each time, every pick adding up — e.g. Verbesserte Natürliche
+    # Rüstung (+1 natural armor per pick). A feat repeatable only for a
+    # *different* sub-choice (Waffenfokus) doesn't need this: its picks
+    # already differ by sub-choice.
+    is_repeatable: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
 
 class BaseFeatRequiredFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):

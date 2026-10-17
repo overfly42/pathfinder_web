@@ -5,13 +5,18 @@ interface SingleChipPickerProps {
   selected: string | null;
   onSelect: (name: string) => void;
   searchPlaceholder?: string;
+  /** Items to mark as recommended (★, listed first) — e.g. a companion's "Tiertalente". */
+  recommended?: Set<string>;
 }
 
 /** Counter + chip-row for a "pick exactly one (or none)" choice — no selected-list
  *  section, unlike creation's multi-pick PickList (the mock has none here either). */
-export function SingleChipPicker({ items, selected, onSelect, searchPlaceholder }: SingleChipPickerProps) {
+export function SingleChipPicker({ items, selected, onSelect, searchPlaceholder, recommended }: SingleChipPickerProps) {
   const [query, setQuery] = useState('');
-  const filtered = searchPlaceholder ? items.filter((i) => i.toLowerCase().includes(query.toLowerCase())) : items;
+  const searched = searchPlaceholder ? items.filter((i) => i.toLowerCase().includes(query.toLowerCase())) : items;
+  const filtered = recommended
+    ? [...searched.filter((i) => recommended.has(i)), ...searched.filter((i) => !recommended.has(i))]
+    : searched;
 
   return (
     <>
@@ -28,10 +33,11 @@ export function SingleChipPicker({ items, selected, onSelect, searchPlaceholder 
           <button
             key={name}
             type="button"
-            className={`chip${selected === name ? ' active' : ''}`}
+            className={`chip${selected === name ? ' active' : ''}${recommended?.has(name) ? ' recommended' : ''}`}
+            title={recommended?.has(name) ? 'Empfohlen' : undefined}
             onClick={() => onSelect(name)}
           >
-            {name}
+            {recommended?.has(name) ? `★ ${name}` : name}
           </button>
         ))}
       </div>

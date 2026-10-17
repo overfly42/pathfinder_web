@@ -5,12 +5,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from ..companions import companion_class, natural_weapon_facts, pending_levels
 from ..db import get_db
 from ..models import BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
 from ..rules.feat_prerequisites import CharacterPrereqState, eligible_feat_ids
 from ..rules.handlers import has_mechanical_effect, partial_effect_note
 from ..rules.proficiency import effective_proficiency_feat_ids
+from ..rules.progression import class_bab
 from ..rules.secondary_class import secondary_granted_ability_ids_and_levels
 from ..sheet import granted_class_ability_ids
 from .races import race_ability_score_mods
@@ -47,13 +49,26 @@ def _character_prereq_state(db: Session, character: Character) -> CharacterPrere
     # weapon-attack proficiency malus, which needs the identical merge.
     return CharacterPrereqState(
         ability_scores=effective_scores,
-        bab=character.bab,
+        bab=_prereq_bab(db, character),
         feat_ids=effective_proficiency_feat_ids(db, frozenset(character.feat_ids), granted_ability_ids),
         granted_ability_ids=granted_ability_ids,
         level_counts_by_root_id=level_counts_by_root_id,
         race_id=character.race_id,
         skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
+        natural_weapons=natural_weapon_facts(db, character),
     )
+
+
+def _prereq_bab(db: Session, character: Character) -> int:
+    """A companion picks the feats of its lowest open HD (roadmap slice 10
+    step 3), so its GAB counts as of that HD — which also keeps "GAB +1"
+    feats away from its first feat, as the PRD requires. Everyone else:
+    the current GAB."""
+    pending = pending_levels(character) if character.master_character_id is not None else []
+    if not pending:
+        return character.bab
+    pseudo_class = companion_class(db)
+    return class_bab(pseudo_class.bab_progression, pending[0].level)
 
 
 @router.get("")
@@ -68,6 +83,8 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
     # currently meets — level-up's own feat step (`routers/feats.py`'s
     # caller, `useLevelUpOptions.ts`) passes this so the picker only ever
     # shows a legal choice.
+    natural_attack_names: list[str] = []
+    recommended_ids: set[UUID] = set()
     if character_id is not None:
         character = db.get(Character, character_id)
         if character is None:
@@ -75,6 +92,9 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
         state = _character_prereq_state(db, character)
         allowed = eligible_feat_ids(db, (feat.id for feat in feats), state)
         feats = [feat for feat in feats if feat.id in allowed]
+        natural_attack_names = list(state.natural_weapons.natural_attack_names)
+        if character.master_character_id is not None:
+            recommended_ids = {UUID(feat_id) for feat_id in companion_class(db).recommended_feat_ids or []}
 
     return [
         {
@@ -90,7 +110,15 @@ def list_feats(db: Annotated[Session, Depends(get_db)], character_id: UUID | Non
             # Valid `chosen_manifestation` values for a `subChoiceType ==
             # "manifestation"` feat (e.g. Inbegriff des Katzenvolkes) — see
             # `BaseFeat.manifestation_options`. `None` for every other feat.
-            "manifestationOptions": feat.manifestation_options,
+            # A "natural_attack" feat (Verbesserter Natürlicher Angriff)
+            # offers the character's own natural attacks, sent the same way.
+            "manifestationOptions": (
+                natural_attack_names if feat.sub_choice_type == "natural_attack" else feat.manifestation_options
+            ),
+            "isRepeatable": feat.is_repeatable,
+            # On a companion's list: one of the PRD's "Tiertalente" — a hint,
+            # any eligible feat may be picked.
+            "recommended": feat.id in recommended_ids,
             # Whether this feat's effect is actually computed anywhere —
             # `rules/handlers.py`'s `has_mechanical_effect` checks every
             # registry that family's merge covers, not just the plain

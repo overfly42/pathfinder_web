@@ -635,5 +635,12 @@
     "group_id": null,
     "ability": "CH",
     "minimum_score": 13
+  },
+  {
+    "id": "171603c0-c2e3-52fa-9264-6c5c73af07f7",
+    "feat_id": "14479bf3-1065-5cba-8384-bfed0ad35127",
+    "group_id": null,
+    "ability": "KO",
+    "minimum_score": 13
   }
 ]

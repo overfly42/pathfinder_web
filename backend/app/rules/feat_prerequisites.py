@@ -15,7 +15,7 @@ singleton clause. A feat's prerequisites are met iff every one of its
 clauses is met (at least one row in that clause is satisfied)."""
 
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from uuid import UUID
 
 from sqlalchemy import select
@@ -30,6 +30,7 @@ from ..models import (
     BaseFeatRequiredRace,
     BaseFeatRequiredSkill,
 )
+from .feats import PREREQUISITE_CHECKS, NaturalWeaponFacts
 
 
 @dataclass
@@ -50,6 +51,9 @@ class CharacterPrereqState:
     level_counts_by_root_id: dict[UUID, int]
     race_id: UUID | None
     skill_ranks: dict[UUID, int]
+    # Natural armor/attacks, for the monster feats' prerequisites
+    # (`rules/feats.py`'s `PREREQUISITE_CHECKS`).
+    natural_weapons: NaturalWeaponFacts = field(default_factory=NaturalWeaponFacts)
 
 
 def eligible_feat_ids(db: Session, candidate_feat_ids: Iterable[UUID], state: CharacterPrereqState) -> set[UUID]:
@@ -103,5 +107,6 @@ def eligible_feat_ids(db: Session, candidate_feat_ids: Iterable[UUID], state: Ch
     return {
         feat_id
         for feat_id in candidates
-        if feat_id not in feats_with_requirements or all(feats_with_requirements[feat_id])
+        if (feat_id not in feats_with_requirements or all(feats_with_requirements[feat_id]))
+        and (feat_id not in PREREQUISITE_CHECKS or PREREQUISITE_CHECKS[feat_id](state.natural_weapons))
     }

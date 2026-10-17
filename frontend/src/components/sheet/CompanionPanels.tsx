@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { apiPost } from '../../api/client';
 import type { Character, CompanionLevel, CompanionSlot } from '../../types/character';
 import { TRICK_HELP, companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
@@ -54,9 +55,25 @@ export function CompanionBanner({ character }: { character: Character }) {
       )}
       <p>
         Trefferwürfel: {info.hitDice}
-        {hdMismatch && ` (laut Tabelle ${info.expectedHitDice} — wird mit einem späteren Schritt nachgezogen)`}
+        {hdMismatch && ` (laut Tabelle ${info.expectedHitDice})`}
         {' · '}Aufstieg: {info.advancementChoice === 'dex_con' ? '+2 GE/+2 KO statt Tierart' : info.advanced ? 'erreicht' : 'noch nicht erreicht'}
       </p>
+      {info.openHitDice > 0 && (
+        <p className="companion-open">
+          {info.openHitDice} TW mit offenen Entscheidungen (Fertigkeiten, Talente
+          {info.openHitPoints > 0 ? `, ${info.openHitPoints}× Trefferpunkte` : ''}) —{' '}
+          <Link className="companion-link" to={`/levelup/${character.id}`}>
+            jetzt ausfüllen
+          </Link>
+        </p>
+      )}
+      {info.masterNotes.length > 0 && (
+        <ul className="companion-master-notes">
+          {info.masterNotes.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      )}
       <details className="companion-tricks">
         <summary>Bonustricks: {info.bonusTricks}</summary>
         <p className="desc">{TRICK_HELP.rules}</p>

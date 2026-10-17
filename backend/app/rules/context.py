@@ -51,6 +51,16 @@ class CharacterContext:
     # from `BaseFeat.manifestation_options` instead of a catalog id. Empty
     # for a character with no such feat.
     feat_manifestation_choices: dict[UUID, str] = field(default_factory=dict)
+    # How many times each feat was picked (`Character.feat_ids` keeps
+    # duplicates) — for a `BaseFeat.is_repeatable` feat whose every pick adds
+    # up (Verbesserte Natürliche Rüstung). `feat_ids` above stays the plain
+    # membership set.
+    feat_pick_counts: Counter[UUID] = field(default_factory=Counter)
+    # feat id -> every `chosen_manifestation` string picked for it, for a
+    # feat taken more than once with a different named pick each time
+    # (Verbesserter Natürlicher Angriff: one natural attack per pick, roadmap
+    # slice 10 step 3). `feat_manifestation_choices` keeps one per feat.
+    feat_manifestation_picks: dict[UUID, tuple[str, ...]] = field(default_factory=dict)
     # A `Counter`, not a `frozenset`: some class abilities are granted more
     # than once at different levels and each repetition has independent
     # mechanical weight (`sheet.py`'s `granted_class_ability_ids` docstring
@@ -167,6 +177,22 @@ class CharacterContext:
     # Verteidigung's own "wenn er seine ausgewählte Waffe führt" clause
     # means specifically *this* weapon, not any chosen-weapon relationship.
     kensai_chosen_weapon_id: UUID | None = None
+    # How many natural attacks the companion species' current statblock
+    # lists (`app/companions.py`, alternatives not counted) — raw species
+    # data, read by the companion's "Mehrfachangriff" (three or more: the
+    # feat as a bonus feat, fewer: one extra attack at −5). 0 for a PC.
+    natural_attack_count: int = 0
+    # The master's raw composition, set only on a companion's context
+    # (roadmap slice 10 step 3, the master → companion channel): which of
+    # the master's granted abilities, favored-class-bonus picks, class
+    # option picks (group key -> choice names, e.g. the Waldläufer's
+    # "enemy"/"terrain") and class levels change the companion.
+    # `rules/companions.py`'s `COMPANION_MODIFIER_HANDLERS`/
+    # `COMPANION_NOTE_HANDLERS` are keyed by the master's ids.
+    master_granted_ability_ids: Counter[UUID] = field(default_factory=Counter)
+    master_favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)
+    master_class_options: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    master_level_counts_by_root_id: dict[UUID, int] = field(default_factory=dict)
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced

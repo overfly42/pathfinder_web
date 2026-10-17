@@ -213,11 +213,18 @@ export function AppHeader({ character, effects, conditionsCatalog, onJump }: App
             Drucken
           </Link>
         )}
-        {/* A companion levels up with its master (roadmap slice 10 step 3), not on its own. */}
+        {/* A companion gets its HD with its master's level-up (roadmap slice 10 step 3); the
+            wizard only fills in the choices of HD still open. */}
         {character && character.kind !== 'companion' && (
           <Link className="btn-levelup" to={`/levelup/${character.id}`}>
             <span className="star">✦</span>
             Stufenaufstieg
+          </Link>
+        )}
+        {character?.companion && character.companion.openHitDice > 0 && (
+          <Link className="btn-levelup" to={`/levelup/${character.id}`}>
+            <span className="star">✦</span>
+            Offene TW ({character.companion.openHitDice})
           </Link>
         )}
         <select

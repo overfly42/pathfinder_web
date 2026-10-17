@@ -1,3 +1,4 @@
+import type { ClassDef } from './creationOptions';
 import type { AbilityKey } from './abilities';
 
 export interface ClassProgressionEntry {
@@ -94,4 +95,24 @@ export interface CharacterProgression {
    *  actual rule). Absent for the two hardcoded mock fixtures. */
   secondaryClass?: { name: string; featureLevels: number[] } | null;
   history: HistoryEntry[];
+  /** Set only for a companion (backend `_companion_progression`, roadmap slice 10 step 3): the
+   *  wizard then fills in the lowest open HD instead of adding a level. `classes` reports the HD
+   *  before it, so the wizard's usual "new level" math lands on exactly that HD. */
+  companion?: CompanionProgression;
+}
+
+export interface CompanionProgression {
+  /** The HD being filled in — `null` when nothing is open. */
+  openHitDie: number | null;
+  openHitDice: number;
+  /** Whether that HD still needs its HP roll (creation already set HP for the starting HD). */
+  hitPointsOpen: boolean;
+  /** Whether this HD brings the companion's first feat, which may not require GAB +1. */
+  firstFeat: boolean;
+  /** Skill ids a companion with IN < 3 may put ranks into ("Tierfertigkeiten") — `null` = any. */
+  allowedSkillIds: string[] | null;
+  /** The PRD's "Tiertalente" — a recommendation, not a restriction. */
+  recommendedFeatIds: string[];
+  /** The pseudo class "Tiergefährte" (not on `/api/classes`). */
+  classDef: ClassDef;
 }

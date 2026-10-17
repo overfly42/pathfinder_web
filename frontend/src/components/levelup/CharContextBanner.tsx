@@ -13,7 +13,7 @@ export function CharContextBanner({ progression }: { progression: CharacterProgr
         <span className="sub">{subtitle}</span>
       </div>
       <div className="transition">
-        Stufe {getOldTotalLevel(progression)}
+        {progression.companion ? 'TW' : 'Stufe'} {getOldTotalLevel(progression)}
         <span className="arrow">→</span>
         {getNewLevel(progression)}
       </div>

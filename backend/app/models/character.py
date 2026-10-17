@@ -464,6 +464,11 @@ class CharacterLevel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # *which* level an increase happened at, same per-level-audit convention
     # as skill_ranks/feats/traits/spells below.
     ability_increase: Mapped[str | None] = mapped_column(String(2), nullable=True)
+    # A companion's HD whose choices (HP if still null, skill ranks, feats,
+    # ability increase) haven't been made yet (roadmap slice 10 step 3):
+    # set on every HD creation/the HD sync adds, cleared by the companion
+    # mode of the level-up endpoint, lowest HD first. Always false for a PC.
+    choices_pending: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
     base_class: Mapped[BaseClass] = relationship()
     skill_ranks: Mapped[list["CharacterSkillRank"]] = relationship(cascade="all, delete-orphan")

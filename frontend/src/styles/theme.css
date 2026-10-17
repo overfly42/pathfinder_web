@@ -210,6 +210,7 @@ body {
   transition: border-color .15s, background .15s, color .15s;
 }
 .chip:hover { border-color: var(--brass); color: var(--ink-soft); }
+.chip.recommended:not(.active) { border-color: var(--brass); color: var(--ink-soft); }
 .chip.active {
   border-style: solid; border-color: var(--brass-dark);
   background: linear-gradient(160deg, var(--brass-light), var(--brass) 80%);

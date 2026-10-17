@@ -9,7 +9,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from ..companions import create_companion
+from ..companions import (
+    allowed_skill_ids,
+    companion_class,
+    companion_intelligence,
+    create_companion,
+    is_first_feat_level,
+    natural_weapon_facts,
+    pending_levels,
+    sync_companion_hit_dice,
+)
 from ..db import get_db
 from ..models import (
     BaseClass,
@@ -19,6 +28,7 @@ from ..models import (
     BaseClassSpell,
     BaseCondition,
     BaseFeat,
+    BaseFeatRequiredBab,
     BaseItem,
     BaseRace,
     BaseSkill,
@@ -262,7 +272,11 @@ def _feat_max(
 
 
 def _validate_feat_sub_choice(
-    db: Session, feat: BaseFeat, selection: FeatSelection, known_spell_schools: set[str]
+    db: Session,
+    feat: BaseFeat,
+    selection: FeatSelection,
+    known_spell_schools: set[str],
+    natural_attack_names: Iterable[str] = (),
 ) -> None:
     """Enforces `BaseFeat.sub_choice_type` against one submitted
     `FeatSelection` (roadmap.md's "Talent-Sub-Wahl-Schema") — which of
@@ -322,6 +336,16 @@ def _validate_feat_sub_choice(
         if selection.chosen_spell_school not in known_spell_schools:
             raise HTTPException(
                 status_code=422, detail=f"chosen_spell_school for '{feat.name}' is not a known spell school"
+            )
+    elif sub_choice_type == "natural_attack":
+        # The attack's name, stored in `chosen_manifestation` (a free-text
+        # named pick, like a manifestation, just from the character's own
+        # natural attacks instead of a list on the feat).
+        if selection.chosen_manifestation is None:
+            raise HTTPException(status_code=422, detail=f"'{feat.name}' requires a chosen natural attack")
+        if selection.chosen_manifestation not in natural_attack_names:
+            raise HTTPException(
+                status_code=422, detail=f"'{selection.chosen_manifestation}' is not one of this character's natural attacks"
             )
     elif sub_choice_type == "manifestation":
         if selection.chosen_manifestation is None:
@@ -2377,6 +2401,10 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
+    if character.master_character_id is not None:
+        return _complete_companion_level(db, character, body)
+    if body.hit_points is None:
+        raise HTTPException(status_code=422, detail="hit_points is required")
 
     classes_before, roots_before = _class_selections_and_roots(db, character)
     new_total_level = character.level + 1
@@ -2595,11 +2623,12 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             )
             for entry in character.feats
         }
+        natural_attack_names = natural_weapon_facts(db, character).natural_attack_names
         for selection in body.feats:
             feat = feats_by_id.get(selection.feat_id)
             if feat is None:
                 raise HTTPException(status_code=422, detail=f"Unknown feat id '{selection.feat_id}'")
-            _validate_feat_sub_choice(db, feat, selection, known_spell_schools)
+            _validate_feat_sub_choice(db, feat, selection, known_spell_schools, natural_attack_names)
             key = (
                 selection.feat_id,
                 selection.chosen_weapon_id,
@@ -2608,7 +2637,7 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 selection.chosen_spell_school,
                 selection.chosen_manifestation,
             )
-            if key in already_known:
+            if key in already_known and not feat.is_repeatable:
                 raise HTTPException(status_code=422, detail=f"'{feat.name}' with this sub-choice is already known")
 
     if body.spell_ids:
@@ -2857,6 +2886,147 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     for spell_id in body.spell_ids:
         new_level.spells.append(CharacterSpell(base_class_id=receiving_root.id, spell_id=spell_id))
 
+    # A higher master level can raise a companion's effective level: add
+    # its missing HD in this same transaction (roadmap slice 10 step 3).
+    db.flush()
+    sync_companion_hit_dice(db, character)
+
     db.commit()
     db.refresh(character)
     return character
+
+
+def _complete_companion_level(db: Session, companion: Character, body: LevelUp) -> Character:
+    """The level-up endpoint's companion mode (roadmap slice 10 step 3):
+    makes the choices of the companion's lowest open HD (`choices_pending`,
+    set by creation and the HD sync) instead of adding a level — a
+    companion's HD follow its master, never its own level-up. Reuses the
+    PC level-up's budget helpers with the pseudo class "Tiergefährte"; on
+    top of them the companion's own rules: HP only if still open, no
+    favored class/options/spells, skills limited to "Tierfertigkeiten"
+    while IN < 3, and no GAB +1 feat as the first feat."""
+    pending = pending_levels(companion)
+    if not pending:
+        raise HTTPException(status_code=422, detail="This companion has no open hit dice")
+    level = pending[0]
+    hit_die = level.level
+    pseudo_class = companion_class(db)
+
+    if body.target.mode != "existing" or body.target.base_class_id != pseudo_class.id:
+        raise HTTPException(status_code=422, detail=f"A companion's target must be '{pseudo_class.name}'")
+    if body.favored_class_bonus is not None or body.existing_level_options or body.spell_ids:
+        raise HTTPException(status_code=422, detail="Companions have no favored class, class options or spells")
+
+    if level.hit_points is None:
+        if body.hit_points is None:
+            raise HTTPException(status_code=422, detail="hit_points is required for this hit die")
+        if not is_valid_rolled_hit_points(pseudo_class.hit_dice, body.hit_points):
+            raise HTTPException(status_code=422, detail=f"hit_points must be between 1 and {pseudo_class.hit_dice}")
+    elif body.hit_points is not None:
+        raise HTTPException(status_code=422, detail="This hit die's hit points are already set")
+
+    ability_increase_eligible = hit_die % 4 == 0
+    if body.ability_increase is not None and not ability_increase_eligible:
+        raise HTTPException(status_code=422, detail="ability_increase is only granted every 4th hit die")
+    if body.ability_increase is None and ability_increase_eligible:
+        raise HTTPException(
+            status_code=422, detail="This hit die grants an ability score increase — ability_increase is required"
+        )
+    race_mods = race_ability_score_mods(db, companion.race_id)
+    pre_increase_int_mod = ability_mod(full_effective_ability_scores(db, companion, race_mods)["IN"])
+    if body.ability_increase is not None:
+        column = f"ability_score_{body.ability_increase.lower()}"
+        setattr(companion, column, getattr(companion, column) + 1)
+    int_mod = ability_mod(full_effective_ability_scores(db, companion, race_mods)["IN"])
+
+    # Same per-HD formula as `_skill_points_total` (max(1, base + IN) per
+    # HD, IN retroactive), for HD `hit_die` vs. the HD before it.
+    base = pseudo_class.skill_points_base
+    skill_budget = max(1, base + int_mod) * hit_die - max(1, base + pre_increase_int_mod) * (hit_die - 1)
+    if _skill_ranks_exceed_budget(db, body.skill_ranks, skill_budget, 0, False):
+        raise HTTPException(status_code=422, detail="skill_ranks exceed the skill points gained at this hit die")
+    allowed = allowed_skill_ids(pseudo_class, companion_intelligence(db, companion))
+    skills_by_id = {skill.id: skill for skill in db.scalars(select(BaseSkill)).all()}
+    existing_skill_ranks = {
+        (entry["skill_id"], entry["specialization_id"], entry["custom_specialization"]): entry["ranks"]
+        for entry in companion.skill_rank_details
+    }
+    for rank in body.skill_ranks:
+        skill = skills_by_id.get(rank.skill_id)
+        if skill is None:
+            raise HTTPException(status_code=422, detail=f"Unknown skill id '{rank.skill_id}'")
+        _validate_skill_specialization(db, skill, rank)
+        if allowed is not None and skill.id not in allowed:
+            raise HTTPException(
+                status_code=422, detail=f"'{skill.name}' isn't a companion skill (only with IN 3 or more)"
+            )
+        key = (rank.skill_id, rank.specialization_id, rank.custom_specialization)
+        if existing_skill_ranks.get(key, 0) + rank.ranks > hit_die:
+            raise HTTPException(status_code=422, detail=f"Ranks for skill '{skill.name}' would exceed the hit dice")
+
+    if len(body.feats) > base_feat_count(hit_die) - base_feat_count(hit_die - 1):
+        raise HTTPException(status_code=422, detail="Too many feats chosen for this hit die")
+    if body.feats:
+        feats_by_id = {
+            feat.id: feat
+            for feat in db.scalars(select(BaseFeat).where(BaseFeat.id.in_({f.feat_id for f in body.feats}))).all()
+        }
+        known_spell_schools = set(db.scalars(select(BaseSpell.school).distinct()).all())
+        natural_attack_names = natural_weapon_facts(db, companion).natural_attack_names
+        already_known = {
+            (entry["feat_id"], entry["chosen_weapon_id"], entry["chosen_skill_id"], entry["chosen_skill_id_2"],
+             entry["chosen_spell_school"], entry["chosen_manifestation"])
+            for entry in companion.feats
+        }
+        bab_required = {
+            row.feat_id
+            for row in db.scalars(select(BaseFeatRequiredBab).where(BaseFeatRequiredBab.minimum_bab >= 1))
+        }
+        for feat_selection in body.feats:
+            feat = feats_by_id.get(feat_selection.feat_id)
+            if feat is None:
+                raise HTTPException(status_code=422, detail=f"Unknown feat id '{feat_selection.feat_id}'")
+            _validate_feat_sub_choice(db, feat, feat_selection, known_spell_schools, natural_attack_names)
+            key = (
+                feat_selection.feat_id,
+                feat_selection.chosen_weapon_id,
+                feat_selection.chosen_skill_id,
+                feat_selection.chosen_skill_id_2,
+                feat_selection.chosen_spell_school,
+                feat_selection.chosen_manifestation,
+            )
+            if key in already_known and not feat.is_repeatable:
+                raise HTTPException(status_code=422, detail=f"'{feat.name}' with this sub-choice is already known")
+            if is_first_feat_level(hit_die) and feat.id in bab_required:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"A companion's first feat can't require GAB +1 ('{feat.name}')",
+                )
+
+    if level.hit_points is None:
+        level.hit_points = body.hit_points
+    level.ability_increase = body.ability_increase
+    for rank in body.skill_ranks:
+        level.skill_ranks.append(
+            CharacterSkillRank(
+                skill_id=rank.skill_id,
+                specialization_id=rank.specialization_id,
+                custom_specialization=rank.custom_specialization,
+                ranks=rank.ranks,
+            )
+        )
+    for feat_selection in body.feats:
+        level.feats.append(
+            CharacterFeat(
+                feat_id=feat_selection.feat_id,
+                chosen_weapon_id=feat_selection.chosen_weapon_id,
+                chosen_skill_id=feat_selection.chosen_skill_id,
+                chosen_skill_id_2=feat_selection.chosen_skill_id_2,
+                chosen_spell_school=feat_selection.chosen_spell_school,
+                chosen_manifestation=feat_selection.chosen_manifestation,
+            )
+        )
+    level.choices_pending = False
+    db.commit()
+    db.refresh(companion)
+    return companion

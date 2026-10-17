@@ -17,7 +17,7 @@ interface UseLevelUpOptionsResult {
  *  pre-level-up state — a same-level ability-score increase can't yet unlock
  *  a same-level feat's own score prerequisite, a known simplification) so
  *  LevelFeatStep only ever offers a legal choice. */
-export function useLevelUpOptions(characterId: string): UseLevelUpOptionsResult {
+export function useLevelUpOptions(characterId: string, reloadKey = 0): UseLevelUpOptionsResult {
   const [options, setOptions] = useState<LevelUpOptions | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +57,7 @@ export function useLevelUpOptions(characterId: string): UseLevelUpOptionsResult 
     return () => {
       cancelled = true;
     };
-  }, [characterId]);
+  }, [characterId, reloadKey]);
 
   return { options, loading, error };
 }

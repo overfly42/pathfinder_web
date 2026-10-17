@@ -93,6 +93,13 @@ class ModifierTarget(StrEnum):
     # Kampfmanöverbonus (`sheet.py`'s `bab + str_mod + …`) — first producer
     # is the size category's special size modifier (`rules/size.py`).
     CMB = "cmb"
+    # Extra maximum hit points on top of the per-level rolls and KO — first
+    # producer is the Katzenvolk Druide's favored-class bonus on the
+    # companion (roadmap slice 10 step 3, `rules/companions.py`).
+    HIT_POINTS = "hit_points"
+    # Damage of natural attacks only (melee weapons don't get it) — first
+    # producer is the Ork Druide's favored-class bonus on the companion.
+    NATURAL_DAMAGE = "natural_damage"
     # Kampfmanöverabwehr (`sheet.py`'s inline `10 + bab + str_mod + dex_mod`
     # formula) — first producer is Mönch's Rüstungsklassenbonus
     # (`rules/classes/moench.py`), which grants the same value to both AC

@@ -17,7 +17,13 @@ Which sources exist, what triggers them and their offsets is data
 - The total is capped at the character level, after flat bonuses.
 
 `COMPANION_LEVEL_HANDLERS` (keyed by the source row's id) replaces the
-formula for a source whose rule doesn't fit the columns."""
+formula for a source whose rule doesn't fit the columns.
+
+Step 3 adds the master → companion channel at the end of this module:
+`COMPANION_MODIFIER_HANDLERS`/`COMPANION_NOTE_HANDLERS`, keyed by the
+master's favored-class-bonus choice or granted ability id and resolved
+against the companion's own context (which carries the master's raw
+composition, `CharacterContext.master_*`)."""
 
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
@@ -25,6 +31,7 @@ from typing import Protocol
 from uuid import UUID
 
 from .context import CharacterContext
+from .modifiers import Modifier, ModifierTarget
 
 TRACKS = ("animal_companion", "familiar")
 TRACK_LABELS = {"animal_companion": "Tiergefährte/Reittier", "familiar": "Vertrauter"}
@@ -166,3 +173,102 @@ COMPANION_LEVEL_HANDLERS: dict[
 ] = {
     KLERIKER_TIERE_SOURCE_ID: _tiere_domain_companion,
 }
+
+
+# ---- master → companion channel (step 3) ----
+# Keyed by the *master's* ids: a favored-class-bonus choice
+# (`context.master_favored_class_bonus_pick_counts`) or a granted class
+# ability (`context.master_granted_ability_ids`), resolved against the
+# companion's own context, which carries the master's raw composition.
+
+KATZENVOLK_DRUIDE_FCB_CHOICE_ID = UUID("52420b4d-1051-58da-bb7e-2897863d8697")
+ORK_DRUIDE_FCB_CHOICE_ID = UUID("3a4f258f-0a67-5e92-835d-c260ca6239dc")
+WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID = UUID("a98d91f5-2dff-506e-8bcc-03b3166ae731")
+PALADIN_ROOT_CLASS_ID = UUID("561465fe-7c72-4e47-b58e-05a8dbbf0a3e")
+PALADIN_REITTIER_ABILITY_ID = UUID("0028e0bb-6d8f-5051-bdb8-3f960dcf1009")
+
+
+def _katzenvolk_druide(context: CharacterContext) -> list[Modifier]:
+    """"Addiere +1 TP zu den TP des Tiergefährten des Druiden" per pick —
+    a replacement companion gets them too, which holds by construction:
+    the bonus is read from the master, never stored on the companion."""
+    picks = context.master_favored_class_bonus_pick_counts.get(KATZENVOLK_DRUIDE_FCB_CHOICE_ID, 0)
+    return [Modifier(source="Bevorzugte Klasse des Meisters", type="untyped", value=picks, target=ModifierTarget.HIT_POINTS)]
+
+
+def _ork_druide(context: CharacterContext) -> list[Modifier]:
+    """"Addiere +1/2 auf den Schaden der natürlichen Angriffe des
+    Tiergefährten des Druiden" per pick, rounded down."""
+    picks = context.master_favored_class_bonus_pick_counts.get(ORK_DRUIDE_FCB_CHOICE_ID, 0)
+    return [
+        Modifier(source="Bevorzugte Klasse des Meisters", type="untyped", value=picks // 2, target=ModifierTarget.NATURAL_DAMAGE)
+    ]
+
+
+def _paladin_mount(context: CharacterContext) -> list[Modifier]:
+    """"Das Reittier besitzt eine Intelligenz von mindestens 6" — raises
+    a lower IN to 6."""
+    intelligence = context.ability_scores.get("IN", 10)
+    if intelligence >= 6:
+        return []
+    return [Modifier(source="Göttlicher Bund", type="untyped", value=6 - intelligence, target=ModifierTarget.SCORE, target_id="IN")]
+
+
+def _waldlaeufer_notes(context: CharacterContext) -> list[str]:
+    """"… der die Boni des Waldläufers für Erzfeinde und bevorzugtes Gelände
+    teilt" — the Waldläufer's own bonuses aren't computed yet, so the
+    companion lists which ones it shares."""
+    notes = []
+    for key, label in (("enemy", "Erzfeinde"), ("terrain", "Bevorzugtes Gelände")):
+        choices = context.master_class_options.get(key, ())
+        if choices:
+            notes.append(f"{label} des Waldläufers (Boni geteilt): {', '.join(choices)}")
+    return notes
+
+
+def _paladin_mount_notes(context: CharacterContext) -> list[str]:
+    level = context.master_level_counts_by_root_id.get(PALADIN_ROOT_CLASS_ID, 0)
+    notes = []
+    if level >= 11:
+        notes.append("Celestische Schablone; gilt für Zauber als magische Bestie")
+    if level >= 15:
+        notes.append(f"Zauberresistenz {level + 11}")
+    return notes
+
+
+COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    KATZENVOLK_DRUIDE_FCB_CHOICE_ID: _katzenvolk_druide,
+    ORK_DRUIDE_FCB_CHOICE_ID: _ork_druide,
+    PALADIN_REITTIER_ABILITY_ID: _paladin_mount,
+}
+COMPANION_NOTE_HANDLERS: dict[UUID, Callable[[CharacterContext], list[str]]] = {
+    WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID: _waldlaeufer_notes,
+    PALADIN_REITTIER_ABILITY_ID: _paladin_mount_notes,
+}
+
+
+def _master_trigger_ids(context: CharacterContext) -> list[UUID]:
+    return sorted(
+        {*context.master_granted_ability_ids, *context.master_favored_class_bonus_pick_counts}, key=str
+    )
+
+
+def master_companion_modifiers(context: CharacterContext) -> list[Modifier]:
+    """Every modifier the master's composition gives this companion."""
+    modifiers: list[Modifier] = []
+    for trigger_id in _master_trigger_ids(context):
+        handler = COMPANION_MODIFIER_HANDLERS.get(trigger_id)
+        if handler is not None:
+            modifiers.extend(m for m in handler(context) if m.value)
+    return modifiers
+
+
+def master_companion_notes(context: CharacterContext) -> list[str]:
+    """What the master shares with this companion that the sheet only
+    describes."""
+    notes: list[str] = []
+    for trigger_id in _master_trigger_ids(context):
+        handler = COMPANION_NOTE_HANDLERS.get(trigger_id)
+        if handler is not None:
+            notes.extend(handler(context))
+    return notes

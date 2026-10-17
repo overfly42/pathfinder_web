@@ -51,6 +51,10 @@ export function LevelSkillsStep({ progression, options, draft, setDraft }: Level
   const classSkills = classSkillSetForLevelUp(progression, draft.target, options.classes);
   const backgroundIds = new Set(options.skills.filter((s) => s.isBackground).map((s) => s.id));
   const newLevel = getNewLevel(progression);
+  // A companion with IN < 3 may only put ranks into the "Tierfertigkeiten" (backend
+  // `allowed_skill_ids`); `null` = any skill.
+  const allowedSkillIds = progression.companion?.allowedSkillIds ?? null;
+  const skills = allowedSkillIds ? options.skills.filter((s) => allowedSkillIds.includes(s.id)) : options.skills;
 
   // Mirrors the backend's `_skill_ranks_exceed_budget` (routers/characters.py):
   // a background-skill rank draws from `backgroundBudget` first, only the
@@ -136,15 +140,20 @@ export function LevelSkillsStep({ progression, options, draft, setDraft }: Level
   return (
     <>
       <div className="pick-counter" style={{ marginBottom: 14 }}>
-        Neue Fertigkeitspunkte diese Stufe: <b>{remaining} / {budget}</b>
+        Neue Fertigkeitspunkte {progression.companion ? 'dieser TW' : 'diese Stufe'}: <b>{remaining} / {budget}</b>
       </div>
+      {allowedSkillIds && (
+        <div className="info-note">
+          Mit Intelligenz unter 3 kann ein Tiergefährte nur Ränge in den Tierfertigkeiten erwerben.
+        </div>
+      )}
       {useBackgroundSkills && (
         <div className="pick-counter" style={{ marginBottom: 14 }}>
           Neue Hintergrundfertigkeitspunkte diese Stufe: <b>{backgroundRemaining} / {backgroundBudget}</b>
         </div>
       )}
       <div>
-        {options.skills.map((skill) => {
+        {skills.map((skill) => {
           if (!skill.hasSpecialization) {
             const existingRanks = progression.skillRanks[skill.id] || 0;
             const picked = draft.skillIncreases[skill.id] || 0;

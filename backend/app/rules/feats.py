@@ -12,6 +12,7 @@ by name/description text.
 
 import functools
 from collections.abc import Callable
+from dataclasses import dataclass
 from uuid import UUID
 
 from .classes.kampfmagus import ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID
@@ -306,11 +307,58 @@ def _betaeubender_schlag_uses_per_day(context: CharacterContext) -> int:
     return context.character_level // 4
 
 
+# Monster feats (`scripts/import_monster_feats.py`, roadmap slice 10 step 3)
+# a companion is recommended to take.
+# "Die sekundären Angriffe der Kreatur mit ihren natürlichen Waffen erhalten
+# nur einen Malus von -2" — `sheet.py`'s `_build_natural_attacks`.
+MEHRFACHANGRIFF = UUID("b4b8c4c7-63eb-5a29-ba24-74298d785da5")
+# "Der natürliche Rüstungsbonus der Kreatur steigt um +1", repeatable
+# (`BaseFeat.is_repeatable`) — `_verbesserte_natuerliche_ruestung` below.
+VERBESSERTE_NATUERLICHE_RUESTUNG = UUID("14479bf3-1065-5cba-8384-bfed0ad35127")
+# One chosen natural attack (`CharacterFeat.chosen_manifestation`,
+# `sub_choice_type` "natural_attack") deals damage one size step higher —
+# `sheet.py`'s `_build_natural_attacks`, via `context.feat_manifestation_picks`.
+VERBESSERTER_NATUERLICHER_ANGRIFF = UUID("77e13c2b-c21d-5fcb-be2a-a5a54e930504")
+
+
+def _verbesserte_natuerliche_ruestung(context: CharacterContext) -> list[Modifier]:
+    """Raises the creature's existing natural armor bonus by one per pick.
+    Untyped on purpose: a second `"natural"` modifier would be capped
+    against the existing natural armor by `stack()` instead of adding to
+    it."""
+    picks = context.feat_pick_counts.get(VERBESSERTE_NATUERLICHE_RUESTUNG, 1)
+    return [Modifier(source="Verbesserte Natürliche Rüstung", type="untyped", value=picks, target=ModifierTarget.AC)]
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
     AUSWEICHEN: _ausweichen,
     KRANICHSTIL: _kranichstil,
+    VERBESSERTE_NATUERLICHE_RUESTUNG: _verbesserte_natuerliche_ruestung,
+}
+
+
+@dataclass(frozen=True)
+class NaturalWeaponFacts:
+    """What the three monster feats' prerequisites ask about a creature:
+    its natural armor bonus and its natural attacks (`app/companions.py`'s
+    species statblock, race natural-attack abilities). Computed by the
+    caller (`routers/feats.py`), not by the checks below."""
+
+    natural_armor: int = 0
+    natural_attack_names: tuple[str, ...] = ()
+    natural_attack_count: int = 0
+
+
+# Prerequisites no `BaseFeatRequired*` table can express ("Natürliche
+# Rüstung", "Natürliche Waffe", "Drei oder mehr natürliche Angriffe") — one
+# check per feat id, evaluated by `rules/feat_prerequisites.py`'s
+# `eligible_feat_ids` on top of the feat's ordinary requirement rows.
+PREREQUISITE_CHECKS: dict[UUID, Callable[[NaturalWeaponFacts], bool]] = {
+    MEHRFACHANGRIFF: lambda facts: facts.natural_attack_count >= 3,
+    VERBESSERTE_NATUERLICHE_RUESTUNG: lambda facts: facts.natural_armor > 0,
+    VERBESSERTER_NATUERLICHER_ANGRIFF: lambda facts: bool(facts.natural_attack_names),
 }
 
 # Feat ids whose class-skill grant is the player's own choice
@@ -347,6 +395,8 @@ COMPUTED_OUTSIDE_HANDLERS_FEAT_IDS = frozenset(
         HEFTIGER_ANGRIFF,
         DERWISCHTANZ,
         INBEGRIFF_DES_KATZENVOLKES,
+        MEHRFACHANGRIFF,
+        VERBESSERTER_NATUERLICHER_ANGRIFF,
         # Implemented in `rules/classes/kampfmagus.py`'s own
         # `_arkaner_vorrat_pool_points`, see that id's own docstring.
         ZUSAETZLICHER_ARKANER_VORRAT_FEAT_ID,

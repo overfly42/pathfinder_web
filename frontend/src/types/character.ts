@@ -472,6 +472,14 @@ export interface CompanionInfo {
   bonusTricks: number;
   advancementChoice: 'species' | 'dex_con';
   advanced: boolean;
+  /** HD whose choices (skills, feats, ability increase, HP) are still open — filled in the
+   *  level-up wizard's companion mode (roadmap slice 10 step 3); `openHitPoints` of those
+   *  still need their HP roll (added by the HD sync on the master's level-up). */
+  openHitDice: number;
+  openHitPoints: number;
+  /** What the master shares that the sheet only describes (Waldläufer's Erzfeinde, Paladin
+   *  mount extras). */
+  masterNotes: string[];
 }
 
 export interface Character {

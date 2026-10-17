@@ -437,7 +437,10 @@ class LevelUp(BaseModel):
     target: LevelUpTarget
     # Player-entered HP roll for this one new level — never auto-maxed like a
     # character's very first level, since level-up is by definition not that.
-    hit_points: int
+    # Required for a PC; for a companion (whose "level-up" fills in its
+    # lowest open HD, roadmap slice 10 step 3) only while that HD has no HP
+    # yet — checked by the endpoint.
+    hit_points: int | None = None
     # Required exactly when this level is in the character's favored class
     # (http://prd.5footstep.de/Grundregelwerk/Fertigkeiten-erwerben: "Charaktere,
     # die eine Stufe in ihrer bevorzugten Klasse aufsteigen, erhalten die

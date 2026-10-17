@@ -110,6 +110,12 @@ class BaseClass(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # from a player (`routers/characters.py`'s `resolve_root_class`), and its
     # first level isn't maxed for HP.
     is_companion_class: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+    # Companion class only (step 3): the skills a member may put ranks into
+    # while its IN is below 3 ("Tierfertigkeiten" — the class skills plus a
+    # few non-class ones), and the feats the PRD recommends ("Tiertalente",
+    # a hint for the picker, not enforced). Null for every player class.
+    allowed_skill_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    recommended_feat_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
     parent: Mapped["BaseClass | None"] = relationship(
         remote_side="BaseClass.id", back_populates="archetypes", foreign_keys="BaseClass.arch_class_of"
