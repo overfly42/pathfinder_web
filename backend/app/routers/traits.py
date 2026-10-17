@@ -20,10 +20,10 @@ def list_traits(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
             "name": trait.name,
             "description": trait.description,
             "area": trait.area,
-            # camelCase on the wire to match the frontend's `TraitDef.skillChoiceAbility`
+            # camelCase on the wire to match the frontend's `TraitDef.skillChoiceAbilities`
             # — same "backend picks the JSON shape a consumer wants" precedent as
             # `routers/feats.py`'s `subChoiceType`.
-            "skillChoiceAbility": trait.skill_choice_ability,
+            "skillChoiceAbilities": trait.skill_choice_abilities,
             "hasHandler": has_mechanical_effect(trait.id),
             "partialNote": partial_effect_note(trait.id),
         }

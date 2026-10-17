@@ -249,14 +249,14 @@ class CharacterCreate(BaseModel):
     # row being created, same reasoning as feats.
     trait_ids: list[UUID] = []
     # trait_id (string, since UUID keys aren't valid JSON object keys) ->
-    # chosen skill id, for traits whose `BaseTrait.skill_choice_ability` is
+    # chosen skill id, for traits whose `BaseTrait.skill_choice_abilities` is
     # set (2026-08-21, "Gewitztes Wortspiel") — additive/optional rather than
     # folded into `trait_ids` itself (contrast `feats`' richer `FeatSelection`
     # list): a trait can only ever be taken once, so a plain dict keyed by
     # trait id is enough, same "dict keyed by stringified UUID" convention as
     # `skill_ranks`/`spell_ids`. Empty (the default) for every trait that
     # doesn't need a sub-choice. Validated server-side against `trait_ids`
-    # and each trait's own `skill_choice_ability` in `routers/characters.py`
+    # and each trait's own `skill_choice_abilities` in `routers/characters.py`
     # (same "can't check catalog data in a field validator" reasoning as
     # `_validate_feat_sub_choice`).
     trait_skill_choices: dict[str, UUID] = {}

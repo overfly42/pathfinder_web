@@ -43,10 +43,10 @@ DESCRIPTION = (
     "IN-Modifikator anstelle deines CH-Modifikators ab."
 )
 AREA = "social"
-# "charismabasierte Fertigkeit" -> BaseTrait.skill_choice_ability (2026-08-21,
+# "charismabasierte Fertigkeit" -> BaseTrait.skill_choice_abilities (2026-08-21,
 # see that column's docstring): restricts the character's skill sub-choice to
-# BaseSkill rows whose own `ability == "CH"`.
-SKILL_CHOICE_ABILITY = "CH"
+# BaseSkill rows whose own `ability` is "CH".
+SKILL_CHOICE_ABILITIES = ["CH"]
 
 
 def main() -> None:
@@ -61,7 +61,7 @@ def main() -> None:
             "name": NAME,
             "description": DESCRIPTION,
             "area": AREA,
-            "skill_choice_ability": SKILL_CHOICE_ABILITY,
+            "skill_choice_abilities": SKILL_CHOICE_ABILITIES,
         }
     )
 

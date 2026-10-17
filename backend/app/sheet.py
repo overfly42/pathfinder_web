@@ -180,6 +180,7 @@ from .rules.spells import (
     remaining_spontaneous_slots_by_grade,
     total_spell_slots,
 )
+from .rules.traits import skill_ability_substitutions
 from .rules.weapon_abilities import resolve as resolve_weapon_ability
 
 ABILITY_LABELS = {"ST": "STÄ", "GE": "GES", "KO": "KON", "IN": "INT", "WE": "WEI", "CH": "CHA"}
@@ -1170,9 +1171,12 @@ def _build_skills(
     # character's actual classes (e.g. "Begabt" and Auftreten) — folded in
     # unconditionally, not gated behind `level_counts_by_root_id` above.
     class_skill_ids |= granted_class_skill_ids(context) | extra_class_skill_ids
+    # A trait replacing a skill's ability (Personifizierte Weisheit: WE).
+    substituted_abilities = skill_ability_substitutions(context)
 
     def _skill_entry(skill: BaseSkill, ranks: int, label: str, key: str) -> dict:
-        ab_mod = ability_mods.get(skill.ability, 0)
+        ability = substituted_abilities.get(skill.id, skill.ability)
+        ab_mod = ability_mods.get(ability, 0)
         # PF1e RAW: the +3 class-skill bonus only applies once at least 1 rank
         # is invested — a class skill with 0 ranks is still untrained/no
         # better than a cross-class skill.
@@ -1201,7 +1205,7 @@ def _build_skills(
         if ranks:
             breakdown.append({"label": "Ränge", "value": ranks})
         if ab_mod:
-            breakdown.append({"label": f"Attributsbonus ({ABILITY_LABELS[skill.ability]})", "value": ab_mod})
+            breakdown.append({"label": f"Attributsbonus ({ABILITY_LABELS[ability]})", "value": ab_mod})
         if class_bonus:
             breakdown.append({"label": "Klassenfertigkeit", "value": class_bonus})
         breakdown.extend(

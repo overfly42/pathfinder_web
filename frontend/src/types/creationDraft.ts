@@ -123,7 +123,7 @@ export interface CreationDraft {
    *  `feats` that need one. */
   featSubChoices2: Record<string, string>;
   traits: string[];
-  /** trait_id -> chosen skill id, for traits whose `TraitDef.skillChoiceAbility`
+  /** trait_id -> chosen skill id, for traits whose `TraitDef.skillChoiceAbilities`
    *  isn't null (Gewitztes Wortspiel -> a CH-based skill id) — see
    *  `TraitsStep.tsx`. Only ever holds entries for traits currently in
    *  `traits` that need one, same convention as `featSubChoices`. */

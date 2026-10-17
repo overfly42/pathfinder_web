@@ -32,7 +32,7 @@ class CharacterContext:
     skill_ranks: dict[UUID, int] = field(default_factory=dict)
     feat_ids: frozenset[UUID] = frozenset()
     trait_ids: frozenset[UUID] = frozenset()
-    # trait id -> chosen skill id, for traits whose `BaseTrait.skill_choice_ability`
+    # trait id -> chosen skill id, for traits whose `BaseTrait.skill_choice_abilities`
     # is set (2026-08-21, "Gewitztes Wortspiel") — a handler keyed by one of
     # those trait ids reads its own pick from here, same "raw composition
     # input, not a computed value" reasoning as every other field on this

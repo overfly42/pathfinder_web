@@ -7,7 +7,7 @@ zur Bevorzugten Klasse" entry's sibling note on traits, 2026-08-21).
 
 First entry: "Gewitztes Wortspiel" (Clever Wordplay, `scripts/
 import_trait_clever_wordplay.py`), the first trait in this catalog with a
-`BaseTrait.skill_choice_ability`-gated sub-choice (`CharacterTrait.
+`BaseTrait.skill_choice_abilities`-gated sub-choice (`CharacterTrait.
 chosen_skill_id`, validated in `routers/characters.py`)."""
 
 from collections.abc import Callable
@@ -33,11 +33,11 @@ FOKUSSIERTER_VERSTAND = UUID("f5a594bc-a429-587e-918c-b607caf20212")
 
 # `base_traits.json`'s "Begabt" row id ("+1 Wesenszugbonus auf eine
 # Auftretenfertigkeit deiner Wahl. Auftreten ist für dich stets eine
-# Klassenfertigkeit."). No `skill_choice_ability` sub-choice needed despite
+# Klassenfertigkeit."). No `skill_choice_abilities` sub-choice needed despite
 # the "deiner Wahl" wording: Auftreten (`_AUFTRETEN_SKILL_ID` below) is
 # modeled as one skill with specializations (`base_skill_specializations.json`:
 # Gesang/Tanz/Schauspiel, plus a free-typed one), not as several sibling
-# skills the way `skill_choice_ability` picks between — the "choice" is which
+# skills the way `skill_choice_abilities` picks between — the "choice" is which
 # *specialization*, and `sheet.py`'s skill-bonus system already only targets
 # a base skill id, never one specialization (same imprecision its existing
 # class-skill bonus has, see `sheet.py`'s `_skill_entry` docstring) — so
@@ -102,6 +102,16 @@ def _begabt(context: CharacterContext) -> list[Modifier]:
     ]
 
 
+# `base_traits.json`'s "Personifizierte Weisheit (RN)" row id: "Wähle eine
+# auf Stärke, Geschicklichkeit oder Konstitution basierende Fertigkeit. Du
+# benutzt fortan bei dieser Fertigkeit deinen Weisheits-Modifikator anstatt
+# des normalerweise damit verbundenen Modifikators. Diese Fertigkeit ist
+# zudem immer eine Klassenfertigkeit für dich." — the chosen skill
+# (`CharacterTrait.chosen_skill_id`, `context.trait_skill_choices`) uses WE
+# (`SKILL_ABILITY_SUBSTITUTIONS`) and is a class skill
+# (`DYNAMIC_CLASS_SKILL_GRANT_TRAIT_IDS`).
+PERSONIFIZIERTE_WEISHEIT = UUID("327e4d26-cd7e-5a21-8f4d-02654904b640")
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     GEWITZTES_WORTSPIEL: _gewitztes_wortspiel,
     FOKUSSIERTER_VERSTAND: _fokussierter_verstand,
@@ -122,3 +132,27 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
 CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
     BEGABT: frozenset({UUID(_AUFTRETEN_SKILL_ID)}),
 }
+
+# Trait id -> the ability its chosen skill (`context.trait_skill_choices`)
+# uses instead of the skill's own one. Applied by `sheet.py`'s
+# `_build_skills` itself — the skill's ability modifier is replaced there,
+# so the breakdown shows "Attributsbonus (Weisheit)" rather than the normal
+# modifier plus a correction (`_gewitztes_wortspiel` predates this and
+# stays a delta modifier).
+SKILL_ABILITY_SUBSTITUTIONS: dict[UUID, str] = {
+    PERSONIFIZIERTE_WEISHEIT: "WE",
+}
+
+# Traits whose chosen skill (`context.trait_skill_choices`) is always a class
+# skill — the trait counterpart of `rules/feats.py`'s
+# `DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS` (Kosmopolit).
+DYNAMIC_CLASS_SKILL_GRANT_TRAIT_IDS: frozenset[UUID] = frozenset({PERSONIFIZIERTE_WEISHEIT})
+
+
+def skill_ability_substitutions(context: CharacterContext) -> dict[UUID, str]:
+    """Chosen skill id -> the ability it uses instead of its own."""
+    return {
+        skill_id: ability
+        for trait_id, ability in SKILL_ABILITY_SUBSTITUTIONS.items()
+        if trait_id in context.trait_ids and (skill_id := context.trait_skill_choices.get(trait_id)) is not None
+    }

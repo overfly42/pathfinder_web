@@ -1161,7 +1161,12 @@
     "id": "327e4d26-cd7e-5a21-8f4d-02654904b640",
     "name": "Personifizierte Weisheit (RN)",
     "description": "Stunden der Meditation über innere Perfektion und das Wesen von Stärke und Geschwindigkeit ermöglichen es dir, deine Gedanken auf Dinge zu konzentrieren, zu denen dein Körper normalerweise nicht fähig wäre. Wähle eine auf Stärke, Geschicklichkeit oder Konstitution basierende Fertigkeit. Du benutzt fortan bei dieser Fertigkeit deinen Weisheits-Modifikator anstatt des normalerweise damit verbundenen Modifikators. Diese Fertigkeit ist zudem immer eine Klassenfertigkeit für dich.",
-    "area": "religion"
+    "area": "religion",
+    "skill_choice_abilities": [
+      "ST",
+      "GE",
+      "KO"
+    ]
   },
   {
     "id": "49f9c3e4-c108-5080-9fe5-66b74ef8efd9",
@@ -1324,7 +1329,9 @@
     "name": "Gewitztes Wortspiel",
     "description": "Wähle eine charismabasierte Fertigkeit. Du legst Fertigkeitswürfe für diese Fertigkeit mit deinem IN-Modifikator anstelle deines CH-Modifikators ab.",
     "area": "social",
-    "skill_choice_ability": "CH"
+    "skill_choice_abilities": [
+      "CH"
+    ]
   },
   {
     "id": "c40f9cef-8d9a-5bcd-a74a-5e84989bc98b",

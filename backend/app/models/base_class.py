@@ -195,7 +195,7 @@ class BaseClassAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     exotic weapon he chooses at 1st level") declares that this ability needs
     a one-off weapon sub-choice at creation, persisted in
     `CharacterClassAbilityWeaponChoice` — same "catalog data declares what's
-    needed, router validates against it" split as `BaseTrait.skill_choice_ability`.
+    needed, router validates against it" split as `BaseTrait.skill_choice_abilities`.
     Unlike that trait column there's no further qualifier to store (a weapon
     choice doesn't need an "ability the skill must match" dimension), so a
     plain boolean is enough. Deliberately not folded into the existing feat

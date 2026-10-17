@@ -124,7 +124,7 @@ export function CreationWizardPage() {
       const traitById = new Map(opts.traits.map((t) => [t.id, t]));
       const missingTraitSkillChoice = draft.traits.some((id) => {
         const trait = traitById.get(id);
-        return trait?.skillChoiceAbility && !draft.traitSkillChoices[id];
+        return trait?.skillChoiceAbilities && !draft.traitSkillChoices[id];
       });
       if (missingTraitSkillChoice) {
         setSubmitState('error');

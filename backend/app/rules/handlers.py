@@ -141,6 +141,8 @@ from .race_abilities import WEAPON_PROFICIENCY_HANDLERS as _RACE_WEAPON_PROFICIE
 from .size import BASE_SIZE_BY_ABILITY as _BASE_SIZE_BY_ABILITY
 from .speed import HANDLERS as _SPEED_HANDLERS
 from .traits import CLASS_SKILL_GRANTS as _TRAIT_CLASS_SKILL_GRANTS
+from .traits import DYNAMIC_CLASS_SKILL_GRANT_TRAIT_IDS as _TRAIT_DYNAMIC_CLASS_SKILL_GRANT_IDS
+from .traits import SKILL_ABILITY_SUBSTITUTIONS as _TRAIT_SKILL_ABILITY_SUBSTITUTIONS
 from .traits import HANDLERS as _TRAIT_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -186,6 +188,10 @@ def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
         granted.update(CLASS_SKILL_GRANTS.get(trigger_id, frozenset()))
     for feat_id in context.feat_ids & _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS:
         granted.update(context.feat_skill_pair_choices.get(feat_id, frozenset()))
+    # Same for a trait's own chosen skill (Personifizierte Weisheit).
+    for trait_id in context.trait_ids & _TRAIT_DYNAMIC_CLASS_SKILL_GRANT_IDS:
+        if (skill_id := context.trait_skill_choices.get(trait_id)) is not None:
+            granted.add(skill_id)
     return frozenset(granted)
 
 # How many rounds/uses per day a daily-limited ability id grants, computed
@@ -368,6 +374,8 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
         or ability_id in SITUATIONAL_SKILL_HANDLERS
         or ability_id in CLASS_SKILL_GRANTS
         or ability_id in _FEAT_DYNAMIC_CLASS_SKILL_GRANT_IDS
+        or ability_id in _TRAIT_DYNAMIC_CLASS_SKILL_GRANT_IDS
+        or ability_id in _TRAIT_SKILL_ABILITY_SUBSTITUTIONS
         or ability_id in SPELL_SLOT_DELTAS
         or ability_id in DAILY_LIMITS
         or ability_id in FEATURE_SUMMARY_HANDLERS

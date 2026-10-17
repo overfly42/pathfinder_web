@@ -1609,7 +1609,7 @@ def test_create_character_with_two_traits_from_the_same_area_is_rejected(
 def test_create_character_requires_skill_choice_for_gewitztes_wortspiel(
     client: TestClient, db_session: Session
 ) -> None:
-    """`BaseTrait.skill_choice_ability` (set on "Gewitztes Wortspiel"):
+    """`BaseTrait.skill_choice_abilities` (set on "Gewitztes Wortspiel"):
     taking the trait without a matching `trait_skill_choices` entry is
     rejected, same as an open-choice feat missing its sub-choice
     (`_validate_trait_skill_choice`, `routers/characters.py`)."""
@@ -2168,3 +2168,45 @@ def test_remove_unknown_spell_from_spellbook_is_404(client: TestClient, db_sessi
 
     response = client.delete(f"/api/characters/{character['id']}/spellbook/{spells['Nebelwolke']}")
     assert response.status_code == 404
+
+
+def test_personifizierte_weisheit_uses_we_and_makes_a_class_skill(client: TestClient, db_session: Session) -> None:
+    """"Wähle eine auf Stärke, Geschicklichkeit oder Konstitution basierende
+    Fertigkeit. Du benutzt fortan bei dieser Fertigkeit deinen
+    Weisheits-Modifikator … Diese Fertigkeit ist zudem immer eine
+    Klassenfertigkeit für dich." — Akrobatik isn't a Waldläufer class skill."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+    trait_id = _trait_id(client, db_session, "Personifizierte Weisheit (RN)")
+    akrobatik_id = _skill_id(client, db_session, "Akrobatik")
+    wahrnehmung_id = _skill_id(client, db_session, "Wahrnehmung")
+    scores = {"ST": 10, "GE": 12, "KO": 12, "IN": 10, "WE": 16, "CH": 8}
+
+    def create(skill_id: str) -> object:
+        return client.post(
+            "/api/characters",
+            json=_character_payload(
+                user_id,
+                race_id,
+                db_session,
+                ability_scores=scores,
+                trait_ids=[trait_id],
+                trait_skill_choices={trait_id: skill_id},
+                skill_ranks=[{"skill_id": akrobatik_id, "ranks": 1}],
+            ),
+        )
+
+    assert create(wahrnehmung_id).status_code == 422  # WE-based, not ST/GE/KO
+    response = create(akrobatik_id)
+    assert response.status_code == 201, response.text
+    sheet = client.get(f"/api/characters/{response.json()['id']}").json()
+    akrobatik = next(s for s in sheet["skills"] if s["label"] == "Akrobatik")
+    # 1 rank + WE 16 (+3, not GE 14's +2) + class skill +3.
+    assert akrobatik["value"] == "+7"
+    assert {"label": "Attributsbonus (WEI)", "value": 3} in akrobatik["breakdown"]
+    assert {"label": "Klassenfertigkeit", "value": 3} in akrobatik["breakdown"]
+
+    traits = {t["name"]: t for t in client.get("/api/traits").json()}
+    assert traits["Personifizierte Weisheit (RN)"]["skillChoiceAbilities"] == ["ST", "GE", "KO"]
+    assert traits["Personifizierte Weisheit (RN)"]["hasHandler"] is True
+    assert traits["Gewitztes Wortspiel"]["skillChoiceAbilities"] == ["CH"]

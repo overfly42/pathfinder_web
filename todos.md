@@ -162,6 +162,17 @@ Kurzfassung als Einstiegspunkt:
       Brustplatte des Freibeuters. Derselbe fehlende Hebel würde auch den
       Rüstungskompetenz-Malus (Nichtwaffenkundig bei Rüstung) speisen, siehe
       "Waffen-/Rüstungskompetenz" weiter unten (2026-08-25).
+- [ ] Bewegungsrate in mittelschwerer/schwerer Rüstung wird bei
+      Spielercharakteren nicht gesenkt (GRW: 9 m → 6 m, 6 m → 4,5 m; Zwerge
+      mit "Langsam und beständig" ausgenommen) — `sheet.py` rechnet die
+      Bewegungsrate ohne Blick auf `BaseItem.armor_weight_class`, ein Mensch
+      im Plattenpanzer zeigt 9 m. Für Gefährten ist es seit 2026-10-17 als
+      Pferdeharnisch-Regel umgesetzt (`rules/companions.py`'s
+      `barded_speed`, nur bei Gefährten angewendet) und ließe sich für alle
+      verallgemeinern; die Traglast (mittlere/schwere Last senkt ebenso)
+      ist gar nicht modelliert. Bewusst nicht nebenbei eingebaut, weil es die
+      Werte bestehender Tester-Charaktere ändert. Aufgefallen 2026-10-17 bei
+      den Slice-10-Restpunkten.
 - [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
       `roadmap.md`.
 - [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.

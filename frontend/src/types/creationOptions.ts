@@ -252,11 +252,12 @@ export interface TraitDef {
    *  character may take at most one trait per area, see `TraitsStep.tsx`. */
   area: string;
   /** Non-null means this trait needs a one-off skill sub-choice at creation,
-   *  restricted to skills whose own `SkillDef.ability` matches this value
-   *  (Gewitztes Wortspiel: "CH") — same shape as `FeatDef.subChoiceType`,
-   *  sized for traits' one sub-choice kind (a skill) instead of feats'
-   *  three. `null` (every other trait) means no sub-choice is needed. */
-  skillChoiceAbility: string | null;
+   *  restricted to skills whose own `SkillDef.ability` is one of these values
+   *  (Gewitztes Wortspiel: ["CH"], Personifizierte Weisheit: ["ST", "GE", "KO"])
+   *  — same shape as `FeatDef.subChoiceType`, sized for traits' one sub-choice
+   *  kind (a skill) instead of feats' three. `null` (every other trait) means
+   *  no sub-choice is needed. */
+  skillChoiceAbilities: string[] | null;
   hasHandler: boolean;
   /** Set when `hasHandler` is true but only some of the effect is computed — what the
    *  player still applies by hand (`rules/handlers.py`'s `partial_effect_note`). */

@@ -58,7 +58,7 @@ export function TraitsStep({ draft, options, setDraft }: TraitsStepProps) {
 
   const needingSkillChoice = draft.traits
     .map((id) => traitById.get(id))
-    .filter((trait): trait is NonNullable<typeof trait> => trait !== undefined && trait.skillChoiceAbility !== null);
+    .filter((trait): trait is NonNullable<typeof trait> => trait !== undefined && trait.skillChoiceAbilities !== null);
 
   return (
     <>
@@ -75,7 +75,7 @@ export function TraitsStep({ draft, options, setDraft }: TraitsStepProps) {
         <div style={{ marginTop: 16 }}>
           <div className="field-label">Wesenszug-Details</div>
           {needingSkillChoice.map((trait) => {
-            const eligibleSkills = options.skills.filter((s) => s.ability === trait.skillChoiceAbility);
+            const eligibleSkills = options.skills.filter((s) => trait.skillChoiceAbilities?.includes(s.ability));
             return (
               <div className="field-row" key={trait.id} style={{ maxWidth: 320 }}>
                 <div className="field-label">{trait.name}</div>

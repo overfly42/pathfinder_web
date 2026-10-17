@@ -395,22 +395,22 @@ def _validate_class_weapon_choice(db: Session, ability: BaseClassAbility, chosen
 
 
 def _validate_trait_skill_choice(db: Session, trait: BaseTrait, chosen_skill_id: UUID | None) -> None:
-    """Enforces `BaseTrait.skill_choice_ability` against one trait's entry in
+    """Enforces `BaseTrait.skill_choice_abilities` against one trait's entry in
     `CharacterCreate.trait_skill_choices` — same "catalog data declares what's
     needed, this checks the submission against it" split as
     `_validate_feat_sub_choice`, sized for traits' one sub-choice shape
-    (a skill, restricted to one governing ability) instead of feats' three."""
-    if trait.skill_choice_ability is None:
+    (a skill, restricted to its governing abilities) instead of feats' three."""
+    if trait.skill_choice_abilities is None:
         if chosen_skill_id is not None:
             raise HTTPException(status_code=422, detail=f"'{trait.name}' does not take a sub-choice")
         return
     if chosen_skill_id is None:
         raise HTTPException(status_code=422, detail=f"'{trait.name}' requires a trait_skill_choices entry")
     skill = db.get(BaseSkill, chosen_skill_id)
-    if skill is None or skill.ability != trait.skill_choice_ability:
+    if skill is None or skill.ability not in trait.skill_choice_abilities:
         raise HTTPException(
             status_code=422,
-            detail=f"chosen skill for '{trait.name}' must be a {trait.skill_choice_ability}-based skill",
+            detail=f"chosen skill for '{trait.name}' must be a {'/'.join(trait.skill_choice_abilities)}-based skill",
         )
 
 
