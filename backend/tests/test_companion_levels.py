@@ -220,3 +220,31 @@ def test_hexenmeister_sekundaerklasse_feeds_the_companion_level(client: TestClie
     assert track is not None
     assert track["breakdown"][0]["label"] == "Hexenmeister (Sylvanische Blutlinie)"
     assert track["level"] == 1  # Hexenmeister 3 − 3, mind. 1
+
+
+def test_druide_sekundaerklasse_companion_from_7th_level(client: TestClient, db_session: Session) -> None:
+    """Druide as Sekundärklasse: Tiergefährte at 7th with character level −4,
+    full character level from 11th; Tierempathie keeps the full level."""
+    at_6 = _sheet(client, db_session, [{"class_name": "Kämpfer", "level": 6}], secondary_class_name="Druide")
+    at_7 = _sheet(client, db_session, [{"class_name": "Kämpfer", "level": 7}], secondary_class_name="Druide")
+    at_11 = _sheet(client, db_session, [{"class_name": "Kämpfer", "level": 11}], secondary_class_name="Druide")
+
+    assert _track(at_6, "animal_companion") is None
+    assert _track(at_7, "animal_companion")["level"] == 3
+    assert len(_track(at_7, "animal_companion")["slots"][0]["species"]) == 17
+    assert _track(at_11, "animal_companion")["level"] == 11
+    empathy = next(f for f in at_7["classFeatures"] if f["name"] == "Tierempathie")
+    assert "7" in empathy["summary"]
+
+
+def test_magier_sekundaerklasse_familiar_from_3rd_level(client: TestClient, db_session: Session) -> None:
+    sheet = _sheet(
+        client,
+        db_session,
+        [{"class_name": "Kämpfer", "level": 3}],
+        secondary_class_name="Magier",
+        secondary_class_options={"school": ["Hervorrufung"]},
+    )
+    track = _track(sheet, "familiar")
+    assert track["level"] == 3
+    assert len(track["slots"][0]["species"]) == 11

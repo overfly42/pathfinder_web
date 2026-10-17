@@ -2175,7 +2175,7 @@ Order decided 2026-10-14: 0a → 0b → 1 → 2a → 2b → 3 → 4. Slice 2a is
 deliberately *not* pulled forward even though it also corrects existing
 Small PCs; when it lands, testers must be told that AC/attack/CMB/CMD of
 Small characters change (values become correct, not a regression).
-- [ ] 0a. Druide as a complete class (see "Prerequisite" above): class
+- [x] 0a. Druide as a complete class (see "Prerequisite" above): class
       abilities 1–20 with handlers, proficiencies, bonus languages,
       spontaneous Verbündeten der Natur herbeizaubern, alignment check,
       `bond` choice grants incl. the 7-domain sub-choice, shared
@@ -2409,12 +2409,61 @@ Small characters change (values become correct, not a regression).
       familiar's single species skill rank isn't modeled (the master's
       ranks are used); "Kleine Tiere nutzen GE für Klettern/Schwimmen" not
       applied.
-- [ ] Open: gear for companions (just the companion's own
+- [x] Open: gear for companions (just the companion's own
       `Character.gear`, since it is a Character — check barding/saddle
       slots), share spells / deliver touch spells, PRD offsets for Mystiker/
       Hexe/Entfesselter-Barbar ("Wildes Reittier") sources,
       Druide/Magier Sekundärklasse tiers, Druide archetypes. (Paladin
       "Göttlicher Bund" decided: full build-out, done in 0b.)
+      **Done 2026-10-17** except where noted:
+      - Gear: a companion uses the ordinary gear/slot endpoints. New
+        `scripts/import_reittier_zubehoer.py`: Militär-/Pack-/Reitsattel
+        (also "Exotischer …"), Satteltaschen, Zaumzeug as gear items (their
+        effects are the rider's or storage — descriptive). Barding is any
+        armor a companion wears (no item of its own): medium/heavy slows it
+        (`rules/companions.py`'s `barded_speed`, PRD table 12→9, 15→10,5,
+        18→12) and a flyer can't fly; a wearer of size Sehr klein or
+        smaller gets half the armor bonus (`rules/size.py`'s
+        `armor_bonus_for_size`). Not done: barding prices (×2/×4 …, only a
+        display matter), and armor speed reduction/armor check penalty for
+        PCs — not modeled for anyone yet, deliberately not added as a side
+        effect here.
+      - Zauber teilen / Berührungszauber übermitteln: stay descriptive —
+        only 8 spells are activatable persistent effects at all, none with
+        range "Persönlich", so there is nothing to share yet.
+      - Offsets: Mystiker "Gebundenes Reittier" = Mystiker level (offset 0,
+        as seeded) and, like the Paladin's, IN at least 6 (now applied);
+        Hexe done in step 4; Entfesselter Barbar not a source (step 1).
+      - Sekundärklasse (`scripts/build_secondary_class_druide_magier_seed.py`):
+        Druide tiers 1/3/7/11/15/19 and Magier tiers 1/3/7/11/15/19. Every
+        tier counts the full character level; the Druide's companion has
+        own triggers instead ("Tiergefährte (Sekundärklasse Druide)" =
+        character level −4 from 7th, "Verbesserter Tiergefährte …" = full
+        level from 11th, one stack group) so Tierempathie isn't pulled down
+        by the −4. The Magier's familiar reuses "Vertrauter (Magier)".
+        Tiergestalt/school powers/Zaubertrick/Entdeckung descriptive. RAW
+        "kann durch keine andere Fähigkeit … verbessert werden" (no
+        Stallmeister on that companion) isn't enforced.
+      - Druide archetypes: Bärenschamane and Löwenschamane (Expertenregeln
+        Tierschamanen, `scripts/import_druide_tierschamanen.py`, 2026-10-17,
+        on request). Own companion trigger replacing "Tiergefährte (Druide)"
+        (slot with only Bär / Raubkatze, Groß; level source Druide level);
+        Naturdomäne scoped per archetype via the new
+        `BaseClassOptionChoice.only_for_archetype_ids`/
+        `excluded_for_archetype_ids` (migration `a77f0cf925b5`; enforced in
+        `_validate_options`, filtered and pruned in the wizards), with
+        Schutz/Stärke/Adel/Herrlichkeit/Sonne added as archetype-only nature
+        domains mirroring the Kleriker grants; Totemverwandlung as a minute
+        pool plus one activatable ability per aspect (speed, Schwimmen,
+        natural armor, bite/claws — `NATURAL_ATTACK_HANDLERS` may now return
+        several attacks); Tiergestalt from 6th at Druide level −2;
+        Bonustalent 9/13/17 from the closed lists (prerequisites required),
+        replacing Immunität gegen Gifte; Totemtier herbeizaubern replacing
+        Tausend Gesichter. `class_speed_bonus` now skips abilities that are
+        active effects (counted once). Not modeled: one aspect at a time,
+        the Sinne aspect (descriptive), Ausdauer from Abhärtung, +2 KMB in
+        grappling, Fertigkeitsfokus limited to Akrobatik. Adler-, Schlangen-
+        and Wolfsschamane not added (not requested).
 
 ## Explicitly out of scope here
 

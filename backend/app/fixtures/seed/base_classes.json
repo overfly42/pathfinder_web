@@ -437,5 +437,31 @@
       "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
       "bd72fbe8-e7ae-4eb0-b74c-fbc295f306c8"
     ]
+  },
+  {
+    "id": "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+    "name": "Bärenschamane",
+    "hit_dice": null,
+    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "6690a7f7-12b9-5701-9319-99d3f0a88a68",
+    "name": "Löwenschamane",
+    "hit_dice": null,
+    "arch_class_of": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

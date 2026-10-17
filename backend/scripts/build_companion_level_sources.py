@@ -25,6 +25,11 @@ yet, only the effective master level per track).
      "Vertrauter" (Kampfmagus level as Magier level); Hexe "Hexenvertrauter"
      (Hexe level as Magier level, step 4 — the Hexe's own trigger ability is
      seeded here too, an unconditional level-1 grant).
+   - Druide as Sekundärklasse: "Tiergefährte (Sekundärklasse Druide)"
+     (character level −4) and "Verbesserter Tiergefährte (Sekundärklasse
+     Druide)" (character level), one stack group. The Magier as
+     Sekundärklasse needs no source of its own (its "Vertrauter (Magier)"
+     tier counts as Magier level = character level).
 
 Deliberately not sources:
 - Entfesselter Barbar "Wildes Reittier"/"Wildes Reittier, Mächtiges": their
@@ -102,7 +107,21 @@ SOURCES: list[tuple] = [
      "class_level", "Kampfmagus", 0, 1, None),
     ("hexe", "familiar", "Hexe", ("ability", "Hexe", "Hexenvertrauter", None),
      "class_level", "Hexe", 0, 1, None),
+    # Druide as Sekundärklasse (`build_secondary_class_druide_magier_seed.py`,
+    # run that first): character level −4 from 7th, full character level
+    # from 11th — one stack group, the better one counts.
+    ("druide-sekundaer", "animal_companion", "Druide (Sekundärklasse)",
+     ("named", "Tiergefährte (Sekundärklasse Druide)"), "character_level", None, -4, 1, None),
+    ("druide-sekundaer-verbessert", "animal_companion", "Druide (Sekundärklasse, verbessert)",
+     ("named", "Verbesserter Tiergefährte (Sekundärklasse Druide)"), "character_level", None, 0, 1, None),
+    # Druide archetypes whose own companion trigger replaces "Tiergefährte
+    # (Druide)" (`import_druide_tierschamanen.py`, run that first).
+    ("baerenschamane", "animal_companion", "Druide (Bärenschamane)",
+     ("named", "Tiergefährte (Bärenschamane)"), "class_level", "Druide", 0, 1, None),
+    ("loewenschamane", "animal_companion", "Druide (Löwenschamane)",
+     ("named", "Tiergefährte (Löwenschamane)"), "class_level", "Druide", 0, 1, None),
 ]
+STACK_GROUPS = {"druide-sekundaer": "druide-sekundaer", "druide-sekundaer-verbessert": "druide-sekundaer"}
 
 
 def uid(*parts: str) -> str:
@@ -182,6 +201,11 @@ def main() -> None:
             ]
             assert len(set(matches)) == 1, (key, matches)
             class_ability_id = matches[0]
+        elif trigger[0] == "named":
+            # A Sekundärklasse tier's own ability: unique by name, no class grant.
+            matches = [a["id"] for a in abilities if a["name"] == trigger[1]]
+            assert len(matches) == 1, (key, matches)
+            class_ability_id = matches[0]
         else:
             feat_id = feat_id_by_name[trigger[1]]
         rows.append(
@@ -196,7 +220,7 @@ def main() -> None:
                 "offset": offset,
                 "divisor": divisor,
                 "minimum": minimum,
-                "stack_group": None,
+                "stack_group": STACK_GROUPS.get(key),
             }
         )
     save("base_companion_level_sources.json", rows)

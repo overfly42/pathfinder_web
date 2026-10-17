@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { ClassRow, CreationDraft } from '../../types/creationDraft';
 import type { CreationOptions } from '../../types/creationOptions';
 import { createId } from '../../lib/id';
-import { availableOptionGroups, pruneUnmetPrerequisites } from '../../lib/classOptions';
+import { availableOptionGroups, pruneForArchetypes, pruneUnmetPrerequisites } from '../../lib/classOptions';
 import { classDef, totalLevel } from '../../lib/creationCalculations';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
@@ -60,7 +60,7 @@ export function ClassStep({ draft, options, setDraft }: ClassStepProps) {
           if (idx !== -1) next = r.archetypes.filter((a) => a !== archetype);
           else if (r.archetypes.length < max) next = [...r.archetypes, archetype];
           else next = r.archetypes;
-          return { ...r, archetypes: next };
+          return { ...r, archetypes: next, options: pruneForArchetypes(cls?.optionGroups ?? [], r.options, next) };
         }),
       };
     });

@@ -205,8 +205,15 @@ def class_speed_bonus(context: CharacterContext) -> int:
     would be circular."""
     from .handlers import HANDLERS as _MERGED_HANDLERS
 
+    # An ability that is also an active effect right now (a Tierschamane's
+    # Totemverwandlung aspect) is already resolved through the active
+    # effects (`rules/handlers.py`'s `character_modifiers`) — same skip as
+    # `granted_ability_modifiers`.
+    active_effect_ids = {effect.source_id for effect in context.active_effects}
     modifiers: list[Modifier] = []
     for ability_id, count in context.granted_ability_ids.items():
+        if ability_id in active_effect_ids:
+            continue
         handler = _MERGED_HANDLERS.get(ability_id)
         if handler is None:
             continue

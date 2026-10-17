@@ -186,6 +186,7 @@ ORK_DRUIDE_FCB_CHOICE_ID = UUID("3a4f258f-0a67-5e92-835d-c260ca6239dc")
 WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID = UUID("a98d91f5-2dff-506e-8bcc-03b3166ae731")
 PALADIN_ROOT_CLASS_ID = UUID("561465fe-7c72-4e47-b58e-05a8dbbf0a3e")
 PALADIN_REITTIER_ABILITY_ID = UUID("0028e0bb-6d8f-5051-bdb8-3f960dcf1009")
+MYSTIKER_REITTIER_ABILITY_ID = UUID("399600a9-0ff4-5988-a3dd-f94d88427bb7")
 
 
 def _katzenvolk_druide(context: CharacterContext) -> list[Modifier]:
@@ -205,13 +206,16 @@ def _ork_druide(context: CharacterContext) -> list[Modifier]:
     ]
 
 
-def _paladin_mount(context: CharacterContext) -> list[Modifier]:
-    """"Das Reittier besitzt eine Intelligenz von mindestens 6" — raises
-    a lower IN to 6."""
+def _mount_intelligence(context: CharacterContext) -> list[Modifier]:
+    """Paladin: "Das Reittier besitzt eine Intelligenz von mindestens 6";
+    Mystiker: "So gebundene Reittiere haben einen Intelligenzwert von
+    mindestens 6" — raises a lower IN to 6."""
     intelligence = context.ability_scores.get("IN", 10)
     if intelligence >= 6:
         return []
-    return [Modifier(source="Göttlicher Bund", type="untyped", value=6 - intelligence, target=ModifierTarget.SCORE, target_id="IN")]
+    return [
+        Modifier(source="Gebundenes Reittier", type="untyped", value=6 - intelligence, target=ModifierTarget.SCORE, target_id="IN")
+    ]
 
 
 def _waldlaeufer_notes(context: CharacterContext) -> list[str]:
@@ -239,7 +243,8 @@ def _paladin_mount_notes(context: CharacterContext) -> list[str]:
 COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     KATZENVOLK_DRUIDE_FCB_CHOICE_ID: _katzenvolk_druide,
     ORK_DRUIDE_FCB_CHOICE_ID: _ork_druide,
-    PALADIN_REITTIER_ABILITY_ID: _paladin_mount,
+    PALADIN_REITTIER_ABILITY_ID: _mount_intelligence,
+    MYSTIKER_REITTIER_ABILITY_ID: _mount_intelligence,
 }
 COMPANION_NOTE_HANDLERS: dict[UUID, Callable[[CharacterContext], list[str]]] = {
     WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID: _waldlaeufer_notes,
@@ -387,3 +392,22 @@ def familiar_master_skill_notes(context: CharacterContext) -> list[SkillNote]:
             )
         )
     return notes
+
+
+# ---- barding (Pferdeharnisch) ----
+# Any armor a companion wears is barding (PRD Grundregelwerk, Ausrüstung,
+# "Pferdeharnisch"): "verlangsamt ein mittelschwerer oder schwerer
+# Pferdeharnisch das Reittier" (12 m -> 9 m, 15 m -> 10,5 m, 18 m -> 12 m —
+# the general armor table, extended to the slower speeds with the same
+# steps), and "Fliegende Reittiere können in einem mittelschweren oder
+# schweren Pferdeharnisch nicht fliegen".
+BARDING_SPEEDS: dict[float, float] = {6: 4.5, 9: 6, 12: 9, 15: 10.5, 18: 12}
+SLOWING_ARMOR = frozenset({"medium", "heavy"})
+
+
+def barded_speed(speed: float) -> float:
+    """Land speed in medium/heavy barding; a speed off the table loses a
+    third, rounded down to whole 1,5-m squares."""
+    if speed in BARDING_SPEEDS:
+        return BARDING_SPEEDS[speed]
+    return int(speed * 2 / 3 / 1.5) * 1.5

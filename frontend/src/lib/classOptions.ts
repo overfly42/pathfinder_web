@@ -18,7 +18,8 @@ import type { ClassOptionChoice, ClassOptionGroup } from '../types/creationOptio
  *  as reached either, e.g. a level-1 Narbiger-Hexendoktor Hexe gets zero
  *  `hexerei` picks, not one, since Narbenschild already took that slot.
  *  `choices` is filtered by each choice's own `minLevel` so e.g. a level-1
- *  Hexe never sees 10th-level Major Hexes as a pickable option.
+ *  Hexe never sees 10th-level Major Hexes as a pickable option, and by the
+ *  chosen `archetypes` (a Bärenschamane only sees his four domains).
  *
  *  Pure display filtering over backend-computed data — `_validate_options`
  *  on the backend is what actually enforces all of this, see
@@ -38,11 +39,23 @@ export function availableOptionGroups(
         ...g,
         effectiveMax: g.occurrenceLevels.length === 0 ? g.max : reachedLevels.length,
         availableChoiceNames: g.choices
-          .filter((c) => (c.minLevel === null || c.minLevel <= level) && prerequisiteMet(c, selected))
+          .filter(
+            (c) =>
+              (c.minLevel === null || c.minLevel <= level) &&
+              prerequisiteMet(c, selected) &&
+              archetypeAllows(c, archetypes),
+          )
           .map((c) => c.name),
       };
     })
     .filter((g) => g.effectiveMax > 0 && g.availableChoiceNames.length > 0);
+}
+
+/** Whether the chosen `archetypes` allow `choice` (its `onlyForArchetypes`/
+ *  `excludedForArchetypes` scoping). */
+function archetypeAllows(choice: ClassOptionChoice, archetypes: string[]): boolean {
+  if (choice.onlyForArchetypes && !choice.onlyForArchetypes.some((a) => archetypes.includes(a))) return false;
+  return !(choice.excludedForArchetypes ?? []).some((a) => archetypes.includes(a));
 }
 
 /** Whether `choice`'s `requiresChoice` (if any) is among the `selected`
@@ -77,4 +90,23 @@ export function pruneUnmetPrerequisites(
     if (!changed) return current;
     current = next;
   }
+}
+
+/** `selected` without picks the chosen `archetypes` don't allow (e.g. a Feuer domain once
+ *  Bärenschamane is picked), then without anything that depended on them — called when the
+ *  archetype selection changes. */
+export function pruneForArchetypes(
+  groups: ClassOptionGroup[],
+  selected: Record<string, string[]>,
+  archetypes: string[],
+): Record<string, string[]> {
+  const allowed: Record<string, string[]> = {};
+  for (const [groupKey, names] of Object.entries(selected)) {
+    const group = groups.find((g) => g.key === groupKey);
+    allowed[groupKey] = names.filter((name) => {
+      const choice = group?.choices.find((c) => c.name === name);
+      return choice === undefined || archetypeAllows(choice, archetypes);
+    });
+  }
+  return pruneUnmetPrerequisites(groups, allowed);
 }

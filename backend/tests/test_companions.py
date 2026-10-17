@@ -431,3 +431,53 @@ def test_paladin_mount_has_at_least_in_6_and_may_learn_any_skill(client: TestCli
 
     assert next(a for a in horse["abilities"] if a["key"] == "IN")["score"] == 6
     assert _progression(client, horse["id"])["companion"]["allowedSkillIds"] is None
+
+
+def test_mystiker_mount_has_at_least_in_6(client: TestClient, db_session: Session) -> None:
+    mystiker = _master(
+        client,
+        db_session,
+        [{"class_name": "Mystiker", "level": 1, "options": {"mystery": ["Natur"], "revelation": ["Gebundenes Reittier"]}}],
+    )
+    track = next(t for t in mystiker["companionLevels"] if t["track"] == "animal_companion")
+    species_id = next(s["id"] for s in track["slots"][0]["species"] if s["name"] == "Pferd")
+    response = client.post(
+        f"/api/characters/{mystiker['id']}/companions",
+        json={"species_id": species_id, "name": "Pferd", "hit_points": [5, 5]},
+    )
+    assert response.status_code == 201, response.text
+    horse = client.get(f"/api/characters/{response.json()['id']}").json()
+    assert next(a for a in horse["abilities"] if a["key"] == "IN")["score"] == 6
+
+
+def _equip_armor(client: TestClient, character_id: str, armor_name: str) -> dict:
+    item_id = next(i["id"] for i in client.get("/api/items").json() if i["name"] == armor_name)
+    added = client.post(f"/api/characters/{character_id}/gear", json={"item_id": item_id, "quantity": 1})
+    assert added.status_code == 201, added.text
+    response = client.put(f"/api/characters/{character_id}/slots/ruestung", json={"item_id": item_id})
+    assert response.status_code == 200, response.text
+    return client.get(f"/api/characters/{character_id}").json()
+
+
+def test_barding_slows_a_mount_and_grounds_a_flyer(client: TestClient, db_session: Session) -> None:
+    horse = _companion(client, _druide(client, db_session, 1), "Pferd")
+    assert horse["speed"] == "15 m"
+    light = _equip_armor(client, horse["id"], "Lederrüstung")
+    assert light["speed"] == "15 m"
+    medium = _equip_armor(client, horse["id"], "Schuppenpanzer")
+    assert medium["speed"] == "10,5 m"
+    armor = next(e for e in medium["armorClassBreakdown"] if e["label"] == "Schuppenpanzer")
+    assert armor["value"] == 5
+
+    bird = _companion(client, _druide(client, db_session, 1), "Vogel")
+    assert bird["flySpeed"] is not None
+    assert _equip_armor(client, bird["id"], "Schuppenpanzer")["flySpeed"] is None
+
+
+def test_tiny_wearer_gets_half_the_armor_bonus(client: TestClient, db_session: Session) -> None:
+    from test_familiars import _familiar, _magier
+
+    cat = _familiar(client, _magier(client, db_session, 1), "Katze")
+    armored = _equip_armor(client, cat["id"], "Kettenhemd")
+    entry = next(e for e in armored["armorClassBreakdown"] if e["label"] == "Kettenhemd")
+    assert entry["value"] == 2  # 4 halved

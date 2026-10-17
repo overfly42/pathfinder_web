@@ -15,6 +15,10 @@
   Elf's "Elfische Waffenvertrautheit" (`rules/race_abilities.py`). Armor/
   shield proficiency is ordinary `BaseClassAbilityGrantedFeat` data.
 
+Tierschamanen (Bärenschamane, Löwenschamane — see their block below):
+Totemverwandlung as a minute pool with one activatable ability per aspect,
+the delayed Tiergestalt.
+
 Everything else the Druide gets (Unterholz durchqueren, Spurloser Schritt,
 Lockruf der Natur widerstehen, Immunität gegen Gifte, ...) is descriptive."""
 
@@ -22,7 +26,7 @@ from collections.abc import Callable
 from uuid import UUID
 
 from ..context import CharacterContext
-from ..modifiers import Modifier, ModifierTarget
+from ..modifiers import Modifier, ModifierTarget, NaturalAttack
 from ..progression import ability_mod
 
 DRUIDE_ROOT_CLASS_ID = UUID("2835c712-7129-41fe-a61e-8ef05de2e0cf")
@@ -92,7 +96,10 @@ def _naturgespuer(context: CharacterContext) -> list[Modifier]:
 def tiergestalt_uses_per_day(context: CharacterContext) -> int:
     """1/Tag at 4th, +1 at 6th and every two levels after, max 8 at 18th;
     unlimited at 20th."""
-    level = _druide_level(context)
+    return _tiergestalt_uses_at(_druide_level(context))
+
+
+def _tiergestalt_uses_at(level: int) -> int:
     if level >= 20:
         return TIERGESTALT_UNLIMITED_USES
     if level < 4:
@@ -101,8 +108,11 @@ def tiergestalt_uses_per_day(context: CharacterContext) -> int:
 
 
 def _tiergestalt_summary(context: CharacterContext) -> str:
-    level = _druide_level(context)
-    uses = "beliebig oft" if level >= 20 else f"{tiergestalt_uses_per_day(context)}/Tag"
+    return _tiergestalt_summary_at(_druide_level(context))
+
+
+def _tiergestalt_summary_at(level: int) -> str:
+    uses = "beliebig oft" if level >= 20 else f"{_tiergestalt_uses_at(level)}/Tag"
     # A later form of the same spell family replaces the earlier one
     # (Bestiengestalt III supersedes I/II), so keep only the highest per family.
     best_by_family: dict[str, str] = {}
@@ -122,14 +132,120 @@ def _tierempathie_summary(context: CharacterContext) -> str:
     return f"1W20 {'+' if bonus >= 0 else '−'} {abs(bonus)} (magische Bestien mit IN 1–2: zusätzlich −4)"
 
 
+# ---- Tierschamanen (Bärenschamane, Löwenschamane; `scripts/import_druide_tierschamanen.py`) ----
+# Totemverwandlung: a pool of Druide-level minutes per day; every aspect is
+# its own activatable ability spending one minute from it (10 rounds).
+# Tiergestalt comes at 6th with Druide level −2 (+2 in the totem animal's
+# form, a read-out). One aspect at a time isn't enforced.
+BAER_TOTEMVERWANDLUNG_ID = UUID("1ccc5c25-15eb-55f9-b075-b514eff16a10")
+BAER_BEWEGUNG_ID = UUID("0babf5d4-5772-5239-a43b-f34e3164231f")
+BAER_SINNE_ID = UUID("acc6ab02-2354-57f7-b2f5-88a781f7b622")
+BAER_ABHAERTUNG_ID = UUID("ca48ccb8-87ed-580e-9147-6f91f1fce375")
+BAER_WAFFEN_ID = UUID("cd1e83b9-53a5-5f05-94a4-17fbcc1d0f8c")
+BAER_TIERGESTALT_ID = UUID("1efe331d-877b-5f40-b323-a73632e9fadf")
+BAER_BONUSTALENT_ID = UUID("a812ac64-7230-5c38-8e09-9a2b5d529d32")
+LOEWE_TOTEMVERWANDLUNG_ID = UUID("e343a32b-b6d6-5b42-8642-40bfa2ff6e6d")
+LOEWE_BEWEGUNG_ID = UUID("ffeec0d2-22d6-5a57-b10a-ba1a8f5317a9")
+LOEWE_SINNE_ID = UUID("9ae79766-329b-5bf3-a81a-1c9a6c8e19f6")
+LOEWE_WAFFEN_ID = UUID("9af8cdd2-cef3-5e56-b1db-762a50588b91")
+LOEWE_TIERGESTALT_ID = UUID("2d8f2af4-37e2-561a-b88e-acff4ed052be")
+LOEWE_BONUSTALENT_ID = UUID("d4399098-c304-5918-9687-61d8459ccecf")
+_SCHWIMMEN_SKILL_ID = "e5fa3283-96aa-49ee-8836-ba3062bae32d"
+_SHAMAN_TIERGESTALT_OFFSET = -2
+_TOTEM_FORMS = {BAER_TIERGESTALT_ID: "Bären", LOEWE_TIERGESTALT_ID: "katzenartiger"}
+
+
+def _shaman_tiergestalt_uses(context: CharacterContext) -> int:
+    level = _druide_level(context)
+    return _tiergestalt_uses_at(level + _SHAMAN_TIERGESTALT_OFFSET) if level >= 6 else 0
+
+
+def _shaman_tiergestalt_summary(ability_id: UUID) -> Callable[[CharacterContext], str]:
+    def summary(context: CharacterContext) -> str:
+        level = _druide_level(context) + _SHAMAN_TIERGESTALT_OFFSET
+        return (
+            f"{_tiergestalt_summary_at(level)} (effektive Druidenstufe {level}; in {_TOTEM_FORMS[ability_id]} "
+            f"Gestalt {level + 4})"
+        )
+
+    return summary
+
+
+def _while_active(
+    ability_id: UUID, handler: Callable[[CharacterContext], list[Modifier]]
+) -> Callable[[CharacterContext], list[Modifier]]:
+    """An aspect only counts while its own effect is active — the ability
+    is granted from 2nd level, so the granted-ability paths call it too."""
+    return lambda context: handler(context) if context.has_active(ability_id) else []
+
+
+def _speed_bonus(source: str, value: int) -> Callable[[CharacterContext], list[Modifier]]:
+    return lambda _context: [Modifier(source=source, type="enhancement", value=value, target=ModifierTarget.SPEED)]
+
+
+def _baer_bewegung(context: CharacterContext) -> list[Modifier]:
+    return _speed_bonus("Totemverwandlung (Bewegung)", 3)(context) + [
+        Modifier(
+            source="Totemverwandlung (Bewegung)",
+            type="racial",
+            value=4,
+            target=ModifierTarget.SKILL,
+            target_id=_SCHWIMMEN_SKILL_ID,
+        )
+    ]
+
+
+def _baer_abhaertung(context: CharacterContext) -> list[Modifier]:
+    del context
+    return [Modifier(source="Totemverwandlung (Abhärtung)", type="natural", value=2, target=ModifierTarget.AC)]
+
+
+def _totem_weapons(bite_dice: str, ability_id: UUID) -> Callable[[CharacterContext], list[NaturalAttack]]:
+    """Bite and two claws while the aspect is active (dice for a Medium
+    shaman, `sheet.py` scales them by size)."""
+
+    def attacks(context: CharacterContext) -> list[NaturalAttack]:
+        if not context.has_active(ability_id):
+            return []
+        return [
+            NaturalAttack(name="Biss", count=1, damage_dice=bite_dice, damage_type="H/S/W"),
+            NaturalAttack(name="Klauen", count=2, damage_dice="1W4", damage_type="H/W"),
+        ]
+
+    return attacks
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     NATURGESPUER_ABILITY_ID: _naturgespuer,
+    BAER_BEWEGUNG_ID: _while_active(BAER_BEWEGUNG_ID, _baer_bewegung),
+    BAER_ABHAERTUNG_ID: _while_active(BAER_ABHAERTUNG_ID, _baer_abhaertung),
+    LOEWE_BEWEGUNG_ID: _while_active(LOEWE_BEWEGUNG_ID, _speed_bonus("Totemverwandlung (Bewegung)", 6)),
 }
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], list[NaturalAttack]]] = {
+    BAER_WAFFEN_ID: _totem_weapons("1W6", BAER_WAFFEN_ID),
+    LOEWE_WAFFEN_ID: _totem_weapons("1W4", LOEWE_WAFFEN_ID),
+}
+POOL_SOURCE_ID: dict[UUID, UUID] = {
+    **{aspect: BAER_TOTEMVERWANDLUNG_ID for aspect in (BAER_BEWEGUNG_ID, BAER_SINNE_ID, BAER_ABHAERTUNG_ID, BAER_WAFFEN_ID)},
+    **{aspect: LOEWE_TOTEMVERWANDLUNG_ID for aspect in (LOEWE_BEWEGUNG_ID, LOEWE_SINNE_ID, LOEWE_WAFFEN_ID)},
+}
+POOL_COST_AT_ACTIVATION: dict[UUID, int] = {aspect: 1 for aspect in POOL_SOURCE_ID}
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     TIERGESTALT_ABILITY_ID: tiergestalt_uses_per_day,
+    BAER_TOTEMVERWANDLUNG_ID: _druide_level,
+    LOEWE_TOTEMVERWANDLUNG_ID: _druide_level,
+    BAER_TIERGESTALT_ID: _shaman_tiergestalt_uses,
+    LOEWE_TIERGESTALT_ID: _shaman_tiergestalt_uses,
+    # Every aspect draws on its pool (`POOL_SOURCE_ID`) and needs the pool's
+    # size as its own entry (`rules/daily_limits.py`'s docstring).
+    **{aspect: _druide_level for aspect in POOL_SOURCE_ID},
 }
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     TIERGESTALT_ABILITY_ID: "Anwendungen",
+    BAER_TOTEMVERWANDLUNG_ID: "Minuten",
+    LOEWE_TOTEMVERWANDLUNG_ID: "Minuten",
+    BAER_TIERGESTALT_ID: "Anwendungen",
+    LOEWE_TIERGESTALT_ID: "Anwendungen",
 }
 WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
     UMGANG_MIT_WAFFEN_ABILITY_ID: DRUIDE_WEAPON_IDS,
@@ -137,4 +253,6 @@ WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
 FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
     TIERGESTALT_ABILITY_ID: _tiergestalt_summary,
     TIEREMPATHIE_ABILITY_ID: _tierempathie_summary,
+    BAER_TIERGESTALT_ID: _shaman_tiergestalt_summary(BAER_TIERGESTALT_ID),
+    LOEWE_TIERGESTALT_ID: _shaman_tiergestalt_summary(LOEWE_TIERGESTALT_ID),
 }

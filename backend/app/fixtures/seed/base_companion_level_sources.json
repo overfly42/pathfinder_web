@@ -141,5 +141,57 @@
     "divisor": 1,
     "minimum": null,
     "stack_group": null
+  },
+  {
+    "id": "f68841a8-6dbc-52a5-9a7c-f8aa6e88349f",
+    "track": "animal_companion",
+    "label": "Druide (Sekundärklasse)",
+    "class_ability_id": "099a403b-5551-579d-b438-c8d47fa0afff",
+    "feat_id": null,
+    "kind": "character_level",
+    "root_class_id": null,
+    "offset": -4,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": "druide-sekundaer"
+  },
+  {
+    "id": "49447cfa-edc4-5535-9ce3-9a920533188b",
+    "track": "animal_companion",
+    "label": "Druide (Sekundärklasse, verbessert)",
+    "class_ability_id": "a8726610-4946-57a4-94fc-bc9601387efa",
+    "feat_id": null,
+    "kind": "character_level",
+    "root_class_id": null,
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": "druide-sekundaer"
+  },
+  {
+    "id": "d8e86351-7dee-5bd1-9122-0f566f6cd435",
+    "track": "animal_companion",
+    "label": "Druide (Bärenschamane)",
+    "class_ability_id": "17ed3bd4-4828-5413-9755-5ac92605266f",
+    "feat_id": null,
+    "kind": "class_level",
+    "root_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": null
+  },
+  {
+    "id": "b0651600-d615-5e50-a6fb-2c835413c3fc",
+    "track": "animal_companion",
+    "label": "Druide (Löwenschamane)",
+    "class_ability_id": "40573a63-983a-5895-b467-a622dbe886ec",
+    "feat_id": null,
+    "kind": "class_level",
+    "root_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": null
   }
 ]

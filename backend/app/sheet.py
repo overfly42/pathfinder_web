@@ -93,14 +93,26 @@ from .companions import (
 )
 from .rules.companions import (
     FAMILIAR_CLASS_SKILL_IDS,
+    SLOWING_ARMOR,
     TRACK_LABELS,
     TRACKS,
+    barded_speed,
     familiar_master_modifiers,
     familiar_master_skill_notes,
     master_companion_modifiers,
     master_effective_level,
 )
-from .rules.size import SIZE_TABLE, SIZES, base_size, format_meters, resolve_size, size_modifiers, step_damage, weapon_damage
+from .rules.size import (
+    SIZE_TABLE,
+    SIZES,
+    armor_bonus_for_size,
+    base_size,
+    format_meters,
+    resolve_size,
+    size_modifiers,
+    step_damage,
+    weapon_damage,
+)
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
 from .rules.effective_scores import ability_damage_totals, full_effective_ability_scores
@@ -386,7 +398,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # Resolved here, not stored and not on `context` (computed, not raw):
     # the race's size ability shifted by active size-changing effects.
     size = resolve_size(companion.size if companion else base_size(race_ability_ids), context)
-    gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot)
+    gear_ac_modifiers, max_dex_bonus = _gear_ac_modifiers(items, gear_by_slot, size)
     gear_ac_modifiers += equipped_item_modifiers(list(gear_by_slot.values()))
     all_modifiers = (
         character_modifiers(context)
@@ -472,11 +484,16 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     equipment_slots = _build_equipment(character, items, gear_by_slot)
 
     base_speed = (companion.land_speed if companion else None) or race_speed(db, character.race_id) or 9
+    # A companion's armor is barding: medium/heavy slows it and grounds a
+    # flyer (`rules/companions.py`'s `barded_speed`).
+    heavy_barding = companion is not None and armor_item is not None and armor_item.armor_weight_class in SLOWING_ARMOR
+    if heavy_barding:
+        base_speed = barded_speed(base_speed)
     total_speed = base_speed + class_speed_bonus(context) + stacked.get((ModifierTarget.SPEED, None), 0)
     climb_speed = max(race_climb_speed(race_ability_ids) or 0, stacked.get((ModifierTarget.CLIMB_SPEED, None), 0)) or None
     burrow_speed = stacked.get((ModifierTarget.BURROW_SPEED, None), 0) or None
     swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
-    fly_speed = stacked.get((ModifierTarget.FLY_SPEED, None), 0) or None
+    fly_speed = None if heavy_barding else stacked.get((ModifierTarget.FLY_SPEED, None), 0) or None
     fly_modifiers = contributing(groups.get((ModifierTarget.FLY_SPEED, None), []))
     fly_maneuverability = max(fly_modifiers, key=lambda m: m.value).detail if fly_modifiers else None
     # A climb/swim speed from any source carries a +8 Volksbonus on the
@@ -2580,7 +2597,7 @@ def _gear_lookup(db: Session, character: Character) -> tuple[dict[UUID, BaseItem
 
 
 def _gear_ac_modifiers(
-    items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear]
+    items: dict[UUID, BaseItem], gear_by_slot: dict[str, CharacterGear], size: str = "Mittelgroß"
 ) -> tuple[list[Modifier], int | None]:
     """Raw AC `Modifier`s from equipped gear (armor/shield's real
     `BaseItem.ac_bonus` + `enhancement`), plus armor's
@@ -2590,7 +2607,9 @@ def _gear_ac_modifiers(
     still only counts once (`rules/modifiers.py`'s `stack_by_target`
     docstring). Only armor ("ruestung") and shield ("schild") have real
     `ac_bonus` data (`rules/equipment_slots.SLOT_CATEGORY`); other slots'
-    effects are `rules/items.py`'s job, merged by the caller."""
+    effects are `rules/items.py`'s job, merged by the caller. A wearer of
+    size Sehr klein or smaller gets half the armor's own bonus
+    (`rules/size.py`'s `armor_bonus_for_size`; a familiar in barding)."""
     modifiers: list[Modifier] = []
     max_dex_bonus: int | None = None
     for slot_key, category in SLOT_CATEGORY.items():
@@ -2608,7 +2627,10 @@ def _gear_ac_modifiers(
             Modifier(
                 source=item.name,
                 type=category,
-                value=(item.ac_bonus or 0) + gear_row.enhancement,
+                value=(
+                    armor_bonus_for_size(item.ac_bonus or 0, size) if category == "armor" else (item.ac_bonus or 0)
+                )
+                + gear_row.enhancement,
                 target=ModifierTarget.AC,
             )
         )
@@ -3163,9 +3185,12 @@ def _build_natural_attacks(
         handler = NATURAL_ATTACK_HANDLERS.get(ability_id)
         if handler is None:
             continue
-        attack = handler(context)
-        if attack is not None:
-            attacks.append((str(ability_id), attack))
+        produced = handler(context)
+        if isinstance(produced, NaturalAttack):
+            attacks.append((str(ability_id), produced))
+        elif produced:
+            # Several attacks from one ability (a Tierschamane's bite and claws).
+            attacks += [(f"{ability_id}-{index}", attack) for index, attack in enumerate(produced)]
     attacks += [(f"species-{index}", attack) for index, attack in enumerate(extra_attacks)]
     secondary_penalty = 2 if MEHRFACHANGRIFF in context.feat_ids or has_multiattack_bonus_feat(context) else 5
     improved_attack_names = context.feat_manifestation_picks.get(VERBESSERTER_NATUERLICHER_ANGRIFF, ())

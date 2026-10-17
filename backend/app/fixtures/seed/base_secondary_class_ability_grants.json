@@ -1769,5 +1769,137 @@
     "effective_level_minimum": null,
     "option_group_key": null,
     "option_choice_id": null
+  },
+  {
+    "id": "e4368839-04ad-51ab-beaa-1501bd7e645e",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 1,
+    "ability_id": "109cdb91-fbbc-540f-a4b0-2da6a94b1cb7",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "fdfd514c-21bf-5a60-b88b-d74f74ca9f4b",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 3,
+    "ability_id": "ebd5060b-066a-4bc0-bdfa-064222de85bf",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "0c3f4baa-714f-533e-b699-48a769e2e669",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 7,
+    "ability_id": "099a403b-5551-579d-b438-c8d47fa0afff",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "4d0ab638-ce66-5188-86f6-9c50cf414892",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 11,
+    "ability_id": "a8726610-4946-57a4-94fc-bc9601387efa",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "131f6913-ce21-53c7-9eba-46904cbccf19",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 15,
+    "ability_id": "8487d896-d21d-51b6-a3e6-633f93e58ebb",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "0f013f3e-be4e-531b-a34b-734378acf28f",
+    "secondary_base_class_id": "2835c712-7129-41fe-a61e-8ef05de2e0cf",
+    "character_level": 19,
+    "ability_id": "27cbd1f1-2d4e-5c2a-a042-d4477aa16aff",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "051fc0de-0740-52ca-b8d7-2094f38e4193",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 1,
+    "ability_id": "925dce6d-7725-559a-8d07-bfd58ddf8628",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "8904ed26-eb13-56b1-b999-c0cd2b66e934",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 3,
+    "ability_id": "91a0b27d-8fb2-5aca-93de-7d544354ece2",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "99a7daad-beec-5332-9ca7-9b800676b52e",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 7,
+    "ability_id": "b1bf4fef-4af1-576c-a40f-a9e905d26af6",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "ccc2131d-380d-5cdb-886d-3706f032b0cb",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 11,
+    "ability_id": "401cb9bd-7a77-5c2a-a91f-5a1f3ab1dd08",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "4dbbb415-a74c-576f-b670-48f6e1aa7c24",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 15,
+    "ability_id": "6600ba32-42ff-5428-bc81-cece3d9ffc0d",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
+  },
+  {
+    "id": "06c6d11e-6a8e-5874-aa94-18a06f69e9f4",
+    "secondary_base_class_id": "3533626c-bcc9-41c6-a16b-0313bd5ddb9c",
+    "character_level": 19,
+    "ability_id": "f140f071-fb76-5e75-8d51-0310f90bd269",
+    "effective_level_offset": 0,
+    "effective_level_divisor": 1,
+    "effective_level_minimum": null,
+    "option_group_key": null,
+    "option_choice_id": null
   }
 ]

@@ -67,6 +67,10 @@ BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
         # not waived (`base_class_ability_feat_options.json`'s rows for
         # this ability all default `waives_prerequisites` to false).
         UUID("9aa0a941-ddcd-5302-866e-9812bbfb705b"),
+        # Druide Tierschamanen: Bonustalent on 9th/13th/17th from a closed
+        # list, prerequisites still required (`import_druide_tierschamanen.py`).
+        UUID("a812ac64-7230-5c38-8e09-9a2b5d529d32"),  # Bärenschamane
+        UUID("d4399098-c304-5918-9687-61d8459ccecf"),  # Löwenschamane
     }
 )
 

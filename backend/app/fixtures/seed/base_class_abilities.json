@@ -4970,5 +4970,181 @@
     "id": "f916fc82-91bf-5c2b-82b3-37dd3e1e2d1c",
     "name": "Zauberresistenz",
     "description": "(AF) Wenn der Meister die 11. Stufe erreicht hat, erhält der Vertraute eine Zauberresistenz, die der Stufe seines Meisters +5 entspricht. Um den Vertrauten mit einem Zauber zu betreffen, muss der Zauberwirker einen Zauberstufenwurf ablegen (1W20 + seine Zauberstufe). Ist das Ergebnis größer oder gleich der Zauberresistenz, gelingt der Zauber."
+  },
+  {
+    "id": "109cdb91-fbbc-540f-a4b0-2da6a94b1cb7",
+    "name": "Verhaltenskodex (Sekundärklasse Druide)",
+    "description": "Mit der 1. Stufe erhält er Druidisch als Bonussprache und muss sich dem Verhaltenskodex der Druiden unterwerfen: Respektiere die Natur, lehre Druidisch keinen Außenstehenden, trage keine Metallrüstungen usw."
+  },
+  {
+    "id": "099a403b-5551-579d-b438-c8d47fa0afff",
+    "name": "Tiergefährte (Sekundärklasse Druide)",
+    "description": "Mit der 7. Stufe erhält er einen Tiergefährten, seine effektive Druidenstufe für dieses Klassenmerkmal ist seine Charakterstufe -4. Diese effektive Druidenstufe kann durch keine andere Fähigkeit außer Verbesserter Tiergefährte jemals verbessert werden."
+  },
+  {
+    "id": "a8726610-4946-57a4-94fc-bc9601387efa",
+    "name": "Verbesserter Tiergefährte (Sekundärklasse Druide)",
+    "description": "Ab der 11. Stufe entspricht seine effektive Druidenstufe für das Klassenmerkmal Tiergefährte seiner Charakterstufe."
+  },
+  {
+    "id": "8487d896-d21d-51b6-a3e6-633f93e58ebb",
+    "name": "Tiergestalt (Sekundärklasse Druide)",
+    "description": "Mit der 15. Stufe erhält er die Fähigkeit, sich zwei Mal am Tag für jeweils maximal 1 Stunde pro Charakterstufe in ein Tier der Größenkategorie Klein oder Mittelgroß zu verwandeln."
+  },
+  {
+    "id": "27cbd1f1-2d4e-5c2a-a042-d4477aa16aff",
+    "name": "Mächtige Tiergestalt (Sekundärklasse Druide)",
+    "description": "Beginnend mit der 19. Stufe verbessert sich seine Fähigkeit Tiergestalt: ihm stehen darin nun die Optionen eines Druiden der 6. Stufe zur Verfügung, ferner kann er sie drei Mal am Tag einsetzen."
+  },
+  {
+    "id": "925dce6d-7725-559a-8d07-bfd58ddf8628",
+    "name": "Schule der Magie (Sekundärklasse Magier)",
+    "description": "Auf der 1. Stufe wählt er eine Schule der Magie aus, in welcher er sich spezialisiert. Hinsichtlich aller Schulfähigkeiten dieser Schule entspricht seine effektive Magierstufe seiner Charakterstufe."
+  },
+  {
+    "id": "b1bf4fef-4af1-576c-a40f-a9e905d26af6",
+    "name": "Schulfähigkeit (Sekundärklasse Magier)",
+    "description": "Ab der 7. Stufe erhält er die Schulfähigkeiten der 1. Stufe seiner gewählten Schule. Sollte eine dieser Fähigkeiten mit der 20. Stufe einen zusätzlichen Effekt verleihen, so erhält er diesen zusätzlichen Effekt nicht."
+  },
+  {
+    "id": "401cb9bd-7a77-5c2a-a91f-5a1f3ab1dd08",
+    "name": "Zaubertrick (Sekundärklasse Magier)",
+    "description": "Mit der 11. Stufe wählt er einen Zaubertrick (Magierzauber des Grades 0) seiner gewählten Schule, sofern er über einen Intelligenzwert von 10 oder höher verfügt; er kann diesen Zaubertrick beliebig oft einsetzen und hinsichtlich dieser Fähigkeit entspricht seine effektive Magierstufe seiner Charakterstufe, das Schlüsselattribut ist Intelligenz."
+  },
+  {
+    "id": "6600ba32-42ff-5428-bc81-cece3d9ffc0d",
+    "name": "Entdeckung (Sekundärklasse Magier)",
+    "description": "Auf der 15. Stufe erhält er eine Arkane Entdeckung oder ein Magierbonustalent. Hinsichtlich dieser Fähigkeit entspricht seine effektive Magierstufe seiner Charakterstufe."
+  },
+  {
+    "id": "f140f071-fb76-5e75-8d51-0310f90bd269",
+    "name": "Mächtige Schulfähigkeit (Sekundärklasse Magier)",
+    "description": "Mit der 19. Stufe erhält er die Schulfähigkeit der 8. Stufe seiner gewählten Schule."
+  },
+  {
+    "id": "17ed3bd4-4828-5413-9755-5ac92605266f",
+    "name": "Tiergefährte (Bärenschamane)",
+    "description": "(AF) Der Tiergefährte des Bärenschamanen — nur Bär — funktioniert wie der Tiergefährte des Druiden (effektive Druidenstufe = Druidenstufe)."
+  },
+  {
+    "id": "cd3ee8a8-62ba-5ae9-b051-c8ad9dd33ce8",
+    "name": "Bund mit der Natur (Bärenschamane)",
+    "description": "Ein Bärenschamane, der einen Tierbegleiter erwählt, muss einen Bären wählen. Falls er eine Domäne wählt, stehen ihm Erde, Schutz, Stärke und Tiere zur Auswahl."
+  },
+  {
+    "id": "3371d348-ff33-5a5d-8d4e-87c2f64a8425",
+    "name": "Tierempathie (Bärenschamane)",
+    "description": "(AF) Der Bärenschamane kann Tierempathie bei Bären und Vielfraßen als Volle Aktion mit einem Bonus von +4 nutzen."
+  },
+  {
+    "id": "1ccc5c25-15eb-55f9-b075-b514eff16a10",
+    "name": "Totemverwandlung (Bärenschamane)",
+    "description": "(AF) Ab der 2. Stufe kann der Bärenschamane einen Aspekt des Bären annehmen, dabei aber seine normale Gestalt beibehalten. Er erhält einen der folgenden Boni: Bewegung (Verbesserungsbonus von +3 m auf die Bewegungsrate an Land, Volksbonus von +4 auf Fertigkeitswürfe für Schwimmen); Sinne (Dämmersicht, Geruchssinn); Abhärtung (Bonus von +2 auf natürliche RK, Talent Ausdauer); Natürliche Waffen (Biss [1W6] und 2 Klauen [1W4] bei einem Mittelgroßen Schamanen, KMB +2 im Ringkampf). Während er der Totemverwandlung untersteht, kann er normal sprechen und beliebig oft Mit Tieren sprechen (nur Säugetiere) wirken. Auf der 2. Stufe ist der Einsatz dieser Fähigkeit eine Standard-Aktion, ab der 7. Stufe eine Bewegungsaktion und ab der 12. Stufe eine Schnelle Aktion. Er kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Stufe als Druide einsetzen. Diese Minuten müssen nicht aufeinander folgen, werden aber in Einheiten von jeweils 1 Minute berechnet. Dies ist ein Verwandlungseffekt und kann nicht benutzt werden, wenn der Druide einen anderen Verwandlungseffekt wie beispielsweise Tiergestalt einsetzt."
+  },
+  {
+    "id": "0babf5d4-5772-5239-a43b-f34e3164231f",
+    "name": "Totemverwandlung: Bewegung (Bärenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Verbesserungsbonus von +3 m auf die Bewegungsrate an Land, Volksbonus von +4 auf Fertigkeitswürfe für Schwimmen.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "acc6ab02-2354-57f7-b2f5-88a781f7b622",
+    "name": "Totemverwandlung: Sinne (Bärenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Dämmersicht, Geruchssinn.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "ca48ccb8-87ed-580e-9147-6f91f1fce375",
+    "name": "Totemverwandlung: Abhärtung (Bärenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Bonus von +2 auf natürliche RK, Talent Ausdauer.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "cd1e83b9-53a5-5f05-94a4-17fbcc1d0f8c",
+    "name": "Totemverwandlung: Natürliche Waffen (Bärenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Biss [1W6] und 2 Klauen [1W4] bei einem Mittelgroßen Schamanen, KMB +2 im Ringkampf.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "26ea3703-5448-5bb6-8fe6-1aba4928f549",
+    "name": "Totemtier herbeizaubern (Bärenschamane)",
+    "description": "(ÜF) Ab der 5. Stufe kann der Bärenschamane den Zauber Verbündeten der Natur herbeizaubern als Standard-Aktion wirken, wenn er Bären herbeizaubert. Herbei gezauberte Bären erhalten temporäre Trefferpunkte in Höhe seiner Stufe als Druide. Er kann die Schablone Junge Kreatur auf seine Bären anwenden, um den Grad der erforderlichen Herbeizauberung um -1 zu senken. Ebenso kann er Bären mit der Schablone Verbesserte Kreatur oder Riesige Kreatur herbeizaubern, indem er den Grad der Herbeizauberung um +1 erhöht. Er kann auch Bären mit beiden Schablonen herbeizaubern, indem er eine Herbeizauberung wirkt, deren Grad um +2 höher ist. Dieses Klassenmerkmal ersetzt Tausend Gesichter."
+  },
+  {
+    "id": "1efe331d-877b-5f40-b323-a73632e9fadf",
+    "name": "Tiergestalt (Bärenschamane)",
+    "description": "(ÜF) Der Bärenschamane erhält diese Fähigkeit erst auf der 6. Stufe. Seine effektive Druidenstufe für diese Fähigkeit ist seine Stufe als Druide -2. Sollte er sich in einen Bären verwandeln, zählt seine Stufe als Druide +2."
+  },
+  {
+    "id": "a812ac64-7230-5c38-8e09-9a2b5d529d32",
+    "name": "Bonustalent (Bärenschamane)",
+    "description": "Auf der 9. Stufe und dann alle weiteren vier Stufen als Druide erhält der Bärenschamane eines der folgenden Talente: Abhärtung, Ausdauer, Große Zähigkeit, Unverwüstlich, Verbesserte Große Zähigkeit. Er muss die Voraussetzungen des jeweiligen Bonustalentes erfüllen. Dieses Klassenmerkmal ersetzt Immunität gegen Gift."
+  },
+  {
+    "id": "40573a63-983a-5895-b467-a622dbe886ec",
+    "name": "Tiergefährte (Löwenschamane)",
+    "description": "(AF) Der Tiergefährte des Löwenschamanen — nur Raubkatze, Groß (Löwe, Tiger) — funktioniert wie der Tiergefährte des Druiden (effektive Druidenstufe = Druidenstufe)."
+  },
+  {
+    "id": "188507b7-b5f3-5578-91e1-a2c524312614",
+    "name": "Bund mit der Natur (Löwenschamane)",
+    "description": "Ein Löwenschamane, der einen Tierbegleiter erwählt, muss einen Löwen wählen. Falls er eine Domäne wählt, stehen ihm Adel, Herrlichkeit, Sonne und Tiere zur Auswahl."
+  },
+  {
+    "id": "f4251cd8-7bfc-516b-92b6-339007185bd0",
+    "name": "Tierempathie (Löwenschamane)",
+    "description": "(AF) Der Löwenschamane kann Tierempathie bei katzenartigen Wesen als Volle Aktion mit einem Bonus von +4 nutzen."
+  },
+  {
+    "id": "e343a32b-b6d6-5b42-8642-40bfa2ff6e6d",
+    "name": "Totemverwandlung (Löwenschamane)",
+    "description": "(AF) Ab der 2. Stufe kann der Löwenschamane einen Aspekt des Löwen annehmen, dabei aber seine normale Gestalt beibehalten. Er erhält einen der folgenden Boni: Bewegung (Bewegungsrate +6 m an Land); Sinne (Dämmersicht, Geruchssinn); Natürliche Waffen (Biss [1W4] und 2 Klauen [1W4] bei einem Mittelgroßen Schamanen, Krallen, Bonus von +2 im Ringkampf). Während er der Totemverwandlung untersteht, kann er normal sprechen und beliebig oft Mit Tieren sprechen (nur katzenartige Wesen) wirken. Auf der 2. Stufe ist der Einsatz dieser Fähigkeit eine Standard-Aktion, ab der 7. Stufe eine Bewegungsaktion und ab der 12. Stufe eine Schnelle Aktion. Er kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Stufe als Druide einsetzen. Diese Minuten müssen nicht aufeinander folgen, werden aber in Einheiten von jeweils 1 Minute berechnet. Dies ist ein Verwandlungseffekt und kann nicht benutzt werden, wenn der Druide einen anderen Verwandlungseffekt wie beispielsweise Tiergestalt einsetzt."
+  },
+  {
+    "id": "ffeec0d2-22d6-5a57-b10a-ba1a8f5317a9",
+    "name": "Totemverwandlung: Bewegung (Löwenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Bewegungsrate +6 m an Land.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "9ae79766-329b-5bf3-a81a-1c9a6c8e19f6",
+    "name": "Totemverwandlung: Sinne (Löwenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Dämmersicht, Geruchssinn.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "9af8cdd2-cef3-5e56-b1db-762a50588b91",
+    "name": "Totemverwandlung: Natürliche Waffen (Löwenschamane)",
+    "description": "(AF) Aspekt der Totemverwandlung, 1 Minute aus dem Vorrat: Biss [1W4] und 2 Klauen [1W4] bei einem Mittelgroßen Schamanen, Krallen, Bonus von +2 im Ringkampf.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "14b6814c-9567-536c-9cc5-801fc02666f0",
+    "name": "Totemtier herbeizaubern (Löwenschamane)",
+    "description": "(ÜF) Ab der 5. Stufe kann der Löwenschamane den Zauber Verbündeten der Natur herbeizaubern als Standard-Aktion wirken, wenn er Katzen herbeizaubert. Diese herbeigezauberten Kreaturen erhalten temporäre Trefferpunkte in Höhe der Stufe des Druiden. Ansonsten funktioniert die Fähigkeit wie beim Bärenschamanen (Schablonen Junge/Verbesserte/Riesige Kreatur); sie ersetzt Tausend Gesichter."
+  },
+  {
+    "id": "2d8f2af4-37e2-561a-b88e-acff4ed052be",
+    "name": "Tiergestalt (Löwenschamane)",
+    "description": "(ÜF) Der Löwenschamane erhält diese Fähigkeit erst auf der 6. Stufe. Seine effektive Druidenstufe für diese Fähigkeit ist seine Stufe als Druide -2. Sollte er sich in eine katzenartige Form verwandeln, zählt seine Stufe als Druide +2."
+  },
+  {
+    "id": "d4399098-c304-5918-9687-61d8459ccecf",
+    "name": "Bonustalent (Löwenschamane)",
+    "description": "Auf der 9. Stufe und dann alle weiteren vier Stufen als Druide erhält der Löwenschamane eines der folgenden Talente: Ausfallschritt, Ausweichen, Eiserner Wille, Fertigkeitsfokus (Akrobatik) oder Verbesserter Eiserner Wille. Er muss die Voraussetzungen des jeweiligen Bonustalentes erfüllen. Dieses Klassenmerkmal ersetzt Immunität gegen Gift."
   }
 ]

@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { CharacterProgression } from '../../types/characterProgression';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
-import { availableOptionGroups, pruneUnmetPrerequisites } from '../../lib/classOptions';
+import { availableOptionGroups, pruneForArchetypes, pruneUnmetPrerequisites } from '../../lib/classOptions';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassLevelStepProps {
@@ -38,14 +38,19 @@ export function ClassLevelStep({ progression, options, draft, setDraft }: ClassL
 
   function toggleNewArchetype(archetype: string, max: number) {
     setDraft((prev) => {
-      if (prev.target.mode !== 'new') return prev;
-      const chosen = prev.target.archetypes;
+      const target = prev.target;
+      if (target.mode !== 'new') return prev;
+      const chosen = target.archetypes;
       const idx = chosen.indexOf(archetype);
       let next: string[];
       if (idx !== -1) next = chosen.filter((a) => a !== archetype);
       else if (chosen.length < max) next = [...chosen, archetype];
       else next = chosen;
-      return { ...prev, target: { ...prev.target, archetypes: next } };
+      const groups = options.classes.find((c) => c.name === target.className)?.optionGroups ?? [];
+      return {
+        ...prev,
+        target: { ...target, archetypes: next, options: pruneForArchetypes(groups, target.options, next) },
+      };
     });
   }
 

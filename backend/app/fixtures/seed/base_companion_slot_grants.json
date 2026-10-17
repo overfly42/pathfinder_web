@@ -88,5 +88,32 @@
     "level_offset": 0,
     "divisor": 1,
     "minimum": null
+  },
+  {
+    "id": "5dd67ece-8785-5361-8b75-9fdf0b611922",
+    "class_ability_id": "099a403b-5551-579d-b438-c8d47fa0afff",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "673191a5-ba99-5465-8bc7-bc129db900c1",
+    "class_ability_id": "17ed3bd4-4828-5413-9755-5ac92605266f",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "8fb6df72-88c3-57a6-b141-26b724c966a1",
+    "class_ability_id": "40573a63-983a-5895-b467-a622dbe886ec",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
   }
 ]

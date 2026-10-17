@@ -46,6 +46,9 @@ from .druide import DAILY_LIMIT_UNIT_LABEL as _DRUIDE_DAILY_LIMIT_UNIT_LABEL
 from .druide import DAILY_LIMITS as _DRUIDE_DAILY_LIMITS
 from .druide import FEATURE_SUMMARY_HANDLERS as _DRUIDE_FEATURE_SUMMARY_HANDLERS
 from .druide import HANDLERS as _DRUIDE_HANDLERS
+from .druide import NATURAL_ATTACK_HANDLERS as _DRUIDE_NATURAL_ATTACK_HANDLERS
+from .druide import POOL_COST_AT_ACTIVATION as _DRUIDE_POOL_COST_AT_ACTIVATION
+from .druide import POOL_SOURCE_ID as _DRUIDE_POOL_SOURCE_ID
 from .druide import WEAPON_PROFICIENCY_HANDLERS as _DRUIDE_WEAPON_PROFICIENCY_HANDLERS
 from .hexenmeister import DAILY_LIMITS as _HEXENMEISTER_DAILY_LIMITS
 from .hexenmeister import HANDLERS as _HEXENMEISTER_HANDLERS
@@ -85,8 +88,11 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_MYSTIKER_HANDLERS,
     **_PALADIN_HANDLERS,
 }
-NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+# A handler may return several attacks at once (a Tierschamane's bite and
+# claws) — see `rules/handlers.py`'s merged registry.
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | list[NaturalAttack] | None]] = {
     **_BARBARIAN_NATURAL_ATTACK_HANDLERS,
+    **_DRUIDE_NATURAL_ATTACK_HANDLERS,
 }
 WEAPON_BONUS_DAMAGE_HANDLERS: dict[UUID, Callable[[CharacterContext], tuple[str, str] | None]] = {
     **_BARBARIAN_WEAPON_BONUS_DAMAGE_HANDLERS,
@@ -125,6 +131,7 @@ SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
 # only source today. A flat ability-id -> point-cost map, not a `Callable`:
 # every current entry is a fixed constant.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
+    **_DRUIDE_POOL_COST_AT_ACTIVATION,
     **_KAMPFMAGUS_POOL_COST_AT_ACTIVATION,
     **_MYSTIKER_POOL_COST_AT_ACTIVATION,
     **_PALADIN_POOL_COST_AT_ACTIVATION,
@@ -134,6 +141,7 @@ POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
 # means "draws from its own pool" — every entry before Kampfmagus's Arkaner-
 # Vorrat-spending tricks.
 POOL_SOURCE_ID: dict[UUID, UUID] = {
+    **_DRUIDE_POOL_SOURCE_ID,
     **_KAMPFMAGUS_POOL_SOURCE_ID,
     **_PALADIN_POOL_SOURCE_ID,
 }

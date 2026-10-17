@@ -393,6 +393,13 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("base_class_option_choices.id"), nullable=True
     )
     race_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("base_races.id"), nullable=True)
+    # Archetype scoping (archetype `BaseClass` ids as strings): a choice with
+    # `only_for_archetype_ids` exists only for a character with one of those
+    # archetypes (the Bärenschamane's "Domäne des Schutzes" as a Naturdomäne),
+    # one with `excluded_for_archetype_ids` is gone for those archetypes (the
+    # Bärenschamane can't take the Feuer domain). Null = no restriction.
+    only_for_archetype_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    excluded_for_archetype_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
 
 class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):

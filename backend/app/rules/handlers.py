@@ -226,7 +226,7 @@ SPELL_SLOT_DELTAS: dict[UUID, int] = {
 # `_build_natural_attacks`, folded into the same "Waffen" section
 # `_build_weapon_attacks` renders. Not part of `HANDLERS` above: a
 # `NaturalAttack` (`rules/modifiers.py`), not a `Modifier`.
-NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | None]] = {
+NATURAL_ATTACK_HANDLERS: dict[UUID, Callable[[CharacterContext], NaturalAttack | list[NaturalAttack] | None]] = {
     **_RACE_NATURAL_ATTACK_HANDLERS,
     **_CLASS_NATURAL_ATTACK_HANDLERS,
 }

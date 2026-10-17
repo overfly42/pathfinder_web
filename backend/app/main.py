@@ -279,9 +279,13 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             ).all()
         }
         descriptions_by_archetype_id: dict = {}
+        seen: set = set()
         for grant in own_grants:
             ability = ability_by_id.get(grant.ability_id)
-            if ability is not None:
+            # One text per ability, even when it's granted at several levels
+            # (a Tierschamane's Bonustalent at 9th/13th/17th).
+            if ability is not None and (grant.base_class_id, ability.id) not in seen:
+                seen.add((grant.base_class_id, ability.id))
                 descriptions_by_archetype_id.setdefault(grant.base_class_id, []).append(ability.description)
         for root_id, archetypes in archetypes_by_root_id.items():
             for archetype in archetypes:
@@ -313,6 +317,7 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
     # Naturdomäne only after the "Domäne (Natur)" bond). Display only;
     # `_validate_options` enforces it server-side.
     all_choices = db.scalars(select(BaseClassOptionChoice)).all()
+    class_name_by_id = {str(row.id): row.name for row in all_base_classes}
     group_key_by_id = {group.id: group.key for group in db.scalars(select(BaseClassOptionGroup)).all()}
     choice_by_id = {choice.id: choice for choice in all_choices}
     choices_by_group_id: dict = {}
@@ -327,6 +332,11 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                     if prerequisite is not None
                     else None
                 ),
+                # Archetype scoping by archetype *name* (`BaseClassOptionChoice.
+                # only_for_archetype_ids`/`excluded_for_archetype_ids`), the
+                # shape the wizards keep their archetype picks in.
+                "onlyForArchetypes": _archetype_names(choice.only_for_archetype_ids, class_name_by_id),
+                "excludedForArchetypes": _archetype_names(choice.excluded_for_archetype_ids, class_name_by_id),
             }
         )
     ability_ids_by_name_map = ability_ids_by_name(db)
@@ -560,6 +570,12 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         if root is not None:
             class_def["skillPointsBase"] = root.skill_points_base
     return classes
+
+
+def _archetype_names(archetype_ids: list[str] | None, class_name_by_id: dict[str, str]) -> list[str] | None:
+    if archetype_ids is None:
+        return None
+    return sorted(class_name_by_id[archetype_id] for archetype_id in archetype_ids if archetype_id in class_name_by_id)
 
 
 @app.get("/api/abilities")

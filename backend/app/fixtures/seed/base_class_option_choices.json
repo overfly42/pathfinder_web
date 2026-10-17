@@ -3413,7 +3413,10 @@
     "name": "Domäne der Erde",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "1df252fa-49a1-53c9-87a0-50162eafa19b",
@@ -3421,7 +3424,11 @@
     "name": "Domäne des Feuers",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "183744ed-30f1-5577-8fc6-c24bde5d1377",
@@ -3429,7 +3436,11 @@
     "name": "Domäne der Luft",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "2c7d4de1-b617-524e-9829-b51149e73af4",
@@ -3437,7 +3448,11 @@
     "name": "Domäne der Pflanzen",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "4331ca35-148a-538a-84f9-3d7366a92f9e",
@@ -3445,7 +3460,8 @@
     "name": "Domäne der Tiere",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": null
   },
   {
     "id": "0e89b86f-d9e4-56d7-aa32-9181f094ee8f",
@@ -3453,7 +3469,11 @@
     "name": "Domäne des Wassers",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "f812cc13-9e4a-5843-b196-b93b4780802d",
@@ -3461,7 +3481,11 @@
     "name": "Domäne des Wetters",
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
-    "race_id": null
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
   },
   {
     "id": "50c45376-93a5-518a-a034-7850988df11e",
@@ -3638,5 +3662,60 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": "c8c2eba3-43f6-4bf8-9dd6-0a531d6f66ec"
+  },
+  {
+    "id": "3fab2c6e-5b99-5446-aa9d-7ba2c31d063a",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Herrlichkeit",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
+  },
+  {
+    "id": "d01d5de2-ce6a-5322-9add-4fa3316a9ba9",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Sonne",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
+  },
+  {
+    "id": "4e439500-f04b-51b8-bcf1-d011f7b8c509",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne der Stärke",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ]
+  },
+  {
+    "id": "786d86f5-99a8-522d-af11-a77fb2ee3d33",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne des Adels",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ]
+  },
+  {
+    "id": "e5d735af-e461-5d20-a572-2d4999f8436b",
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "name": "Domäne des Schutzes",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ]
   }
 ]

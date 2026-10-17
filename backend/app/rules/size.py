@@ -181,6 +181,12 @@ def _step_once(dice: str, up: bool) -> str | None:
     return None
 
 
+def armor_bonus_for_size(ac_bonus: int, size: str) -> int:
+    """PRD "Rüstungen für ungewöhnliche Kreaturen": for a wearer of size
+    Sehr klein or smaller "Der Rüstungsbonus wird halbiert" (rounded down)."""
+    return ac_bonus // 2 if SIZES.index(size) <= SIZES.index("Sehr klein") else ac_bonus
+
+
 def step_damage(dice: str, steps: int) -> str:
     """`dice` moved `steps` size categories (positive = larger). Dice the
     table doesn't know (or that would leave it) stay unchanged; a double

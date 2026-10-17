@@ -103,7 +103,9 @@ def test_nature_domain_choices_require_the_domain_bond(client: TestClient, db_se
     druide = next(c for c in client.get("/api/classes").json() if c["name"] == "Druide")
     group = next(g for g in druide["optionGroups"] if g["key"] == "nature_domain")
 
-    assert {c["name"] for c in group["choices"]} == {
+    # Without an archetype: the seven nature domains. The Tierschamanen's
+    # own domains are scoped to them (`test_druide_tierschamanen.py`).
+    assert {c["name"] for c in group["choices"] if not c["onlyForArchetypes"]} == {
         "Domäne der Erde",
         "Domäne des Feuers",
         "Domäne der Luft",

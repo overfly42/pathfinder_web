@@ -51,6 +51,12 @@ export interface ClassOptionChoice {
    *  (`_validate_options`); the frontend hides the choice until it's met — see
    *  `lib/classOptions.ts`. */
   requiresChoice: { groupKey: string; name: string } | null;
+  /** Archetype scoping by archetype name (`BaseClassOptionChoice.only_for_archetype_ids`/
+   *  `excluded_for_archetype_ids`): only offered with one of `onlyForArchetypes`, never with
+   *  one of `excludedForArchetypes` — e.g. a Bärenschamane's Naturdomäne choices. `null` = no
+   *  restriction. Backend-enforced (`_validate_options`). */
+  onlyForArchetypes?: string[] | null;
+  excludedForArchetypes?: string[] | null;
 }
 
 export interface ClassOptionGroup {

@@ -7164,5 +7164,61 @@
     "weight_lb": null,
     "description": "Diese kleine Glaskugel verwandelt sich in einen kleinen Haufen brennenden Feuerholzes (etwa 60 cm hoch), wenn das Befehlswort gesprochen wird. Das Feuer brennt 8 Stunden lang oder bis es gelöscht wird, dann verwandelt es sich in die Glaskugel zurück. Der Besitzer des Gegenstandes muss zweimal so lange warten, wie das Feuer gebrannt hat, ehe er der Kugel wieder befehlen kann, sich in ein Lagerfeuer zu verwandeln.",
     "masterwork_price_delta": null
+  },
+  {
+    "id": "abd70ea6-e833-5aef-af2e-746e1cd140c2",
+    "name": "Militärsattel",
+    "category": "gear",
+    "price": 20,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "b2545b88-b99e-5fe4-80cc-49846c0874ed",
+    "name": "Packsattel",
+    "category": "gear",
+    "price": 5,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "37484d80-197a-5854-9f2b-e8c5ef9ef558",
+    "name": "Reitsattel",
+    "category": "gear",
+    "price": 10,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "c84244ed-91bf-5ec1-9585-dd86a23fa0e9",
+    "name": "Exotischer Militärsattel",
+    "category": "gear",
+    "price": 60,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "44c3e649-ad65-5a5a-b747-59f4b39a454e",
+    "name": "Exotischer Packsattel",
+    "category": "gear",
+    "price": 15,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "1eafb73a-9ace-50f6-871a-697c3dffdc91",
+    "name": "Exotischer Reitsattel",
+    "category": "gear",
+    "price": 30,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "aeea712d-4cd7-5caa-8dc9-17fb36fedc08",
+    "name": "Satteltaschen",
+    "category": "gear",
+    "price": 4,
+    "masterwork_price_delta": null
+  },
+  {
+    "id": "5d9b1083-ce1b-558f-9554-6db44d2ff0b1",
+    "name": "Zaumzeug",
+    "category": "gear",
+    "price": 2,
+    "masterwork_price_delta": null
   }
 ]

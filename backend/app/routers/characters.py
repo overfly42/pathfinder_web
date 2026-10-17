@@ -414,6 +414,16 @@ def _validate_trait_skill_choice(db: Session, trait: BaseTrait, chosen_skill_id:
         )
 
 
+def _archetype_allows(choice: BaseClassOptionChoice, archetype_ids: set[UUID] | None) -> bool:
+    """`BaseClassOptionChoice.only_for_archetype_ids`/`excluded_for_archetype_ids`
+    against the root class's chosen archetypes — a choice an archetype
+    doesn't allow is rejected like an unknown name."""
+    chosen = {str(archetype_id) for archetype_id in archetype_ids or ()}
+    if choice.only_for_archetype_ids is not None and not chosen & set(choice.only_for_archetype_ids):
+        return False
+    return not (choice.excluded_for_archetype_ids and chosen & set(choice.excluded_for_archetype_ids))
+
+
 def _validate_options(
     db: Session,
     root: BaseClass,
@@ -478,7 +488,8 @@ def _validate_options(
     always included regardless.
 
     `archetype_ids` (2026-08-17) is this root class's already-chosen
-    archetype `BaseClass` ids (empty/omitted when none chosen) — passed to
+    archetype `BaseClass` ids (empty/omitted when none chosen) — also
+    filters choices scoped to archetypes (`_archetype_allows`), and is passed to
     `group_occurrence_levels` as `replaced_grant_ids`
     (`rules.class_options.archetype_replaced_grant_ids`) so an occurrence an
     archetype has swapped out (e.g. Ork's Narbiger Hexendoktor archetype
@@ -515,6 +526,7 @@ def _validate_options(
             for choice in db.scalars(
                 select(BaseClassOptionChoice).where(BaseClassOptionChoice.group_id == group.id, race_filter)
             ).all()
+            if _archetype_allows(choice, archetype_ids)
         }
         choices_by_name_by_group[group_key] = choices_by_name
         for choice in choices:
