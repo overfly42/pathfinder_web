@@ -1,0 +1,122 @@
+[
+  {
+    "id": "63c7517f-54f9-54c3-9064-97ad741ae733",
+    "level": 1,
+    "natural_armor": 1,
+    "intelligence": 6
+  },
+  {
+    "id": "768b4c22-c9e6-5d0a-a0d5-b08f3b5c4c82",
+    "level": 2,
+    "natural_armor": 1,
+    "intelligence": 6
+  },
+  {
+    "id": "32ded283-e9a3-57c2-b948-cbb3375409b8",
+    "level": 3,
+    "natural_armor": 2,
+    "intelligence": 7
+  },
+  {
+    "id": "278d6c44-b64a-5653-b073-7e3379908992",
+    "level": 4,
+    "natural_armor": 2,
+    "intelligence": 7
+  },
+  {
+    "id": "3752c8a8-e627-5f62-843a-b8108de59119",
+    "level": 5,
+    "natural_armor": 3,
+    "intelligence": 8
+  },
+  {
+    "id": "69527e5d-0afb-5796-8494-ce5023c714db",
+    "level": 6,
+    "natural_armor": 3,
+    "intelligence": 8
+  },
+  {
+    "id": "6cb0cc72-c8d7-51b1-8f88-277665d5ffd1",
+    "level": 7,
+    "natural_armor": 4,
+    "intelligence": 9
+  },
+  {
+    "id": "6c6f304e-a7c7-5405-ba53-f4fb65e4babe",
+    "level": 8,
+    "natural_armor": 4,
+    "intelligence": 9
+  },
+  {
+    "id": "18d33eee-24e9-56ab-afd1-94b53ba17197",
+    "level": 9,
+    "natural_armor": 5,
+    "intelligence": 10
+  },
+  {
+    "id": "ce96075a-73eb-5dc2-856e-d5415caaffe4",
+    "level": 10,
+    "natural_armor": 5,
+    "intelligence": 10
+  },
+  {
+    "id": "b8558ec4-aa08-52a4-9ba4-2c06feae389b",
+    "level": 11,
+    "natural_armor": 6,
+    "intelligence": 11
+  },
+  {
+    "id": "3798ef78-7cc4-5a27-827a-db514c944c2a",
+    "level": 12,
+    "natural_armor": 6,
+    "intelligence": 11
+  },
+  {
+    "id": "69e40383-8720-5ae9-b97f-94e84e5b9542",
+    "level": 13,
+    "natural_armor": 7,
+    "intelligence": 12
+  },
+  {
+    "id": "ad336b4b-73c7-5b28-a356-e119d5f8ac25",
+    "level": 14,
+    "natural_armor": 7,
+    "intelligence": 12
+  },
+  {
+    "id": "0f1b3401-b934-5114-8cc6-09b30e343b20",
+    "level": 15,
+    "natural_armor": 8,
+    "intelligence": 13
+  },
+  {
+    "id": "b2f1ef47-3d8b-526c-bafa-f3bd431cab22",
+    "level": 16,
+    "natural_armor": 8,
+    "intelligence": 13
+  },
+  {
+    "id": "29e4562e-7181-552b-baa3-4d307e28d30f",
+    "level": 17,
+    "natural_armor": 9,
+    "intelligence": 14
+  },
+  {
+    "id": "0b6feb6e-69aa-5b29-8ab1-880471c3a1a4",
+    "level": 18,
+    "natural_armor": 9,
+    "intelligence": 14
+  },
+  {
+    "id": "1e4b6f9f-d741-5b71-bb34-9d674e97ca2d",
+    "level": 19,
+    "natural_armor": 10,
+    "intelligence": 15
+  },
+  {
+    "id": "4cc54e8f-0fe0-5116-a342-151a7e4c878e",
+    "level": 20,
+    "natural_armor": 10,
+    "intelligence": 15
+  }
+]

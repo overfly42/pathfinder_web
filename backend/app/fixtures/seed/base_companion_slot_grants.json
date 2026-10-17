@@ -52,5 +52,41 @@
     "level_offset": 0,
     "divisor": 1,
     "minimum": null
+  },
+  {
+    "id": "536a33e4-0807-5464-be91-9c7b49e7fe46",
+    "class_ability_id": "91a0b27d-8fb2-5aca-93de-7d544354ece2",
+    "track": "familiar",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "08698c8f-b053-5fc8-b99b-5d965f7466e9",
+    "class_ability_id": "2a9c1235-4e48-4b58-9fc2-ba7e84f1e0bf",
+    "track": "familiar",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "d8d026d8-01dc-57b8-9bba-ca854a9676db",
+    "class_ability_id": "f1a09dc4-ca49-5f55-98fb-42a5dfe2e468",
+    "track": "familiar",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "7567be23-cf00-52ab-832d-ff937cb6a046",
+    "class_ability_id": "0e61367e-2ba1-58a8-bbf2-9d04c83ecca5",
+    "track": "familiar",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
   }
 ]

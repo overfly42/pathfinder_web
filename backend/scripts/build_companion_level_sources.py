@@ -22,14 +22,15 @@ yet, only the effective master level per track).
    - familiar: Magier "Vertrauter (Magier)" (Magier level); Hexenmeister
      Arkane Blutlinie "Arkane Verbindung" (Hexenmeister level, "addieren
      sich seine Stufen als Hexenmeister und Magier"); Kampfmagus Arkanum
-     "Vertrauter" (Kampfmagus level as Magier level).
+     "Vertrauter" (Kampfmagus level as Magier level); Hexe "Hexenvertrauter"
+     (Hexe level as Magier level, step 4 — the Hexe's own trigger ability is
+     seeded here too, an unconditional level-1 grant).
 
 Deliberately not sources:
 - Entfesselter Barbar "Wildes Reittier"/"Wildes Reittier, Mächtiges": their
   text only shares the Barbar's rage with whatever mount he rides — they
   don't grant a companion or an effective druid level (the roadmap had
   listed them as sources to add; checked 2026-10-17, they aren't).
-- Hexe: no familiar ability is seeded yet (roadmap slice 10 step 4).
 - Waldläufer "Bund mit Gefährten" (the allies variant of Bund des Jägers).
 
 Run with the project venv active (writes fixture JSON only):
@@ -57,6 +58,20 @@ VERTRAUTER_MAGIER_DESC = (
 
 # (key, track, label, trigger: ("ability", class name, ability name, option choice name or None) |
 #  ("feat", feat name), kind, root class name or None, offset, divisor, minimum)
+# PRD Expertenregeln/Klassen/Basisklassen/Hexe, "Hexenvertrauter (AF)".
+HEXENVERTRAUTER_DESC = (
+    "(AF) Auf der 1. Stufe formt die Hexe eine enge Verbindung zu einem Vertrauten, der sie Magie lehrt und auf "
+    "ihrem Pfad begleitet und sie anleitet. Ebenfalls unterstützt der Vertraute sie, in dem er ihr Boni auf ihre "
+    "Fertigkeiten verleiht, ihr zusätzliche Zauber gewährt und ihr den Umgang mit einigen Magiearten erleichtert. "
+    "Dies funktioniert wie das Klassenmerkmal Arkane Verbindung eines Magiers, wobei Ausnahmen im Abschnitt zum "
+    "Hexenvertrauten zu finden sind.\n"
+    "Die Hexe muss jeden Tag mit ihrem Vertrauten kommunizieren, um ihre Zauber vorbereiten zu können. Alle "
+    "Zauber welche die Hexe kennt, befinden sich innewohnend in ihrem Vertrauten. Die Hexe kann somit keine "
+    "Zauber vorbereiten, die nicht in ihrem Vertrauten gespeichert sind. Die Stufe als Hexe entspricht der "
+    "effektiven Stufe des Magiers, um die Fähigkeiten des Vertrauten der Hexe zu ermitteln; Stufen in anderen "
+    "Klassen mit Vertrauten addieren sich."
+)
+
 SOURCES: list[tuple] = [
     ("druide", "animal_companion", "Druide", ("ability", "Druide", "Tiergefährte (Druide)", "Tiergefährte"),
      "class_level", "Druide", 0, 1, None),
@@ -85,6 +100,8 @@ SOURCES: list[tuple] = [
     ("kampfmagus", "familiar", "Kampfmagus (Arkanum Vertrauter)",
      ("ability", "Kampfmagus", "Vertrauter", "Vertrauter"),
      "class_level", "Kampfmagus", 0, 1, None),
+    ("hexe", "familiar", "Hexe", ("ability", "Hexe", "Hexenvertrauter", None),
+     "class_level", "Hexe", 0, 1, None),
 ]
 
 
@@ -130,6 +147,19 @@ def main() -> None:
             "level": 1,
         }
     )
+    # The Hexe's familiar is not a choice: an unconditional level-1 grant.
+    hexe_id = class_id_by_name["Hexe"]
+    hexenvertrauter_id = uid("ability", "Hexenvertrauter")
+    abilities.append({"id": hexenvertrauter_id, "name": "Hexenvertrauter", "description": HEXENVERTRAUTER_DESC})
+    grants.append(
+        {
+            "id": uid("grant", hexenvertrauter_id),
+            "base_class_id": hexe_id,
+            "ability_id": hexenvertrauter_id,
+            "option_choice_id": None,
+            "level": 1,
+        }
+    )
     save("base_class_abilities.json", abilities)
     save("base_class_ability_grants.json", grants)
 
@@ -142,7 +172,7 @@ def main() -> None:
         if trigger[0] == "ability":
             _, class_name, ability_name, choice_name = trigger
             class_id = class_id_by_name[class_name]
-            choice_id = choice_id_by_class_and_name[(class_id, choice_name)]
+            choice_id = choice_id_by_class_and_name[(class_id, choice_name)] if choice_name else None
             matches = [
                 g["ability_id"]
                 for g in grants

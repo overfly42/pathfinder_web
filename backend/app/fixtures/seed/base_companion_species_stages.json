@@ -1078,5 +1078,450 @@
         "alternative": false
       }
     ]
+  },
+  {
+    "id": "19e7f264-26eb-5917-afb2-e90381204bc6",
+    "race_id": "f0a41379-239b-5e50-b0b4-7de50de0a9c5",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 3,
+      "GE": 15,
+      "KO": 10,
+      "IN": 2,
+      "WE": 12,
+      "CH": 5
+    },
+    "speeds": {
+      "land": 9,
+      "climb": 9
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "61a2cb21-fcda-4a2d-8fb5-8ed12133c648": 8
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "ef82fe8a-6386-522f-bf91-f9866d2a3c17",
+    "race_id": "ead06fb8-f1a9-5c89-bf74-ef22aa251f95",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 3,
+      "GE": 15,
+      "KO": 8,
+      "IN": 1,
+      "WE": 12,
+      "CH": 2
+    },
+    "speeds": {
+      "land": 6,
+      "climb": 6
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W4",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "61a2cb21-fcda-4a2d-8fb5-8ed12133c648": 8
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "1057f78e-f1d1-599b-829a-78b1ae1de3f3",
+    "race_id": "98fbec86-6576-5693-8c7e-cedf4f9d6871",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 6,
+      "GE": 17,
+      "KO": 11,
+      "IN": 2,
+      "WE": 15,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 3,
+      "fly": 18
+    },
+    "fly_maneuverability": "durchschnittlich",
+    "natural_attacks": [
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4,
+      "3d5d4e5f-c749-4346-a53b-2006bca05abb": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "13dd0f4d-ebee-5955-a2fa-011b18dd3f15",
+    "race_id": "11e1a385-f650-57de-b7e1-e053bb58c8d0",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 6,
+      "GE": 17,
+      "KO": 11,
+      "IN": 2,
+      "WE": 14,
+      "CH": 7
+    },
+    "speeds": {
+      "land": 3,
+      "fly": 18
+    },
+    "fly_maneuverability": "durchschnittlich",
+    "natural_attacks": [
+      {
+        "name": "Krallen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "3d5d4e5f-c749-4346-a53b-2006bca05abb": 8
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "2eb70e87-6a05-599d-a5b9-509d78ad58a2",
+    "race_id": "955e40a6-3f74-5a99-ab9c-ea5003783795",
+    "level": 1,
+    "size": "Winzig",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 1,
+      "GE": 15,
+      "KO": 6,
+      "IN": 2,
+      "WE": 14,
+      "CH": 5
+    },
+    "speeds": {
+      "land": 1.5,
+      "fly": 12
+    },
+    "fly_maneuverability": "gut",
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "3d5d4e5f-c749-4346-a53b-2006bca05abb": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "3019a701-123f-5507-bec9-529284bf9195",
+    "race_id": "b7ac8152-a6f0-5cd0-b507-a8d0b7ab3918",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 3,
+      "GE": 15,
+      "KO": 8,
+      "IN": 2,
+      "WE": 12,
+      "CH": 7
+    },
+    "speeds": {
+      "land": 9
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W2",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4,
+      "bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "188035fe-dae9-594b-8c61-4e382bc3e9ea",
+    "race_id": "af001685-7195-5396-8bc3-1010337726fc",
+    "level": 1,
+    "size": "Winzig",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 1,
+      "GE": 12,
+      "KO": 6,
+      "IN": 1,
+      "WE": 15,
+      "CH": 4
+    },
+    "speeds": {
+      "land": 1.5
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [],
+    "skill_modifiers": {
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4
+    },
+    "feats": [
+      {
+        "feat_id": "4a9d8e09-9aa5-44d0-b34e-f23ec5491fed",
+        "chosen_skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb"
+      }
+    ]
+  },
+  {
+    "id": "c779a280-d0de-571e-b9fe-2e86a717c831",
+    "race_id": "b6b9c6c1-1dac-5cfa-8ef0-189d86668ad4",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "GE": 15,
+      "KO": 8,
+      "IN": 2,
+      "WE": 15,
+      "CH": 7
+    },
+    "speeds": {
+      "land": 3,
+      "fly": 12
+    },
+    "fly_maneuverability": "durchschnittlich",
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {},
+    "feats": [
+      {
+        "feat_id": "4a9d8e09-9aa5-44d0-b34e-f23ec5491fed",
+        "chosen_skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb"
+      },
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "0973ece4-5bf8-59ed-a2ef-28f89e8a72f0",
+    "race_id": "1b11e768-69c0-5741-8b55-401df238bfff",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 0,
+    "ability_scores": {
+      "ST": 2,
+      "GE": 15,
+      "KO": 11,
+      "IN": 2,
+      "WE": 13,
+      "CH": 2
+    },
+    "speeds": {
+      "land": 4.5,
+      "climb": 4.5,
+      "swim": 4.5
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "db74072e-5832-5f2e-90fd-386d0bcc5f7c",
+    "race_id": "32ae3a27-7f72-5bec-ba5c-91745dbd9d66",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 4,
+      "GE": 17,
+      "KO": 8,
+      "IN": 1,
+      "WE": 13,
+      "CH": 2
+    },
+    "speeds": {
+      "land": 6,
+      "climb": 6,
+      "swim": 6
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W2",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Gift",
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4,
+      "3d5d4e5f-c749-4346-a53b-2006bca05abb": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
+  },
+  {
+    "id": "3386d423-d656-5b5a-9d13-fa38cc93eab1",
+    "race_id": "ab70c927-3049-52b1-8be8-023e7fd0b90d",
+    "level": 1,
+    "size": "Sehr klein",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 3,
+      "GE": 15,
+      "KO": 10,
+      "IN": 2,
+      "WE": 12,
+      "CH": 5
+    },
+    "speeds": {
+      "land": 6,
+      "climb": 6
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W3",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": "Festklammern",
+        "alternative": false
+      }
+    ],
+    "skill_modifiers": {
+      "61a2cb21-fcda-4a2d-8fb5-8ed12133c648": 8,
+      "432bdbaa-0286-4203-a117-1dbc4d68056b": 4
+    },
+    "feats": [
+      {
+        "feat_id": "6f0fd239-157e-567a-b1d8-f5c4c529eeec",
+        "chosen_skill_id": null
+      }
+    ]
   }
 ]

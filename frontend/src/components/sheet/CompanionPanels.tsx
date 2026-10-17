@@ -53,11 +53,18 @@ export function CompanionBanner({ character }: { character: Character }) {
           {info.effectiveLevel}: {formatCompanionBreakdown(info)}
         </p>
       )}
-      <p>
-        Trefferwürfel: {info.hitDice}
-        {hdMismatch && ` (laut Tabelle ${info.expectedHitDice})`}
-        {' · '}Aufstieg: {info.advancementChoice === 'dex_con' ? '+2 GE/+2 KO statt Tierart' : info.advanced ? 'erreicht' : 'noch nicht erreicht'}
-      </p>
+      {info.track === 'familiar' ? (
+        <p>
+          Stufe des Meisters: {info.hitDice} — TP (halbe TP des Meisters), GAB, Rettungswürfe und
+          Fertigkeitsränge kommen vom Meister.
+        </p>
+      ) : (
+        <p>
+          Trefferwürfel: {info.hitDice}
+          {hdMismatch && ` (laut Tabelle ${info.expectedHitDice})`}
+          {' · '}Aufstieg: {info.advancementChoice === 'dex_con' ? '+2 GE/+2 KO statt Tierart' : info.advanced ? 'erreicht' : 'noch nicht erreicht'}
+        </p>
+      )}
       {info.openHitDice > 0 && (
         <p className="companion-open">
           {info.openHitDice} TW mit offenen Entscheidungen (Fertigkeiten, Talente
@@ -74,12 +81,14 @@ export function CompanionBanner({ character }: { character: Character }) {
           ))}
         </ul>
       )}
+      {info.track !== 'familiar' && (
       <details className="companion-tricks">
         <summary>Bonustricks: {info.bonusTricks}</summary>
         <p className="desc">{TRICK_HELP.rules}</p>
         <p className="desc">Tricks: {TRICK_HELP.tricks.join(' · ')}</p>
         <p className="desc">Aufgaben: {TRICK_HELP.trainings.join(' · ')}</p>
       </details>
+      )}
     </div>
   );
 }
@@ -135,6 +144,8 @@ function CompanionCreateForm({
   onCreated: (id: string) => void;
 }) {
   const hitDice = slot.hitDice ?? 0;
+  // A familiar (roadmap slice 10 step 4) has no HD of its own and no advancement choice.
+  const isFamiliar = slot.track === 'familiar';
   const [speciesId, setSpeciesId] = useState('');
   const [name, setName] = useState('');
   const [advancement, setAdvancement] = useState<'species' | 'dex_con'>('species');
@@ -145,13 +156,18 @@ function CompanionCreateForm({
   async function submit() {
     const values = hitPoints.slice(0, hitDice).map((v) => parseInt(v, 10));
     if (!speciesId || !name.trim() || values.some((v) => !Number.isFinite(v) || v < 1 || v > 8)) {
-      setError('Bitte Tierart, Namen und für jeden Trefferwürfel 1–8 Trefferpunkte angeben.');
+      setError(
+        isFamiliar
+          ? 'Bitte Tierart und Namen angeben.'
+          : 'Bitte Tierart, Namen und für jeden Trefferwürfel 1–8 Trefferpunkte angeben.',
+      );
       return;
     }
     setSaving(true);
     setError(null);
     try {
       const created = await apiPost<{ id: string }>(`/api/characters/${masterId}/companions`, {
+        track: slot.track,
         slot_key: slot.slotKey,
         species_id: speciesId,
         name: name.trim(),
@@ -160,7 +176,7 @@ function CompanionCreateForm({
       });
       onCreated(created.id);
     } catch {
-      setError('Gefährte konnte nicht angelegt werden.');
+      setError(isFamiliar ? 'Vertrauter konnte nicht angelegt werden.' : 'Gefährte konnte nicht angelegt werden.');
     } finally {
       setSaving(false);
     }
@@ -168,7 +184,7 @@ function CompanionCreateForm({
 
   return (
     <details className="gear-add companion-create">
-      <summary className="gear-add-btn">+ Gefährten anlegen</summary>
+      <summary className="gear-add-btn">{isFamiliar ? '+ Vertrauten anlegen' : '+ Gefährten anlegen'}</summary>
       <div className="hp-popover-body gear-form">
         <select value={speciesId} onChange={(e) => setSpeciesId(e.target.value)}>
           <option value="">— Tierart wählen —</option>
@@ -177,11 +193,17 @@ function CompanionCreateForm({
           ))}
         </select>
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-        <select value={advancement} onChange={(e) => setAdvancement(e.target.value as 'species' | 'dex_con')}>
-          <option value="species">Aufstieg der Tierart</option>
-          <option value="dex_con">+2 GE/KO statt Aufstieg</option>
-        </select>
-        <div className="detail-label">Trefferpunkte je Trefferwürfel (W8)</div>
+        {!isFamiliar && (
+          <select value={advancement} onChange={(e) => setAdvancement(e.target.value as 'species' | 'dex_con')}>
+            <option value="species">Aufstieg der Tierart</option>
+            <option value="dex_con">+2 GE/KO statt Aufstieg</option>
+          </select>
+        )}
+        {isFamiliar ? (
+          <div className="detail-label">TP, GAB, Rettungswürfe und Ränge kommen vom Meister.</div>
+        ) : (
+          <div className="detail-label">Trefferpunkte je Trefferwürfel (W8)</div>
+        )}
         <div className="companion-hp-row">
           {Array.from({ length: hitDice }, (_, i) => (
             <input

@@ -1173,6 +1173,7 @@ def add_companion(character_id: UUID, body: CompanionCreate, db: Annotated[Sessi
     return create_companion(
         db,
         master,
+        track=body.track,
         slot_key=body.slot_key,
         species_id=body.species_id,
         name=body.name,

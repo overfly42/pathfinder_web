@@ -128,5 +128,18 @@
     "divisor": 1,
     "minimum": null,
     "stack_group": null
+  },
+  {
+    "id": "b47c5af3-4a46-550f-b97a-9bb5d706bd08",
+    "track": "familiar",
+    "label": "Hexe",
+    "class_ability_id": "0e61367e-2ba1-58a8-bbf2-9d04c83ecca5",
+    "feat_id": null,
+    "kind": "class_level",
+    "root_class_id": "2ac0bd62-8800-4db8-9395-22b4391a9646",
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": null
   }
 ]

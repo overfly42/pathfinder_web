@@ -86,11 +86,20 @@ from .companions import (
     companion_payload,
     companion_slots,
     companion_state,
+    familiar_species_ids,
     is_first_feat_level,
     pending_levels,
     slots_payload,
 )
-from .rules.companions import TRACK_LABELS, TRACKS, master_companion_modifiers, master_effective_level
+from .rules.companions import (
+    FAMILIAR_CLASS_SKILL_IDS,
+    TRACK_LABELS,
+    TRACKS,
+    familiar_master_modifiers,
+    familiar_master_skill_notes,
+    master_companion_modifiers,
+    master_effective_level,
+)
 from .rules.size import SIZE_TABLE, SIZES, base_size, format_meters, resolve_size, size_modifiers, step_damage, weapon_damage
 from .rules.context import CharacterContext
 from .rules.daily_limits import remaining_today
@@ -304,6 +313,16 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         if (gear_row := gear_by_slot.get(slot_key)) is not None
     )
 
+    # A familiar (roadmap slice 10 step 4) has no levels: its level, GAB,
+    # base saves, HP and skill ranks come from its master, its feats from
+    # its species (`app/companions.py`'s `FamiliarDerived`).
+    familiar = companion.familiar if companion else None
+    species_feat_ids = [UUID(feat["feat_id"]) for feat in familiar.feats] if familiar else []
+    skill_rank_details = familiar.skill_rank_details if familiar else character.skill_rank_details
+    skill_ranks: dict[UUID, int] = defaultdict(int)
+    for entry in skill_rank_details:
+        skill_ranks[entry["skill_id"]] += entry["ranks"]
+
     # The character's raw `CharacterContext` (`rules/context.py`) — built
     # once here, fully populated, and threaded into every handler family
     # below rather than each one re-deriving its own slice of character
@@ -314,14 +333,14 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     # sheet itself displays.
     context = CharacterContext(
         ability_scores=effective_scores,
-        character_level=character.level,
-        skill_ranks={UUID(skill_id): ranks for skill_id, ranks in character.skill_ranks.items()},
-        feat_ids=frozenset(character.feat_ids),
+        character_level=familiar.level if familiar else character.level,
+        skill_ranks=dict(skill_ranks),
+        feat_ids=frozenset([*character.feat_ids, *species_feat_ids]),
         trait_ids=frozenset(character.trait_ids),
         trait_skill_choices=character.trait_skill_choices,
         feat_skill_pair_choices=character.feat_skill_pair_choices,
         feat_manifestation_choices=character.feat_manifestation_choices,
-        feat_pick_counts=Counter(character.feat_ids),
+        feat_pick_counts=Counter([*character.feat_ids, *species_feat_ids]),
         feat_manifestation_picks=_feat_manifestation_picks(character),
         granted_ability_ids=granted_ability_ids,
         granting_root_ids_by_ability=granting_root_ids_by_ability,
@@ -339,6 +358,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         kensai_chosen_weapon_id=weapon_choice_by_ability_id.get(KENSAI_WEAPON_CHOICE_ABILITY_ID),
         # A companion's master/species inputs (roadmap slice 10 step 3).
         **(companion_context_fields(companion) if companion else {}),
+        # A master's familiars (step 4) — what they give the master.
+        familiar_species_ids=frozenset() if companion else familiar_species_ids(db, character),
     )
     # Every Modifier from a composition source that doesn't already have its
     # own dedicated, repeat-count-aware resolution pipeline — feats, traits,
@@ -381,6 +402,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.FLY_SPEED)
         + granted_ability_modifiers(context, target=ModifierTarget.BURROW_SPEED)
         + size_modifiers(size)
+        + familiar_master_modifiers(context)
         + (companion.modifiers + master_companion_modifiers(context) if companion else [])
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
@@ -423,10 +445,12 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             effective_scores[ability] += bonus
     ability_mods = {ability: ability_mod(score) for ability, score in effective_scores.items()}
 
-    total_level = character.level
-    hp_max = max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level) + stacked.get(
-        (ModifierTarget.HIT_POINTS, None), 0
-    )
+    total_level = familiar.level if familiar else character.level
+    hp_max = (
+        familiar.hp_max
+        if familiar
+        else max_hit_points([lvl.hit_points for lvl in character.levels], ability_mods["KO"], total_level)
+    ) + stacked.get((ModifierTarget.HIT_POINTS, None), 0)
     # Legacy characters created before HP was computed at all may still have
     # a null damage_taken (see Character.damage_taken's docstring) — treated
     # as undamaged. `hp.current` (remaining HP) is derived here, not stored;
@@ -436,7 +460,8 @@ def build_character_sheet(character: Character, db: Session) -> dict:
 
     str_mod = ability_mods["ST"]
     dex_mod = ability_mods["GE"]
-    bab = character.bab
+    bab = familiar.bab if familiar else character.bab
+    base_saves = familiar.base_saves if familiar else character.saves
 
     capped_dex_mod = dex_mod if max_dex_bonus is None else min(dex_mod, max_dex_bonus)
     armor_class = 10 + capped_dex_mod + stacked.get((ModifierTarget.AC, None), 0)
@@ -518,11 +543,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "armorClassFlatFooted": armor_class_flat_footed,
         "armorClassFlatFootedBreakdown": armor_class_flat_footed_breakdown,
         "initiative": _fmt(dex_mod),
-        "speed": f"{total_speed} m",
-        "climbSpeed": f"{climb_speed} m" if climb_speed else None,
-        "swimSpeed": f"{swim_speed} m" if swim_speed else None,
-        "flySpeed": f"{fly_speed} m" if fly_speed else None,
-        "burrowSpeed": f"{burrow_speed} m" if burrow_speed else None,
+        "speed": format_meters(total_speed),
+        "climbSpeed": format_meters(climb_speed) if climb_speed else None,
+        "swimSpeed": format_meters(swim_speed) if swim_speed else None,
+        "flySpeed": format_meters(fly_speed) if fly_speed else None,
+        "burrowSpeed": format_meters(burrow_speed) if burrow_speed else None,
         "flyManeuverability": fly_maneuverability if fly_speed else None,
         "roundLabel": "Runde 1",
         "abilities": [
@@ -541,7 +566,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
                 "key": key,
                 "label": label,
                 "value": _fmt(
-                    character.saves[key]
+                    base_saves[key]
                     + ability_mods[SAVE_ABILITY[key]]
                     + stacked.get((SAVE_TARGET[key], None), 0)
                 ),
@@ -572,9 +597,18 @@ def build_character_sheet(character: Character, db: Session) -> dict:
             },
         ],
         "skills": _build_skills(
-            db, character, level_counts_by_root_id, ability_mods, total_speed, stacked, groups, context
+            db,
+            character,
+            level_counts_by_root_id,
+            ability_mods,
+            total_speed,
+            stacked,
+            groups,
+            context,
+            skill_rank_details=skill_rank_details,
+            extra_class_skill_ids=FAMILIAR_CLASS_SKILL_IDS if familiar else frozenset(),
         ),
-        "feats": _build_feats(db, character),
+        "feats": _build_feats(db, character) + (_species_feats(db, familiar.feats) if familiar else []),
         "traits": _build_traits(db, character),
         "classFeatures": _build_class_features(db, granted_ability_ids, context, frozenset(secondary_ability_ids)),
         "companionLevels": [] if companion else _build_companion_levels(db, character, context),
@@ -601,6 +635,30 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "externalClassAbilities": _build_external_class_abilities(db),
         "externalSpells": _build_external_spells(db),
     }
+
+
+def _species_feats(db: Session, feats: list[dict]) -> list[dict]:
+    """A familiar species' own feats (step 4), shaped like `_build_feats`'s
+    rows, the chosen skill in parentheses ("Fertigkeitsfokus (Wahrnehmung)")."""
+    rows = []
+    for entry in feats:
+        feat = db.get(BaseFeat, UUID(entry["feat_id"]))
+        if feat is None:
+            continue
+        name = feat.name
+        if entry.get("chosen_skill_id"):
+            skill = db.get(BaseSkill, UUID(entry["chosen_skill_id"]))
+            name = f"{feat.name} ({skill.name})" if skill else name
+        rows.append(
+            {
+                "key": f"species-{feat.id}",
+                "name": name,
+                "description": feat.description,
+                "hasHandler": has_mechanical_effect(feat.id),
+                "partialNote": partial_effect_note(feat.id),
+            }
+        )
+    return rows
 
 
 def _feat_manifestation_picks(character: Character) -> dict[UUID, tuple[str, ...]]:
@@ -1035,13 +1093,19 @@ def _build_skills(
     stacked: dict[tuple[ModifierTarget, str | None], int],
     groups: dict[tuple[ModifierTarget, str | None], list[Modifier]],
     context: CharacterContext,
+    *,
+    skill_rank_details: list[dict] | None = None,
+    extra_class_skill_ids: frozenset[UUID] = frozenset(),
 ) -> list[dict]:
+    # `skill_rank_details`/`extra_class_skill_ids`: a familiar's ranks are
+    # its master's and its class skills the familiar ones (step 4).
+    #
     # Per-(skill, specialization) ranks, grouped by base skill id — a
     # `has_specialization` skill (Handwerk/Beruf/Auftreten) fans out into one
     # row per specialization the character actually has; every other skill
     # still gets at most one row, same as before.
     ranks_by_skill: dict[UUID, list[dict]] = defaultdict(list)
-    for entry in character.skill_rank_details:
+    for entry in skill_rank_details if skill_rank_details is not None else character.skill_rank_details:
         if entry["ranks"] > 0:
             ranks_by_skill[entry["skill_id"]].append(entry)
 
@@ -1066,7 +1130,7 @@ def _build_skills(
     # has no id to look up (see that module's docstring for the full model).
     # Computed once, up front, rather than each skill row re-deriving it.
     notes_by_skill: dict[UUID, list[SkillNote]] = defaultdict(list)
-    for note in [jump_skill_note(total_speed), *situational_skill_notes(context)]:
+    for note in [jump_skill_note(total_speed), *situational_skill_notes(context), *familiar_master_skill_notes(context)]:
         notes_by_skill[note.skill_id].append(note)
 
     class_skill_ids: set[UUID] = set()
@@ -1088,7 +1152,7 @@ def _build_skills(
     # A trait/feat can make a skill a class skill regardless of the
     # character's actual classes (e.g. "Begabt" and Auftreten) — folded in
     # unconditionally, not gated behind `level_counts_by_root_id` above.
-    class_skill_ids |= granted_class_skill_ids(context)
+    class_skill_ids |= granted_class_skill_ids(context) | extra_class_skill_ids
 
     def _skill_entry(skill: BaseSkill, ranks: int, label: str, key: str) -> dict:
         ab_mod = ability_mods.get(skill.ability, 0)

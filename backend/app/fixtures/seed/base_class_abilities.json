@@ -4920,5 +4920,55 @@
     "id": "6cf26ebc-b81b-5813-8e11-f9feb0d71001",
     "name": "Aasimar (Paladin)",
     "description": "Addiere +1/6 auf den Moralbonus auf Rettungswürfe, den die Auren des Paladins generieren."
+  },
+  {
+    "id": "0e61367e-2ba1-58a8-bbf2-9d04c83ecca5",
+    "name": "Hexenvertrauter",
+    "description": "(AF) Auf der 1. Stufe formt die Hexe eine enge Verbindung zu einem Vertrauten, der sie Magie lehrt und auf ihrem Pfad begleitet und sie anleitet. Ebenfalls unterstützt der Vertraute sie, in dem er ihr Boni auf ihre Fertigkeiten verleiht, ihr zusätzliche Zauber gewährt und ihr den Umgang mit einigen Magiearten erleichtert. Dies funktioniert wie das Klassenmerkmal Arkane Verbindung eines Magiers, wobei Ausnahmen im Abschnitt zum Hexenvertrauten zu finden sind.\nDie Hexe muss jeden Tag mit ihrem Vertrauten kommunizieren, um ihre Zauber vorbereiten zu können. Alle Zauber welche die Hexe kennt, befinden sich innewohnend in ihrem Vertrauten. Die Hexe kann somit keine Zauber vorbereiten, die nicht in ihrem Vertrauten gespeichert sind. Die Stufe als Hexe entspricht der effektiven Stufe des Magiers, um die Fähigkeiten des Vertrauten der Hexe zu ermitteln; Stufen in anderen Klassen mit Vertrauten addieren sich."
+  },
+  {
+    "id": "6a5ff6ac-e636-5701-9892-e77f718d6212",
+    "name": "Berührungszauber übermitteln",
+    "description": "(ÜF) Wenn der Meister mindestens die 3. Stufe erreicht hat, kann der Vertraute für ihn einen Berührungszauber übermitteln. Wenn der Meister und der Vertraute miteinander in Körperkontakt stehen, wenn der Zauber gewirkt wird, kann der Meister den Vertrauten als Berührer bestimmen. Der Vertraute übermittelt den Zauber genau so, wie es sein Meister auch könnte. Wie üblich verfällt der Zauber, wenn der Meister einen weiteren Zauber wirkt, bevor der Berührungszauber übermittelt wurde."
+  },
+  {
+    "id": "9b891e82-25ee-535f-991b-3b003d96cbfb",
+    "name": "Empathische Verbindung",
+    "description": "(ÜF) Der Meister hat eine emphatische Verbindung zu seinem Vertrauten, mit einer Reichweite von 1,5 km. Der Meister kann nicht durch die Augen seines Vertrauten sehen, aber er kann empathisch mit seinem Vertrauten kommunizieren. Aufgrund der eingeschränkten Verbindung können nur generelle Gefühlsinhalte übermittelt werden. Als Ergebnis dieser Verbindung hat der Meister die gleiche Beziehung zu einem Gegenstand oder Ort wie sein Vertrauter. Hat der Vertraute einen Ort gesehen, wird der Meister so behandelt, als ob er diesen auch gesehen hätte."
+  },
+  {
+    "id": "c98ad1cc-8e17-58fa-a587-f78d588042d7",
+    "name": "Mit Meister sprechen",
+    "description": "(AF) Wenn der Meister die 5. Stufe erreicht hat, können er und sein Vertrauter verbal miteinander kommunizieren, als ob sie eine gemeinsame Sprache sprechen würden. Andere Wesen können diese Kommunikation nicht ohne magische Hilfe verstehen."
+  },
+  {
+    "id": "3701034f-3de9-5486-9587-504ec01d5dcd",
+    "name": "Mit Tieren seiner Art sprechen",
+    "description": "(AF) Wenn der Meister die 7. Stufe erreicht hat, kann sein Vertrauter mit Tieren kommunizieren, die annähernd von der gleichen Art sind wie er (einschließlich Schreckensvarianten) Fledermäuse mit Fledermäusen, Katzen mit Katzenartigen, Falken, Eulen und Raben mit Vögeln, Eidechsen und Schlangen mit Reptilien, Kröten mit Amphibien, Wiesel mit Tieren aus der Familie der Marder. Die Kommunikation ist durch die Intelligenz der beteiligten Tiere eingeschränkt."
+  },
+  {
+    "id": "628a5400-3ca7-5735-a156-09458a70c919",
+    "name": "Verbessertes Entrinnen",
+    "description": "(AF) Wenn der Vertraute Ziel eines Angriffs ist, der einen Reflexwurf erlaubt, um den Schaden zu halbieren, nimmt er keinen Schaden bei einem gelungenen Rettungswurf und nur halben Schaden, wenn ihm der Rettungswurf misslingt."
+  },
+  {
+    "id": "9b99f35e-d224-5a87-a451-177791289d66",
+    "name": "Vertrauten ausspähen",
+    "description": "(ZF) Wenn der Meister die 13. Stufe erreicht hat, kann er ein Mal am Tag den Zauber Ausspähung auf seinen Vertrauten wirken."
+  },
+  {
+    "id": "abc2059a-235f-54c7-8cb8-76464c20cd9b",
+    "name": "Wachsamkeit",
+    "description": "(AF) Solange sich der Vertraute innerhalb einer Armeslänge vom Meister entfernt befindet, erhält dieser das Talent Wachsamkeit."
+  },
+  {
+    "id": "482ec780-b482-5646-b4e1-9c82b30761f8",
+    "name": "Zauber teilen",
+    "description": "Der Meister kann jeden Zauber mit dem Ziel (Du) anstelle auf sich selbst auch als Berührungszauber auf seinen Vertrauten wirken."
+  },
+  {
+    "id": "f916fc82-91bf-5c2b-82b3-37dd3e1e2d1c",
+    "name": "Zauberresistenz",
+    "description": "(AF) Wenn der Meister die 11. Stufe erreicht hat, erhält der Vertraute eine Zauberresistenz, die der Stufe seines Meisters +5 entspricht. Um den Vertrauten mit einem Zauber zu betreffen, muss der Zauberwirker einen Zauberstufenwurf ablegen (1W20 + seine Zauberstufe). Ist das Ergebnis größer oder gleich der Zauberresistenz, gelingt der Zauber."
   }
 ]

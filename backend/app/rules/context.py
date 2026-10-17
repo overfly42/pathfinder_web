@@ -193,6 +193,15 @@ class CharacterContext:
     master_favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)
     master_class_options: dict[str, tuple[str, ...]] = field(default_factory=dict)
     master_level_counts_by_root_id: dict[UUID, int] = field(default_factory=dict)
+    # A companion's/familiar's own effective level ("effektive Druiden-/
+    # Magierstufe", `app/companions.py`'s `companion_effective_level`) —
+    # `None` for a PC or an orphaned companion. Read by familiar abilities
+    # scaling with it (Zauberresistenz = level + 5).
+    companion_effective_level: int | None = None
+    # The species (`BaseRace` ids) of this character's familiars — the
+    # companion → master channel (step 4, `rules/companions.py`'s
+    # `FAMILIAR_MASTER_HANDLERS`: Katze +3 Heimlichkeit, ...).
+    familiar_species_ids: frozenset[UUID] = frozenset()
 
     def has_active(self, ability_id: UUID) -> bool:
         """Whether `active_effects` contains at least one instance sourced

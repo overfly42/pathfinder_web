@@ -1,7 +1,8 @@
 """Populates the companion catalog tables (roadmap slice 10): level sources
 (`scripts/build_companion_level_sources.py`, step 1) and species stages,
 progression and entitlements (`scripts/import_companion_species.py`, step
-2b), one fixture file per table.
+2b), familiar species/table/entitlements (`scripts/import_familiars.py`,
+step 4), one fixture file per table.
 
 Idempotent: each row is upserted by its own `id`. Requires `base_races`,
 `base_classes`, `base_class_abilities` and `base_feats` to be seeded first
@@ -25,6 +26,8 @@ from ..models import (
     BaseCompanionSlotSpecies,
     BaseCompanionSpeciesStage,
     BaseCompanionSpeciesStageAbility,
+    BaseFamiliarProgression,
+    BaseFamiliarProgressionAbility,
 )
 
 SEED_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "seed"
@@ -38,6 +41,8 @@ _TABLES: tuple[tuple[str, type], ...] = (
     ("base_companion_species_stage_abilities.json", BaseCompanionSpeciesStageAbility),
     ("base_companion_progression.json", BaseCompanionProgression),
     ("base_companion_progression_abilities.json", BaseCompanionProgressionAbility),
+    ("base_familiar_progression.json", BaseFamiliarProgression),
+    ("base_familiar_progression_abilities.json", BaseFamiliarProgressionAbility),
     ("base_companion_slot_grants.json", BaseCompanionSlotGrant),
     ("base_companion_slot_species.json", BaseCompanionSlotSpecies),
 )

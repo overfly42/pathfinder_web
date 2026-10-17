@@ -195,5 +195,104 @@
     "short_description": "+2 WE, +2 CHA; Einheimischer Externar; Bewandert; Celestische Resistenz; Dunkelsicht; Tageslicht.",
     "creature_type": "Externar",
     "source": "Ausbauregeln III: Völker"
+  },
+  {
+    "id": "f0a41379-239b-5e50-b0b4-7de50de0a9c5",
+    "code": "familiar-affe",
+    "name": "Affe",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +3 auf Akrobatik.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "ead06fb8-f1a9-5c89-bf74-ef22aa251f95",
+    "code": "familiar-echse",
+    "name": "Echse",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +3 auf Klettern.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "98fbec86-6576-5693-8c7e-cedf4f9d6871",
+    "code": "familiar-eule",
+    "name": "Eule",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält in Dunkelheit oder bei dämmrigem Licht einen Bonus von +3 auf konkurrierende Würfe auf Wahrnehmung, die auf Sicht basieren.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "11e1a385-f650-57de-b7e1-e053bb58c8d0",
+    "code": "familiar-falke",
+    "name": "Falke",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält bei Tageslicht einen Bonus von +3 auf Würfe auf Wahrnehmung, die auf Sicht basieren.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "955e40a6-3f74-5a99-ab9c-ea5003783795",
+    "code": "familiar-fledermaus",
+    "name": "Fledermaus",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält Bonus von +3 auf Fliegen.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "b7ac8152-a6f0-5cd0-b507-a8d0b7ab3918",
+    "code": "familiar-katze",
+    "name": "Katze",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +3 auf Heimlichkeit.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "af001685-7195-5396-8bc3-1010337726fc",
+    "code": "familiar-kroete",
+    "name": "Kröte",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält +3 Trefferpunkte.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "b6b9c6c1-1dac-5cfa-8ef0-189d86668ad4",
+    "code": "familiar-rabe",
+    "name": "Rabe",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +3 auf Schätzen.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "1b11e768-69c0-5741-8b55-401df238bfff",
+    "code": "familiar-ratte",
+    "name": "Ratte",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +2 auf Zähigkeitswürfe.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "32ae3a27-7f72-5bec-ba5c-91745dbd9d66",
+    "code": "familiar-viper",
+    "name": "Viper",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +3 auf Bluffen.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
+  },
+  {
+    "id": "ab70c927-3049-52b1-8be8-023e7fd0b90d",
+    "code": "familiar-wiesel",
+    "name": "Wiesel",
+    "short_description": "Vertrauter (Monsterhandbuch: Vertraute). Bonus für den Meister: Der Meister erhält einen Bonus von +2 auf Reflexwürfe.",
+    "companion_kind": "familiar",
+    "creature_type": "Tier",
+    "source": "Monsterhandbuch: Vertraute"
   }
 ]

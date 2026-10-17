@@ -733,10 +733,12 @@ class CompanionCreate(BaseModel):
     has one value per HD of the current effective level (W8 each, the first
     one isn't maxed — a companion's HD aren't class levels of a PC)."""
 
+    # "familiar" (step 4): no hit points, everything derives from the master.
+    track: Literal["animal_companion", "familiar"] = "animal_companion"
     slot_key: str = "primary"
     species_id: UUID
     name: str
-    hit_points: list[int]
+    hit_points: list[int] = []
     advancement_choice: Literal["species", "dex_con"] = "species"
 
     @field_validator("name")

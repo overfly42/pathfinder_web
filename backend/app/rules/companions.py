@@ -31,7 +31,7 @@ from typing import Protocol
 from uuid import UUID
 
 from .context import CharacterContext
-from .modifiers import Modifier, ModifierTarget
+from .modifiers import Modifier, ModifierTarget, SkillNote
 
 TRACKS = ("animal_companion", "familiar")
 TRACK_LABELS = {"animal_companion": "Tiergefährte/Reittier", "familiar": "Vertrauter"}
@@ -271,4 +271,119 @@ def master_companion_notes(context: CharacterContext) -> list[str]:
         handler = COMPANION_NOTE_HANDLERS.get(trigger_id)
         if handler is not None:
             notes.extend(handler(context))
+    return notes
+
+
+# ---- familiar (step 4) ----
+# A familiar is fully derived from its master (`app/companions.py`): these
+# are the fixed parts of the PRD's familiar rules (Grundregelwerk, Magier,
+# "Die Werte des Vertrauten").
+
+# "der Grundbonus des Vertrauten (REF +2, WIL +0, ZÄH +2)" — each save uses
+# this or the master's base save, whichever is better.
+FAMILIAR_BASE_SAVES = {"fort": 2, "ref": 2, "will": 0}
+# "Vertraute haben Akrobatik, Fliegen, Heimlichkeit, Klettern, Schwimmen und
+# Wahrnehmung als Klassenfertigkeiten."
+AKROBATIK_SKILL_ID = UUID("61a2cb21-fcda-4a2d-8fb5-8ed12133c648")
+KLETTERN_SKILL_ID = UUID("bf8d0e63-8a96-4a0e-baf9-06a1cac4e4c7")
+FLIEGEN_SKILL_ID = UUID("a71cd8ed-15b2-4594-9819-0e320071513c")
+HEIMLICHKEIT_SKILL_ID = UUID("432bdbaa-0286-4203-a117-1dbc4d68056b")
+SCHWIMMEN_SKILL_ID = UUID("e5fa3283-96aa-49ee-8836-ba3062bae32d")
+WAHRNEHMUNG_SKILL_ID = UUID("3d5d4e5f-c749-4346-a53b-2006bca05abb")
+SCHAETZEN_SKILL_ID = UUID("791a87d6-c13a-4f44-bde4-fb39a46a462b")
+BLUFFEN_SKILL_ID = UUID("144fa65e-50ce-4eb7-b861-177692a86858")
+MOTIV_ERKENNEN_SKILL_ID = UUID("9a4debc2-0c8f-4461-9a37-bd667d8535ee")
+FAMILIAR_CLASS_SKILL_IDS = frozenset(
+    {AKROBATIK_SKILL_ID, FLIEGEN_SKILL_ID, HEIMLICHKEIT_SKILL_ID, KLETTERN_SKILL_ID, SCHWIMMEN_SKILL_ID,
+     WAHRNEHMUNG_SKILL_ID}
+)
+
+# Familiar species (`scripts/import_familiars.py`) -> what its master gets
+# (PRD Magier, "Vertrauter | Speziell"). `CharacterContext.familiar_species_ids`
+# holds the species of the master's familiars.
+AFFE_FAMILIAR_ID = UUID("f0a41379-239b-5e50-b0b4-7de50de0a9c5")
+ECHSE_FAMILIAR_ID = UUID("ead06fb8-f1a9-5c89-bf74-ef22aa251f95")
+EULE_FAMILIAR_ID = UUID("98fbec86-6576-5693-8c7e-cedf4f9d6871")
+FALKE_FAMILIAR_ID = UUID("11e1a385-f650-57de-b7e1-e053bb58c8d0")
+FLEDERMAUS_FAMILIAR_ID = UUID("955e40a6-3f74-5a99-ab9c-ea5003783795")
+KATZE_FAMILIAR_ID = UUID("b7ac8152-a6f0-5cd0-b507-a8d0b7ab3918")
+KROETE_FAMILIAR_ID = UUID("af001685-7195-5396-8bc3-1010337726fc")
+RABE_FAMILIAR_ID = UUID("b6b9c6c1-1dac-5cfa-8ef0-189d86668ad4")
+RATTE_FAMILIAR_ID = UUID("1b11e768-69c0-5741-8b55-401df238bfff")
+VIPER_FAMILIAR_ID = UUID("32ae3a27-7f72-5bec-ba5c-91745dbd9d66")
+WIESEL_FAMILIAR_ID = UUID("ab70c927-3049-52b1-8be8-023e7fd0b90d")
+
+_FAMILIAR_SOURCE = "Vertrauter"
+
+
+def _master_skill_bonus(skill_id: UUID, value: int = 3) -> Callable[[CharacterContext], list[Modifier]]:
+    return lambda _context: [
+        Modifier(source=_FAMILIAR_SOURCE, type="untyped", value=value, target=ModifierTarget.SKILL, target_id=str(skill_id))
+    ]
+
+
+def _master_bonus(target: ModifierTarget, value: int) -> Callable[[CharacterContext], list[Modifier]]:
+    return lambda _context: [Modifier(source=_FAMILIAR_SOURCE, type="untyped", value=value, target=target)]
+
+
+FAMILIAR_MASTER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    AFFE_FAMILIAR_ID: _master_skill_bonus(AKROBATIK_SKILL_ID),
+    ECHSE_FAMILIAR_ID: _master_skill_bonus(KLETTERN_SKILL_ID),
+    FLEDERMAUS_FAMILIAR_ID: _master_skill_bonus(FLIEGEN_SKILL_ID),
+    KATZE_FAMILIAR_ID: _master_skill_bonus(HEIMLICHKEIT_SKILL_ID),
+    KROETE_FAMILIAR_ID: _master_bonus(ModifierTarget.HIT_POINTS, 3),
+    RABE_FAMILIAR_ID: _master_skill_bonus(SCHAETZEN_SKILL_ID),
+    RATTE_FAMILIAR_ID: _master_bonus(ModifierTarget.SAVE_FORT, 2),
+    VIPER_FAMILIAR_ID: _master_skill_bonus(BLUFFEN_SKILL_ID),
+    WIESEL_FAMILIAR_ID: _master_bonus(ModifierTarget.SAVE_REF, 2),
+}
+# Situational master bonuses: Eule/Falke only for sight-based Wahrnehmung
+# in their light conditions.
+FAMILIAR_MASTER_SKILL_NOTES: dict[UUID, SkillNote] = {
+    EULE_FAMILIAR_ID: SkillNote(
+        skill_id=WAHRNEHMUNG_SKILL_ID,
+        title="Vertrauter Eule (Sicht, in Dunkelheit oder dämmrigem Licht)",
+        modifier_label="Vertrauter",
+        value=3,
+    ),
+    FALKE_FAMILIAR_ID: SkillNote(
+        skill_id=WAHRNEHMUNG_SKILL_ID,
+        title="Vertrauter Falke (Sicht, bei Tageslicht)",
+        modifier_label="Vertrauter",
+        value=3,
+    ),
+}
+
+
+def familiar_master_modifiers(context: CharacterContext) -> list[Modifier]:
+    """What the master's familiars give the master unconditionally."""
+    modifiers: list[Modifier] = []
+    for species_id in sorted(context.familiar_species_ids, key=str):
+        handler = FAMILIAR_MASTER_HANDLERS.get(species_id)
+        if handler is not None:
+            modifiers.extend(handler(context))
+    return modifiers
+
+
+def familiar_master_skill_notes(context: CharacterContext) -> list[SkillNote]:
+    """The situational ones, plus every familiar's "Wachsamkeit": "Solange
+    sich der Vertraute innerhalb einer Armeslänge vom Meister entfernt
+    befindet, erhält dieser das Talent Wachsamkeit" (+2 Wahrnehmung and
+    Motiv erkennen)."""
+    if not context.familiar_species_ids:
+        return []
+    notes = [
+        FAMILIAR_MASTER_SKILL_NOTES[species_id]
+        for species_id in sorted(context.familiar_species_ids, key=str)
+        if species_id in FAMILIAR_MASTER_SKILL_NOTES
+    ]
+    for skill_id in (WAHRNEHMUNG_SKILL_ID, MOTIV_ERKENNEN_SKILL_ID):
+        notes.append(
+            SkillNote(
+                skill_id=skill_id,
+                title="Wachsamkeit (Vertrauter in Armeslänge)",
+                modifier_label="Wachsamkeit",
+                value=2,
+            )
+        )
     return notes

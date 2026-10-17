@@ -38,6 +38,13 @@ Step 3 adds the choices and the master → companion channel:
 - **Channel** (`rules/companions.py`'s `COMPANION_MODIFIER_HANDLERS`/
   `COMPANION_NOTE_HANDLERS`): the companion's context carries the master's
   raw composition (`companion_context_fields`).
+
+Step 4 adds the familiar (track "familiar"): also a `Character`, but with
+no levels at all — `_familiar_state` derives everything from its species
+statblock, the familiar table for the master's familiar level and the
+master himself (`FamiliarDerived`). It gives its master a bonus by species
+(`rules/companions.py`'s `FAMILIAR_MASTER_HANDLERS`, fed by
+`familiar_species_ids`).
 """
 
 from collections import Counter
@@ -57,13 +64,21 @@ from .models import (
     BaseCompanionSlotSpecies,
     BaseCompanionSpeciesStage,
     BaseCompanionSpeciesStageAbility,
+    BaseFamiliarProgression,
+    BaseFamiliarProgressionAbility,
     BaseRace,
     Character,
     CharacterClass,
     CharacterCompanion,
     CharacterLevel,
 )
-from .rules.companions import TRACK_LABELS, TrackLevel, master_companion_notes, master_effective_level
+from .rules.companions import (
+    FAMILIAR_BASE_SAVES,
+    TRACK_LABELS,
+    TrackLevel,
+    master_companion_notes,
+    master_effective_level,
+)
 from .rules.context import CharacterContext
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
 from .rules.feat_slots import base_feat_count
@@ -109,11 +124,36 @@ class CompanionState:
     progression_ability_ids: Counter[UUID] = field(default_factory=Counter)
     advanced: bool = False
     master_context: CharacterContext | None = None
+    # Set only for a familiar (step 4): everything it takes from its master.
+    familiar: "FamiliarDerived | None" = None
     # The combined natural armor bonus (species, advancement, table).
     natural_armor: int = 0
     # How many natural attacks the species' current statblock lists,
     # alternatives not counted (`CharacterContext.natural_attack_count`).
     natural_attack_count: int = 0
+
+
+@dataclass
+class FamiliarDerived:
+    """A familiar's values taken from its master (PRD Magier, "Die Werte des
+    Vertrauten"): it has no `CharacterLevel` rows of its own.
+
+    - `level`: the master's character level ("gilt die Stufe des Meisters")
+    - `bab`: the master's GAB
+    - `base_saves`: per save the better of the familiar's (REF +2, WIL +0,
+      ZÄH +2) and the master's base save
+    - `hp_max`: half the master's maximum HP, rounded down
+    - `skill_rank_details`: the master's ranks (a familiar's own single
+      species rank isn't modeled — the master's are at least as high in
+      every skill the master trained)
+    - `feats`: the species' own feats (`[{feat_id, chosen_skill_id}]`)"""
+
+    level: int
+    bab: int
+    base_saves: dict[str, int]
+    hp_max: int
+    skill_rank_details: list[dict]
+    feats: list[dict]
 
 
 def master_context(db: Session, master: Character) -> CharacterContext:
@@ -164,6 +204,7 @@ def companion_context_fields(state: "CompanionState") -> dict:
         ),
         "master_class_options": master_class_options(state.master),
         "master_level_counts_by_root_id": master_ctx.level_counts_by_root_id if master_ctx else {},
+        "companion_effective_level": state.effective_level,
     }
 
 
@@ -195,7 +236,7 @@ def companion_slots(db: Session, master: Character, context: CharacterContext | 
     sources = db.scalars(select(BaseCompanionLevelSource)).all()
     class_names = _class_names(db)
     master_size = _master_size(db, master)
-    links = {link.slot_key: link for link in db.scalars(
+    links = {(link.track, link.slot_key): link for link in db.scalars(
         select(CharacterCompanion).where(CharacterCompanion.master_character_id == master.id)
     )}
 
@@ -213,7 +254,7 @@ def companion_slots(db: Session, master: Character, context: CharacterContext | 
         key = (grant.track, grant.slot_key)
         slot = slots.get(key)
         if slot is None:
-            link = links.get(grant.slot_key)
+            link = links.get((grant.track, grant.slot_key))
             slot = slots[key] = CompanionSlot(
                 track=grant.track,
                 slot_key=grant.slot_key,
@@ -278,6 +319,23 @@ def _natural_attacks(rows: list[dict], size: str) -> list[NaturalAttack]:
     ]
 
 
+def _speed_modifiers(stage: BaseCompanionSpeciesStage | None) -> list[Modifier]:
+    """The species' climb/swim/fly/burrow speeds (land speed is read
+    directly as the sheet's base speed)."""
+    speeds = (stage.speeds or {}) if stage else {}
+    return [
+        Modifier(
+            source="Tierart",
+            type="base",
+            value=speeds[key],
+            target=target,
+            detail=stage.fly_maneuverability if key == "fly" else None,
+        )
+        for key, target in _SPEED_TARGETS.items()
+        if speeds.get(key)
+    ]
+
+
 def companion_state(db: Session, companion: Character) -> CompanionState | None:
     """Everything the companion's sheet derives from its master, progression
     and species — `None` for a character that isn't a companion."""
@@ -289,6 +347,8 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
         return None
     master_ctx = master_context(db, master)
     effective_level, track_level = companion_effective_level(db, master, link, master_ctx)
+    if link.track == "familiar":
+        return _familiar_state(db, companion, master, link, master_ctx, effective_level, track_level)
     orphaned = effective_level is None
     if orphaned:
         # Highest progression row the companion's current HD still matches.
@@ -344,17 +404,7 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
         # table's "zusätzlich" natural armor all add up.
         modifiers.append(Modifier(source="Natürliche Rüstung", type="natural", value=natural_armor, target=ModifierTarget.AC))
     speeds = (base.speeds or {}) if base else {}
-    for key, target in _SPEED_TARGETS.items():
-        if speeds.get(key):
-            modifiers.append(
-                Modifier(
-                    source="Tierart",
-                    type="base",
-                    value=speeds[key],
-                    target=target,
-                    detail=base.fly_maneuverability if key == "fly" else None,
-                )
-            )
+    modifiers += _speed_modifiers(base)
 
     progression_ability_ids: Counter[UUID] = Counter(
         db.scalars(
@@ -383,6 +433,95 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
     )
 
 
+def _familiar_state(
+    db: Session,
+    familiar: Character,
+    master: Character,
+    link: CharacterCompanion,
+    master_ctx: CharacterContext,
+    effective_level: int | None,
+    track_level: TrackLevel | None,
+) -> CompanionState:
+    """A familiar's derived sheet inputs (step 4): its species statblock,
+    the familiar table row for the master's familiar level (natural armor
+    bonus, IN, abilities) and the values it takes from its master
+    (`FamiliarDerived`). An orphaned familiar keeps the 1st-level row."""
+    from .sheet import build_character_sheet
+
+    level_for_stats = min(effective_level or 1, 20)
+    row = db.scalar(select(BaseFamiliarProgression).where(BaseFamiliarProgression.level == level_for_stats))
+    stage = _stages(db, familiar.race_id)[0]
+    modifiers = _speed_modifiers(stage)
+    natural_armor = stage.natural_armor + (row.natural_armor if row else 0)
+    if natural_armor:
+        modifiers.append(Modifier(source="Natürliche Rüstung", type="natural", value=natural_armor, target=ModifierTarget.AC))
+    if row is not None and row.intelligence != familiar.ability_score_in:
+        modifiers.append(
+            Modifier(
+                source="Vertrauter (IN laut Tabelle)",
+                type="untyped",
+                value=row.intelligence - familiar.ability_score_in,
+                target=ModifierTarget.SCORE,
+                target_id="IN",
+            )
+        )
+    modifiers += [
+        Modifier(source="Volksmodifikator", type="racial", value=value, target=ModifierTarget.SKILL, target_id=skill_id)
+        for skill_id, value in (stage.skill_modifiers or {}).items()
+    ]
+    species_ability_ids = set(
+        db.scalars(
+            select(BaseCompanionSpeciesStageAbility.ability_id).where(BaseCompanionSpeciesStageAbility.stage_id == stage.id)
+        )
+    )
+    progression_ability_ids: Counter[UUID] = Counter(
+        db.scalars(
+            select(BaseFamiliarProgressionAbility.ability_id).where(
+                BaseFamiliarProgressionAbility.level <= level_for_stats
+            )
+        )
+    )
+    master_saves = master.saves
+    derived = FamiliarDerived(
+        level=master.level,
+        bab=master.bab,
+        base_saves={key: max(FAMILIAR_BASE_SAVES[key], master_saves[key]) for key in FAMILIAR_BASE_SAVES},
+        hp_max=build_character_sheet(master, db)["hp"]["max"] // 2,
+        skill_rank_details=master.skill_rank_details,
+        feats=stage.feats or [],
+    )
+    attacks = stage.natural_attacks or []
+    return CompanionState(
+        master=master,
+        link=link,
+        effective_level=effective_level,
+        track_level=track_level,
+        orphaned=effective_level is None,
+        progression=None,
+        size=stage.size or "Mittelgroß",
+        land_speed=(stage.speeds or {}).get("land"),
+        modifiers=modifiers,
+        natural_attacks=_natural_attacks(attacks, stage.size or "Mittelgroß"),
+        species_ability_ids=species_ability_ids,
+        progression_ability_ids=progression_ability_ids,
+        master_context=master_ctx,
+        familiar=derived,
+        natural_armor=natural_armor,
+        natural_attack_count=sum(row["count"] for row in attacks if not row.get("alternative", False)),
+    )
+
+
+def familiar_species_ids(db: Session, master: Character) -> frozenset[UUID]:
+    """The species of `master`'s familiars (`CharacterContext.familiar_species_ids`)."""
+    return frozenset(
+        db.scalars(
+            select(Character.race_id)
+            .join(CharacterCompanion, CharacterCompanion.companion_character_id == Character.id)
+            .where(CharacterCompanion.master_character_id == master.id, CharacterCompanion.track == "familiar")
+        )
+    )
+
+
 def companion_payload(state: CompanionState, companion: Character, context: CharacterContext | None = None) -> dict:
     """The companion sheet's own section: who the master is, where the level
     comes from, HD expected vs. present, bonus tricks."""
@@ -399,7 +538,7 @@ def companion_payload(state: CompanionState, companion: Character, context: Char
             else []
         ),
         "orphaned": state.orphaned,
-        "hitDice": companion.level,
+        "hitDice": state.familiar.level if state.familiar else companion.level,
         "expectedHitDice": state.progression.hit_dice if state.progression else None,
         "bonusTricks": state.progression.bonus_tricks if state.progression else 0,
         "advancementChoice": state.link.advancement_choice,
@@ -418,10 +557,22 @@ def companion_class(db: Session) -> BaseClass:
     return db.scalar(select(BaseClass).where(BaseClass.is_companion_class.is_(True)))
 
 
+def _check_companion_hit_points(db: Session, slot: CompanionSlot, pseudo_class: BaseClass, hit_points: list[int]) -> None:
+    """One W8 value per HD the slot's effective level has."""
+    progression = progression_row(db, slot.level)
+    if len(hit_points) != progression.hit_dice:
+        raise HTTPException(
+            status_code=422, detail=f"Expected {progression.hit_dice} hit point values (one per HD), got {len(hit_points)}"
+        )
+    if any(not 1 <= value <= pseudo_class.hit_dice for value in hit_points):
+        raise HTTPException(status_code=422, detail=f"Each hit point value must be between 1 and {pseudo_class.hit_dice}")
+
+
 def create_companion(
     db: Session,
     master: Character,
     *,
+    track: str = "animal_companion",
     slot_key: str,
     species_id: UUID,
     name: str,
@@ -433,25 +584,24 @@ def create_companion(
     effective level, the given HP per HD (W8, the first one not maxed).
     Every HD starts with its choices open (`choices_pending`) — feats,
     skill ranks and ability increases are made in the level-up wizard's
-    companion mode afterwards."""
+    companion mode afterwards. A familiar (step 4) gets no levels and no
+    HP values at all: everything it has comes from its master."""
     if master.master_character_id is not None:
         raise HTTPException(status_code=422, detail="A companion can't have companions of its own")
-    slot = next((s for s in companion_slots(db, master) if s.slot_key == slot_key), None)
+    slot = next((s for s in companion_slots(db, master) if s.track == track and s.slot_key == slot_key), None)
     if slot is None:
-        raise HTTPException(status_code=422, detail=f"No companion entitlement '{slot_key}'")
+        raise HTTPException(status_code=422, detail=f"No {track} entitlement '{slot_key}'")
     if slot.companion is not None:
         raise HTTPException(status_code=422, detail=f"Slot '{slot_key}' already has a companion")
     species = next((race for race in slot.species if race.id == species_id), None)
     if species is None:
         raise HTTPException(status_code=422, detail="This species isn't allowed for this companion")
-    progression = progression_row(db, slot.level)
     pseudo_class = companion_class(db)
-    if len(hit_points) != progression.hit_dice:
-        raise HTTPException(
-            status_code=422, detail=f"Expected {progression.hit_dice} hit point values (one per HD), got {len(hit_points)}"
-        )
-    if any(not 1 <= value <= pseudo_class.hit_dice for value in hit_points):
-        raise HTTPException(status_code=422, detail=f"Each hit point value must be between 1 and {pseudo_class.hit_dice}")
+    if track == "familiar":
+        if hit_points:
+            raise HTTPException(status_code=422, detail="A familiar has no hit dice of its own (half its master's HP)")
+    else:
+        _check_companion_hit_points(db, slot, pseudo_class, hit_points)
     base = _stages(db, species.id)[0]
 
     companion = Character(
@@ -472,7 +622,8 @@ def create_companion(
         companion.levels.append(
             CharacterLevel(level=hd, base_class_id=pseudo_class.id, hit_points=value, choices_pending=True)
         )
-    companion.class_memberships.append(CharacterClass(base_class_id=pseudo_class.id, is_favored=False))
+    if track != "familiar":
+        companion.class_memberships.append(CharacterClass(base_class_id=pseudo_class.id, is_favored=False))
     db.add(companion)
     db.flush()
     db.add(
@@ -497,7 +648,12 @@ def slots_payload(db: Session, slots: list[CompanionSlot]) -> list[dict]:
             "track": slot.track,
             "slotKey": slot.slot_key,
             "level": slot.level,
-            "hitDice": progression.hit_dice if (progression := progression_row(db, slot.level)) else None,
+            # A familiar has no HD of its own: creating one takes no HP values.
+            "hitDice": (
+                0
+                if slot.track == "familiar"
+                else progression.hit_dice if (progression := progression_row(db, slot.level)) else None
+            ),
             "species": [{"id": str(race.id), "name": race.name} for race in slot.species],
             "companion": {"id": str(slot.companion.id), "name": slot.companion.name} if slot.companion else None,
         }

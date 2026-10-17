@@ -95,6 +95,12 @@ class BaseCompanionSpeciesStage(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     speeds: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     fly_maneuverability: Mapped[str | None] = mapped_column(String(32), nullable=True)
     natural_attacks: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    # Familiar species only (step 4), from the Monsterhandbuch statblock:
+    # racial skill modifiers ("Volksmodifikatoren", `{skill_id: value}`) and
+    # the species' own feats (`[{feat_id, chosen_skill_id}]`). A familiar has
+    # no levels, so neither can live in `CharacterSkillRank`/`CharacterFeat`.
+    skill_modifiers: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    feats: Mapped[list | None] = mapped_column(JSON, nullable=True)
 
 
 class BaseCompanionSpeciesStageAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -134,6 +140,31 @@ class BaseCompanionProgressionAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin)
 
     __tablename__ = "base_companion_progression_abilities"
     __table_args__ = (UniqueConstraint("level", "ability_id", name="uq_companion_progression_ability"),)
+
+    level: Mapped[int] = mapped_column(Integer)
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+
+class BaseFamiliarProgression(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One row per master level (1–20) of the PRD's familiar table (Magier,
+    "Besondere Fähigkeiten des Vertrauten"; the PRD lists two-level
+    brackets): the bonus to the familiar's existing natural armor and its
+    Intelligence. Everything else about a familiar is derived from its
+    master (`app/companions.py`)."""
+
+    __tablename__ = "base_familiar_progression"
+
+    level: Mapped[int] = mapped_column(Integer, unique=True)
+    natural_armor: Mapped[int] = mapped_column(Integer)
+    intelligence: Mapped[int] = mapped_column(Integer)
+
+
+class BaseFamiliarProgressionAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A familiar ability (Wachsamkeit, Empathische Verbindung, ...,
+    Vertrauten ausspähen) unlocked at a master level."""
+
+    __tablename__ = "base_familiar_progression_abilities"
+    __table_args__ = (UniqueConstraint("level", "ability_id", name="uq_familiar_progression_ability"),)
 
     level: Mapped[int] = mapped_column(Integer)
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
@@ -184,7 +215,9 @@ class CharacterCompanion(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     shown as "ohne Anspruch", never deleted."""
 
     __tablename__ = "character_companions"
-    __table_args__ = (UniqueConstraint("master_character_id", "slot_key", name="uq_character_companion_slot"),)
+    __table_args__ = (
+        UniqueConstraint("master_character_id", "track", "slot_key", name="uq_character_companion_track_slot"),
+    )
 
     master_character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
     companion_character_id: Mapped[uuid.UUID] = mapped_column(

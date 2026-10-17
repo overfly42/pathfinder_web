@@ -1,0 +1,47 @@
+[
+  {
+    "id": "57d30383-afc0-5f7a-b2f3-f87f0d61527c",
+    "level": 1,
+    "ability_id": "abc2059a-235f-54c7-8cb8-76464c20cd9b"
+  },
+  {
+    "id": "6c2b8424-6302-5599-a525-42f846d1192e",
+    "level": 1,
+    "ability_id": "628a5400-3ca7-5735-a156-09458a70c919"
+  },
+  {
+    "id": "3f492edf-be3a-5146-b993-ce0eeae5f830",
+    "level": 1,
+    "ability_id": "9b891e82-25ee-535f-991b-3b003d96cbfb"
+  },
+  {
+    "id": "a7a16395-06f8-5536-aecd-33b71640a4e8",
+    "level": 1,
+    "ability_id": "482ec780-b482-5646-b4e1-9c82b30761f8"
+  },
+  {
+    "id": "d3003806-d4c7-5184-93c2-f9f736ade244",
+    "level": 3,
+    "ability_id": "6a5ff6ac-e636-5701-9892-e77f718d6212"
+  },
+  {
+    "id": "a8f5ff08-459b-5e87-9df1-f449656bca7f",
+    "level": 5,
+    "ability_id": "c98ad1cc-8e17-58fa-a587-f78d588042d7"
+  },
+  {
+    "id": "ec50ae0c-439c-5d28-b094-955731b645fc",
+    "level": 7,
+    "ability_id": "3701034f-3de9-5486-9587-504ec01d5dcd"
+  },
+  {
+    "id": "366cbfa6-9f53-5dde-bea1-9bb7b530cb5e",
+    "level": 11,
+    "ability_id": "f916fc82-91bf-5c2b-82b3-37dd3e1e2d1c"
+  },
+  {
+    "id": "db498d0d-26f4-54a6-b974-48fec41f67ab",
+    "level": 13,
+    "ability_id": "9b99f35e-d224-5a87-a451-177791289d66"
+  }
+]

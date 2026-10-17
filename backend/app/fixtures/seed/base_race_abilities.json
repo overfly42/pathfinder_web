@@ -668,5 +668,60 @@
     "id": "07425573-7c5c-4f65-881b-8fbd0a5381d3",
     "name": "Unsterblicher Lebensfunke",
     "description": "Erhält einen Bonus von +2 auf Fertigkeitswürfe für Wissen (Geschichte) und auf Rettungswürfe gegen Todeseffekte. Kann einmal am Tag als zauberähnliche Fähigkeit Schwächere Resistenz gegen Alterung wirken. Dieses Volksmerkmal ersetzt Bewandert und Zauberähnliche Fähigkeit."
+  },
+  {
+    "id": "e0d08966-b8b7-5163-b091-86bc1c759d7f",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +3 auf Akrobatik."
+  },
+  {
+    "id": "e530b63c-07ae-543f-85fb-75ee1c9e3c99",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +3 auf Klettern."
+  },
+  {
+    "id": "bc5975e6-7b73-5a7d-b8d6-738d4864be17",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält in Dunkelheit oder bei dämmrigem Licht einen Bonus von +3 auf konkurrierende Würfe auf Wahrnehmung, die auf Sicht basieren."
+  },
+  {
+    "id": "11dc212c-9d35-5f1b-9fd3-4c4d7d2b646b",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält bei Tageslicht einen Bonus von +3 auf Würfe auf Wahrnehmung, die auf Sicht basieren."
+  },
+  {
+    "id": "e41f5744-2291-5706-a077-6ed52b0668a1",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält Bonus von +3 auf Fliegen."
+  },
+  {
+    "id": "ae20e8e8-514b-53d1-a427-ad2464beda4f",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +3 auf Heimlichkeit."
+  },
+  {
+    "id": "d90950da-e7eb-5bef-a8bf-3a8fe938ad09",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält +3 Trefferpunkte."
+  },
+  {
+    "id": "ffc88381-7240-5aba-8768-3bd2ad3248a4",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +3 auf Schätzen."
+  },
+  {
+    "id": "4fc049f5-e91f-57a1-a07e-7b350561dc75",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +2 auf Zähigkeitswürfe."
+  },
+  {
+    "id": "33155b9f-5e82-59a3-9360-f44d8e3faa9c",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +3 auf Bluffen."
+  },
+  {
+    "id": "cf6b0a50-bf3d-5aeb-8f10-8cc86f4c1a2d",
+    "name": "Bonus für den Meister",
+    "description": "Der Meister erhält einen Bonus von +2 auf Reflexwürfe."
   }
 ]

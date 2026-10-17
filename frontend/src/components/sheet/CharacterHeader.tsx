@@ -16,7 +16,9 @@ export function CharacterHeader({ character, onChangeAlignment }: CharacterHeade
         <p className="char-name">{character.name}</p>
         <p className="char-sub">
           {character.companion
-            ? `${character.race} · ${character.companion.trackLabel} · ${character.level} TW`
+            ? `${character.race} · ${character.companion.trackLabel} · ${
+                character.companion.track === 'familiar' ? `Stufe ${character.level} (Meister)` : `${character.level} TW`
+              }`
             : `${character.race} · ${character.className} (${character.archetype}) · Stufe ${character.level}`}
           {!onChangeAlignment && character.alignment && <> · {alignmentLabel(character.alignment)}</>}
         </p>

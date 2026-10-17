@@ -2374,10 +2374,41 @@ Small characters change (values become correct, not a regression).
       done in 2b. Not in 3: Waffenfokus etc. on natural attacks (needs a
       weapon id), the Waldläufer's own Erzfeind numbers, a feat
       prerequisite check on the server for PCs (still only the list filter).
-- [ ] 4. Multiple entitlements/archetypes, per-companion bonus feats (Boon
+- [x] 4. Multiple entitlements/archetypes, per-companion bonus feats (Boon
       Companion), then the familiar (derivation hook, Arkane Verbindung,
       Hexenmeister, Hexe, Kampfmagus, companion→master bonus, Verbesserter
       Vertrauter).
+      **Familiar done 2026-10-17** (migration `24d01e168aa4`,
+      `scripts/import_familiars.py`, `rules/classes/vertrauter.py`,
+      `tests/test_familiars.py`): the 11 familiars of Monsterhandbuch
+      "Vertraute" as `BaseRace` rows (`companion_kind` "familiar") with one
+      species stage each (size, scores, speeds, natural armor, attacks, new
+      `skill_modifiers` = Volksmodifikatoren, new `feats` = species feats
+      like Waffenfinesse); familiar table (`BaseFamiliarProgression` 1–20:
+      natural armor bonus, IN; `…Ability`: Wachsamkeit … Vertrauten
+      ausspähen with PRD texts). Hexe now has "Hexenvertrauter" (level 1,
+      level source Hexe level); one "primary" familiar slot per trigger
+      (Magier, Hexenmeister Arkane Blutlinie, Kampfmagus, Hexe), all 11
+      species. `CharacterCompanion` is now unique per (master, track,
+      slot), so a Druide/Magier has both. A familiar is a `Character` with
+      no levels; `_familiar_state` derives level (master's character
+      level), GAB, base saves (better of REF +2/WIL +0/ZÄH +2 and the
+      master's), HP (half the master's max), skill ranks (the master's;
+      familiar class skills), IN from the table, combined natural armor.
+      Companion → master: `FAMILIAR_MASTER_HANDLERS` by species (Katze +3
+      Heimlichkeit, Kröte +3 TP, Ratte +2 Zähigkeit, …), Eule/Falke and
+      Wachsamkeit as situational skill notes. Frontend: create form/banner
+      per track. Not done, with reasons: **multiple entitlements/archetypes**
+      — no archetype granting a second companion is seeded (no Druide
+      archetypes at all), the slot model (`slot_key`, offsets) is ready;
+      **Boon Companion** — not on the German PRD (checked the 1506-feat
+      import), nothing to seed; **Verbesserter Vertrauter** — needs the
+      improved familiars' statblocks (outsiders, dragons) and the master
+      level/alignment gates, a slice of its own; the Hexe's own extra
+      familiars and her familiar as spell storage stay descriptive; a
+      familiar's single species skill rank isn't modeled (the master's
+      ranks are used); "Kleine Tiere nutzen GE für Klettern/Schwimmen" not
+      applied.
 - [ ] Open: gear for companions (just the companion's own
       `Character.gear`, since it is a Character — check barding/saddle
       slots), share spells / deliver touch spells, PRD offsets for Mystiker/
