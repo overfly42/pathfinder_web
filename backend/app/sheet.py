@@ -356,6 +356,7 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         trait_ids=frozenset(character.trait_ids),
         trait_skill_choices=character.trait_skill_choices,
         feat_skill_pair_choices=character.feat_skill_pair_choices,
+        feat_skill_choices=_feat_skill_choices(character, familiar.feats if familiar else []),
         feat_manifestation_choices=character.feat_manifestation_choices,
         feat_pick_counts=Counter([*character.feat_ids, *species_feat_ids]),
         feat_manifestation_picks=_feat_manifestation_picks(character),
@@ -702,6 +703,22 @@ def _species_feats(db: Session, feats: list[dict]) -> list[dict]:
             }
         )
     return rows
+
+
+def _feat_skill_choices(character: Character, species_feats: list[dict]) -> dict[UUID, frozenset[UUID]]:
+    """`CharacterContext.feat_skill_choices`: every single-skill pick per
+    feat, the character's own plus a familiar species' (`[{feat_id,
+    chosen_skill_id}]`, string ids). Skill-pair feats (Kosmopolit) are
+    `feat_skill_pair_choices`' job, so their first pick is left out here."""
+    picks: dict[UUID, set[UUID]] = {}
+    for level in character.levels:
+        for entry in level.feats:
+            if entry.chosen_skill_id is not None and entry.chosen_skill_id_2 is None:
+                picks.setdefault(entry.feat_id, set()).add(entry.chosen_skill_id)
+    for entry in species_feats:
+        if entry.get("chosen_skill_id"):
+            picks.setdefault(UUID(entry["feat_id"]), set()).add(UUID(entry["chosen_skill_id"]))
+    return {feat_id: frozenset(skill_ids) for feat_id, skill_ids in picks.items()}
 
 
 def _feat_manifestation_picks(character: Character) -> dict[UUID, tuple[str, ...]]:

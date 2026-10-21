@@ -330,7 +330,40 @@ def _verbesserte_natuerliche_ruestung(context: CharacterContext) -> list[Modifie
     return [Modifier(source="Verbesserte Natürliche Rüstung", type="untyped", value=picks, target=ModifierTarget.AC)]
 
 
+# `base_feats.json`'s "Fertigkeitsfokus" (Skill Focus) row id,
+# `sub_choice_type == "skill"`, taken once per skill.
+FERTIGKEITSFOKUS = UUID("4a9d8e09-9aa5-44d0-b34e-f23ec5491fed")
+FERTIGKEITSFOKUS_BONUS = 3
+FERTIGKEITSFOKUS_HIGH_RANK_BONUS = 6
+FERTIGKEITSFOKUS_HIGH_RANK_THRESHOLD = 10
+
+
+def _fertigkeitsfokus(context: CharacterContext) -> list[Modifier]:
+    """"Du erhältst +3 auf Proben mit der gewählten Fertigkeit; hast du
+    bereits 10 oder mehr Ränge in dieser Fertigkeit, erhöht sich der Bonus
+    auf +6." (`base_feats.json`'s own description).
+    One modifier per chosen skill (`context.feat_skill_choices`), the
+    threshold read off raw `skill_ranks` — CLAUDE.md's own example of a
+    conditional bonus that belongs in a handler, not a data column. Untyped:
+    the rulebook names no bonus type."""
+    return [
+        Modifier(
+            source="Fertigkeitsfokus",
+            type="untyped",
+            value=(
+                FERTIGKEITSFOKUS_HIGH_RANK_BONUS
+                if context.skill_ranks.get(skill_id, 0) >= FERTIGKEITSFOKUS_HIGH_RANK_THRESHOLD
+                else FERTIGKEITSFOKUS_BONUS
+            ),
+            target=ModifierTarget.SKILL,
+            target_id=str(skill_id),
+        )
+        for skill_id in sorted(context.feat_skill_choices.get(FERTIGKEITSFOKUS, frozenset()), key=str)
+    ]
+
+
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    FERTIGKEITSFOKUS: _fertigkeitsfokus,
     EINSCHUECHTERNDE_KRAFT: _einschuechternde_kraft,
     EISENHAUT: functools.partial(_natural_armor_bonus, source="Eisenhaut", value=1),
     AUSWEICHEN: _ausweichen,

@@ -1,6 +1,10 @@
+from uuid import uuid4
+
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
+from app.rules.context import CharacterContext
+from app.rules.feats import FERTIGKEITSFOKUS, HANDLERS
 from app.seed.class_ability_seed import seed_class_abilities
 from app.seed.class_option_seed import seed_class_options
 from app.seed.class_seed import seed_classes
@@ -79,3 +83,16 @@ def test_list_feats_filters_by_character_prerequisites(client: TestClient, db_se
 
     missing_character = client.get("/api/feats", params={"character_id": "00000000-0000-0000-0000-000000000000"})
     assert missing_character.status_code == 404
+
+
+def test_fertigkeitsfokus_bonus_rises_to_six_at_ten_ranks() -> None:
+    """+3 per chosen skill below 10 ranks, +6 from 10 ranks on — read off
+    each skill's own raw ranks, independently per pick."""
+    low_skill, high_skill = uuid4(), uuid4()
+    context = CharacterContext(
+        skill_ranks={low_skill: 9, high_skill: 10},
+        feat_ids=frozenset({FERTIGKEITSFOKUS}),
+        feat_skill_choices={FERTIGKEITSFOKUS: frozenset({low_skill, high_skill})},
+    )
+    values = {modifier.target_id: modifier.value for modifier in HANDLERS[FERTIGKEITSFOKUS](context)}
+    assert values == {str(low_skill): 3, str(high_skill): 6}

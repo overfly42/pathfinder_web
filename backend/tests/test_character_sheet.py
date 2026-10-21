@@ -406,6 +406,36 @@ def test_einschuechternde_kraft_adds_str_mod_to_intimidate(client: TestClient, d
     assert sum(entry["value"] for entry in breakdown) == 2
 
 
+def test_fertigkeitsfokus_adds_three_to_the_chosen_skill_only(client: TestClient, db_session: Session) -> None:
+    """`rules/feats.py`'s Fertigkeitsfokus: +3 on the one skill picked as the
+    feat's sub-choice (below 10 ranks), nothing on any other skill."""
+    user_id = _create_user(client)
+    race_id = _elf_race_id(client, db_session)
+
+    heimlichkeit_id = _skill_id(client, db_session, "Heimlichkeit")
+    klettern_id = _skill_id(client, db_session, "Klettern")
+    feat_id = _feat_id(client, db_session, "Fertigkeitsfokus")
+
+    create_response = client.post(
+        "/api/characters",
+        json=_character_payload(
+            user_id,
+            race_id,
+            db_session,
+            feats=[_feat_selection(feat_id, chosen_skill_id=heimlichkeit_id)],
+        ),
+    )
+    assert create_response.status_code == 201
+    character_id = create_response.json()["id"]
+
+    body = client.get(f"/api/characters/{character_id}").json()
+    skills_by_key = {s["key"]: s for s in body["skills"]}
+    assert {"label": "Fertigkeitsfokus", "value": 3} in skills_by_key[heimlichkeit_id]["breakdown"]
+    assert all(entry["label"] != "Fertigkeitsfokus" for entry in skills_by_key[klettern_id].get("breakdown", []))
+    feats_by_name = {f["name"]: f for f in body["feats"]}
+    assert feats_by_name["Fertigkeitsfokus (Heimlichkeit)"]["hasHandler"] is True
+
+
 def test_gewitztes_wortspiel_uses_int_instead_of_cha_for_chosen_skill(
     client: TestClient, db_session: Session
 ) -> None:

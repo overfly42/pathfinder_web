@@ -44,6 +44,12 @@ class CharacterContext:
     # a pair instead of one value since this shape grants two skills at
     # once. Empty for a character with no such feat.
     feat_skill_pair_choices: dict[UUID, frozenset[UUID]] = field(default_factory=dict)
+    # feat id -> every `chosen_skill_id` picked for it, for feats whose
+    # `BaseFeat.sub_choice_type == "skill"` (2026-10-21, "Fertigkeitsfokus")
+    # — a set, not one value, since such a feat can be taken once per
+    # skill. Includes a familiar species' own feat picks. Empty for a
+    # character with no such feat.
+    feat_skill_choices: dict[UUID, frozenset[UUID]] = field(default_factory=dict)
     # feat id -> chosen manifestation string, for feats whose `BaseFeat.
     # sub_choice_type == "manifestation"` (2026-09-23, "Inbegriff des
     # Katzenvolkes") — same "raw composition input, not a computed value"
