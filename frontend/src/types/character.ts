@@ -480,6 +480,53 @@ export interface CompanionInfo {
   /** What the master shares that the sheet only describes (Waldläufer's Erzfeinde, Paladin
    *  mount extras). */
   masterNotes: string[];
+  /** Known tricks (roadmap slice 10 step 5) — always empty for a familiar. */
+  tricks: CompanionTrick[];
+  trickPurpose: { id: string; name: string } | null;
+  /** `null` for a familiar. `trained.max` `null` = no limit (IN 3+). `overLimit`: a limit
+   *  dropped below the stored picks — kept, only flagged. */
+  trickLimits: {
+    bonus: { used: number; max: number };
+    trained: { used: number; max: number | null };
+    intelligence: number;
+    overLimit: boolean;
+  } | null;
+}
+
+export interface CompanionTrick {
+  id: string;
+  name: string;
+  dc: number;
+  /** Slots it takes up — 2 for "Angreifen (alle Wesen)". */
+  cost: number;
+  description: string;
+  source: 'bonus' | 'trained';
+  /** The training (Aufgabe) it came with, if any. */
+  purposeName: string | null;
+}
+
+/** `GET /api/companion-tricks?character_id=…` — the catalog, with why this companion can't
+ *  learn an entry (`unavailableReason`, e.g. "braucht Geruchssinn"). */
+export interface TrickCatalog {
+  tricks: {
+    id: string;
+    name: string;
+    dc: number;
+    cost: number;
+    description: string;
+    variantOfId: string | null;
+    requiredAbility: string | null;
+    unavailableReason: string | null;
+  }[];
+  purposes: {
+    id: string;
+    name: string;
+    dc: number;
+    weeks: number;
+    description: string;
+    trickIds: string[];
+    unavailableReason: string | null;
+  }[];
 }
 
 export interface Character {

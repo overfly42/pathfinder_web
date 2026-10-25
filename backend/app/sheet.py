@@ -89,6 +89,7 @@ from .companions import (
     familiar_species_ids,
     is_first_feat_level,
     pending_levels,
+    tricks_payload,
     slots_payload,
 )
 from .rules.companions import (
@@ -659,7 +660,19 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         # "character" | "companion" — the frontend hides what a companion
         # doesn't have (spells, favored class, level-up) by this.
         "kind": "companion" if companion else "character",
-        "companion": companion_payload(companion, character, context) if companion else None,
+        "companion": (
+            {
+                **companion_payload(companion, character, context),
+                # Tricks (roadmap slice 10 step 5) — animal companions only.
+                **(
+                    tricks_payload(db, companion, character, effective_scores["IN"])
+                    if companion.link.track != "familiar"
+                    else {"tricks": [], "trickPurpose": None, "trickLimits": None}
+                ),
+            }
+            if companion
+            else None
+        ),
         "raceAbilities": _build_race_abilities(db, race_ability_ids),
         "favoredClassBonusOptions": _favored_class_bonus_options(db, favored_root_id, character.race_id),
         "favoredClassBonuses": _build_favored_class_bonuses(db, character),

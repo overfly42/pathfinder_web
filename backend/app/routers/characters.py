@@ -17,6 +17,7 @@ from ..companions import (
     is_first_feat_level,
     natural_weapon_facts,
     pending_levels,
+    set_companion_tricks,
     sync_companion_hit_dice,
 )
 from ..db import get_db
@@ -55,6 +56,7 @@ from ..models import (
     User,
 )
 from ..rules.alignment import alignment_conflicts
+from ..rules.companions import TrickPick
 from ..rules.context import CharacterContext
 from ..rules.class_options import (
     ability_ids_by_name,
@@ -104,6 +106,7 @@ from ..schemas.character import (
     AdvanceTime,
     AlignmentUpdate,
     CompanionCreate,
+    CompanionTricksUpdate,
     CharacterCreate,
     CharacterRead,
     CharacterUpdate,
@@ -1192,6 +1195,24 @@ def add_companion(character_id: UUID, body: CompanionCreate, db: Annotated[Sessi
         hit_points=body.hit_points,
         advancement_choice=body.advancement_choice,
     )
+
+
+@router.put("/{character_id}/tricks", response_model=CharacterRead)
+def update_companion_tricks(
+    character_id: UUID, body: CompanionTricksUpdate, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Replaces an animal companion's known tricks (roadmap slice 10 step 5;
+    `app/companions.py`'s `set_companion_tricks` validates). Rejected for PCs
+    and familiars."""
+    companion = db.get(Character, character_id)
+    if companion is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    set_companion_tricks(
+        db, companion, body.purpose_id, [TrickPick(pick.trick_id, pick.source) for pick in body.tricks]
+    )
+    db.commit()
+    db.refresh(companion)
+    return companion
 
 
 @router.patch("/{character_id}/alignment", response_model=CharacterRead)

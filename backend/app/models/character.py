@@ -133,6 +133,8 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     ability_damage: Mapped[list["CharacterAbilityDamage"]] = relationship(cascade="all, delete-orphan")
     spell_preparations: Mapped[list["CharacterSpellPreparation"]] = relationship(cascade="all, delete-orphan")
     spell_slot_usages: Mapped[list["CharacterSpellSlotUsage"]] = relationship(cascade="all, delete-orphan")
+    # Animal companions only (roadmap slice 10 step 5).
+    companion_tricks: Mapped[list["CharacterCompanionTrick"]] = relationship(cascade="all, delete-orphan")
 
     @property
     def level(self) -> int:

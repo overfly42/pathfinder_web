@@ -18,34 +18,11 @@ export function companionLevelName(track: CompanionLevel['track']): string {
   return track === 'familiar' ? 'Magierstufe' : 'effektive Druidenstufe';
 }
 
-/** PRD "Mit Tieren umgehen" — static help text for the companion sheet; tricks are descriptive
- *  only (roadmap slice 10: no trick tables, no stored picks). */
-export const TRICK_HELP = {
-  rules:
-    'Einen Trick beizubringen dauert eine Woche und einen Wurf auf Mit Tieren umgehen gegen den SG. ' +
-    'Ein Tier mit IN 1 kann maximal 3, mit IN 2 maximal 6 Tricks lernen; Bonustricks zählen nicht dagegen ' +
-    'und brauchen weder Abrichten noch Wurf.',
-  tricks: [
-    'Angreifen (SG 20)',
-    'Arbeiten (SG 15)',
-    'Bei Fuß gehen (SG 15)',
-    'Bleiben (SG 15)',
-    'Bringen (SG 15)',
-    'Kommen (SG 15)',
-    'Kunststück (SG 15)',
-    'Spuren suchen (SG 20, braucht Geruchssinn)',
-    'Suchen (SG 15)',
-    'Verteidigen (SG 20)',
-    'Wachen (SG 20)',
-    'Zurückziehen (SG 20)',
-  ],
-  trainings: [
-    'Kampfausbildung (SG 20): Angreifen, Bei Fuß gehen, Kommen, Verteidigen, Wachen, Zurückziehen',
-    'Kämpfen (SG 20): Angreifen, Bleiben, Zurückziehen',
-    'Wache halten (SG 20): Angreifen, Verteidigen, Wachen, Zurückziehen',
-    'Lastarbeit (SG 15): Arbeiten, Kommen',
-    'Jagen (SG 20): Angreifen, Bei Fuß gehen, Bringen, Spuren suchen, Suchen, Zurückziehen',
-    'Kunststück vorführen (SG 15): Bleiben, Bringen, Kommen, Kunststück',
-    'Reiten (SG 15): Bei Fuß gehen, Bleiben, Kommen',
-  ],
-};
+/** PRD "Mit Tieren umgehen" — the rules text shown next to the companion's tricks. The tricks
+ *  and trainings themselves come from `GET /api/companion-tricks` (roadmap slice 10 step 5). */
+export const TRICK_HELP =
+  'Einen Trick beizubringen dauert eine Woche und einen Wurf auf Mit Tieren umgehen gegen den SG. ' +
+  'Ein Tier mit IN 1 kann maximal 3, mit IN 2 maximal 6 Tricks lernen (ab IN 3 unbegrenzt, das PRD ' +
+  'nennt dafür kein Limit); Bonustricks zählen nicht dagegen und brauchen weder Abrichten noch Wurf. Eine ' +
+  'Aufgabe ist ein Paket von Tricks (ein Wurf statt einem je Trick), ein Tier kann nur eine Aufgabe haben; ' +
+  'eine Aufgabe mit mehr als 3 Tricks braucht IN 2. "Angreifen (alle Wesen)" zählt als zwei Tricks.';

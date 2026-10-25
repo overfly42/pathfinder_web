@@ -31,9 +31,13 @@ from .companion import (
     BaseCompanionSlotSpecies,
     BaseCompanionSpeciesStage,
     BaseCompanionSpeciesStageAbility,
+    BaseCompanionTrick,
+    BaseCompanionTrickPurpose,
+    BaseCompanionTrickPurposeTrick,
     BaseFamiliarProgression,
     BaseFamiliarProgressionAbility,
     CharacterCompanion,
+    CharacterCompanionTrick,
 )
 from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect
 from .feat import (
@@ -72,9 +76,13 @@ __all__ = [
     "BaseCompanionSlotSpecies",
     "BaseCompanionSpeciesStage",
     "BaseCompanionSpeciesStageAbility",
+    "BaseCompanionTrick",
+    "BaseCompanionTrickPurpose",
+    "BaseCompanionTrickPurposeTrick",
     "BaseFamiliarProgression",
     "BaseFamiliarProgressionAbility",
     "CharacterCompanion",
+    "CharacterCompanionTrick",
     "TimestampMixin",
     "UUIDPrimaryKeyMixin",
     "User",

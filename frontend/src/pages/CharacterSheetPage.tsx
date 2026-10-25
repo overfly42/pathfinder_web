@@ -775,7 +775,7 @@ export function CharacterSheetPage() {
             character={character}
             onChangeAlignment={isRealCharacter && character.kind !== 'companion' ? handleChangeAlignment : undefined}
           />
-          <CompanionBanner character={character} />
+          <CompanionBanner character={character} onChanged={refetch} />
           <VitalsBar character={character} onApplyHp={handleApplyHp} onSetTempHp={handleSetTempHp} />
           {hpError && <p style={{ color: '#e29a9a' }}>{hpError}</p>}
 

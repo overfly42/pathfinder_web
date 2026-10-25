@@ -164,6 +164,22 @@ function PrintableSheet({ character }: { character: Character }) {
         )}
       </Section>
       <Section title="Rasseneigenschaften"><Described entries={character.raceAbilities} /></Section>
+      {character.companion?.trickLimits && (
+        <Section title="Tricks">
+          <p className="print-entry">
+            Bonustricks {character.companion.trickLimits.bonus.used}/{character.companion.trickLimits.bonus.max} ·
+            Abgerichtet {character.companion.trickLimits.trained.used}/
+            {character.companion.trickLimits.trained.max ?? 'unbegrenzt'}
+            {character.companion.trickPurpose && <> · Aufgabe: {character.companion.trickPurpose.name}</>}
+          </p>
+          {character.companion.tricks.map((t) => (
+            <div className="print-entry" key={t.id}>
+              <strong>{t.name}</strong> (SG {t.dc}, {t.source === 'bonus' ? 'Bonus' : 'abgerichtet'}
+              {t.purposeName ? `, ${t.purposeName}` : ''}) — {t.description}
+            </div>
+          ))}
+        </Section>
+      )}
 
       {(spellGrades.length > 0 || character.activatableSpells.length > 0) && (
         <Section title={usesSpellbook ? 'Zauberbuch' : 'Zauber'}>

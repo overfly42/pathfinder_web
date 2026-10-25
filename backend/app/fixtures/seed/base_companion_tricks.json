@@ -1,0 +1,119 @@
+[
+  {
+    "id": "b059a0a3-997c-5aa0-ab3f-9cd8769bdcf1",
+    "name": "Angreifen",
+    "dc": 20,
+    "description": "Das Tier greift erkannte Feinde an. Du kannst auf ein bestimmtes Wesen zeigen, um das Tier zum Angriff gegen das Wesen zu bewegen; falls möglich, wird es gehorchen. Im Normalfall wird ein Tier nur Humanoide oder monströse Humanoide, Riesen oder andere Tiere angreifen. Ein Tier darauf zu trainieren, alle Wesen (auch so unnatürliche Wesen wie Untote und Aberrationen) anzugreifen, wird als zwei Tricks gewertet.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "c20da811-56ad-5d23-975e-c1033bc1bdeb",
+    "name": "Arbeiten",
+    "dc": 15,
+    "description": "Das Tier zieht oder schiebt eine mittelschwere oder schwere Last.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "54c4fd20-6a35-5d1a-94cd-d4820d9895f6",
+    "name": "Bei Fuß gehen",
+    "dc": 15,
+    "description": "Das Tier folgt dir in geringem Abstand selbst an Orte, an die es normalerweise nicht gehen würde",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "3a51cc9b-3af1-5164-b3d2-cef3aa2eba2d",
+    "name": "Bleiben",
+    "dc": 15,
+    "description": "Das Tier bleibt an seinem Platz und wartet dort auf deine Rückkehr. Es greift vorbeikommende Wesen nicht an, verteidigt sich aber, wenn es angegriffen wird.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "567f6603-b804-5a2a-a43f-f53269aa9655",
+    "name": "Bringen",
+    "dc": 15,
+    "description": "Das Tier bringt etwas herbei. Wenn du nicht auf einen bestimmten Gegenstand zeigst, bringt es irgendeinen zufällig ausgewählten Gegenstand.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "8719f518-0ac8-5fc7-8251-7d965a368cd2",
+    "name": "Kommen",
+    "dc": 15,
+    "description": "Das Tier kommt zu dir, selbst wenn es das normalerweise nicht tun würde.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "3ea87e19-1663-54c1-b262-6745e91b752c",
+    "name": "Kunststück",
+    "dc": 15,
+    "description": "Das Tier macht verschiedene Kunststücke, macht zum Beispiel Männchen, dreht sich, kläfft, brüllt und Ähnliches.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "c4a90a3f-dd4a-5f26-a50e-8a1054e19eba",
+    "name": "Spuren suchen",
+    "dc": 20,
+    "description": "Das Tier folgt einer Geruchsspur, auf die es angesetzt wird (dazu muss das Tier die Fähigkeit Geruchssinn besitzen).",
+    "cost": 1,
+    "required_ability_id": "f5a4bb9b-3c0f-50e5-984d-10e627305523",
+    "variant_of_id": null
+  },
+  {
+    "id": "2bfd3b3d-a663-5843-93c2-e0c3c0629009",
+    "name": "Suchen",
+    "dc": 15,
+    "description": "Das Tier sucht in einem Gebiet nach etwas offensichtlich Lebendigem oder Belebtem.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "22906940-6e3b-51b3-b184-d69653003ade",
+    "name": "Verteidigen",
+    "dc": 20,
+    "description": "Das Tier verteidigt dich (oder ist verteidigungsbereit, falls es gerade keine offensichtliche Bedrohung gibt), auch wenn es keinen Befehl dazu erhält. Alternativ kannst du dem Tier auch befehlen, einen bestimmten anderen Charakter zu verteidigen.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "8b853125-76f6-5c35-90eb-b52a5fdf629c",
+    "name": "Wachen",
+    "dc": 20,
+    "description": "Das Tier verweilt an einem Ort und hindert andere daran, sich zu nähern.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "90fd7b7e-8303-5398-a7cd-252e9124fb6f",
+    "name": "Zurückziehen",
+    "dc": 20,
+    "description": "Das Tier bricht den Kampf ab oder zieht sich anderweitig zurück. Ein Tier, das diesen Trick nicht kennt, kämpft weiter, bis es (aufgrund einer Verletzung, eines Furchteffekts oder ähnlichem) fliehen muss oder der Gegner vernichtet ist.",
+    "cost": 1,
+    "required_ability_id": null,
+    "variant_of_id": null
+  },
+  {
+    "id": "db3e8117-387c-5910-846f-0ba3b313b066",
+    "name": "Angreifen (alle Wesen)",
+    "dc": 20,
+    "description": "Das Tier greift erkannte Feinde an. Du kannst auf ein bestimmtes Wesen zeigen, um das Tier zum Angriff gegen das Wesen zu bewegen; falls möglich, wird es gehorchen. Im Normalfall wird ein Tier nur Humanoide oder monströse Humanoide, Riesen oder andere Tiere angreifen. Ein Tier darauf zu trainieren, alle Wesen (auch so unnatürliche Wesen wie Untote und Aberrationen) anzugreifen, wird als zwei Tricks gewertet.",
+    "cost": 2,
+    "required_ability_id": null,
+    "variant_of_id": "b059a0a3-997c-5aa0-ab3f-9cd8769bdcf1"
+  }
+]

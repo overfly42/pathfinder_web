@@ -750,6 +750,22 @@ class CompanionCreate(BaseModel):
         return stripped
 
 
+class CompanionTrickPick(BaseModel):
+    trick_id: UUID
+    source: Literal["bonus", "trained"]
+
+
+class CompanionTricksUpdate(BaseModel):
+    """`PUT /api/characters/{companion_id}/tricks` (roadmap slice 10 step 5):
+    the companion's full trick set, replacing the stored one. `purpose_id`
+    is the training (Aufgabe), if any — its tricks must be in `tricks` too
+    (each with the pool it costs), so a trick already known isn't paid
+    twice."""
+
+    purpose_id: UUID | None = None
+    tricks: list[CompanionTrickPick] = []
+
+
 class AlignmentUpdate(BaseModel):
     """`PATCH /api/characters/{id}/alignment` — sets or changes the
     alignment, checked against every class the character already has."""

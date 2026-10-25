@@ -45,6 +45,13 @@ statblock, the familiar table for the master's familiar level and the
 master himself (`FamiliarDerived`). It gives its master a bonus by species
 (`rules/companions.py`'s `FAMILIAR_MASTER_HANDLERS`, fed by
 `familiar_species_ids`).
+
+Step 5 stores the tricks an animal companion knows
+(`CharacterCompanionTrick`, written by `set_companion_tricks` and validated
+by `rules/companions.py`'s `trick_errors`): bonus tricks up to the
+progression row's `bonus_tricks`, trained ones up to the IN limit of the
+sheet's effective IN. Nothing is deleted when a limit drops — the sheet
+flags "zu viele Tricks" instead (`tricks_payload`).
 """
 
 from collections import Counter
@@ -64,20 +71,32 @@ from .models import (
     BaseCompanionSlotSpecies,
     BaseCompanionSpeciesStage,
     BaseCompanionSpeciesStageAbility,
+    BaseCompanionTrick,
+    BaseCompanionTrickPurpose,
+    BaseCompanionTrickPurposeTrick,
     BaseFamiliarProgression,
     BaseFamiliarProgressionAbility,
     BaseRace,
+    BaseRaceAbility,
     Character,
     CharacterClass,
     CharacterCompanion,
+    CharacterCompanionTrick,
     CharacterLevel,
 )
 from .rules.companions import (
     FAMILIAR_BASE_SAVES,
     TRACK_LABELS,
     TrackLevel,
+    TrickPick,
+    TrickPurposeRef,
+    is_purpose_trick,
     master_companion_notes,
     master_effective_level,
+    purpose_unavailable_reason,
+    trick_errors,
+    trick_limits,
+    trick_unavailable_reason,
 )
 from .rules.context import CharacterContext
 from .rules.favored_class_bonuses import pick_counts as favored_class_bonus_pick_counts
@@ -746,3 +765,153 @@ def companion_intelligence(db: Session, companion: Character) -> int:
 
     sheet = build_character_sheet(companion, db)
     return next(ability["score"] for ability in sheet["abilities"] if ability["key"] == "IN")
+
+
+# ---- tricks (step 5) ----
+
+
+def trick_catalog(db: Session) -> tuple[dict[UUID, BaseCompanionTrick], dict[UUID, TrickPurposeRef]]:
+    tricks = {trick.id: trick for trick in db.scalars(select(BaseCompanionTrick).order_by(BaseCompanionTrick.name))}
+    trick_ids_by_purpose: dict[UUID, set[UUID]] = {}
+    for row in db.scalars(select(BaseCompanionTrickPurposeTrick)):
+        trick_ids_by_purpose.setdefault(row.purpose_id, set()).add(row.trick_id)
+    purposes = {
+        purpose.id: TrickPurposeRef(purpose.id, purpose.name, frozenset(trick_ids_by_purpose.get(purpose.id, ())))
+        for purpose in db.scalars(select(BaseCompanionTrickPurpose))
+    }
+    return tricks, purposes
+
+
+def _required_ability_names(db: Session, tricks: dict[UUID, BaseCompanionTrick]) -> dict[UUID, str]:
+    ids = {trick.required_ability_id for trick in tricks.values() if trick.required_ability_id}
+    if not ids:
+        return {}
+    return {row.id: row.name for row in db.scalars(select(BaseRaceAbility).where(BaseRaceAbility.id.in_(ids)))}
+
+
+def _trick_state(db: Session, companion: Character) -> CompanionState:
+    """The companion's state, or 422 for anything that has no tricks
+    (a PC, a familiar)."""
+    state = companion_state(db, companion)
+    if state is None or state.link.track == "familiar":
+        raise HTTPException(status_code=422, detail="Only animal companions and mounts know tricks")
+    return state
+
+
+def _stored_purpose_id(companion: Character) -> UUID | None:
+    return next((pick.purpose_id for pick in companion.companion_tricks if pick.purpose_id), None)
+
+
+def tricks_payload(db: Session, state: CompanionState, companion: Character, intelligence: int) -> dict:
+    """The sheet's trick section: known tricks with their pool and training,
+    slots used per pool and whether a pool is over its limit."""
+    tricks, purposes = trick_catalog(db)
+    purpose_id = _stored_purpose_id(companion)
+    bonus_max = state.progression.bonus_tricks if state.progression else 0
+    picks = [TrickPick(pick.trick_id, pick.source) for pick in companion.companion_tricks]
+    limits = trick_limits(picks, tricks, bonus_max, intelligence)
+    return {
+        "tricks": [
+            {
+                "id": str(pick.trick_id),
+                "name": tricks[pick.trick_id].name,
+                "dc": tricks[pick.trick_id].dc,
+                "cost": tricks[pick.trick_id].cost,
+                "description": tricks[pick.trick_id].description,
+                "source": pick.source,
+                "purposeName": purposes[pick.purpose_id].name if pick.purpose_id else None,
+            }
+            for pick in sorted(companion.companion_tricks, key=lambda pick: tricks[pick.trick_id].name)
+        ],
+        "trickPurpose": (
+            {"id": str(purpose_id), "name": purposes[purpose_id].name} if purpose_id else None
+        ),
+        "trickLimits": {
+            "bonus": {"used": limits.bonus_used, "max": limits.bonus_max},
+            "trained": {"used": limits.trained_used, "max": limits.trained_max},
+            "intelligence": intelligence,
+            "overLimit": limits.over_limit,
+        },
+    }
+
+
+def trick_options_payload(db: Session, companion: Character | None) -> dict:
+    """`GET /api/companion-tricks`: every trick and training, and — for a
+    given companion — whether it can learn each (species abilities, IN)."""
+    tricks, purposes = trick_catalog(db)
+    ability_names = _required_ability_names(db, tricks)
+    state = _trick_state(db, companion) if companion is not None else None
+    intelligence = companion_intelligence(db, companion) if companion is not None else None
+    purpose_rows = {row.id: row for row in db.scalars(select(BaseCompanionTrickPurpose))}
+
+    def trick_reason(trick: BaseCompanionTrick) -> str | None:
+        if state is None:
+            return None
+        return trick_unavailable_reason(trick, state.species_ability_ids, ability_names)
+
+    def purpose_reason(purpose: TrickPurposeRef) -> str | None:
+        if state is None:
+            return None
+        return purpose_unavailable_reason(purpose, tricks, state.species_ability_ids, ability_names, intelligence)
+
+    return {
+        "tricks": [
+            {
+                "id": str(trick.id),
+                "name": trick.name,
+                "dc": trick.dc,
+                "cost": trick.cost,
+                "description": trick.description,
+                "variantOfId": str(trick.variant_of_id) if trick.variant_of_id else None,
+                "requiredAbility": ability_names.get(trick.required_ability_id) if trick.required_ability_id else None,
+                "unavailableReason": trick_reason(trick),
+            }
+            for trick in tricks.values()
+        ],
+        "purposes": [
+            {
+                "id": str(purpose.id),
+                "name": purpose.name,
+                "dc": purpose_rows[purpose.id].dc,
+                "weeks": purpose_rows[purpose.id].weeks,
+                "description": purpose_rows[purpose.id].description,
+                "trickIds": sorted(str(trick_id) for trick_id in purpose.trick_ids),
+                "unavailableReason": purpose_reason(purpose),
+            }
+            for purpose in sorted(purposes.values(), key=lambda purpose: purpose.name)
+        ],
+    }
+
+
+def set_companion_tricks(
+    db: Session, companion: Character, purpose_id: UUID | None, picks: list[TrickPick]
+) -> None:
+    """Replaces the companion's full trick set (`PUT …/tricks`), after
+    `trick_errors` found nothing wrong. Each pick that is one of the
+    training's tricks is stored with its `purpose_id`. The caller commits."""
+    state = _trick_state(db, companion)
+    tricks, purposes = trick_catalog(db)
+    if purpose_id is not None and purpose_id not in purposes:
+        raise HTTPException(status_code=422, detail="Unbekannte Aufgabe")
+    purpose = purposes.get(purpose_id) if purpose_id else None
+    errors = trick_errors(
+        picks,
+        purpose,
+        tricks,
+        state.species_ability_ids,
+        _required_ability_names(db, tricks),
+        state.progression.bonus_tricks if state.progression else 0,
+        companion_intelligence(db, companion),
+    )
+    if errors:
+        raise HTTPException(status_code=422, detail=" ".join(errors))
+    companion.companion_tricks.clear()
+    db.flush()
+    companion.companion_tricks.extend(
+        CharacterCompanionTrick(
+            trick_id=pick.trick_id,
+            source=pick.source,
+            purpose_id=purpose.id if is_purpose_trick(pick.trick_id, purpose, tricks) else None,
+        )
+        for pick in picks
+    )

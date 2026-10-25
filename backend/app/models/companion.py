@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import JSON, CheckConstraint, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import JSON, CheckConstraint, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -226,3 +226,78 @@ class CharacterCompanion(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     track: Mapped[str] = mapped_column(String(32))
     slot_key: Mapped[str] = mapped_column(String(32))
     advancement_choice: Mapped[str] = mapped_column(String(16), default="species", server_default="species")
+
+
+class BaseCompanionTrick(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A trick of the skill Mit Tieren umgehen (PRD "Tier einen Trick
+    beibringen") — roadmap slice 10 step 5, imported by
+    `scripts/import_companion_tricks.py`.
+
+    `cost`: how many of the companion's tricks it takes up — 1, except the
+    variant "Angreifen (alle Wesen)" ("wird als zwei Tricks gewertet").
+    `variant_of_id`: the trick a variant includes (knowing the variant
+    counts as knowing Angreifen; both can't be picked together).
+    `required_ability_id`: a `BaseRaceAbility` the companion's species must
+    have (Spuren suchen → Geruchssinn) — checked against the species stage
+    abilities, no special case in code."""
+
+    __tablename__ = "base_companion_tricks"
+
+    name: Mapped[str] = mapped_column(String(255), unique=True)
+    dc: Mapped[int] = mapped_column(Integer)
+    description: Mapped[str] = mapped_column(Text)
+    cost: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
+    required_ability_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_race_abilities.id"), nullable=True
+    )
+    variant_of_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_companion_tricks.id"), nullable=True
+    )
+
+
+class BaseCompanionTrickPurpose(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A training ("Ein Tier für eine Aufgabe ausbilden": Kampfausbildung,
+    Jagen, …) — a preset bundle of tricks (`BaseCompanionTrickPurposeTrick`),
+    taught with one check instead of one per trick. A companion can have one
+    at most."""
+
+    __tablename__ = "base_companion_trick_purposes"
+
+    name: Mapped[str] = mapped_column(String(255), unique=True)
+    dc: Mapped[int] = mapped_column(Integer)
+    weeks: Mapped[int] = mapped_column(Integer)
+    description: Mapped[str] = mapped_column(Text)
+
+
+class BaseCompanionTrickPurposeTrick(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    __tablename__ = "base_companion_trick_purpose_tricks"
+    __table_args__ = (UniqueConstraint("purpose_id", "trick_id", name="uq_companion_trick_purpose_trick"),)
+
+    purpose_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_trick_purposes.id"))
+    trick_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_tricks.id"))
+
+
+class CharacterCompanionTrick(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A trick an animal companion knows (`character_id` = the companion
+    `Character`). Not on `CharacterLevel`: tricks are taught at any time
+    during downtime, and bonus tricks grow with the effective level, not HD.
+
+    `source`: "bonus" (one of the progression row's `bonus_tricks`, no
+    check needed) or "trained" (taught, counts against the IN limit — the
+    player's own statement, the check and the week of training aren't
+    modeled). `purpose_id` is set when the trick came in via a training;
+    a training is stored as its tricks, so a trick already known isn't paid
+    twice."""
+
+    __tablename__ = "character_companion_tricks"
+    __table_args__ = (
+        UniqueConstraint("character_id", "trick_id", name="uq_character_companion_trick"),
+        CheckConstraint("source IN ('bonus', 'trained')", name="ck_character_companion_trick_source"),
+    )
+
+    character_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("characters.id"))
+    trick_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_tricks.id"))
+    source: Mapped[str] = mapped_column(String(16))
+    purpose_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_companion_trick_purposes.id"), nullable=True
+    )

@@ -404,6 +404,16 @@
 .companion-warning { color: var(--danger); }
 .companion-open { font-weight: 600; color: var(--ink); }
 .companion-master-notes { margin: 4px 0 0; padding-left: 18px; }
+.companion-tricks { margin-top: 6px; }
+.companion-tricks-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.companion-tricks-head .companion-link { margin-left: auto; }
+.companion-trick-list { margin: 4px 0; padding-left: 18px; }
+.trick-badge { font-size: 11px; border-radius: 3px; padding: 0 5px; border: 1px solid var(--brass-dark); }
+.trick-badge.bonus { background: var(--parchment-2); }
+.trick-edit select { font-family: 'Spectral', serif; font-size: 13px; padding: 3px 4px; max-width: 100%; }
+.trick-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.trick-table td { padding: 3px 4px; border-bottom: 1px solid var(--parchment-shadow); vertical-align: top; }
+.trick-table td:last-child { text-align: right; white-space: nowrap; }
 .companion-create .hp-popover-body { display: flex; flex-direction: column; gap: 8px; }
 .companion-create .hp-popover-body input + input { margin-top: 0; }
 .companion-create select {

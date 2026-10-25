@@ -21,7 +21,7 @@ from .models import (
     BaseFeat,
     Character,
 )
-from .routers import characters, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
+from .routers import characters, companion_tricks, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
 from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
 from .rules.handlers import has_mechanical_effect, partial_effect_note
@@ -68,6 +68,7 @@ app.include_router(spells.router)
 app.include_router(items.router)
 app.include_router(weapon_abilities.router)
 app.include_router(conditions.router)
+app.include_router(companion_tricks.router)
 app.include_router(characters.router)
 
 

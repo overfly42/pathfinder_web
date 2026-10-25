@@ -25,6 +25,7 @@ master's favored-class-bonus choice or granted ability id and resolved
 against the companion's own context (which carries the master's raw
 composition, `CharacterContext.master_*`)."""
 
+from collections import Counter
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from typing import Protocol
@@ -400,3 +401,162 @@ def familiar_master_skill_notes(context: CharacterContext) -> list[SkillNote]:
 # (`rules/armor.py`'s `armored_speed`, applied to every wearer); the one
 # companion-only part is "Fliegende Reittiere können in einem mittelschweren
 # oder schweren Pferdeharnisch nicht fliegen" (`sheet.py`).
+
+
+# ---- tricks (step 5) ----
+# PRD Grundregelwerk, Fertigkeiten, Mit Tieren umgehen. Which tricks and
+# trainings exist (and what a trick requires) is data
+# (`BaseCompanionTrick`/`…Purpose`); this is the fixed counting rule:
+# "Ein Tier mit Intelligenz 1 kann maximal drei Tricks, ein Tier mit
+# Intelligenz 2 maximal 6 Tricks erlernen" — bonus tricks don't count
+# against it ("werden nicht in die normale Beschränkung bekannter Tricks mit
+# einberechnet"). The PRD says nothing about IN 3+; decided 2026-10-25: no
+# limit from IN 3 on.
+TRAINED_TRICK_LIMITS = {1: 3, 2: 6}
+UNLIMITED_TRICKS_MIN_INTELLIGENCE = 3
+# "Enthält die Ausbildung mehr als drei Tricks, muss das Tier eine
+# Intelligenz von 2 oder höher besitzen."
+LARGE_PURPOSE_TRICKS = 3
+LARGE_PURPOSE_MIN_INTELLIGENCE = 2
+TRICK_SOURCES = ("bonus", "trained")
+
+
+class TrickRow(Protocol):
+    """The `BaseCompanionTrick` columns this module reads."""
+
+    id: UUID
+    name: str
+    cost: int
+    required_ability_id: UUID | None
+    variant_of_id: UUID | None
+
+
+@dataclass(frozen=True)
+class TrickPick:
+    trick_id: UUID
+    source: str
+
+
+@dataclass(frozen=True)
+class TrickPurposeRef:
+    id: UUID
+    name: str
+    trick_ids: frozenset[UUID]
+
+
+@dataclass(frozen=True)
+class TrickLimits:
+    bonus_used: int
+    bonus_max: int
+    trained_used: int
+    # `None` = no limit (IN 3+).
+    trained_max: int | None
+
+    @property
+    def over_limit(self) -> bool:
+        return self.bonus_used > self.bonus_max or (
+            self.trained_max is not None and self.trained_used > self.trained_max
+        )
+
+
+def trained_trick_limit(intelligence: int) -> int | None:
+    if intelligence >= UNLIMITED_TRICKS_MIN_INTELLIGENCE:
+        return None
+    return TRAINED_TRICK_LIMITS.get(intelligence, 0)
+
+
+def trick_limits(
+    picks: Iterable[TrickPick], tricks_by_id: dict[UUID, TrickRow], bonus_max: int, intelligence: int
+) -> TrickLimits:
+    """Slots used per pool, each trick counted at its `cost`."""
+    used = {source: 0 for source in TRICK_SOURCES}
+    for pick in picks:
+        used[pick.source] += tricks_by_id[pick.trick_id].cost
+    return TrickLimits(used["bonus"], bonus_max, used["trained"], trained_trick_limit(intelligence))
+
+
+def trick_unavailable_reason(
+    trick: TrickRow, species_ability_ids: Iterable[UUID], ability_names: dict[UUID, str]
+) -> str | None:
+    """Why the companion can't learn `trick` (Spuren suchen without
+    Geruchssinn), `None` if it can."""
+    if trick.required_ability_id is not None and trick.required_ability_id not in set(species_ability_ids):
+        return f"braucht {ability_names.get(trick.required_ability_id, 'eine besondere Fähigkeit')}"
+    return None
+
+
+def purpose_unavailable_reason(
+    purpose: TrickPurposeRef,
+    tricks_by_id: dict[UUID, TrickRow],
+    species_ability_ids: Iterable[UUID],
+    ability_names: dict[UUID, str],
+    intelligence: int,
+) -> str | None:
+    """"Das Tier muss alle Voraussetzungen für alle Tricks erfüllen" and the
+    IN 2 minimum for a training of more than three tricks."""
+    species_ability_ids = set(species_ability_ids)
+    for trick_id in sorted(purpose.trick_ids, key=lambda trick_id: tricks_by_id[trick_id].name):
+        trick = tricks_by_id[trick_id]
+        reason = trick_unavailable_reason(trick, species_ability_ids, ability_names)
+        if reason is not None:
+            return f"{trick.name} {reason}"
+    if len(purpose.trick_ids) > LARGE_PURPOSE_TRICKS and intelligence < LARGE_PURPOSE_MIN_INTELLIGENCE:
+        return f"mehr als {LARGE_PURPOSE_TRICKS} Tricks, braucht IN {LARGE_PURPOSE_MIN_INTELLIGENCE}"
+    return None
+
+
+def is_purpose_trick(pick_trick_id: UUID, purpose: TrickPurposeRef | None, tricks_by_id: dict[UUID, TrickRow]) -> bool:
+    """Whether a pick is one of the training's tricks — a variant covers the
+    trick it includes (Angreifen (alle Wesen) for Angreifen)."""
+    if purpose is None:
+        return False
+    trick = tricks_by_id[pick_trick_id]
+    return trick.id in purpose.trick_ids or trick.variant_of_id in purpose.trick_ids
+
+
+def trick_errors(
+    picks: list[TrickPick],
+    purpose: TrickPurposeRef | None,
+    tricks_by_id: dict[UUID, TrickRow],
+    species_ability_ids: Iterable[UUID],
+    ability_names: dict[UUID, str],
+    bonus_max: int,
+    intelligence: int,
+) -> list[str]:
+    """Everything wrong with a full trick set the player wants to store.
+    The Mit-Tieren-umgehen check and the training time aren't modeled — a
+    "trained" pick is the player's own statement."""
+    errors: list[str] = []
+    species_ability_ids = set(species_ability_ids)
+    unknown = [pick.trick_id for pick in picks if pick.trick_id not in tricks_by_id]
+    if unknown:
+        return [f"Unbekannter Trick: {trick_id}" for trick_id in unknown]
+    if any(pick.source not in TRICK_SOURCES for pick in picks):
+        errors.append("Quelle muss 'bonus' oder 'trained' sein.")
+        return errors
+    counts = Counter(pick.trick_id for pick in picks)
+    errors += [f"{tricks_by_id[trick_id].name} ist doppelt gewählt." for trick_id, n in counts.items() if n > 1]
+    picked = set(counts)
+    for trick_id in picked:
+        trick = tricks_by_id[trick_id]
+        if trick.variant_of_id in picked:
+            errors.append(f"{trick.name} enthält bereits {tricks_by_id[trick.variant_of_id].name}.")
+        reason = trick_unavailable_reason(trick, species_ability_ids, ability_names)
+        if reason is not None:
+            errors.append(f"{trick.name} {reason}.")
+    if purpose is not None:
+        reason = purpose_unavailable_reason(purpose, tricks_by_id, species_ability_ids, ability_names, intelligence)
+        if reason is not None:
+            errors.append(f"{purpose.name}: {reason}.")
+        covered = picked | {
+            tricks_by_id[trick_id].variant_of_id for trick_id in picked if tricks_by_id[trick_id].variant_of_id
+        }
+        missing = sorted(tricks_by_id[trick_id].name for trick_id in purpose.trick_ids - covered)
+        if missing:
+            errors.append(f"{purpose.name} umfasst auch: {', '.join(missing)}.")
+    limits = trick_limits(picks, tricks_by_id, bonus_max, intelligence)
+    if limits.bonus_used > limits.bonus_max:
+        errors.append(f"Zu viele Bonustricks ({limits.bonus_used}/{limits.bonus_max}).")
+    if limits.trained_max is not None and limits.trained_used > limits.trained_max:
+        errors.append(f"Zu viele abgerichtete Tricks ({limits.trained_used}/{limits.trained_max}, IN {intelligence}).")
+    return errors

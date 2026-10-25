@@ -2115,7 +2115,9 @@ column. What is missing:
   `prd.5footstep.de/Grundregelwerk/Fertigkeiten/MitTierenumgehen` (tricks
   with DC, trainings ("Aufgaben"), IN 1 → max 3 / IN 2 → max 6 taught
   tricks, bonus tricks don't count against that limit). Static help
-  content, not rule data.
+  content, not rule data. **Superseded 2026-10-21** by step 5 below
+  (tricks as data, stored picks; built 2026-10-25) — only the rules text
+  stays as help text.
 - Sync step: when the effective level rises, new `CharacterLevel` rows with
   empty choices are created (shown as open slots, filled like a level-up).
   Runs in the same transaction as the master's level-up and any change to
@@ -2464,6 +2466,81 @@ Small characters change (values become correct, not a regression).
         the Sinne aspect (descriptive), Ausdauer from Abhärtung, +2 KMB in
         grappling, Fertigkeitsfokus limited to Akrobatik. Adler-, Schlangen-
         and Wolfsschamane not added (not requested).
+- [x] 5. Tricks as data (planned 2026-10-21, reverses the 2026-10-14
+      "descriptive only" decision on request: testers want to see which
+      tricks their companion knows, bonus tricks included, on the sheet).
+      Applies to the animal-companion track only (Tiergefährte, Reittier);
+      familiars keep no tricks.
+      **Decided 2026-10-25:** no trained-trick limit from IN 3 on (shown as
+      "unbegrenzt"; the PRD only states IN 1 → 3 and IN 2 → 6), revisit if
+      a source says otherwise. "Angreifen (alle Wesen)" ("wird als zwei
+      Tricks gewertet") is its own catalog row with `cost` 2 and
+      `variant_of_id` → Angreifen.
+      **Done 2026-10-25** (migration `9c96aec824da`,
+      `scripts/import_companion_tricks.py`, `tests/test_companion_tricks.py`),
+      as planned below, with these refinements from the PRD page: a
+      training needs all its tricks' prerequisites and, with more than three
+      tricks, IN 2; one training per companion (a second one isn't
+      modeled as "replaces the old one", the player just switches it);
+      `base_companion_trick_purposes` also has `weeks`. The PRD site moved
+      to a new layout meanwhile (https, UTF-8, content in `<article
+      id="page-show">`, non-breaking spaces) — the importer has its own
+      fetcher; the older importers' `fetch_text` would need the same
+      update before they're rerun. The hand-typed `TRICK_HELP` matched the
+      page except the training's name "Ein Kunststück vorführen".
+      Validation errors come back as one 422 message; the edit dialog
+      checks counts and training coverage itself before saving.
+      - **Catalog (pure data, composition).** New `base_companion_tricks`
+        (`name`, `dc`, `description`, nullable `required_ability_id` → a
+        `BaseRaceAbility`, so "Spuren suchen braucht Geruchssinn" is a
+        lookup against the species' stage abilities, not a special case)
+        and `base_companion_trick_purposes` (Aufgaben: `name`, `dc`,
+        `description`) with a link table `base_companion_trick_purpose_tricks`.
+        Seed JSON under `fixtures/seed/`, built by a new
+        `scripts/import_companion_tricks.py` from
+        `prd.5footstep.de/Grundregelwerk/Fertigkeiten/MitTierenumgehen`.
+        Check the 12 tricks and the trainings in `frontend/src/lib/companionLevels.ts`'s
+        `TRICK_HELP` against the page while importing (the frontend list was
+        typed by hand). Expertenregeln/other sources' extra tricks stay out
+        until asked for.
+      - **Picks.** New `character_companion_tricks` (`character_id` = the
+        companion `Character`, `trick_id`, `source` "bonus" | "trained",
+        nullable `purpose_id` when the trick came in via an Aufgabe),
+        unique per (character, trick). Not on `CharacterLevel`: tricks are
+        taught during downtime at any time, not per HD, and bonus tricks
+        grow with the *effective level* (`BaseCompanionProgression.bonus_tricks`),
+        not with HD. An Aufgabe is stored as its tricks (each with the
+        `purpose_id`), so the limit counts distinct tricks and a trick
+        already known isn't paid twice.
+      - **Rules (`rules/companions.py`).** `trick_limits(context)` →
+        bonus slots = the progression row's `bonus_tricks`, trained slots =
+        IN limit from the sheet's effective IN (incl. ability increases
+        and the Paladin/Mystiker IN minimum). Validation on write: known
+        trick ids only, no duplicates, `required_ability_id` present among
+        the species' abilities, bonus count ≤ bonus slots, trained count ≤
+        trained slots. No downward deletion, same policy as HD: if the
+        limit drops (IN damage, orphaned companion), keep the picks and
+        flag "zu viele Tricks" on the sheet. The Mit-Tieren-umgehen check
+        and the week of training stay the player's business (no downtime
+        model), a "trained" pick is the player's own statement.
+      - **API.** `GET /api/companion-tricks` (tricks + Aufgaben, with
+        requirement flags for a given companion); `PUT
+        /api/characters/{id}/tricks` replaces the full set (rejected for
+        non-companions and familiars); the sheet's `companion` payload gets
+        `tricks: [{id, name, dc, source, purposeName}]` and
+        `trickLimits: {bonus: {used, max}, trained: {used, max | null}}`.
+      - **Frontend.** `CompanionBanner`'s trick `<details>` becomes a trick
+        section: known tricks with a "Bonus"/"Abgerichtet" badge, counters
+        ("Bonustricks 1/2 · Abgerichtet 4/6"), an edit dialog (tricks and
+        Aufgaben as checkboxes, Geruchssinn-gated ones disabled with a
+        reason) and an "n Bonustricks offen" hint next to the open-HD note.
+        The PRD rules text stays as help text. Print/PDF lists the tricks.
+        `TRICK_HELP`'s lists are then read from the API instead.
+      - **Tests.** Limits per IN 1/2/≥3, bonus slots growing with the
+        master's level, Geruchssinn gate, Aufgabe expansion without double
+        counting, over-limit flag instead of deletion, familiar rejected.
+      - **Testers:** existing companions start with no tricks stored —
+        the sheet shows their bonus tricks as open, nothing is lost.
 
 ## Explicitly out of scope here
 

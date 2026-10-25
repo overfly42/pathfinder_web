@@ -17,6 +17,14 @@ accordingly (`response.read().decode("iso-8859-1")` when using
 `urllib.request`, or unavoidable mangled umlauts on a JSON string but decode
 still needed).
 
+**Update 2026-10-25:** content pages now redirect to `https://`, are served
+as UTF-8, keep their text in `<article id="page-show">` (no more `<div
+id="page" class="page">`, which `import_companion_species.fetch_text` and
+the importers reusing it still expect) and use non-breaking spaces between
+words. `import_companion_tricks.py` has a fetcher for the new layout; the
+older importers need the same change before they're rerun. The JSON index
+files weren't rechecked.
+
 ## 1. Bulk feat index → short summaries for all 1506 feats
 
 `/TalentIndex` itself renders an *empty* `<table>` and fills it client-side

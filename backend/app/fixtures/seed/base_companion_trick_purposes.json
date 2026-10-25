@@ -1,0 +1,51 @@
+[
+  {
+    "id": "ba223f24-7d76-5314-8bd4-4e8855cbe947",
+    "name": "Kampfausbildung",
+    "dc": 20,
+    "description": "Ein Tier, das dazu ausgebildet wurde, einen Reiter in den Kampf zu tragen, kennt die Tricks Angreifen, Bei Fuß gehen, Kommen, Verteidigen, Wachen und Zurückziehen. Es dauert sechs Wochen, ein Tier zum Kampfauszubilden. Man kann auch ein bereits ausgebildetes Tier zum Kampfausbilden, indem man es drei Wochen lang trainiert und dann einen erfolgreichen Wurf auf Mit Tieren Umgehen (SG 20) ablegt. Die neue Aufgabe inklusive der neuen Tricks ersetzt die frühere Aufgabe des Tieres sowie alle ihm vorher bekannten Tricks. Viele Hunde und Pferde sind bereits für den Kampf ausgebildet.",
+    "weeks": 6
+  },
+  {
+    "id": "a342e6da-0e0c-597d-9e2d-544571051799",
+    "name": "Kämpfen",
+    "dc": 20,
+    "description": "Ein Tier, das zum Kampfausgebildet wurde, kennt die Tricks Angreifen, Bleiben und Zurückziehen. Ein Tier für den Kampf auszubilden, dauert 3 Wochen.",
+    "weeks": 3
+  },
+  {
+    "id": "ff6c1d39-0b61-5f27-a308-6fc36dd9d101",
+    "name": "Wache halten",
+    "dc": 20,
+    "description": "Ein Tier, das dazu ausgebildet wurde, Wache zu halten, kennt die Tricks Angreifen, Verteidigen, Wachen und Zurückziehen. Diese Ausbildung dauert 4 Wochen.",
+    "weeks": 4
+  },
+  {
+    "id": "1de0d3b7-8093-5d6b-9053-7804f3a78f38",
+    "name": "Lastarbeit",
+    "dc": 15,
+    "description": "Ein Tier, das dazu ausgebildet wurde, Lasten zu transportieren, kennt die Tricks Arbeiten und Kommen. Ein Tier für Lastarbeiten auszubilden, dauert 2Wochen.",
+    "weeks": 2
+  },
+  {
+    "id": "dc1e833e-abda-5253-98a2-829ea6ba87a0",
+    "name": "Jagen",
+    "dc": 20,
+    "description": "Ein Tier, das für die Jagd ausgebildet wurde, kennt die Tricks Angreifen, Bei Fuß gehen, Bringen, Spuren suchen, Suchen und Zurückziehen. Ein Tier die Jagd auszubilden, dauert 6 Wochen.",
+    "weeks": 6
+  },
+  {
+    "id": "169e6989-eed9-5eb7-919d-d8922466c42e",
+    "name": "Ein Kunststück vorführen",
+    "dc": 15,
+    "description": "Ein Tier, das dazu ausgebildet wurde, Kunststücke vorzuführen, kennt die Tricks Bleiben, Bringen, Kommen und Kunststück vorführen. Ein Tier dazu auszubilden, Kunststücke zu vorzuführen, dauert 5 Wochen.",
+    "weeks": 5
+  },
+  {
+    "id": "37e670c5-d66a-50e8-bb83-b34e53c0192e",
+    "name": "Reiten",
+    "dc": 15,
+    "description": "Ein ausgebildetes Reittier kennt die Tricks Bei Fuß gehen, Bleiben und Kommen. Ein Tier zum Reittier auszubilden, dauert 3 Wochen.",
+    "weeks": 3
+  }
+]

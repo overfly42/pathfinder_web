@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiPost } from '../../api/client';
 import type { Character, CompanionLevel, CompanionSlot } from '../../types/character';
-import { TRICK_HELP, companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
+import { companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
+import { CompanionTricks } from './CompanionTricks';
 
 /** "Meister | Wolf" — switches between a master and its companions (roadmap slice 10 step 2b).
  *  On a master's sheet it lists the companions filling its slots; on a companion's sheet it
@@ -35,8 +36,9 @@ export function CompanionSwitcher({ character, onOpen }: { character: Character;
   );
 }
 
-/** The companion's own banner: master, effective level and where it comes from, HD, tricks. */
-export function CompanionBanner({ character }: { character: Character }) {
+/** The companion's own banner: master, effective level and where it comes from, HD, tricks.
+ *  `onChanged` reloads the sheet after the tricks were edited. */
+export function CompanionBanner({ character, onChanged }: { character: Character; onChanged: () => void }) {
   const info = character.companion;
   if (!info) return null;
   const hdMismatch = info.expectedHitDice != null && info.expectedHitDice !== info.hitDice;
@@ -81,14 +83,7 @@ export function CompanionBanner({ character }: { character: Character }) {
           ))}
         </ul>
       )}
-      {info.track !== 'familiar' && (
-      <details className="companion-tricks">
-        <summary>Bonustricks: {info.bonusTricks}</summary>
-        <p className="desc">{TRICK_HELP.rules}</p>
-        <p className="desc">Tricks: {TRICK_HELP.tricks.join(' · ')}</p>
-        <p className="desc">Aufgaben: {TRICK_HELP.trainings.join(' · ')}</p>
-      </details>
-      )}
+      <CompanionTricks character={character} onChanged={onChanged} />
     </div>
   );
 }
