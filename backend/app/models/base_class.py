@@ -381,7 +381,16 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     race-independent "hp"/"skill" values every class offers (`race_id=None`,
     `add_generic_favored_class_bonus_choices.py`). `None` means available
     regardless of race, the same meaning every choice already had implicitly
-    before this column existed."""
+    before this column existed.
+
+    `exclusion_keys` (nullable, JSON list of strings) makes choices of the
+    same group mutually exclusive: two picks whose key lists overlap can't
+    be taken together. First used for the Kleriker's Unterdomänen
+    (`import_kleriker_unterdomaenen.py`) — a domain carries its own name, a
+    subdomain its main domain's name plus its own, so a subdomain excludes
+    its main domain, that domain's other subdomains, and its own variant
+    under a second main domain (Archonten under Gutes or Ordnung). Null =
+    combinable with anything."""
 
     __tablename__ = "base_class_option_choices"
     __table_args__ = (UniqueConstraint("group_id", "name"),)
@@ -400,6 +409,7 @@ class BaseClassOptionChoice(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     # Bärenschamane can't take the Feuer domain). Null = no restriction.
     only_for_archetype_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
     excluded_for_archetype_ids: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    exclusion_keys: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
 
 
 class BaseClassAbilityFeatOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):

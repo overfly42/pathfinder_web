@@ -1182,167 +1182,266 @@
   {
     "id": "aa7d0284-2485-5efa-ab77-7860800c7b34",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Adels"
+    "name": "Domäne des Adels",
+    "exclusion_keys": [
+      "Domäne des Adels"
+    ]
   },
   {
     "id": "4c4220d4-4366-5a28-9091-244f13a0ea4b",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Befreiung"
+    "name": "Domäne der Befreiung",
+    "exclusion_keys": [
+      "Domäne der Befreiung"
+    ]
   },
   {
     "id": "7d22f2de-138d-5ede-bcdf-ffc03ecfc48f",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Bösen"
+    "name": "Domäne des Bösen",
+    "exclusion_keys": [
+      "Domäne des Bösen"
+    ]
   },
   {
     "id": "9a53dd8d-3b60-588b-a624-ae31abbaed0b",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Chaos"
+    "name": "Domäne des Chaos",
+    "exclusion_keys": [
+      "Domäne des Chaos"
+    ]
   },
   {
     "id": "5eb42a2e-85ba-50d7-b4d4-dd9d18a53e71",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Dunkelheit"
+    "name": "Domäne der Dunkelheit",
+    "exclusion_keys": [
+      "Domäne der Dunkelheit"
+    ]
   },
   {
     "id": "96a0548c-aaa7-5941-910b-8520396b4316",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Erde"
+    "name": "Domäne der Erde",
+    "exclusion_keys": [
+      "Domäne der Erde"
+    ]
   },
   {
     "id": "e991c6c5-3c89-53c0-8899-b7e91c99901c",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Feuers"
+    "name": "Domäne des Feuers",
+    "exclusion_keys": [
+      "Domäne des Feuers"
+    ]
   },
   {
     "id": "c279c837-249e-5b53-b818-46c0f918bb43",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Gemeinschaft"
+    "name": "Domäne der Gemeinschaft",
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft"
+    ]
   },
   {
     "id": "4bae140f-b3e9-5477-8d42-264bc5c2870d",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Glücks"
+    "name": "Domäne des Glücks",
+    "exclusion_keys": [
+      "Domäne des Glücks"
+    ]
   },
   {
     "id": "dfd5dba8-04e4-5b6f-8479-5f73b345539c",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Guten"
+    "name": "Domäne des Guten",
+    "exclusion_keys": [
+      "Domäne des Guten"
+    ]
   },
   {
     "id": "df60482b-82e8-5de6-ad17-fcd5cc1839e0",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Handwerks"
+    "name": "Domäne des Handwerks",
+    "exclusion_keys": [
+      "Domäne des Handwerks"
+    ]
   },
   {
     "id": "462ce3ee-781f-5829-92a9-fe584414c789",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Heilung"
+    "name": "Domäne der Heilung",
+    "exclusion_keys": [
+      "Domäne der Heilung"
+    ]
   },
   {
     "id": "9676b590-0244-51c7-b792-9a1154a4f0c5",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Herrlichkeit"
+    "name": "Domäne der Herrlichkeit",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit"
+    ]
   },
   {
     "id": "4df76660-ac78-53f1-a67d-a9a06055321d",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Krieges"
+    "name": "Domäne des Krieges",
+    "exclusion_keys": [
+      "Domäne des Krieges"
+    ]
   },
   {
     "id": "adeedd67-430f-5017-a539-dcfdb9b54881",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Luft"
+    "name": "Domäne der Luft",
+    "exclusion_keys": [
+      "Domäne der Luft"
+    ]
   },
   {
     "id": "c5be91b0-56b1-5cfd-b006-4a0bde101115",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Magie"
+    "name": "Domäne der Magie",
+    "exclusion_keys": [
+      "Domäne der Magie"
+    ]
   },
   {
     "id": "24516b53-3455-54a1-b000-45fa035e4261",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Ordnung"
+    "name": "Domäne der Ordnung",
+    "exclusion_keys": [
+      "Domäne der Ordnung"
+    ]
   },
   {
     "id": "21fd5b5c-d114-5a8c-8246-23ee65537fef",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Pflanzen"
+    "name": "Domäne der Pflanzen",
+    "exclusion_keys": [
+      "Domäne der Pflanzen"
+    ]
   },
   {
     "id": "0ad81b82-4ab8-5a86-bb3a-d146952bebc0",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Reisen"
+    "name": "Domäne der Reisen",
+    "exclusion_keys": [
+      "Domäne der Reisen"
+    ]
   },
   {
     "id": "1457434f-09ec-5128-b84d-eacb9c7d6a82",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Ruhe"
+    "name": "Domäne der Ruhe",
+    "exclusion_keys": [
+      "Domäne der Ruhe"
+    ]
   },
   {
     "id": "5e53853d-8a98-5196-89d0-7dd50618bc62",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Runen"
+    "name": "Domäne der Runen",
+    "exclusion_keys": [
+      "Domäne der Runen"
+    ]
   },
   {
     "id": "0012e02f-ef11-5c70-8e28-497b822b6cde",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Schutzes"
+    "name": "Domäne des Schutzes",
+    "exclusion_keys": [
+      "Domäne des Schutzes"
+    ]
   },
   {
     "id": "859c87dd-3881-52d0-9df5-57bd25141b58",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Sonne"
+    "name": "Domäne der Sonne",
+    "exclusion_keys": [
+      "Domäne der Sonne"
+    ]
   },
   {
     "id": "d81c8e89-b7bf-57dd-adfa-0fe3d20d3f50",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Stärke"
+    "name": "Domäne der Stärke",
+    "exclusion_keys": [
+      "Domäne der Stärke"
+    ]
   },
   {
     "id": "efeb7ca2-cd09-5546-8843-bd528d0cbce7",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Tiere"
+    "name": "Domäne der Tiere",
+    "exclusion_keys": [
+      "Domäne der Tiere"
+    ]
   },
   {
     "id": "fb05fbc1-0972-54fb-9f94-cb2772faac7f",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Todes"
+    "name": "Domäne des Todes",
+    "exclusion_keys": [
+      "Domäne des Todes"
+    ]
   },
   {
     "id": "69a12958-cb5b-52a2-8d15-a11b0ae1d6cb",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Tricks"
+    "name": "Domäne der Tricks",
+    "exclusion_keys": [
+      "Domäne der Tricks"
+    ]
   },
   {
     "id": "45a588b1-0199-5110-a76e-3463b1b67423",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Verzauberung"
+    "name": "Domäne der Verzauberung",
+    "exclusion_keys": [
+      "Domäne der Verzauberung"
+    ]
   },
   {
     "id": "bdbfd542-ef22-59b8-ac2b-3dd74fdee4aa",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Wahnsinns"
+    "name": "Domäne des Wahnsinns",
+    "exclusion_keys": [
+      "Domäne des Wahnsinns"
+    ]
   },
   {
     "id": "c4e403bf-b986-566e-ae1b-5f0488c3fafe",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Wassers"
+    "name": "Domäne des Wassers",
+    "exclusion_keys": [
+      "Domäne des Wassers"
+    ]
   },
   {
     "id": "490de86f-2024-543c-acd0-a565173c4dbe",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Wetters"
+    "name": "Domäne des Wetters",
+    "exclusion_keys": [
+      "Domäne des Wetters"
+    ]
   },
   {
     "id": "91b0f37d-e8d1-5d41-ad7a-68ec81637bd1",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne des Wissens"
+    "name": "Domäne des Wissens",
+    "exclusion_keys": [
+      "Domäne des Wissens"
+    ]
   },
   {
     "id": "eb8aa2da-b455-5bed-aee2-24666714edc6",
     "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
-    "name": "Domäne der Zerstörung"
+    "name": "Domäne der Zerstörung",
+    "exclusion_keys": [
+      "Domäne der Zerstörung"
+    ]
   },
   {
     "id": "f5b6f2db-8d7c-5d6f-9f42-f96a73ac6356",
@@ -3416,6 +3515,9 @@
     "race_id": null,
     "excluded_for_archetype_ids": [
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne der Erde"
     ]
   },
   {
@@ -3428,6 +3530,9 @@
     "excluded_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8",
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne des Feuers"
     ]
   },
   {
@@ -3440,6 +3545,9 @@
     "excluded_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8",
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne der Luft"
     ]
   },
   {
@@ -3452,6 +3560,9 @@
     "excluded_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8",
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne der Pflanzen"
     ]
   },
   {
@@ -3461,7 +3572,10 @@
     "min_level": null,
     "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
     "race_id": null,
-    "excluded_for_archetype_ids": null
+    "excluded_for_archetype_ids": null,
+    "exclusion_keys": [
+      "Domäne der Tiere"
+    ]
   },
   {
     "id": "0e89b86f-d9e4-56d7-aa32-9181f094ee8f",
@@ -3473,6 +3587,9 @@
     "excluded_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8",
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wassers"
     ]
   },
   {
@@ -3485,6 +3602,9 @@
     "excluded_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8",
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wetters"
     ]
   },
   {
@@ -3672,6 +3792,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit"
     ]
   },
   {
@@ -3683,6 +3806,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne der Sonne"
     ]
   },
   {
@@ -3694,6 +3820,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "exclusion_keys": [
+      "Domäne der Stärke"
     ]
   },
   {
@@ -3705,6 +3834,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "exclusion_keys": [
+      "Domäne des Adels"
     ]
   },
   {
@@ -3716,6 +3848,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "exclusion_keys": [
+      "Domäne des Schutzes"
     ]
   },
   {
@@ -3743,6 +3878,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Adels"
     ]
   },
   {
@@ -3754,6 +3892,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Befreiung"
     ]
   },
   {
@@ -3765,6 +3906,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Bösen"
     ]
   },
   {
@@ -3776,6 +3920,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Chaos"
     ]
   },
   {
@@ -3787,6 +3934,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Dunkelheit"
     ]
   },
   {
@@ -3798,6 +3948,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Erde"
     ]
   },
   {
@@ -3809,6 +3962,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Feuers"
     ]
   },
   {
@@ -3820,6 +3976,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft"
     ]
   },
   {
@@ -3831,6 +3990,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Glücks"
     ]
   },
   {
@@ -3842,6 +4004,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Guten"
     ]
   },
   {
@@ -3853,6 +4018,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Handwerks"
     ]
   },
   {
@@ -3864,6 +4032,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Heilung"
     ]
   },
   {
@@ -3875,6 +4046,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit"
     ]
   },
   {
@@ -3886,6 +4060,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Krieges"
     ]
   },
   {
@@ -3897,6 +4074,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Luft"
     ]
   },
   {
@@ -3908,6 +4088,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Magie"
     ]
   },
   {
@@ -3919,6 +4102,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Ordnung"
     ]
   },
   {
@@ -3930,6 +4116,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Pflanzen"
     ]
   },
   {
@@ -3941,6 +4130,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Reisen"
     ]
   },
   {
@@ -3952,6 +4144,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Ruhe"
     ]
   },
   {
@@ -3963,6 +4158,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Runen"
     ]
   },
   {
@@ -3974,6 +4172,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Schutzes"
     ]
   },
   {
@@ -3985,6 +4186,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Sonne"
     ]
   },
   {
@@ -3996,6 +4200,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Stärke"
     ]
   },
   {
@@ -4007,6 +4214,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Tiere"
     ]
   },
   {
@@ -4018,6 +4228,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Todes"
     ]
   },
   {
@@ -4029,6 +4242,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Tricks"
     ]
   },
   {
@@ -4040,6 +4256,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Verzauberung"
     ]
   },
   {
@@ -4051,6 +4270,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wahnsinns"
     ]
   },
   {
@@ -4062,6 +4284,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wassers"
     ]
   },
   {
@@ -4073,6 +4298,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wetters"
     ]
   },
   {
@@ -4084,6 +4312,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne des Wissens"
     ]
   },
   {
@@ -4095,6 +4326,9 @@
     "race_id": null,
     "only_for_archetype_ids": [
       "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "exclusion_keys": [
+      "Domäne der Zerstörung"
     ]
   },
   {
@@ -4104,5 +4338,2136 @@
     "min_level": null,
     "requires_choice_id": null,
     "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "e292d4f6-f6a6-5b0d-81e9-e92c9aa5197c",
+    "name": "Unterdomäne der Agathionen",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Agathionen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "d12a7dc0-e5e9-5644-881c-06b703f3a482",
+    "name": "Unterdomäne der Agathionen",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Agathionen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "ecdf2506-f2e1-5343-9453-5f2134e5c2df",
+    "name": "Unterdomäne der Ahnen",
+    "exclusion_keys": [
+      "Domäne der Ruhe",
+      "Unterdomäne der Ahnen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "57d37ce2-6fe1-509f-834f-abb459717b8e",
+    "name": "Unterdomäne der Ahnen",
+    "exclusion_keys": [
+      "Domäne der Ruhe",
+      "Unterdomäne der Ahnen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "a7309091-45f4-543b-a5d9-a18e3cd0c3ce",
+    "name": "Unterdomäne der Albträume",
+    "exclusion_keys": [
+      "Domäne des Wahnsinns",
+      "Unterdomäne der Albträume"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "003a78e8-44f7-5dc5-abb6-b7820ad4dff6",
+    "name": "Unterdomäne der Albträume",
+    "exclusion_keys": [
+      "Domäne des Wahnsinns",
+      "Unterdomäne der Albträume"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "e3d0ac11-077a-550a-a5ab-8e0658b62ebb",
+    "name": "Unterdomäne der Archonten (Gutes)",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Archonten"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "6bb7e87f-0e0f-51fd-893b-bfaded159c2c",
+    "name": "Unterdomäne der Archonten (Ordnung)",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Archonten"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "f1e84331-b382-5ca3-9a1d-854e633315b8",
+    "name": "Unterdomäne der Archonten (Gutes)",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Archonten"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "ff0c8c5f-8a2e-5f3e-aa4f-308308454658",
+    "name": "Unterdomäne der Archonten (Ordnung)",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Archonten"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "038137b7-110c-5384-8ff3-67b59f173aba",
+    "name": "Unterdomäne des Arkanen",
+    "exclusion_keys": [
+      "Domäne der Magie",
+      "Unterdomäne des Arkanen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "9a2d86f0-8229-542a-8dd2-b1e8c691c571",
+    "name": "Unterdomäne des Arkanen",
+    "exclusion_keys": [
+      "Domäne der Magie",
+      "Unterdomäne des Arkanen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "8b9cb512-1e11-5d0b-82aa-ce323de337aa",
+    "name": "Unterdomäne der Asche",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne der Asche"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "a915680f-461a-56d8-af86-88c6f0b629f8",
+    "name": "Unterdomäne der Asche",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne der Asche"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "fb273cd3-6f56-53fa-87ea-925026722e8b",
+    "name": "Unterdomäne der Asche",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne der Asche"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "72db05cf-b641-55d5-bfa9-9a898db60efa",
+    "name": "Unterdomäne der Aufopferung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Aufopferung"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "ad92ee5c-c761-5969-9777-236677ff6ef5",
+    "name": "Unterdomäne der Aufopferung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Aufopferung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "0135d44f-649f-526d-ab3a-c56b6d86baad",
+    "name": "Unterdomäne der Aufopferung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Aufopferung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "856c73b8-14fb-51e9-bf40-205a933ae923",
+    "name": "Unterdomäne der Azata (Chaos)",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Azata"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "137e6772-12ce-5ede-83c0-10cbf03b1dfb",
+    "name": "Unterdomäne der Azata (Gutes)",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Azata"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "f68cde67-ba44-5429-88b2-aefa4f5dd590",
+    "name": "Unterdomäne der Azata (Chaos)",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Azata"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "72a37051-20d8-5029-87ec-bb6eb4203e51",
+    "name": "Unterdomäne der Azata (Gutes)",
+    "exclusion_keys": [
+      "Domäne des Guten",
+      "Unterdomäne der Azata"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "2e6b7147-51f0-51f0-b64e-0c6ffb3602c4",
+    "name": "Unterdomäne des Blutes",
+    "exclusion_keys": [
+      "Domäne des Krieges",
+      "Unterdomäne des Blutes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "7ed6059f-941b-59ac-9e8c-4a9e675a6975",
+    "name": "Unterdomäne des Blutes",
+    "exclusion_keys": [
+      "Domäne des Krieges",
+      "Unterdomäne des Blutes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "376f9bb4-b1fc-57b7-a075-3121ce074fe5",
+    "name": "Unterdomäne der Dämonen (Böses)",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Dämonen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "0b54c50f-991e-54a4-b2b9-cfa7a872075f",
+    "name": "Unterdomäne der Dämonen (Chaos)",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Dämonen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "04aeec85-ba00-5626-9a29-77027384a8b2",
+    "name": "Unterdomäne der Dämonen (Böses)",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Dämonen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "91657a2a-2d9c-5523-af8f-13fdeb62cd47",
+    "name": "Unterdomäne der Dämonen (Chaos)",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Dämonen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "5e5cd0bd-ab3b-5022-8648-7eb8ddb33665",
+    "name": "Unterdomäne der Daimonen",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Daimonen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "0c556c64-1fa6-5081-81f3-72435b780199",
+    "name": "Unterdomäne der Daimonen",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Daimonen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "11dfc220-65e6-5268-89fa-29b770ed7bb6",
+    "name": "Unterdomäne des Diebstahls",
+    "exclusion_keys": [
+      "Domäne der Tricks",
+      "Unterdomäne des Diebstahls"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "f25dcefe-74d1-5a6b-91c1-ec3c73a9cd58",
+    "name": "Unterdomäne des Diebstahls",
+    "exclusion_keys": [
+      "Domäne der Tricks",
+      "Unterdomäne des Diebstahls"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "9d1b9a33-c20f-5606-8d21-352e79453fc4",
+    "name": "Unterdomäne der Ehre",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne der Ehre"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "cf0b1b59-7424-50e4-a522-c89906063938",
+    "name": "Unterdomäne der Ehre",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne der Ehre"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "fa3ea568-58cc-5a7e-9967-2f4eb11658cf",
+    "name": "Unterdomäne der Ehre",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne der Ehre"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "b2efda2a-0b9a-5fca-b973-30c89cf081d6",
+    "name": "Unterdomäne des Eises",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne des Eises"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "fc423dcf-de63-5196-9125-26c7ed3b7e6a",
+    "name": "Unterdomäne des Eises",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne des Eises"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "b552cc4f-8a94-594b-8c40-069149d39ff9",
+    "name": "Unterdomäne des Eises",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne des Eises"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "856d3e6f-3e1e-5bf9-9c0f-50ed1058301f",
+    "name": "Unterdomäne der Entschlossenheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Entschlossenheit"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "id": "bd3ea18c-520d-521a-9355-e537161d6c47",
+    "name": "Unterdomäne der Entschlossenheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Entschlossenheit"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "12534a70-a2ab-5b4e-a4d4-a74a074295af",
+    "name": "Unterdomäne der Entschlossenheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Entschlossenheit"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "15d0e378-46cb-54d2-9d8c-af22265be496",
+    "name": "Unterdomäne der Erforschung",
+    "exclusion_keys": [
+      "Domäne der Reisen",
+      "Unterdomäne der Erforschung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "ef534e22-2fda-57f6-9119-ba30375c04da",
+    "name": "Unterdomäne der Erforschung",
+    "exclusion_keys": [
+      "Domäne der Reisen",
+      "Unterdomäne der Erforschung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "afb2c635-f964-50b8-9ef6-42f91d04dcf0",
+    "name": "Unterdomäne der Erinnerungen",
+    "exclusion_keys": [
+      "Domäne des Wissens",
+      "Unterdomäne der Erinnerungen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "5a5108d6-4b10-5fd9-bb53-22703b5be282",
+    "name": "Unterdomäne der Erinnerungen",
+    "exclusion_keys": [
+      "Domäne des Wissens",
+      "Unterdomäne der Erinnerungen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "3af7b05f-23b0-55ba-b83d-75b6d5d5bd00",
+    "name": "Unterdomäne der Familie",
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft",
+      "Unterdomäne der Familie"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "238c4cd0-4dfc-5b48-9465-140ef25823d9",
+    "name": "Unterdomäne der Familie",
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft",
+      "Unterdomäne der Familie"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "7ae0cbfe-a363-52c3-9cdd-ffae0081fc05",
+    "name": "Unterdomäne der Federn",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Federn"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": null,
+    "id": "993d9d85-8941-558c-91a9-b1d47789b1b8",
+    "name": "Unterdomäne der Federn",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Federn"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "5d46b6a8-2709-5eb8-83d3-f9b29943f3c8",
+    "name": "Unterdomäne der Federn",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Federn"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "7b68b296-8faa-5ce2-ba57-10342426fdd9",
+    "name": "Unterdomäne der Felle",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Felle"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": null,
+    "id": "7f6c6c3f-66e9-5dc9-ba50-018d7dbb618c",
+    "name": "Unterdomäne der Felle",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Felle"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "4f86f305-c299-527d-bf77-f3569263a9dc",
+    "name": "Unterdomäne der Felle",
+    "exclusion_keys": [
+      "Domäne der Tiere",
+      "Unterdomäne der Felle"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "12797b94-1d05-5b47-ab0d-d263b7ad4fef",
+    "name": "Unterdomäne der Flüche",
+    "exclusion_keys": [
+      "Domäne des Glücks",
+      "Unterdomäne der Flüche"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "2c093fe0-aca1-5125-b406-fc89131844d5",
+    "name": "Unterdomäne der Flüche",
+    "exclusion_keys": [
+      "Domäne des Glücks",
+      "Unterdomäne der Flüche"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "ecbf15c9-d58c-50ec-9eb1-3fe8373be2ad",
+    "name": "Unterdomäne der Freiheit",
+    "exclusion_keys": [
+      "Domäne der Befreiung",
+      "Unterdomäne der Freiheit"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "8d030823-531a-5718-83e5-e6af507f5287",
+    "name": "Unterdomäne der Freiheit",
+    "exclusion_keys": [
+      "Domäne der Befreiung",
+      "Unterdomäne der Freiheit"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "9a07163b-c588-5b15-b79a-31f7d8d7ca7e",
+    "name": "Unterdomäne der Führung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Führung"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "6ba93d22-00a1-5d4f-927a-06a227f7c20b",
+    "name": "Unterdomäne der Führung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Führung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "10c2deaf-bfbe-507d-a106-2aa4e666ec08",
+    "name": "Unterdomäne der Führung",
+    "exclusion_keys": [
+      "Domäne des Adels",
+      "Unterdomäne der Führung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "52a9950c-94da-53bb-a616-6d63eb12f502",
+    "name": "Unterdomäne der Gedanken",
+    "exclusion_keys": [
+      "Domäne des Wissens",
+      "Unterdomäne der Gedanken"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "eb333da2-3828-5924-8046-41495f9b43c7",
+    "name": "Unterdomäne der Gedanken",
+    "exclusion_keys": [
+      "Domäne des Wissens",
+      "Unterdomäne der Gedanken"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "9b83cb36-ba15-5e0a-bc70-26de5bb47ff4",
+    "name": "Unterdomäne der Genesung",
+    "exclusion_keys": [
+      "Domäne der Heilung",
+      "Unterdomäne der Genesung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "0cd54c4e-ddc7-53c6-b701-294b32d22018",
+    "name": "Unterdomäne der Genesung",
+    "exclusion_keys": [
+      "Domäne der Heilung",
+      "Unterdomäne der Genesung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "70d75781-387f-5f1a-97f4-03f45ab25dcd",
+    "name": "Unterdomäne des Göttlichen",
+    "exclusion_keys": [
+      "Domäne der Magie",
+      "Unterdomäne des Göttlichen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "59694032-aca9-5663-888c-e560a5177ce6",
+    "name": "Unterdomäne des Göttlichen",
+    "exclusion_keys": [
+      "Domäne der Magie",
+      "Unterdomäne des Göttlichen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "7e79f5fd-cfad-5257-b5c5-08ea8b145d7c",
+    "name": "Unterdomäne des Handels",
+    "exclusion_keys": [
+      "Domäne der Reisen",
+      "Unterdomäne des Handels"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "ea6f6225-afe0-5a66-803b-bc83310f587c",
+    "name": "Unterdomäne des Handels",
+    "exclusion_keys": [
+      "Domäne der Reisen",
+      "Unterdomäne des Handels"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "0989c14e-840e-5dae-bc37-0bb360592706",
+    "name": "Unterdomäne des Heimes",
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft",
+      "Unterdomäne des Heimes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "ccb37545-6c6d-5684-9fae-a9f2b8cb43df",
+    "name": "Unterdomäne des Heimes",
+    "exclusion_keys": [
+      "Domäne der Gemeinschaft",
+      "Unterdomäne des Heimes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "56f1cdcf-f382-5e8d-9934-d4cc5926b760",
+    "name": "Unterdomäne des Heldentums",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne des Heldentums"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "c3648764-d4a4-5fec-b749-9e1dfd637aea",
+    "name": "Unterdomäne des Heldentums",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne des Heldentums"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "cad33bd2-b708-5ab5-9be8-a2147c24e021",
+    "name": "Unterdomäne des Heldentums",
+    "exclusion_keys": [
+      "Domäne der Herrlichkeit",
+      "Unterdomäne des Heldentums"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "95d5e66e-4780-5e24-80ec-25926a66050a",
+    "name": "Unterdomäne der Höhlen",
+    "exclusion_keys": [
+      "Domäne der Erde",
+      "Unterdomäne der Höhlen"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "86d00399-f1b8-528f-8917-de088e13e1dd",
+    "name": "Unterdomäne der Höhlen",
+    "exclusion_keys": [
+      "Domäne der Erde",
+      "Unterdomäne der Höhlen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "5bb4a543-47c9-5911-a50d-ab89a5370b05",
+    "name": "Unterdomäne der Höhlen",
+    "exclusion_keys": [
+      "Domäne der Erde",
+      "Unterdomäne der Höhlen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "dde164d8-1f66-5c0e-841d-b191ba54cd8a",
+    "name": "Unterdomäne des Irrsinns",
+    "exclusion_keys": [
+      "Domäne des Wahnsinns",
+      "Unterdomäne des Irrsinns"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "6e3f5c4a-9cf5-5de6-9f46-77a87f24026c",
+    "name": "Unterdomäne des Irrsinns",
+    "exclusion_keys": [
+      "Domäne des Wahnsinns",
+      "Unterdomäne des Irrsinns"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "60e731f3-4a9f-5a3d-8aae-a5aa895b5620",
+    "name": "Unterdomäne der Jahreszeiten",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Jahreszeiten"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "35c8c37a-a53a-5a9a-a7db-bbe6c5ce6a96",
+    "name": "Unterdomäne der Jahreszeiten",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Jahreszeiten"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "4132ceeb-3456-53ac-b3e5-e1829ab43b5a",
+    "name": "Unterdomäne der Jahreszeiten",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Jahreszeiten"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "a9b97ccc-c237-5a72-bffe-972aa2a670e2",
+    "name": "Unterdomäne der Katastrophen",
+    "exclusion_keys": [
+      "Domäne der Zerstörung",
+      "Unterdomäne der Katastrophen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "7d31d34b-043b-5afa-be9b-d19d9ce7441e",
+    "name": "Unterdomäne der Katastrophen",
+    "exclusion_keys": [
+      "Domäne der Zerstörung",
+      "Unterdomäne der Katastrophen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "792bb33e-0b99-57e5-bab7-b7e157871698",
+    "name": "Unterdomäne der Konstrukte",
+    "exclusion_keys": [
+      "Domäne des Handwerks",
+      "Unterdomäne der Konstrukte"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "b2f752da-30b4-55ce-8254-47f49853de68",
+    "name": "Unterdomäne der Konstrukte",
+    "exclusion_keys": [
+      "Domäne des Handwerks",
+      "Unterdomäne der Konstrukte"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "85e76d04-6d82-58e9-ac74-24912e438cb2",
+    "name": "Unterdomäne der Liebe",
+    "exclusion_keys": [
+      "Domäne der Verzauberung",
+      "Unterdomäne der Liebe"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "e963bcec-492e-56a1-83e5-1136b6bec66a",
+    "name": "Unterdomäne der Liebe",
+    "exclusion_keys": [
+      "Domäne der Verzauberung",
+      "Unterdomäne der Liebe"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "69cea7f2-83fe-5957-9516-877baad51c24",
+    "name": "Unterdomäne des Lichts",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Lichts"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "51d53a28-2eb7-5bbd-b4a0-808cc1ebd8e3",
+    "name": "Unterdomäne des Lichts",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Lichts"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "6f08b5da-4aa0-5b63-ab98-251721d30cb9",
+    "name": "Unterdomäne des Lichts",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Lichts"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "848a9844-57de-57de-b754-06de82d1d950",
+    "name": "Unterdomäne der Lust",
+    "exclusion_keys": [
+      "Domäne der Verzauberung",
+      "Unterdomäne der Lust"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "d95c6045-17a2-5d4a-86d6-3fda822edbc3",
+    "name": "Unterdomäne der Lust",
+    "exclusion_keys": [
+      "Domäne der Verzauberung",
+      "Unterdomäne der Lust"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "4a0d4508-3a83-50b5-904e-c0166e21512e",
+    "name": "Unterdomäne der Meere",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne der Meere"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "e192ac7a-b774-508f-a830-03fd13f00eca",
+    "name": "Unterdomäne der Meere",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne der Meere"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "03dde19f-9383-5549-bf81-b4892e481a5b",
+    "name": "Unterdomäne der Meere",
+    "exclusion_keys": [
+      "Domäne des Wassers",
+      "Unterdomäne der Meere"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "963b4408-a856-5f35-a2db-ce7c14fe7ebe",
+    "name": "Unterdomäne der Metalle",
+    "exclusion_keys": [
+      "Domäne der Erde",
+      "Unterdomäne der Metalle"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "2ffd32f2-4b92-5860-af70-b30886fbcaa6",
+    "name": "Unterdomäne der Metalle",
+    "exclusion_keys": [
+      "Domäne der Erde",
+      "Unterdomäne der Metalle"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "3821410b-b12f-5777-ba1b-4edf4599b5ca",
+    "name": "Unterdomäne des Mordes",
+    "exclusion_keys": [
+      "Domäne des Todes",
+      "Unterdomäne des Mordes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "66c3babf-c425-5288-968b-701afe5100bc",
+    "name": "Unterdomäne des Mordes",
+    "exclusion_keys": [
+      "Domäne des Todes",
+      "Unterdomäne des Mordes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "c5ae490b-2fd8-5625-8343-3273e336cfce",
+    "name": "Unterdomäne der Mühen",
+    "exclusion_keys": [
+      "Domäne des Handwerks",
+      "Unterdomäne der Mühen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "ea409a23-9e05-5948-b1c8-fa950853fa4f",
+    "name": "Unterdomäne der Mühen",
+    "exclusion_keys": [
+      "Domäne des Handwerks",
+      "Unterdomäne der Mühen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "c1cf3226-850b-5e92-b297-bbbef600a532",
+    "name": "Unterdomäne der Nacht",
+    "exclusion_keys": [
+      "Domäne der Dunkelheit",
+      "Unterdomäne der Nacht"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "8b75a076-1414-5725-9cb3-82f0237c2fd0",
+    "name": "Unterdomäne der Nacht",
+    "exclusion_keys": [
+      "Domäne der Dunkelheit",
+      "Unterdomäne der Nacht"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "941009fa-1864-5ddf-bbc3-4d777d1c4213",
+    "name": "Unterdomäne der Proteaner",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Proteaner"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "652c053d-def0-5237-a1b4-817d60d65ca3",
+    "name": "Unterdomäne der Proteaner",
+    "exclusion_keys": [
+      "Domäne des Chaos",
+      "Unterdomäne der Proteaner"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "4f3b3b6e-2469-591b-adbf-361f897f1cf9",
+    "name": "Unterdomäne des Rauches",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne des Rauches"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "4c5fd5e3-42f5-54bc-bdcb-f1bbd6340502",
+    "name": "Unterdomäne des Rauches",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne des Rauches"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "04ab9659-fa50-50f6-8cc3-e13eeca289b3",
+    "name": "Unterdomäne des Rauches",
+    "exclusion_keys": [
+      "Domäne des Feuers",
+      "Unterdomäne des Rauches"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "fb5d70ab-090c-5d1b-8e7b-7e1e79b7e7cc",
+    "name": "Unterdomäne der Reinheit",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Reinheit"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "id": "cbfa1cd5-440c-5c93-be55-4621f2790e15",
+    "name": "Unterdomäne der Reinheit",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Reinheit"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "02a8b576-f5b4-5711-8162-ccc6405e9eb8",
+    "name": "Unterdomäne der Reinheit",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Reinheit"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "1b200649-aeb7-54b8-b9e0-98f979311d49",
+    "name": "Unterdomäne der Revolution",
+    "exclusion_keys": [
+      "Domäne der Befreiung",
+      "Unterdomäne der Revolution"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "73aba829-4543-5f15-833c-23df8bfde7d9",
+    "name": "Unterdomäne der Revolution",
+    "exclusion_keys": [
+      "Domäne der Befreiung",
+      "Unterdomäne der Revolution"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "027761a4-b22c-5744-8de9-08422a3806c6",
+    "name": "Unterdomäne des Schicksals",
+    "exclusion_keys": [
+      "Domäne des Glücks",
+      "Unterdomäne des Schicksals"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "fb6bf3d5-beee-5e3c-a3aa-ca08b6f11753",
+    "name": "Unterdomäne des Schicksals",
+    "exclusion_keys": [
+      "Domäne des Glücks",
+      "Unterdomäne des Schicksals"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "9abb6ccd-1dbf-5766-b38b-e91c216d4f40",
+    "name": "Unterdomäne der Schutzzeichen",
+    "exclusion_keys": [
+      "Domäne der Runen",
+      "Unterdomäne der Schutzzeichen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "10269533-94df-5218-ba9e-d9d6342f283b",
+    "name": "Unterdomäne der Schutzzeichen",
+    "exclusion_keys": [
+      "Domäne der Runen",
+      "Unterdomäne der Schutzzeichen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "bfae4d3c-8538-5300-8f9c-637d43ea0f43",
+    "name": "Unterdomäne der Seelen",
+    "exclusion_keys": [
+      "Domäne der Ruhe",
+      "Unterdomäne der Seelen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "cd2594fd-6f1b-5695-abe8-6a5d80fab712",
+    "name": "Unterdomäne der Seelen",
+    "exclusion_keys": [
+      "Domäne der Ruhe",
+      "Unterdomäne der Seelen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "091380ec-ff87-5961-96ad-e7f3abac8578",
+    "name": "Unterdomäne der Sprachen",
+    "exclusion_keys": [
+      "Domäne der Runen",
+      "Unterdomäne der Sprachen"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "5dea0d45-6660-5f24-9c08-483a296396b8",
+    "name": "Unterdomäne der Sprachen",
+    "exclusion_keys": [
+      "Domäne der Runen",
+      "Unterdomäne der Sprachen"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "ba407667-fcfd-5c30-8339-a86f2fe0ee97",
+    "name": "Unterdomäne der Stürme",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Stürme"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "d1330ccd-56d8-568a-9c0a-880f42b34538",
+    "name": "Unterdomäne der Stürme",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Stürme"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "2e12576d-8774-5424-9e5b-8ab984218fef",
+    "name": "Unterdomäne der Stürme",
+    "exclusion_keys": [
+      "Domäne des Wetters",
+      "Unterdomäne der Stürme"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "42fb21e8-cf47-5e05-9754-8552e91a5de7",
+    "name": "Unterdomäne des Tages",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Tages"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "24ee4119-5169-5ede-9a7b-8a69231a0c46",
+    "name": "Unterdomäne des Tages",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Tages"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "11f51ef8-d3f6-59e1-bc36-5683a307e78f",
+    "name": "Unterdomäne des Tages",
+    "exclusion_keys": [
+      "Domäne der Sonne",
+      "Unterdomäne des Tages"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "195dee04-ad14-5960-9ce6-d50ccf65b692",
+    "name": "Unterdomäne der Taktik",
+    "exclusion_keys": [
+      "Domäne des Krieges",
+      "Unterdomäne der Taktik"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "7576d3c6-afb3-5b88-a738-3611aebf5522",
+    "name": "Unterdomäne der Taktik",
+    "exclusion_keys": [
+      "Domäne des Krieges",
+      "Unterdomäne der Taktik"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "c2f2345f-1625-512b-b544-f01fcdb9d0a3",
+    "name": "Unterdomäne der Täuschung",
+    "exclusion_keys": [
+      "Domäne der Tricks",
+      "Unterdomäne der Täuschung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "510abc4e-2994-5c6f-b48d-1ce8132ec1f1",
+    "name": "Unterdomäne der Täuschung",
+    "exclusion_keys": [
+      "Domäne der Tricks",
+      "Unterdomäne der Täuschung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "75a4e1bb-63dc-500d-9ffd-02101bf8a050",
+    "name": "Unterdomäne der Teufel (Böses)",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Teufel"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "df448fb7-7eb0-58d7-86b2-c0e518279bfa",
+    "name": "Unterdomäne der Teufel (Ordnung)",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Teufel"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "213138e0-5be2-579e-9d7b-cd2ae18d3f66",
+    "name": "Unterdomäne der Teufel (Böses)",
+    "exclusion_keys": [
+      "Domäne des Bösen",
+      "Unterdomäne der Teufel"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "5a6a1a6c-e7c2-550f-bf2e-eb846ca99052",
+    "name": "Unterdomäne der Teufel (Ordnung)",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Teufel"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "93c29da6-36d2-59f8-92a6-c60cd5d87327",
+    "name": "Unterdomäne des Untodes",
+    "exclusion_keys": [
+      "Domäne des Todes",
+      "Unterdomäne des Untodes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "a57e81eb-a82c-5746-958e-3c5df4522870",
+    "name": "Unterdomäne des Untodes",
+    "exclusion_keys": [
+      "Domäne des Todes",
+      "Unterdomäne des Untodes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "c2992876-6301-52da-a8a7-0570238ba2ad",
+    "name": "Unterdomäne der Unvermeidbaren",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Unvermeidbaren"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "20e0f2c4-1b6c-5f15-b4c2-c58fc3a080da",
+    "name": "Unterdomäne der Unvermeidbaren",
+    "exclusion_keys": [
+      "Domäne der Ordnung",
+      "Unterdomäne der Unvermeidbaren"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "5cbe069a-1f6a-5503-bf13-3e3f80f2457e",
+    "name": "Unterdomäne des Verlustes",
+    "exclusion_keys": [
+      "Domäne der Dunkelheit",
+      "Unterdomäne des Verlustes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "01a17336-f95d-57c1-a602-a11a4a0d8836",
+    "name": "Unterdomäne des Verlustes",
+    "exclusion_keys": [
+      "Domäne der Dunkelheit",
+      "Unterdomäne des Verlustes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "09820026-139c-5dfc-8013-3ee94ed55282",
+    "name": "Unterdomäne der Verteidigung",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Verteidigung"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "id": "eec2ad49-42f9-5fa6-a651-77c2d8e519bc",
+    "name": "Unterdomäne der Verteidigung",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Verteidigung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "16e8a037-b02f-5b6f-bb35-77361f1b53a4",
+    "name": "Unterdomäne der Verteidigung",
+    "exclusion_keys": [
+      "Domäne des Schutzes",
+      "Unterdomäne der Verteidigung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "9d1a01de-4119-55bf-a41a-d62d518735e4",
+    "name": "Unterdomäne der Verwesung",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne der Verwesung"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "375c7805-8fba-534c-af36-d0a7f4c51633",
+    "name": "Unterdomäne der Verwesung",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne der Verwesung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "9b06e7d0-eb8c-53a1-8035-8d8364155b81",
+    "name": "Unterdomäne der Verwesung",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne der Verwesung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "c8f85779-7bac-5030-9653-645055dd0957",
+    "name": "Unterdomäne des Wachstums",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne des Wachstums"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "69fe9e01-bc4a-5121-94ca-4cd80ff5d402",
+    "name": "Unterdomäne des Wachstums",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne des Wachstums"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "749eec9e-d6e8-5b26-98ef-8465d4305540",
+    "name": "Unterdomäne des Wachstums",
+    "exclusion_keys": [
+      "Domäne der Pflanzen",
+      "Unterdomäne des Wachstums"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "998637f0-d2ba-56f3-b122-a2c472aca633",
+    "name": "Unterdomäne der Wiederbelebung",
+    "exclusion_keys": [
+      "Domäne der Heilung",
+      "Unterdomäne der Wiederbelebung"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "990cb6eb-cfff-52b8-8421-01479964f650",
+    "name": "Unterdomäne der Wiederbelebung",
+    "exclusion_keys": [
+      "Domäne der Heilung",
+      "Unterdomäne der Wiederbelebung"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "07e033e9-69f8-538f-8ca5-88c8155186fc",
+    "name": "Unterdomäne der Wildheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Wildheit"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8"
+    ],
+    "id": "d4af2a3a-eff3-5f8f-83ae-fc1ffc612514",
+    "name": "Unterdomäne der Wildheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Wildheit"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "06f29e80-0688-53df-80e8-52e879e0932e",
+    "name": "Unterdomäne der Wildheit",
+    "exclusion_keys": [
+      "Domäne der Stärke",
+      "Unterdomäne der Wildheit"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "6ae93927-5a7e-5609-8119-73be018ad58d",
+    "name": "Unterdomäne des Windes",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne des Windes"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "fba6ec11-a1f4-5d7a-b2d1-85979cef5eb0",
+    "name": "Unterdomäne des Windes",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne des Windes"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "6615a1e1-daac-5109-9958-2ad30f07e5ee",
+    "name": "Unterdomäne des Windes",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne des Windes"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "51da593e-d072-57be-b09b-274a6f88a718",
+    "name": "Unterdomäne der Wolken",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne der Wolken"
+    ]
+  },
+  {
+    "group_id": "8439dd24-4d87-537b-9b0e-3ef0c338d656",
+    "min_level": null,
+    "requires_choice_id": "bde0d2ad-a8b4-4c13-9153-bbcd60238cfb",
+    "race_id": null,
+    "excluded_for_archetype_ids": [
+      "7ba41010-5511-5860-bbe1-66c1a7e446a8",
+      "6690a7f7-12b9-5701-9319-99d3f0a88a68"
+    ],
+    "id": "2e187dfd-3449-5d92-9839-8698e685e5d2",
+    "name": "Unterdomäne der Wolken",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne der Wolken"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "da923417-eb7c-579c-b95a-4728c90040c6",
+    "name": "Unterdomäne der Wolken",
+    "exclusion_keys": [
+      "Domäne der Luft",
+      "Unterdomäne der Wolken"
+    ]
+  },
+  {
+    "group_id": "7b82d11f-eae8-4e79-bb43-aaad60d728ff",
+    "id": "0c9f5e6e-2b27-5d02-b85e-f10f1f4bf9de",
+    "name": "Unterdomäne der Wut",
+    "exclusion_keys": [
+      "Domäne der Zerstörung",
+      "Unterdomäne der Wut"
+    ]
+  },
+  {
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ],
+    "id": "4dc81199-ec51-5fb8-afdf-eb7ac6d80482",
+    "name": "Unterdomäne der Wut",
+    "exclusion_keys": [
+      "Domäne der Zerstörung",
+      "Unterdomäne der Wut"
+    ]
+  },
+  {
+    "id": "8d207548-4aa3-5d90-8811-b626fcf2d7a2",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Elementarmagieschule der Erde"
+  },
+  {
+    "id": "11357507-7d98-5a95-a413-bce24c749674",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Elementarmagieschule des Feuers"
+  },
+  {
+    "id": "514a01eb-de97-5c73-824e-4a855e68f48e",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Elementarmagieschule der Luft"
+  },
+  {
+    "id": "77b5f9d6-e3a6-52ad-a680-936745c9e1cf",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Elementarmagieschule des Wassers"
+  },
+  {
+    "id": "96c69ff1-bd13-5e4c-9f4f-8c01bbcd0e3d",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Beeinflussung"
+  },
+  {
+    "id": "8bd1cca1-0450-5e93-ad46-08554c113c8c",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Beimischung"
+  },
+  {
+    "id": "dfc13a8f-08f1-567f-a39e-514cd836bdef",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Erschaffung"
+  },
+  {
+    "id": "e35e7fc4-ec79-5bc6-9a24-4d53baec4a32",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Gegenzauber"
+  },
+  {
+    "id": "74543e61-dcb4-5ebe-aa01-cf00f3303009",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule des Gestaltwandelns"
+  },
+  {
+    "id": "1f83de3b-9a5b-52a2-a98f-67faf29d6b91",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Kontrolle"
+  },
+  {
+    "id": "5f762956-935e-5af1-b6a4-4d43bb3e6f24",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule des Lebens"
+  },
+  {
+    "id": "0c7151c1-883e-559c-9444-2c5e01ac6abb",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Phantome"
+  },
+  {
+    "id": "9e850e80-db98-5bf1-8392-98448d3e17cf",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Schatten"
+  },
+  {
+    "id": "a1c5d837-b8ae-5bf9-b79a-87f88052c05c",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Schöpfung"
+  },
+  {
+    "id": "bbd7e827-35c0-5f37-9318-ab936be1c494",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Seher"
+  },
+  {
+    "id": "a4a0cd9a-ffbb-5f01-ab2f-eaff0162e696",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Teleportation"
+  },
+  {
+    "id": "20d79ad8-a28b-5c20-8395-1c4f89554d08",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Untoten"
+  },
+  {
+    "id": "eb89d62d-c51c-51a0-a247-7c383eb97048",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Verbannung"
+  },
+  {
+    "id": "8076cc4a-8c48-50ae-877f-e0c033e95fdb",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Verbesserung"
+  },
+  {
+    "id": "730954d6-aade-560f-be6e-bd07d856c50c",
+    "group_id": "691ed21d-8325-4827-8aeb-c21f2dd28ffe",
+    "name": "Unterschule der Vorsehung"
   }
 ]

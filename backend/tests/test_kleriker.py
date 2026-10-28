@@ -78,8 +78,11 @@ def test_kleriker_domain_group_has_all_33_real_domains(client: TestClient, db_se
     group = _domain_group(db_session, kleriker)
     assert group.max_choices == 2
 
-    names = {c.name for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=group.id)}
+    all_names = {c.name for c in db_session.query(BaseClassOptionChoice).filter_by(group_id=group.id)}
+    # 66 subdomains, four of them under two main domains (`import_kleriker_unterdomaenen.py`).
+    names = {name for name in all_names if not name.startswith("Unterdomäne")}
     assert len(names) == 33
+    assert len(all_names - names) == 70
     # Guessed placeholder names from before this import must be gone.
     assert "Kriegsdomäne" not in names
     assert "Leben" not in names
@@ -119,10 +122,10 @@ def test_kleriker_domain_powers_are_choice_gated_at_the_right_level(client: Test
     nimbus = db_session.query(BaseClassAbility).filter_by(name="Nimbus des Lichts").one()
 
     segnung_grant = db_session.query(BaseClassAbilityGrant).filter_by(
-        base_class_id=kleriker.id, ability_id=segnung.id
+        base_class_id=kleriker.id, ability_id=segnung.id, option_choice_id=sonne.id
     ).one()
     nimbus_grant = db_session.query(BaseClassAbilityGrant).filter_by(
-        base_class_id=kleriker.id, ability_id=nimbus.id
+        base_class_id=kleriker.id, ability_id=nimbus.id, option_choice_id=sonne.id
     ).one()
 
     assert segnung_grant.option_choice_id == sonne.id

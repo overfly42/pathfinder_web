@@ -70,6 +70,10 @@ from .kampfmagus import POOL_COST_AT_ACTIVATION as _KAMPFMAGUS_POOL_COST_AT_ACTI
 from .kampfmagus import POOL_SOURCE_ID as _KAMPFMAGUS_POOL_SOURCE_ID
 from .kampfmagus import SPELL_SLOT_DELTA as _KAMPFMAGUS_SPELL_SLOT_DELTA
 from .kampfmagus import WEAPON_ENHANCEMENT_HANDLERS as _KAMPFMAGUS_WEAPON_ENHANCEMENT_HANDLERS
+from .kleriker import CLASS_SKILL_GRANTS as _KLERIKER_CLASS_SKILL_GRANTS
+from .kleriker import PARTIAL_EFFECT_NOTES as _KLERIKER_PARTIAL_EFFECT_NOTES
+from .magier import HANDLERS as _MAGIER_HANDLERS
+from .magier import PARTIAL_EFFECT_NOTES as _MAGIER_PARTIAL_EFFECT_NOTES
 from .moench import DAILY_LIMITS as _MOENCH_DAILY_LIMITS
 from .moench import HANDLERS as _MOENCH_HANDLERS
 from .moench import SAVE_DC_HANDLERS as _MOENCH_SAVE_DC_HANDLERS
@@ -94,6 +98,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_HEXENMEISTER_HANDLERS,
     **_JAEGER_HANDLERS,
     **_KAMPFMAGUS_HANDLERS,
+    **_MAGIER_HANDLERS,
     **_MOENCH_HANDLERS,
     **_MYSTIKER_HANDLERS,
     **_PALADIN_HANDLERS,
@@ -212,14 +217,17 @@ APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = (
 )
 
 # A granted class ability making a skill a class skill (the Göttlicher
-# Jäger's Wissen (Religion)) — the class half of `rules/handlers.py`'s
-# `CLASS_SKILL_GRANTS`.
+# Jäger's Wissen (Religion), the Unterdomäne der Federn's Fliegen) — the
+# class half of `rules/handlers.py`'s `CLASS_SKILL_GRANTS`.
 CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
     **_JAEGER_CLASS_SKILL_GRANTS,
+    **_KLERIKER_CLASS_SKILL_GRANTS,
 }
 # The sheet's "Teilweise" badge text for a class ability whose effect is
 # only partly computed — the class half of `rules/handlers.py`'s
 # `PARTIAL_EFFECT_NOTES`.
 PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
     **_JAEGER_PARTIAL_EFFECT_NOTES,
+    **_KLERIKER_PARTIAL_EFFECT_NOTES,
+    **_MAGIER_PARTIAL_EFFECT_NOTES,
 }

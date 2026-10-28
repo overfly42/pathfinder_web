@@ -43,7 +43,8 @@ export function availableOptionGroups(
             (c) =>
               (c.minLevel === null || c.minLevel <= level) &&
               prerequisiteMet(c, selected) &&
-              archetypeAllows(c, archetypes),
+              archetypeAllows(c, archetypes) &&
+              !excludedBySelection(c, g, selected),
           )
           .map((c) => c.name),
       };
@@ -77,6 +78,22 @@ export function unlockedOneTimeGroups(
 function archetypeAllows(choice: ClassOptionChoice, archetypes: string[]): boolean {
   if (choice.onlyForArchetypes && !choice.onlyForArchetypes.some((a) => archetypes.includes(a))) return false;
   return !(choice.excludedForArchetypes ?? []).some((a) => archetypes.includes(a));
+}
+
+/** Whether another pick of `group` in `selected` shares one of `choice`'s
+ *  `exclusionKeys` (a picked Domäne des Feuers hides its Unterdomänen). */
+function excludedBySelection(
+  choice: ClassOptionChoice,
+  group: ClassOptionGroup,
+  selected: Record<string, string[]>,
+): boolean {
+  const keys = choice.exclusionKeys ?? [];
+  if (keys.length === 0) return false;
+  return (selected[group.key] ?? []).some((name) => {
+    if (name === choice.name) return false;
+    const other = group.choices.find((c) => c.name === name);
+    return (other?.exclusionKeys ?? []).some((k) => keys.includes(k));
+  });
 }
 
 /** Whether `choice`'s `requiresChoice` (if any) is among the `selected`

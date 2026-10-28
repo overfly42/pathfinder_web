@@ -580,6 +580,32 @@ def _validate_options(
                     status_code=422,
                     detail=f"'{choice}' requires '{prerequisite_name}' to be taken first",
                 )
+        _check_exclusions(db, group, [choices_by_name[choice] for choice in choices], already_chosen_ids)
+
+
+def _check_exclusions(
+    db: Session,
+    group: BaseClassOptionGroup,
+    submitted: list[BaseClassOptionChoice],
+    already_chosen_ids: set[UUID] | None,
+) -> None:
+    """`BaseClassOptionChoice.exclusion_keys`: no two picks of `group` —
+    submitted in this call or already persisted — may share a key (a
+    Kleriker's Unterdomäne der Asche excludes the Domäne des Feuers and the
+    Unterdomäne des Rauches)."""
+    persisted = [
+        row
+        for row in (db.get(BaseClassOptionChoice, choice_id) for choice_id in already_chosen_ids or ())
+        if row is not None and row.group_id == group.id
+    ]
+    picks = persisted + [row for row in submitted if row.id not in {p.id for p in persisted}]
+    for index, first in enumerate(picks):
+        for second in picks[index + 1 :]:
+            if set(first.exclusion_keys or ()) & set(second.exclusion_keys or ()):
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"'{first.name}' and '{second.name}' can't be combined in option group '{group.key}'",
+                )
 
 
 def _check_alignment(

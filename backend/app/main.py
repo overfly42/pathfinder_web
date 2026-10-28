@@ -338,6 +338,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
                 # shape the wizards keep their archetype picks in.
                 "onlyForArchetypes": _archetype_names(choice.only_for_archetype_ids, class_name_by_id),
                 "excludedForArchetypes": _archetype_names(choice.excluded_for_archetype_ids, class_name_by_id),
+                # `BaseClassOptionChoice.exclusion_keys` — the wizards hide a
+                # choice sharing a key with another pick of the same group.
+                "exclusionKeys": choice.exclusion_keys,
             }
         )
     ability_ids_by_name_map = ability_ids_by_name(db)

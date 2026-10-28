@@ -333,5 +333,10 @@
     "id": "94887ae9-06af-5bc2-8d4b-3dc9fbb5ac68",
     "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
     "feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "24d628a6-57d3-5f55-93a1-6d97d8400eb3",
+    "ability_id": "bfe5cc22-7cb6-588e-9833-41f699f98c37",
+    "feat_id": "8cfac8cd-2a8c-52c6-9618-56da4bc7d936"
   }
 ]

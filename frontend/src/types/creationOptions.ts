@@ -57,6 +57,10 @@ export interface ClassOptionChoice {
    *  restriction. Backend-enforced (`_validate_options`). */
   onlyForArchetypes?: string[] | null;
   excludedForArchetypes?: string[] | null;
+  /** `BaseClassOptionChoice.exclusion_keys`: two picks of the same group sharing a key
+   *  can't be combined — e.g. a Kleriker's Unterdomäne der Asche excludes the Domäne des
+   *  Feuers. `null` = no restriction. Backend-enforced (`_validate_options`). */
+  exclusionKeys?: string[] | null;
 }
 
 export interface ClassOptionGroup {

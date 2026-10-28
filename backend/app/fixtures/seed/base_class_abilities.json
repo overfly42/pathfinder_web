@@ -5666,5 +5666,965 @@
     "id": "53e77508-68db-5772-9ea5-f0044a5af279",
     "name": "Halb-Ork (Jäger)",
     "description": "Der Tiergefährte des Jägers erhält 1 zusätzlichen Trefferpunkt. Sollte der Jäger später seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese Bonustrefferpunkte."
+  },
+  {
+    "id": "e97c7e44-e4ad-5d48-b7f4-9ff3a4133adb",
+    "name": "Schützende Aura",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als StandardAktion eine schützende Aura von 9 m ausstrahlen. Von dieser Aura erfasste Verbündete erhalten einen Ablenkungsbonus von +2 auf ihre RK und einen Resistenzbonus von +2 auf alle Rettungswürfe. Ferner unterliegen sie der Wirkung des Zaubers Schutz vor Bösem (allerdings addieren sich die Boni des Zaubers und der Fähigkeit nicht auf ). Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "977fb286-469e-5569-81d8-18d5bc72de83",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Agathionen)",
+    "description": "Hauptdomäne: Gutes.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Heilige Lanze der Domäne des Guten. Agathionen sind ein Volk neutral guter Externarer (siehe Monsterhandbuch II).\n\nErsatzdomänenzauber: 1 – Schild des Glaubens, 3 – Zungen, 6 – Verbündeter aus den Ebenen (nur Agathionen)."
+  },
+  {
+    "id": "14a841ce-b985-5f92-9b13-5f456559bcce",
+    "name": "Mit Toten sprechen",
+    "description": "(ÜF) Ab der 8. Stufe kannst du einer toten Kreatur als Standard-Aktion eine Frage stellen, als würdest du Mit Toten sprechen wirken. Falls ihre Gesinnung sich von deiner unterscheidet, steht der toten Kreatur kein Willenswurf zu. Du kannst diese Fähigkeit täglich in Höhe deiner Stufe als Kleriker einsetzen."
+  },
+  {
+    "id": "c23a6491-d012-5b7e-8870-e228ac05f848",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Ahnen)",
+    "description": "Hauptdomäne: Ruhe.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Schutz vor dem Tod:\n\nErsatzdomänenzauber: 4 – Ewige Ruhe*, 6 – Geas/Auftrag."
+  },
+  {
+    "id": "1de360a5-ec58-5e74-bc17-4a486f09f728",
+    "name": "Hauch der Furcht",
+    "description": "(ÜF) Du kannst als Standard-Aktion im Nahkampf einen Berührungsangriff gegen eine Kreatur ausführen, welcher beim Ziel für 1 Runde schreckliche Wahnvorstellungen hervorruft. In dieser Zeit verliert das Ziel alle Immunitäten gegen Furcht und erleidet einen Malus von -2 auf ihre Angriffswürfe gegen dich. Darüber hinaus erleidet es einen Abzug auf seine Willenswürfe gegen Furchteffekte in Höhe deiner halben Stufe als Kleriker (Minimum -1). Dies ist ein geistesbeeinflussender Effekt. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "e2b51ae0-fd04-5f74-9c0d-c239d6296f82",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Albträume)",
+    "description": "Hauptdomäne: Wahnsinn.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Wahnbild:\n\nErsatzdomänenzauber: 4 – Tödliches Phantom, 6 – Traumumhang*."
+  },
+  {
+    "id": "f1c03459-d300-5d12-a3f0-d11b8b9417f6",
+    "name": "Aura der Bedrohung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du eine Aura der Bedrohung mit einem Durchmesser von 9 m als Standard-Aktion erzeugen. Solange sie sich in der Aura aufhalten, erleiden Feinde einen Malus von -2 auf ihre RK, Angriffs- und Rettungswürfe. Du kannst diese Fähigkeit täglich für eine Zahl an Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "94bd4c27-853a-5cbb-b8ef-766d8a0ba48c",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Archonten)",
+    "description": "Hauptdomäne: Gutes, Ordnung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Heilige Lanze der Domäne des Guten oder Stab der Ordnung der Domäne der Ordnung. Archonten sind ein Volk rechtschaffen guter Externare (siehe Monsterhandbuch).\n\nErsatzdomänenzauber: 1 – Göttliche Gunst, 3 – Gebet, 6 – Verbündeter aus den Ebenen (nur Archonten)."
+  },
+  {
+    "id": "60c147e1-57ff-5bfa-b42d-6953be9a973b",
+    "name": "Arkanes Leuchtfeuer",
+    "description": "(ÜF) Als Standard-Aktion kannst du bis zum Ende deines nächsten Zuges zu einem arkanen Leuchtfeuer werden. Die Aura reicht von dir 4,50 m weit. Alle innerhalb dieser Aura gewirkten arkanen Zauber erhalten einen Bonus von +1 auf ihre Zauberstufe oder +1 auf den SG ihrer Rettungswürfe. Der Zauberkundige entscheidet sich zu Beginn des Zaubers welchen Vorteil diese Fähigkeit gewähren soll. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "dd100c0c-8467-5410-9860-76f97c5329ee",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Arkanen)",
+    "description": "Hauptdomäne: Magie.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hand des Akolythen:\n\nErsatzdomänenzauber: 1 – Magische Aura, 4 – Arkanes Auge, 6 – Zauber analysieren."
+  },
+  {
+    "id": "a058de6d-f170-5500-92d6-c8922804edb8",
+    "name": "Aschewand",
+    "description": "(ÜF) Ab der 8. Stufe kannst du innerhalb von 30 m eine Mauer aus wirbelnder Asche erschaffen. Diese Mauer ist 6 m hoch und besitzt eine Länge von 3 m für jede Stufe als Kleriker. Die Aschewand blockiert die Sichtlinie. Jeder Kreatur, die sie durchquert, muss ein Zähigkeitswurf gelingen oder sie ist für 1W4 Runden blind. Die Aschewand enthüllt unsichtbare Kreaturen, die sich in ihr oder auf einem angrenzenden Feld befinden, sie werden jedoch wieder unsichtbar, sobald sie sich von der Aschewand entfernen. Du kannst diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe deiner Stufe als Kleriker einsetzen. Diese Minuten müssen nicht aufeinander folgen, werden aber in Einheiten von jeweils 1 Minute berechnet."
+  },
+  {
+    "id": "ccc8a290-a559-5cc6-8e90-da139f3e4548",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Asche)",
+    "description": "Hauptdomäne: Feuer.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Feuerresistenz der Domäne des Feuers:\n\nErsatzdomänenzauber: 7 – Auflösung, 9 – Feurige Gestalt*."
+  },
+  {
+    "id": "c44b261e-580c-5040-b40c-cd1ce5ba28da",
+    "name": "Bund der Aufopferung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als Augenblickliche Aktion den Schaden, den ein Verbündeter innerhalb von 9 m erhält, auf dich selbst übertragen. Diese Fähigkeit überträgt auch alle Effekte, die den Schaden begleiten. Der Schaden kann nicht gesenkt werden. Du kannst diese Fähigkeit auf der 8. Stufe einmal am Tag einsetzen und jeweils eine weiteres Mal ab der 14. und der 20. Stufe."
+  },
+  {
+    "id": "fb899bfe-6daf-5ddd-a687-27e777088a47",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Aufopferung)",
+    "description": "Hauptdomäne: Adel.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Anführen:\n\nErsatzdomänenzauber: 2 – Anderen schützen, 6 – Eid der Aufopferung*."
+  },
+  {
+    "id": "a8b7cbf5-6efe-5a4b-ae70-ea26a178e8df",
+    "name": "Elysiums Ruf",
+    "description": "(ÜF) Mit einer Berührung kannst du Kreaturen mit dem Geist des Elysiums erfüllen, ihre Seelen stärken und sie von Fesseln befreien. Diese Kreaturen können sofort einen gescheiterten Rettungswurf gegen einen Zauber oder eine Zauberähnliche Fähigkeit der Schulen Bezauberungs (Verzauberung) und Bezauberungs (Zwang) wiederholen. Darüber hinaus erhalten die Ziele einen Heiligen Bonus von +2 auf diese Rettungswürfe und auf ihre KMB-Würfe, um einem Ringkampf zu entkommen. Ebenfalls können Ziele jede Runde bis zu 1,50 m schwieriges Geländes ignorieren, als hätten sie das Talent Behände Bewegung. Diese Boni halten für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker an (Minimum 1). Die Wiederholung des Rettungswurfes ist jedoch nur möglich, wenn du die Kreatur dafür berührt hast. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "e57967a7-dd8b-58ad-8768-0e2e9592c9e9",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Azata)",
+    "description": "Hauptdomäne: Chaos, Gutes.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch des Chaos der Domäne des Chaos oder Hauch des Guten der Domäne des Guten. Azata sind ein Volk chaotisch guter Externare (siehe Monsterhandbuch).\n\nErsatzdomänenzauber: 1 – Rascher Rückzug, 3 – Fliegen, 6 – Verbündeter aus den Ebenen (nur Azata)."
+  },
+  {
+    "id": "12b8a14b-7bdc-57ca-8c29-20ede54c098d",
+    "name": "Wundenreißer",
+    "description": "(ÜF) Ab der 8. Stufe kannst du einer Waffe die besondere Eigenschaft Blutung für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker verleihen. Du kannst diese Fähigkeit auf der 8. Stufe einmal und alle weiteren vier Stufen ein zusätzliches Mal am Tag einsetzen."
+  },
+  {
+    "id": "2f127f32-2cd5-54e5-8a7b-3da9e992f399",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Blutes)",
+    "description": "Hauptdomäne: Krieg.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Waffenmeister:\n\nErsatzdomänenzauber: 3 – Vampirgriff, 5 – Dornenwand, 7 – Massen-Schwere Wunden verursachen."
+  },
+  {
+    "id": "b31632c1-4418-5c6e-b129-a7ba6c464eb9",
+    "name": "Zorn des Abyss",
+    "description": "(ÜF) Als Schnelle Aktion kannst du dir selbst einen Verbesserungsbonus in Höhe deiner halben Stufe als Kleriker auf deine Angriffs- und Schadenswürfe im Nahkampf sowie deiner Kampfmanöverwürfe geben (Minimum +1). Dieser Bonus besteht für 1 Runde, in der du gleichzeitig einen Malus von -2 auf deine RK erleidest. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "843baaeb-bbdc-5982-a34e-c9eda19e0c9b",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Dämonen)",
+    "description": "Hauptdomäne: Böses, Chaos.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt den Hauch des Bösen oder den Hauch des Chaos. Dämonen sind chaotisch böse Externare (siehe Monsterhandbuch).\n\nErsatzdomänenzauber: 1 – Unheil, 3 – Wut, 6 – Bindender Ruf (nur Dämonen)."
+  },
+  {
+    "id": "dadf55be-89c9-58c7-aefe-760f09300740",
+    "name": "Flüsterndes Böses",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als StandardAktion eine hypnotisierende Litanei leerer Versprechen flüstern. Jeder Feind innerhalb von 9 m, der dich hören kann, muss einen Willenswurf bestehen, oder er ist fasziniert, solange du die Litanei fortsetzt. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen. Dies ist ein geistesbeeinflussender Effekt."
+  },
+  {
+    "id": "2bbe2e71-fa37-5e51-a2b0-50a7cea3eeb3",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Daimonen)",
+    "description": "Hauptdomäne: Böses.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Sense des Bösen. Daimonen sind ein Volk neutral böser Externare (siehe Monsterhandbuch II).\n\nErsatzdomänenzauber: 1 – Furcht auslösen, 3 – Vampirgriff, 6 – Bindender Ruf (nur Daimonen)."
+  },
+  {
+    "id": "25fa2f22-3ae0-5d06-90ec-b599f4c82d5b",
+    "name": "Diebesglück",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als Freie Aktion bei einem Fertigkeitswurf auf Mechanismus ausschalten oder Fingerfertigkeit zwei Würfe machen und das bessere Ergebnis wählen. Ab der 8. Stufe kannst du diese Fähigkeit einmal am Tag einsetzen und ein zusätzliches Mal alle weiteren zwei Stufen als Kleriker."
+  },
+  {
+    "id": "bdf50dd5-e3bd-5e08-9464-e2e1d8f8ad15",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Diebstahls)",
+    "description": "Hauptdomäne: Tricks.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Meisterhafte Illusion:\n\nErsatzdomänenzauber: 3 – Gegenstand aufspüren,7 – Ätherischer Ausflug."
+  },
+  {
+    "id": "6f7d5b95-2ee2-5080-9862-f5a3fa928338",
+    "name": "Pflicht und Ehre",
+    "description": "(ÜF) Mit einer Berührung kannst du ein Wesen an seine Pflichten und Verpflichtungen erinnern. Das Ziel erhält einen erneuten Rettungswurf gegen jeden auf ihm gegenwärtig einwirkenden Verzauberungseffekt der Unterart Bezauberungs oder Zwang. Bei einem erfolgreichen Rettungswurf endet der Effekt. Diese Fähigkeit hilft nur bei Verzauberungseffekten die auch einen Rettungswurf erlauben. Sollte dir selbst ein Rettungswurf gegen solch einen Effekt misslingen, kannst du diese Fähigkeit als Augenblickliche Aktion nutzen, um dir selbst einen zusätzlichen Rettungswurf zu ermöglichen. Sobald das Ziel (entweder eine berührte Kreatur oder du selbst) für jeden Effekt, der auf ihr lastete, einen zusätzlichen Rettungswurf durchgeführt hat, hat diese Fähigkeit keine weitere Wirkung mehr auf diese Verzauberungseffekte. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "161a9a4d-0071-531d-94b7-ee230ef3bdae",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Ehre)",
+    "description": "Hauptdomäne: Herrlichkeit.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch der Herrlichkeit:\n\nErsatzdomänenzauber: 2 – Zone der Wahrheit, 6 – Geas/Auftrag."
+  },
+  {
+    "id": "cb0dcc7b-912e-58d8-9a1b-6cef793b1b3b",
+    "name": "Eisleib",
+    "description": "(ÜF) Ab der 8. Stufe kannst du deinen Körper und deine Ausrüstung für einige Zeit in Wasser verwandeln. Du benötigst eine Standard-Aktion, um dich in Eis zu verwandeln und kannst die Verwandlung mit einer Freien Aktion während deines Zuges beenden. In Eisgestalt bist du immun gegen Kälte und erhältst SR 5/-; du erleidest jedoch doppelten Schaden durch Feuer. Du kannst die Eisgestalt täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Dieses Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "95784fb9-2329-5ae1-9cd6-fe1d8b01c248",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Eises)",
+    "description": "Hauptdomäne: Wasser.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Kälteresistenz:\n\nErsatzdomänenzauber: 7 – Frostsphäre, 9 – Polarstrahl."
+  },
+  {
+    "id": "250dddaf-d41d-58c2-ab0e-b8ad833a9ea2",
+    "name": "Entschlossenheit verleihen",
+    "description": "(ÜF) Ab der 8. Stufe kannst du deine Verbündeten mit dem Mut deiner Gottheit segnen. Du kannst allen Verbündeten innerhalb von 6 m für 1 Minute temporäre Trefferpunkte in Höhe deiner Stufe als Kleriker + deinem WE-Modifikator verleihen. Du kannst diese Fähigkeit auf der 8. Stufe einmal am Tag einsetzen und ein weiteres Mal für jede weitere vierte Stufe als Kleriker."
+  },
+  {
+    "id": "fb4b32db-e954-50b5-aefe-988b47ab0288",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Entschlossenheit)",
+    "description": "Hauptdomäne: Stärke.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Macht der Götter:\n\nErsatzdomänenzauber: 1 – Segnen, 6 – Heldenmahl."
+  },
+  {
+    "id": "324d26c9-d81c-579e-9f64-070cc6a12607",
+    "name": "Röntgenblick",
+    "description": "(ÜF) Du kannst deine Hand auf jede beliebige Oberfläche legen und sehen, was sich auf der anderen Seite befindet, als würdest du Hellsehen nutzen. Hierzu musst du die Oberfläche mindestens 1 Minute lang berühren. Anschließend kannst du bis zu 10 Minuten hindurchsehen, musst aber den Kontakt halten und darfst keine andere Aktion in dieser Zeit durchführen. Die Oberfläche darf nicht dicker als 18 Zentimeter plus 3 Zentimeter für jeweils eine deiner Stufen als Kleriker sein. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "85110509-2f33-58ff-8c20-eca3eb34e3d6",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Erforschung)",
+    "description": "Hauptdomäne: Reisen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Flinkfuß:\n\nErsatzdomänenzauber: 1 – Rascher Rückzug, 4 – Kreatur aufspüren, 9 – Weltenwoge*."
+  },
+  {
+    "id": "ce3fe6f1-7b17-5650-8184-c777f23cf426",
+    "name": "Erinnerung",
+    "description": "(ÜF) Du kannst mit einer Berührung einer Kreatur helfen, sich an vergessenes Wissen oder Informationen zu erinnern. Die Kreatur kann jeden Wissenswurf wiederholen, den sie in der letzten Minute gemacht hat. Dabei erhält sie einen Verständnisbonus in Höhe deines WE-Modifikators. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "dd3475e6-4df7-5647-ba97-bdb68994194b",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Erinnerungen)",
+    "description": "Hauptdomäne: Wissen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hüter des Wissens:\n\nErsatzdomänenzauber: 2 – Gedächtnislücke*, 6 – Erinnerung verändern, 8 – Moment der Eingebung."
+  },
+  {
+    "id": "f36586d5-3af7-515f-91ac-a043cc18adf9",
+    "name": "Bindungen",
+    "description": "(ÜF) Als Standard-Aktion kannst einen Verbündeten berühren und einen Zustand, unter dem er leidet, auf dich selbst übertragen. Die Übertragung hält eine Anzahl von Runden in Höhe deiner Stufe als Kleriker an. Du, kannst sie jedoch während deines Zuges als Freie Aktion beenden. Nach Beendigung des Effektes kehrt der Zustand zum ursprünglichen Wesen zurück, sofern er nicht abgelaufen ist oder durch einen anderen Effekt entfernt wurde. Während der Wirkung dieser Fähigkeit ist das Ziel gegen den transferierten Effekt immun. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "e2f1e845-309a-55c3-9f3a-60876d0f63a6",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Familie)",
+    "description": "Hauptdomäne: Gemeinschaft.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Beruhigende Berührung:\n\nErsatzdomänenzauber: 2 – Gefühle besänftigen, 3 – Nahrung und Wasser erschaffen."
+  },
+  {
+    "id": "4d904f6f-5549-5748-afc4-bed70b215fde",
+    "name": "Adleraugen",
+    "description": "(AF) Du erhältst einen Volksbonus in Höhe deiner halben Stufe als Kleriker auf deine Fertigkeitswürfe für Wahrnehmung (Minimum +1). Falls du während einer Überraschungsrunde handeln kannst, erhältst du einen Volksbonus von +2 auf deinen Initiativewurf."
+  },
+  {
+    "id": "97073a45-991b-54a4-a598-b0f45fe4caec",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Federn)",
+    "description": "Hauptdomäne: Tiere.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Mit Tieren sprechen:\n\nFüge Fliegen zur Liste deiner Klassenfertigkeiten hinzu. Wann immer du einen Zauber wirkst, der dir die Bewegungsart Fliegen verleiht, steigt deine Manövrierfähigkeit um eine Stufe (maximal Perfekt).\n\nErsatzdomänenzauber: 2 – Federfall, 3 – Fliegen, 6 – Massen-Fliegen*."
+  },
+  {
+    "id": "1fe2c2db-62e2-59e4-a4df-27a155f7c1e8",
+    "name": "Anmut des Jägers",
+    "description": "(ÜF) Als Schnelle Aktion kannst du dir selbst für 1 Runde einen Bonus von 3 m auf deine Bewegungsrate verleihen. Für jeweils fünf Stufen als Kleriker steigt dieser Bonus um weitere +1,50 m. Darüber hinaus erhältst du Dämmersicht für 1 Runde. Falls du bereits über Dämmersicht verfügen solltest, steigt deine Sichtweite auf das Dreifache der Sichtweite eines Menschen bei schlechten Lichtverhältnissen. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "64960829-dc0c-5f19-9b54-9519b2b926c7",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Felle)",
+    "description": "Hauptdomäne: Tiere.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Mit Tieren sprechen:\n\nErsatzdomänenzauber: 1 – Magische Fänge, 3 – Bestiengestalt I (nur Tiere)."
+  },
+  {
+    "id": "b7623955-1f18-52ae-825e-9bbc908e875d",
+    "name": "Böser Blick",
+    "description": "(ÜF) Als Standard-Aktion kannst du ein Ziel innerhalb von 9 m mit deinem Bösen Blick belegen. Das Ziel erhält dadurch einen Malus von -2 auf alle Rettungswürfe gegen deine Zauber. Der Effekt hält für 1 Minute an oder bis das Ziel dich mit einem Angriff trifft. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8ca32ab0-471d-546a-b0a6-ffdb8ec8a9b9",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Flüche)",
+    "description": "Hauptdomäne: Glück.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Glückspilz:\n\nErsatzdomänenzauber: 1 – Verfluchen, 3 – Fluch, 6 – Böser Blick"
+  },
+  {
+    "id": "b48e9663-4858-574b-97d0-18fb8c216fdc",
+    "name": "Segnung der Freiheit",
+    "description": "(ZF) Du kannst eine bereitwillige Kreatur als Standard-Aktion berühren und ihr einen Gefallen zusichern. Eine Kreatur mit diesem Gefallen kann einen Rettungswurf gegen einen einzelnen Zauber oder Effekt, unter dem sie leidet, als Schnelle Aktion ausführen, sofern der Zauber oder Effekt einen Rettungswurf erlaubt. Der SG des Rettungswurfes entspricht dem SG des Zaubers oder Effektes. Falls der Rettungswurf erfolgreich ist, endet der Effekt. Der Gefallen hält für 1 Minute an, oder bis er genutzt wird, um erfolgreich einen Zauber oder Effekt aufzuheben ( je nachdem was zuerst geschieht). Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "e831fd18-be58-5ac2-ba33-ec1add8857b3",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Freiheit)",
+    "description": "Hauptdomäne: Befreiung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Freiheit:\n\nErsatzdomänenzauber: 1 – Heiligtum, 5 – Ebenenwechsel."
+  },
+  {
+    "id": "ac762373-cf3a-51cc-9761-8d2830ad5118",
+    "name": "Begeisternder Befehl",
+    "description": "(ÜF) Du kannst mit einer Standard-Aktion deinen Verbündeten einen inspirierenden Befehl erteilen. Dieser betrifft einen Verbündeten plus einen weiteren Verbündeten für jeweils drei deiner Stufen als Kleriker. Deine Verbündeten müssen sich innerhalb von 9 m befinden und erhalten für 1 Runde einen Verständnisbonus von +2 auf ihre Angriffs- und Fertigkeitswürfe sowie ihre RK und KMV. Dies ist ein sprach abhängiger, geistesbeeinflussender Effekt."
+  },
+  {
+    "id": "5759be8b-85af-5698-a3d2-3d3ee15eff52",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Führung)",
+    "description": "Hauptdomäne: Adel.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Wort der Begeisterung:\n\nErsatzdomänenzauber: 1 – Segnen, 3 – Gebet, 6 – Geniale Eingebung*."
+  },
+  {
+    "id": "652c7805-c8a9-59d2-b9dd-e188553e85ad",
+    "name": "Gedanken lesen",
+    "description": "(ÜF) Ab der 8. Stufe kannst du das Spektrum deiner Wahrnehmungen auf jene ausdehnen, die sich in deiner Nähe befinden. Dies ermöglicht dir, die Gedanken von Kreaturen innerhalb von 9 m wie mit Gedanken wahrnehmen zu erkennen. Nach einer Runde Konzentration kannst du die oberflächlichen Gedanken einer Kreatur lesen, derer du gewahr bist. Kreaturen im Wirkungsbereich steht ein Willenswurf gegen SG 10 + deine ½ Stufe als Kleriker + deinem WE-Modifikator zu. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker anwenden. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "078e8f7f-f310-5d81-9652-6c1432210676",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Gedanken)",
+    "description": "Hauptdomäne: Wissen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Fernwahrnehmung:\n\nErsatzdomänenzauber: 3 – Gedanken suchen*, 5 – Telepathisches Band, 8 – Gedankenleere."
+  },
+  {
+    "id": "667bf133-5607-5ef2-b9f9-d9dfaf115ccc",
+    "name": "Hauch der Genesung",
+    "description": "(ÜF) Du kannst durch deine Berührung die heilende Kraft deiner Gottheit durch eine Kreatur fließen lassen und sie von einem der folgenden Zustände deiner Wahl befreien: Benommen, Erschöpft, Erschüttert, Kränkelnd und Wankend. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "a247e4d9-64dd-5393-be6e-68e6c3d2070c",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Genesung)",
+    "description": "Hauptdomäne: Heilung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Abwendung des Todes:\n\nErsatzdomänenzauber: 2 – Krankheit kurieren, 4 – Gift neutralisieren, 5 – Verzauberung brechen."
+  },
+  {
+    "id": "85c3e25e-2883-5f86-93d4-1cd8555df6bb",
+    "name": "Göttliches Gefäß",
+    "description": "(ÜF) Wenn du das Ziel eines göttlichen Zaubers wirst, kannst du jedem Verbündeten innerhalb von 4,50 m als Schnelle Aktion einen himmlischen Gefallen zukommen lassen. Die Betroffenen erhalten bis zum Ende ihres nächsten Zuges einen Bonus von +2 auf ihren nächsten Angriffs-, Fertigkeits- oder Attributswurf. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "5bdd05d7-fd58-5b71-b742-6d4cc781db0f",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Göttlichen)",
+    "description": "Hauptdomäne: Magie.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hand des Akolythen:\n\nErsatzdomänenzauber: 2 – Wasser weihen, 5 – Reinigung*, 7 – Auferstehung, 9 – Wunder."
+  },
+  {
+    "id": "af057dee-d623-5a67-8416-bd9eb13d5b66",
+    "name": "Silberzunge",
+    "description": "(ÜF) Wenn du einen Fertigkeitswurf auf Bluffen, Diplomatie oder Motiv erkennen machst, kannst du dir selbst als Freie Aktion einen Bonus in Höhe deiner halben Stufe als Kleriker (Minimum +1) verleihen. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "1f668f5f-0f5c-5c3a-8daf-9916ed4df1df",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Handels)",
+    "description": "Hauptdomäne: Reisen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Flinkfuß:\n\nErsatzdomänenzauber: 1 – Schwebende Scheibe, 5 – Überlandflug, 9 – Tor."
+  },
+  {
+    "id": "6e7f854e-6c6f-5bb3-8d18-6cdda70c15da",
+    "name": "Geschützter Herd",
+    "description": "(ÜF) Ab der 8. Stufe kannst du einmal am Tag ein Schutzzeichen erschaffen, das einen bestimmten Bereich beschützt. Dies erfordert 10 Minuten ungestörter Arbeit. Der Schutz hat einen Radius von 1,50 m für jeweils zwei deiner Stufen als Kleriker. Wenn du den Schutz fertiggestellt hast, kannst du eine beliebige Anzahl von Wesen im Wirkungsbereich bestimmen, die alarmiert und gegebenenfalls geweckt werden, sobald eine Kreatur den Wirkungsbereich des Schutzes betritt. Diese ausgewählten Wesen erhalten zudem einen Heiligen Bonus in Höhe deines WE-Modifikators auf alle Rettungs- und Angriffswürfe, solange sie sich im geschützten Bereich aufhalten. Der Schutz hält 1 Stunde für je eine deiner Stufen als Kleriker an, endet aber vorzeitig, solltest du den Bereich verlassen."
+  },
+  {
+    "id": "f457307f-d8c5-55c6-8d4b-28204720a4c7",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Heimes)",
+    "description": "Hauptdomäne: Gemeinschaft.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Einheit:\n\nErsatzdomänenzauber: 1 – Alarm, 3 – Glyphe der Abwehr, 7 – Wächter und Hüter."
+  },
+  {
+    "id": "01b71f10-bab6-5663-8005-3eb6cf9f5852",
+    "name": "Aura des Heldentums",
+    "description": "(ÜF) Ab der 8. Stufe kannst du mit einer Schnellen Aktion eine 9 m Aura des Heldentums für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker erzeugen. Diese Runden müssen nicht aufeinander folgen. Verbündete in dieser Aura werden behandelt, als stünden unter dem Effekt von Heldenmut."
+  },
+  {
+    "id": "60b8fd36-c481-5429-9d91-7ede230610f1",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Heldentums)",
+    "description": "Hauptdomäne: Herrlichkeit.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Gegenwart des Göttlichen:\n\nErsatzdomänenzauber: 3 – Heldenmut, 6 – Großer Heldenmut."
+  },
+  {
+    "id": "38940ea7-1511-52bf-a710-9ddc555bcf3b",
+    "name": "Tunnelläufer",
+    "description": "(ÜF) Ab der 8. Stufe kannst du dich mit Leichtigkeit durch Tunnel und Höhlen bewegen. Diese Fähigkeit wird als Standard-Aktion aktiviert. Du kannst dich über jede steinerne Oberfläche bewegen, als stündest du unter der Wirkung von Spinnenklettern. Ebenfalls kannst du im Dunkeln sehen und erhältst Dunkelsicht mit einer Reichweite von 18 m. Solltest du bereits über Dunkelsicht verfügen, erhöht sich die Reichweite um +18 m. Wenn du dich unter der Erde befindest, erhältst du einen Verständnisbonus in Höhe deiner Stufe als Kleriker auf deine Fertigkeitswürfe für Heimlichkeit und einen Verständnisbonus in Höhe deines WE-Modifikators auf deine Initiativewürfe. Du kannst diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe deiner Stufe als Kleriker einsetzen. Diese Minuten müssen nicht aufeinander folgen, werden jedoch in Einheiten von jeweils 1 Minute berechnet."
+  },
+  {
+    "id": "ed54fb21-00bb-5a1e-835f-dea883711e9e",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Höhlen)",
+    "description": "Hauptdomäne: Erde.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Säureresistenz:\n\nErsatzdomänenzauber: 2 – Grube erschaffen*, 3 – Mördergrube*, 6 – Hungrige Grube*."
+  },
+  {
+    "id": "92ad4f9d-cde7-5b6e-b97f-2ecbec1f6f84",
+    "name": "Segen gegen Irrsinn",
+    "description": "(ÜF) Du kannst eine bereitwillige Kreatur als Standard-Aktion berühren und ihr für 1 Minute einen Bonus von +4 auf alle Rettungswürfe gegen geistesbeeinflussende Effekte verleihen. Zusätzlich gewährt diese Fähigkeit der Kreatur Immunität gegen Verwirrung. Sollte der Kreatur während dieser Zeit ein Rettungswurf gegen einen geistesbeeinflussenden Effekt misslingen, verliert sie ihre Immunität gegen Verwirrung und ist augenblicklich für 1 Runde verwirrt. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "dbc5241d-5915-5a15-a76a-cec0f176a264",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Irrsinns)",
+    "description": "Hauptdomäne: Wahnsinn.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Wahnbild:\n\nErsatzdomänenzauber: 4 – Mondsucht*, 6 – Phantomnetz*."
+  },
+  {
+    "id": "3782e6a3-f568-5bde-8574-572422a9de2e",
+    "name": "Segen gegen Elemente",
+    "description": "(ÜF) Du kannst durch eine Berührung einer Kreatur die Vorteile von Elementen trotzen verleihen. Die Wirkung hält für jeweils eine deiner Stufen als Kleriker 1 Stunde an. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "78f07004-12e4-5a5e-b383-83cfc152b75a",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Jahreszeiten)",
+    "description": "Hauptdomäne: Wetter.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Sturmböe:\n\nErsatzdomänenzauber: 1 – Gute Beeren, 4 – Dürre, 8 – Sonnenfeuer."
+  },
+  {
+    "id": "2629e0ca-76f8-5dd0-b2e4-c14bcb9a984e",
+    "name": "Tödliches Wetter",
+    "description": "(ÜF) Ab der 8. Stufe kannst du dich wutentbrannt an den Himmel wenden und einen sich stetig wandelnden Sturm der Zerstörung herbeirufen. Diese Fähigkeit kannst du täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen jedoch nicht aufeinander folgen. Der Sturm besitzt einen Radius von 1,50 m für jeweils eine deiner Stufen als Kleriker. In jeder Runde tritt einer der folgenden Effekte ein: Schwerer Regen (Malus von -4 auf alle Fertigkeitswürfe für Wahrnehmung und Fernkampfangriffswürfe), Heulende Winde (Malus von -8 auf Fertigkeitswürfe für Fliegen und Angriffswürfe im Fernkampf ), Schwerer Schneefall ( jedes Gelände gilt als schwieriges Gelände) oder Blitze (wie der Zauber Blitze herbeirufen). Nach Maßgabe des SL können auch noch andere Wettereffekte in Erscheinung treten. Du wählst aus, welcher Effekt jeweils in einer Runde eintritt, allerdings kann sich kein Effekt in der Folgerunde wiederholen."
+  },
+  {
+    "id": "8b4ab2f8-5e45-55d9-9d7c-d167013d6656",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Katastrophen)",
+    "description": "Hauptdomäne: Zerstörung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Aura der Zerstörung:\n\nErsatzdomänenzauber: 2 – Windstoß, 3 – Blitze herbeirufen, 7 – Wetterkontrolle."
+  },
+  {
+    "id": "08dae3df-e23e-5dc8-8fcf-1abd4f63f0df",
+    "name": "Diener beleben",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als Standard-Aktion einem unbelebten Gegenstand Leben einhauchen. Dies funktioniert wie Gegenstände beleben mit deiner Stufe als Kleriker als Zauberstufe. Du kannst diese Fähigkeit einmal täglich ab der 8. Stufe und dann alle weiteren vier Stufen als Kleriker ein weiteres Mal täglich einsetzen."
+  },
+  {
+    "id": "a490794d-3105-5427-9c6a-089cf972c6cc",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Konstrukte)",
+    "description": "Hauptdomäne: Handwerk.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Tanzende Waffen:\n\nErsatzdomänenzauber: 7 – Begrenzter Wunsch, 8 – Beliebiges verwandeln."
+  },
+  {
+    "id": "312ffc2e-866f-5368-bdd7-8fda4e4cf06e",
+    "name": "Bewunderung",
+    "description": "(ÜF) Du kannst mit einer Augenblicklichen Aktion einen Nah- oder Fernkampfangriff von dir abwenden. Diese Fähigkeit funktioniert wie Heiligtum, jedoch nur gegen einen einzelnen Angriff. Du musst sie einsetzen, nachdem ein Angriff gegen dich erklärt, aber bevor der Wurf ausgeführt wurde. Dem Angreifer steht ein Willenswurf zu, um den Effekt aufzuheben. Sollte der Angreifer mehr als einen Angriff in einer Runde ausführen können, ist nur ein Angriff von dieser Fähigkeit betroffen. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "55c786d7-8013-571c-bd1f-cdca628a0853",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Liebe)",
+    "description": "Hauptdomäne: Verzauberung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch der Benommenheit:\n\nErsatzdomänenzauber: 2 – Fesseln, 8 – Fröhliche Gelassenheit*."
+  },
+  {
+    "id": "7801a3d6-ab80-5b44-9024-58667f6ad244",
+    "name": "Blendendes Aufblitzen",
+    "description": "(ÜF) Du kannst mit einer Standard-Aktion einen Lichtblitz aus deinem Heiligen Symbol oder deinem Göttlichen Fokus abgeben. Dieses kräftige Licht reicht 6 m weit. Kreaturen mit weniger TW als deine Stufe als Kleriker, denen kein Zähigkeitswurf gelingt, erblinden für 1W4 Runden. Darüber hinaus sind alle Kreaturen im Wirkungsbereich für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker benommen (Minimum 1). Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8bfa0cf4-a404-5d93-9a08-a569c1cc5d8d",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Lichts)",
+    "description": "Hauptdomäne: Sonne.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Segnung der Sonne:\n\nErsatzdomänenzauber: 1 – Feenfeuer, 3 – Tageslicht."
+  },
+  {
+    "id": "cf09f2c2-b25c-5296-95b3-4ef45fb79f69",
+    "name": "Falsche Liebe",
+    "description": "(ÜF) Ab der 8. Stufe kannst du mit einer StandardAktion eine Kreatur innerhalb von 9 m dazu bringen, dass sie versucht, dir zu gefallen. Der Kreatur steht ein Willenswurf zu, um den Effekt aufzuheben. Bei einem Misserfolg greift sie entweder für 1 Runde deine Feinde an, gibt dir ihren wertvollsten Gegenstand oder wirft sich dir zu Füßen und kriecht für 1W4 Runden (nach Wahl des SL). Du kannst diese Fähigkeit auf der 8. Stufe einmal am Tag einsetzen und ein weiteres Mal am Tag für jeweils vier weitere deiner Stufen als Kleriker. Dies ist ein geistesbeeinflussender Effekt."
+  },
+  {
+    "id": "d4a228ca-1bba-57bd-9bf3-b5e0e5a92b5d",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Lust)",
+    "description": "Hauptdomäne: Verzauberung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Bezauberndes Lächeln:\n\nErsatzdomänenzauber: 2 – Hauch des Stumpfsinns, 4 – Verwirrung."
+  },
+  {
+    "id": "1b24780d-40df-52e8-91db-302e65a6d84d",
+    "name": "Welle",
+    "description": "(ÜF) Du kannst als Standard-Aktion eine mächtige Welle herbeirufen, welche eine Kreatur zu dir hin oder von dir weg bewegt. Mache hierzu einen Kampfmanöverwurf gegen das Ziel, bei dem du deine Stufe als Kleriker und deinen WE-Modifikator als KMB verwendest. Bei Erfolg bewegst du das Ziel, als hättest du einen Ansturm oder das Kampfmanöver Zerren ausgeführt. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "7acfde8c-01a5-5b9e-acea-d8168bce8fd5",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Meere)",
+    "description": "Hauptdomäne: Wasser.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Eiszapfen:\n\nErsatzdomänenzauber: 2 – Wellenritt*, 3 – Auf Wasser gehen, 9 – Tsunami*."
+  },
+  {
+    "id": "82824805-7b1f-5699-b023-ba9ce68f2116",
+    "name": "Metallfaust",
+    "description": "(ÜF) Du kannst deine Fäuste mit einer Schnellen Aktion für 1 Runde in Metall verwandeln, so dass deine waffenlosen Angriffe 1W6 Punkte Wuchtschaden + deinen ST-Modifikator verursachen. Diese Angriffe provozieren keine Gelegenheitsangriffe. Solltest du mit beiden Fäusten zuschlagen, gelten die Regeln für den Kampf mit zwei Waffen. Darüber hinaus ignorieren die waffenlosen Schläge automatisch bei Gegenständen jede Härte von 10 oder weniger. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "7957ff6c-cccb-57b1-88fb-c1a900021e17",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Metalle)",
+    "description": "Hauptdomäne: Erde.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Säuregeschoss:\n\nErsatzdomänenzauber: 2 – Metall erhitzen, 6 – Eisenwand, 8 – Eiserner Körper."
+  },
+  {
+    "id": "251a6931-ed4e-549b-a9e2-2b722d501dcb",
+    "name": "Tödlicher Schlag",
+    "description": "(ÜF) Ab der 8. Stufe werden von dir benutzte Waffen von der Macht des Todes erfüllt. Wenn du einen kritischen Treffer mit einer Nah- oder Fernkampfwaffe bestätigst, verursachst du zusätzlichen Blutungsschaden in Höhe deiner halben Stufe als Kleriker. Du kannst diese Fähigkeit ab der 8. Stufe einmal täglich anwenden und ein weiteres Mal für alle weiteren vier Stufen als Kleriker."
+  },
+  {
+    "id": "bfd8a424-67e9-58b1-b941-c0f8e9b49ee1",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Mordes)",
+    "description": "Hauptdomäne: Tod.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Umarmung des Todes:\n\nErsatzdomänenzauber: 3 – Schärfen, 5 – Ersticken*, 9 – Massen-Ersticken*."
+  },
+  {
+    "id": "e2659370-5aff-5319-af95-7b497474dfd1",
+    "name": "Aura der Wiederholung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du eine Aura der Wiederholung mit einem Radius von 9 m für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker erzeugen. Alle Gegner innerhalb der Aura müssen in jeder Runde einen Willenswurf schaffen, oder müssen die Aktion der letzten Runde wiederholen (sofern dies möglich ist). Kreaturen, die in der letzten Runde angegriffen haben, greifen erneut an, können jedoch neue Ziele bestimmen. Kreaturen, die sich in der letzten Runde bewegt haben, müssen sich erneut bewegen, können jedoch die Richtung wechseln. Kreaturen, die in der letzten Runde einen Trank zu sich genommen haben, müssen dies erneut tun, selbst wenn sie aus einer leeren Flasche zu trinken versuchen. Aktionen die nicht erfolgreich wiederholt werden können (beispielsweise weil alle Zauber verbraucht wurden), gehen verloren, die betroffene Kreatur führt jedoch die dafür erforderlichen Bewegungen aus. Die Runden dieser Fähigkeit müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "aaf9fe67-ac7d-593f-9ac6-7abbe421b1d9",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Mühen)",
+    "description": "Hauptdomäne: Handwerk.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Tanzende Waffe:\n\nErsatzdomänenzauber: 1 – Befehl, 5 – Wellen der Entkräftung, 7 – Wellen der Erschöpfung."
+  },
+  {
+    "id": "a4a38d5e-38ab-58ef-8220-f398e6e0c314",
+    "name": "Nachtjäger",
+    "description": "(ÜF) Du kannst mit einer Standard-Aktion mit den Schatten der Nacht verschmelzen und so nahezu unsichtbar werden. Solange du dich in einem Bereich mit schwachen Lichtverhältnissen aufhältst, bist du für Kreaturen ohne Dunkelsicht unsichtbar (wie bei Unsichtbarkeit). Dies hält für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker an (Minimum 1). Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8dcdc3bb-3841-5ced-9887-97cc881a3745",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Nacht)",
+    "description": "Hauptdomäne: Dunkelheit.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch der Dunkelheit:\n\nErsatzdomänenzauber: 1 – Schlaf, 6 – Albtraum."
+  },
+  {
+    "id": "ea3cfcba-c275-5899-a258-cfbb2b93531f",
+    "name": "Aura des Chaos",
+    "description": "(ÜF) Ab der 8. Stufe kannst du dich mit einem Feld wilder Energien umgeben, welche sich als 9 m Aura für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker manifestieren. Alle Feinde innerhalb der Aura müssen zu Beginn ihres Zuges eine Art von Aktion (Angriff, Zauber, Bewegung, Benutzen eines Gegenstandes oder Nutzen einer besonderen Fähigkeit) ankündigen und einen Willenswurf ablegen. Bei einem Fehlschlag müssen sie eine andere Aktion als die angekündigte ausführen. Bei Gelingen müssen sie die angekündigte Aktion ausführen. Kreaturen können nur Aktionen ankündigen, die ihnen auch möglich sind."
+  },
+  {
+    "id": "b787892a-e08a-5573-9dac-2ff0c2ae93c1",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Proteaner)",
+    "description": "Hauptdomäne: Chaos.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Chaosklinge. Proteaner sind ein Volk chaotisch neutraler Externarer (siehe Monsterhandbuch II).\n\nErsatzdomänenzauber: 1 – Schwächere Verwirrung, 3 – Standort vortäuschen, 6 – Bindender Ruf (nur Proteaner)."
+  },
+  {
+    "id": "b55f93c4-1b9f-5530-afdb-aabc23eb8867",
+    "name": "Rauchwolke",
+    "description": "(ÜF) Mit einer Standard-Aktion kannst du eine Rauchwolke mit einem Radius von 1,50 m innerhalb von 9 m erschaffen. Kreaturen im Inneren der Wolke erleiden einen Malus von -2 auf ihre Angriffs- und Wahrnehmungswürfe. Dies gilt solange sie sich in der Wolke aufhalten sowie eine weitere Runde, nachdem sie die Wolke verlassen haben. Kreaturen in der Wolke verfügen über Tarnung gegenüber Angriffen von Gegnern, die sich nicht auf einem benachbarten Feld befinden. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "df2dbc63-1b52-5233-bbce-017c555b34e0",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Rauches)",
+    "description": "Hauptdomäne: Feuer.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Feuerpfeil:\n\nErsatzdomänenzauber: 2 – Feuerwerk, 3 – Stinkende Wolke."
+  },
+  {
+    "id": "7fe45e9c-6a95-5b36-901c-d3af0faba068",
+    "name": "Reinigende Berührung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du eine bereitwillige Kreatur mit göttlicher Macht berühren und ihr einen Rettungswurf gegen jeden gegenwärtig auf sie einwirkenden Effekt ermöglichen. Der SG dieses Rettungswurfes entspricht dem ursprünglichen SG des Effektes. Jeder erfolgreiche Rettungswurf beendet den entsprechenden Effekt. Die Kreatur kann sich entscheiden, auf einen oder mehrere Rettungswürfe, von auf ihr liegenden Effekten, zu verzichten. Du kannst diese Fähigkeit einmal am Tag ab der 8. Stufe einsetzen sowie jeweils ein weiteres Mal ab der 14. und 20. Stufe."
+  },
+  {
+    "id": "53f8e079-e6a1-57b6-9163-d13ac9b4c187",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Reinheit)",
+    "description": "Hauptdomäne: Schutz.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Aura des Schutzes:\n\nErsatzdomänenzauber: 1 – Schutz vor Bösem, Schutz vor Chaos, Schutz vor Gutem, Schutz vor Ordnung, 3 – Blind- oder Taubheit kurieren, 5 – Buße."
+  },
+  {
+    "id": "fe69a738-46fb-559e-ba65-e8c28411aff4",
+    "name": "Überredungskunst",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als Freie Aktion einen Fertigkeitswurf auf Diplomatie oder Einschüchtern wiederholen und das bessere Ergebnis wählen. Du kannst diese Fähigkeit auf der 8. Stufe einmal am Tag einsetzen und ein weiteres Mal alle weiteren zwei Stufen als Kleriker."
+  },
+  {
+    "id": "59bd1e5b-a13a-5134-a56c-b381682decb0",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Revolution)",
+    "description": "Hauptdomäne: Befreiung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Ruf der Freiheit:\n\nErsatzdomänenzauber: 2 – Fesseln, 6 – Symbol der Überredung."
+  },
+  {
+    "id": "417ced0a-9b2a-5948-9a78-ec946e2f3127",
+    "name": "Fäden ziehen",
+    "description": "(ÜF) Ab der 8. Stufe kann du eine Kreatur in deiner Sichtlinie zwingen, einen Wurf zu wiederholen, ehe das Ergebnis offenbart wird. Das Ergebnis des zweiten Wurfes muss genommen werden, selbst wenn es schlechter ist. Die kannst ab der 8. Stufe diese Fähigkeit einmal am Tag anwenden und ein weiteres Mal für alle weiteren sechs Stufen als Kleriker."
+  },
+  {
+    "id": "04c0c920-07b1-55b0-8c5b-1eef256fe19e",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Schicksals)",
+    "description": "Hauptdomäne: Glück.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Gunst des Schicksals:\n\nErsatzdomänenzauber: 2 – Vorahnung, 3 – Glück ausborgen*."
+  },
+  {
+    "id": "03c92fd2-e68a-5190-a23f-c4dd36f4fc2b",
+    "name": "Schutzrune",
+    "description": "(ÜF) Ab der 6. Stufe kann dich eine Kreatur, sobald sie durch eine deiner Runen der Entladung Schaden nimmt, für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker nicht mehr angreifen (ähnlich der Wirkung des Zaubers Heiligtum), außer ihr gelingt ein Willenswurf. Diese Fähigkeit wird als Augenblickliche Aktion eingesetzt, sobald deine Rune der Entladung ausgelöst wird. Sie schützt dich jedoch nicht vor Flächenangriffen oder -effekten. Ab der 8. Stufe kannst du diese Fähigkeit einmal am Tag einsetzen und jeweils ein weiteres Mal ab der 14. und 20. Stufe."
+  },
+  {
+    "id": "cbf7ebc1-7303-5a51-887d-f2397f44e8d3",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Schutzzeichen)",
+    "description": "Hauptdomäne: Runen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Zauberrune:\n\nErsatzdomänenzauber: 1 – Arkanes Schloss, 4 – Dimensionsanker, 6 – Wächter und Hüter."
+  },
+  {
+    "id": "18228188-bdd7-50b9-9b6d-cfd1466677f0",
+    "name": "Hauch der Geisterwelt",
+    "description": "(ÜF) Mit einer Berührung kannst du eine Waffe befähigen, körperlose Kreaturen zu treffen. Die Waffe fügt körperlosen Wesen halben Schaden zu. Sollte es sich um eine magische Waffe handeln, fügt sie vollen Schaden zu. Die Wirkung hält für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker an. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "696688e8-4a67-5789-b357-46e1fc71a3e4",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Seelen)",
+    "description": "Hauptdomäne: Ruhe.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Sanfter Schlaf:\n\nErsatzdomänenzauber: 3 – Tote beleben, 6 – Schutzhülle gegen Lebendes, 9 – Seelenfalle."
+  },
+  {
+    "id": "7809f37d-61dd-57d4-947e-5ccb74e98b12",
+    "name": "Rune verschieben",
+    "description": "(ÜF) Ab der 6. Stufe kannst du mit einer Schnellen Aktion die Position einer deiner Runen der Entladung innerhalb von 9 m verändern. Du kannst diese Rune auf einem dir benachbarten Feld platzieren, selbst wenn dieses von einer anderen Kreatur belegt sein sollte."
+  },
+  {
+    "id": "68e2718b-515c-51f0-9031-09ac6c85e911",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Sprachen)",
+    "description": "Hauptdomäne: Runen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Zauberrune:\n\nErsatzdomänenzauber: 1 – Sprachen verstehen, 2 – Sprache weitergeben*, 3 – Zungen, 5 – Telepathisches Band."
+  },
+  {
+    "id": "7b7d9449-84a4-5c1b-85f8-b2770fa76806",
+    "name": "Aura des Sturmwindes",
+    "description": "(ÜF) Ab der 6. Stufe kannst du dich mit einer Aura der Stürme mit einem Radius von 9 m umgeben, welche deine Feinde behindert. Kreaturen innerhalb dieser Aura ist kein 1,50 m-Schritt möglich. Für Feinde ist jedes Feld, welches sie näher an dich heranbringt, schwieriges Gelände, sie können sich aber in alle anderen Richtungen normal bewegen. Du kannst diese Fähigkeit täglich für eine Anzahl an Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "5a5a797a-9fb1-50f0-ba13-3bceaef471b3",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Stürme)",
+    "description": "Hauptdomäne: Wetter.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Herr der Blitze:\n\nErsatzdomänenzauber: 5 – Gewittersturm herbeirufen, 6 – Scirocco*."
+  },
+  {
+    "id": "0086f58a-9e10-5f67-a359-ec2f25426864",
+    "name": "Morgendämmerung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du ein einzelnes Wesen in den Zustand versetzen, als hätte es sich gerade 8 Stunden ausgeruht. Der Einsatz dieser Fähigkeit benötigt 10 Minuten. Solltest du unterbrochen werden, musst du zwar erneut beginnen, die Anwendung ist jedoch nicht verloren. Nach diesen zehn Minuten erhält das von dir berührte, bereitwillige Ziel Trefferpunkte entsprechend einer durchgeschlafenen Nacht zurück und macht neue Rettungswürfe gegen Effekte, die jeden Tag einen Rettungswurf verlangen. Bei einem fehlgeschlagenen Rettungswurf erleidet das Ziel jedoch keine negativen Auswirkungen, die ansonsten eintreten würden, wenn der Rettungswurf am regulären darauffolgenden Tag fehlgeschlagen wäre. Ein erfolgreicher Rettungswurf zählt jedoch und entfernt, sofern möglich, eine der negativen Auswirkungen. Du kannst diese Fähigkeit ab der 8. Stufe einmal täglich nutzen und ein weiteres Mal für alle weiteren zwei Stufen als Kleriker."
+  },
+  {
+    "id": "006abf77-c5ce-5f8a-871c-bbec5d222a71",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Tages)",
+    "description": "Hauptdomäne: Sonne.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Nimbus des Lichts:\n\nErsatzdomänenzauber: 2 – Dauerhafte Flamme, 3 – Tageslicht."
+  },
+  {
+    "id": "fb2bfce0-756b-5841-ae8e-3d5cd38ad5fd",
+    "name": "Initiative ergreifen",
+    "description": "(ÜF) Wenn deine Verbündeten und du Initiativewürfe ausführen müssen, kannst du einem Verbündeten innerhalb von 9 m einen zweiten Wurf ermöglichen. Er darf sich für eines der beiden Ergebnisse entscheiden, muss dies jedoch tun, bevor die Ergebnisse der anderen Teilnehmer offenbart werden. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "1caf13a0-d6e1-5bdc-8236-dfc6ca990e0f",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Taktik)",
+    "description": "Hauptdomäne: Krieg.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Schlachtenwut:\n\nErsatzdomänenzauber: 2 – Beistand, 5 – Mächtiger Befehl, 8 – Mächtiger Verbündeter aus den Ebenen."
+  },
+  {
+    "id": "abd42738-1189-5ccc-8264-5e3f21e5362b",
+    "name": "Plötzliches Teleportieren",
+    "description": "(ZF) Von einem Moment zum anderen kannst du an einer anderen Stelle erscheinen. Als Augenblickliche Aktion kannst du bis zu 3 m weit an einen Ort teleportieren, den du sehen kannst. Dieser Ort muss sich in der Reichweite des Wesens befinden, dass dich angegriffen hat. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "7ef768d9-9a86-59cd-9f7a-98c50c29a9a4",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Täuschung)",
+    "description": "Hauptdomäne: Tricks.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Nachahmungstäter:\n\nErsatzdomänenzauber: 2 – Spiegelbilder, 7 – Projiziertes Ebenbild."
+  },
+  {
+    "id": "2920eabf-c5f9-5a72-ad1e-9b7b69537ea8",
+    "name": "Verderbnis der Hölle",
+    "description": "(ÜF) Mit einem Berührungsangriff im Nahkampf kannst du eine Kreatur empfänglicher für die Verderbnis der Hölle werden lassen. Berührte Kreaturen erhalten einen Malus von -2 auf alle Rettungswürfe und müssen konkurrierende Würfe zweimal durchführen, wobei sie stets das schlechtere Ergebnis nehmen müssen. Dieser Effekt hält für eine Anzahl Runden in Höhe deiner halben Stufe als Kleriker an (Minimum +1). Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8051c82c-9d77-5268-930e-f03c485ce56f",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Teufel)",
+    "description": "Hauptdomäne: Böses, Ordnung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch des Bösen oder Hauch der Ordnung. Teufel sind rechtschaffen böse Externare (siehe Monsterhandbuch).\n\nErsatzdomänenzauber: 1 – Befehl, 3 – Einflüsterung, 6 – Bindender Ruf (nur Teufel)."
+  },
+  {
+    "id": "7c0d2992-6d00-5c20-8d8e-4cc8ae903938",
+    "name": "Todeskuss",
+    "description": "(ÜF) Mit einem Berührungsangriff im Nahkampf kannst du einer Kreatur verschiedene Eigenschaften untoter Kreaturen verleihen. Berührte Kreaturen gelten als untot im Hinblick auf Effekte, die durch positive und negative Energie Schaden heilen oder verursachen. Der Effekt hält für eine Anzahl von Runden in Höhe deiner halben Stufe als Kleriker (Minimum 1) an. Er wirkt sich jedoch nicht auf die Talente Untote befehligen oder Untote vertreiben auf. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "26d8c7f3-268e-5f99-ad1a-d641aa18f98c",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Untodes)",
+    "description": "Hauptdomäne: Tod.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Blutige Hand:\n\nErsatzdomänenzauber: 2 – Ghulgriff, 4 – Entkräftung, 9 – Entzug von Lebenskraft."
+  },
+  {
+    "id": "bd10cb23-ff52-5253-8c13-d357c1bde1ca",
+    "name": "Befehl",
+    "description": "(ÜF) Als Standard-Aktion kannst du einer Kreatur eine emotionslose und dennoch nicht verweigerbare Anweisung geben, wie beim gleichnamigen Zauber Befehl. Ein erfolgreicher Willenswurf hebt den Effekt auf. Du kannst eine Kreatur nur einmal am Tag zum Ziel dieser Fähigkeit machen. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "d0922cca-2626-58e5-ae8d-5273786f36b5",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Unvermeidbaren)",
+    "description": "Hauptdomäne: Ordnung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch der Ordnung. Unvermeidbare sind ein Volk rechtschaffen neutraler Externare (siehe Monsterhandbuch II).\n\nErsatzdomänenzauber: 3 – Untote befehligen, 5 – Mächtiger Befehl, 6 – Bindender Ruf (nur Unvermeidbare)."
+  },
+  {
+    "id": "348f7e44-06d1-58ce-b748-a5dd7cbcff0e",
+    "name": "Aura des Vergessens",
+    "description": "(ÜF) Ab der 8. Stufe kannst du täglich eine 9 m Aura des Vergessens für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker erzeugen. Die Runden müssen nicht aufeinander folgen. Von dir ausgewählte Kreaturen innerhalb dieser Aura müssen einen Willenswurf schaffen oder haben keine Erinnerung an die Zeit, welche sie innerhalb der Aura verbracht haben. Zauberkundige verlieren zudem in jeder Runde einen ihrer vorbereiteten Zauber, beginnend mit den Zaubern des 1. Grades (aufsteigend bis zum 9. Grad). Zauberkundigen ist in jeder Runde ein zusätzlicher Rettungswurf erlaubt, um den Verlust eines Zaubers zu verhindern."
+  },
+  {
+    "id": "19ef1b26-49bd-5150-8f7b-a41ed582c019",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Verlustes)",
+    "description": "Hauptdomäne: Dunkelheit.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Augen der Dunkelheit:\n\nErsatzdomänenzauber: 5 – Entkräftung, 6 – Erinnerung verändern, 9 – Entzug von Lebenskraft."
+  },
+  {
+    "id": "4ef54611-7ccf-568f-ba86-cf5955b611d1",
+    "name": "Ablenkende Aura",
+    "description": "(ÜF) Einmal am Tag kannst du dich mit einer 6 m Aura für eine Anzahl von Runden in Höhe deiner Stufen als Kleriker umgeben. Verbündete in dieser Aura erhalten einen Ablenkungsbonus von +2 auf ihre RK und KMV."
+  },
+  {
+    "id": "4628a702-6684-564f-be0d-1e86ea7aafc2",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Verteidigung)",
+    "description": "Hauptdomäne: Schutz.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Hauch der Resistenz:\n\nErsatzdomänenzauber: 1 – Schild, 2 – Rindenhaut, 7 – Angriff zurückwerfen*."
+  },
+  {
+    "id": "296268a4-afb2-5fe4-a50b-ffa610fd029a",
+    "name": "Aura der Verwesung",
+    "description": "(ÜF) Ab der 8. Stufe kannst du dich mit einer verwesenden Aura umgeben. Der Radius beträgt 9 m. Innerhalb dieser Aura verfault das Fleisch aller lebenden Kreaturen, wodurch sie in jeder Runde 1W6 Schadenspunkte erleiden (du selbst bist von dieser Wirkung ausgenommen). Darüber hinaus erleiden die Opfer in jeder Runde, die sie sich in der Aura aufhalten, einen kumulativen Malus von -1 auf ihren Stärkewert. Dieser Malus verringert sich außerhalb der Aura für jede Runde um -1, wächst aber wieder an, sollten sie die Aura erneut betreten. Pflanzenwesen nehmen in jeder Runde 2W6 Schadenspunkte. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "cfeebcd2-857d-5de6-84b9-244281b4386b",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Verwesung)",
+    "description": "Hauptdomäne: Pflanzen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Dornenrüstung:\n\nErsatzdomänenzauber: 3 – Ansteckung, 4 – Vergiften, 6 – Leid."
+  },
+  {
+    "id": "ee1c1fd5-1260-5cd6-b00e-73c3f061a9ff",
+    "name": "Vergrößern",
+    "description": "(ÜF) Als Schnelle Aktion kannst du dich selbst für eine Runde lang vergrößern, als wärst du das Ziel von Person vergrößern. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "0b942379-a002-57fb-9965-bbe87cf25acc",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Wachstums)",
+    "description": "Hauptdomäne: Pflanzen.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Holzfaust:\n\nErsatzdomänenzauber: 1 – Person vergrößern, 5 – Gerechte Macht."
+  },
+  {
+    "id": "740017eb-7b22-5414-b319-c3e589d8fd2e",
+    "name": "Geschenk des Lebens",
+    "description": "(ÜF) Ab der 8. Stufe kannst du mit einer Berührung eine innerhalb der letzten Minute verstorbenen Kreatur einige wenige Augenblicke des Lebens schenken. Die tote Kreatur kehrt für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker ins Leben zurück. Sie besitzt Trefferpunkte in Höhe deiner halben Stufe als Kleriker. Alle Zauber, Zustände und Leiden, die sie vor ihrem Tod betroffen haben, wirken weiter. Nach Ablauf der Zeit stirbt die Kreatur erneut. Die Kreatur kann frei entscheiden, was sie während der Wirkungsdauer der Fähigkeit tut, du hast dabei keinerlei Kontrolle über sie. Du kannst diese Fähigkeit auf der 8. Stufe einmal am Tag einsetzen und ein weiteres Mal für jede weitere vierte Stufe."
+  },
+  {
+    "id": "e933d9e8-d514-5293-a74e-0e5d53842924",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Wiederbelebung)",
+    "description": "Hauptdomäne: Heilung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Segen des Heilers:\n\nErsatzdomänenzauber: 5 – Tote erwecken, 7 – Auferstehung, 9 – Wahre Auferstehung."
+  },
+  {
+    "id": "c56afbe6-cf75-515d-bd92-14d8bffa7671",
+    "name": "Wilder Hieb",
+    "description": "(ÜF) Du kannst einen Angriff zu einem Wilden Hieb erklären. Falls du triffst, verursachst du zusätzlichen Schaden in Höhe deiner halben Stufe als Kleriker (Minimum +1). Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8e444553-f211-5c3c-a7f6-27d5dcff6cc1",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Wildheit)",
+    "description": "Hauptdomäne: Stärke.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Kraftschub:\n\nErsatzdomänenzauber: 3 – Wut, 6 – Massen-Bärenstärke."
+  },
+  {
+    "id": "84f09efb-e1ab-52c9-9b6b-50d961a8b7f5",
+    "name": "Windstoß",
+    "description": "(ÜF) Als Standard-Aktion kannst du einen Windstoß in einer 9 m Linie entfesseln. Mache einen Kampfmanöverwurf gegen jede Kreatur innerhalb der Reichweite, mit deiner Zauberstufe als Grund-Angriffsbonus und deinem WE-Modifikator statt deines ST-Modifikators. Behandle das Ergebnis wie einen Ansturm. Du kannst diese Fähigkeit täglich in Höhe deines WE-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "3cbad1bd-3548-54db-a88f-dbfd1516a5f0",
+    "name": "Verliehene Fähigkeiten (Unterdomäne des Windes)",
+    "description": "Hauptdomäne: Luft.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Blitzschlag:\n\nErsatzdomänenzauber: 1 – Windgeflüster, 6 – Windwandeln, 9 – Winde der Vergeltung*."
+  },
+  {
+    "id": "d8898200-33d1-5411-89c6-5601346dc913",
+    "name": "Donnerwolke",
+    "description": "(ÜF) Ab der 8. Stufe kannst du als Standard-Aktion eine Sturmwolke herbeizaubern. Diese Fähigkeit funktioniert wie Nebelwolke, nur dass Kreaturen im Inneren der Wolke taub werden und jede Runde durch Donner und Blitze 2W6 Punkte Elektrizitätsschaden nehmen. Sobald du sie erschaffen hast, kannst du dich darauf konzentrieren, die Wolke in jeder Runde bis zu 9 m weit zu bewegen. Du kannst diese Fähigkeit täglich für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "4641c66d-34fd-5829-ace3-c0e813a01990",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Wolken)",
+    "description": "Hauptdomäne: Luft.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Elektrizitätsresistenz:\n\nErsatzdomänenzauber: 4 – Fester Nebel, 9 – Sturm der Vergeltung."
+  },
+  {
+    "id": "84f6f497-cc54-5550-b5a0-012a8f9b3788",
+    "name": "Kampfrausch (Unterdomäne der Wut)",
+    "description": "(ÜF) Ab der 8. Stufe kannst du dich täglich wie ein Barbar für eine Anzahl von Runden in Höhe deiner Stufe als Kleriker in einen furchtbaren Kampfrausch hineinsteigern. Auf der 12. und 16. Stufe kannst du eine Kampfrauschkraft auswählen. Du kannst keine Kraft auswählen, die eine Stufenvoraussetzung aufführt. Für alle stufenabhängigen Effekte der Kampfrauschkräfte gilt ansonsten deine halbe Stufe als Kleriker als Stufe des Barbaren. Falls du Stufen als Barbar besitzt addieren sich die Runden des Kampfrausches aus dieser Kraft zu denen aus den Stufen des Barbaren."
+  },
+  {
+    "id": "5ed54ead-1fcd-505e-adb4-6479997f5cc1",
+    "name": "Verliehene Fähigkeiten (Unterdomäne der Wut)",
+    "description": "Hauptdomäne: Zerstörung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Aura der Zerstörung:\n\nErsatzdomänenzauber: 2 – Bärenstärke, 6 – Mondsucht*."
+  },
+  {
+    "id": "7b1da4e1-24fe-5db0-aafb-26bfd559aa20",
+    "name": "Elementarmagieschule der Erde",
+    "description": "Der Elementarmagier der Erde bezieht seine Fähigkeiten aus dem Stein um ihn herum. Er formt und zerbricht ihn und zwingt ihm seinen Willen auf. Er kann ihn nutzen, um sich zu verteidigen, oder ihn einsetzen, um seine Feinde zu zermalmen.\n\nVerbotene Schule: Elementarmagieschule der Luft (Pflicht); eine zweite Verbotene Schule ist nicht nötig. Bonuszauberplatz pro Zaubergrad für einen Zauber der Liste der Elementarmagieschulen."
+  },
+  {
+    "id": "5c03c7a9-d26d-5338-a51d-a333103c6dc6",
+    "name": "Bodenüberlegenheit",
+    "description": "Elementarmagieschule der Erde: (ÜF) Der Magier erhält einen Verbesserungsbonus von +2 auf seine KMV gegen Kampfmanöver der Arten Ansturm, Versetzen und Zerren, solange er den Boden berührt. Dieser Bonus steigt für jeweils fünf Stufen als Magier um weitere +1. Darüber hinaus erhält er einen Verständnisbonus von +1 auf seine Angriffs- und Schadenswürfe, wenn er und sein Gegner den Boden berühren. Ab der 20. Stufe blockieren Erde und Steine die Schusslinie seiner Zauber nicht mehr, wohl aber noch seine Sichtlinie."
+  },
+  {
+    "id": "7c1cf80b-4eea-57be-8655-3d60b65a2b4b",
+    "name": "Säurewolke",
+    "description": "Elementarmagieschule der Erde: (ÜF) Mit einer Standard-Aktion kann der Magier für 1 Runde eine Wolke säurehaltiger Dämpfe mit einem Radius von 1,50 m innerhalb von 9 m erschaffen. Diese Wolke verursacht bei allen Wesen in ihrem Inneren 1W6 Punkte Säureschaden + 1 Punkt für jeweils zwei Stufen als Magier und lässt sie für 1 Runde kränkeln. Ein erfolgreicher Zähigkeitswurf gegen SG 10 + ½ Stufe des Magiers + des IN-Modifikators des Magiers hebt das Kränkeln auf und halbiert den Schaden. Kreaturen, die ihren Zug im Inneren der Wolke beginnen, können diese ohne Mali verlassen, wohingegen Wesen, welche die Wolke betreten, betroffen sind. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "edaa139f-ce17-51d4-a5c6-10b3933e90c5",
+    "name": "Durch Erde gleiten (Elementarmagieschule der Erde)",
+    "description": "Elementarmagieschule der Erde: (ÜF) Ab der 8. Stufe besitzt der Magier die Fähigkeit, durch Erde, Dreck und Stein für eine Anzahl von Runden in Höhe seiner Stufe als Magier gleiten zu können. Diese Runden müssen nicht aufeinander folgen. Er kann dabei nur natürlich Substanzen durchqueren und nicht bearbeiteten Stein oder verarbeitete Erde. Sollte er sich bei Ablauf der Zeit noch in der Erde befinden, wird er an seinen Ausgangspunkt zurückgeschleudert, nimmt 4W6 Schadenspunkte und ist für 1 Runde betäubt. Er hinterlässt weder ein Loch, noch einen Tunnel oder sonstige Anzeichen seiner Gegenwart. Er kann jedoch durch Erschütterungssinn wahrgenommen werden."
+  },
+  {
+    "id": "a6a5f116-cac4-5a7d-b763-97132457c0fe",
+    "name": "Elementarmagieschule des Feuers",
+    "description": "Der Elementarmagier des Feuers sieht um sich herum eine Welt, die dazu geschaffen ist, in Brand gesetzt zu werden. Er nutzt das Feuer, um seine Gegner damit zu verschlingen. Er hat auch gelernt, dass die Flammen reinigen und schützen können, wenn sie richtig kontrolliert werden.\n\nVerbotene Schule: Elementarmagieschule des Wassers (Pflicht); eine zweite Verbotene Schule ist nicht nötig. Bonuszauberplatz pro Zaubergrad für einen Zauber der Liste der Elementarmagieschulen."
+  },
+  {
+    "id": "b55a85ab-e044-52ad-b764-6f330847a151",
+    "name": "Feuerüberlegenheit",
+    "description": "Elementarmagieschule des Feuers: (ÜF) Der Magier erhält Feuerresistenz 5. Auf der 10. Stufe steigt seine Resistenz auf 10. Ab der 20. Stufe ist er immun gegen Feuerschaden. Wenn er sich höchstens 1,50 m von einer Flamme entfernt befindet, die mindestens einem Lagerfeuer entsprechen muss, kann er sich mit einer Schnellen Aktion für 1 Runde in Flammen hüllen. Jeder Angreifer, der eine Nahkampfwaffe ohne Reichweite oder einen waffenlose Angriff ohne Reichweite gegen ihn einsetzt, erleidet Feuerschaden in Höhe seiner halben Stufe als Magier (Minimum 1)."
+  },
+  {
+    "id": "c43956ce-72c2-566f-bf59-c123d88f7d81",
+    "name": "Flammenstrahl",
+    "description": "Elementarmagieschule des Feuers: (ÜF) Mit einer Standard-Aktion kann der Magier einen 6 m langen Flammenstrahl aussenden. Jeder in seinem Weg erhält 1W6 Punkte Feuerschaden + 1 Punkt für jeweils zwei Stufen als Magier. Ein erfolgreicher Reflexwurf gegen SG 10 + ½ Stufe des Magiers + dem IN-Modifikator des Magiers halbiert den Schaden. Kreaturen, deren Rettungswurf misslingt, fangen Feuer und nehmen in der Folgerunde 1W6 Punkte Feuerschaden. Sie können diesen Schaden durch einen Reflexwurf gegen SG 15 vermeiden, indem sie als Volle Aktion die Flammen löschen. Wenn sie sich auf dem Boden wälzen, erhalten sie einen Situationsbonus von +2 auf den Rettungswurf. Die Kreatur mit Wasser zu übergießen, löscht das Feuer automatisch. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "a779cf2a-a843-510f-8d41-7ad36b34ced0",
+    "name": "Tanzende Flamme",
+    "description": "Elementarmagieschule des Feuers: (ÜF) Ab der 8. Stufe kann der Magier mit einer Standard-Aktion Flammen nach seinen Vorstellungen formen. Er kann jedes nichtmagische Feuer um bis zu 9 m weit bewegen. Das Feuer benötigt dazu jedoch neue brennbare Materialien an der neuen Position oder erlischt innerhalb 1 Runde. Alternativ kann er jeden Feuerzauber, den er mit einer Wirkungsdauer von Augenblicklich wirken kann, verändern, indem er eine beliebige Anzahl von Feldern des Wirkungsbereiches des Zaubers unbetroffen lässt. Sollte der Feuerzauber eine längere Wirkungsdauer als Augenblicklich haben, kann er den Zauber innerhalb der Reichweite umplatzieren (dies wird behandelt, als hätte er den Zauber gerade erst gewirkt, jedoch verändert sich die verbleibende Wirkungsdauer nicht). Der Magier kann mit dieser Fähigkeit nur auf Zauber einwirken, die er selbst gewirkt hat. Er kann diese Fähigkeit täglich in Höhe seiner halben Stufe als Magier einsetzen."
+  },
+  {
+    "id": "1de45f2c-96d2-53f0-a0ff-6885d65c2bf9",
+    "name": "Elementarmagieschule der Luft",
+    "description": "Der Elementarmagier der Luft bedient sich der Mächte des Windes, des Himmels, der Wolken und der Blitze, um seine Gegner zu verwirren und zu vernichten, während er ungehindert umherfliegt.\n\nVerbotene Schule: Elementarmagieschule der Erde (Pflicht); eine zweite Verbotene Schule ist nicht nötig. Bonuszauberplatz pro Zaubergrad für einen Zauber der Liste der Elementarmagieschulen."
+  },
+  {
+    "id": "cfd6a618-493b-5881-b0e3-e0fff81cb671",
+    "name": "Luftüberlegenheit",
+    "description": "Elementarmagieschule der Luft: (ÜF) Der Magier erhält einen Verbesserungsbonus von +2 auf seine Fertigkeitswürfe für Fliegen. Dieser Bonus steigt für jeweils 5 Stufen als Magier um weitere +1. Darüber hinaus kann er nach Belieben Federfall wirken. Ab der 5. Stufe kann er auf sich beliebig oft Schweben wirken. Ab der 10. Stufe kann er auf sich selbst beliebig oft Fliegen wirken. Ab der 20. Stufe wird jeder seiner Fertigkeitswürfe auf Fliegen behandelt, als hätte er eine natürliche 20 gewürfelt."
+  },
+  {
+    "id": "87c53066-7ff5-5db9-9c9f-cdc7a9b4054b",
+    "name": "Blendender Blitz",
+    "description": "Elementarmagieschule der Luft: (ÜF) Mit einer Standard-Aktion kann der Magier einen elektrischen Blitz auslösen. Dieser Blitz verursacht bei allen Kreaturen innerhalb von 1,50 m 1W6 Punkte Elektrizitätsschaden + 1 Punkt für jeweils zwei Stufen als Magier und blendet sie zusätzlich für 1W4 Runden. Ein erfolgreicher Reflexwurf gegen SG 10 + ½ Stufe als Magier + IN-Modifikator des Magiers hebt den Effekt auf. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "339d4fa2-42d4-5f29-90bc-c21d59f118d2",
+    "name": "Zyklon",
+    "description": "Elementarmagieschule der Luft: (ÜF) Ab der 8. Stufe kann der Magier sich mit einer Standard-Aktion mit einem stürmischen Luftwirbel umgeben. Dieser Wirbel hat einen Radius von 3 m und eine maximale Höhe von 3 m für jede Stufe des Magiers. Jeder Fernkampfangriff, der diesen Wirbel passiert, verfehlt automatisch sein Ziel. Jedes Wesen, das durch den Wirbel hindurch fliegt, muss einen Fertigkeitswurf auf Fliegen bestehen, um nicht abzustürzen und Sturz schaden zu erleiden (es kann in diesem Fall keinen Fertigkeitswurf auf Fliegen machen, um den Fallschaden zu reduzieren). Kreaturen am Boden können den Wirbel nur durchqueren, wenn ihnen ein Stärkewurf gegen SG 10 + die Zauberstufe des Magiers gelingt. Der Wirbel ist kaum erkennbar und kann nur durch einen Fertigkeitswurf auf Wahrnehmung gegen SG 15 bemerkt werden. Der Magier kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "ab97d918-c4db-5ba3-976e-0383f6e1d024",
+    "name": "Elementarmagieschule des Wassers",
+    "description": "Der Elementarmagier des Wassers gewinnt seine Magie aus den Tiefen des Meeres. Seine Kraft ist ebenso fließend, und zerschmettert seine Feinde mit mächtigen Wellen oder schwächt sie durch zeitlose Erosion.\n\nVerbotene Schule: Elementarmagieschule des Feuers (Pflicht); eine zweite Verbotene Schule ist nicht nötig. Bonuszauberplatz pro Zaubergrad für einen Zauber der Liste der Elementarmagieschulen."
+  },
+  {
+    "id": "2be6366a-6cbd-59c6-82da-f13eae7b442e",
+    "name": "Wasserüberlegenheit",
+    "description": "Elementarmagieschule des Wassers: (ÜF) Der Magier erhält einen Verbesserungsbonus von +2 auf seine Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt für jeweils 5 Stufen als Magier um weitere +1. Darüber hinaus kann der Magie für eine Anzahl von Runden in Höhe seines vierfachen Konstitutionswertes den Atem anhalten, ehe er Würfe gegen Ertrinken ausführen muss. Auf der 10. Stufe erhält er eine Schwimm-Bewegungsrate entsprechend seiner Grundbewegungsrate. Ab der 20. Stufe gilt das Ergebnis jedes Fertigkeitswurfes auf Schwimmen als natürliche 20."
+  },
+  {
+    "id": "ac2c6800-4ea5-52f3-b465-b23a7c0962a2",
+    "name": "Kälteexplosion",
+    "description": "Elementarmagieschule des Wassers: (ÜF) Mit einer Standard-Aktion kann der Magier eisige Kälte ausstrahlen. Alle Kreaturen innerhalb von 1,50 m gelten für 1 Runde als Wankend und erleiden 1W6 Punkte Kälteschaden + 1 Punkt für jeweils zwei Stufen als Magier. Ein erfolgreicher Reflexwurf gegen SG 10 + ½ Stufe des Magiers + dem IN-Modifikator des Magiers hebt das Wanken auf und halbiert den Schaden. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "357ecaa2-63bb-5b27-a7a3-be7a4fc1c19f",
+    "name": "Woge",
+    "description": "Elementarmagieschule des Wassers: (ÜF) Ab der 8. Stufe kann der Magier eine Welle aus Wasser erschaffen, die sich von seinem Standort aus mit einer Geschwindigkeit von 9 m in der Runde in eine von ihm gewählt Richtung fortbewegt. Kreaturen, die von dieser Woge erfasst werden, werden zu Boden geworfen und weggedrückt. Der Magier führt einem Zauberstufenwurf gegen die KMV jeder betroffenen Kreatur aus. Sollte der Wurf die KMV eines Wesens um 5 oder mehr übertreffen, wird es während der Bewegung der Welle in dieser Runde von ihr fortgetragen. Sollte sich die Kreatur zu Beginn der Runde des Magiers, wenn sich auch die Welle fortbewegt, auf demselben Feld wie die Welle befinden, erhält der Magier einen Bonus von +5 auf seinen Zauberstufenwurf. Fortgetragene Kreaturen können sich in ihrem Zug von der Welle wegbewegen, sofern ihnen ein Stärkewurf gegen SG 10 + ½ Stufe als Magier + IN-Modifikator des Magiers gelingt. Während der Zeit, in der sie sich mit der Welle ein Feld teilen, können sie nicht atmen. Die Welle hat eine Höhe von bis zu 6 m und eine Breite von bis zu 1,50 m für jede Stufe des Magiers. Nicht magische Feuer werden von ihr automatisch bei Kontakt gelöscht, magische Feuereffekte sind nicht betroffen. Der Magier kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner halben Stufe als Magier einsetzen."
+  },
+  {
+    "id": "ce26720c-90d6-5d8a-a1c1-06e7b1482846",
+    "name": "Unterschule der Beeinflussung",
+    "description": "Hauptschule: Verzauberung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Hauch der Benommenheit und Aura der Verzweiflung."
+  },
+  {
+    "id": "5873788d-14fa-5b01-a8cf-231eaa7765b5",
+    "name": "Bezaubernder Hauch",
+    "description": "Unterschule der Beeinflussung: (ZF) Der Magier kann ein lebendes Wesen mit seiner Berührung verzaubern, sofern es nicht mehr Trefferwürfel besitzt als der Magier Stufen als Magier, sich im Kampf befindet oder dem Magier gegenüber feindselig eingestellt ist. Dem Ziel steht ein Willenswurf gegen SG 10 + ½ Stufe des Magier + dem IN-Modifikator des Magiers zu, um den Effekt zu widerstehen. Bei einem Fehlschlag verhält es sich für eine Anzahl von Runden in Höhe der halben Stufe als Magier wie unter Monster bezaubern (Minimum 1). Dies ist ein geistesbeeinflussender Effekt. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "625b949c-1e09-581b-9759-172cb66143e6",
+    "name": "Gefühle formen",
+    "description": "Unterschule der Beeinflussung: (ÜF) Ab der 8. Stufe kann der Magier sich für eine Anzahl von Runden in Höhe seiner Stufe als Magier in eine Aura von 9 m Radius hüllen, welche emotionale Effekte entweder abblockt oder fördert. Diese Runden müssen nicht aufeinander folgen. Sollte er sich entscheiden, geschützt zu werden, erhalten er und alle Verbündeten innerhalb der Aura einen Moralbonus von +4 auf ihre Rettungswürfe gegen geistesbeeinflussende Zauber und Effekte. Darüber hinaus werden alle Furchteffekte um eine Kategorie verringert (Erschüttert hat keine Auswirkungen mehr, Verängstigt wird zu Erschüttert und Panisch zu Verängstigt). Sollte der Magier sich entscheiden, emotionale Einflüsse zu verstärken, erhalten Feinde innerhalb der Aura einen Malus von -2 auf ihre Rettungswürfe gegen geistesbeinflussende Zauber und Effekte."
+  },
+  {
+    "id": "f3b93bec-7ee0-5959-9f6f-ca4984b8bf7a",
+    "name": "Unterschule der Beimischung",
+    "description": "Hauptschule: Hervorrufung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Energiegeschoss und Elementarwand."
+  },
+  {
+    "id": "0f0553f5-3d2a-58de-86c9-369aa9438254",
+    "name": "Vielseitige Hervorrufung",
+    "description": "Unterschule der Beimischung: (ÜF) Wenn der Magier einen Hervorrufungszauber wirkt, welcher Elektrizitäts-, Feuer, Kälte oder Säureschaden verursacht, kann er die Energieart des Zaubers in eine der anderen genannten ändern. Dies verändert die Art des Zaubers entsprechend der neuen Schadensart. Effekte, die keinen Schaden verursachen, bleiben unverändert, sofern die neue Energieart sie nicht aufheben (ein Eissturm, welcher Feuerschaden verursacht, könnte aufgrund von Rauchentfaltung immer noch einen Malus auf Wahrnehmungswürfe, nicht aber schwieriges Gelände verursachen). Die Entscheidung liegt beim SL. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "e5ab2c8f-070b-53d9-b83b-cd05c5dd97b3",
+    "name": "Elementare Manipulation",
+    "description": "Unterschule der Beimischung: (ÜF) Ab der 8. Stufe kann der Magier eine Aura von 9 m erzeugen, welche magische Energie verwandelt. Er wählt eine Energieart aus: Elektrizität, Feuer, Kälte und Säure und eine zweite, in welche er die erste verwandeln will. Jede magische Quelle von Energie der ersten Art im Wirkungsbereich in Höhe einer Zauberstufe gleich oder weniger der Zauberstufe des Magiers, der die Energieart verändern möchte, wird in die gewählte Energieart umgewandelt. Dies umfasst auch übernatürliche Effekte von Kreaturen, deren Trefferwürfel nicht höher sind als es die Zauberstufe des Magiers ist. Beispielsweise kann er die eisige Odemwaffe eines Weißen Drachen (eine Übernatürliche Fähigkeit) verändern, nicht aber die feurige Berührung eines Feuerelementars (eine Außergewöhnliche Fähigkeit). Falls der Effekt nur teilweise von der Aura erfasst wird, wird auch nur der erfasste Teil verändert. Der Magier kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "3c56cdce-cb27-5c72-a050-0b5dca02bf8a",
+    "name": "Unterschule der Erschaffung",
+    "description": "Hauptschule: Hervorrufung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Starke Zauber und Energiegeschoss."
+  },
+  {
+    "id": "426c8365-4307-5a02-81c6-8be384936e57",
+    "name": "Anhaltende Hervorrufung",
+    "description": "Unterschule der Erschaffung: (ÜF) Jeder Hervorrufungszauber mit einer Wirkungsdauer größer als Augenblicklich, den der Magier wirkt, hält für eine Anzahl zusätzlicher Runden in Höhe seiner halben Stufe als Magier an (Minimum +1). Ab der 20. Stufe müssen alle Würfe, um seine Zauber zu bannen, zwei Mal gemacht werden, wobei der Gegner das schlechtere Ergebnis nehmen muss."
+  },
+  {
+    "id": "baf5cf45-e904-59a5-94c5-877d6273ee25",
+    "name": "Winddiener",
+    "description": "Unterschule der Erschaffung: (ZF) Mit einer Standard-Aktion kann der Magier einen Windstoß erschaffen, welcher einen ungetragenen Gegenstand (oder mehrere) oder einen Gegenstand in seinem Besitz bis zu 9 m in einer geraden Linie schleudert. Sollte der Magier eine Hand frei haben, kann er einen Gegenstand fangen, der auf ihn selbst geschleudert wurde. Gegenstände werden nicht kraftvoll genug geschleudert, um Schaden zu verursachen, allerdings können zerbrechliche Gegenstände wie alchemistische Waffen bei Kontakt mit einer Kreatur oder einer harten Oberfläche zerschellen. Um ein Wesen mit einem Gegenstand zu treffen, muss dem Magier ein Berührungsangriff im Fernkampf gelingen. Er kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "8462caed-6c2f-5817-93ca-7105a56bbf9e",
+    "name": "Unterschule der Gegenzauber",
+    "description": "Hauptschule: Bannzauber.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Schutz und Energieabsorption."
+  },
+  {
+    "id": "4dd3b980-a020-5150-a732-f508f2f34f3d",
+    "name": "Zauber stören",
+    "description": "Unterschule der Gegenzauber: (ÜF) Auf der 1. Stufe erhält der Magier die Fähigkeit, mit einer Berührung Zauber zu stören. Mit einem Berührungsangriff im Nahkampf kann er um das Ziel ein störendes Feld für Anzahl von Runden in Höhe seiner halben Stufe als Magier errichten (Minimum 1). Solange das Ziel sich in diesem Feld befindet, muss ihm neben jedem eventuell bereits erforderlichen Konzentrationswurf ein weiterer Konzentrationswurf gegen SG 15 + doppelter Grad des Zaubers gelingen, um einen Zauber wirken oder eine Zauberähnliche Fähigkeit einsetzen zu können. Sollte ihm dieser Wurf nicht gelingen, ist der Zauber verloren. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "bfe5cc22-7cb6-588e-9833-41f699f98c37",
+    "name": "Gegenzaubermeisterschaft",
+    "description": "Unterschule der Gegenzauber: (ÜF) Auf der 6. Stufe erhält der Magier das Bonustalent Verbesserter Gegenzauber. Er kann einmal am Tag versuchen, einen Zauber eines Gegners mit einer Augenblicklichen Aktion statt einer Vorbereiteten Aktion aufzuheben. Hierzu muss er einen Zauber verwenden, dessen Grad mindestens um 1 höher ist als der des Zaubers, den er kontern möchte. Der Magier kann diese Fähigkeit ab der 6. Stufe einmal am Tag verwenden und jeweils ein weiteres Mal am Tag alle vier weiteren Stufen."
+  },
+  {
+    "id": "80c8cf18-7db7-5aab-924f-e397908946a4",
+    "name": "Unterschule des Gestaltwandelns",
+    "description": "Hauptschule: Verwandlung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Telekinetische Faust."
+  },
+  {
+    "id": "f447ff42-d05f-576f-a61a-d6067f5c033f",
+    "name": "Kampfgestalt",
+    "description": "Unterschule des Gestaltwandelns: (ÜF) Mit einer Schnellen Aktion kann der Magier sich für 1 Runde eine einzelne natürliche Waffe wachsen lassen. Die Waffe hat einen Verbesserungbonus von +1 auf Angriffs- und Schadenswürfe für jeweils vier Stufen des Magiers. Es kann sich um einen Klauen-, Biss- oder Durchbohrenangriff handeln, welcher normalen Schaden nach Größe des Magiers verursacht (siehe Tabelle: Natürliche Angriffe nach Größenkategorie). Ab der 11. Stufe kann der Magier sich zwei natürliche Waffen wachsen lassen. Er kann sich mit dieser Fähigkeit weder zusätzliche Gliedmaßen, noch einen Schwanz wachsen lassen. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "3036f584-05e9-57a6-a2ff-dc1708a24a8b",
+    "name": "Unterschule der Kontrolle",
+    "description": "Hauptschule: Verzauberung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Bezauberndes Lächeln und Aura der Verzweiflung."
+  },
+  {
+    "id": "c5cf517a-fe16-5924-bafd-fcadb687fd48",
+    "name": "Willenskraft",
+    "description": "Unterschule der Kontrolle: (ÜF) Der Magier kann von ihm bezauberten oder beherrschten Kreaturen innerhalb von 18 m auf telepathischem Wege Gedanken und Anweisungen zusenden, als sprächen sie dieselbe Sprache. Ab der 11. Stufe können diese Kreaturen über die telepathische Verbindung antworten. Ab der 20. Stufe ist jede Kreatur, der ein Rettungswurf gegen einen gerade vom Magier gewirkten Zauber der Unterart Verzauberung fehlschlägt, dennoch von dem Effekt für 1 Runde betroffen, sofern der Zauber eine Wirkungsdauer besitzt, die mehr als 1 Runde beträgt."
+  },
+  {
+    "id": "288b98a7-d2fb-5f29-9120-f0563d1d9552",
+    "name": "Unwiderstehliche Aufforderung",
+    "description": "Unterschule der Kontrolle: (ZF) Ab der 8. Stufe kann der Magier andere zwingen, ihm zu Diensten zu sein. Mit einer Standard-Aktion kann er versuchen, eine Kreatur zu beherrschen, als würde er Monster beherrschen einsetzen, allerdings darf die Kreatur nicht mehr Trefferwürfel besitzen als der Magier Stufen als Magier hat. Der Zielkreatur steht jede Runde ein Willenswurf gegen 10 + ½ Stufe des Magiers + dem IN-Modifikator des Magiers zu. Der Magier kann Kreaturen für eine Anzahl von Runden in Höhe seiner Stufe als Magier beherrschen. Diese Runden müssen nicht aufeinander folgen. Er muss sich mit einer Standard-Aktion konzentrieren, um die Kontrolle über eine beherrschte Kreatur zu behalten."
+  },
+  {
+    "id": "e9e2b9a3-36f0-51d9-95df-498b59b272d2",
+    "name": "Unterschule des Lebens",
+    "description": "Hauptschule: Nekromantie.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Macht über Untote und Grabeshauch."
+  },
+  {
+    "id": "624cfbe3-6696-51bc-a680-5fbe6ebee451",
+    "name": "Heilende Gnade",
+    "description": "Unterschule des Lebens: (ÜF) Wann immer der Magier einen Zauber wirkt, der als Ziel eine Kreatur hat, Kreaturen in einem Wirkungsbereich betrifft oder einen Angriffswurf erfordert, kann er von dem Zauber betroffene Kreaturen für einen 1 Punkt pro Grad des Zaubers heilen. Diese Heilung kann beliebig unter den Zielen des Zaubers verteilt werden. Sollte der Magier sich entscheiden, einen Untoten zu heilen, so nimmt dieser stattdessen Schaden. Ab der 11. Stufe steigt der geheilte Schaden auf 2 Punkte pro Grad des Zaubers. Die Heilung geschieht beim Wirken des Zaubers und hat keine Auswirkungen auf Wesen, die den Wirkungsbereich des Zaubers betreten, wenn dieser bereits aktiv ist. Ab der 20. Stufe steigt der geheilt Schaden auf 3 Punkte pro Grad des Zaubers."
+  },
+  {
+    "id": "d16d2f85-b196-5336-b598-2d434da7845c",
+    "name": "Essenz teilen",
+    "description": "Unterschule des Lebens: (ZF) Mit einer Standard-Aktion kann der Magier seine Lebenskraft mit einem lebenden Wesen teilen, welches er berührt. Der Magier nimmt 1W6 Punkte nicht-tödlichen Schaden + 1 Punkt für jeweils zwei Stufen als Magier. Er kann nicht so viel oder mehr nicht-tödlichen Schaden nehmen, als seine derzeitigen maximalen Trefferpunkte betragen (Schaden der darüber hinaus geht besitzt keine Wirkung). Der Empfänger erhält die gleiche Menge als temporäre Trefferpunkte (der überschüssige Schaden zählt nicht). Diese Trefferpunkte halten für 1 Stunde an. Der Magier kann sich auf diese Weise nicht selbst temporäre Trefferpunkte verleihen. Er kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen. Diese Fähigkeit hat keine Wirkung, falls der Magier gegen nicht-tödlichen Schaden immun sein sollte."
+  },
+  {
+    "id": "0ee0dbf3-9903-545b-a668-3b7cdbddb464",
+    "name": "Unterschule der Phantome",
+    "description": "Hauptschule: Illusion.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Blendungsstrahl und Unsichtbarkeitsfeld."
+  },
+  {
+    "id": "02b66b7d-fb8a-52c5-84bb-854447c79c65",
+    "name": "Schrecken",
+    "description": "Unterschule der Phantome: (ÜF) Mit einer Standard-Aktion kann der Magier einen Berührungsangriff im Nahkampf ausführen, welcher dafür sorgt, dass die Zielkreatur von Albträumen geplagt wird, die nur für sie sichtbar sind. Anschließend provoziert die Kreatur dem Magier oder einem seiner Verbündeten gegenüber einen Gelegenheitsangriff (nach Wahl des Magiers). Kreaturen mit mehr Trefferwürfeln als der Magier Stufen als Magier besitzt, sind nicht betroffen. Dies ist ein geistesbeeinflussender Furchteffekt. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "fe44520b-1d4c-56ae-b7d7-c37b096c5daf",
+    "name": "Plagende Aura",
+    "description": "Unterschule der Phantome: (ÜF) Ab der 8. Stufe kann der Magier sich mit einer Aura von 9 m Radius für eine Anzahl von Runden in Höhe seiner Stufe als Magier umgeben, welche seine Gegner mit Phantomen plagt. Die Runden müssen nicht aufeinander folgen. Gegner bewegen sich innerhalb der Aura nur mit ihrer halben Bewegungsrate, können keine Gelegenheitsangriffe ausführen und gelten als in die Zange genommen. Dies ist ein geistesbeeinflussender Effekt."
+  },
+  {
+    "id": "caa28d63-fe4f-5299-9961-8b8e0e0ec7e3",
+    "name": "Unterschule der Schatten",
+    "description": "Hauptschule: Illusion.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Blendstrahl und Unsichtbarkeitsfeld."
+  },
+  {
+    "id": "1efe19d9-e76f-58a3-b8fc-af0d5beca6bc",
+    "name": "Bindende Dunkelheit",
+    "description": "Unterschule der Schatten: (ZF) Mit einer Standard-Aktion kann der Magier auf einen Gegner innerhalb 9 m als Berührungsangriff im Fernkampf ein Schattengewebe wirken, welches den Gegner für 1 Runde + 1 weitere Runde für jeweils fünf Stufen des Magiers verstrickt. Bei hellem Licht ist die Dauer halbiert (Minimum 1 Runde). Eine derart verstrickte Kreatur erhält Tarnung gegenüber Wesen ohne Dunkelsicht oder der Fähigkeit, in der Dunkelheit zu sehen, während andere Kreaturen ihr gegenüber wiederum über Tarnung verfügen. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "bf15cfbb-c965-5f3a-bf43-5d706288b090",
+    "name": "Schattengänger",
+    "description": "Unterschule der Schatten: (ZF) Ab der 8. Stufe kann der Magier mit einer Standard-Aktion diese Fähigkeit nutzen, um durch die Schattenebene zu reisen und wieder zu erscheinen. Er kann am Tag bis zu 9 m pro Stufe als Magier auf diese Weise entweder in einer Runde die Gesamte maximale Reichweite zurücklegen oder in mehreren kleinen Schattenschritten reisen. Die Bewegung muss jedoch in Einheiten von 1,50 m erfolgen und provoziert keine Gelegenheitsangriffe. Durch die Schattenebene zu reisen, ist jedoch eine ungenaue Angelegenheit. Wenn der Magier wieder erscheint, erscheint er 1 Feld neben dem eigentlichen Ziel, wie nach den Regeln für Waffen mit Flächenwirkung. Sollte er auf diese Weise auf einem bereits besetzten Feld erscheinen, erscheint er stattdessen am nächstmöglichen Ort. Beim Wiedererscheinen ist der Magier in Schatten gehüllt und erhält für 1 Runde Tarnung wie durch Verschwimmen. Er kann andere bereitwillige Wesen mit sich nehmen, seine Begleiter verbrauchen aber ebenfalls einen gleichen Teil seiner Reisereichweite, erscheinen auch leicht abseits des anvisierten Zieles (dies wird für jedes Wesen einzeln festgestellt) und sind für 1 Runde in Schatten gehüllt, wodurch sie Tarnung erhalten."
+  },
+  {
+    "id": "c297cc0a-53b5-54a5-a031-d41c3e6c03e8",
+    "name": "Unterschule der Schöpfung",
+    "description": "Hauptschule: Beschwörung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Säuregeschoss und Dimensionsschritt."
+  },
+  {
+    "id": "93971e02-e039-5ca3-a4a2-5af5707b03d6",
+    "name": "Ausrüstung erschaffen",
+    "description": "Unterschule der Schöpfung: (ÜF) Auf der 1. Stufe kann der Magier jeden Gegenstand erschaffen, der nicht mehr als 1 Pfund für je eine seiner Stufen als Magier wiegt. Dies erfordert eine StandardAktion. Der Gegenstand besteht für 1 Minute und verblasst dann, bzw. verschwindet, sollte er den Besitz des Magiers länger als 1 Minute verlassen. Einen Gegenstand mit bestimmten Eigenschaften zu erschaffen, könnte zudem nach Maßgabe des SL einen Fertigkeitswurf auf Handwerk erfordern. Der Gegenstand muss aus einfachen Materialien, wie Holz, Stein, Glas oder Metall bestehen und darf keine beweglichen Teile haben. Der Magier könnte mit dieser Fähigkeit einen Dolch erschaffen, aber keine Phiole mit alchemistischem Feuer. Er kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "522055e7-ff5d-5ec5-b282-2582016336a7",
+    "name": "Schöpferwille",
+    "description": "Unterschule der Schöpfung: (ZF) Ab der 8. Stufe kann der Magier Einfaches Trugbild als Zauberähnliche Fähigkeit täglich in Höhe seiner halben Stufe als Magier wirken. Er kann stets immer nur ein Einfaches Trugbild aktiv haben, sollte er den Zauber erneut wirken, erlischt das vorherige Trugbild. Ab der 12. Stufe verbessert sich diese Fähigkeit zu Höhere Erschaffung."
+  },
+  {
+    "id": "fa77d81f-d646-5499-9c52-f6b9513c2adb",
+    "name": "Unterschule der Seher",
+    "description": "Hauptschule: Erkenntniszauber.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Glück des Wahrsagers."
+  },
+  {
+    "id": "2f42ee03-060d-5fbe-8970-7eeecfbad795",
+    "name": "Sinne senden",
+    "description": "Unterschule der Seher: (ZF) Mit einer Standard-Aktion kann der Magier einen magischen Späher an einem Punkt innerhalb mittlerer Reichweite (30 m + 3 m pro Stufe des Magiers) platzieren, den er sehen und mit Effekten erreichen kann. Er kann durch den Späher für eine Anzahl von Runden in Höhe seiner halben Stufe als Magier (Minimum 1) sehen oder hören (aber nicht beides). Der Späher funktioniert ansonsten wie Hellhören/Hellsehen mit einer Zauberstufe in Höhe der Stufe des Magiers. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "ca801724-67f9-51fc-96f4-c40c9a2fd680",
+    "name": "Unterschule der Teleportation",
+    "description": "Hauptschule: Beschwörung.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Säuregeschoss."
+  },
+  {
+    "id": "238e10cc-b729-544e-af9f-35b95c94f2e8",
+    "name": "Dimensionssprung (Unterschule der Teleportation)",
+    "description": "Unterschule der Teleportation: (ÜF) Auf der 1. Stufe kann sich der Magier mit einer Schnellen Aktion an einen nahen Platz teleportieren, als würde er Dimensionstür benutzen. Dies provoziert keinen Gelegenheitsangriff, der Magier muss jedoch seinen Zielpunkt sehen können. Außer seinem Vertrauten kann er niemanden mitnehmen. Die Reichweite dieser Fähigkeit beträgt 1,50 m für jeweils zwei Stufen als Magier. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "b18a137c-e8ca-5db2-a14e-84c2b8fe72af",
+    "name": "Unterschule der Untoten",
+    "description": "Hauptschule: Nekromantie.\n\nErsatzfähigkeit: Die folgende Fähigkeit ersetzt Grabeshauch."
+  },
+  {
+    "id": "c7869dbc-ae1f-577e-86ca-75806826d5fa",
+    "name": "Stärken",
+    "description": "Unterschule der Untoten: (ZF) Mit einer Standard-Aktion kann der Magier eine untote Kreatur berühren und mit negativer Energie erfüllen. Der Untote erhält einen Unheiligen Bonus von +1 auf alle Angriffs- und Rettungswürfe sowie 1 temporären Trefferpunkt pro Trefferwürfel und einen Bonus von +2 auf seine Resistenz gegen Fokussieren. Der Bonus auf die Angriffs- und Rettungswürfe steigt um weitere +1 für jeweils 5 weitere Stufen des Magiers. Die Boni halten für eine Anzahl von Runden in Höhe der halben Stufe des Magiers an (Minimum 1 Runde). Die Boni und temporären Trefferpunkte werden sofort gebannt, sollte der Untote in den Wirkungsbereich von Ort weihen gelangen. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "b92f1681-bcad-5c73-be61-9a45f6d2513f",
+    "name": "Unterschule der Verbannung",
+    "description": "Hauptschule: Bannzauber.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Schutz und Energieabsorption."
+  },
+  {
+    "id": "7d0c1c0e-491e-54b8-bc59-af879ad59421",
+    "name": "Instabile Bande",
+    "description": "Unterschule der Verbannung: (ÜF) Auf der 1. Stufe kann der Magier mit einer Berührung die Bindungen unterbrechen, welche eine herbeigezauberte oder beschworene Kreatur auf dieser Ebene halten. Mit einem Berührungsangriff kann er eine solche Kreatur für eine Anzahl von Runden in Höhe seiner halben Stufe als Magier (Minimum 1) erschüttert und wankend werden lassen."
+  },
+  {
+    "id": "f2f8669f-6173-5b97-954f-ba386fffc771",
+    "name": "Aura der Verbannung",
+    "description": "Unterschule der Verbannung: (ÜF) Ab der 8. Stufe kann der Magier täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier eine Aura der Verbannung von 9 m erzeugen. Die Runden müssen nicht aufeinander folgen. Herbeigezauberte oder beschworene Wesen innerhalb der Aura müssen in jeder Runde einen Willenswurf bestehen, oder sind wankend, solange sie sich in der Aura aufhalten. Sollte einer Kreatur ein zweiter Willenswurf misslingen, wird sie auf ihre Heimatebene zurückgeschickt und der Zauber, welche sie herbeigezaubert hat, endet augenblicklich. Sollte dieser Zauber mehrere Kreaturen herbeigezaubert haben, sind nur die betroffen, deren Rettungswürfe gescheitert sind."
+  },
+  {
+    "id": "f234a152-a539-5998-b37d-d07b1c50ea27",
+    "name": "Unterschule der Verbesserung",
+    "description": "Hauptschule: Verwandlung.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Telekinetische Faust und Form verändern."
+  },
+  {
+    "id": "10e2e74e-5677-5d14-a1ba-0486ca746922",
+    "name": "Verbessern",
+    "description": "Unterschule der Verbesserung: (ZF) Mit einer Standard-Aktion kann der Magier eine Kreatur berühren und ihr entweder einen Verbesserungsbonus von +2 auf ein einzelnes Attribut oder +1 auf ihre natürliche Rüstung verleihen. Letzteres ist kumulativ mit anderen natürlichen Rüstungsboni. Ab der 10. Stufe steigt der Attributsbonus auf +4. Der Bonus auf die natürliche Rüstung steigt um +1 für jeweils fünf Stufen als Magier bis zu einem Maximum von +5 auf der 20. Stufe. Die Verbesserung hält für eine Anzahl von Runden in Höhe der halben Stufe des Magiers an (Minimum 1 Runde). Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "57bba74a-3f25-5c83-80c8-f07a5e953fd2",
+    "name": "Selbstperfektion",
+    "description": "Unterschule der Verbesserung: (ÜF) Ab der 8. Stufe kann der Magier sich mit einer Schnellen Aktion selbst einen Verbesserungsbonus auf ein einzelnes Attribut in Höhe seiner halben Stufe als Magier (Maximum +10) für 1 Runde verleihen. Er kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier einsetzen."
+  },
+  {
+    "id": "8a0eefb5-5343-5771-b7b7-bc2c576fc3fc",
+    "name": "Unterschule der Vorsehung",
+    "description": "Hauptschule: Erkenntniszauber.\n\nErsatzfähigkeit: Die folgenden Fähigkeiten ersetzen Glück des Wahrsagers und Ausspähungs-Adept."
+  },
+  {
+    "id": "d8bd468e-d8de-5366-82f5-f97d0756824d",
+    "name": "Vorsehung",
+    "description": "Unterschule der Vorsehung: (ÜF) Zu Beginn seines Zuges kann der Magier als Freie Aktion mit einem einzelnen W20 würfeln. Bis zum Beginn seines nächsten Zuges kann er einen beliebigen Wurf, den er ausführen muss, durch das Ergebnis dieses Wurfes ersetzen. Sollte das Ergebnis nicht bis zum Beginn seines nächsten Zuges eingesetzt werden, verfällt es. Der Magier kann diese Fähigkeit täglich in Höhe seines IN-Modifikators +3 einsetzen."
+  },
+  {
+    "id": "0c3ee771-8c62-5ece-ad62-c4c3a09c4227",
+    "name": "Wahrsagung",
+    "description": "Unterschule der Vorsehung: (ÜF) Ab der 8. Stufe kann der Magier eine Prophezeiung hinsichtlich der nahen Zukunft aussprechen. Während diese Prophezeiung wirksam ist, strahlt er eine Aura des Glücks von 9 m Radius aus, welche seinen Verbündeten hilft oder seine Gegner behindert, ganz wie er es sich bei Einsatz dieser Fähigkeit aussucht. Sollte er sich entscheiden zu helfen, erhalten seine Verbündeten einen Glücksbonus von +2 auf ihre Attributs-, Angriffs-, Zauberstufen-, Rettungs- und Fertigkeitswürfe. Sollte er sich stattdessen entscheiden, seine Gegner zu behindern, erleiden diese einen Malus gleicher Höhe auf diese Würfe. Der Magier kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier einsetzen. Diese Runden müssen nicht aufeinander folgen."
   }
 ]
