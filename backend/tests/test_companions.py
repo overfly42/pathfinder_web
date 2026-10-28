@@ -76,8 +76,8 @@ def test_druide_has_one_companion_slot_with_all_species(client: TestClient, db_s
 
     assert slot["level"] == 1
     assert slot["hitDice"] == 2
-    # The PRD's 17 plus the house-rule Säbelzahnkatze.
-    assert len(slot["species"]) == 18
+    # The PRD's 17 plus the house-rule Säbelzahnkatze and Grizzlybär.
+    assert len(slot["species"]) == 19
     assert slot["companion"] is None
 
 
@@ -518,3 +518,17 @@ def test_saebelzahnkatze_house_rule(client: TestClient, db_session: Session) -> 
     advanced = _companion(client, _druide(client, db_session, 7), "Säbelzahnkatze")
     assert _attack(advanced, "Säbelzahnbiss")["damage"].startswith("2W8")
     assert "Anspringen" in {r["name"] for r in advanced["raceAbilities"]}
+
+
+def test_grizzlybaer_house_rule(client: TestClient, db_session: Session) -> None:
+    """House rule (requirements_v2.md, "Hausregeln"): the Grizzlybär from
+    Ausbauregeln X: Wildnis is a companion species."""
+    bear = _companion(client, _druide(client, db_session, 1), "Grizzlybär")
+    assert _attack(bear, "Biss")["damage"] == "1W6+3 H/S/W"  # ST 17 (+3)
+    assert _attack(bear, "Klauen")["damage"] == "1W4+3 H/W"
+    assert {"Dämmersicht", "Geruchssinn"} <= {r["name"] for r in bear["raceAbilities"]}
+
+    advanced = _companion(client, _druide(client, db_session, 7), "Grizzlybär")
+    assert _attack(advanced, "Biss")["damage"].startswith("1W8")
+    assert _attack(advanced, "Klauen")["note"] == "plus Ergreifen"
+    assert "Ergreifen" in {r["name"] for r in advanced["raceAbilities"]}

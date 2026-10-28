@@ -303,5 +303,14 @@
     "companion_kind": "animal_companion",
     "creature_type": "Tier",
     "source": "Hausregel: Ausbauregeln X – Wildnis (nicht im PRD; Werte nach d20pfsrd \"Saber-Toothed Cat\")"
+  },
+  {
+    "id": "a1a4ccaf-0359-5dff-af6f-348142e6a9e4",
+    "code": "companion-grizzlybaer",
+    "name": "Grizzlybär (Hausregel)",
+    "short_description": "Tiergefährte (Hausregel: Ausbauregeln X – Wildnis (nicht im PRD; Werte nach aonprd \"Grizzly Bear\"))",
+    "companion_kind": "animal_companion",
+    "creature_type": "Tier",
+    "source": "Hausregel: Ausbauregeln X – Wildnis (nicht im PRD; Werte nach aonprd \"Grizzly Bear\")"
   }
 ]

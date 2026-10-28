@@ -1596,5 +1596,78 @@
         "alternative": true
       }
     ]
+  },
+  {
+    "id": "8a111e60-f524-5ec9-a23f-bf0ab6fcd352",
+    "race_id": "a1a4ccaf-0359-5dff-af6f-348142e6a9e4",
+    "level": 1,
+    "size": "Mittelgroß",
+    "natural_armor": 1,
+    "ability_scores": {
+      "ST": 17,
+      "GE": 13,
+      "KO": 13,
+      "IN": 2,
+      "WE": 13,
+      "CH": 6
+    },
+    "speeds": {
+      "land": 12
+    },
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W6",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W4",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      }
+    ]
+  },
+  {
+    "id": "f6f8ef2a-96bc-579d-a125-4c45764f3cfe",
+    "race_id": "a1a4ccaf-0359-5dff-af6f-348142e6a9e4",
+    "level": 7,
+    "size": "Groß",
+    "natural_armor": 4,
+    "ability_scores": {
+      "ST": 4,
+      "GE": -2,
+      "KO": 4
+    },
+    "speeds": null,
+    "fly_maneuverability": null,
+    "natural_attacks": [
+      {
+        "name": "Biss",
+        "count": 1,
+        "dice": "1W8",
+        "damage_type": "H/S/W",
+        "secondary": false,
+        "note": null,
+        "alternative": false
+      },
+      {
+        "name": "Klauen",
+        "count": 2,
+        "dice": "1W6",
+        "damage_type": "H/W",
+        "secondary": false,
+        "note": "plus Ergreifen",
+        "alternative": false
+      }
+    ]
   }
 ]

@@ -62,7 +62,8 @@ def test_totem_companion_species_only(client: TestClient, db_session: Session) -
     bear_track = next(t for t in bear["companionLevels"] if t["track"] == "animal_companion")
     lion_track = next(t for t in lion["companionLevels"] if t["track"] == "animal_companion")
     assert bear_track["level"] == 3
-    assert [s["name"] for s in bear_track["slots"][0]["species"]] == ["Bär"]
+    # The bear, plus the house-rule Grizzlybär.
+    assert [s["name"] for s in bear_track["slots"][0]["species"]] == ["Bär", "Grizzlybär (Hausregel)"]
     # The lion, plus the house-rule Säbelzahnkatze.
     assert [s["name"] for s in lion_track["slots"][0]["species"]] == [
         "Raubkatze, Groß (Löwe, Tiger)",

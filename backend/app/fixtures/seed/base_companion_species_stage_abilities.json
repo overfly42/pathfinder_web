@@ -438,5 +438,20 @@
     "id": "d605fe50-b754-521d-8e23-e4f4ef4fe942",
     "stage_id": "75307f70-21c2-5e4a-a533-eb8112f1e9a5",
     "ability_id": "e50e52dd-25dc-58e5-90c5-c4a93ff6aa31"
+  },
+  {
+    "id": "8b3795cb-3962-5298-8f16-fc4ee0830a33",
+    "stage_id": "8a111e60-f524-5ec9-a23f-bf0ab6fcd352",
+    "ability_id": "753a04ab-cabf-4bcc-9377-f5da1d737ac5"
+  },
+  {
+    "id": "9bad963e-b21c-5985-b616-a406d63c3570",
+    "stage_id": "8a111e60-f524-5ec9-a23f-bf0ab6fcd352",
+    "ability_id": "f5a4bb9b-3c0f-50e5-984d-10e627305523"
+  },
+  {
+    "id": "3c168086-97dd-5fb7-999e-cc8dc197ec6b",
+    "stage_id": "f6f8ef2a-96bc-579d-a125-4c45764f3cfe",
+    "ability_id": "889478d8-5cd9-531d-a35e-a9b44cbdf0e0"
   }
 ]
