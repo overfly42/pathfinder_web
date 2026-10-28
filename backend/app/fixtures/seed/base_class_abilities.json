@@ -131,7 +131,7 @@
   {
     "id": "ebd5060b-066a-4bc0-bdfa-064222de85bf",
     "name": "Tierempathie",
-    "description": "Der Charakter kann die Einstellung eines Tieres ihm gegenüber verbessern. Diese Fähigkeit funktioniert genau wie ein Wurf auf Diplomatie, um die Einstellung einer Person zu verändern. Er würfelt 1W20 und addiert sowohl seine Stufe in der Klasse, die ihm Tierempathie gewährt (Druide bzw. Waldläufer; Stufen in mehreren solchen Klassen addieren sich), als auch seinen CH-Modifikator zu dem Wurf. Ein zahmes Tier beginnt mit einer gleichgültigen Einstellung, während ein wildes Tier zunächst unfreundlich ist.\n\nUm Tierempathie einsetzen zu können, dürfen sich unter normalen Umständen Tier und Charakter nicht weiter als 9 m voneinander entfernt befinden. Im Allgemeinen dauert das Beeinflussen eines Tieres eine Minute, im Einzelfall kann es aber auch schneller oder langsamer gehen.\n\nMit dieser Fähigkeit kann er auch versuchen, magische Bestien mit einem Intelligenzwert von 1 oder 2 zu beeinflussen, nimmt dabei jedoch einen Malus von -4 auf seinen Wurf in Kauf."
+    "description": "Der Charakter kann die Einstellung eines Tieres ihm gegenüber verbessern. Diese Fähigkeit funktioniert genau wie ein Wurf auf Diplomatie, um die Einstellung einer Person zu verändern. Er würfelt 1W20 und addiert sowohl seine Stufe in der Klasse, die ihm Tierempathie gewährt (Druide, Jäger bzw. Waldläufer; Stufen in mehreren solchen Klassen addieren sich), als auch seinen CH-Modifikator zu dem Wurf. Ein zahmes Tier beginnt mit einer gleichgültigen Einstellung, während ein wildes Tier zunächst unfreundlich ist.\n\nUm Tierempathie einsetzen zu können, dürfen sich unter normalen Umständen Tier und Charakter nicht weiter als 9 m voneinander entfernt befinden. Im Allgemeinen dauert das Beeinflussen eines Tieres eine Minute, im Einzelfall kann es aber auch schneller oder langsamer gehen.\n\nMit dieser Fähigkeit kann er auch versuchen, magische Bestien mit einem Intelligenzwert von 1 oder 2 zu beeinflussen, nimmt dabei jedoch einen Malus von -4 auf seinen Wurf in Kauf."
   },
   {
     "id": "2438f403-ea53-475e-b542-5b5e8a4ccfa8",
@@ -5146,5 +5146,525 @@
     "id": "d4399098-c304-5918-9687-61d8459ccecf",
     "name": "Bonustalent (Löwenschamane)",
     "description": "Auf der 9. Stufe und dann alle weiteren vier Stufen als Druide erhält der Löwenschamane eines der folgenden Talente: Ausfallschritt, Ausweichen, Eiserner Wille, Fertigkeitsfokus (Akrobatik) oder Verbesserter Eiserner Wille. Er muss die Voraussetzungen des jeweiligen Bonustalentes erfüllen. Dieses Klassenmerkmal ersetzt Immunität gegen Gift."
+  },
+  {
+    "id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "name": "Umgang mit Waffen und Rüstungen",
+    "description": "Ein Jäger ist im Umgang mit allen einfachen Waffen und allen Kriegswaffen, sowie allen leichten Rüstungen, mittelschweren Rüstungen und Schilden (außer Turmschilden) geübt."
+  },
+  {
+    "id": "ff81769e-6e8f-5710-a082-da31c4e2ebac",
+    "name": "Zauber",
+    "description": "Ein Jäger wirkt Zauber von den Zauberlisten des Druiden und des Waldläufers (siehe Grundregelwerk, S. 226 und S. 240). Dabei besteht die Zauberliste des Jägers aus Waldläuferzaubern und Druidenzaubern des maximal 6. Grades. Sollte sich ein Zauber auf beiden Listen befinden, nutzt der Jäger den niedrigeren der beiden Grade. Beispielsweise ist Tier verkleinern ein Druidenzauber des 2. Grades und ein Waldläuferzauber des 3. Grades. Als Jägerzauber wird entsprechend der niedrigere 2. Grad verwendet. Gift entdecken ist ein Druidenzauber des Grades 0 und ein Waldläuferzauber des 2. Grades, so dass es sich nun um einen Jägerzauber des Grades 0 handelt.\n\nDer Jäger kann ihm bekannte Zauber wirken, ohne sie im Vorfeld vorbereiten zu müssen. Um einen Zauber erlernen oder wirken zu können, muss er über einen Weisheitswert von wenigstens 10 + Zaubergrad verfügen. Der Schwierigkeitsgrad der Rettungswürfe gegen seine Zauber ist 10 + Zaubergrad + Weisheitsmodifikator des Jägers. Ein Jäger kann keine zauberwirkenden oder zauberauslösenden magischen Gegenstände benutzen, welche Druidenzauber des 7. Grades oder höher verwenden, es sei denn, er legt dazu einen erfolgreichen Fertigkeitswurf für Magischen Gegenstand benutzen ab. Seine Gesinnung kann ihn ferner darin einschränken, bestimmte Zauber zu wirken, welche seinen moralischen oder ethischen Ansichten entgegenstehen – siehe unten, „Böse, chaotische, gute und rechtschaffene Zauber“.\n\nWie andere Zauberkundige kann auch ein Jäger nur eine bestimmte Anzahl an Zaubern jedes Zaubergrades am Tag wirken – siehe Tabelle 1–8: Jäger. Sofern er über einen hohen Weisheitswert verfügt, erhält er Bonuszauber am Tag (siehe Grundregelwerk, Tabelle 1–3).\n\nIm Gegensatz zu Druiden und Waldläufern ist die Auswahl eines Jägers an Zaubern äußerst beschränkt. Zu Spielbeginn kennt er vier Zauber des Grades 0 und zwei Zauber des 1. Grades. Mit dem Erlangen weiterer Jägerstufen erhält er Kenntnis um weitere Zauber – siehe Tabelle 1–9: Bekannte Jägerzauber. Im Gegensatz zur Anzahl der Zauber, welche er pro Tag wirken kann, wird Anzahl der ihm bekannten Zauber nicht durch seinen Weisheitswert beeinflusst; die Zahlen sind in Tabelle 1–9 festgelegt.\n\nNeben diesen Zaubern besitzt der Jäger Kenntnis von allen Verbündeten der Natur herbeizaubern-Zaubern. Diese werden der Liste der ihm bekannten Zauber hinzugefügt, sowie er imstande dazu wäre, sie zu wirken.\n\nMit der 5. Stufe – und dann alle weiteren 3 Stufen – kann ein Jäger einen ihm bekannten Zauber durch einen neuen Zauber desselben Grades ersetzen. Ob er von dieser Option Gebrauch macht, muss er jeweils entscheiden, wenn er im Rahmen eines Stufenaufstieges die Kenntnis von neuen Zaubern erlangt. Er kann keine Verbündeten der Natur herbeizaubern-Zauber auswechseln.\n\nIm Gegensatz zu Druiden oder Waldläufern muss ein Jäger seine Zauber nicht im Vorfeld vorbereiten. Er kann jeden ihm bekannten Zauber zu jeder Zeit wirken, sofern er noch über einen passenden Zauberplatz für diesen Tag verfügt."
+  },
+  {
+    "id": "1ad8c160-f7ad-5e6e-ab90-167671f936f8",
+    "name": "Stoßgebete",
+    "description": "Jäger erlernen eine Anzahl von Stoßgebeten (Zauber des Grades 0); siehe Tabelle 1–9: Bekannte Jägerzauber. Diese Zauber werden wie andere Zauber gewirkt, verbrauchen aber keine Zauberplätze und können beliebig oft gewirkt werden."
+  },
+  {
+    "id": "c68d1222-4425-5783-8414-953e2a710525",
+    "name": "Böse, chaotische, gute und rechtschaffene Zauber",
+    "description": "Ein Jäger kann keine Zauber wirken, deren Gesinnungskategorie im Gegensatz zur Gesinnung seiner Gottheit stehen, sofern er eine Gottheit hat. Ob ein Zauber mit einer bestimmten Gesinnung in Verbindung steht, erkennt man an der Kategorie Böse, Chaotisch, Gut oder Rechtschaffen in der Zauberbeschreibung."
+  },
+  {
+    "id": "17999fe9-c02a-5f34-95ee-4923db8c25e3",
+    "name": "Tieraspekt",
+    "description": "(ÜF) Beginnend mit der 1. Stufe kann ein Jäger als Schnelle Aktion den Aspekt eines Tieres annehmen. Er muss dazu die Art des nachzuahmenden Tieres auswählen und erhält einen Bonus passend zur Tierart und seiner Stufe. Der Jäger kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Jägerstufe nutzen. Die Verwendungsdauer muss nicht fortlaufend sein, wird aber in Zeiteinheiten zu jeweils 1 Minute abgerechnet. Der Jäger kann stets nur ein Tier gleichzeitig nachahmen, einen dieser Aspekte aber auch seinem Tiergefährten verleihen. Im Gegensatz zu Aspekten, welche sich der Jäger verleiht, unterliegt ein Aspekt beim Tiergefährten keiner Wirkungsdauer und zählt auch nicht gegen die Anzahl an Minuten, welche der Jäger diese Fähigkeit am Tag auf sich anwenden kann, bis er den Aspekt ändert. Ein Tiergefährte kann denselben Aspekt erhalten wie der Jäger oder einen anderen Aspekt. Der Jäger kann seinen Tieraspekt und den seines Tiergefährten mit derselben Schnellen Aktion wählen oder ändern.\n\nSollte der Tiergefährte des Jägers tot sein, kann der Jäger den Tieraspekt seines Gefährten auf sich anstelle des Tiergefährten anwenden – zusätzlich zu dem Aspekt, welchen er normalerweise auswählen kann. In diesem Fall wirkt der Aspekt, bis er diese Fähigkeit erneut einsetzt, um ihn zu ändern, und verbraucht auch keine seiner täglichen Minuten der Nutzung.\n\nAffe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nBär: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEule: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFalke: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFledermaus: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.\n\nHirsch: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.\n\nFrosch: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nMaus: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).\n\nSchlange: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.\n\nStier: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTiger: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWolf: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt."
+  },
+  {
+    "id": "8d2f4782-0cfe-5064-bd79-15860dec8e5b",
+    "name": "Tiergefährte (Jäger)",
+    "description": "(AF) Beginnend mit der 1. Stufe geht ein Jäger eine Bindung zu einem Tiergefährten ein. Ein Jäger kann das Spiel mit jedem Tier beginnen, welches auch ein Druide mit der 1. Stufe wählen könnte. Dieses Tier ist ihm ein treuer Gefährte und begleitet ihn auf seine Abenteuer. Diese Fähigkeit funktioniert wie die Option Tiergefährte des Klassenmerkmals Bund mit der Natur beim Druiden. Dabei fungiert die Jägerstufe als effektive Druidenstufe. Sollte ein Charakter das Klassenmerkmal Tiergefährte aus mehreren Quellen erhalten, sind die Stufen in den entsprechenden Klassen kumulativ und gelten als effektive Druidenstufe zur Bestimmung der Spielwerte und Fähigkeiten des Tiergefährten. Ein Jäger kann einem Tiergefährten anstelle von Standardtricks auch Jagdtricks beibringen (siehe Expertenregeln, S. 146, Archetypen des Waldläufers, Plänkler). Der Tiergefährte kann diese Plänklertricks auf Befehl maximal (1/2 Trefferwürfel + WE-Modifikator des Tiergefährten) Mal am Tag verwenden.\n\nSollte ein Jäger seinen Tiergefährten aus seinen Diensten entlassen oder der Gefährte getötet werden, kann er im Rahmen einer 24stündigen Zeremonie durchgängigen Gebets innerhalb des typischen Lebensraums des neuen Tiergefährten einen solchen erlangen. Während der Tiergefährte des Jägers tot ist, beträgt die Wirkungsdauer aller Verbündeten der Natur herbeizaubern-Zauber, mit denen der Jäger ein Tier herbeizaubert, 1 Minute pro Stufe statt 1 Runde pro Stufe. Ein Jäger kann aber stets nur einen derart in der Wirkungsdauer verlängerten Zauber aktiv haben. Sollte er diese Fähigkeit während der Wirkungsdauer erneut nutzen, enden alle seine aktiven Verbündeten der Natur herbeizaubern-Effekte augenblicklich."
+  },
+  {
+    "id": "d6de1b6a-bfdb-5047-9fc0-5a7b464531d7",
+    "name": "Naturausbildung",
+    "description": "(AF) Hinsichtlich von Talenten, Wesenszügen und Wahloptionen, welche einen Tiergefährten modifizieren oder verbessern, zählt die Jägerstufe des Charakters als effektive Druiden- und Waldläuferstufe."
+  },
+  {
+    "id": "4e83821b-8851-5442-bf5e-1fc1bf57d8a5",
+    "name": "Genaues Ausmanövrieren",
+    "description": "(AF) Mit der 2. Stufe erhält ein Jäger ein Bonustalent. Er kann dabei zwischen Präzisionsschuss und Ausmanövrieren wählen. Er muss die Voraussetzungen des gewählten Talentes nicht erfüllen. Sollte er sich für Ausmanövrieren entscheiden, erhält auch sein Tiergefährte dieses Talent."
+  },
+  {
+    "id": "9e31517a-3c9c-5750-b945-ea11b1a56160",
+    "name": "Spuren lesen",
+    "description": "(AF) Mit der 2. Stufe addiert ein Jäger seine ½ Klassenstufe auf Fertigkeitswürfe für Überlebenskunst, um Spuren zu folgen."
+  },
+  {
+    "id": "ec4aac19-ac6b-56ea-bd4a-4a1ed2dac4b8",
+    "name": "Gemeinschaftstalente",
+    "description": "Mit der 3. Stufe – und dann alle weiteren drei Jägerstufen – erhält der Jäger ein Bonusgemeinschaftstalent. Er muss die Voraussetzungen aller von ihm in diesem Rahmen gewählten Gemeinschaftstalente erfüllen.\n\nAls Standard-Aktion kann der Jäger sich dazu entscheiden, das zuletzt erlernte Bonusgemeinschaftstalent durch ein anderes Gemeinschaftstalent zu ersetzen, dessen Voraussetzungen erfüllt. Die Höhe seines Weisheitsmodifikators gibt an, wie oft der Jäger am Tag diesen Tausch durchführen kann (Minimum 1 Mal). Wenn er ein neues Gemeinschaftstalent erhält, wird seine jeweils vorangegangene Wahl permanent."
+  },
+  {
+    "id": "3a04047a-d85c-5d11-9c3c-e819df0cfa28",
+    "name": "Jägertaktiken",
+    "description": "(AF) Beginnend mit der 3. Stufe verleiht ein Jäger automatisch seine Gemeinschaftstalente auch seinem Tiergefährten. Der Tiergefährte muss dabei die Voraussetzungen dieser Gemeinschaftstalente nicht erfüllen."
+  },
+  {
+    "id": "bc48b911-2baf-5974-82ea-7e3ea55cf5e3",
+    "name": "Verbesserte Empathische Verbindung",
+    "description": "(ÜF) Mit der 4. Stufe erlangt der Jäger eine empathische Verbindung mit seinem Tiergefährten. Dies funktioniert wie die empathische Verbindung zu einem Vertrauten, allerdings kann der Jäger zudem als Schnelle Aktion durch die Augen eines Tiergefährten sehen und diese Verbindung beliebig lange aufrechterhalten, solange der Gefährte sich nicht weiter als 1,5 km entfernt; diese Verbindung kann als Freie Aktion durch den Jäger beendet werden. Während er diese Verbindung aufrechterhält, erhält der Jäger den Zustand Blind."
+  },
+  {
+    "id": "d226f0f6-6966-570f-8882-0aa1c7289909",
+    "name": "Unterholz durchqueren",
+    "description": "(AF) Mit der 5. Stufe können sich ein Jäger und sein Tiergefährte mit ihrer normalen Bewegungsrate durch jede Art von Unterholz (wie natürliche Dornen, Gestrüpp, verwilderte Landschaften und ähnliches Terrain) bewegen, ohne Verletzungen oder Behinderungen zu erleiden. Dornen und anderes Unterholz, das magisch verändert wurde, um die Bewegung zu erschweren, betreffen den Jäger und seinen Tiergefährten jedoch normal."
+  },
+  {
+    "id": "75358fdb-0859-5b98-ab34-98a5846b17d6",
+    "name": "Bonustricks",
+    "description": "(AF) Mit der 7. Stufe – und dann alle weiteren 6 Jägerstufen – erlernt der Tiergefährte eines Jägers neben jenen Bonustricks, die er entsprechend der effektiven Druidenstufe des Jägers erlangt, einen zusätzlichen Bonustrick."
+  },
+  {
+    "id": "bfedadbc-4878-54e7-9b99-576fcaddcf93",
+    "name": "Schneller Verfolger",
+    "description": "(AF) Beginnend mit der 8. Stufe kann der Jäger sich mit seiner normalen Bewegungsrate bewegen und eine Spur mittels Überlebenskunst verfolgen, ohne den normalen Malus von –5 hinnehmen zu müssen. Er erleidet zudem nur einen Malus von –10 (anstelle von –20), wenn er sich beim Spuren lesen mit seiner doppelten Bewegungsrate bewegt."
+  },
+  {
+    "id": "db6f4e49-dda3-5b46-919c-c95173bd5262",
+    "name": "Zweiter Tieraspekt",
+    "description": "(AF) Ab der 8. Stufe kann der Jäger bei Nutzung der Fähigkeit Tieraspekt für sich statt eines Aspektes zwei Tieraspekte wählen und auch seinem Tiergefährten zwei Tieraspekte statt einem zuweisen. Wie im Falle des ersten Tieraspektes hat auch der zweite dem Gefährten zugewiesene Aspekt keine Wirkungsdauer und zählt daher auch nicht gegen die Minutenbegrenzung des Jägers. Sollte der Tiergefährte tot sein, kann der Jäger einen der auf den Gefährten anwendbaren Aspekte auf sich anwenden, ohne dass dieser eine Wirkungsdauer besitzt, nicht aber beide."
+  },
+  {
+    "id": "d27c6a14-6ba8-5938-9443-2c107820a70e",
+    "name": "Toten Tiergefährten erwecken",
+    "description": "(ZF) Mit der 10. Stufe erhält ein Jäger Toten Tiergefährten erwecken (ABR) als zauberähnliche Fähigkeit, wobei er nicht darauf beschränkt ist, nur den eigenen Tiergefährten ins Leben zurückzuholen. Wenn der Jäger diese zauberähnliche Fähigkeit einsetzt, erhält er für 24 Stunden eine permanente negative Stufe; diese kann vor Ablauf dieser Zeit nicht überwunden werden (auch nicht mittels Genesung). Beginnend mit der 16. Stufe funktioniert dies wie Auferstehung anstelle von Tote erwecken, wobei alle anderen Parameter unverändert bleiben."
+  },
+  {
+    "id": "4daf0c4f-e3f6-5d13-b1b7-29f530b0e3b0",
+    "name": "Mit Meister sprechen",
+    "description": "(AF) Mit der 11. Stufe können ein Jäger und sein Tiergefährte so verbal miteinander kommunizieren, als würden sie eine gemeinsame Sprache sprechen. Andere Kreaturen können dies aber ohne magische Hilfe nicht verstehen."
+  },
+  {
+    "id": "9eaf2460-c098-5de8-8a63-ce59e2c0a549",
+    "name": "Mächtige Empathische Verbindung",
+    "description": "(ÜF) Beginnend mit der 14. Stufe steigt die Reichweite der Empathischen Verbindung eines Jägers mit seinem Tiergefährten auf 15 Kilometer. Sollte der Tiergefährte nicht mehr als 1,5 Kilometer entfernt sein, kann der Jäger mit ihm telepathisch kommunizieren."
+  },
+  {
+    "id": "6b0f3e8a-a0f2-5c05-a6db-686946eeffe6",
+    "name": "Eins mit der Wildnis",
+    "description": "(AF) Ab der 17. Stufe werden der Jäger und sein Tiergefährte von anderen Tieren respektiert und sogar gefürchtet, solange die Art dieser Tiere grob den aktuellen Tieraspekten des Jägers entspricht (Fledermaus für Fledermäuse, Tiger für Katzen, Falke für Vögel, Schlangen für Reptilien usw.). Kein Tier der jeweiligen Kategorie, Schreckensvarianten eingeschlossen, greift den Jäger oder seinen Tierverbündeten freiwillig an, außer es wird magisch dazu gebracht oder vom Jäger oder seinem Tiergefährten zuerst angegriffen. Der Jäger und sein Tiergefährte können als Schnelle Aktion versuchen, Tiere der entsprechenden Kategorie einzuschüchtern, wobei auf den Fertigkeitswurf für Einschüchtern die Jägerstufe und der Charismamodifikator des Jägers anstelle der Fertigkeitsränge addiert werden."
+  },
+  {
+    "id": "b38caefa-fbbf-5e23-8830-0d7aa12ac4cb",
+    "name": "Nimrod",
+    "description": "(AF) Mit der 20. Stufe wird ein Jäger zu einem Meister der Jagd, welcher Feinde nahezu problemlos aufspürt. Er kann sich stets mit seiner vollen Bewegungsrate fortbewegen und eine Spur mittels Überlebenskunst verfolgen, ohne dabei Mali zu erleiden. Ferner kann er ein Mal am Tag einen Tieraspekt wählen, der den ganzen Tag auf ihn wirken soll. Dieser Aspekt wirkt zusätzlich zu all jenen, die er über die Fähigkeit Tieraspekt erlangt, inklusive des zusätzlichen Aspektes, den er auf sich legen kann, sollte sein Tiergefährte tot sein."
+  },
+  {
+    "id": "fd7ab838-fd68-5c89-a79f-511ad267096c",
+    "name": "Tieraspekt: Affe",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "83b5e62c-aca1-59b3-8289-8e5a2fd392bd",
+    "name": "Tieraspekt: Bär",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "e431a9e9-adf3-589f-993b-66afcca1ae64",
+    "name": "Tieraspekt: Eule",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "bc1ae8c2-82bd-53fd-b309-04cd97f39361",
+    "name": "Tieraspekt: Falke",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "cd4157a6-6e42-5f60-a27b-bb444ae010c3",
+    "name": "Tieraspekt: Fledermaus",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "bb58fd3b-9ede-5a48-aa59-92347cf4bc53",
+    "name": "Tieraspekt: Hirsch",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "4d0f2de6-7860-587a-a1be-484575608dc0",
+    "name": "Tieraspekt: Frosch",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "7768bdad-ffc0-5f8b-98a8-9f15cbf76730",
+    "name": "Tieraspekt: Maus",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "36e4ffef-5222-52da-9fbf-f43c134a560a",
+    "name": "Tieraspekt: Schlange",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "42ceecf5-0cae-5f11-976a-f3fa43bc14cc",
+    "name": "Tieraspekt: Stier",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "f55f84f2-4142-59e6-acf1-d0ff78bcf565",
+    "name": "Tieraspekt: Tiger",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "c2940a3e-b919-5524-a18d-dde35997f493",
+    "name": "Tieraspekt: Wolf",
+    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "name": "Urzeitliche Verwandlung",
+    "description": "(ÜF) Mit der 1. Stufe kann ein Bruder des Urzeitgefährten als Schnelle Aktion in seinem Tiergefährten eine urzeitliche Kreatur erwecken. Der Tiergefährte erhält einen Vorrat von 2 Evolutionspunkten (siehe Expertenregeln, Kapitel 2, „Paktmagier“), über die er vorübergehend Evolutionen wie ein Eidolon erlangen kann. Die effektive Paktmagierstufe hinsichtlich Evolutionen, die er wählen kann, und der Effekte, welche sie entfalten, entspricht der Jägerstufe des Bruders des Urzeitgefährten. Mit der 8. Stufe steigt die Anzahl der Evolutionspunkte im Evolutionsvorrat des Tiergefährten auf 4 und mit der 15. Stufe auf 6. Diese Evolutionen kann der Bruder des Urzeitgefährten als Schnelle Aktion bei seinem Tiergefährten für 1 Minute pro Jägerstufe am Tag aktivieren. Diese Wirkungsdauer muss nicht fortlaufend sein, wird aber in Zeiteinheiten zu jeweils 1 Minute abgerechnet. Ein auf diese Weise verwandelter Tiergefährte kann nicht mehr Angriffe ausführen, als einem Eidolon eines Paktmagiers mit derselben effektiven Paktmagierstufe möglich wären. Die Kreaturenart des Tiergefährten wird während der Wirkungsdauer zu Magische Bestie; der Tiergefährte gehört für den Bruder des Urzeitgefährten hinsichtlich der Anwendung der Fertigkeit Mit Tieren umgehen aber immer noch der Kreaturenart Tier an. Sollte der Tiergefährte tot sein, kann der Bruder des Urzeitgefährten diese Evolutionen stattdessen auf sich selbst anwenden, wobei dies ebenfalls gegen die Anzahl von Minuten zählt, welche er diese Fähigkeit am Tag einsetzen kann. Diese Fähigkeit ersetzt Tieraspekt."
+  },
+  {
+    "id": "453a73e3-15c6-55df-811c-977ec8d82732",
+    "name": "Urzeitlicher Kraftschub",
+    "description": "(ÜF) Mit der 8. Stufe kann ein Bruder des Urzeitgefährten ein Mal am Tag seinen Tiergefährten als Schnelle Aktion berühren und eine Evolution verleihen, die maximal 4 Evolutionspunkte kosten darf und deren Voraussetzungen der Tiergefährte erfüllt. Diese Evolution kann bei jeder Anwendung dieser Fähigkeit eine andere sein. Zugleich wird die Urzeitliche Verwandlung des Tiergefährten aktiviert, sofern sie noch nicht aktiv sein sollte. Der Urzeitliche Kraftschub wirkt so lange, wie die Urzeitliche Verwandlung aktiv ist. Dies gestattet dem Tiergefährten aber nicht, mehr Natürliche Angriffe auszuführen, als ihm maximal möglich wären. Diese Fähigkeit kann stets nur eine Evolution verleihen, selbst wenn die gewählte Evolution mehrfach gewählt werden könnte. Diese Fähigkeit kann eine Evolution verleihen, die es erlaubt, zusätzliche Evolutionspunkte zur Verbesserung einer Evolution aufzuwenden (z.B. Fliegen oder Schadensreduzierung), so dass übriggebliebene Punkte auf solche Verbesserungen aufgewandt werden können. Diese Fähigkeit kann aber nicht genutzt werden, um eine Evolution zu verbessern, über welche der Tiergefährte bereits verfügt. Diese Fähigkeit ersetzt Zweiter Tieraspekt."
+  },
+  {
+    "id": "1a780c9f-ebc5-5ae6-bbdf-587e4b48f08f",
+    "name": "Meister der Urzeit",
+    "description": "(ÜF) Mit der 20. Stufe steht ein Bruder des Urzeitgefährten im Einklang mit seinem eigenen urzeitlichen Wesen. Er kann die Urzeitliche Verwandlung seines Tiergefährten als Freie Aktion auslösen. Im Rahmen der Fähigkeit Urzeitlicher Kraftschub kann er seinem Tiergefährten zwei Evolutionen zu jeweils maximal 4 Punkten Kosten verleihen. Diese Fähigkeit ersetzt Nimrod."
+  },
+  {
+    "id": "b13af5cd-1402-595b-ba09-3dad218819cc",
+    "name": "Ungeziefergefährte",
+    "description": "(AF) Mit der 1. Stufe muss ein Bruder des Ungeziefergefährten anstelle eines Tiergefährten einen Ungeziefergefährten (siehe Ausbauregeln: Magie, Kapitel 1, „Druide“) wählen. Diese Fähigkeit modifiziert Tiergefährte. Das Klassenmerkmal Jägertaktiken gestattet dem Bruder des Ungeziefergefährten, seine Gemeinschaftstalente einem geistlosen Ungeziefergefährten zu verleihen."
+  },
+  {
+    "id": "81152f8c-dba2-5fce-829c-bf580f33e9de",
+    "name": "Ungezieferempathie",
+    "description": "(AF) Ein Bruder des Ungeziefergefährten erhält zwar die Fähigkeit Tierempathie, kann sie aber nur nutzen, um Ungeziefer zu beeinflussen anstelle von Tieren oder magischen Bestien. Diese Fähigkeit verändert Tierempathie."
+  },
+  {
+    "id": "78326772-f1aa-50c6-8b7f-af8ffa03acb3",
+    "name": "Ungezieferaspekt: Ameise",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "3bec71e3-1303-5191-a6eb-8bf0403c3162",
+    "name": "Ungezieferaspekt: Egel",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "30d6c9ed-d0ed-5800-9270-2a56dca5a5e2",
+    "name": "Ungezieferaspekt: Fliege",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "01333ffd-1af3-5b26-95d3-34035ddb8ed0",
+    "name": "Ungezieferaspekt: Floh",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "ee27e3a8-6391-548b-89fc-c4e0c113c223",
+    "name": "Ungezieferaspekt: Gottesanbeterin",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "39a039a0-1219-5e7f-b72f-500011a84a04",
+    "name": "Ungezieferaspekt: Käfer",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0).",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "33e8d3f6-1a30-599a-ac07-5e9f61c2e1f2",
+    "name": "Ungezieferaspekt: Krabbe",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "043d652d-2cdd-57f5-a2fb-9fdf2a712151",
+    "name": "Ungezieferaspekt: Motte",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "03f14f09-e59f-553b-8932-b8688b498321",
+    "name": "Ungezieferaspekt: Phasmid",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "33b0c647-d84a-5355-8727-150df4e72194",
+    "name": "Ungezieferaspekt: Schabe",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "3e8aacf1-a924-59b5-a59b-2cbc0bdd1f1b",
+    "name": "Ungezieferaspekt: Skorpion",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "6dd65039-9d17-5d5f-9afd-8b7f0e836e13",
+    "name": "Ungezieferaspekt: Spinne",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "ef6c2bb1-8553-54f9-bbff-66dbc5ef3735",
+    "name": "Ungezieferaspekt: Tausendfüßler",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "fa6d4342-068f-54d5-bf77-257f3fd5bbd2",
+    "name": "Ungezieferaspekt: Wespe",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "1462c315-961e-579e-bab8-aaded986e9d7",
+    "name": "Ungezieferaspekt: Wurm",
+    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "name": "Ungezieferaspekt",
+    "description": "(ÜF) Ein Bruder des Ungeziefergefährten kann den Aspekt eines Ungeziefers annehmen; dies funktioniert wie Tieraspekt, eröffnet ihm aber nur die folgenden Wahlmöglichkeiten:\n\nAmeise: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEgel: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden.\n\nFliege: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nFloh: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nGottesanbeterin: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nKäfer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0).\n\nKrabbe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6.\n\nMotte: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m.\n\nPhasmid: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSchabe: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nSkorpion: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSpinne: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTausendfüßler: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWespe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWurm: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%.\n\nDiese Fähigkeit ersetzt Tieraspekt."
+  },
+  {
+    "id": "07dbca56-794e-5b49-9abb-8b46660d0f7b",
+    "name": "Schwärme durchqueren",
+    "description": "(AF) Mit der 5. Stufe erlernt ein Bruder des Ungeziefergefährten, sich ohne Gefahr durch Ungeziefer zu bewegen. Er kann Ungezieferschwärme sicher durchqueren und erleidet keinen Schwarmschaden, während er sich in der Angriffsfläche eines Ungezieferschwarmes befindet. Sollten der Bruder des Ungeziefergefährten oder sein Ungeziefergefährte seinen Schwarm angreifen, verlieren sie diesen Schutz nur gegenüber diesem Schwarm. Diese Fähigkeit ersetzt Unterholz durchqueren."
+  },
+  {
+    "id": "5e081d2a-81e3-5dd2-a05b-4f83accb604f",
+    "name": "Gesinnung (Göttlicher Jäger)",
+    "description": "Die Gesinnung eines Göttlichen Jägers darf nicht mehr als einen Schritt auf der Rechtschaffen/Chaos- oder der Gut/Böse-Achse abweichen. Ansonsten kann er jede Gesinnung besitzen."
+  },
+  {
+    "id": "6cc7c7e9-ed05-5b03-bec2-78f3129aeb06",
+    "name": "Klassenfertigkeiten (Göttlicher Jäger)",
+    "description": "Ein Göttlicher Jäger erhält Wissen (Religion) als Klassenfertigkeit, streicht aber dafür Wissen (Gewölbekunde) von der Liste seiner Klassenfertigkeiten."
+  },
+  {
+    "id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "name": "Domäne (Göttlicher Jäger)",
+    "description": "Mit der 3. Stufe erlernt ein Göttlicher Jäger, die Macht seiner Gottheit zu nutzen. Er muss eine der Domänen wählen, die seine Gottheit verfügbar macht. Seine effektive Klerikerstufe hinsichtlich dieser Domäne entspricht seiner Jägerstufe -2, um zu bestimmen, wenn er Domänenfähigkeiten erlangt und welche Effekte diese besitzen. Die Wahl der Domäne kann später nicht mehr geändert werden. Sollte der Göttliche Jäger die Domäne der Tiere wählen, erhält er keinen zweiten Tiergefährten, sobald er eine effektive Klerikerstufe von 4 erreicht, stattdessen erhält sein Tiergefährte zwei Attributswertanstiege von jeweils +1 (entweder +1 auf zwei unterschiedliche Attribute oder +2 auf ein Attribut). Sollte der Tiergefährte sterben oder aus den Diensten des Jägers entlassen werden, erhält sein nächster Tiergefährte ebenfalls diese Attributswertanstiege.\n\nFerner fügt der Jäger die Domänenzauber seiner Domäne der Liste der ihm bekannten Zauber hinzu; mit der 3. Stufe fügt er den Domänenzauber des 1. Grades hin, mit der 6. Stufe den des 2. Grades, mit der 9. Stufe den des 3. Grades, mit der 12. Stufe den des 4. Grades, mit der 15. Stufe den des 5. Grades und mit der 18. Stufe den des 6. Grades. Diese Fähigkeit ersetzt Gemeinschaftstalente."
+  },
+  {
+    "id": "144888a0-c297-515f-81d6-cc44c92d1873",
+    "name": "Außerweltlicher Gefährte",
+    "description": "(ÜF) Mit der 3. Stufe nimmt der Tiergefährte des Jägers außerweltliche Merkmale an. Im Falle eines Jägers guter Gesinnung oder eines Jägers, der eine gute Gottheit verehrt, erhält der Tiergefährte die Schablone für Celestische Kreaturen. Im Falle eines Jägers böser Gesinnung oder eines Jägers, der eine böse Gottheit verehrt, erhält der Tiergefährte die Schablone für Infernalische Kreaturen. Sollte der Jäger von neutraler Gesinnung sein und eine neutrale Gottheit verehren, muss er sich für eine dieser Schablonen entscheiden; diese Wahl kann später nicht mehr geändert werden. Hinsichtlich der Schablone für Celestische oder Infernalische Kreaturen besitzt der Gefährte einen effektiven HG in Höhe der Anzahl seiner Trefferwürfel. Diese Fähigkeit ersetzt Jägertaktiken."
+  },
+  {
+    "id": "d8473cd2-cdac-5326-961b-ee39d8149d1d",
+    "name": "Rudelbindung",
+    "description": "(AF) Ein Rudelführer kann mehr als einen Tiergefährten besitzen, muss seine effektive Druidenstufe aber unter seinen Tiergefährten aufteilen, um die Fähigkeiten des einzelnen zu ermitteln. Ein Rudelführer der 4. Stufe könnte z.B. einen Tiergefährten der 4. Stufe besitzen oder zwei Tiergefährten der 2. Stufe oder einen Tiergefährten der 3. Stufe und einen der 1. Stufe oder auch vier Tiergefährten der 1. Stufe. Wenn ein Rudelführer eine neue Jägerstufe (oder andere Erhöhung seiner effektiven Druidenstufe) erlangt, muss er sich entscheiden, wie er diese unter seinen Tiergefährten verteilt oder ob er sich einen neuen Tiergefährten der 1. Stufe zulegt. Sobald eine Stufe einem bestimmten Tiergefährten zugewiesen ist, kann diese nicht innerhalb des Rudels umverteilt werden, solange das Tier lebt oder sich in den Diensten des Rudelführers befindet. Sollte der Rudelführer einen seiner Tiergefährten verlieren, kann er dessen Stufe(n) neuzuweisen, wenn er das nächste Mal seine täglichen Zauberplätze erneuert. Die Fähigkeit Zauber teilen funktioniert stets nur bei einem seiner Tiergefährten, der Rudelführer kann sie daher nicht nutzen, um einen Zauber auf alle seine Tiergefährten zu wirken, welcher nur auf ein Ziel wirkt.\n\nDie Klassenmerkmale Genaues Ausmanövrieren, Unterholz durchqueren und Gemeinschaftstalente funktionieren ebenfalls nur bei einem Tiergefährten, der Rudelführer kann sie aber auf unterschiedliche Tiergefährten verteilen (ein Tiergefährte erhält z.B. Unterholz durchqueren und ein anderer die Nutzung der Gemeinschaftstalente des Rudelführers). Der Rudelführer kann als Schnelle Aktion diese Vorteile innerhalb seines Rudels umverteilen. Diese Fähigkeit ersetzt Tiergefährte."
+  },
+  {
+    "id": "58e1fb1f-12f9-5e13-b477-60c14fb177ba",
+    "name": "Rudelaspekt",
+    "description": "(ÜF) Diese Fähigkeit funktioniert wie Tieraspekt, wenn auch mit den folgenden Ausnahmen: Ein Rudelführer kann immer nur einem Tiergefährten seines Rudels seinen Tieraspekt verleihen, ohne dass er hierfür von den Minuten aufwenden muss, die er diese Fähigkeit am Tag nutzen kann. Wenn er Tieraspekt auf sich oder seine anderen Tiergefährten anwendet, verbraucht die Fähigkeit normal von den Minuten, die er sie am Tag einsetzen kann. Er kann stets nur zwei Tieraspekte aktiv halten – einen, der Zeiteinheiten verbraucht und einen, der dies nicht tut; dabei kann er nicht beide demselben Tiergefährten verleihen. Außer alle seine Tiergefährten sind tot, kann ein Rudelführer den Tieraspekt des Tiergefährten mit unbegrenzter Wirkungsdauer nicht auf sich selbst anwenden. Diese Fähigkeit ersetzt Tieraspekt."
+  },
+  {
+    "id": "1d5e83ae-b82b-5397-b3c1-dc11126b226a",
+    "name": "Gemeinschaftstalent (Rudelführer)",
+    "description": "(AF) Mit der 3. Stufe oder wann immer ein Rudelführer ein Bonusgemeinschaftstalent erlangen würde, kann er stattdessen die Anzahl seiner Tiergefährten, welche von seinen Klassenmerkmalen Genaues Ausmanövrieren, Unterholz durchqueren und Gemeinschaftstalente profitieren, um 1 erhöhen. Er kann diese Fähigkeit wiederholt wählen. Diese Fähigkeit modifiziert Gemeinschaftstalente."
+  },
+  {
+    "id": "9685145c-fa60-5bec-a781-cbf3fca7fd1c",
+    "name": "Zweiter Rudelaspekt",
+    "description": "(AF) Mit der 8. Stufe erhält der Rudelführer diese Fähigkeit, welche wie Zweiter Tieraspekt funktioniert, wobei er die Aspekte entweder auf unterschiedliche Tiergefährten verteilen oder beide Aspekte demselben Tiergefährten verleihen kann. Die verliehenen Aspekte können sich vom Tieraspekt des Rudelführers unterscheiden. Diese Fähigkeit ersetzt Zweiter Tieraspekt."
+  },
+  {
+    "id": "17e84fee-e2b6-5e04-b347-cefebe444baa",
+    "name": "Herr des Rudels",
+    "description": "(AF) Mit der 20. Stufe können sich ein Rudelführer und seine Tiergefährten stets mit voller Bewegungsrate ohne Mali fortbewegen, wenn sie Überlebenskunst nutzen, um Spuren zu verfolgen. Wenn der Rudelführer seine neuen täglichen Zauber erlangt, wählt er einen Tieraspekt, der auf ihn oder einen seiner Tiergefährten den ganzen Tag lang wirken soll; sollten alle seine Tiergefährten tot sein, wählt er stattdessen zwei Tieraspekte aus, die den ganzen Tag bei ihm aktiv sein sollen. Diesen Aspekt kann er zusätzlich zu den Tieraspekten verteilen, die er über das Klassenmerkmal Rudelaspekt erlangt. Diese Fähigkeit ersetzt Nimrod."
+  },
+  {
+    "id": "ca2cef0b-9644-5051-8aff-af379145c88a",
+    "name": "Tiergefährtenlos",
+    "description": "Im Gegensatz zu den meisten Jägern erhält ein Wilder Jäger keinen Tiergefährten."
+  },
+  {
+    "id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "name": "Wilder Aspekt",
+    "description": "(ÜF) Mit der 1. Stufe erhält ein Wilder Jäger begrenzt die Gabe, eine Mischgestalt aus Tier und seiner natürlichen Gestalt anzunehmen. Dies funktioniert wie das Klassenmerkmal Tieraspekt, nur dass der Wilde Jäger selbst den Tieraspekt erlangt und die Wirkungsdauer nicht begrenzt ist. Er kann diese Fähigkeit als Freie Aktion beenden. Wenn ein Wilder Jäger diese Fähigkeit nutzt, nimmt sein Körper äußerliche Aspekte eines Tieres an, z.B. Fell, längere Fingernägel und/oder Zähne und seltsam farbige Augen. Diese Veränderungen verleihen ihm aber keine Fähigkeiten über das hinaus, was unter Tieraspekt aufgeführt ist; sie enden, wenn der Wilde Jäger diese Fähigkeit beendet oder einen neuen Tieraspekt annimmt. Diese körperliche Veränderung ist ein Gestaltwandeleffekt, die Effekte des Tieraspektes und auch des Zweiten Tieraspektes dagegen nicht. Diese Fähigkeit ersetzt die Klassenmerkmale Tieraspekt, Jägertaktiken und Mit Meister sprechen."
+  },
+  {
+    "id": "09b6f0b7-60b9-5bc7-9165-c3ab2b459b3e",
+    "name": "Wilder Aspekt: Affe",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "8b30208a-f483-58e1-85be-60695b3f3970",
+    "name": "Wilder Aspekt: Bär",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "005563c6-d038-586b-9578-d9544af4d1fd",
+    "name": "Wilder Aspekt: Eule",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "61827bd2-e5c3-59fa-bbee-5be42e5f83e7",
+    "name": "Wilder Aspekt: Falke",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "12347ae4-cd34-59b2-90be-16f1151dffb1",
+    "name": "Wilder Aspekt: Fledermaus",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "6ba2c8cb-1bf3-5a14-9f91-c4a2dd798cf0",
+    "name": "Wilder Aspekt: Hirsch",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "56f74bf9-58a6-59c7-94b4-1dfdb8d04e1a",
+    "name": "Wilder Aspekt: Frosch",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "d022dc39-cd17-5110-8354-bee95cf8ff5f",
+    "name": "Wilder Aspekt: Maus",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "a10716ff-d6cf-5c99-b5b5-b7b9ed83733c",
+    "name": "Wilder Aspekt: Schlange",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "16b68d67-1f10-5f8c-948c-3aa9428b6231",
+    "name": "Wilder Aspekt: Stier",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "21e452db-7c35-54c3-af83-c69c84c62aa3",
+    "name": "Wilder Aspekt: Tiger",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "a2e5d570-6353-5ae6-8ae6-5f12df56c6c4",
+    "name": "Wilder Aspekt: Wolf",
+    "description": "(ÜF) Aspekt des Wilden Aspekts, ohne Wirkungsdauer: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
+  },
+  {
+    "id": "29844237-965f-52f4-ad1f-d9812a40966f",
+    "name": "Genaues Ausmanövrieren (Wilder Jäger)",
+    "description": "(AF) Diese Fähigkeit funktioniert wie Genaues Ausmanövrieren. Der Wilde Jäger verleiht alle seine Gemeinschaftstalente allen Tieren, die er mittels Verbündeten der Natur herbeizaubern herbeizaubert. Diese Fähigkeit modifiziert Genaues Ausmanövrieren."
+  },
+  {
+    "id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "name": "Tiergestalt (Wilder Jäger)",
+    "description": "(ÜF) Mit der 4. Stufe erhält ein Wilder Jäger die Fähigkeit, seine Gestalt zu wechseln. Dies funktioniert wie das Druidenklassenmerkmal Tiergestalt, allerdings kann der Wilde Jäger nur die Gestalt von Tieren annehmen, nicht aber von Elementaren oder Pflanzen. Seine effektive Druidenstufe bezüglich dieser Fähigkeit entspricht seiner Jägerstufe. Diese Fähigkeit ersetzt Bonustrick, Verbesserte Empathische Verbindung, Mächtige Empathische Verbindung, Nimrod und Toten Tiergefährten erwecken."
+  },
+  {
+    "id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "name": "Rudel herbeizaubern",
+    "description": "(ZF) Mit der 6. Stufe zaubert ein Wilder Jäger, welcher Verbündeten der Natur herbeizaubern wirkt, um ein Tier oder mehrere Tiere herbeizuzaubern, ein zusätzliches Tier derselben Art herbei. Diese Tiere müssen dem aktuellen Tieraspekt des Wilden Jägers entsprechen (Aspekt des Bären – Bären, Aspekt des Wolfes – Wölfe, Aspekt des Tigers – Großkatzen usw.). Die zusätzliche Kreatur verschwindet augenblicklich, sollte der Wilde Jäger seinen Tieraspekt beenden oder einen anderen Aspekt annehmen. Der Wilde Jäger kann die Wirkungsdauer eines von dieser Fähigkeit betroffenen Verbündeten der Natur herbeizaubern-Zaubers auf 1 Minute pro Stufe erhöhen, aber stets nur einen derart modifizierten Zauber aktiv haben. Diese Fähigkeit ersetzt die Gemeinschaftstalente, welche ein Jäger mit der 6., 9., 12., 15. und 18. Stufe erhält."
+  },
+  {
+    "id": "faacdadb-73f4-50fa-9f49-f147c403e392",
+    "name": "Tiergefährte (Göttlicher Jäger, Domäne der Tiere)",
+    "description": "(AF) Der Göttliche Jäger mit der Domäne der Tiere erhält keinen zweiten Tiergefährten, sobald er eine effektive Klerikerstufe von 4 erreicht; stattdessen erhält sein Tiergefährte zwei Attributswertanstiege von jeweils +1 (entweder +1 auf zwei unterschiedliche Attribute oder +2 auf ein Attribut). Sollte der Tiergefährte sterben oder aus den Diensten des Jägers entlassen werden, erhält sein nächster Tiergefährte ebenfalls diese Attributswertanstiege."
+  },
+  {
+    "id": "53e77508-68db-5772-9ea5-f0044a5af279",
+    "name": "Halb-Ork (Jäger)",
+    "description": "Der Tiergefährte des Jägers erhält 1 zusätzlichen Trefferpunkt. Sollte der Jäger später seinen Tiergefährten ersetzen, erhält der neue Tiergefährte diese Bonustrefferpunkte."
   }
 ]

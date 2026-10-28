@@ -86,6 +86,10 @@ ORK_BARBAR = UUID("bb5d2ece-b8e5-51e5-85d3-4f3233b0387e")
 ELF_DRUIDE = UUID("0990b9a2-2461-5f4d-9871-fea995ea05c4")
 ELF_KLERIKER = UUID("e91f9ce5-7ba6-5e8e-b3b4-968c3f38ad9a")
 ORK_WALDLAEUFER = UUID("af331aea-194f-5a57-8458-c1b1bc496c9f")
+# Halb-Ork's Jäger choice (`scripts/import_jaeger.py`). Its companion HP, like
+# WALDLAEUFER's/ORK_WALDLAEUFER's, are applied for real by `rules/companions.py`
+# (the number here is only the sheet's read-out).
+HALBORK_JAEGER = UUID("4d4a8e47-049f-50d7-bdd0-8dc552c8bf18")
 
 
 def pick_counts(character: "Character") -> Counter[UUID]:
@@ -141,6 +145,7 @@ HANDLERS: dict[UUID, Callable[[int], int]] = {
     ELF_DRUIDE: functools.partial(_fraction_bonus, numerator=1, denominator=3),
     ELF_KLERIKER: functools.partial(_fraction_bonus, numerator=1, denominator=2),
     ORK_WALDLAEUFER: functools.partial(_fraction_bonus, numerator=1, denominator=1),
+    HALBORK_JAEGER: functools.partial(_fraction_bonus, numerator=1, denominator=1),
 }
 
 # Short, button-sized labels for the level-up wizard's picker chips — the
@@ -168,4 +173,5 @@ SHORT_LABELS: dict[UUID, str] = {
     ELF_DRUIDE: "+1/3 Rüstung (Tiergestalt)",
     ELF_KLERIKER: "+1/2 Domänenfähigkeit/Tag",
     ORK_WALDLAEUFER: "+1 TP Gefährte",
+    HALBORK_JAEGER: "+1 TP Gefährte",
 }

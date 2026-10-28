@@ -1,5 +1,765 @@
 [
   {
+    "id": "2cd9dc12-82d9-56ff-8c85-802fd85f755c",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 1,
+    "grade": 0,
+    "count": 4,
+    "spells_per_day": null
+  },
+  {
+    "id": "89c1e572-9dba-5abe-a0ff-4b74c18a4108",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 1,
+    "grade": 1,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "743382b6-f2be-5726-93fc-4893385c08de",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 2,
+    "grade": 0,
+    "count": 5,
+    "spells_per_day": null
+  },
+  {
+    "id": "57743190-0412-5bd1-855b-ee3586c1f381",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 2,
+    "grade": 1,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "6efb515b-1227-5b3a-a775-9cacefdb6eec",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 3,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "6c156d50-9117-5678-94ee-94f68f57e5a0",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 3,
+    "grade": 1,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "93b3c771-1fd1-58a3-8a47-aad79de83eab",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 4,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "3ddeeeea-521a-58f6-b7f6-01967e8fd99b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 4,
+    "grade": 1,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "41b5ff2a-b2ba-5fdb-baf3-8955aeeeaec4",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 4,
+    "grade": 2,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "aa2f7060-e2ef-52dc-8d9c-8412fa36a0c0",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 5,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "85bdc44b-d3e1-5c97-8e0a-b44064555c1c",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 5,
+    "grade": 1,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7b5baac2-9b40-54dd-a3a2-e8974992d18d",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 5,
+    "grade": 2,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "2418679e-891a-5bf6-b4f6-27a69b2a48fc",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 6,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "333c73e9-267c-50ac-af89-462620bad86a",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 6,
+    "grade": 1,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "8fb86c97-b403-5c62-b939-5c61960a1ebf",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 6,
+    "grade": 2,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "bc6ed9fd-e39c-5314-87a6-7e66cef32591",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 7,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "432ff214-61d3-5d77-af4f-f12c3ff89527",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 7,
+    "grade": 1,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "f436a6a7-4505-51e3-be45-def4a4e37dfe",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 7,
+    "grade": 2,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "84687046-82aa-5886-ba64-ccde05f5931a",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 7,
+    "grade": 3,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "13709c69-e79d-5b93-b3c7-9b2683040e78",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 8,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "73e2242c-05a9-54b7-bb95-4d8e135ea324",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 8,
+    "grade": 1,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "ef53be77-f5d0-573b-bcec-d6ae2c5dc20c",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 8,
+    "grade": 2,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "bf3fb0b1-8039-5d46-8177-8bd247bb95d9",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 8,
+    "grade": 3,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "181f15f8-1426-54fb-b996-5921ab0a8fd3",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 9,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "93fd19b6-edeb-5416-b94b-354f5dc74d1e",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 9,
+    "grade": 1,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "dc17082d-9e8c-5d37-8920-677594a8161b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 9,
+    "grade": 2,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "25a0f303-5b8c-5dbb-9b8a-b6dfe1867cb0",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 9,
+    "grade": 3,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "17b1809a-c183-58d9-be6b-96022ced751f",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 10,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "14a08fd9-23ef-585f-87e9-817261a4de1b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 10,
+    "grade": 1,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "2016a75b-0773-5a71-b526-2910edcffec7",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 10,
+    "grade": 2,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "83605c4f-050c-5a41-a4c5-3410ec7651c2",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 10,
+    "grade": 3,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "b21f1703-baba-5a14-9ed7-fa0442463156",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 10,
+    "grade": 4,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "e102acaf-6ae0-5ada-9871-c05426581b81",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 11,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "c1675efd-4c91-5168-819e-edd0ffda0364",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 11,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "034c88ad-8672-518c-935c-220250ef337e",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 11,
+    "grade": 2,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "551ba44e-1b83-5b55-9a7d-86337a78ce46",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 11,
+    "grade": 3,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9fbb4c62-48ad-51e4-b7ce-d427f5cfe7c5",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 11,
+    "grade": 4,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "04ae043c-b8d7-58b9-bd95-1ab6631b5d0c",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 12,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "18f6c356-e774-5381-8bb9-09169ba72700",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 12,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "dfbec939-693b-5569-96fd-6ff6f51baeaf",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 12,
+    "grade": 2,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c70b24a8-f04f-5e66-b4cb-f59df3748f7f",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 12,
+    "grade": 3,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "1e3f1f4d-d177-5965-b93f-ffd60dc76a83",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 12,
+    "grade": 4,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "af73e082-1d6c-570f-8af0-348d4495bbfe",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "17661b35-fcd0-581e-b63b-f5719bf64b65",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "2832b47a-a992-5f64-b544-d3b76a348f31",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 2,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "943984d4-81db-5deb-8013-d3e0518a6870",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 3,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "e45c87de-84de-532e-a033-52432edcb205",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 4,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "0d32c572-64de-5658-865e-f06d6a26d064",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 13,
+    "grade": 5,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "9565f3e7-aca3-5263-91ae-7153b2e20e83",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "1a54d531-9ba0-5c57-ae32-f1c62179985a",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "8cc0762a-c830-5ddb-99d4-05d7110d0e9b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "07ee9037-a2d7-5266-aa6b-8c406b51239b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 3,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "d45852ee-39ea-58f5-acd7-3cd07c735c17",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 4,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "9322f714-914d-5b3e-a55f-95a7241c3553",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 14,
+    "grade": 5,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "3804cc15-c213-5962-9685-8b4ac6d1de7c",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "0b9ad030-3227-5766-b02d-e9a409b160e7",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "f0686d44-71c1-5ab2-9340-056f3a5a475f",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "045c22dc-3471-575e-bd01-166746136964",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 3,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "cd4e9be0-4ec3-5467-8fe9-a8e94770df1a",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 4,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "16cacd42-b3cd-5c58-bcc0-99cab14a3f25",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 15,
+    "grade": 5,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "6adc066a-7258-59a3-aa2f-4a822d2ac25b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "9f2c297f-101c-5140-8b66-7c0f958b3494",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "5193eac6-7293-533c-8990-29d9f4fbebfe",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "f320cdee-9ade-5ead-927c-d1499430c7c5",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 3,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "3eb5dd79-a878-50b3-acce-bdb3055c7747",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 4,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "2b58e990-5bd0-5abd-875b-41b628d853dc",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 5,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "0c5a3300-9986-5f2f-91d2-37192bd2f867",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 16,
+    "grade": 6,
+    "count": 2,
+    "spells_per_day": 1
+  },
+  {
+    "id": "038824c4-fe3e-5930-8983-7866e4bce64f",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "f184470c-6ccf-5d20-a8e4-225345d24d0f",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "78228c50-09d4-565c-8319-380fd3dc9daf",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "77f973e2-ebc4-559f-a189-a84aadb26cd4",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 3,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "57ec791c-82ea-529a-9ded-dbce9b0652f6",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 4,
+    "count": 5,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7d79c115-4a78-54e5-9863-274c876b940d",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 5,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "cc137306-2183-5ef1-b169-cab883e3b2cd",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 17,
+    "grade": 6,
+    "count": 3,
+    "spells_per_day": 2
+  },
+  {
+    "id": "e582ba06-eb45-5885-a06d-a753aba6dc5e",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "134aa0eb-d842-5188-be82-4ecdd6de9fa4",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "5b0d0a4c-c091-522d-af0a-01203a9b9bee",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "362179f5-9a50-593d-b93e-ef8631243e09",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 3,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "edc1fa84-667b-5beb-8975-333ffff5a347",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 4,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "7fca6edc-2d6f-5f8f-8419-3d984f7b1512",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 5,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "7f1cd6ae-9dab-54f4-9213-30adb49da1d8",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 18,
+    "grade": 6,
+    "count": 4,
+    "spells_per_day": 3
+  },
+  {
+    "id": "4e2c9058-4729-548d-ac27-ec75957d8018",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "ec27089e-d186-5243-bf1d-6014c79644c6",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "70461a43-edf5-5bef-9ce3-e4da62616746",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "76585cc2-3558-5219-8b4a-c8f17616b35b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 3,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "39f14155-b222-500e-87a1-4517b20dc952",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 4,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c5456a33-6452-5d23-95d7-e51e737ae8e8",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 5,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "1206a316-e880-5a1a-92d2-55a14453fcfa",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 19,
+    "grade": 6,
+    "count": 4,
+    "spells_per_day": 4
+  },
+  {
+    "id": "3bd91245-ac60-54c0-a6a5-03c1d66bc44a",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 0,
+    "count": 6,
+    "spells_per_day": null
+  },
+  {
+    "id": "4db5bbcb-4ed6-58af-9ac7-0c35e29a05dc",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 1,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "d38e8e4f-1c46-5e99-8bc3-67cddd051ca4",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 2,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "4ea3fff0-a01f-53b8-9f9e-61c4516b6e84",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 3,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "c5374b5e-15a8-5bfe-8aeb-a4a863d868c3",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 4,
+    "count": 6,
+    "spells_per_day": 5
+  },
+  {
+    "id": "d2a50d40-830f-5a1c-a5a7-68f04b01717b",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 5,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
+    "id": "e38dcb30-c6e3-5f49-b5a3-ed06c843bf98",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "level": 20,
+    "grade": 6,
+    "count": 5,
+    "spells_per_day": 5
+  },
+  {
     "id": "67473f62-38da-5d16-bc16-f30a68f80794",
     "base_class_id": "1e6e60de-d72f-4910-b19d-55ca11e14190",
     "level": 1,

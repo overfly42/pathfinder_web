@@ -582,16 +582,23 @@ def _validate_options(
                 )
 
 
-def _check_alignment(alignment: str | None, roots: Iterable[BaseClass], *, required: bool) -> None:
+def _check_alignment(
+    alignment: str | None,
+    roots: Iterable[BaseClass],
+    *,
+    required: bool,
+    archetypes_by_root_id: dict[UUID, list[BaseClass]] | None = None,
+) -> None:
     """Rejects an alignment that doesn't fit one of `roots`' own
     `BaseClass.allowed_alignments` (Paladin: LG; Druide: any neutral
-    component). `required=False` lets a character with no alignment at all
-    through — the case for every legacy character created before alignment
-    existed (`Character.alignment`'s docstring), which must still be able to
-    level up; creation always passes `required=True`."""
+    component), or a chosen archetype's own list where it sets one
+    (`alignment_conflicts`). `required=False` lets a character with no
+    alignment at all through — the case for every legacy character created
+    before alignment existed (`Character.alignment`'s docstring), which must
+    still be able to level up; creation always passes `required=True`."""
     if alignment is None and not required:
         return
-    conflicts = alignment_conflicts(alignment, roots)
+    conflicts = alignment_conflicts(alignment, roots, archetypes_by_root_id)
     if conflicts:
         if alignment is None:
             detail = f"Alignment required — {', '.join(conflicts)} restricts it"
@@ -609,7 +616,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         raise HTTPException(status_code=422, detail="Unknown race_id")
 
     roots = [resolve_root_class(db, selection.class_name) for selection in body.classes]
-    _check_alignment(body.alignment, roots, required=True)
+    chosen_archetypes_by_root_id: dict[UUID, list[BaseClass]] = {}
+    for selection, root in zip(body.classes, roots):
+        chosen_archetypes_by_root_id.setdefault(root.id, []).extend(
+            resolve_archetype(db, root, name) for name in selection.archetypes
+        )
+    _check_alignment(body.alignment, roots, required=True, archetypes_by_root_id=chosen_archetypes_by_root_id)
 
     # Sekundärklasse alternate rule (`rules/secondary_class.py`) — resolved
     # up front, same as every other root class, so it can feed `_feat_max`
@@ -1015,6 +1027,9 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
     running_level = 0
     last_level_row: CharacterLevel | None = None
+    class_level_by_root_id: dict[UUID, int] = {}
+    choice_ids_by_root_id: dict[UUID, set[UUID]] = {}
+    granted_spell_keys: set[tuple[UUID, UUID]] = set()
     for selection, root, archetypes in zip(body.classes, roots, archetypes_per_selection):
         for _ in range(selection.level):
             running_level += 1
@@ -1063,14 +1078,19 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
                 if choice_row is not None:
                     selection_choice_ids.add(choice_row.id)
 
-        # Fixed bonus spells a chosen option (e.g. Hexe's Schutzherr) grants
-        # automatically at this class's level, up to the level just reached
-        # (`granted_option_choice_spells`, `rules/spells.py`) — a fresh
-        # character has nothing to dedupe against yet for this class.
-        if selection_choice_ids and last_level_row is not None:
-            last_level_row.spells.extend(
-                granted_option_choice_spells(db, root.id, selection.level, selection_choice_ids, set())
+        # Fixed bonus spells a chosen option (e.g. Hexe's Schutzherr) or the
+        # class itself (the Jäger's summon spells) grants automatically, up
+        # to the class level reached so far (`granted_option_choice_spells`,
+        # `rules/spells.py`) — cumulative over every row of the same class,
+        # so a class split across rows neither misses nor repeats a grant.
+        class_level_by_root_id[root.id] = class_level_by_root_id.get(root.id, 0) + selection.level
+        choice_ids_by_root_id.setdefault(root.id, set()).update(selection_choice_ids)
+        if last_level_row is not None:
+            granted = granted_option_choice_spells(
+                db, root.id, class_level_by_root_id[root.id], choice_ids_by_root_id[root.id], granted_spell_keys
             )
+            granted_spell_keys.update((root.id, spell.spell_id) for spell in granted)
+            last_level_row.spells.extend(granted)
 
         if root.id not in seen_root_ids:
             seen_root_ids.add(root.id)
@@ -1228,7 +1248,9 @@ def update_alignment(
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
     _, roots = _class_selections_and_roots(db, character)
-    _check_alignment(body.alignment, roots, required=True)
+    _check_alignment(
+        body.alignment, roots, required=True, archetypes_by_root_id=_archetypes_by_root_id(character)
+    )
     character.alignment = body.alignment
     db.commit()
     db.refresh(character)
@@ -2367,6 +2389,16 @@ def delete_character(character_id: UUID, db: Annotated[Session, Depends(get_db)]
     db.commit()
 
 
+def _archetypes_by_root_id(character: Character) -> dict[UUID, list[BaseClass]]:
+    """The character's archetype `BaseClass` rows, keyed by their root's id
+    (`class_memberships` holds one row per root-or-archetype class-taken)."""
+    result: dict[UUID, list[BaseClass]] = {}
+    for membership in character.class_memberships:
+        if membership.base_class.arch_class_of is not None:
+            result.setdefault(membership.base_class.arch_class_of, []).append(membership.base_class)
+    return result
+
+
 def _class_selections_and_roots(db: Session, character: Character) -> tuple[list[ClassSelection], list[BaseClass]]:
     """Reconstructs the character's current classes-taken as `ClassSelection`s
     plus their resolved root `BaseClass` rows — the exact shape
@@ -2466,8 +2498,6 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             status_code=422,
             detail=f"Can't take real levels in '{receiving_root.name}' — it's this character's Sekundärklasse",
         )
-    _check_alignment(character.alignment, [receiving_root], required=False)
-
     # This class-taken's archetype(s), for _resolve_casting_ability below
     # (arcane-prepared spellbook budget) — a brand-new class-taken uses what
     # was just submitted; an existing one already has its archetype choice
@@ -2482,6 +2512,12 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             for membership in character.class_memberships
             if membership.base_class.arch_class_of == receiving_root.id
         ]
+    )
+    _check_alignment(
+        character.alignment,
+        [receiving_root],
+        required=False,
+        archetypes_by_root_id={receiving_root.id: receiving_archetypes},
     )
 
     classes_after, roots_after = _apply_target_to_selections(classes_before, roots_before, receiving_root, is_new_class)
@@ -2868,11 +2904,12 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
                 )
 
     # Fixed bonus spells this class's chosen option (e.g. Hexe's Schutzherr)
-    # grants automatically at the level just reached
-    # (`granted_option_choice_spells`, `rules/spells.py`) — the DB query
-    # below sees both this level-up's own fresh picks (autoflushed) and any
-    # one-time pick (Schutzherr, Blutlinie, ...) already made at an earlier
-    # level, since it's never resubmitted at later level-ups.
+    # or the class itself (the Jäger's summon spells) grants automatically
+    # at the level just reached (`granted_option_choice_spells`,
+    # `rules/spells.py`) — the DB query below sees both this level-up's own
+    # fresh picks (autoflushed) and any one-time pick (Schutzherr,
+    # Blutlinie, ...) already made at an earlier level, since it's never
+    # resubmitted at later level-ups.
     receiving_choice_ids = set(
         db.scalars(
             select(CharacterClassOption.choice_id).where(
@@ -2882,20 +2919,19 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
             )
         ).all()
     )
-    if receiving_choice_ids:
-        already_known = {
-            (receiving_root.id, spell_id) for spell_id in character.spell_ids.get(str(receiving_root.id), [])
-        }
-        new_level.spells.extend(
-            granted_option_choice_spells(
-                db,
-                receiving_root.id,
-                receiving_class_level,
-                receiving_choice_ids,
-                already_known,
-                min_level=receiving_class_level,
-            )
+    already_known = {
+        (receiving_root.id, spell_id) for spell_id in character.spell_ids.get(str(receiving_root.id), [])
+    }
+    new_level.spells.extend(
+        granted_option_choice_spells(
+            db,
+            receiving_root.id,
+            receiving_class_level,
+            receiving_choice_ids,
+            already_known,
+            min_level=receiving_class_level,
         )
+    )
 
     for selection in body.skill_ranks:
         new_level.skill_ranks.append(

@@ -3,11 +3,14 @@ import type { CharacterProgression } from '../types/characterProgression';
 import type { LevelUpDraft, LevelUpSkillSpecializationEntry, LevelUpTarget } from '../types/levelUpDraft';
 import type { ClassDef, GrantedSpellDef, RaceOption, SkillDef } from '../types/creationOptions';
 import type { LevelUpOptions } from '../types/levelUpOptions';
+import { unlockedOneTimeGroups } from './classOptions';
 import {
   abilityMod,
   arcanePreparedBudget,
   bonusCapGrade,
+  bonusFeatLevelsFor,
   bonusKnownSpellSlot,
+  CLASS_WIDE_GRANT_KEY,
   effectiveCastingAbility,
   spellGradeBudgetAtLevel,
   spontaneousBonusOverflowUsed,
@@ -43,6 +46,35 @@ export function effectiveClassNames(progression: CharacterProgression, target: L
   const names = progression.classes.map((c) => c.className);
   if (target.mode === 'new' && target.className) names.push(target.className);
   return names;
+}
+
+/** The option-group picks `ClassChoiceStep.tsx` offers (summarized by
+ *  `LevelUpSummaryStep.tsx`): this level's recurring occurrences
+ *  (`/api/class-level-options`), plus — for a class the character already
+ *  has — any one-time group first due now (`unlockedOneTimeGroups`, the
+ *  Göttlicher Jäger's domain at 3rd level). */
+export function levelUpChoiceGroups(
+  progression: CharacterProgression,
+  options: LevelUpOptions,
+  target: LevelUpTarget,
+): { key: string; label: string; max: number; choices: string[] }[] {
+  const info = getReceivingClassAndLevel(progression, target);
+  if (!info) return [];
+  const recurring = (options.classLevelOptions[info.className] ?? [])
+    .filter((g) => g.levels.includes(info.level))
+    .map((g) => ({ key: g.key, label: g.label, max: g.max, choices: g.choicesByLevel[info.level] ?? [] }));
+  const entry = target.mode === 'existing' ? progression.classes.find((c) => c.id === target.classId) : undefined;
+  const classDef = options.classes.find((c) => c.name === info.className);
+  const oneTime =
+    entry && classDef
+      ? unlockedOneTimeGroups(classDef.optionGroups, info.level, entry.archetypes, entry.options).map((g) => ({
+          key: g.key,
+          label: g.label,
+          max: g.effectiveMax,
+          choices: g.availableChoiceNames,
+        }))
+      : [];
+  return [...recurring, ...oneTime];
 }
 
 /** Archetype names already applied to the class this level-up targets — an
@@ -102,16 +134,18 @@ export function secondaryClassFeatureGrantedThisLevel(
  *  Kämpfer's 1st and every even level) — driven by each class's real `bonusFeatLevels`
  *  data (see `ClassDef.bonusFeatLevels`), not a hardcoded class name, since other
  *  classes can grant bonus feats too. Keyed by the class's own level (`classLevel`),
- *  not the character's total level, so multiclassing resolves correctly. Mirrors the
+ *  not the character's total level, so multiclassing resolves correctly. The receiving
+ *  row's `archetypes` can add or replace slots (`bonusFeatLevelsFor`). Mirrors the
  *  backend's `_feat_max`/`rules/feat_slots.py`; keep both in sync. */
 export function classBonusFeatGrantedThisLevel(
   receivingClassName: string | null,
   classLevel: number | null,
   classes: ClassDef[],
+  archetypes: string[] = [],
 ): boolean {
   if (receivingClassName === null || classLevel === null) return false;
   const cls = classes.find((c) => c.name === receivingClassName);
-  return cls?.bonusFeatLevels.includes(classLevel) ?? false;
+  return cls ? bonusFeatLevelsFor(cls, archetypes).includes(classLevel) : false;
 }
 
 export function classSkillSetForLevelUp(
@@ -292,12 +326,13 @@ function activeOptionChoiceNames(
   target: LevelUpTarget,
   existingLevelOptionSelections: Record<string, string[]>,
 ): string[] {
+  // A class-wide grant (`CLASS_WIDE_GRANT_KEY`) applies whatever was chosen.
   if (target.mode === 'existing') {
     const c = progression.classes.find((x) => x.id === target.classId);
     const past = c ? Object.values(c.options).flat() : [];
-    return [...past, ...Object.values(existingLevelOptionSelections).flat()];
+    return [CLASS_WIDE_GRANT_KEY, ...past, ...Object.values(existingLevelOptionSelections).flat()];
   }
-  return Object.values(target.options).flat();
+  return [CLASS_WIDE_GRANT_KEY, ...Object.values(target.options).flat()];
 }
 
 /** Spells one of the receiving class's already-made option choices grants

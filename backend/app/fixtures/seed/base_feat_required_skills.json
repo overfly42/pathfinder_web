@@ -131,5 +131,89 @@
     "group_id": null,
     "skill_id": "6d850adc-a635-418f-8d72-e7dcbb878225",
     "minimum_ranks": 1
+  },
+  {
+    "id": "b2c29b05-d4aa-5607-a9b8-a485e738534f",
+    "feat_id": "4831ed23-3d01-511e-b76e-cc4aeeadcd73",
+    "group_id": null,
+    "skill_id": "144fa65e-50ce-4eb7-b861-177692a86858",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "7e9bba77-8713-554b-bad5-046967d00d23",
+    "feat_id": "4831ed23-3d01-511e-b76e-cc4aeeadcd73",
+    "group_id": null,
+    "skill_id": "086ec4b0-0439-45fe-8291-af9b24118500",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "24cb9b2b-2daa-58a7-8501-19dbf803602c",
+    "feat_id": "73528a4a-d7a4-5947-be63-37cd1ac8a910",
+    "group_id": null,
+    "skill_id": "a6246060-6731-498c-b6d3-3ff72876aa27",
+    "minimum_ranks": 5
+  },
+  {
+    "id": "ef5a2924-eb9f-5ecd-a760-42cddfd1f586",
+    "feat_id": "b1a86b75-6ff0-5f30-9bc5-88114300a11f",
+    "group_id": null,
+    "skill_id": "144fa65e-50ce-4eb7-b861-177692a86858",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "03c97ed3-54ba-5618-a9a8-50824dc83807",
+    "feat_id": "0ca5563d-4460-5a61-a565-42f5d7359a87",
+    "group_id": null,
+    "skill_id": "6d850adc-a635-418f-8d72-e7dcbb878225",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "91e2fd30-c568-5a3d-9cc8-bd35a6e24d67",
+    "feat_id": "1d4f60f3-7a00-50b4-a7ec-3eb194750ad9",
+    "group_id": null,
+    "skill_id": "fa72f72e-b86a-4d93-9382-bbcee12fdfd9",
+    "minimum_ranks": 5
+  },
+  {
+    "id": "01ed0f40-0643-5884-bd02-53bc0ed23379",
+    "feat_id": "fd79e88a-7dfd-599d-8c30-f6a9df72a8b4",
+    "group_id": null,
+    "skill_id": "9a4debc2-0c8f-4461-9a37-bd667d8535ee",
+    "minimum_ranks": 3
+  },
+  {
+    "id": "7f54d6a5-9e8c-5ab6-8d22-d74cfae1c081",
+    "feat_id": "0ed5cbcc-7a04-5b1f-9f5e-d32e77129b57",
+    "group_id": null,
+    "skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb",
+    "minimum_ranks": 3
+  },
+  {
+    "id": "85418e0f-df21-56ab-9d39-e2498b5f6b97",
+    "feat_id": "c1687d32-94dc-5d09-ba9d-156a19c66238",
+    "group_id": null,
+    "skill_id": "144fa65e-50ce-4eb7-b861-177692a86858",
+    "minimum_ranks": 5
+  },
+  {
+    "id": "adbfc290-0454-57cc-a4bd-cad7ae594e87",
+    "feat_id": "ae53e54b-878a-5cac-a982-263e36fdae8a",
+    "group_id": null,
+    "skill_id": "144fa65e-50ce-4eb7-b861-177692a86858",
+    "minimum_ranks": 1
+  },
+  {
+    "id": "9cec179e-b6a1-53d9-a435-87c6fb3ef770",
+    "feat_id": "83c8b4ed-8681-5384-a86a-0cc5ea71da25",
+    "group_id": null,
+    "skill_id": "3d5d4e5f-c749-4346-a53b-2006bca05abb",
+    "minimum_ranks": 5
+  },
+  {
+    "id": "2351c869-ec82-5c21-a21d-df436edb9c45",
+    "feat_id": "d415bc02-0b0e-5944-b225-65604b400ecc",
+    "group_id": null,
+    "skill_id": "144fa65e-50ce-4eb7-b861-177692a86858",
+    "minimum_ranks": 5
   }
 ]

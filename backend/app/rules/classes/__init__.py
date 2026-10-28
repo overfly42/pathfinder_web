@@ -53,6 +53,15 @@ from .druide import WEAPON_PROFICIENCY_HANDLERS as _DRUIDE_WEAPON_PROFICIENCY_HA
 from .hexenmeister import DAILY_LIMITS as _HEXENMEISTER_DAILY_LIMITS
 from .hexenmeister import HANDLERS as _HEXENMEISTER_HANDLERS
 from .hexenmeister import SAVE_DC_HANDLERS as _HEXENMEISTER_SAVE_DC_HANDLERS
+from .jaeger import CLASS_SKILL_GRANTS as _JAEGER_CLASS_SKILL_GRANTS
+from .jaeger import DAILY_LIMIT_UNIT_LABEL as _JAEGER_DAILY_LIMIT_UNIT_LABEL
+from .jaeger import DAILY_LIMITS as _JAEGER_DAILY_LIMITS
+from .jaeger import FEATURE_SUMMARY_HANDLERS as _JAEGER_FEATURE_SUMMARY_HANDLERS
+from .jaeger import HANDLERS as _JAEGER_HANDLERS
+from .jaeger import PARTIAL_EFFECT_NOTES as _JAEGER_PARTIAL_EFFECT_NOTES
+from .jaeger import POOL_COST_AT_ACTIVATION as _JAEGER_POOL_COST_AT_ACTIVATION
+from .jaeger import POOL_SOURCE_ID as _JAEGER_POOL_SOURCE_ID
+from .jaeger import SITUATIONAL_SKILL_HANDLERS as _JAEGER_SITUATIONAL_SKILL_HANDLERS
 from .kampfmagus import APPLIED_OUTSIDE_HANDLERS_IDS as _KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .kampfmagus import DAILY_LIMIT_UNIT_LABEL as _KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL
 from .kampfmagus import DAILY_LIMITS as _KAMPFMAGUS_DAILY_LIMITS
@@ -83,6 +92,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_BARBARIAN_HANDLERS,
     **_DRUIDE_HANDLERS,
     **_HEXENMEISTER_HANDLERS,
+    **_JAEGER_HANDLERS,
     **_KAMPFMAGUS_HANDLERS,
     **_MOENCH_HANDLERS,
     **_MYSTIKER_HANDLERS,
@@ -113,6 +123,7 @@ DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     **_BARBARIAN_DAILY_LIMITS,
     **_DRUIDE_DAILY_LIMITS,
     **_HEXENMEISTER_DAILY_LIMITS,
+    **_JAEGER_DAILY_LIMITS,
     **_KAMPFMAGUS_DAILY_LIMITS,
     **_MOENCH_DAILY_LIMITS,
     **_MYSTIKER_DAILY_LIMITS,
@@ -132,6 +143,7 @@ SAVE_DC_HANDLERS: dict[UUID, Callable[[CharacterContext], int]] = {
 # every current entry is a fixed constant.
 POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
     **_DRUIDE_POOL_COST_AT_ACTIVATION,
+    **_JAEGER_POOL_COST_AT_ACTIVATION,
     **_KAMPFMAGUS_POOL_COST_AT_ACTIVATION,
     **_MYSTIKER_POOL_COST_AT_ACTIVATION,
     **_PALADIN_POOL_COST_AT_ACTIVATION,
@@ -142,6 +154,7 @@ POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
 # Vorrat-spending tricks.
 POOL_SOURCE_ID: dict[UUID, UUID] = {
     **_DRUIDE_POOL_SOURCE_ID,
+    **_JAEGER_POOL_SOURCE_ID,
     **_KAMPFMAGUS_POOL_SOURCE_ID,
     **_PALADIN_POOL_SOURCE_ID,
 }
@@ -149,6 +162,7 @@ POOL_SOURCE_ID: dict[UUID, UUID] = {
 # — see `rules/classes/kampfmagus.py`'s own docstring.
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     **_DRUIDE_DAILY_LIMIT_UNIT_LABEL,
+    **_JAEGER_DAILY_LIMIT_UNIT_LABEL,
     **_KAMPFMAGUS_DAILY_LIMIT_UNIT_LABEL,
     **_MYSTIKER_DAILY_LIMIT_UNIT_LABEL,
     **_PALADIN_DAILY_LIMIT_UNIT_LABEL,
@@ -161,6 +175,7 @@ ON_END: dict[UUID, Callable[[CharacterContext], tuple[UUID, int]]] = {
 }
 SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
     **_BARBARIAN_SITUATIONAL_SKILL_HANDLERS,
+    **_JAEGER_SITUATIONAL_SKILL_HANDLERS,
 }
 # Merged the same way, but a flat ability-id -> int map rather than a
 # handler `Callable` — every current entry is a fixed constant that never
@@ -182,6 +197,7 @@ WEAPON_PROFICIENCY_HANDLERS: dict[UUID, frozenset[UUID]] = {
 # `FEATURE_SUMMARY_HANDLERS` docstring.
 FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
     **_DRUIDE_FEATURE_SUMMARY_HANDLERS,
+    **_JAEGER_FEATURE_SUMMARY_HANDLERS,
     **_PALADIN_FEATURE_SUMMARY_HANDLERS,
     **_TIERGEFAEHRTE_FEATURE_SUMMARY_HANDLERS,
     **_VERTRAUTER_FEATURE_SUMMARY_HANDLERS,
@@ -194,3 +210,16 @@ FEATURE_SUMMARY_HANDLERS: dict[UUID, Callable[[CharacterContext], str]] = {
 APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = (
     _KAMPFMAGUS_APPLIED_OUTSIDE_HANDLERS_IDS | _TIERGEFAEHRTE_APPLIED_OUTSIDE_HANDLERS_IDS
 )
+
+# A granted class ability making a skill a class skill (the Göttlicher
+# Jäger's Wissen (Religion)) — the class half of `rules/handlers.py`'s
+# `CLASS_SKILL_GRANTS`.
+CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
+    **_JAEGER_CLASS_SKILL_GRANTS,
+}
+# The sheet's "Teilweise" badge text for a class ability whose effect is
+# only partly computed — the class half of `rules/handlers.py`'s
+# `PARTIAL_EFFECT_NOTES`.
+PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
+    **_JAEGER_PARTIAL_EFFECT_NOTES,
+}

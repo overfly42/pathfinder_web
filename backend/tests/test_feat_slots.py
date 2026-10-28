@@ -1,5 +1,6 @@
 from collections import Counter
 from types import SimpleNamespace
+from uuid import UUID
 
 from sqlalchemy.orm import Session
 
@@ -23,6 +24,8 @@ from app.seed.class_seed import seed_classes
 from app.seed.feat_seed import seed_feats
 from app.seed.race_seed import seed_races
 from app.seed.skill_seed import seed_skills
+
+KLERIKER_DOMAIN_GROUP_ID = UUID("7b82d11f-eae8-4e79-bb43-aaad60d728ff")
 
 
 def _selection(class_name: str, level: int) -> SimpleNamespace:
@@ -379,7 +382,13 @@ def test_option_choice_min_level_and_requires_choice_id_round_trip(db_session: S
     seed_classes(db_session)
     seed_class_options(db_session)
 
-    kriegsdomaene = db_session.query(BaseClassOptionChoice).filter_by(name="Domäne des Krieges").one()
+    # The Kleriker's own choice — the Göttlicher Jäger's domain group has a
+    # same-named one.
+    kriegsdomaene = (
+        db_session.query(BaseClassOptionChoice)
+        .filter_by(name="Domäne des Krieges", group_id=KLERIKER_DOMAIN_GROUP_ID)
+        .one()
+    )
 
     gated = BaseClassOptionChoice(
         group_id=kriegsdomaene.group_id,

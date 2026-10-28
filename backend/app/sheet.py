@@ -918,6 +918,7 @@ def _companion_progression(db: Session, companion: Character) -> dict:
                 "bonusFeatLevels": [],
                 "bonusFeatOptionsByLevel": {},
                 "archetypeBonusFeatOptionsByLevel": {},
+                "archetypeBonusFeatLevels": {},
                 "archetypeWeaponChoiceAbilityId": {},
                 "castingAbility": None,
                 "spellTradition": None,

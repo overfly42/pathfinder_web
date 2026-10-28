@@ -308,5 +308,30 @@
     "id": "eb47ecde-c5c1-5293-bc14-2bc7935283e9",
     "ability_id": "500f0fa2-03b9-5f18-b041-32f4a2e1955f",
     "feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
+  },
+  {
+    "id": "e1527cb7-6deb-56e1-b394-5268c661e108",
+    "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "feat_id": "9d19039e-78b7-50ea-ab5c-ea65b81b8a06"
+  },
+  {
+    "id": "10cd4d4f-0c3e-5003-988d-5b3f9b8422dd",
+    "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "feat_id": "1bf92ea9-226c-5975-bad1-d91e46aefdd3"
+  },
+  {
+    "id": "71d1d77d-8446-51e9-add5-ad056de95082",
+    "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "feat_id": "12ff29e6-13a9-52d5-899d-1e72be8ffbf6"
+  },
+  {
+    "id": "fa7737e7-144b-5c31-b465-59c912b2f5a1",
+    "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "feat_id": "f8d17fa6-e2a0-59b1-9c2b-d7352be3202a"
+  },
+  {
+    "id": "94887ae9-06af-5bc2-8d4b-3dc9fbb5ac68",
+    "ability_id": "9bec7d4d-6a0e-5a1b-8946-acb678b9a65c",
+    "feat_id": "45f3215a-abe5-5836-b994-7504b0e1d14d"
   }
 ]

@@ -3717,5 +3717,392 @@
     "only_for_archetype_ids": [
       "7ba41010-5511-5860-bbe1-66c1a7e446a8"
     ]
+  },
+  {
+    "id": "d089467b-9aeb-5f54-85b0-6f52604b69ea",
+    "group_id": "9c85d990-1062-5e3f-855e-d54c92905820",
+    "name": "hp",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "e8da1d08-b0f3-5870-b3ef-5b8dd5302ace",
+    "group_id": "9c85d990-1062-5e3f-855e-d54c92905820",
+    "name": "skill",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": null
+  },
+  {
+    "id": "f9268937-e542-50c1-bd07-975b80dd2420",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Adels",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "b31f447d-b904-52f7-a9d9-9e0c2715162f",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Befreiung",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "6648899b-8203-5f0d-bb1e-e7b11fbefd07",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Bösen",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "7a97477e-5fa4-5baf-a70a-84b3a54d2c04",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Chaos",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "d9d0d6fe-7714-5b9d-bedb-b909e4e9723f",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Dunkelheit",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "de263d7e-377b-5070-a2aa-a1c882e9f3ce",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Erde",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "0df04fb5-09f2-5d4c-b5ee-04cee87a7191",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Feuers",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "c2d3858a-7930-5d16-ba6c-a449e64243ab",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Gemeinschaft",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "aefb0848-f588-5628-8bbb-0f21de9c3ee8",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Glücks",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "6bb01d43-3818-5bc1-826e-38b23e296fd2",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Guten",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "7aec0dd0-86f3-5345-984b-10564d3bc015",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Handwerks",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "d8b68b58-5875-5558-9c3c-d8ec69a3b06a",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Heilung",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "7340e002-b3c4-543a-81e0-3374b23ac367",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Herrlichkeit",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "51217aff-7b03-50c3-b507-6137764cc723",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Krieges",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "7c7ab6d8-635b-5379-a2b9-9fe5188d3e93",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Luft",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "e514e244-fe97-55b3-af7d-896a333a489b",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Magie",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "41b8c405-d1f8-5dc3-ac74-00112cfde27a",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Ordnung",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "a9b3d317-e7c0-56b7-aeb7-813460c90f72",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Pflanzen",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "54f15c26-49b0-56cd-977e-177e0cb00447",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Reisen",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "431aed05-b5b5-57a7-9290-6f4b6f13d177",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Ruhe",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "424912ae-d43c-5d8e-9f96-6c265420b89c",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Runen",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "300bfa74-1f3c-544e-9d37-086f43c779eb",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Schutzes",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "64e558ac-c26c-50df-9803-43d3ac27f07b",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Sonne",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "aff9c3eb-180c-57e3-8f0c-b9e5a6dd0bb4",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Stärke",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "d463872b-e6ab-58bd-9a8d-f6adbf964b4b",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Tiere",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "86705d98-c9e7-53d8-b464-62151c715c2d",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Todes",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "31de9071-f652-5ec2-b065-a979aeb1083b",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Tricks",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "9d7527be-3d01-5e73-8f5c-f17133133312",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Verzauberung",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "d744fd99-6509-5139-83e5-fcbd7c94c4a0",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Wahnsinns",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "8befe2bc-4b3f-5c64-85c8-a8998e5fb905",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Wassers",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "daf34766-9955-5277-8867-91d005d40254",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Wetters",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "e09903cb-0d4a-5b6a-8411-bff705a4af49",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne des Wissens",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "1480d56b-4a5b-5d45-ba60-d16b9341cd66",
+    "group_id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "name": "Domäne der Zerstörung",
+    "min_level": 3,
+    "requires_choice_id": null,
+    "race_id": null,
+    "only_for_archetype_ids": [
+      "c546bb56-792e-51e2-886d-b4b32097a835"
+    ]
+  },
+  {
+    "id": "4d4a8e47-049f-50d7-bdd0-8dc552c8bf18",
+    "group_id": "9c85d990-1062-5e3f-855e-d54c92905820",
+    "name": "Halb-Ork (Jäger)",
+    "min_level": null,
+    "requires_choice_id": null,
+    "race_id": "88d38c58-be34-42e6-b4a5-08704bc97cb8"
   }
 ]

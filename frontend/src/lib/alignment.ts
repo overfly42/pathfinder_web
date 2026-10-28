@@ -22,11 +22,21 @@ export function alignmentLabel(code: string | null | undefined): string {
 }
 
 /** Classes of the draft whose `allowedAlignments` the draft's current alignment doesn't
- *  satisfy (an unset alignment conflicts with every restricted class) — mirrors the backend's
+ *  satisfy (an unset alignment conflicts with every restricted class) — a chosen archetype's
+ *  own `archetypeAllowedAlignments` entry replaces the class's list. Mirrors the backend's
  *  `_check_alignment`, which is what actually enforces it. */
 export function alignmentConflicts(draft: CreationDraft, options: CreationOptions): string[] {
-  const names = new Set(draft.classRows.map((row) => row.className));
+  const archetypesByClass = new Map<string, string[]>();
+  for (const row of draft.classRows) {
+    archetypesByClass.set(row.className, [...(archetypesByClass.get(row.className) ?? []), ...row.archetypes]);
+  }
   return options.classes
-    .filter((c) => names.has(c.name) && c.allowedAlignments && !c.allowedAlignments.includes(draft.alignment as Alignment))
+    .filter((c) => {
+      const archetypes = archetypesByClass.get(c.name);
+      if (!archetypes) return false;
+      let allowed = c.allowedAlignments;
+      for (const archetype of archetypes) allowed = c.archetypeAllowedAlignments?.[archetype] ?? allowed;
+      return allowed !== null && !allowed.includes(draft.alignment as Alignment);
+    })
     .map((c) => c.name);
 }

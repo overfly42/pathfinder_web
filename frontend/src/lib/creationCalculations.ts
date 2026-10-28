@@ -101,16 +101,41 @@ export function featMax(draft: CreationDraft, options: CreationOptions): number 
   const raceBonus = race?.traits.some((t) => t.name === 'Bonustalent') && !replaced.has('Bonustalent') ? 1 : 0;
 
   const levelByClassName = new Map<string, number>();
+  const archetypesByClassName = new Map<string, Set<string>>();
   for (const row of draft.classRows) {
     levelByClassName.set(row.className, (levelByClassName.get(row.className) ?? 0) + (row.level || 0));
+    const archetypes = archetypesByClassName.get(row.className) ?? new Set<string>();
+    row.archetypes.forEach((a) => archetypes.add(a));
+    archetypesByClassName.set(row.className, archetypes);
   }
   let classBonus = 0;
   for (const [className, level] of levelByClassName) {
-    const bonusFeatLevels = classDef(options, className)?.bonusFeatLevels ?? [];
+    const cls = classDef(options, className);
+    const bonusFeatLevels = cls ? bonusFeatLevelsFor(cls, [...(archetypesByClassName.get(className) ?? [])]) : [];
     classBonus += bonusFeatLevels.filter((grantLevel) => grantLevel <= level).length;
   }
 
   return base + raceBonus + classBonus;
+}
+
+/** A class's bonus-feat-slot levels (one entry per slot) with the chosen
+ *  `archetypes` applied: each archetype's `archetypeBonusFeatLevels` entry is
+ *  its full list, so its difference to the root's `bonusFeatLevels` (slots it
+ *  adds, slots it replaces) is what gets applied. Mirrors the backend's
+ *  `bonus_feat_slot_levels` (`rules/feat_slots.py`). */
+export function bonusFeatLevelsFor(cls: ClassDef, archetypes: string[]): number[] {
+  const counts = new Map<number, number>();
+  const bump = (levels: number[], by: number) => levels.forEach((l) => counts.set(l, (counts.get(l) ?? 0) + by));
+  bump(cls.bonusFeatLevels, 1);
+  for (const archetype of archetypes) {
+    const own = cls.archetypeBonusFeatLevels?.[archetype];
+    if (!own) continue;
+    bump(own, 1);
+    bump(cls.bonusFeatLevels, -1);
+  }
+  return [...counts.entries()]
+    .flatMap(([level, count]) => Array<number>(Math.max(0, count)).fill(level))
+    .sort((a, b) => a - b);
 }
 
 /** Builds `CharacterCreate.feats` (backend's `FeatSelection` list) from
@@ -284,6 +309,11 @@ export function spontaneousBonusOverflowUsed(
   return used;
 }
 
+/** `CreationOptions.grantedSpellsByChoice`'s key for spells the class itself
+ *  grants, not an option choice — mirrors the backend's `CLASS_WIDE_GRANT_KEY`
+ *  (`routers/spells.py`). */
+export const CLASS_WIDE_GRANT_KEY = '*';
+
 /** Spells a one-time option choice already made for this class grants
  *  automatically for free, once the character's current level in this class
  *  reaches each grant's own level (Mystiker's `heilfokus` Kurieren/Verletzen
@@ -293,12 +323,15 @@ export function spontaneousBonusOverflowUsed(
  *  `spellsByClass` — a granted spell isn't guaranteed to also appear on the
  *  class's own regular list (e.g. some Hexenmeister Blutlinie spells are
  *  legitimately off-list, see `import_hexenmeister_bloodlines.py`'s
- *  history). See `SpellsStep.tsx`. */
+ *  history). See `SpellsStep.tsx`. A class-wide grant (the Jäger's
+ *  Verbündeten der Natur herbeizaubern) sits under `CLASS_WIDE_GRANT_KEY`
+ *  and always applies. */
 export function grantedSpellsForClass(draft: CreationDraft, options: CreationOptions, className: string): GrantedSpellDef[] {
   const level = classTotalLevel(draft, className);
-  const chosenOptionNames = new Set(
-    draft.classRows.filter((r) => r.className === className).flatMap((r) => Object.values(r.options).flat()),
-  );
+  const chosenOptionNames = new Set([
+    CLASS_WIDE_GRANT_KEY,
+    ...draft.classRows.filter((r) => r.className === className).flatMap((r) => Object.values(r.options).flat()),
+  ]);
   const grantedByChoice = options.grantedSpellsByChoice[className] ?? {};
   return Object.entries(grantedByChoice)
     .filter(([choiceName]) => chosenOptionNames.has(choiceName))

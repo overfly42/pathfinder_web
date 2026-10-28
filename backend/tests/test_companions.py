@@ -413,6 +413,24 @@ def test_katzenvolk_and_ork_druide_favored_class_bonuses_reach_the_companion(
     assert _attack(plain_wolf, "Biss")["damage"] == "1W6+1 H/S/W"
 
 
+def test_halbork_and_ork_waldlaeufer_favored_class_bonuses_add_companion_hp(
+    client: TestClient, db_session: Session
+) -> None:
+    ranger = [{"class_name": "Waldläufer", "level": 4, "options": {"hunter_bond": ["Tiergefährte"]}}]
+    plain_wolf = _companion(client, _master(client, db_session, ranger), "Wolf")
+
+    halbork_master = _master(
+        client, db_session, ranger, race="Halb-Ork", flex_ability="ST",
+        favored_class_bonus={"1": "Halb-Ork (Waldläufer)", "2": "Halb-Ork (Waldläufer)", "3": "Halb-Ork (Waldläufer)", "4": "skill"},
+    )
+    assert _companion(client, halbork_master, "Wolf")["hp"]["max"] == plain_wolf["hp"]["max"] + 3
+
+    ork_master = _master(
+        client, db_session, ranger, race="Ork",
+        favored_class_bonus={"1": "Ork (Waldläufer)", "2": "Ork (Waldläufer)", "3": "skill", "4": "skill"},
+    )
+    assert _companion(client, ork_master, "Wolf")["hp"]["max"] == plain_wolf["hp"]["max"] + 2
+
 def test_waldlaeufer_companion_shares_favored_enemies(client: TestClient, db_session: Session) -> None:
     ranger = _master(
         client,

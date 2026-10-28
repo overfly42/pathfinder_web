@@ -120,6 +120,14 @@ SOURCES: list[tuple] = [
      ("named", "Tiergefährte (Bärenschamane)"), "class_level", "Druide", 0, 1, None),
     ("loewenschamane", "animal_companion", "Druide (Löwenschamane)",
      ("named", "Tiergefährte (Löwenschamane)"), "class_level", "Druide", 0, 1, None),
+    # Jäger: "Dabei fungiert die Jägerstufe als effektive Druidenstufe"
+    # (`import_jaeger.py`, run that first).
+    ("jaeger", "animal_companion", "Jäger", ("ability", "Jäger", "Tiergefährte (Jäger)", None),
+     "class_level", "Jäger", 0, 1, None),
+    # Rudelführer: Rudelbindung replaces it (`import_jaeger_archetypes.py`);
+    # one companion at the full Jäger level — the split isn't modeled.
+    ("jaeger-rudelfuehrer", "animal_companion", "Jäger (Rudelführer)", ("named", "Rudelbindung"),
+     "class_level", "Jäger", 0, 1, None),
 ]
 STACK_GROUPS = {"druide-sekundaer": "druide-sekundaer", "druide-sekundaer-verbessert": "druide-sekundaer"}
 

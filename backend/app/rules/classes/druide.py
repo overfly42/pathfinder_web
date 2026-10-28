@@ -6,8 +6,8 @@
   (Bestiengestalt/Elementargestalt/Pflanzengestalt stats) are not applied
   yet — descriptive, per the roadmap.
 - "Tierempathie" (`FEATURE_SUMMARY_HANDLERS`): one ability row shared with
-  the Waldläufer (decided 2026-10-14), so the bonus sums the levels of every
-  class that grants it. Lives here rather than in a Waldläufer file because
+  the Waldläufer (decided 2026-10-14) and the Jäger, so the bonus sums the
+  levels of every class that grants it. Lives here rather than in a Waldläufer file because
   the Waldläufer has no class module of its own yet.
 - "Umgang mit Waffen und Rüstungen" (`WEAPON_PROFICIENCY_HANDLERS`): the
   Druide's named weapon list doesn't match a category feat (two of the ten
@@ -31,6 +31,7 @@ from ..progression import ability_mod
 
 DRUIDE_ROOT_CLASS_ID = UUID("2835c712-7129-41fe-a61e-8ef05de2e0cf")
 WALDLAEUFER_ROOT_CLASS_ID = UUID("91ab69e8-7ab5-46de-af7f-292f585645b4")
+JAEGER_ROOT_CLASS_ID = UUID("022e365e-1869-506f-8c77-88e85910b35f")
 
 NATURGESPUER_ABILITY_ID = UUID("27df2b87-4cb4-5b9b-86a4-39c5454e785c")
 TIERGESTALT_ABILITY_ID = UUID("248a0b40-17ab-5124-a2bc-cf50e76692e1")
@@ -58,8 +59,9 @@ DRUIDE_WEAPON_IDS = frozenset(
 )
 
 # Every root class whose own grant of `TIEREMPATHIE_ABILITY_ID` makes its
-# levels count toward the check ("Druidenstufe" / "Waldläuferstufe").
-_TIEREMPATHIE_CLASS_IDS = (DRUIDE_ROOT_CLASS_ID, WALDLAEUFER_ROOT_CLASS_ID)
+# levels count toward the check ("Druidenstufe" / "Waldläuferstufe" /
+# "Jägerstufe", `scripts/import_jaeger.py`).
+_TIEREMPATHIE_CLASS_IDS = (DRUIDE_ROOT_CLASS_ID, WALDLAEUFER_ROOT_CLASS_ID, JAEGER_ROOT_CLASS_ID)
 
 # Tiergestalt at 20th level is "jederzeit" — `DAILY_LIMITS` has no unlimited
 # sentinel, so the 20th-level value is simply larger than any table could
@@ -96,10 +98,10 @@ def _naturgespuer(context: CharacterContext) -> list[Modifier]:
 def tiergestalt_uses_per_day(context: CharacterContext) -> int:
     """1/Tag at 4th, +1 at 6th and every two levels after, max 8 at 18th;
     unlimited at 20th."""
-    return _tiergestalt_uses_at(_druide_level(context))
+    return tiergestalt_uses_at(_druide_level(context))
 
 
-def _tiergestalt_uses_at(level: int) -> int:
+def tiergestalt_uses_at(level: int) -> int:
     if level >= 20:
         return TIERGESTALT_UNLIMITED_USES
     if level < 4:
@@ -112,7 +114,7 @@ def _tiergestalt_summary(context: CharacterContext) -> str:
 
 
 def _tiergestalt_summary_at(level: int) -> str:
-    uses = "beliebig oft" if level >= 20 else f"{_tiergestalt_uses_at(level)}/Tag"
+    uses = "beliebig oft" if level >= 20 else f"{tiergestalt_uses_at(level)}/Tag"
     # A later form of the same spell family replaces the earlier one
     # (Bestiengestalt III supersedes I/II), so keep only the highest per family.
     best_by_family: dict[str, str] = {}
@@ -157,7 +159,7 @@ _TOTEM_FORMS = {BAER_TIERGESTALT_ID: "Bären", LOEWE_TIERGESTALT_ID: "katzenarti
 
 def _shaman_tiergestalt_uses(context: CharacterContext) -> int:
     level = _druide_level(context)
-    return _tiergestalt_uses_at(level + _SHAMAN_TIERGESTALT_OFFSET) if level >= 6 else 0
+    return tiergestalt_uses_at(level + _SHAMAN_TIERGESTALT_OFFSET) if level >= 6 else 0
 
 
 def _shaman_tiergestalt_summary(ability_id: UUID) -> Callable[[CharacterContext], str]:

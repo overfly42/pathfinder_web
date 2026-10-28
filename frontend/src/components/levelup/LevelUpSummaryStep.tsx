@@ -10,7 +10,9 @@ import {
   getOldTotalLevel,
   getReceivingClassAndLevel,
   getReceivingClassName,
+  levelUpChoiceGroups,
   newlyGrantedSpellsThisLevel,
+  receivingArchetypeNames,
   secondaryClassFeatureGrantedThisLevel,
 } from '../../lib/levelUpCalculations';
 
@@ -36,8 +38,7 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
     if (c && info) {
       const archetypeLabel = c.archetypes.length ? c.archetypes.join(', ') : 'Keiner';
       classLine = `${c.className} (${archetypeLabel}): Stufe ${c.level} → ${info.level}`;
-      for (const g of options.classLevelOptions[info.className] ?? []) {
-        if (!g.levels.includes(info.level)) continue;
+      for (const g of levelUpChoiceGroups(progression, options, target)) {
         const chosen = draft.existingLevelOptionSelections[g.key] ?? [];
         if (chosen.length) optLines.push(`${g.label}: ${chosen.join(', ')}`);
       }
@@ -70,7 +71,12 @@ export function LevelUpSummaryStep({ progression, options, draft, showConfirmBan
       ? `Ersetzt durch Sekundärklassen-Feature (${progression.secondaryClass?.name}) — Inhalt noch nicht hinterlegt.`
       : draft.newFeat || '— noch nicht gewählt —';
 
-  const bonusFeatGranted = classBonusFeatGrantedThisLevel(className, info?.level ?? null, options.classes);
+  const bonusFeatGranted = classBonusFeatGrantedThisLevel(
+    className,
+    info?.level ?? null,
+    options.classes,
+    receivingArchetypeNames(progression, draft.target),
+  );
   const sumBonusFeat = bonusFeatGranted ? draft.newBonusFeat || '— noch nicht gewählt —' : null;
 
   const skillLines = options.skills.filter((s) => (draft.skillIncreases[s.id] || 0) > 0);

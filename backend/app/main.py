@@ -23,7 +23,7 @@ from .models import (
 )
 from .routers import characters, companion_tricks, conditions, feats, items, races, skills, spells, traits, users, weapon_abilities
 from .rules.class_options import ability_ids_by_name, archetype_replaced_grant_ids, group_occurrence_levels
-from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS
+from .rules.feat_slots import BONUS_FEAT_SLOT_ABILITY_IDS, bonus_feat_slot_levels
 from .rules.handlers import has_mechanical_effect, partial_effect_note
 from .sheet import (
     build_character_history,
@@ -523,6 +523,21 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
             if by_level:
                 archetype_bonus_feat_options_by_root_id.setdefault(root_id, {})[archetype.name] = by_level
 
+    # archetype name -> that archetype's full bonus-feat-slot level list
+    # (`rules/feat_slots.py`'s `bonus_feat_slot_levels`), only where it
+    # differs from the root's own `bonusFeatLevels` — an archetype can add
+    # slots (a Tierschamane's Bonustalent at 9/13/17) or replace some (the
+    # Wilder Jäger's Rudel herbeizaubern). The wizards' `featMax`/
+    # `classBonusFeatGrantedThisLevel` apply each chosen archetype's
+    # difference to the root list.
+    archetype_bonus_feat_levels_by_root_id: dict = {}
+    for root_id, archetypes in archetypes_by_root_id.items():
+        root_levels = bonus_feat_slot_levels(db, root_id)
+        for archetype in archetypes:
+            levels = bonus_feat_slot_levels(db, root_id, {archetype.id})
+            if levels != root_levels:
+                archetype_bonus_feat_levels_by_root_id.setdefault(root_id, {})[archetype.name] = levels
+
     # {root_id: {level: {grade: count | None}}} — count is null for
     # arcane-prepared classes (grade-gating only, see rules/spells.py); the
     # frontend's spell-picker budget math (creationCalculations.ts) mirrors
@@ -553,6 +568,9 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         class_def["archetypeBonusFeatOptionsByLevel"] = (
             archetype_bonus_feat_options_by_root_id.get(root_id, {}) if root_id else {}
         )
+        class_def["archetypeBonusFeatLevels"] = (
+            archetype_bonus_feat_levels_by_root_id.get(root_id, {}) if root_id else {}
+        )
         class_def["archetypeWeaponChoiceAbilityId"] = (
             archetype_weapon_choice_ability_id_by_root_id.get(root_id, {}) if root_id else {}
         )
@@ -568,6 +586,13 @@ def get_classes(db: Annotated[Session, Depends(get_db)]) -> list:
         # narrows its Gesinnung picker with it; `routers/characters.py`'s
         # `_check_alignment` is what enforces it.
         class_def["allowedAlignments"] = root.allowed_alignments if root else None
+        # archetype name -> its own list where it replaces the root's
+        # (`rules/alignment.py`'s `alignment_conflicts`) — sparse.
+        class_def["archetypeAllowedAlignments"] = {
+            archetype.name: archetype.allowed_alignments
+            for archetype in archetypes_by_root_id.get(root_id, [])
+            if archetype.allowed_alignments is not None
+        }
         if root is not None:
             class_def["skillPointsBase"] = root.skill_points_base
     return classes

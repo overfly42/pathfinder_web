@@ -193,5 +193,31 @@
     "divisor": 1,
     "minimum": null,
     "stack_group": null
+  },
+  {
+    "id": "57654034-bf8a-5a19-bebc-4afbefba6400",
+    "track": "animal_companion",
+    "label": "Jäger",
+    "class_ability_id": "8d2f4782-0cfe-5064-bd79-15860dec8e5b",
+    "feat_id": null,
+    "kind": "class_level",
+    "root_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": null
+  },
+  {
+    "id": "3a533bbf-5c2d-5257-bf49-e71289c80873",
+    "track": "animal_companion",
+    "label": "Jäger (Rudelführer)",
+    "class_ability_id": "d8473cd2-cdac-5326-961b-ee39d8149d1d",
+    "feat_id": null,
+    "kind": "class_level",
+    "root_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "offset": 0,
+    "divisor": 1,
+    "minimum": null,
+    "stack_group": null
   }
 ]

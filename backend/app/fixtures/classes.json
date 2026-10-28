@@ -493,5 +493,12 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Jäger",
+    "skillPointsBase": 6,
+    "spellType": "spontaneous",
+    "classSkills": [],
+    "optionGroups": []
   }
 ]

@@ -92,6 +92,9 @@ export interface ClassDef {
   /** Alignment codes this class requires (`BaseClass.allowed_alignments` — Paladin ["LG"],
    *  Druide any neutral component); `null` = any. Enforced server-side on creation. */
   allowedAlignments: Alignment[] | null;
+  /** archetype name -> the alignments it allows instead of `allowedAlignments`, sparse
+   *  (the Göttlicher Jäger isn't bound to the Jäger's "jede Neutrale"). */
+  archetypeAllowedAlignments?: Record<string, Alignment[]>;
   classSkills: string[];
   optionGroups: ClassOptionGroup[];
   /** archetype name -> option group key -> occurrence levels that
@@ -130,6 +133,11 @@ export interface ClassDef {
    *  `archetypeCastingAbility`. The replaced grant *levels* are unchanged
    *  (still `bonusFeatLevels`); only the options at those levels differ. */
   archetypeBonusFeatOptionsByLevel: Record<string, Record<number, { types: string[]; feats: FeatDef[] }>>;
+  /** archetype name -> its full bonus-feat-slot level list, sparse (only
+   *  where it differs from `bonusFeatLevels`: an archetype adding slots, like
+   *  a Tierschamane's Bonustalent, or replacing some, like the Wilder Jäger's
+   *  Rudel herbeizaubern) — applied by `bonusFeatLevelsFor`. */
+  archetypeBonusFeatLevels: Record<string, number[]>;
   /** 2-letter ability code the class casts with (e.g. IN for Wizard), or
    *  `null` for non-casters. */
   castingAbility: AbilityKey | null;

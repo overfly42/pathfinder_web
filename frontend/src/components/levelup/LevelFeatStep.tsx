@@ -29,7 +29,13 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
   const secondaryFeatureGranted = secondaryClassFeatureGrantedThisLevel(newLevel, progression);
   const baseFeatPickable = granted && !secondaryFeatureGranted;
   const receiving = getReceivingClassAndLevel(progression, draft.target);
-  const bonusGranted = classBonusFeatGrantedThisLevel(receiving?.className ?? null, receiving?.level ?? null, options.classes);
+  const receivingArchetypes = receivingArchetypeNames(progression, draft.target);
+  const bonusGranted = classBonusFeatGrantedThisLevel(
+    receiving?.className ?? null,
+    receiving?.level ?? null,
+    options.classes,
+    receivingArchetypes,
+  );
   const receivingClass = options.classes.find((c) => c.name === receiving?.className);
   // An archetype whose own class ability replaces the base class's
   // bonus-feat grants (e.g. Meister aller Kampfstile swapping Mönch's
@@ -38,8 +44,8 @@ export function LevelFeatStep({ progression, options, draft, setDraft }: LevelFe
   // up the receiving row's selected archetype(s) first and fall back to the
   // base class's own `bonusFeatOptionsByLevel` only if none of them has an
   // override at this level (see `ClassDef.archetypeBonusFeatOptionsByLevel`
-  // on the backend for why the replaced levels themselves never change).
-  const receivingArchetypes = receivingArchetypeNames(progression, draft.target);
+  // on the backend; an archetype adding or replacing slot *levels* is
+  // `ClassDef.archetypeBonusFeatLevels`, already applied to `bonusGranted`).
   const archetypeBonusOptions = receiving
     ? receivingArchetypes
         .map((name) => receivingClass?.archetypeBonusFeatOptionsByLevel[name]?.[receiving.level])

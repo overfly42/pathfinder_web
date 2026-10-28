@@ -568,5 +568,41 @@
     "feat_id": "77e13c2b-c21d-5fcb-be2a-a5a54e930504",
     "group_id": null,
     "minimum_bab": 4
+  },
+  {
+    "id": "7b7c8863-3ae2-56c9-ac4d-ffc36b457beb",
+    "feat_id": "a2ea3b31-c4b2-515d-a737-395011ba8993",
+    "group_id": null,
+    "minimum_bab": 4
+  },
+  {
+    "id": "f73bbab3-913a-538e-90bf-9cce971a97fa",
+    "feat_id": "6bb5d1f4-f7a7-5968-96e4-c5c3fa071da4",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "4928d252-15b6-5cd9-8ec9-7f26489d82b7",
+    "feat_id": "9d9524bc-7b89-52c2-ad9c-3be17c5a8d0a",
+    "group_id": null,
+    "minimum_bab": 6
+  },
+  {
+    "id": "69144d49-152b-55a1-aa1e-bc9fc810094c",
+    "feat_id": "dc80fd89-d907-56af-b403-e472a26299d5",
+    "group_id": null,
+    "minimum_bab": 10
+  },
+  {
+    "id": "c61ac080-a5b2-58c9-9cb3-1db1908a1c5f",
+    "feat_id": "4fd274d6-e47b-55db-b783-92edd06c5941",
+    "group_id": null,
+    "minimum_bab": 1
+  },
+  {
+    "id": "23e055e8-a343-598f-999c-ee3ac60b8f3b",
+    "feat_id": "ae53e54b-878a-5cac-a982-263e36fdae8a",
+    "group_id": null,
+    "minimum_bab": 6
   }
 ]

@@ -16,12 +16,14 @@ bonus feats later is a pure data change (seed rows + one more id in this
 set), not a new code path.
 """
 
+from collections.abc import Collection
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..models import BaseClass, BaseClassAbilityGrant, RaceAbilityGrant
+from .class_options import archetype_replaced_grant_ids
 
 # "Bonustalent" (Human's bonus feat at 1st level) — a literal, hand-frozen id,
 # same convention as rules/race_abilities.py's ABILITY_* constants: the only
@@ -71,6 +73,11 @@ BONUS_FEAT_SLOT_ABILITY_IDS: frozenset[UUID] = frozenset(
         # list, prerequisites still required (`import_druide_tierschamanen.py`).
         UUID("a812ac64-7230-5c38-8e09-9a2b5d529d32"),  # Bärenschamane
         UUID("d4399098-c304-5918-9687-61d8459ccecf"),  # Löwenschamane
+        # Jäger (`import_jaeger.py`): "Genaues Ausmanövrieren" (2nd, closed
+        # list, prerequisites waived) and "Gemeinschaftstalente" (3rd and
+        # every three levels, any teamwork feat, prerequisites required).
+        UUID("4e83821b-8851-5442-bf5e-1fc1bf57d8a5"),
+        UUID("ec4aac19-ac6b-56ea-bd4a-4a1ed2dac4b8"),
     }
 )
 
@@ -125,10 +132,19 @@ def class_bonus_feat_slot_count(db: Session, classes: list) -> int:
     Levels taken in the same class across multiple selections (e.g. a class
     picked non-contiguously, per `test_create_character_with_same_class_across_rows_merges_archetypes`)
     are summed first: a grant's `level` is the class's own cumulative level,
-    not a per-selection one."""
+    not a per-selection one.
+
+    Archetypes (each selection's `.archetypes`, by name) count too: their own
+    slot grants add (a Tierschamane's Bonustalent), and a root slot grant one
+    of them replaces drops (the Wilder Jäger's Rudel herbeizaubern replacing
+    the Jäger's Gemeinschaftstalente from 6th) — `bonus_feat_slot_levels`."""
     level_by_class_name: dict[str, int] = {}
+    archetype_names_by_class_name: dict[str, set[str]] = {}
     for selection in classes:
         level_by_class_name[selection.class_name] = level_by_class_name.get(selection.class_name, 0) + selection.level
+        archetype_names_by_class_name.setdefault(selection.class_name, set()).update(
+            getattr(selection, "archetypes", None) or ()
+        )
     if not level_by_class_name:
         return 0
 
@@ -139,13 +155,31 @@ def class_bonus_feat_slot_count(db: Session, classes: list) -> int:
     total = 0
     for root in roots:
         class_level = level_by_class_name[root.name]
-        grants = db.scalars(
-            select(BaseClassAbilityGrant.id).where(
-                BaseClassAbilityGrant.base_class_id == root.id,
-                BaseClassAbilityGrant.ability_id.in_(BONUS_FEAT_SLOT_ABILITY_IDS),
-                BaseClassAbilityGrant.level <= class_level,
+        archetype_names = archetype_names_by_class_name.get(root.name, set())
+        archetype_ids = (
+            set(
+                db.scalars(
+                    select(BaseClass.id).where(BaseClass.arch_class_of == root.id, BaseClass.name.in_(archetype_names))
+                )
             )
-        ).all()
-        total += len(grants)
+            if archetype_names
+            else set()
+        )
+        total += sum(1 for level in bonus_feat_slot_levels(db, root.id, archetype_ids) if level <= class_level)
 
     return total
+
+
+def bonus_feat_slot_levels(db: Session, root_id: UUID, archetype_ids: Collection[UUID] = ()) -> list[int]:
+    """The class levels a root class grants a bonus feat slot at (one entry
+    per slot, sorted), with `archetype_ids`' own slot grants added and the
+    root grants they replace removed — shared by the backend count above and
+    `/api/classes`' `archetypeBonusFeatLevels` delta for the wizards."""
+    replaced = archetype_replaced_grant_ids(db, archetype_ids)
+    grants = db.scalars(
+        select(BaseClassAbilityGrant).where(
+            BaseClassAbilityGrant.base_class_id.in_([root_id, *archetype_ids]),
+            BaseClassAbilityGrant.ability_id.in_(BONUS_FEAT_SLOT_ABILITY_IDS),
+        )
+    ).all()
+    return sorted(grant.level for grant in grants if grant.id not in replaced)

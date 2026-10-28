@@ -300,19 +300,25 @@ def granted_spell_ids_for_choices(
     commit time) *and* excludes these from the known-spell budget a
     level-up checks (a granted spell never drew on that budget to begin
     with — see that call site's own comment for why conflating the two
-    silently ate a real known-spell slot)."""
-    choice_ids = list(choice_ids)
-    if not choice_ids:
-        return set()
+    silently ate a real known-spell slot).
+
+    Class-wide grants (`option_choice_id` null — the Jäger's Verbündeten der
+    Natur herbeizaubern) count regardless of `choice_ids`."""
     return set(
         db.scalars(
             select(BaseClassSpellGrant.spell_id).where(
                 BaseClassSpellGrant.base_class_id == base_class_id,
-                BaseClassSpellGrant.option_choice_id.in_(choice_ids),
+                _choice_or_class_wide(choice_ids),
                 BaseClassSpellGrant.level <= max_level,
             )
         ).all()
     )
+
+
+def _choice_or_class_wide(choice_ids: Iterable[UUID]):
+    """A `BaseClassSpellGrant` filter: granted by one of `choice_ids`, or by
+    the class itself (`option_choice_id` null)."""
+    return BaseClassSpellGrant.option_choice_id.in_(list(choice_ids)) | BaseClassSpellGrant.option_choice_id.is_(None)
 
 
 def granted_option_choice_spells(
@@ -345,14 +351,14 @@ def granted_option_choice_spells(
     check `add_to_spellbook` already does, `routers/characters.py`) — a
     grant already present (e.g. from an earlier level-up, or already
     manually in the spellbook) is skipped rather than duplicated, since
-    `CharacterSpell` carries no provenance column to distinguish the two."""
-    choice_ids = list(choice_ids)
-    if not choice_ids:
-        return []
+    `CharacterSpell` carries no provenance column to distinguish the two.
+
+    Class-wide grants (`option_choice_id` null) are included whatever
+    `choice_ids` holds, same as `granted_spell_ids_for_choices`."""
     rows = db.scalars(
         select(BaseClassSpellGrant).where(
             BaseClassSpellGrant.base_class_id == base_class_id,
-            BaseClassSpellGrant.option_choice_id.in_(choice_ids),
+            _choice_or_class_wide(choice_ids),
             BaseClassSpellGrant.level >= min_level,
             BaseClassSpellGrant.level <= max_level,
         )

@@ -110,12 +110,14 @@ from collections.abc import Callable, Iterable
 from uuid import UUID
 
 from .classes import APPLIED_OUTSIDE_HANDLERS_IDS as _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS
+from .classes import CLASS_SKILL_GRANTS as _CLASS_CLASS_SKILL_GRANTS
 from .classes import DAILY_LIMIT_UNIT_LABEL as _CLASS_DAILY_LIMIT_UNIT_LABEL
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
 from .classes import FEATURE_SUMMARY_HANDLERS as _CLASS_FEATURE_SUMMARY_HANDLERS
 from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
 from .classes import ON_END as _CLASS_ON_END
+from .classes import PARTIAL_EFFECT_NOTES as _CLASS_PARTIAL_EFFECT_NOTES
 from .classes import POOL_COST_AT_ACTIVATION as _CLASS_POOL_COST_AT_ACTIVATION
 from .classes import POOL_SOURCE_ID as _CLASS_POOL_SOURCE_ID
 from .classes import SAVE_DC_HANDLERS as _CLASS_SAVE_DC_HANDLERS
@@ -161,11 +163,12 @@ SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNo
     **_CLASS_SITUATIONAL_SKILL_HANDLERS,
 }
 
-# This module's own "CLASS_SKILL_GRANTS" docstring section above — only
-# traits contribute today; a future feat-granted entry merges in here the
-# same way.
+# This module's own "CLASS_SKILL_GRANTS" docstring section above — traits
+# and granted class abilities (the Göttlicher Jäger's Wissen (Religion)); a
+# future feat-granted entry merges in here the same way.
 CLASS_SKILL_GRANTS: dict[UUID, frozenset[UUID]] = {
     **_TRAIT_CLASS_SKILL_GRANTS,
+    **_CLASS_CLASS_SKILL_GRANTS,
 }
 
 
@@ -174,15 +177,15 @@ def granted_class_skill_ids(context: CharacterContext) -> frozenset[UUID]:
     regardless of their actual classes (`CLASS_SKILL_GRANTS` above), unioned
     into `sheet.py`'s own class-list-derived `class_skill_ids`. Same
     `context.feat_ids | context.trait_ids` trigger-id scan
-    `situational_skill_notes` already uses — no granted-class-ability scope
-    exists for this registry yet (no class ability found so far grants class
-    skill status), so `context.granted_ability_ids` isn't scanned here.
+    `situational_skill_notes` already uses, plus granted class abilities
+    (`context.granted_ability_ids` — the Göttlicher Jäger's
+    "Klassenfertigkeiten", 2026-10-26).
 
     Also unions in feats whose grant is the player's own choice rather than
     a fixed set (`DYNAMIC_CLASS_SKILL_GRANT_FEAT_IDS`, e.g. Kosmopolit) —
     read straight off `context.feat_skill_pair_choices` instead of this
     registry, since the granted ids differ per character."""
-    trigger_ids = context.feat_ids | context.trait_ids
+    trigger_ids = context.feat_ids | context.trait_ids | set(context.granted_ability_ids)
     granted: set[UUID] = set()
     for trigger_id in trigger_ids:
         granted.update(CLASS_SKILL_GRANTS.get(trigger_id, frozenset()))
@@ -391,6 +394,7 @@ def has_mechanical_effect(ability_id: UUID) -> bool:
 # every registry above. Value: what isn't computed, shown to the player.
 PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
     **_RACE_PARTIAL_EFFECT_NOTES,
+    **_CLASS_PARTIAL_EFFECT_NOTES,
 }
 
 

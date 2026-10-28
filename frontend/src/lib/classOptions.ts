@@ -51,6 +51,27 @@ export function availableOptionGroups(
     .filter((g) => g.effectiveMax > 0 && g.availableChoiceNames.length > 0);
 }
 
+/** One-time groups an *existing* class first reaches at a level-up: no pick
+ *  in the group yet, and some legal choice is gated by a `minLevel` that
+ *  `level` now meets (the Göttlicher Jäger's domain at 3rd level).
+ *  `/api/class-level-options`, which `ClassChoiceStep.tsx` otherwise reads,
+ *  only lists recurring groups, so these come from `/api/classes` instead.
+ *  Groups whose choices have no `minLevel` (Kleriker's domains) were already
+ *  due at 1st level and stay out. */
+export function unlockedOneTimeGroups(
+  groups: ClassOptionGroup[],
+  level: number,
+  archetypes: string[],
+  selected: Record<string, string[]>,
+): (ClassOptionGroup & { effectiveMax: number; availableChoiceNames: string[] })[] {
+  return availableOptionGroups(groups, level, archetypes, {}, selected).filter(
+    (g) =>
+      g.occurrenceLevels.length === 0 &&
+      (selected[g.key] ?? []).length === 0 &&
+      g.choices.some((c) => c.minLevel !== null && g.availableChoiceNames.includes(c.name)),
+  );
+}
+
 /** Whether the chosen `archetypes` allow `choice` (its `onlyForArchetypes`/
  *  `excludedForArchetypes` scoping). */
 function archetypeAllows(choice: ClassOptionChoice, archetypes: string[]): boolean {

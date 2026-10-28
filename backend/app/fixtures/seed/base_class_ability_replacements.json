@@ -532,5 +532,419 @@
     "archetype_class_id": "6690a7f7-12b9-5701-9319-99d3f0a88a68",
     "ability_id": "d4399098-c304-5918-9687-61d8459ccecf",
     "replaces_grant_id": "82f76ccd-36d1-53af-9f94-ab68046aa0d0"
+  },
+  {
+    "id": "040ce7cf-9012-5f67-bcb9-5f12bb0860d9",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "2be9ce95-1ac4-5522-a95a-cf4004074122"
+  },
+  {
+    "id": "8bca16a2-a0d0-505b-a11d-5ec32e7112b5",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "2feed9c8-f7a1-5794-8467-2d45d52de575"
+  },
+  {
+    "id": "6eacd80f-6570-5c92-aa9b-9a16932bd767",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "f4ef798e-8d67-5c1b-9004-66e7d911f219"
+  },
+  {
+    "id": "1c40f178-a1bd-521d-93c8-c319f4ad6e24",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "7365a4aa-5d04-5003-a8e6-2bbf93f92450"
+  },
+  {
+    "id": "366b105e-c58e-5b7e-b5cc-1cbbfaf3fc9c",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "9b0b2b06-822a-5ca7-99b0-80ae12c6f0ac"
+  },
+  {
+    "id": "35bf6902-5eeb-53a5-bf64-aa3588a6ef65",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "12aa556f-94cb-528b-ad0a-1cb789744909"
+  },
+  {
+    "id": "40843f2e-51f9-5e2a-82e6-1f0f8943f742",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "e956943f-e06e-5117-bd7d-118e4d9e0250"
+  },
+  {
+    "id": "3c115277-08b1-58d7-bdd3-01d142a96330",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "7c645494-bd11-59a3-b096-c9f9f75885d8"
+  },
+  {
+    "id": "c75bb220-5fdf-5e6d-89c0-5929472e2f9a",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "fde8fd17-2833-5325-b7bb-ea55245416ae"
+  },
+  {
+    "id": "ea67d2fb-f27e-55d5-8ceb-7e174e707581",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "0980dd28-d03e-5e2b-bb33-8c41aec20610"
+  },
+  {
+    "id": "0817c6a3-1fe9-5b39-a2ab-6a46de84488e",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "cab8cda9-7b66-56c7-922b-65a39a89f940"
+  },
+  {
+    "id": "5f8fb141-0a4c-55b6-b066-174fdbc50eaa",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "8447dedf-e409-5875-a6a1-f5be1a31c997"
+  },
+  {
+    "id": "60edc175-602c-5461-b295-f50297f8a20b",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
+    "replaces_grant_id": "84c0a9d5-07b4-5d0d-945c-0506c134962e"
+  },
+  {
+    "id": "a8e33290-6800-5b3e-9beb-64e6925eed1a",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "453a73e3-15c6-55df-811c-977ec8d82732",
+    "replaces_grant_id": "e414c444-676d-559a-8fd1-76912cd639e8"
+  },
+  {
+    "id": "3c0d547c-fa01-5845-963f-5cbba8fa4203",
+    "archetype_class_id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "ability_id": "1a780c9f-ebc5-5ae6-bbdf-587e4b48f08f",
+    "replaces_grant_id": "8937f38b-df69-5af7-9b43-fe46d9ade06b"
+  },
+  {
+    "id": "5d1edd02-349a-558d-ae5f-0c75c827fde6",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "b13af5cd-1402-595b-ba09-3dad218819cc",
+    "replaces_grant_id": "025a3ebf-be78-5505-ab2e-448e839c82b0"
+  },
+  {
+    "id": "95b5ab27-5599-5dd4-8f5d-bd28d6635d03",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "81152f8c-dba2-5fce-829c-bf580f33e9de",
+    "replaces_grant_id": "122960dc-b7e1-507a-a824-62286a85c535"
+  },
+  {
+    "id": "6a45168d-e97f-5518-b41f-55aebcd8af3e",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "2be9ce95-1ac4-5522-a95a-cf4004074122"
+  },
+  {
+    "id": "0e9c9191-d2a8-55bc-a533-b117f5754c4d",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "2feed9c8-f7a1-5794-8467-2d45d52de575"
+  },
+  {
+    "id": "ff966c65-870c-58d9-8751-98a41236c1e1",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "f4ef798e-8d67-5c1b-9004-66e7d911f219"
+  },
+  {
+    "id": "b0706717-0bf5-50e3-a662-fe71e583b0ae",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "7365a4aa-5d04-5003-a8e6-2bbf93f92450"
+  },
+  {
+    "id": "9fdc929c-7f57-547f-a799-8d9878a00ea9",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "9b0b2b06-822a-5ca7-99b0-80ae12c6f0ac"
+  },
+  {
+    "id": "69899b10-a924-5e9d-910d-76dd1d3c8c28",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "12aa556f-94cb-528b-ad0a-1cb789744909"
+  },
+  {
+    "id": "94fd2295-a11e-5ae6-86f6-3160c879469e",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "e956943f-e06e-5117-bd7d-118e4d9e0250"
+  },
+  {
+    "id": "ae574d0b-a0e7-54aa-93af-2194287ccc6b",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "7c645494-bd11-59a3-b096-c9f9f75885d8"
+  },
+  {
+    "id": "7ebe143f-0ebe-5512-b118-1b7d4576e544",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "fde8fd17-2833-5325-b7bb-ea55245416ae"
+  },
+  {
+    "id": "53d9d96d-b62b-52d7-90c2-2803c72557a7",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "0980dd28-d03e-5e2b-bb33-8c41aec20610"
+  },
+  {
+    "id": "2659d25c-1134-5db4-b694-addecdf2d242",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "cab8cda9-7b66-56c7-922b-65a39a89f940"
+  },
+  {
+    "id": "6a16930b-aed4-5c77-a6e9-67ee68faac41",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "8447dedf-e409-5875-a6a1-f5be1a31c997"
+  },
+  {
+    "id": "ce14f5f5-600e-5d6c-ab03-268d557ccd08",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "ab2648ba-67a1-5317-bae7-b170589818bc",
+    "replaces_grant_id": "84c0a9d5-07b4-5d0d-945c-0506c134962e"
+  },
+  {
+    "id": "26d40062-cf01-5344-a5ad-de3ad13ce2a2",
+    "archetype_class_id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "ability_id": "07dbca56-794e-5b49-9abb-8b46660d0f7b",
+    "replaces_grant_id": "4187af98-89e1-5fe5-a934-fc80ebba8cd5"
+  },
+  {
+    "id": "b5f83ed1-a76d-57b0-a84b-0f65e9039094",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "03b0a513-8c51-5f34-a82b-8cc2de126616"
+  },
+  {
+    "id": "dd4d7f43-33d6-5241-bd4a-a7a886a40c34",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "618231f3-1999-5c5e-8bb3-87033c75d09c"
+  },
+  {
+    "id": "fbf8ae78-a671-5d1b-a45a-224290447835",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "a3005d3e-67eb-5331-b09b-ba2af2dadeb9"
+  },
+  {
+    "id": "ead037f5-3866-54ea-ab41-b523a41a5986",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "9575b0c7-8dcf-5811-8a85-5e05dfc9bdb7"
+  },
+  {
+    "id": "8d516690-2381-55ec-94bc-ae2b9085962f",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "21dfd6e9-d738-5b8b-9856-a1f069eefd23"
+  },
+  {
+    "id": "679a0a68-fa96-5815-a400-0c30372f692b",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "18d79731-46e7-5240-abbd-3ceca10ed8ea",
+    "replaces_grant_id": "5d7d3021-9d9f-590a-9722-22f1b6eeb45e"
+  },
+  {
+    "id": "ad01fd34-a6e1-5018-9e4e-9c18f664d3e8",
+    "archetype_class_id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "ability_id": "144888a0-c297-515f-81d6-cc44c92d1873",
+    "replaces_grant_id": "3d9de800-82d9-50a5-9936-47ac00b5bad2"
+  },
+  {
+    "id": "fdecaba5-6762-54d2-aa97-82fd5f29abd1",
+    "archetype_class_id": "ced42b2b-b254-5df5-9a31-7dd0aec59b0a",
+    "ability_id": "d8473cd2-cdac-5326-961b-ee39d8149d1d",
+    "replaces_grant_id": "025a3ebf-be78-5505-ab2e-448e839c82b0"
+  },
+  {
+    "id": "e6e2e79b-ccff-56d7-84c0-cd107c3ae3e1",
+    "archetype_class_id": "ced42b2b-b254-5df5-9a31-7dd0aec59b0a",
+    "ability_id": "9685145c-fa60-5bec-a781-cbf3fca7fd1c",
+    "replaces_grant_id": "e414c444-676d-559a-8fd1-76912cd639e8"
+  },
+  {
+    "id": "e87e9417-7bc1-54f8-a6e5-c9aaf6cb9c2d",
+    "archetype_class_id": "ced42b2b-b254-5df5-9a31-7dd0aec59b0a",
+    "ability_id": "17e84fee-e2b6-5e04-b347-cefebe444baa",
+    "replaces_grant_id": "8937f38b-df69-5af7-9b43-fe46d9ade06b"
+  },
+  {
+    "id": "8d6e8ea6-baf3-5d8c-b6a8-c0fdd06fb722",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "ca2cef0b-9644-5051-8aff-af379145c88a",
+    "replaces_grant_id": "025a3ebf-be78-5505-ab2e-448e839c82b0"
+  },
+  {
+    "id": "2f867504-2a29-511d-93f1-70218b60d59e",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "2be9ce95-1ac4-5522-a95a-cf4004074122"
+  },
+  {
+    "id": "b4335577-e3ae-5680-8abd-433b9d900dbf",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "2feed9c8-f7a1-5794-8467-2d45d52de575"
+  },
+  {
+    "id": "d813fb31-c5f5-51b4-9bbd-13518b0fbe1c",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "f4ef798e-8d67-5c1b-9004-66e7d911f219"
+  },
+  {
+    "id": "df8b1d14-66b0-53c1-a6a1-e26d4158ccb6",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "7365a4aa-5d04-5003-a8e6-2bbf93f92450"
+  },
+  {
+    "id": "03adadbe-48d6-525f-8480-8433c9dd1b91",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "9b0b2b06-822a-5ca7-99b0-80ae12c6f0ac"
+  },
+  {
+    "id": "2ffa613c-ba89-54d0-a3a3-eef9e1885a8b",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "12aa556f-94cb-528b-ad0a-1cb789744909"
+  },
+  {
+    "id": "0e4b2469-8bb7-55ab-ae48-1d3c0822cf9d",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "e956943f-e06e-5117-bd7d-118e4d9e0250"
+  },
+  {
+    "id": "ffcdffd5-364b-54fa-a538-0c1cabd1830a",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "7c645494-bd11-59a3-b096-c9f9f75885d8"
+  },
+  {
+    "id": "5269419c-ac91-54b8-9c19-e008746cef05",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "fde8fd17-2833-5325-b7bb-ea55245416ae"
+  },
+  {
+    "id": "a4b081d6-ebd0-5f28-9969-df44a026900d",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "0980dd28-d03e-5e2b-bb33-8c41aec20610"
+  },
+  {
+    "id": "3dc620fa-5751-5d05-9ccc-1a45d405d8c5",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "cab8cda9-7b66-56c7-922b-65a39a89f940"
+  },
+  {
+    "id": "b026d0d8-c848-5ef5-bf92-29091ce8a634",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "8447dedf-e409-5875-a6a1-f5be1a31c997"
+  },
+  {
+    "id": "09ca96f1-3e00-53bb-b8a3-d7879210325e",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "84c0a9d5-07b4-5d0d-945c-0506c134962e"
+  },
+  {
+    "id": "2c6dc44d-4a04-5701-a5a7-6e5b9d91aa29",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "3d9de800-82d9-50a5-9936-47ac00b5bad2"
+  },
+  {
+    "id": "be5da154-3d2f-5cb0-8889-a44246dc443b",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "6a6753e4-c588-5d15-ab5a-2aa3e84bc4c1",
+    "replaces_grant_id": "99c73d0a-f319-5b8a-8152-9c4cdbd3947e"
+  },
+  {
+    "id": "7e4da5eb-ed26-502c-ae67-8fc5d5076885",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "613a91cd-dce1-57e5-a422-3eaf78a34f7c"
+  },
+  {
+    "id": "5a2105bc-7710-5fe3-841a-3e57af6dbf21",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "ac829565-d69b-55a3-99d3-38d125d49c3c"
+  },
+  {
+    "id": "c0145bd2-58ae-5744-972e-4e1afb454316",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "58e5f092-25ca-5421-bb6e-befe4aafc79f"
+  },
+  {
+    "id": "a4ec9d20-81f4-5567-9c0c-599e3eebb9e4",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "3e7a1666-07a5-53b3-8c27-78a85069aaba"
+  },
+  {
+    "id": "1d95776d-e09f-5321-9d27-bbe50bf7f69e",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "c33e55b6-a228-5f36-a4a8-0722fc19308a"
+  },
+  {
+    "id": "00296d6e-06b2-5079-904a-66f86796baf8",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "8937f38b-df69-5af7-9b43-fe46d9ade06b"
+  },
+  {
+    "id": "eb79d0e6-1a24-5f17-8280-e960bd6e4340",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f46377fe-1b2a-5ba2-bc92-fa313845b92f",
+    "replaces_grant_id": "f8a8e3fe-9d80-5480-877f-0cdeb0b58b07"
+  },
+  {
+    "id": "e62c79a2-9fe2-5b57-9d82-54c54479c811",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "replaces_grant_id": "618231f3-1999-5c5e-8bb3-87033c75d09c"
+  },
+  {
+    "id": "7881671a-3be6-5c60-a3d0-e86087ea265f",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "replaces_grant_id": "a3005d3e-67eb-5331-b09b-ba2af2dadeb9"
+  },
+  {
+    "id": "3a5e2c49-0e0a-5d17-92a6-499cc1d0fe83",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "replaces_grant_id": "9575b0c7-8dcf-5811-8a85-5e05dfc9bdb7"
+  },
+  {
+    "id": "6b5487b2-1a32-50b1-a39c-33977898b9f9",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "replaces_grant_id": "21dfd6e9-d738-5b8b-9856-a1f069eefd23"
+  },
+  {
+    "id": "0e87065c-affa-545d-84c7-0eb8f3f5728d",
+    "archetype_class_id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "ability_id": "f2c565a3-c521-5402-b6ac-d7c42e382c64",
+    "replaces_grant_id": "5d7d3021-9d9f-590a-9722-22f1b6eeb45e"
   }
 ]

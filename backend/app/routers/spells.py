@@ -10,6 +10,11 @@ from ..models import BaseClass, BaseClassOptionChoice, BaseClassSpell, BaseClass
 
 router = APIRouter(prefix="/api", tags=["spells"])
 
+# `/granted-spells-by-choice`'s key for a grant every character of the class
+# gets, not tied to an option choice — mirrored by the frontend's
+# `CLASS_WIDE_GRANT_KEY` (`lib/creationCalculations.ts`).
+CLASS_WIDE_GRANT_KEY = "*"
+
 
 @router.get("/spells")
 def list_spells(db: Annotated[Session, Depends(get_db)]) -> list[dict]:
@@ -86,7 +91,11 @@ def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dic
     itself always an already-granted spell, same reasoning as the other two
     fallback call sites in `base_class.py`'s `spell_list_source_id`
     docstring (Mystiker's Heimgesucht curse grants four spells that aren't
-    on Kleriker's list at all)."""
+    on Kleriker's list at all).
+
+    A class-wide grant (`option_choice_id` null — the Jäger's Verbündeten
+    der Natur herbeizaubern) is listed under `CLASS_WIDE_GRANT_KEY` instead
+    of a choice name; the wizards treat that key as always chosen."""
     roots = db.scalars(select(BaseClass).where(BaseClass.arch_class_of.is_(None))).all()
     root_by_id = {root.id: root for root in roots}
 
@@ -100,7 +109,7 @@ def get_granted_spells_by_choice(db: Annotated[Session, Depends(get_db)]) -> dic
     result: dict[str, dict[str, list[dict]]] = {}
     for grant in db.scalars(select(BaseClassSpellGrant)).all():
         root = root_by_id.get(grant.base_class_id)
-        choice_name = choice_names.get(grant.option_choice_id) if grant.option_choice_id else None
+        choice_name = choice_names.get(grant.option_choice_id) if grant.option_choice_id else CLASS_WIDE_GRANT_KEY
         if root is None or choice_name is None:
             continue
         grade = grade_by_class_and_spell.get(root.effective_spell_list_class_id, {}).get(grant.spell_id)

@@ -2422,5 +2422,292 @@
     "prerequisite_text": "Natürliche Waffe, Grund-Angriffsbonus +4.",
     "sub_choice_type": "natural_attack",
     "is_repeatable": false
+  },
+  {
+    "id": "50c0e89a-0f02-5261-ac61-a61b01b54901",
+    "name": "Abschütteln",
+    "description": "Erhält +1 auf Rettungswürfe pro benachbartem Verbündeten",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "d85d2474-95ae-5cea-b16e-4467821fc05f",
+    "name": "Ausguck",
+    "description": "Handle in einer Überraschungsrunde, falls ein Verbündeter handeln kann",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "a2ea3b31-c4b2-515d-a737-395011ba8993",
+    "name": "Ausmanövrieren",
+    "description": "Bonus von +4 auf Angriffswürfe beim Flankieren",
+    "type": "teamwork",
+    "prerequisite_text": "Grund-Angriffsbonus +4."
+  },
+  {
+    "id": "4831ed23-3d01-511e-b76e-cc4aeeadcd73",
+    "name": "Diebesbande",
+    "description": "Wenn ein Verbündeter einen Fertigkeitswurf für Bluffen ablegt, kannst du mit einer Augenblicklichen Aktion am Gegner einen Taschendiebstahl begehen",
+    "type": "teamwork",
+    "prerequisite_text": "Bluffen 1 Rang, Fingerfertigkeit 1 Rang."
+  },
+  {
+    "id": "73528a4a-d7a4-5947-be63-37cd1ac8a910",
+    "name": "Feldmedikus",
+    "description": "Du kannst 10 nehmen und provozierst keine Gelegenheitsangriffe, wenn du Heilkunde einsetzt",
+    "type": "teamwork",
+    "prerequisite_text": "Heilkunde 5 Ränge."
+  },
+  {
+    "id": "8d3f5c92-9b6b-5e02-9a1f-6116556f9a62",
+    "name": "Flankierender Tiergefährte",
+    "description": "Du und dein Tiergefährte nehmt euer Ziel in die Zange, egal wo ihr euch befindet",
+    "type": "teamwork",
+    "prerequisite_text": "IN 13; Defensive Kampfweise; Fähigkeit zum Erlangen eines Tiergefährten."
+  },
+  {
+    "id": "240350d5-c0a5-5fe9-b4bc-89b6c9ffceb7",
+    "name": "Fluchtroute",
+    "description": "Du provozierst keine Gelegenheitsangriffe, wenn du dich durch Felder bewegst, die zu Verbündeten angrenzend sind",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "1c27faf6-ed15-52e2-8f7d-d953623fff53",
+    "name": "Flächendeckendes Feuer",
+    "description": "Wenn ein Verbündeter den Gegner in die Zange nimmt, erhältst du +2 auf Angriffswürfe im Fernkampf gegen diesen Gegner",
+    "type": "teamwork",
+    "prerequisite_text": "Kernschuss, Präzisionsschuss, ein weiteres Gemeinschaftstalent."
+  },
+  {
+    "id": "7d35ce4b-8417-53ec-8717-8eedf28ca6c4",
+    "name": "Gemeinsam Ducken",
+    "description": "Übernimm das Würfelergebnis eines Verbündeten bei einem Reflexwurf",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "9dd7d40e-005b-568a-ba53-9921e2346d31",
+    "name": "Gemeinsame Gelegenheit",
+    "description": "Bonus von +4 auf Gelegenheitsangriffe",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "f9696a6d-89b3-5ae2-ae94-ac36b01bf35f",
+    "name": "Gemeinsame Heimlichkeit",
+    "description": "Nimm den höchsten Wurf, den du und deine Verbündeten bei Fertigkeitswürfen für Schleichen ablegen",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "4b3400af-e193-58cd-8202-e5daa3ef8ee7",
+    "name": "Gemeinsames Zu-Fall-bringen",
+    "description": "Wenn du versuchst, einen von einem Verbündeten bedrohten Gegner zu Fall zu bringen, würfle zweimal und benutze das höhere Ergebnis",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "b1a86b75-6ff0-5f30-9bc5-88114300a11f",
+    "name": "Gemeinschaftliche Finte",
+    "description": "Wenn ein Verbündeter fintiert, verliert der Gegner seinen GE-Bonus gegen deinen nächsten Angriff",
+    "type": "teamwork",
+    "prerequisite_text": "Bluffen 1 Rang."
+  },
+  {
+    "id": "0ca5563d-4460-5a61-a565-42f5d7359a87",
+    "name": "Gemeinschaftliches Gegenstand ausschalten",
+    "description": "Ein Verbündeter kann als Augenblickliche Aktion einen zweiten Wurf für Mechanismus ausschalten ablegen",
+    "type": "teamwork",
+    "prerequisite_text": "Mechanismus ausschalten 1 Fertigkeitsrang, Klassenmerkmal Fallen finden."
+  },
+  {
+    "id": "6bb5d1f4-f7a7-5968-96e4-c5c3fa071da4",
+    "name": "Genauer Schlag",
+    "description": "Deine Angriffe verursachen +1W6 Punkte Präzisionsschaden",
+    "type": "teamwork",
+    "prerequisite_text": "GE 13, Grund-Angriffsbonus +1."
+  },
+  {
+    "id": "ffdcff64-de79-5f1a-aa4c-bb5dff2ad25c",
+    "name": "Geschützter Zauberer",
+    "description": "Bonus von +4 bei Würfen auf Konzentration",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "60d02f42-b47c-5451-9718-6291c974afd3",
+    "name": "Heilung teilen",
+    "description": "Teile Heilung mit deiner Gefährtenkreatur",
+    "type": "teamwork",
+    "prerequisite_text": "Fähigkeit zum Erlangen eines besonderen Reittieres, eines Eidolons, Tiergefährten oder Vertrauten."
+  },
+  {
+    "id": "1041ff77-de5d-5720-a06c-e2988d3f4d0c",
+    "name": "Kavallerieformation",
+    "description": "Du kannst deine Angriffsfläche mit andere Reittieren teilen und Sturmangriffe durch Felder ausführen, die von verbündeten Reittieren belegt sind",
+    "type": "teamwork",
+    "prerequisite_text": "Berittener Kampf."
+  },
+  {
+    "id": "9d9524bc-7b89-52c2-ad9c-3be17c5a8d0a",
+    "name": "Konzentrierter Beschuss",
+    "description": "",
+    "type": "teamwork",
+    "prerequisite_text": "Kernschuss, GAB +6."
+  },
+  {
+    "id": "4a0a01b0-0a32-5c7c-9490-b67d875f4f7c",
+    "name": "Koordinierte Kampfmanöver",
+    "description": "Bonus von +2 auf Kampfmanöverwürfe",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "91f3b4ba-d83d-5aa6-95a9-ee2900214515",
+    "name": "Koordinierte Verteidigung",
+    "description": "Bonus von +2 auf die KMV",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "43b0d44f-24a5-50fd-a3c8-6ed67619439a",
+    "name": "Koordinierter Schuss",
+    "description": "Wenn ein Verbündeter mit diesem Talent einen Gegner bedroht,\r\ndann erhältst du einen Bonus von +1 auf Fernkampfangriffswürfe gegen diesen Gegner oder einen Bonus von +2, wenn der Verbündete ihn sogar in die Zange nimmt",
+    "type": "teamwork",
+    "prerequisite_text": "Kernschuss."
+  },
+  {
+    "id": "dc80fd89-d907-56af-b403-e472a26299d5",
+    "name": "Koordinierter Sturmangriff",
+    "description": "Du kannst einen Sturmangriff zusammen mit einem Verbündeten gegen denselben Gegner ausführen",
+    "type": "teamwork",
+    "prerequisite_text": "Mindestens zwei weitere Gemeinschaftstalente, GAB +10."
+  },
+  {
+    "id": "1d4f60f3-7a00-50b4-a7ec-3eb194750ad9",
+    "name": "Künstlertruppe",
+    "description": "In der Nähe Auftretende können deine Würfe auf Auftreten unterstützen",
+    "type": "teamwork",
+    "prerequisite_text": "Auftreten 5 Ränge."
+  },
+  {
+    "id": "fd79e88a-7dfd-599d-8c30-f6a9df72a8b4",
+    "name": "Mein Schwert gehört dir",
+    "description": "Nutze eine besondere Waffeneigenschaft eines angrenzenden Verbündeten",
+    "type": "teamwork",
+    "prerequisite_text": "IN 13, Defensive Kampfweise, Motiv erkennen 3 Fertigkeitsränge."
+  },
+  {
+    "id": "017f9ef7-0acf-5406-9565-3557a3c0e38d",
+    "name": "Nutze den Augenblick",
+    "description": "Wenn ein Verbündeter einen Kritischen Treffer bestätigt, erhältst du einen Gelegenheitsangriff",
+    "type": "teamwork",
+    "prerequisite_text": "Kampfreflexe, Verbesserter Kritischer Treffer."
+  },
+  {
+    "id": "1c3ce1d8-9b35-5c3d-9354-13ad9889f9ab",
+    "name": "Plätze tauschen",
+    "description": "Tausche mit einem benachbarten Verbündeten den Platz",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "4fd274d6-e47b-55db-b783-92edd06c5941",
+    "name": "Rudelangriff",
+    "description": "Der Angriff eines Verbündeten ermöglicht dir einen 1,50 m-Schritt",
+    "type": "teamwork",
+    "prerequisite_text": "GAB +1."
+  },
+  {
+    "id": "0ed5cbcc-7a04-5b1f-9f5e-d32e77129b57",
+    "name": "Rücken an Rücken",
+    "description": "+2 auf RK gegen Gegner, die dich in die Zange nehmen",
+    "type": "teamwork",
+    "prerequisite_text": "Wahrnehmung 3 Ränge."
+  },
+  {
+    "id": "61294caa-bff3-5371-afa8-fcc3fa4234d5",
+    "name": "Schildwall",
+    "description": "Erhöht deinen Schildbonus",
+    "type": "teamwork",
+    "prerequisite_text": "Umgang mit Schilden."
+  },
+  {
+    "id": "c1687d32-94dc-5d09-ba9d-156a19c66238",
+    "name": "Schwäche vortäuschen",
+    "description": "Verleihe Gegner einen Bonus auf den Angriffswurf, der Angriff provoziert jedoch Gelegenheitsangriffe",
+    "type": "teamwork",
+    "prerequisite_text": "Bluffen 5 Ränge."
+  },
+  {
+    "id": "4227f910-4656-56b7-9ba6-480b374591aa",
+    "name": "Sturmangriff stören",
+    "description": "Bewege dich als Augenblickliche Aktion um bis zu deine Bewegungsrate fort, um einen Gegner aufzuhalten, der einen Sturmangriff ausführt",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "ae53e54b-878a-5cac-a982-263e36fdae8a",
+    "name": "Verbesserte Gemeinschaftliche Finte",
+    "description": "Wenn ein Verbündeter fintiert, erhältst du einen Gelegenheitsangriff gegen den Gegner",
+    "type": "teamwork",
+    "prerequisite_text": "Bluffen 1 Rang, Gemeinschaftliche Finte, Kampfreflexe, GAB +6."
+  },
+  {
+    "id": "080064c7-42e3-58cd-8c5d-a2f58d6dc615",
+    "name": "Verbessertes Gemeinsam ducken",
+    "description": "Wenn du Gemeinsam ducken nutzt, erleidet ein Verbündeter mit Entrinnen oder Verbessertes Entrinnen einen Teil des Schadens",
+    "type": "teamwork",
+    "prerequisite_text": "Gemeinsam ducken."
+  },
+  {
+    "id": "8abb21b4-60a0-5fcc-bb31-bcbc17ba82af",
+    "name": "Verbessertes Plätze tauschen",
+    "description": "Beim Plätze tauschen kann der Verbündete größer oder kleiner sein und provoziert deine Bewegung keine Gelegenheitsangriffe",
+    "type": "teamwork",
+    "prerequisite_text": "Plätze tauschen."
+  },
+  {
+    "id": "83c8b4ed-8681-5384-a86a-0cc5ea71da25",
+    "name": "Verbessertes Rücken an Rücken",
+    "description": "Verleihe benachbartem Verbündeten +2 auf RK gegen Gegner, die ihn in die Zange nehmen",
+    "type": "teamwork",
+    "prerequisite_text": "Rücken an Rücken, Wahrnehmung 5 Ränge."
+  },
+  {
+    "id": "7254c372-381e-5313-b7b4-505fef6396e2",
+    "name": "Verbessertes Zauber teilen",
+    "description": "Teile Wirkungsdauer mit der Gefährtenkreatur",
+    "type": "teamwork",
+    "prerequisite_text": "Fähigkeit zum Erlangen eines besonderes Reittieres, eines Eidolons, Tiergefährten oder Vertrauten."
+  },
+  {
+    "id": "850893a6-303e-52cf-8994-5e2c02d45bf4",
+    "name": "Verbündeter Zauberkundiger",
+    "description": "Bonus von +2 bei Würfen auf die Zauberstufe, um Zauberresistenz",
+    "type": "teamwork",
+    "prerequisite_text": "Wenigstens eine Stufe als Zauberkundiger."
+  },
+  {
+    "id": "d415bc02-0b0e-5944-b225-65604b400ecc",
+    "name": "Waghalsiges Schwäche vortäuschen",
+    "description": "Wenn du Schwäche vortäuschen nutzt, können nahe Verbündete einen Fernkampfangriff gegen den Angreifer ausführen",
+    "type": "teamwork",
+    "prerequisite_text": "Schwäche vortäuschen; 5 Fertigkeitsränge in Bluffen."
+  },
+  {
+    "id": "17deb04f-0e30-55ca-a2ff-b0a43ecfea39",
+    "name": "Zeitliche Koordination",
+    "description": "Bonus von +1 auf Angriffs- und Fertigkeitswürfe im\r\nRahmen Vorbereiteter Aktionen, die durch Verbündete\r\nausgelöst werden",
+    "type": "teamwork",
+    "prerequisite_text": null
+  },
+  {
+    "id": "078f0df2-c5b5-5c26-985d-e3a3ae0a65f1",
+    "name": "Tierseele",
+    "description": "Deine enge Bindung zu einem Tier erlaubt dir, schädliche Magie zu ignorieren, welche deine wilde Seite nicht betreffen kann. Du kannst Zauber und Effekte, welche Tiere, Tiergefährten und besondere Reittiere betreffen, auch dich betreffen lassen, selbst wenn sie normalerweise Kreaturen deiner Kreaturenart nicht betreffen. So könntest du Tier verkleinern oder Tierwachstum auf dich selbst wirken, obwohl diese Zauber normalerweise nur auf Tiere wirken. Ein Verbündeter könnte Toten Tiergefährten erwecken auf dich wirken, um dich von den Toten zurückzuholen. Dabei obliegt es dir im Einzelfall zu entscheiden, ob du von solchen Zaubern betroffen werden willst, so dass ein Gegner nicht ohne deine Zustimmung Tier bezaubern oder Tier beherrschen auf dich wirken könnte. Du kannst dich entscheiden, Zauber und Effekte zu ignorieren, welche nicht zugleich auf deine ursprüngliche Kreaturenart und die Kreaturenart Tier wirken.",
+    "type": "general",
+    "prerequisite_text": "Klassenmerkmal Reittier oder Tiergefährte."
   }
 ]

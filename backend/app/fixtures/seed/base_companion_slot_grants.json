@@ -115,5 +115,23 @@
     "level_offset": 0,
     "divisor": 1,
     "minimum": null
+  },
+  {
+    "id": "a197a6ed-0f76-566f-8020-7629e79d6308",
+    "class_ability_id": "8d2f4782-0cfe-5064-bd79-15860dec8e5b",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
+  },
+  {
+    "id": "91582e40-f9ed-5abd-94eb-b39315e1cd33",
+    "class_ability_id": "d8473cd2-cdac-5326-961b-ee39d8149d1d",
+    "track": "animal_companion",
+    "slot_key": "primary",
+    "level_offset": 0,
+    "divisor": 1,
+    "minimum": null
   }
 ]

@@ -642,5 +642,26 @@
     "group_id": null,
     "ability": "KO",
     "minimum_score": 13
+  },
+  {
+    "id": "fa99163f-d531-5fd0-80fa-b4170592a223",
+    "feat_id": "8d3f5c92-9b6b-5e02-9a1f-6116556f9a62",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
+  },
+  {
+    "id": "0f37167b-9659-5291-81ee-58b76b5ee3a8",
+    "feat_id": "6bb5d1f4-f7a7-5968-96e4-c5c3fa071da4",
+    "group_id": null,
+    "ability": "GE",
+    "minimum_score": 13
+  },
+  {
+    "id": "281b6941-91d0-5f40-8ac8-6a52786bd298",
+    "feat_id": "fd79e88a-7dfd-599d-8c30-f6a9df72a8b4",
+    "group_id": null,
+    "ability": "IN",
+    "minimum_score": 13
   }
 ]

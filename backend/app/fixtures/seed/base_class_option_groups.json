@@ -302,5 +302,21 @@
     "label": "Göttlicher Bund",
     "max_choices": 1,
     "is_secondary_class_initial_pick": false
+  },
+  {
+    "id": "9c85d990-1062-5e3f-855e-d54c92905820",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "key": "favored_class_bonus",
+    "label": "Bevorzugte Klasse",
+    "max_choices": 20,
+    "is_secondary_class_initial_pick": false
+  },
+  {
+    "id": "b8f19fa3-7e5a-5d6b-8fc6-de7479afc0b9",
+    "base_class_id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "key": "divine_hunter_domain",
+    "label": "Domäne (Göttlicher Jäger)",
+    "max_choices": 1,
+    "is_secondary_class_initial_pick": false
   }
 ]

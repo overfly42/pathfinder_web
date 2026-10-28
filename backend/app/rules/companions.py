@@ -31,10 +31,12 @@ from dataclasses import dataclass
 from typing import Protocol
 from uuid import UUID
 
+from . import favored_class_bonuses
+from .classes import jaeger
 from .context import CharacterContext
 from .modifiers import Modifier, ModifierTarget, SkillNote
 
-TRACKS = ("animal_companion", "familiar")
+TRACKS =("animal_companion", "familiar")
 TRACK_LABELS = {"animal_companion": "Tiergefährte/Reittier", "familiar": "Vertrauter"}
 
 KLERIKER_ROOT_CLASS_ID = UUID("1e6e60de-d72f-4910-b19d-55ca11e14190")
@@ -190,12 +192,19 @@ PALADIN_REITTIER_ABILITY_ID = UUID("0028e0bb-6d8f-5051-bdb8-3f960dcf1009")
 MYSTIKER_REITTIER_ABILITY_ID = UUID("399600a9-0ff4-5988-a3dd-f94d88427bb7")
 
 
-def _katzenvolk_druide(context: CharacterContext) -> list[Modifier]:
-    """"Addiere +1 TP zu den TP des Tiergefährten des Druiden" per pick —
+def _companion_hit_points(choice_id: UUID) -> Callable[[CharacterContext], list[Modifier]]:
+    """+1 HP on the companion per pick (Katzenvolk Druide, Halb-Ork Jäger,
+    Halb-Ork/Ork Waldläufer) —
     a replacement companion gets them too, which holds by construction:
     the bonus is read from the master, never stored on the companion."""
-    picks = context.master_favored_class_bonus_pick_counts.get(KATZENVOLK_DRUIDE_FCB_CHOICE_ID, 0)
-    return [Modifier(source="Bevorzugte Klasse des Meisters", type="untyped", value=picks, target=ModifierTarget.HIT_POINTS)]
+
+    def handler(context: CharacterContext) -> list[Modifier]:
+        picks = context.master_favored_class_bonus_pick_counts.get(choice_id, 0)
+        return [
+            Modifier(source="Bevorzugte Klasse des Meisters", type="untyped", value=picks, target=ModifierTarget.HIT_POINTS)
+        ]
+
+    return handler
 
 
 def _ork_druide(context: CharacterContext) -> list[Modifier]:
@@ -231,6 +240,10 @@ def _waldlaeufer_notes(context: CharacterContext) -> list[str]:
     return notes
 
 
+def _jaeger_notes(text: str) -> Callable[[CharacterContext], list[str]]:
+    return lambda _context: [text]
+
+
 def _paladin_mount_notes(context: CharacterContext) -> list[str]:
     level = context.master_level_counts_by_root_id.get(PALADIN_ROOT_CLASS_ID, 0)
     notes = []
@@ -242,7 +255,10 @@ def _paladin_mount_notes(context: CharacterContext) -> list[str]:
 
 
 COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
-    KATZENVOLK_DRUIDE_FCB_CHOICE_ID: _katzenvolk_druide,
+    KATZENVOLK_DRUIDE_FCB_CHOICE_ID: _companion_hit_points(KATZENVOLK_DRUIDE_FCB_CHOICE_ID),
+    favored_class_bonuses.HALBORK_JAEGER: _companion_hit_points(favored_class_bonuses.HALBORK_JAEGER),
+    favored_class_bonuses.WALDLAEUFER: _companion_hit_points(favored_class_bonuses.WALDLAEUFER),
+    favored_class_bonuses.ORK_WALDLAEUFER: _companion_hit_points(favored_class_bonuses.ORK_WALDLAEUFER),
     ORK_DRUIDE_FCB_CHOICE_ID: _ork_druide,
     PALADIN_REITTIER_ABILITY_ID: _mount_intelligence,
     MYSTIKER_REITTIER_ABILITY_ID: _mount_intelligence,
@@ -250,7 +266,27 @@ COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifi
 COMPANION_NOTE_HANDLERS: dict[UUID, Callable[[CharacterContext], list[str]]] = {
     WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID: _waldlaeufer_notes,
     PALADIN_REITTIER_ABILITY_ID: _paladin_mount_notes,
+    # Jäger (`rules/classes/jaeger.py`): what the master's features give the
+    # companion, as text — the master's feats and aspect picks aren't in the
+    # companion's context.
+    jaeger.TIERASPEKT_ID: _jaeger_notes("Tieraspekt des Jägers: ein Aspekt ohne Wirkungsdauer (Wahl des Jägers)"),
+    jaeger.GENAUES_AUSMANOEVRIEREN_ID: _jaeger_notes(
+        "Genaues Ausmanövrieren: Ausmanövrieren als Talent, wenn der Jäger es gewählt hat"
+    ),
+    jaeger.JAEGERTAKTIKEN_ID: _jaeger_notes(
+        "Jägertaktiken: erhält die Gemeinschaftstalente des Jägers, ohne ihre Voraussetzungen zu erfüllen"
+    ),
+    jaeger.UNTERHOLZ_DURCHQUEREN_ID: _jaeger_notes("Unterholz durchqueren (wie der Jäger)"),
+    jaeger.AUSSERWELTLICHER_GEFAEHRTE_ID: _jaeger_notes(
+        "Außerweltlicher Gefährte: Schablone Celestische oder Infernalische Kreatur (HG = Trefferwürfel)"
+    ),
 }
+
+
+def master_bonus_tricks(master_granted_ability_ids: Counter[UUID]) -> int:
+    """Bonus tricks the master's class features add on top of the
+    progression row's `bonus_tricks` (the Jäger's Bonustricks)."""
+    return jaeger.master_bonus_tricks(master_granted_ability_ids)
 
 
 def _master_trigger_ids(context: CharacterContext) -> list[UUID]:

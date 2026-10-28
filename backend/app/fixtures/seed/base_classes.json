@@ -463,5 +463,101 @@
     "ref_save": null,
     "wil_save": null,
     "skill_points_base": null
+  },
+  {
+    "id": "022e365e-1869-506f-8c77-88e85910b35f",
+    "name": "Jäger",
+    "hit_dice": 8,
+    "arch_class_of": null,
+    "casting_ability": "WE",
+    "spell_tradition": "divine",
+    "bab_progression": 0.75,
+    "fort_save": true,
+    "ref_save": true,
+    "wil_save": false,
+    "skill_points_base": 6,
+    "allowed_alignments": [
+      "NG",
+      "LN",
+      "N",
+      "CN",
+      "NE"
+    ]
+  },
+  {
+    "id": "193a7418-f70b-5555-98df-b60489e3b5ce",
+    "name": "Bruder des Urzeitgefährten",
+    "hit_dice": null,
+    "arch_class_of": "022e365e-1869-506f-8c77-88e85910b35f",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "ce961474-931e-5382-bdf8-8553b04cc73e",
+    "name": "Bruder des Ungeziefergefährten",
+    "hit_dice": null,
+    "arch_class_of": "022e365e-1869-506f-8c77-88e85910b35f",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "c546bb56-792e-51e2-886d-b4b32097a835",
+    "name": "Göttlicher Jäger",
+    "hit_dice": null,
+    "arch_class_of": "022e365e-1869-506f-8c77-88e85910b35f",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null,
+    "allowed_alignments": [
+      "LG",
+      "NG",
+      "CG",
+      "LN",
+      "N",
+      "CN",
+      "LE",
+      "NE",
+      "CE"
+    ]
+  },
+  {
+    "id": "ced42b2b-b254-5df5-9a31-7dd0aec59b0a",
+    "name": "Rudelführer",
+    "hit_dice": null,
+    "arch_class_of": "022e365e-1869-506f-8c77-88e85910b35f",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
+  },
+  {
+    "id": "01883e4f-a98c-527a-8ecf-324bdf5be5ba",
+    "name": "Wilder Jäger",
+    "hit_dice": null,
+    "arch_class_of": "022e365e-1869-506f-8c77-88e85910b35f",
+    "casting_ability": null,
+    "spell_tradition": null,
+    "bab_progression": null,
+    "fort_save": null,
+    "ref_save": null,
+    "wil_save": null,
+    "skill_points_base": null
   }
 ]

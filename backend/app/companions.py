@@ -49,8 +49,8 @@ master himself (`FamiliarDerived`). It gives its master a bonus by species
 Step 5 stores the tricks an animal companion knows
 (`CharacterCompanionTrick`, written by `set_companion_tricks` and validated
 by `rules/companions.py`'s `trick_errors`): bonus tricks up to the
-progression row's `bonus_tricks`, trained ones up to the IN limit of the
-sheet's effective IN. Nothing is deleted when a limit drops — the sheet
+progression row's `bonus_tricks` plus the master's (`bonus_trick_count`),
+trained ones up to the IN limit of the sheet's effective IN. Nothing is deleted when a limit drops — the sheet
 flags "zu viele Tricks" instead (`tricks_payload`).
 """
 
@@ -92,6 +92,7 @@ from .rules.companions import (
     TrickPurposeRef,
     is_purpose_trick,
     master_companion_notes,
+    master_bonus_tricks,
     master_effective_level,
     purpose_unavailable_reason,
     trick_errors,
@@ -559,7 +560,7 @@ def companion_payload(state: CompanionState, companion: Character, context: Char
         "orphaned": state.orphaned,
         "hitDice": state.familiar.level if state.familiar else companion.level,
         "expectedHitDice": state.progression.hit_dice if state.progression else None,
-        "bonusTricks": state.progression.bonus_tricks if state.progression else 0,
+        "bonusTricks": bonus_trick_count(state),
         "advancementChoice": state.link.advancement_choice,
         "advanced": state.advanced,
         # Open HD (step 3): choices still to make in the level-up wizard's
@@ -570,6 +571,14 @@ def companion_payload(state: CompanionState, companion: Character, context: Char
         # Erzfeinde, Paladin mount extras).
         "masterNotes": master_companion_notes(context) if context is not None else [],
     }
+
+
+def bonus_trick_count(state: CompanionState) -> int:
+    """The progression row's bonus tricks plus what the master's class
+    features add (`rules/companions.py`'s `master_bonus_tricks`, the
+    Jäger's Bonustricks)."""
+    base = state.progression.bonus_tricks if state.progression else 0
+    return base + (master_bonus_tricks(state.master_context.granted_ability_ids) if state.master_context else 0)
 
 
 def companion_class(db: Session) -> BaseClass:
@@ -807,7 +816,7 @@ def tricks_payload(db: Session, state: CompanionState, companion: Character, int
     slots used per pool and whether a pool is over its limit."""
     tricks, purposes = trick_catalog(db)
     purpose_id = _stored_purpose_id(companion)
-    bonus_max = state.progression.bonus_tricks if state.progression else 0
+    bonus_max = bonus_trick_count(state)
     picks = [TrickPick(pick.trick_id, pick.source) for pick in companion.companion_tricks]
     limits = trick_limits(picks, tricks, bonus_max, intelligence)
     return {
@@ -900,7 +909,7 @@ def set_companion_tricks(
         tricks,
         state.species_ability_ids,
         _required_ability_names(db, tricks),
-        state.progression.bonus_tricks if state.progression else 0,
+        bonus_trick_count(state),
         companion_intelligence(db, companion),
     )
     if errors:

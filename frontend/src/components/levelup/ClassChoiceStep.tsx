@@ -2,7 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { CharacterProgression } from '../../types/characterProgression';
 import type { LevelUpDraft } from '../../types/levelUpDraft';
 import type { LevelUpOptions } from '../../types/levelUpOptions';
-import { getReceivingClassAndLevel } from '../../lib/levelUpCalculations';
+import { getReceivingClassAndLevel, levelUpChoiceGroups } from '../../lib/levelUpCalculations';
 import { OptionGroupPicker } from '../primitives/OptionGroupPicker';
 
 interface ClassChoiceStepProps {
@@ -19,7 +19,7 @@ export function ClassChoiceStep({ progression, options, draft, setDraft }: Class
     return <div className="warning-note">Bitte zuerst in Schritt 1 festlegen, welche Klasse diese Stufe erhält.</div>;
   }
 
-  const groups = (options.classLevelOptions[info.className] ?? []).filter((g) => g.levels.includes(info.level));
+  const groups = levelUpChoiceGroups(progression, options, draft.target);
 
   if (groups.length === 0) {
     return (
@@ -49,7 +49,7 @@ export function ClassChoiceStep({ progression, options, draft, setDraft }: Class
           key={g.key}
           label={g.label}
           max={g.max}
-          choices={g.choicesByLevel[info.level] ?? []}
+          choices={g.choices}
           selected={draft.existingLevelOptionSelections[g.key] ?? []}
           onToggle={(choice) => toggle(g.key, choice, g.max)}
         />

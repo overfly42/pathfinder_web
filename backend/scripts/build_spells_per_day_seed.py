@@ -266,7 +266,9 @@ FULL_9_GRADE_CLASSES = ("Magier", "Hexe", "Kleriker", "Druide")
 KAMPFMAGUS_CLASSES = ("Kampfmagus",)
 RANGER_CLASSES = ("Waldläufer", "Paladin")
 SPONTANEOUS_9_GRADE_CLASSES = ("Hexenmeister", "Mystiker")
-BARD_CLASSES = ("Barde",)
+# Jäger: https://prd.5footstep.de/Ausbauregeln-VI-Klassen/Klassen/Jäger —
+# cell-for-cell the Barde's table (verified 2026-10-26, `import_jaeger.py`).
+BARD_CLASSES = ("Barde", "Jäger")
 
 
 def main() -> None:

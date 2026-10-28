@@ -2688,5 +2688,26 @@
     "option_choice_id": null,
     "feat_type": null,
     "feat_id": "3d4c6329-4776-51d4-bcba-ba174e46ce2b"
+  },
+  {
+    "id": "e4f53307-f081-562d-a495-51a6e5b15d3d",
+    "ability_id": "4e83821b-8851-5442-bf5e-1fc1bf57d8a5",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "af2927b5-d02a-4de1-9d08-984678434824"
+  },
+  {
+    "id": "0a359bf2-71cc-5044-b6f2-02167ec1ac18",
+    "ability_id": "4e83821b-8851-5442-bf5e-1fc1bf57d8a5",
+    "option_choice_id": null,
+    "feat_type": null,
+    "feat_id": "a2ea3b31-c4b2-515d-a737-395011ba8993"
+  },
+  {
+    "id": "e0dac033-39b1-59dc-97da-5275e799df87",
+    "ability_id": "ec4aac19-ac6b-56ea-bd4a-4a1ed2dac4b8",
+    "option_choice_id": null,
+    "feat_type": "teamwork",
+    "feat_id": null
   }
 ]
