@@ -262,14 +262,16 @@ COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifi
     ORK_DRUIDE_FCB_CHOICE_ID: _ork_druide,
     PALADIN_REITTIER_ABILITY_ID: _mount_intelligence,
     MYSTIKER_REITTIER_ABILITY_ID: _mount_intelligence,
+    **jaeger.COMPANION_MODIFIER_HANDLERS,
 }
 COMPANION_NOTE_HANDLERS: dict[UUID, Callable[[CharacterContext], list[str]]] = {
     WALDLAEUFER_TIERGEFAEHRTE_ABILITY_ID: _waldlaeufer_notes,
     PALADIN_REITTIER_ABILITY_ID: _paladin_mount_notes,
     # Jäger (`rules/classes/jaeger.py`): what the master's features give the
-    # companion, as text — the master's feats and aspect picks aren't in the
-    # companion's context.
-    jaeger.TIERASPEKT_ID: _jaeger_notes("Tieraspekt des Jägers: ein Aspekt ohne Wirkungsdauer (Wahl des Jägers)"),
+    # companion, as text — the master's feats aren't in the companion's
+    # context. The aspects are computed (`COMPANION_MODIFIER_HANDLERS`), the
+    # note names them.
+    **jaeger.COMPANION_NOTE_HANDLERS,
     jaeger.GENAUES_AUSMANOEVRIEREN_ID: _jaeger_notes(
         "Genaues Ausmanövrieren: Ausmanövrieren als Talent, wenn der Jäger es gewählt hat"
     ),

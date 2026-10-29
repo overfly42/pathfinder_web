@@ -631,6 +631,7 @@ export function CharacterSheetPage() {
         frequency_rounds: input.frequencyRounds,
         successes_required: input.successesRequired,
         target_item_id: input.targetItemId,
+        option_ids: input.optionIds,
       });
       refetch();
     } catch {
@@ -667,6 +668,8 @@ export function CharacterSheetPage() {
       icon: action.icon,
       tag: ACTIVATABLE_ACTION_TAGS[action.sourceType],
       defaultDurationRounds: action.defaultDurationRounds,
+      options: action.options,
+      optionLimit: action.optionLimit,
     });
   }
 

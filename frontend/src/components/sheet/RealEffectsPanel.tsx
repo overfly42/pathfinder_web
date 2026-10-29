@@ -183,6 +183,8 @@ export function RealEffectsPanel({
           icon: SOURCE_TYPE_ICONS.class_ability,
           tag: 'Klassenfähigkeit',
           defaultDurationRounds: ability.defaultDurationRounds,
+          options: ability.options,
+          optionLimit: ability.optionLimit,
         });
       }
       for (const feat of activatableFeats) {

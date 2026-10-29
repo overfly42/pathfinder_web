@@ -2541,6 +2541,75 @@ Small characters change (values become correct, not a regression).
         counting, over-limit flag instead of deletion, familiar rejected.
       - **Testers:** existing companions start with no tricks stored —
         the sheet shows their bonus tricks as open, nothing is lost.
+- [x] 6. Tieraspekt as one effect with an option pick (decided 2026-10-29,
+      compared against Kampfmagus's Arkaner Vorrat). Today every aspect is
+      its own activatable `BaseClassAbility` (13 entries for the Jäger, 16
+      for the Bruder des Ungeziefergefährten), each paying 1 minute on its
+      own (`rules/classes/jaeger.py`). That floods the sheet and is wrong
+      once two aspects are active: from 8th (Zweiter Tieraspekt) both
+      aspects together cost one minute, not two, and the companion's
+      aspects cost nothing at all. Arkaner Vorrat already has the right
+      shape — one effect, the pick (`target_item_id`) stored on it, the
+      pool charged once at activation — so Tieraspekt follows it.
+      - **Two entries on the Jäger's sheet:**
+        1. **"Tieraspekt"** — on the Jäger. Pays 1 minute from the
+           Jäger-level minutes pool per activation (`POOL_COST_AT_ACTIVATION`,
+           as today), lasts 1 minute; picks 1 aspect, 2 from 8th.
+        2. **"Tieraspekt (Tiergefährte)"** — for the companion. Doesn't
+           touch the pool and has no duration: active until the Jäger
+           changes it. Picks 1 aspect, 2 from 8th, independent of the
+           Jäger's own (same or different aspects). The effect lives on
+           the companion `Character` (via `master_character_id`), so its
+           sheet computes the bonus; the bonus size follows the master's
+           current Jäger level, not a value frozen at activation. Offered
+           only while the Jäger has a companion.
+        Changing either one replaces the existing effect of that kind (one
+        "Tieraspekt" effect per character at a time) instead of stacking.
+      - **Data (composition).** The aspects stay their own catalog rows
+        (UUID, text, `HANDLERS` entry) but become *options* of the parent
+        ability rather than activatable entries themselves. New
+        `character_effect_options` (`effect_id`, `option_id`) holds the
+        picks on a `CharacterEffect`; which rows are options of which parent
+        and how many may be picked at the master's level is data, not
+        Jäger-specific code. Migration rewrites testers' currently active
+        aspect effects to the parent + one option (or ends them) — migrate
+        the real dev DB together with the commit.
+      - **Rules (computation).** The parent's handler reads the effect's
+        option ids and calls the existing per-aspect handlers; the count
+        limit (1, 2 from 8th) is checked at activation.
+      - **Frontend.** `ActivateEffectModal.tsx` gets an option picker
+        (select, or two from 8th) with each option's short text; the active
+        effect shows the picked aspects ("Tieraspekt: Bär, Falke").
+      - **Same mechanism later:** Ungezieferaspekt, Wilder Aspekt (no pool,
+        no duration), Totemverwandlung (`druide.py`), and Arkaner Vorrat's
+        weapon special abilities from 5th (options with a point budget
+        instead of a count).
+      - **Still open:** companion dead (its aspect on the Jäger,
+        no pool), Nimrod's all-day aspect, Rudelführer's Rudelaspekt (one
+        free aspect for one companion of the pack).
+      **Built 2026-10-29** (migration `6719b62b2c25`,
+      `base_class_ability_effect_options.json`, `tests/test_jaeger.py`), as
+      planned above with these changes:
+      - The companion's effect lives on the **master**, not the companion
+        `Character`: it stays in the Jäger's own Effekte/Aktionen lists
+        (activate, change, remove there), and the companion's context
+        reads it (`CharacterContext.master_active_effects`). Registry
+        `COMPANION_EFFECT_IDS`: no effect on the master, offered only with
+        a companion, kept through "+1 Tag". With several companions
+        (Rudelführer) it would apply to all of them.
+      - Catalog: `base_class_ability_effect_options` (parent → option, so
+        both entries share the twelve aspects); the count is computed
+        (`EFFECT_OPTION_LIMITS`: 2 with Zweiter Tieraspekt or Zweiter
+        Rudelaspekt). The aspect rows aren't granted any more (the
+        migration deletes their old grants and archetype replacements);
+        the archetypes replacing Tieraspekt replace both entries.
+      - Ungezieferaspekt converted too (no companion entry — no vermin
+        companions in the catalog). Wilder Aspekt stays twelve activatable
+        entries for now.
+      - A new activation (also changing aspects mid-minute) pays its
+        minute again.
+      - The companion's sheet shows "Tieraspekt des Jägers: …" as a master
+        note; the bonuses are computed on it.
 
 ## Explicitly out of scope here
 

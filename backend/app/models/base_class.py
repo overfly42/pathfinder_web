@@ -503,6 +503,24 @@ class BaseClassAbilitySpellOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     min_level: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
 
+class BaseClassAbilityEffectOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One pickable option of an activatable ability whose effect is "pick N
+    of these" (roadmap slice 10 step 6, 2026-10-29): the Jäger's Tieraspekt
+    and its aspects (Bär, Falke, ...). The option rows are ordinary
+    `BaseClassAbility` rows (own text, own `HANDLERS`-style computation) but
+    not granted or activatable themselves — the player activates the parent
+    and the picks are stored on the effect (`CharacterEffectOption`). Two
+    parents can share the same options (Tieraspekt and Tieraspekt
+    (Tiergefährte)). How many may be picked is computed, not stored
+    (`rules/handlers.py`'s `EFFECT_OPTION_LIMITS`)."""
+
+    __tablename__ = "base_class_ability_effect_options"
+    __table_args__ = (UniqueConstraint("parent_ability_id", "option_ability_id"),)
+
+    parent_ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+    option_ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+
 class BaseClassAbilityGrantedFeat(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """`ability_id` inherently confers `feat_id`, automatically and for free
     — distinct from `BaseClassAbilityFeatOption`, which models a *slot* the

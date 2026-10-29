@@ -14,7 +14,9 @@ from ..companions import (
     companion_class,
     companion_intelligence,
     create_companion,
+    has_companion,
     is_first_feat_level,
+    master_context,
     natural_weapon_facts,
     pending_levels,
     set_companion_tricks,
@@ -24,6 +26,7 @@ from ..db import get_db
 from ..models import (
     BaseClass,
     BaseClassAbility,
+    BaseClassAbilityEffectOption,
     BaseClassOptionChoice,
     BaseClassOptionGroup,
     BaseClassSpell,
@@ -43,6 +46,7 @@ from ..models import (
     CharacterCompanion,
     CharacterClassOption,
     CharacterEffect,
+    CharacterEffectOption,
     CharacterFeat,
     CharacterGear,
     CharacterGearSpecialAbility,
@@ -83,7 +87,13 @@ from ..rules.feat_slots import (
 )
 from ..rules.feats import DAILY_LIMITS as FEAT_DAILY_LIMITS
 from ..rules.feats import KOSMOPOLIT
-from ..rules.handlers import ON_END, POOL_COST_AT_ACTIVATION, TEMP_HP_GRANTS
+from ..rules.handlers import (
+    COMPANION_EFFECT_IDS,
+    EFFECT_OPTION_LIMITS,
+    ON_END,
+    POOL_COST_AT_ACTIVATION,
+    TEMP_HP_GRANTS,
+)
 from ..rules.point_buy import ABILITY_KEYS, spent_points
 from ..rules.progression import ability_mod, effective_ability_scores, is_valid_rolled_hit_points, max_hit_points
 from ..rules.skill_points import background_skill_points_total, race_grants_bonus_skill_point_per_level
@@ -2085,7 +2095,15 @@ def activate_effect(
     `target_item_id`, if given, must be a `BaseItem` id this character
     actually carries (`CharacterGear.item_id`, same key every other gear
     endpoint uses — `models.effect.CharacterEffect`'s docstring) — an effect
-    can't target an item the character doesn't have."""
+    can't target an item the character doesn't have.
+
+    `option_ids` (2026-10-29, Tieraspekt) are required for an ability with
+    `BaseClassAbilityEffectOption` rows — at least one, at most
+    `EFFECT_OPTION_LIMITS` allows, no duplicates, each one of its own
+    options — and rejected for every other source. Such an activation
+    replaces the character's active effect of the same ability (picking
+    other aspects is a new activation), paying the pool cost again. A
+    `COMPANION_EFFECT_IDS` ability needs a companion."""
     character = db.get(Character, character_id)
     if character is None:
         raise HTTPException(status_code=404, detail="Character not found")
@@ -2110,6 +2128,28 @@ def activate_effect(
         if not any(g.item_id == body.target_item_id for g in character.gear):
             raise HTTPException(status_code=422, detail="target_item_id is not this character's gear")
 
+    allowed_options = (
+        set(
+            db.scalars(
+                select(BaseClassAbilityEffectOption.option_ability_id).where(
+                    BaseClassAbilityEffectOption.parent_ability_id == body.source_id
+                )
+            )
+        )
+        if body.source_type == "class_ability"
+        else set()
+    )
+    if allowed_options:
+        limit = EFFECT_OPTION_LIMITS.get(body.source_id, lambda _context: 1)(master_context(db, character))
+        if not body.option_ids or len(body.option_ids) > limit:
+            raise HTTPException(status_code=422, detail=f"Pick between 1 and {limit} options")
+        if len(set(body.option_ids)) != len(body.option_ids) or not set(body.option_ids) <= allowed_options:
+            raise HTTPException(status_code=422, detail="Unknown or repeated option")
+    elif body.option_ids:
+        raise HTTPException(status_code=422, detail="This effect has no options")
+    if body.source_id in COMPANION_EFFECT_IDS and not has_companion(db, character):
+        raise HTTPException(status_code=422, detail="This effect needs a companion")
+
     context = _ability_context(db, character)
     activation_cost = POOL_COST_AT_ACTIVATION.get(body.source_id)
     remaining = remaining_today(db, character, context, body.source_id)
@@ -2130,8 +2170,13 @@ def activate_effect(
         next_check_in=body.frequency_rounds,
         successes_required=body.successes_required,
         target_item_id=body.target_item_id,
+        options=[CharacterEffectOption(option_ability_id=option_id) for option_id in body.option_ids],
     )
-    db.add(effect)
+    if allowed_options:
+        for previous in [e for e in character.effects if e.source_id == body.source_id]:
+            _expire_effect(db, character, previous)
+            character.effects.remove(previous)
+    character.effects.append(effect)
 
     if activation_cost is not None:
         record_usage(db, character, body.source_id, activation_cost, context)
@@ -2197,7 +2242,8 @@ def advance_time(
     the real-character UI actually calls, `POST .../rest` itself has no
     button wired to it); frequency-tracked effects (poison/disease) are left
     alone, since surviving a rest is correct PF1e behavior for those, unlike
-    the old mock's blanket clear.
+    the old mock's blanket clear. So are `COMPANION_EFFECT_IDS` effects (the
+    Jäger's aspect on the companion lasts until changed).
 
     For a real round/minute/hour tick, an effect registered in
     `DAILY_LIMITS` (e.g. Kampfrausch) also spends that many rounds from its
@@ -2217,7 +2263,7 @@ def advance_time(
         reset_daily_limits(db, character)
         reset_spell_preparations(db, character)
         for effect in character.effects:
-            if effect.frequency_rounds is None:
+            if effect.frequency_rounds is None and effect.source_id not in COMPANION_EFFECT_IDS:
                 follow_up = _expire_effect(db, character, effect)
                 if follow_up is not None:
                     remaining.append(follow_up)

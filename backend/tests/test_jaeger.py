@@ -15,8 +15,12 @@ from app.rules.feat_slots import class_bonus_feat_slot_count
 from test_characters import _character_payload, _create_user, _human_race_id, _race_id
 from test_companions import _companion, _master
 
+TIERASPEKT = "17999fe9-c02a-5f34-95ee-4923db8c25e3"
+TIERASPEKT_TIERGEFAEHRTE = "6ba798ce-2d84-5387-9649-3d6b5800b087"
 STIER = "42ceecf5-0cae-5f11-976a-f3fa43bc14cc"
+TIGER = "f55f84f2-4142-59e6-acf1-d0ff78bcf565"
 HIRSCH = "bb58fd3b-9ede-5a48-aa59-92347cf4bc53"
+FALKE = "bc1ae8c2-82bd-53fd-b309-04cd97f39361"
 SUMMON_I = "88d2ce0b-535f-507e-a226-8351d81c5e30"
 SUMMON_II = "d24a3e2e-cd91-59a1-ad39-cb1e826ee8e2"
 SUMMON_III = "511b7dea-0cec-555a-8eae-f4d6ac1288af"
@@ -49,12 +53,21 @@ def _jaeger_class(client: TestClient) -> dict:
     return next(c for c in client.get("/api/classes").json() if c["name"] == "Jäger")
 
 
-def _activate(client: TestClient, sheet: dict, ability_id: str) -> dict:
-    response = client.post(
-        f"/api/characters/{sheet['id']}/effects", json={"source_type": "class_ability", "source_id": ability_id}
+def _post_aspect(client: TestClient, sheet: dict, *options: str, ability_id: str = TIERASPEKT):
+    return client.post(
+        f"/api/characters/{sheet['id']}/effects",
+        json={"source_type": "class_ability", "source_id": ability_id, "duration_remaining": 10, "option_ids": list(options)},
     )
+
+
+def _activate(client: TestClient, sheet: dict, *options: str, ability_id: str = TIERASPEKT) -> dict:
+    response = _post_aspect(client, sheet, *options, ability_id=ability_id)
     assert response.status_code == 201, response.text
     return client.get(f"/api/characters/{sheet['id']}").json()
+
+
+def _entry(sheet: dict, ability_id: str) -> dict | None:
+    return next((a for a in sheet["activatableClassAbilities"] if a["key"] == ability_id), None)
 
 
 def _score(sheet: dict, key: str) -> int:
@@ -112,7 +125,7 @@ def test_level_20_has_every_class_feature(client: TestClient, db_session: Sessio
         "Zauber",
         "Stoßgebete",
         "Tieraspekt",
-        "Tieraspekt: Wolf",
+        "Tieraspekt (Tiergefährte)",
         "Tierempathie",
         "Tiergefährte (Jäger)",
         "Naturausbildung",
@@ -202,16 +215,76 @@ def test_tieraspekt_spends_minutes_and_scales_with_level(client: TestClient, db_
     low = _activate(client, low, STIER)
     assert _score(low, "ST") == base + 2
     pool = next(a for a in low["actions"] if a.get("name") == "Tieraspekt")
-    assert (pool["usesRemainingToday"], pool["usesPerDay"]) == (0, 1)
+    assert (pool["dailyLimitRemaining"], pool["dailyLimitTotal"]) == (0, 1)
 
     high = _jaeger(client, db_session, 8)
     base = _score(high, "ST")
     assert _score(_activate(client, high, STIER), "ST") == base + 4
 
 
+def test_aspects_are_options_of_one_entry(client: TestClient, db_session: Session) -> None:
+    sheet = _jaeger(client, db_session, 7)
+    entry = _entry(sheet, TIERASPEKT)
+    assert entry["optionLimit"] == 1
+    options = {o["name"]: o for o in entry["options"]}
+    assert len(options) == 12
+    assert options["Bär"]["hasHandler"] and not options["Wolf"]["hasHandler"]
+    assert not any(a["name"].startswith("Tieraspekt:") for a in sheet["activatableClassAbilities"])
+    assert not any(f["name"].startswith("Tieraspekt:") for f in sheet["classFeatures"])
+    assert _post_aspect(client, sheet).status_code == 422
+    assert _post_aspect(client, sheet, STIER, TIGER).status_code == 422
+
+
+def test_second_aspect_from_8th_costs_one_minute(client: TestClient, db_session: Session) -> None:
+    sheet = _jaeger(client, db_session, 8)
+    assert _entry(sheet, TIERASPEKT)["optionLimit"] == 2
+    base_st, base_ge = _score(sheet, "ST"), _score(sheet, "GE")
+    assert _post_aspect(client, sheet, STIER, STIER).status_code == 422
+    assert _post_aspect(client, sheet, STIER, TIGER, FALKE).status_code == 422
+
+    sheet = _activate(client, sheet, STIER, TIGER)
+    assert (_score(sheet, "ST"), _score(sheet, "GE")) == (base_st + 4, base_ge + 4)
+    assert _entry(sheet, TIERASPEKT)["description"] == "7 von 8 Minuten heute übrig"
+    [effect] = [e for e in sheet["activeEffects"] if e["sourceId"] == TIERASPEKT]
+    assert effect["name"] == "Tieraspekt: Stier, Tiger"
+    assert set(effect["optionIds"]) == {STIER, TIGER}
+
+
+def test_new_activation_replaces_the_active_aspects(client: TestClient, db_session: Session) -> None:
+    sheet = _jaeger(client, db_session, 3)
+    base_st, base_ge = _score(sheet, "ST"), _score(sheet, "GE")
+    _activate(client, sheet, STIER)
+    sheet = _activate(client, sheet, TIGER)
+    assert (_score(sheet, "ST"), _score(sheet, "GE")) == (base_st, base_ge + 2)
+    assert len([e for e in sheet["activeEffects"] if e["sourceId"] == TIERASPEKT]) == 1
+    assert _entry(sheet, TIERASPEKT)["description"] == "1 von 3 Minuten heute übrig"
+
+
+def test_companion_aspect_needs_a_companion_and_lasts(client: TestClient, db_session: Session) -> None:
+    master = _jaeger(client, db_session, 8)
+    assert _entry(master, TIERASPEKT_TIERGEFAEHRTE) is None
+    assert _post_aspect(client, master, STIER, ability_id=TIERASPEKT_TIERGEFAEHRTE).status_code == 422
+
+    wolf = _companion(client, master, "Wolf")
+    master = client.get(f"/api/characters/{master['id']}").json()
+    entry = _entry(master, TIERASPEKT_TIERGEFAEHRTE)
+    assert (entry["optionLimit"], entry.get("description")) == (2, None)
+    base_st, master_st = _score(wolf, "ST"), _score(master, "ST")
+
+    master = _activate(client, master, STIER, FALKE, ability_id=TIERASPEKT_TIERGEFAEHRTE)
+    assert _score(master, "ST") == master_st
+    assert _entry(master, TIERASPEKT)["description"] == "8 von 8 Minuten heute übrig"
+    client.post(f"/api/characters/{master['id']}/advance-time", json={"unit": "day"})
+
+    wolf = client.get(f"/api/characters/{wolf['id']}").json()
+    assert _score(wolf, "ST") == base_st + 4
+    assert "Tieraspekt des Jägers: Stier, Falke" in wolf["companion"]["masterNotes"]
+
+
 def test_hirsch_only_counts_from_8th_level(client: TestClient, db_session: Session) -> None:
     low = _jaeger(client, db_session, 5)
-    assert _features(low)["Tieraspekt: Hirsch"]["partialNote"].startswith("+1,5 m")
+    hirsch = next(o for o in _entry(low, TIERASPEKT)["options"] if o["name"] == "Hirsch")
+    assert hirsch["partialNote"].startswith("+1,5 m")
     assert _activate(client, low, HIRSCH)["speed"] == "9 m"
 
     high = _jaeger(client, db_session, 8)

@@ -1,10 +1,14 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
+
+if TYPE_CHECKING:
+    from .base_class import BaseClassAbility
 
 
 class BaseCondition(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -78,7 +82,11 @@ class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     supply exactly the id it already has, and `sheet.py` resolves the
     target by matching a gear row's `item_id`, the same way the slot
     endpoints do. `None` for every effect that doesn't target a specific
-    item (the overwhelming majority)."""
+    item (the overwhelming majority).
+
+    `options` (2026-10-29, Tieraspekt) are the picks of an ability whose
+    effect is "pick N of these options" (`BaseClassAbilityEffectOption`) —
+    empty for every other effect."""
 
     __tablename__ = "character_effects"
 
@@ -97,6 +105,28 @@ class CharacterEffect(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     next_check_in: Mapped[int | None] = mapped_column(Integer, nullable=True)
     successes_current: Mapped[int] = mapped_column(Integer, default=0)
     successes_required: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    options: Mapped[list["CharacterEffectOption"]] = relationship(cascade="all, delete-orphan", lazy="selectin")
+
+    @property
+    def option_ids(self) -> list[uuid.UUID]:
+        return [option.option_ability_id for option in self.options]
+
+
+class CharacterEffectOption(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """One picked option on a `CharacterEffect` (e.g. "Bär" on an active
+    Tieraspekt) — a `BaseClassAbilityEffectOption.option_ability_id` of the
+    effect's own source ability, checked at activation."""
+
+    __tablename__ = "character_effect_options"
+    __table_args__ = (UniqueConstraint("effect_id", "option_ability_id"),)
+
+    effect_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("character_effects.id", ondelete="CASCADE")
+    )
+    option_ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+    option: Mapped["BaseClassAbility"] = relationship(lazy="selectin")
 
 
 class CharacterAbilityUsage(Base, UUIDPrimaryKeyMixin, TimestampMixin):

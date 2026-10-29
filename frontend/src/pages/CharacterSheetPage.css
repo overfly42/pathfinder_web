@@ -254,6 +254,8 @@
 }
 .activate-effect-value-row input { flex: 1 1 auto; min-width: 0; }
 .activate-effect-value-row select { flex: 0 0 112px; }
+.activate-effect-value-row select.activate-effect-option { flex: 1 1 auto; min-width: 0; }
+.activate-effect-option-text { margin-top: 6px; font-size: 0.85em; line-height: 1.4; opacity: 0.85; }
 .activate-effect-value-row input:focus,
 .activate-effect-value-row select:focus { border-color: var(--brass); }
 

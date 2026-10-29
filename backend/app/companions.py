@@ -203,6 +203,15 @@ def master_context(db: Session, master: Character) -> CharacterContext:
     )
 
 
+def has_companion(db: Session, master: Character) -> bool:
+    """Whether `master` has any companion/familiar linked (a
+    `COMPANION_EFFECT_IDS` effect needs one)."""
+    return (
+        db.scalar(select(CharacterCompanion.id).where(CharacterCompanion.master_character_id == master.id).limit(1))
+        is not None
+    )
+
+
 def master_class_options(master: Character) -> dict[str, tuple[str, ...]]:
     """The master's class option picks by group key (the Waldläufer's
     "enemy"/"terrain", ...), for `CharacterContext.master_class_options`."""
@@ -224,6 +233,7 @@ def companion_context_fields(state: "CompanionState") -> dict:
         ),
         "master_class_options": master_class_options(state.master),
         "master_level_counts_by_root_id": master_ctx.level_counts_by_root_id if master_ctx else {},
+        "master_active_effects": list(state.master.effects),
         "companion_effective_level": state.effective_level,
     }
 

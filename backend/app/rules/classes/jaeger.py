@@ -2,17 +2,23 @@
 `scripts/import_jaeger_archetypes.py`).
 
 - "Tieraspekt": a pool of Jäger-level minutes per day (`DAILY_LIMITS`, unit
-  "Minuten"); every aspect is its own activatable ability spending one
-  minute (`POOL_SOURCE_ID`/`POOL_COST_AT_ACTIVATION`, 10 rounds) — the same
-  shape as the Tierschamanen's Totemverwandlung (`druide.py`). An aspect
-  only counts while its effect is active. Computed: Affe/Eule/Falke/Frosch
-  (competence bonus on Klettern/Heimlichkeit/Wahrnehmung/Schwimmen, +4/+6/+8
-  at 1st/8th/15th), Bär/Stier/Tiger (enhancement bonus on KO/ST/GE,
-  +2/+4/+6), Hirsch (enhancement bonus on land speed — only from 8th: the
-  1,5 m below that isn't a whole meter, `PARTIAL_EFFECT_NOTES`). Fledermaus,
-  Maus, Schlange and Wolf are senses/Entrinnen/attacks of opportunity — text.
-  The companion's own aspect and the second aspect from 8th aren't tracked
-  separately (one aspect at a time isn't enforced either).
+  "Minuten") and one activatable effect (roadmap slice 10 step 6): the
+  aspects are its options (`BaseClassAbilityEffectOption`), picked on the
+  effect — one, two from 8th (Zweiter Tieraspekt, `EFFECT_OPTION_LIMITS`) —
+  and one activation costs one minute whatever was picked
+  (`POOL_COST_AT_ACTIVATION`, 10 rounds). A new activation replaces the
+  active one. Computed: Affe/Eule/Falke/Frosch (competence bonus on
+  Klettern/Heimlichkeit/Wahrnehmung/Schwimmen, +4/+6/+8 at 1st/8th/15th),
+  Bär/Stier/Tiger (enhancement bonus on KO/ST/GE, +2/+4/+6), Hirsch
+  (enhancement bonus on land speed — only from 8th: the 1,5 m below that
+  isn't a whole meter, `PARTIAL_EFFECT_NOTES`). Fledermaus, Maus, Schlange
+  and Wolf are senses/Entrinnen/attacks of opportunity — text.
+- "Tieraspekt (Tiergefährte)": the companion's aspects, the same options
+  and count. No pool, no duration, kept through a rest — until the Jäger
+  changes them. The Jäger holds the effect (`COMPANION_EFFECT_IDS`), the
+  companion's sheet computes it at the master's Jäger level
+  (`COMPANION_MODIFIER_HANDLERS`). Not modeled: a dead companion's aspect on
+  the Jäger, Nimrod's all-day aspect.
 - "Spuren lesen" (`SITUATIONAL_SKILL_HANDLERS`): ½ Jäger level on
   Überlebenskunst to follow tracks.
 - Tierempathie is the row shared with Druide/Waldläufer (`druide.py` sums
@@ -24,8 +30,9 @@
 Archetypes:
 - Bruder des Urzeitgefährten: Urzeitliche Verwandlung as a Jäger-level
   minute pool (the evolutions are text), Urzeitlicher Kraftschub 1/day.
-- Bruder des Ungeziefergefährten: Ungezieferaspekt — same pool shape as
-  Tieraspekt; computed: Ameise (ST), Käfer (natural armor, typed
+- Bruder des Ungeziefergefährten: Ungezieferaspekt — same effect-with-options
+  shape as Tieraspekt (replaces both Tieraspekt entries: there are no vermin
+  companions in the catalog, so no companion entry); computed: Ameise (ST), Käfer (natural armor, typed
   "enhancement" like the Amulett der natürlichen Rüstung, `rules/items.py`),
   Fliege (Wahrnehmung, untyped), Krabbe (Schwimmen), Skorpion/Spinne
   (Heimlichkeit), Tausendfüßler (Klettern); their grapple/CMD/web parts are
@@ -42,7 +49,7 @@ Archetypes:
   uses-per-day table), animal forms only."""
 
 from collections import Counter
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from uuid import UUID
 
 from ..context import CharacterContext
@@ -56,6 +63,8 @@ WAHRNEHMUNG_SKILL_ID = UUID("3d5d4e5f-c749-4346-a53b-2006bca05abb")
 WISSEN_RELIGION_SKILL_ID = UUID("11de822f-9662-476b-9023-d86989ab9d49")
 
 TIERASPEKT_ID = UUID("17999fe9-c02a-5f34-95ee-4923db8c25e3")
+TIERASPEKT_TIERGEFAEHRTE_ID = UUID("6ba798ce-2d84-5387-9649-3d6b5800b087")
+ZWEITER_TIERASPEKT_ID = UUID("db6f4e49-dda3-5b46-919c-c95173bd5262")
 SPUREN_LESEN_ID = UUID("9e31517a-3c9c-5750-b945-ea11b1a56160")
 BONUSTRICKS_ID = UUID("75358fdb-0859-5b98-ab34-98a5846b17d6")
 TIERGEFAEHRTE_ID = UUID("8d2f4782-0cfe-5064-bd79-15860dec8e5b")
@@ -63,7 +72,9 @@ GENAUES_AUSMANOEVRIEREN_ID = UUID("4e83821b-8851-5442-bf5e-1fc1bf57d8a5")
 JAEGERTAKTIKEN_ID = UUID("3a04047a-d85c-5d11-9c3c-e819df0cfa28")
 UNTERHOLZ_DURCHQUEREN_ID = UUID("d226f0f6-6966-570f-8882-0aa1c7289909")
 
-# "Tieraspekt: <Tier>" and the Wilder Jäger's "Wilder Aspekt: <Tier>".
+# "Tieraspekt: <Tier>" (options of Tieraspekt and Tieraspekt (Tiergefährte),
+# `BaseClassAbilityEffectOption`) and the Wilder Jäger's activatable
+# "Wilder Aspekt: <Tier>".
 TIERASPEKT_ASPECT_IDS = {
     "Affe": UUID("fd7ab838-fd68-5c89-a79f-511ad267096c"),
     "Bär": UUID("83b5e62c-aca1-59b3-8289-8e5a2fd392bd"),
@@ -118,6 +129,7 @@ UNGEZIEFERASPEKT_ASPECT_IDS = {
 GOETTLICHER_JAEGER_KLASSENFERTIGKEITEN_ID = UUID("6cc7c7e9-ed05-5b03-bec2-78f3129aeb06")
 AUSSERWELTLICHER_GEFAEHRTE_ID = UUID("144888a0-c297-515f-81d6-cc44c92d1873")
 RUDELBINDUNG_ID = UUID("d8473cd2-cdac-5326-961b-ee39d8149d1d")
+ZWEITER_RUDELASPEKT_ID = UUID("9685145c-fa60-5bec-a781-cbf3fca7fd1c")
 WILDE_TIERGESTALT_ID = UUID("f46377fe-1b2a-5ba2-bc92-fa313845b92f")
 
 # "Tabelle: Druide"'s Bestiengestalt steps — the Wilder Jäger takes only
@@ -129,54 +141,56 @@ def jaeger_level(context: CharacterContext) -> int:
     return context.level_counts_by_root_id.get(JAEGER_ROOT_CLASS_ID, 0)
 
 
-def _step(context: CharacterContext) -> int:
+def _step_at(level: int) -> int:
     """0 below 8th, 1 from 8th, 2 from 15th — every aspect's bonus rises at
     those two levels ("steigt mit der 8. Stufe … und mit der 15. Stufe")."""
-    level = jaeger_level(context)
     return (level >= 8) + (level >= 15)
 
 
-def _while_active(
-    ability_id: UUID, handler: Callable[[CharacterContext], list[Modifier]]
-) -> Callable[[CharacterContext], list[Modifier]]:
-    """An aspect only counts while its own effect is active — it's granted
-    from 1st level, so the granted-ability paths call it too."""
-    return lambda context: handler(context) if context.has_active(ability_id) else []
+def _step(context: CharacterContext) -> int:
+    return _step_at(jaeger_level(context))
 
 
-def _skill_aspect(
-    source: str, skill_id: UUID, base: int, bonus_type: str = "competence"
-) -> Callable[[CharacterContext], list[Modifier]]:
-    return lambda context: [
-        Modifier(source=source, type=bonus_type, value=base + 2 * _step(context), target=ModifierTarget.SKILL,
+# An aspect's computation, given the step above — the Jäger's own aspects,
+# the companion's (stepped by the master's level) and the Wilder Aspekt
+# share them.
+AspectHandler = Callable[[int], list[Modifier]]
+
+
+def _while_active(ability_id: UUID, handler: AspectHandler) -> Callable[[CharacterContext], list[Modifier]]:
+    """A Wilder Aspekt only counts while its own effect is active — it's
+    granted from 1st level, so the granted-ability paths call it too."""
+    return lambda context: handler(_step(context)) if context.has_active(ability_id) else []
+
+
+def _skill_aspect(source: str, skill_id: UUID, base: int, bonus_type: str = "competence") -> AspectHandler:
+    return lambda step: [
+        Modifier(source=source, type=bonus_type, value=base + 2 * step, target=ModifierTarget.SKILL,
                  target_id=str(skill_id))
     ]
 
 
-def _score_aspect(source: str, ability: str) -> Callable[[CharacterContext], list[Modifier]]:
-    return lambda context: [
-        Modifier(source=source, type="enhancement", value=2 + 2 * _step(context), target=ModifierTarget.SCORE,
-                 target_id=ability)
+def _score_aspect(source: str, ability: str) -> AspectHandler:
+    return lambda step: [
+        Modifier(source=source, type="enhancement", value=2 + 2 * step, target=ModifierTarget.SCORE, target_id=ability)
     ]
 
 
-def _speed_aspect(source: str) -> Callable[[CharacterContext], list[Modifier]]:
+def _speed_aspect(source: str) -> AspectHandler:
     """+1,5 m / +3 m / +6 m — speeds are whole meters, so only from 8th."""
 
-    def handler(context: CharacterContext) -> list[Modifier]:
-        value = {0: 0, 1: 3, 2: 6}[_step(context)]
+    def handler(step: int) -> list[Modifier]:
+        value = {0: 0, 1: 3, 2: 6}[step]
         return [Modifier(source=source, type="enhancement", value=value, target=ModifierTarget.SPEED)] if value else []
 
     return handler
 
 
-def _natural_armor_aspect(source: str) -> Callable[[CharacterContext], list[Modifier]]:
-    return lambda context: [
-        Modifier(source=source, type="enhancement", value=2 + 2 * _step(context), target=ModifierTarget.AC)
-    ]
+def _natural_armor_aspect(source: str) -> AspectHandler:
+    return lambda step: [Modifier(source=source, type="enhancement", value=2 + 2 * step, target=ModifierTarget.AC)]
 
 
-def _animal_aspect_handlers(source: str) -> dict[str, Callable[[CharacterContext], list[Modifier]]]:
+def _animal_aspect_handlers(source: str) -> dict[str, AspectHandler]:
     return {
         "Affe": _skill_aspect(f"{source} (Affe)", KLETTERN_SKILL_ID, 4),
         "Bär": _score_aspect(f"{source} (Bär)", "KO"),
@@ -198,6 +212,49 @@ _VERMIN_HANDLERS = {
     "Spinne": _skill_aspect("Ungezieferaspekt (Spinne)", HEIMLICHKEIT_SKILL_ID, 2),
     "Tausendfüßler": _skill_aspect("Ungezieferaspekt (Tausendfüßler)", KLETTERN_SKILL_ID, 2),
 }
+
+
+def _picked_aspects(option_ids: Iterable[UUID], handlers: dict[UUID, AspectHandler], step: int) -> list[Modifier]:
+    return [m for option_id in dict.fromkeys(option_ids) if option_id in handlers for m in handlers[option_id](step)]
+
+
+def _own_aspects(parent_id: UUID, handlers: dict[UUID, AspectHandler]) -> Callable[[CharacterContext], list[Modifier]]:
+    """The aspects picked on this character's active Tieraspekt/
+    Ungezieferaspekt effect — nothing while none is active (the pool ability
+    is granted, so the granted-ability paths call it too)."""
+    return lambda context: _picked_aspects(context.active_option_ids(parent_id), handlers, _step(context))
+
+
+def _companion_aspects(context: CharacterContext) -> list[Modifier]:
+    """The companion's side of "Tieraspekt (Tiergefährte)": the master holds
+    the effect (`COMPANION_EFFECT_IDS`), the companion gets the picked
+    aspects at the master's Jäger level."""
+    option_ids = [
+        option_id
+        for effect in context.master_active_effects
+        if effect.source_id == TIERASPEKT_TIERGEFAEHRTE_ID
+        for option_id in effect.option_ids
+    ]
+    step = _step_at(context.master_level_counts_by_root_id.get(JAEGER_ROOT_CLASS_ID, 0))
+    return _picked_aspects(option_ids, _COMPANION_ASPECT_HANDLERS, step)
+
+
+def _companion_aspect_notes(context: CharacterContext) -> list[str]:
+    names = [
+        option.option.name.removeprefix("Tieraspekt: ")
+        for effect in context.master_active_effects
+        if effect.source_id == TIERASPEKT_TIERGEFAEHRTE_ID
+        for option in effect.options
+    ]
+    return [f"Tieraspekt des Jägers: {', '.join(names) if names else 'keiner gewählt'}"]
+
+
+def _aspect_limit(context: CharacterContext) -> int:
+    """"statt eines Aspektes zwei Tieraspekte" from 8th — Zweiter Tieraspekt,
+    or the Rudelführer's Zweiter Rudelaspekt ("funktioniert wie Zweiter
+    Tieraspekt"). Same count for the companion's aspects."""
+    second = context.granted_ability_ids[ZWEITER_TIERASPEKT_ID] or context.granted_ability_ids[ZWEITER_RUDELASPEKT_ID]
+    return 2 if second else 1
 
 
 def _spuren_lesen(context: CharacterContext) -> list[SkillNote]:
@@ -247,34 +304,54 @@ def _wilde_tiergestalt_summary(context: CharacterContext) -> str:
     return f"{uses}, Dauer {level} Std.; wie {form} (nur Tiere)"
 
 
-_animal_handlers = _animal_aspect_handlers("Tieraspekt")
-_wild_handlers = _animal_aspect_handlers("Wilder Aspekt")
+_ASPECT_HANDLERS = {
+    TIERASPEKT_ASPECT_IDS[name]: h for name, h in _animal_aspect_handlers("Tieraspekt").items()
+}
+_COMPANION_ASPECT_HANDLERS = {
+    TIERASPEKT_ASPECT_IDS[name]: h for name, h in _animal_aspect_handlers("Tieraspekt des Jägers").items()
+}
+_VERMIN_ASPECT_HANDLERS = {UNGEZIEFERASPEKT_ASPECT_IDS[name]: h for name, h in _VERMIN_HANDLERS.items()}
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
-    **{TIERASPEKT_ASPECT_IDS[name]: _while_active(TIERASPEKT_ASPECT_IDS[name], h) for name, h in _animal_handlers.items()},
-    **{WILDER_ASPEKT_IDS[name]: _while_active(WILDER_ASPEKT_IDS[name], h) for name, h in _wild_handlers.items()},
+    TIERASPEKT_ID: _own_aspects(TIERASPEKT_ID, _ASPECT_HANDLERS),
+    UNGEZIEFERASPEKT_ID: _own_aspects(UNGEZIEFERASPEKT_ID, _VERMIN_ASPECT_HANDLERS),
     **{
-        UNGEZIEFERASPEKT_ASPECT_IDS[name]: _while_active(UNGEZIEFERASPEKT_ASPECT_IDS[name], h)
-        for name, h in _VERMIN_HANDLERS.items()
+        WILDER_ASPEKT_IDS[name]: _while_active(WILDER_ASPEKT_IDS[name], h)
+        for name, h in _animal_aspect_handlers("Wilder Aspekt").items()
     },
 }
 SITUATIONAL_SKILL_HANDLERS: dict[UUID, Callable[[CharacterContext], list[SkillNote]]] = {
     SPUREN_LESEN_ID: _spuren_lesen,
 }
-POOL_SOURCE_ID: dict[UUID, UUID] = {
-    **{aspect: TIERASPEKT_ID for aspect in TIERASPEKT_ASPECT_IDS.values()},
-    **{aspect: UNGEZIEFERASPEKT_ID for aspect in UNGEZIEFERASPEKT_ASPECT_IDS.values()},
+# Tieraspekt/Ungezieferaspekt: one activation (whatever was picked) costs
+# one minute of the pool, paid up front.
+POOL_COST_AT_ACTIVATION: dict[UUID, int] = {TIERASPEKT_ID: 1, UNGEZIEFERASPEKT_ID: 1}
+# How many aspects one Tieraspekt effect may carry (`rules/handlers.py`'s
+# `EFFECT_OPTION_LIMITS`; the options themselves are
+# `BaseClassAbilityEffectOption` rows).
+EFFECT_OPTION_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    TIERASPEKT_ID: _aspect_limit,
+    TIERASPEKT_TIERGEFAEHRTE_ID: _aspect_limit,
+    UNGEZIEFERASPEKT_ID: _aspect_limit,
 }
-POOL_COST_AT_ACTIVATION: dict[UUID, int] = {aspect: 1 for aspect in POOL_SOURCE_ID}
+# Held by the Jäger on behalf of the companion (`rules/handlers.py`'s
+# `COMPANION_EFFECT_IDS`): computed on the companion (`COMPANION_MODIFIER_HANDLERS`).
+COMPANION_EFFECT_IDS: frozenset[UUID] = frozenset({TIERASPEKT_TIERGEFAEHRTE_ID})
+COMPANION_MODIFIER_HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
+    TIERASPEKT_TIERGEFAEHRTE_ID: _companion_aspects,
+}
+COMPANION_NOTE_HANDLERS: dict[UUID, Callable[[CharacterContext], list[str]]] = {
+    TIERASPEKT_TIERGEFAEHRTE_ID: _companion_aspect_notes,
+}
+# The computed aspects, for the "Nur Text" badge in the option picker —
+# they're computed through their parent's handler, not their own.
+APPLIED_OUTSIDE_HANDLERS_IDS: frozenset[UUID] = frozenset(_ASPECT_HANDLERS) | frozenset(_VERMIN_ASPECT_HANDLERS)
 DAILY_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
     TIERASPEKT_ID: jaeger_level,
     UNGEZIEFERASPEKT_ID: jaeger_level,
     URZEITLICHE_VERWANDLUNG_ID: jaeger_level,
     URZEITLICHER_KRAFTSCHUB_ID: lambda _context: 1,
     WILDE_TIERGESTALT_ID: _wilde_tiergestalt_uses,
-    # Every aspect draws on its pool (`POOL_SOURCE_ID`) and needs the pool's
-    # size as its own entry (`rules/daily_limits.py`'s docstring).
-    **{aspect: jaeger_level for aspect in POOL_SOURCE_ID},
 }
 DAILY_LIMIT_UNIT_LABEL: dict[UUID, str] = {
     TIERASPEKT_ID: "Minuten",

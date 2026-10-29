@@ -21,9 +21,12 @@ What this script writes:
   `import_favored_class_bonus_halbork.py`; the numbers are
   `rules/favored_class_bonuses.py`'s/`rules/companions.py`'s).
 - Every class feature as `BaseClassAbility` + grants (1st–20th).
-  "Tieraspekt" is a pool of Jäger-level minutes per day with one activatable
-  ability per aspect spending one minute (`rules/classes/jaeger.py`), the
-  same shape as the Tierschamanen's Totemverwandlung.
+  "Tieraspekt" is a pool of Jäger-level minutes per day and one activatable
+  effect whose aspects are options picked on the effect
+  (`base_class_ability_effect_options.json`, `rules/classes/jaeger.py`;
+  roadmap slice 10 step 6) — the aspect rows aren't granted themselves.
+  "Tieraspekt (Tiergefährte)" (1st, own text) is the companion's aspect,
+  the same options.
 - Tierempathie: a grant of the shared Druide/Waldläufer row (decided
   2026-10-14 for the Druide); its description now names the Jäger too.
 - "Tiergefährte (Jäger)": the companion trigger, with its own companion slot
@@ -172,6 +175,17 @@ FEATURES: list[tuple[str, list[int]]] = [
     ("Eins mit der Wildnis", [17]),
     ("Nimrod", [20]),
 ]
+# Class features that are activatable effects themselves.
+ACTIVATABLE: dict[str, dict] = {
+    "Tieraspekt": {"is_persistent_effect": True, "activation_scope": "self", "default_duration_rounds": 10},
+}
+COMPANION_ASPECT_NAME = "Tieraspekt (Tiergefährte)"
+COMPANION_ASPECT_DESC = (
+    "(ÜF) Der Tieraspekt, den der Jäger seinem Tiergefährten verleiht: ein Aspekt, ab der 8. Stufe "
+    "(Zweiter Tieraspekt) zwei, derselbe oder ein anderer als der eigene. Er unterliegt keiner "
+    "Wirkungsdauer und zählt nicht gegen die Minuten am Tag, bis der Jäger ihn ändert."
+)
+
 ASPECTS = [
     "Affe", "Bär", "Eule", "Falke", "Fledermaus", "Hirsch", "Frosch", "Maus", "Schlange", "Stier", "Tiger", "Wolf",
 ]
@@ -405,19 +419,30 @@ def main() -> None:
         if name == "Tierempathie":
             continue
         ability_name = RENAMED.get(name, name)
-        aid = add_ability(ability_name, features[name])
+        aid = add_ability(ability_name, features[name], ACTIVATABLE.get(ability_name))
         ability_id_by_name[ability_name] = aid
         for level in levels:
             add_grant(aid, level)
-    # One activatable ability per aspect, 1 minute from the Tieraspekt pool.
+        if ability_name == "Tieraspekt":
+            companion_aid = add_ability(
+                COMPANION_ASPECT_NAME, COMPANION_ASPECT_DESC, {"is_persistent_effect": True, "activation_scope": "self"}
+            )
+            ability_id_by_name[COMPANION_ASPECT_NAME] = companion_aid
+            add_grant(companion_aid, 1)
+    # The aspects: options of Tieraspekt and Tieraspekt (Tiergefährte), not granted.
+    aspect_ids = []
     for aspect in ASPECTS:
-        aid = add_ability(
-            f"Tieraspekt: {aspect}",
-            f"(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: {aspects[aspect]}",
-            {"is_persistent_effect": True, "activation_scope": "self", "default_duration_rounds": 10},
-        )
+        aid = add_ability(f"Tieraspekt: {aspect}", f"(ÜF) Aspekt des Tieraspekts: {aspects[aspect]}")
         ability_id_by_name[f"Tieraspekt: {aspect}"] = aid
-        add_grant(aid, 1)
+        aspect_ids.append(aid)
+    parents = [ability_id_by_name["Tieraspekt"], ability_id_by_name[COMPANION_ASPECT_NAME]]
+    effect_options = [o for o in load("base_class_ability_effect_options.json") if o["parent_ability_id"] not in parents]
+    effect_options += [
+        {"id": uid("effect-option", parent, aid), "parent_ability_id": parent, "option_ability_id": aid}
+        for parent in parents
+        for aid in aspect_ids
+    ]
+    save("base_class_ability_effect_options.json", effect_options)
 
     abilities_by_id[TIEREMPATHIE_ABILITY_ID]["description"] = TIEREMPATHIE_SHARED_DESC
     add_grant(TIEREMPATHIE_ABILITY_ID, 1)

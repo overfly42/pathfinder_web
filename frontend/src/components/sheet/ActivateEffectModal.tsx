@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { EffectSourceType } from '../../types/character';
+import type { EffectOption, EffectSourceType } from '../../types/character';
 import { ROUNDS_PER_UNIT, TIME_UNIT_LABELS, roundsToUnitValue, type TimeUnit } from '../../lib/time';
 
 /** One entry from the effects panel's "available" list (spell/class ability/condition) that the
@@ -24,6 +24,9 @@ export interface AvailableEntry {
   defaultFrequencyRounds?: number | null;
   defaultSuccessesRequired?: number | null;
   durationRoundsPerLevel?: number | null;
+  /** A "pick N of these" ability (e.g. Tieraspekt) — the modal shows `optionLimit` pickers. */
+  options?: EffectOption[];
+  optionLimit?: number;
 }
 
 export interface ActivateEffectInput {
@@ -35,6 +38,7 @@ export interface ActivateEffectInput {
   frequencyRounds: number | null;
   successesRequired: number | null;
   targetItemId: string | null;
+  optionIds: string[];
 }
 
 /** One entry in the target-item picker — only the fields the dropdown needs, not the full
@@ -109,6 +113,10 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
   const [frequency, setFrequency] = useState<UnitField>(EMPTY_FIELD);
   const [successesRequired, setSuccessesRequired] = useState('');
   const [targetItemId, setTargetItemId] = useState('');
+  // One slot per pickable option (`optionLimit`); the first must be filled, the rest may stay empty.
+  const [optionPicks, setOptionPicks] = useState<string[]>([]);
+  const options = entry?.options ?? [];
+  const optionSlots = options.length > 0 ? Math.max(1, entry?.optionLimit ?? 1) : 0;
 
   // Re-seed every field from this entry's defaults whenever a (different) entry is opened —
   // spells/class abilities default their level to the character's current level (the usual
@@ -130,6 +138,7 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
     setFrequency(fieldFromRounds(entry.defaultFrequencyRounds));
     setSuccessesRequired(entry.defaultSuccessesRequired != null ? String(entry.defaultSuccessesRequired) : '');
     setTargetItemId('');
+    setOptionPicks([]);
   }, [entry, characterLevel]);
 
   // For a `durationRoundsPerLevel` entry, typing a new level recomputes the duration field to
@@ -145,8 +154,19 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
     }
   }
 
+  function handleOptionChange(slot: number, key: string) {
+    setOptionPicks((prev) => {
+      const next = [...prev];
+      next[slot] = key;
+      return next;
+    });
+  }
+
+  const pickedOptionIds = [...new Set(optionPicks.filter(Boolean))];
+  const missingOption = optionSlots > 0 && pickedOptionIds.length === 0;
+
   function handleActivate() {
-    if (!entry) return;
+    if (!entry || missingOption) return;
     const parsedLevel = parseInt(level, 10);
     onActivate({
       sourceType: entry.sourceType,
@@ -157,6 +177,7 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
       frequencyRounds: fieldToRounds(frequency),
       successesRequired: successesRequired.trim() ? parseInt(successesRequired, 10) || null : null,
       targetItemId: targetItemId || null,
+      optionIds: pickedOptionIds,
     });
   }
 
@@ -173,6 +194,41 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
           <button type="button" className="modal-close" onClick={onCancel}>✕</button>
         </div>
         <div className="modal-body">
+          {Array.from({ length: optionSlots }, (_, slot) => {
+            const picked = options.find((option) => option.key === optionPicks[slot]);
+            return (
+              <div className="activate-effect-field" key={slot}>
+                <div className="detail-label">
+                  {optionSlots > 1 ? `Auswahl ${slot + 1}${slot > 0 ? ' (optional)' : ''}` : 'Auswahl'}
+                </div>
+                <div className="activate-effect-value-row">
+                  <select
+                    className="activate-effect-option"
+                    value={optionPicks[slot] ?? ''}
+                    onChange={(e) => handleOptionChange(slot, e.target.value)}
+                  >
+                    <option value="">— wählen —</option>
+                    {options.map((option) => (
+                      <option
+                        key={option.key}
+                        value={option.key}
+                        disabled={optionPicks.some((key, other) => other !== slot && key === option.key)}
+                      >
+                        {option.name}
+                        {option.hasHandler ? '' : ' (nur Text)'}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {picked && (
+                  <div className="activate-effect-option-text">
+                    {picked.description.replace(/^\(..\) [^:]*: /, '')}
+                    {picked.partialNote && <em> Nicht berechnet: {picked.partialNote}</em>}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           <div className="activate-effect-field">
             <div className="detail-label">Stufe</div>
             <div className="activate-effect-value-row">
@@ -209,7 +265,9 @@ export function ActivateEffectModal({ entry, characterLevel, gear, onCancel, onA
         </div>
         <div className="modal-foot">
           <button type="button" className="hp-btn ghost" onClick={onCancel}>Abbrechen</button>
-          <button type="button" className="hp-btn confirm" onClick={handleActivate}>Aktivieren</button>
+          <button type="button" className="hp-btn confirm" onClick={handleActivate} disabled={missingOption}>
+            Aktivieren
+          </button>
         </div>
       </div>
     </div>

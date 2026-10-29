@@ -2,6 +2,7 @@ from .base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 from .base_class import (
     BaseClass,
     BaseClassAbility,
+    BaseClassAbilityEffectOption,
     BaseClassAbilityFeatOption,
     BaseClassAbilityGrant,
     BaseClassAbilityGrantedFeat,
@@ -39,7 +40,7 @@ from .companion import (
     CharacterCompanion,
     CharacterCompanionTrick,
 )
-from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect
+from .effect import BaseCondition, CharacterAbilityUsage, CharacterEffect, CharacterEffectOption
 from .feat import (
     BaseFeat,
     BaseFeatRequiredAbilityScore,
@@ -94,6 +95,7 @@ __all__ = [
     "BaseClassAbility",
     "BaseClassAbilityGrant",
     "BaseClassAbilityReplacement",
+    "BaseClassAbilityEffectOption",
     "BaseClassAbilityFeatOption",
     "BaseClassAbilityGrantedFeat",
     "BaseClassAbilitySpellOption",
@@ -139,5 +141,6 @@ __all__ = [
     "CharacterSkillRank",
     "BaseCondition",
     "CharacterEffect",
+    "CharacterEffectOption",
     "CharacterAbilityUsage",
 ]

@@ -111,8 +111,10 @@ from uuid import UUID
 
 from .classes import APPLIED_OUTSIDE_HANDLERS_IDS as _CLASS_APPLIED_OUTSIDE_HANDLERS_IDS
 from .classes import CLASS_SKILL_GRANTS as _CLASS_CLASS_SKILL_GRANTS
+from .classes import COMPANION_EFFECT_IDS as _CLASS_COMPANION_EFFECT_IDS
 from .classes import DAILY_LIMIT_UNIT_LABEL as _CLASS_DAILY_LIMIT_UNIT_LABEL
 from .classes import DAILY_LIMITS as _CLASS_DAILY_LIMITS
+from .classes import EFFECT_OPTION_LIMITS as _CLASS_EFFECT_OPTION_LIMITS
 from .classes import FEATURE_SUMMARY_HANDLERS as _CLASS_FEATURE_SUMMARY_HANDLERS
 from .classes import HANDLERS as _CLASS_HANDLERS
 from .classes import NATURAL_ATTACK_HANDLERS as _CLASS_NATURAL_ATTACK_HANDLERS
@@ -315,6 +317,21 @@ POOL_COST_AT_ACTIVATION: dict[UUID, int] = {
 POOL_SOURCE_ID: dict[UUID, UUID] = {
     **_CLASS_POOL_SOURCE_ID,
 }
+
+# How many options (`BaseClassAbilityEffectOption`) one activation of an
+# ability id may pick (`routers/characters.py`'s `activate_effect`) — e.g.
+# the Jäger's Tieraspekt: one aspect, two from 8th. An ability with options
+# but no entry here allows one.
+EFFECT_OPTION_LIMITS: dict[UUID, Callable[[CharacterContext], int]] = {
+    **_CLASS_EFFECT_OPTION_LIMITS,
+}
+
+# Effects a master holds for their companion (the Jäger's "Tieraspekt
+# (Tiergefährte)"): no effect on the master's own sheet (no `HANDLERS`
+# entry), computed on the companion's (`rules/companions.py`), offered only
+# while the master has a companion, a new activation replaces the old one,
+# and kept through a rest (they last until changed).
+COMPANION_EFFECT_IDS: frozenset[UUID] = _CLASS_COMPANION_EFFECT_IDS
 
 # Display unit ("Runden"/"Punkte"/...) for a `DAILY_LIMITS` id's "X von Y
 # ... heute übrig" sheet text (`sheet.py`'s `_build_activatable_class_abilities`)

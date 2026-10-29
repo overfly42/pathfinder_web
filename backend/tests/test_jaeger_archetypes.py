@@ -18,6 +18,7 @@ from test_characters import _character_payload, _create_user, _human_race_id
 
 WILDER_STIER = "16b68d67-1f10-5f8c-948c-3aa9428b6231"
 KAEFER = "39a039a0-1219-5e7f-b72f-500011a84a04"
+UNGEZIEFERASPEKT = "ab2648ba-67a1-5317-bae7-b170589818bc"
 
 
 def _create(client: TestClient, db_session: Session, archetype: str | None, level: int, **overrides):
@@ -41,9 +42,10 @@ def _features(sheet: dict) -> dict[str, dict]:
     return {f["name"]: f for f in sheet["classFeatures"]}
 
 
-def _activate(client: TestClient, sheet: dict, ability_id: str) -> dict:
+def _activate(client: TestClient, sheet: dict, ability_id: str, *options: str) -> dict:
     response = client.post(
-        f"/api/characters/{sheet['id']}/effects", json={"source_type": "class_ability", "source_id": ability_id}
+        f"/api/characters/{sheet['id']}/effects",
+        json={"source_type": "class_ability", "source_id": ability_id, "option_ids": list(options)},
     )
     assert response.status_code == 201, response.text
     return client.get(f"/api/characters/{sheet['id']}").json()
@@ -78,7 +80,7 @@ def test_bruder_des_urzeitgefaehrten(client: TestClient, db_session: Session) ->
     features = _features(sheet)
 
     assert {"Urzeitliche Verwandlung", "Urzeitlicher Kraftschub"} <= set(features)
-    assert not {"Tieraspekt", "Tieraspekt: Bär", "Zweiter Tieraspekt"} & set(features)
+    assert not {"Tieraspekt", "Tieraspekt (Tiergefährte)", "Zweiter Tieraspekt"} & set(features)
     assert features["Urzeitliche Verwandlung"]["summary"] == "8 Minuten/Tag; 4 Evolutionspunkte"
     assert len(_companion_tracks(sheet)) == 1
 
@@ -88,12 +90,16 @@ def test_bruder_des_ungeziefergefaehrten(client: TestClient, db_session: Session
     features = _features(sheet)
 
     assert {"Ungeziefergefährte", "Ungezieferempathie", "Ungezieferaspekt", "Schwärme durchqueren"} <= set(features)
-    assert not {"Tiergefährte (Jäger)", "Tierempathie", "Tieraspekt", "Unterholz durchqueren"} & set(features)
+    assert not {
+        "Tiergefährte (Jäger)", "Tierempathie", "Tieraspekt", "Tieraspekt (Tiergefährte)", "Unterholz durchqueren"
+    } & set(features)
     # No vermin species in the catalog yet: no companion slot.
     assert _companion_tracks(sheet) == []
     assert features["Ungezieferempathie"]["summary"] == "1W20 + 5 (nur Ungeziefer)"
 
-    natural = [e for e in _activate(client, sheet, KAEFER)["armorClassBreakdown"] if "Käfer" in e["label"]]
+    entry = next(a for a in sheet["activatableClassAbilities"] if a["key"] == UNGEZIEFERASPEKT)
+    assert (len(entry["options"]), entry["optionLimit"]) == (15, 1)
+    natural = [e for e in _activate(client, sheet, UNGEZIEFERASPEKT, KAEFER)["armorClassBreakdown"] if "Käfer" in e["label"]]
     assert [e["value"] for e in natural] == [2]
 
 
@@ -131,7 +137,7 @@ def test_rudelfuehrer_keeps_one_companion_at_full_level(client: TestClient, db_s
     sheet = _sheet(client, db_session, "Rudelführer", 4)
     features = _features(sheet)
 
-    assert {"Rudelbindung", "Rudelaspekt", "Tieraspekt"} <= set(features)
+    assert {"Rudelbindung", "Rudelaspekt", "Tieraspekt", "Tieraspekt (Tiergefährte)"} <= set(features)
     assert "Tiergefährte (Jäger)" not in features
     (track,) = _companion_tracks(sheet)
     assert track["level"] == 4
@@ -145,7 +151,7 @@ def test_wilder_jaeger(client: TestClient, db_session: Session) -> None:
         "Tiergefährtenlos", "Wilder Aspekt", "Wilder Aspekt: Stier", "Tiergestalt (Wilder Jäger)", "Rudel herbeizaubern",
     } <= set(features)
     assert not {
-        "Tiergefährte (Jäger)", "Tieraspekt", "Tieraspekt: Stier", "Jägertaktiken", "Bonustricks",
+        "Tiergefährte (Jäger)", "Tieraspekt", "Tieraspekt (Tiergefährte)", "Jägertaktiken", "Bonustricks",
         "Verbesserte Empathische Verbindung",
     } & set(features)
     assert _companion_tracks(sheet) == []

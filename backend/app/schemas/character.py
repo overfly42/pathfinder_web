@@ -659,7 +659,10 @@ class EffectActivate(BaseModel):
     Arkaner Vorrat) optionally names a `BaseItem` this character carries
     (`CharacterGear.item_id`) for an effect that buffs a specific held item
     rather than the character as a whole — see `models.effect.CharacterEffect`'s
-    own docstring; `None` for every effect that doesn't target an item."""
+    own docstring; `None` for every effect that doesn't target an item.
+    `option_ids` (2026-10-29) are the picks for an ability whose effect has
+    options (`BaseClassAbilityEffectOption`, the Jäger's Tieraspekt) — see
+    `activate_effect`."""
 
     source_type: Literal["spell", "class_ability", "condition", "feat"]
     source_id: UUID
@@ -669,6 +672,7 @@ class EffectActivate(BaseModel):
     frequency_rounds: int | None = None
     successes_required: int | None = None
     target_item_id: UUID | None = None
+    option_ids: list[UUID] = []
 
 
 class EffectSaveResult(BaseModel):
@@ -713,6 +717,7 @@ class EffectRead(BaseModel):
     successes_current: int
     successes_required: int | None
     target_item_id: UUID | None
+    option_ids: list[UUID]
 
 
 class CharacterUpdate(BaseModel):

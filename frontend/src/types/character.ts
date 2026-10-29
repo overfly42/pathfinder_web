@@ -324,6 +324,9 @@ export interface ActionOption {
    *  Same numbers as this ability's `ActiveEffect.dailyLimitRemaining`/`dailyLimitTotal`. */
   dailyLimitRemaining?: number | null;
   dailyLimitTotal?: number | null;
+  /** Same as `ActivatableRef.options`/`optionLimit`. */
+  options?: EffectOption[];
+  optionLimit?: number;
 }
 
 export type EffectVariant = 'buff' | 'debuff' | 'neutral';
@@ -397,12 +400,27 @@ export interface ConditionCatalogEntry {
  *  "1 Stunde/Stufe") is that field's per-level counterpart: unlike a flat `defaultDurationRounds`,
  *  a spell whose PRD duration scales with caster level has no single constant to pre-fill with —
  *  the activation modal instead recomputes the duration field live as the player types a level. */
+/** One pickable option of an activatable ability whose effect is "pick N of these" (backend
+ *  `BaseClassAbilityEffectOption`, e.g. the Jäger's Tieraspekt: Bär, Falke, ...). `hasHandler`/
+ *  `partialNote` — same "Nur Text"/"Teilweise" meaning as on `classFeatures`. */
+export interface EffectOption {
+  key: string;
+  name: string;
+  description: string;
+  hasHandler: boolean;
+  partialNote: string | null;
+}
+
 export interface ActivatableRef {
   key: string;
   name: string;
   description?: string | null;
   defaultDurationRounds?: number | null;
   durationRoundsPerLevel?: number | null;
+  /** Present for a "pick N of these" ability — the activation modal asks for 1..`optionLimit`
+   *  of them (e.g. Tieraspekt: one aspect, two from 8th). */
+  options?: EffectOption[];
+  optionLimit?: number;
 }
 
 /** One applied `CharacterEffect` instance (backend roadmap slice 5) — real character state, distinct
@@ -415,7 +433,10 @@ export interface ActiveEffect {
   /** Only set when `sourceType` is `'condition'` — spells/class abilities have no equivalent
    *  subcategory. Used to pick the right icon without a second lookup into the catalog. */
   conditionType: ConditionType | null;
+  /** Already names the picked options for a "pick N" effect ("Tieraspekt: Bär, Falke"). */
   name: string;
+  /** The picked `EffectOption` keys — empty for every other effect. */
+  optionIds: string[];
   level: number | null;
   incubationRemaining: number | null;
   durationRemaining: number | null;

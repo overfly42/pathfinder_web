@@ -199,6 +199,10 @@ class CharacterContext:
     master_favored_class_bonus_pick_counts: Counter[UUID] = field(default_factory=Counter)
     master_class_options: dict[str, tuple[str, ...]] = field(default_factory=dict)
     master_level_counts_by_root_id: dict[UUID, int] = field(default_factory=dict)
+    # The master's active effects, for the ones the master holds for the
+    # companion (`rules/handlers.py`'s `COMPANION_EFFECT_IDS`, the Jäger's
+    # "Tieraspekt (Tiergefährte)").
+    master_active_effects: list["CharacterEffect"] = field(default_factory=list)
     # A companion's/familiar's own effective level ("effektive Druiden-/
     # Magierstufe", `app/companions.py`'s `companion_effective_level`) —
     # `None` for a PC or an orphaned companion. Read by familiar abilities
@@ -213,6 +217,13 @@ class CharacterContext:
         """Whether `active_effects` contains at least one instance sourced
         from `ability_id`."""
         return any(e.source_id == ability_id for e in self.active_effects)
+
+    def active_option_ids(self, ability_id: UUID) -> list[UUID]:
+        """The options picked on `ability_id`'s active effect(s)
+        (`CharacterEffect.options`, e.g. Tieraspekt's aspects)."""
+        return [
+            option_id for effect in self.active_effects if effect.source_id == ability_id for option_id in effect.option_ids
+        ]
 
     def requirement_met(self, ability_id: UUID) -> bool:
         """Whether `ability_id`'s own `requires_active_ability_id` (if any)

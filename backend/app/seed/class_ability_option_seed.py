@@ -1,7 +1,9 @@
 """Populates `base_class_ability_feat_options`/`base_class_ability_spell_options`
 from `backend/app/fixtures/seed/base_class_ability_feat_options.json` and
 `base_class_ability_spell_options.json` — DB-shaped, one file per table, same
-idempotent upsert-by-id convention as `class_ability_seed.py`.
+idempotent upsert-by-id convention as `class_ability_seed.py`. Also
+`base_class_ability_effect_options` (`base_class_ability_effect_options.json`,
+the Tieraspekt's aspects — `BaseClassAbilityEffectOption`).
 
 These are the eligibility-pool tables from `roadmap.md`'s "pick from a
 restricted list" plan: a row's presence is what makes a `BaseClassAbility`
@@ -27,7 +29,11 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from ..models.base_class import BaseClassAbilityFeatOption, BaseClassAbilitySpellOption
+from ..models.base_class import (
+    BaseClassAbilityEffectOption,
+    BaseClassAbilityFeatOption,
+    BaseClassAbilitySpellOption,
+)
 
 SEED_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "seed"
 
@@ -57,6 +63,8 @@ def seed_class_ability_options(db: Session) -> None:
             row,
             fk_fields=("ability_id", "option_choice_id", "spell_id", "source_class_id"),
         )
+    for row in _load("base_class_ability_effect_options.json"):
+        _upsert(db, BaseClassAbilityEffectOption, row, fk_fields=("parent_ability_id", "option_ability_id"))
 
     db.commit()
 

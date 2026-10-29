@@ -5170,7 +5170,17 @@
   {
     "id": "17999fe9-c02a-5f34-95ee-4923db8c25e3",
     "name": "Tieraspekt",
-    "description": "(ÜF) Beginnend mit der 1. Stufe kann ein Jäger als Schnelle Aktion den Aspekt eines Tieres annehmen. Er muss dazu die Art des nachzuahmenden Tieres auswählen und erhält einen Bonus passend zur Tierart und seiner Stufe. Der Jäger kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Jägerstufe nutzen. Die Verwendungsdauer muss nicht fortlaufend sein, wird aber in Zeiteinheiten zu jeweils 1 Minute abgerechnet. Der Jäger kann stets nur ein Tier gleichzeitig nachahmen, einen dieser Aspekte aber auch seinem Tiergefährten verleihen. Im Gegensatz zu Aspekten, welche sich der Jäger verleiht, unterliegt ein Aspekt beim Tiergefährten keiner Wirkungsdauer und zählt auch nicht gegen die Anzahl an Minuten, welche der Jäger diese Fähigkeit am Tag auf sich anwenden kann, bis er den Aspekt ändert. Ein Tiergefährte kann denselben Aspekt erhalten wie der Jäger oder einen anderen Aspekt. Der Jäger kann seinen Tieraspekt und den seines Tiergefährten mit derselben Schnellen Aktion wählen oder ändern.\n\nSollte der Tiergefährte des Jägers tot sein, kann der Jäger den Tieraspekt seines Gefährten auf sich anstelle des Tiergefährten anwenden – zusätzlich zu dem Aspekt, welchen er normalerweise auswählen kann. In diesem Fall wirkt der Aspekt, bis er diese Fähigkeit erneut einsetzt, um ihn zu ändern, und verbraucht auch keine seiner täglichen Minuten der Nutzung.\n\nAffe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nBär: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEule: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFalke: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFledermaus: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.\n\nHirsch: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.\n\nFrosch: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nMaus: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).\n\nSchlange: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.\n\nStier: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTiger: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWolf: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt."
+    "description": "(ÜF) Beginnend mit der 1. Stufe kann ein Jäger als Schnelle Aktion den Aspekt eines Tieres annehmen. Er muss dazu die Art des nachzuahmenden Tieres auswählen und erhält einen Bonus passend zur Tierart und seiner Stufe. Der Jäger kann diese Fähigkeit täglich für eine Anzahl von Minuten in Höhe seiner Jägerstufe nutzen. Die Verwendungsdauer muss nicht fortlaufend sein, wird aber in Zeiteinheiten zu jeweils 1 Minute abgerechnet. Der Jäger kann stets nur ein Tier gleichzeitig nachahmen, einen dieser Aspekte aber auch seinem Tiergefährten verleihen. Im Gegensatz zu Aspekten, welche sich der Jäger verleiht, unterliegt ein Aspekt beim Tiergefährten keiner Wirkungsdauer und zählt auch nicht gegen die Anzahl an Minuten, welche der Jäger diese Fähigkeit am Tag auf sich anwenden kann, bis er den Aspekt ändert. Ein Tiergefährte kann denselben Aspekt erhalten wie der Jäger oder einen anderen Aspekt. Der Jäger kann seinen Tieraspekt und den seines Tiergefährten mit derselben Schnellen Aktion wählen oder ändern.\n\nSollte der Tiergefährte des Jägers tot sein, kann der Jäger den Tieraspekt seines Gefährten auf sich anstelle des Tiergefährten anwenden – zusätzlich zu dem Aspekt, welchen er normalerweise auswählen kann. In diesem Fall wirkt der Aspekt, bis er diese Fähigkeit erneut einsetzt, um ihn zu ändern, und verbraucht auch keine seiner täglichen Minuten der Nutzung.\n\nAffe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nBär: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEule: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFalke: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nFledermaus: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.\n\nHirsch: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.\n\nFrosch: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nMaus: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).\n\nSchlange: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.\n\nStier: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTiger: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWolf: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
+  },
+  {
+    "id": "6ba798ce-2d84-5387-9649-3d6b5800b087",
+    "name": "Tieraspekt (Tiergefährte)",
+    "description": "(ÜF) Der Tieraspekt, den der Jäger seinem Tiergefährten verleiht: ein Aspekt, ab der 8. Stufe (Zweiter Tieraspekt) zwei, derselbe oder ein anderer als der eigene. Er unterliegt keiner Wirkungsdauer und zählt nicht gegen die Minuten am Tag, bis der Jäger ihn ändert.",
+    "is_persistent_effect": true,
+    "activation_scope": "self"
   },
   {
     "id": "8d2f4782-0cfe-5064-bd79-15860dec8e5b",
@@ -5255,98 +5265,62 @@
   {
     "id": "fd7ab838-fd68-5c89-a79f-511ad267096c",
     "name": "Tieraspekt: Affe",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Klettern. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "83b5e62c-aca1-59b3-8289-8e5a2fd392bd",
     "name": "Tieraspekt: Bär",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Konstitution. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "e431a9e9-adf3-589f-993b-66afcca1ae64",
     "name": "Tieraspekt: Eule",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "bc1ae8c2-82bd-53fd-b309-04cd97f39361",
     "name": "Tieraspekt: Falke",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "cd4157a6-6e42-5f60-a27b-bb444ae010c3",
     "name": "Tieraspekt: Fledermaus",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält Dunkelsicht 18 m. Mit der 8. Stufe steigt deren Reichweite um 9 m. Mit der 15. Stufe erhält die Kreatur zudem Blindgespür 3 m."
   },
   {
     "id": "bb58fd3b-9ede-5a48-aa59-92347cf4bc53",
     "name": "Tieraspekt: Hirsch",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Verbesserungsbonus von 1,50 m auf ihre Grundbewegungsrate an Land. Dieser Bonus steigt mit der 8. Stufe auf 3 m und der 15. Stufe auf 6 m."
   },
   {
     "id": "4d0f2de6-7860-587a-a1be-484575608dc0",
     "name": "Tieraspekt: Frosch",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen. Dieser Bonus steigt mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "7768bdad-ffc0-5f8b-98a8-9f15cbf76730",
     "name": "Tieraspekt: Maus",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick).",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält Entrinnen (wie das Klassenmerkmal des Schurken). Mit der 12. Stufe steigert sich dies zu Verbessertes Entrinnen (wie der Verbesserte Schurkentrick)."
   },
   {
     "id": "36e4ffef-5222-52da-9fbf-f43c134a560a",
     "name": "Tieraspekt: Schlange",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Bonus von +2 auf Angriffswürfe bei Gelegenheitsangriffen und einen Ausweichbonus von +2 auf ihre RK gegen Gelegenheitsangriffe. Diese Boni steigen mit der 8. Stufe auf +4 und der 15. Stufe auf +6."
   },
   {
     "id": "42ceecf5-0cae-5f11-976a-f3fa43bc14cc",
     "name": "Tieraspekt: Stier",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "f55f84f2-4142-59e6-acf1-d0ff78bcf565",
     "name": "Tieraspekt: Tiger",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Geschicklichkeit. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "c2940a3e-b919-5524-a18d-dde35997f493",
     "name": "Tieraspekt: Wolf",
-    "description": "(ÜF) Aspekt des Tieraspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Tieraspekts: Die Kreatur erhält die Fähigkeit Geruchssinn 3 m. Die Reichweite dieser Sinneswahrnehmung steigt mit der 8. Stufe auf 6 m und der 15. Stufe auf 9 m. Mit dem Wind wird die Reichweite halbiert, gegen den Wind verdoppelt."
   },
   {
     "id": "52502622-d8bd-5c81-a8d5-202de9ac1fee",
@@ -5376,127 +5350,85 @@
   {
     "id": "78326772-f1aa-50c6-8b7f-af8ffa03acb3",
     "name": "Ungezieferaspekt: Ameise",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "3bec71e3-1303-5191-a6eb-8bf0403c3162",
     "name": "Ungezieferaspekt: Egel",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden."
   },
   {
     "id": "30d6c9ed-d0ed-5800-9270-2a56dca5a5e2",
     "name": "Ungezieferaspekt: Fliege",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "01333ffd-1af3-5b26-95d3-34035ddb8ed0",
     "name": "Ungezieferaspekt: Floh",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "ee27e3a8-6391-548b-89fc-c4e0c113c223",
     "name": "Ungezieferaspekt: Gottesanbeterin",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "39a039a0-1219-5e7f-b72f-500011a84a04",
     "name": "Ungezieferaspekt: Käfer",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0).",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0)."
   },
   {
     "id": "33e8d3f6-1a30-599a-ac07-5e9f61c2e1f2",
     "name": "Ungezieferaspekt: Krabbe",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6."
   },
   {
     "id": "043d652d-2cdd-57f5-a2fb-9fdf2a712151",
     "name": "Ungezieferaspekt: Motte",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m."
   },
   {
     "id": "03f14f09-e59f-553b-8932-b8688b498321",
     "name": "Ungezieferaspekt: Phasmid",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "33b0c647-d84a-5355-8727-150df4e72194",
     "name": "Ungezieferaspekt: Schabe",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8."
   },
   {
     "id": "3e8aacf1-a924-59b5-a59b-2cbc0bdd1f1b",
     "name": "Ungezieferaspekt: Skorpion",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "6dd65039-9d17-5d5f-9afd-8b7f0e836e13",
     "name": "Ungezieferaspekt: Spinne",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "ef6c2bb1-8553-54f9-bbff-66dbc5ef3735",
     "name": "Ungezieferaspekt: Tausendfüßler",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "fa6d4342-068f-54d5-bf77-257f3fd5bbd2",
     "name": "Ungezieferaspekt: Wespe",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6."
   },
   {
     "id": "1462c315-961e-579e-bab8-aaded986e9d7",
     "name": "Ungezieferaspekt: Wurm",
-    "description": "(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%.",
-    "is_persistent_effect": true,
-    "activation_scope": "self",
-    "default_duration_rounds": 10
+    "description": "(ÜF) Aspekt des Ungezieferaspekts: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%."
   },
   {
     "id": "ab2648ba-67a1-5317-bae7-b170589818bc",
     "name": "Ungezieferaspekt",
-    "description": "(ÜF) Ein Bruder des Ungeziefergefährten kann den Aspekt eines Ungeziefers annehmen; dies funktioniert wie Tieraspekt, eröffnet ihm aber nur die folgenden Wahlmöglichkeiten:\n\nAmeise: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEgel: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden.\n\nFliege: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nFloh: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nGottesanbeterin: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nKäfer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0).\n\nKrabbe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6.\n\nMotte: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m.\n\nPhasmid: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSchabe: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nSkorpion: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSpinne: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTausendfüßler: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWespe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWurm: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%.\n\nDiese Fähigkeit ersetzt Tieraspekt."
+    "description": "(ÜF) Ein Bruder des Ungeziefergefährten kann den Aspekt eines Ungeziefers annehmen; dies funktioniert wie Tieraspekt, eröffnet ihm aber nur die folgenden Wahlmöglichkeiten:\n\nAmeise: Die Kreatur erhält einen Verbesserungsbonus von +2 auf Stärke. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nEgel: Die Kreatur erhält einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf; gelingt ihr ein Kampfmanöverwurf für Ringkampf, um einem Gegner im Ringkampf Schaden zuzufügen, fügt sie ihm 1 Punkt Blutungsschaden zu. Diese Vorteile steigen mit der 8. Stufe auf einen Bonus von +4 und 3 Punkte Blutungsschaden und mit der 15. Stufe auf einen Bonus von +6 und 5 Punkte Blutungsschaden.\n\nFliege: Die Kreatur erhält einen Bonus von +2 auf Fertigkeitswürfe für Wahrnehmung und auf Würfe für Akrobatik, um das Gleichgewicht zu halten oder einen Sturz abzufangen. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nFloh: Die Kreatur erhält einen Kompetenzbonus von +4 auf Rettungswürfe gegen Krankheit und auf Fertigkeitswürfe für Akrobatik zum Springen. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nGottesanbeterin: Die Kreatur erhält einen Bonus von +2 auf Gelegenheitsangriffswürfe und einen Kompetenzbonus auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nKäfer: Die Kreatur erhält einen Verbesserungsbonus von +2 auf ihren Natürlichen Rüstungsbonus. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6. (Eine Kreatur ohne Natürlichen Rüstungsbonus besitzt einen effektiven Natürlichen Rüstungsbonus von +0).\n\nKrabbe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Schwimmen und einen Kompetenzbonus von +2 auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +6 bzw. +4 und mit der 15. Stufe auf +8 bzw. +6.\n\nMotte: Die Kreatur erhält Dunkelsicht 18 m. Die Reichweite der Dunkelsicht steigt mit der 8. Stufe um +9 m. Mit der 15. Stufe erhält die Kreatur ferner Blindgespür 3 m.\n\nPhasmid: Die Kreatur erhält Dämmersicht und einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Heimlichkeit in Wäldern und auf Ebenen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSchabe: Die Kreatur erhält einen Bonus von +4 auf Rettungswürfe gegen Hunger, Durst, Krankheit, sowie Hitze- und Kältegefahren und Konstitutionswürfe gegen Ersticken. Diese Boni steigen mit der 8. Stufe auf +6 und mit der 15. Stufe auf +8.\n\nSkorpion: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit und auf Kampfmanöverwürfe für Ringkampf. Diese Boni steigen mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nSpinne: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Heimlichkeit, auf Rettungswürfe gegen (magische und nichtmagische) Spinnennetzeffekte und Würfe, um sich aus Spinnennetzen zu befreien. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nTausendfüßler: Die Kreatur erhält einen Kompetenzbonus von +2 auf Fertigkeitswürfe für Klettern und einen Bonus von +2 auf ihre KMV gegen Kampfmanöver für Versetzen, Zerren, Ziehen und Zu-Fall-bringen. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWespe: Die Kreatur erhält einen Kompetenzbonus von +4 auf Fertigkeitswürfe für Wahrnehmung. Dieser Bonus steigt mit der 8. Stufe auf +4 und mit der 15. Stufe auf +6.\n\nWurm: Die Kreatur erhält eine Chance von 25%, Kritische Treffer oder Hinterhältige Angriffe wie normale Treffer zu behandeln (wie die besondere Rüstungseigenschaft Bollwerk). Dies verbessert sich mit der 8. Stufe auf 50% und mit der 15. Stufe auf 75%.\n\nDiese Fähigkeit ersetzt Tieraspekt.",
+    "is_persistent_effect": true,
+    "activation_scope": "self",
+    "default_duration_rounds": 10
   },
   {
     "id": "07dbca56-794e-5b49-9abb-8b46660d0f7b",

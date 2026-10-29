@@ -51,6 +51,7 @@ from .models import (
     BaseClass,
     BaseCompanionLevelSource,
     BaseClassAbility,
+    BaseClassAbilityEffectOption,
     BaseClassAbilityGrant,
     BaseClassAbilityReplacement,
     BaseClassOptionChoice,
@@ -87,6 +88,7 @@ from .companions import (
     companion_slots,
     companion_state,
     familiar_species_ids,
+    has_companion,
     is_first_feat_level,
     pending_levels,
     tricks_payload,
@@ -143,8 +145,10 @@ from .rules.feats import (
     power_attack_bonus,
 )
 from .rules.handlers import (
+    COMPANION_EFFECT_IDS,
     DAILY_LIMIT_UNIT_LABEL,
     DAILY_LIMITS,
+    EFFECT_OPTION_LIMITS,
     FEATURE_SUMMARY_HANDLERS,
     NATURAL_ATTACK_HANDLERS,
     POOL_COST_AT_ACTIVATION,
@@ -2077,6 +2081,58 @@ def _build_activatable_feats(db: Session, character: Character) -> list[dict]:
     ]
 
 
+def _activatable_class_abilities(
+    db: Session, character: Character, context: CharacterContext, granted_ability_ids: Counter[UUID]
+) -> list[BaseClassAbility]:
+    """Granted, persistent-effect, self/both-scope class abilities — the
+    shared base of the Effekte picker and the Aktionen panel. A
+    `COMPANION_EFFECT_IDS` ability (the Jäger's "Tieraspekt (Tiergefährte)")
+    only while this character has a companion."""
+    if not granted_ability_ids:
+        return []
+    abilities = db.scalars(
+        select(BaseClassAbility).where(
+            BaseClassAbility.id.in_(list(granted_ability_ids)),
+            BaseClassAbility.is_persistent_effect.is_(True),
+            BaseClassAbility.activation_scope.in_(["self", "both"]),
+        )
+    ).all()
+    if any(a.id in COMPANION_EFFECT_IDS for a in abilities) and not has_companion(db, character):
+        abilities = [a for a in abilities if a.id not in COMPANION_EFFECT_IDS]
+    return list(abilities)
+
+
+def _effect_options(db: Session, ability_ids: list[UUID], context: CharacterContext) -> dict[UUID, dict]:
+    """`options`/`optionLimit` for each of `ability_ids` whose effect is
+    "pick N of these" (`BaseClassAbilityEffectOption`, the Jäger's
+    Tieraspekt) — what the activation modal's picker shows. An option's
+    display name drops its family prefix ("Tieraspekt: Bär" → "Bär")."""
+    rows = db.execute(
+        select(BaseClassAbilityEffectOption.parent_ability_id, BaseClassAbility)
+        .join(BaseClassAbility, BaseClassAbility.id == BaseClassAbilityEffectOption.option_ability_id)
+        .where(BaseClassAbilityEffectOption.parent_ability_id.in_(ability_ids))
+    ).all()
+    options: dict[UUID, list[BaseClassAbility]] = {}
+    for parent_id, option in rows:
+        options.setdefault(parent_id, []).append(option)
+    return {
+        parent_id: {
+            "options": [
+                {
+                    "key": str(option.id),
+                    "name": option.name.split(": ", 1)[-1],
+                    "description": option.description,
+                    "hasHandler": has_mechanical_effect(option.id),
+                    "partialNote": partial_effect_note(option.id),
+                }
+                for option in sorted(parent_options, key=lambda o: o.name)
+            ],
+            "optionLimit": EFFECT_OPTION_LIMITS.get(parent_id, lambda _context: 1)(context),
+        }
+        for parent_id, parent_options in options.items()
+    }
+
+
 def _build_activatable_class_abilities(
     db: Session, character: Character, context: CharacterContext, granted_ability_ids: Counter[UUID]
 ) -> list[dict]:
@@ -2093,16 +2149,9 @@ def _build_activatable_class_abilities(
     (`rules/daily_limits.py`'s `remaining_today`) — reuses
     `AvailableEntry.description`, already rendered as a tooltip in
     `RealEffectsPanel.tsx`, rather than adding a dedicated field for what's
-    still only ever one ability."""
-    if not granted_ability_ids:
-        return []
-    abilities = db.scalars(
-        select(BaseClassAbility).where(
-            BaseClassAbility.id.in_(list(granted_ability_ids)),
-            BaseClassAbility.is_persistent_effect.is_(True),
-            BaseClassAbility.activation_scope.in_(["self", "both"]),
-        )
-    ).all()
+    still only ever one ability. `options`/`optionLimit` — `_effect_options`."""
+    abilities = _activatable_class_abilities(db, character, context, granted_ability_ids)
+    options = _effect_options(db, [a.id for a in abilities], context)
     results = []
     for ability in abilities:
         remaining = remaining_today(db, character, context, ability.id)
@@ -2117,6 +2166,7 @@ def _build_activatable_class_abilities(
                 "name": ability.name,
                 "description": description,
                 "defaultDurationRounds": ability.default_duration_rounds,
+                **options.get(ability.id, {}),
             }
         )
     return results
@@ -2168,19 +2218,14 @@ def _build_actions(
     actions: list[dict] = []
 
     if granted_ability_ids:
-        abilities = db.scalars(
-            select(BaseClassAbility).where(
-                BaseClassAbility.id.in_(list(granted_ability_ids)),
-                BaseClassAbility.is_persistent_effect.is_(True),
-                BaseClassAbility.activation_scope.in_(["self", "both"]),
-            )
-        ).all()
+        abilities = _activatable_class_abilities(db, character, context, granted_ability_ids)
         # `requires_active_ability_id` (e.g. a Kampfrauschkraft only usable while
         # Kampfrausch is active) hides the action entirely rather than showing it
         # disabled — same reasoning as the daily-limited block below.
         abilities = [
             a for a in abilities if a.requires_active_ability_id is None or context.has_active(a.requires_active_ability_id)
         ]
+        options = _effect_options(db, [a.id for a in abilities], context)
         for ability in abilities:
             # `dailyLimitRemaining`/`dailyLimitTotal` (not `usesRemainingToday`/`usesPerDay`
             # below — that pair also tells `CharacterSheetPage.tsx`'s `handleActionClick` to
@@ -2202,6 +2247,7 @@ def _build_actions(
                     "defaultDurationRounds": ability.default_duration_rounds,
                     "dailyLimitRemaining": max(0, remaining) if remaining is not None else None,
                     "dailyLimitTotal": DAILY_LIMITS[ability.id](context) if remaining is not None else None,
+                    **options.get(ability.id, {}),
                 }
             )
 
@@ -2443,12 +2489,15 @@ def _build_active_effects(db: Session, character: Character, context: CharacterC
         if source is None:
             continue
         remaining = remaining_today(db, character, context, effect.source_id)
+        # A "pick N" effect names its picks ("Tieraspekt: Bär, Falke").
+        option_names = [option.option.name.split(": ", 1)[-1] for option in effect.options]
         result.append(
             {
                 "id": str(effect.id),
                 "sourceType": effect.source_type,
                 "sourceId": str(effect.source_id),
-                "name": source.name,
+                "name": f"{source.name}: {', '.join(option_names)}" if option_names else source.name,
+                "optionIds": [str(option_id) for option_id in effect.option_ids],
                 # Only conditions carry a type ("condition"/"poison"/"disease") — spells/class
                 # abilities have no equivalent subcategory, so this is the one field on this
                 # dict that's frequently null. Lets the frontend pick a per-type icon without

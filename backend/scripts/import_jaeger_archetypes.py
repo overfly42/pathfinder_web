@@ -6,7 +6,8 @@ Rudelführer, Wilder Jäger. Texts parsed from the live page at run time
 looks up the Jäger's own grants by ability name and level).
 
 Every "ersetzt X" is a `BaseClassAbilityReplacement` of the Jäger's grant(s)
-of X — Tieraspekt means the pool *and* its twelve aspect grants. "Modifiziert
+of X — Tieraspekt means both Tieraspekt entries (the Jäger's own and the
+companion's; the aspects are options, not grants). "Modifiziert
 X" leaves X granted and adds the archetype's text as its own ability.
 
 Per archetype:
@@ -18,7 +19,8 @@ Per archetype:
   "Tiergefährte (Jäger)" without a companion slot of its own — there are no
   vermin companion species in the catalog yet, so the companion can't be
   created (text only). Ungezieferempathie replaces the Tierempathie grant.
-  Ungezieferaspekt (pool + 15 activatable aspects) replaces Tieraspekt.
+  Ungezieferaspekt (pool + effect with 15 aspect options, no companion
+  entry) replaces Tieraspekt.
   Schwärme durchqueren replaces Unterholz durchqueren.
 - **Göttlicher Jäger**: any alignment (`allowed_alignments` on the archetype
   row replaces the Jäger's "jede Neutrale"; the one-step-from-the-deity rule
@@ -56,7 +58,8 @@ Run with the project venv active (writes fixtures only; seed afterwards):
     cd backend && python scripts/import_jaeger_archetypes.py
     python scripts/build_companion_level_sources.py
     python -m app.seed.class_seed && python -m app.seed.class_option_seed
-    python -m app.seed.class_ability_seed && python -m app.seed.companion_seed
+    python -m app.seed.class_ability_seed && python -m app.seed.class_ability_option_seed
+    python -m app.seed.companion_seed
 """
 
 from __future__ import annotations
@@ -133,7 +136,11 @@ FEATURES: dict[str, list[tuple[str, str, list[int]]]] = {
     ],
 }
 
-TIERASPEKT_GRANTS = [("Tieraspekt", 1)] + [(f"Tieraspekt: {aspect}", 1) for aspect in ASPECTS]
+TIERASPEKT_GRANTS = [("Tieraspekt", 1), ("Tieraspekt (Tiergefährte)", 1)]
+# Archetype features that are activatable effects themselves.
+ACTIVATABLE: dict[str, dict] = {
+    "Ungezieferaspekt": {"is_persistent_effect": True, "activation_scope": "self", "default_duration_rounds": 10},
+}
 GEMEINSCHAFTSTALENTE = [("Gemeinschaftstalente", level) for level in (3, 6, 9, 12, 15, 18)]
 
 # ability name -> the Jäger grants (ability name, level) it replaces.
@@ -285,6 +292,8 @@ def main() -> None:
                  "master_sizes": row["master_sizes"], "min_level": row["min_level"]}
             )
 
+    effect_options = load("base_class_ability_effect_options.json")
+    vermin_option_ids: list[str] = []
     printed: dict[str, str] = {}
     for key, name in ARCHETYPES:
         archetype_id = archetype_ids[key]
@@ -315,14 +324,17 @@ def main() -> None:
                 vermin = split_labeled([line for line in aspect_lines if ":" in line], VERMIN_ASPECTS)
                 for aspect in VERMIN_ASPECTS:
                     aspect_id = add_ability(
-                        key,
-                        f"Ungezieferaspekt: {aspect}",
-                        f"(ÜF) Aspekt des Ungezieferaspekts, 1 Minute aus dem Vorrat: {vermin[aspect]}",
-                        {"is_persistent_effect": True, "activation_scope": "self", "default_duration_rounds": 10},
+                        key, f"Ungezieferaspekt: {aspect}", f"(ÜF) Aspekt des Ungezieferaspekts: {vermin[aspect]}"
                     )
-                    add_grant(archetype_id, aspect_id, 1)
+                    vermin_option_ids.append(aspect_id)
                     printed[f"Ungezieferaspekt: {aspect}"] = aspect_id
-            aid = add_ability(key, ability_name, description)
+            aid = add_ability(key, ability_name, description, ACTIVATABLE.get(ability_name))
+            if label == "Ungezieferaspekt":
+                effect_options = [o for o in effect_options if o["parent_ability_id"] != aid]
+                effect_options += [
+                    {"id": uid("effect-option", aid, option_id), "parent_ability_id": aid, "option_ability_id": option_id}
+                    for option_id in vermin_option_ids
+                ]
             printed[ability_name] = aid
             for level in levels:
                 add_grant(archetype_id, aid, level)
@@ -395,6 +407,7 @@ def main() -> None:
     save("base_class_abilities.json", abilities)
     save("base_class_ability_grants.json", grants)
     save("base_class_ability_replacements.json", replacements)
+    save("base_class_ability_effect_options.json", effect_options)
     save("base_class_option_groups.json", groups)
     save("base_class_option_choices.json", choices)
     save("base_companion_slot_grants.json", slot_grants)
