@@ -146,3 +146,34 @@ def test_druide_magier_has_companion_and_familiar(client: TestClient, db_session
     )
     assert wolf.status_code == 201, wolf.text
     assert _add_familiar(client, master, "Rabe").status_code == 201
+
+
+def test_companion_bonuses_from_the_master_skip_the_familiar(client: TestClient, db_session: Session) -> None:
+    """"Katzenvolk (Druide)": +1 HP for the Tiergefährte — not for the
+    familiar (it has half the master's HP, nothing more)."""
+    master = _master(
+        client,
+        db_session,
+        [
+            {"class_name": "Druide", "level": 1, "options": {"bond": ["Tiergefährte"]}},
+            {"class_name": "Magier", "level": 1, "options": {"arcane_bond": ["Vertrauter"]}},
+        ],
+        race="Katzenvolk",
+        favored_class_bonus={"1": "Katzenvolk (Druide)"},
+    )
+    wolf_species = next(
+        s["id"]
+        for t in master["companionLevels"] if t["track"] == "animal_companion"
+        for s in t["slots"][0]["species"] if s["name"] == "Wolf"
+    )
+    response = client.post(
+        f"/api/characters/{master['id']}/companions",
+        json={"species_id": wolf_species, "name": "Wolf", "hit_points": [5, 5]},
+    )
+    assert response.status_code == 201, response.text
+    wolf = client.get(f"/api/characters/{response.json()['id']}").json()
+    raven = _familiar(client, master, "Rabe")
+
+    assert wolf["hp"]["max"] == 5 + 5 + 2 * 2 + 1  # two HD, KO 15, +1 from the master's pick
+    assert raven["hp"]["max"] == master["hp"]["max"] // 2
+    assert raven["companion"]["masterNotes"] == []

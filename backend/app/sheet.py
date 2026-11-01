@@ -440,7 +440,10 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         + granted_ability_modifiers(context, target=ModifierTarget.BURROW_SPEED)
         + size_modifiers(size)
         + familiar_master_modifiers(context)
-        + (companion.modifiers + master_companion_modifiers(context) if companion else [])
+        + (companion.modifiers if companion else [])
+        # What the master gives its animal companion/mount (favored class
+        # bonuses, Tieraspekt, ...) — never a familiar, which has its own rules.
+        + (master_companion_modifiers(context) if companion and companion.link.track == "animal_companion" else [])
     )
     # Grouped once here (`rules/modifiers.py`'s `group_by_target`), rather
     # than each consumer below re-filtering the same flat list — `stacked`

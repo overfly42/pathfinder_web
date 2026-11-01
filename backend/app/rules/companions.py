@@ -298,7 +298,9 @@ def _master_trigger_ids(context: CharacterContext) -> list[UUID]:
 
 
 def master_companion_modifiers(context: CharacterContext) -> list[Modifier]:
-    """Every modifier the master's composition gives this companion."""
+    """Every modifier the master's composition gives this companion — an
+    animal companion or mount only; `sheet.py` doesn't call this for a
+    familiar (a Halb-Ork Jäger's +1 HP per pick is for the Tiergefährte)."""
     modifiers: list[Modifier] = []
     for trigger_id in _master_trigger_ids(context):
         handler = COMPANION_MODIFIER_HANDLERS.get(trigger_id)

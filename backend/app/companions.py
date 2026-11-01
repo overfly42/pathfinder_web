@@ -614,7 +614,11 @@ def companion_payload(state: CompanionState, companion: Character, context: Char
         "openHitPoints": sum(1 for level in pending_levels(companion) if level.hit_points is None),
         # What the master shares that the sheet only describes (Waldläufer's
         # Erzfeinde, Paladin mount extras).
-        "masterNotes": master_companion_notes(context) if context is not None else [],
+        "masterNotes": (
+            master_companion_notes(context)
+            if context is not None and state.link.track == "animal_companion"
+            else []
+        ),
     }
 
 
