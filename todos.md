@@ -190,6 +190,16 @@ Kurzfassung als Einstiegspunkt:
       Größe, also auch keine Senkung der Bewegungsrate, kein Max-GE und kein
       Rüstungsmalus durch mittlere/schwere Last, kein ×3 beim Rennen in
       schwerer Rüstung. Abgespalten 2026-10-17 aus dem Rüstungspunkt oben.
+- [ ] Sonderregeln der Ausrüstungskompendium-Rüstungen nur als
+      Beschreibungstext, nicht berechnet. Seit 2026-11-01 liest
+      `scripts/import_ruestungen_prd.py` die Tabelle des
+      Ausrüstungskompendiums (27 weitere Rüstungen/Schilde, Beschreibungen
+      für alle). Offen u. a.: Behände Brustplatte/Behänder Plattenpanzer
+      (geringerer Malus auf Klettern/Springen, Rennen ×4), Holzrüstung
+      (Malus 0 auf Schwimmen), Madu/Klar (als Stachelschild/Waffe,
+      Defensive Kampfweise), Bereitschaftsschild, Turmschild als Deckung
+      bzw. −2 auf Angriffe. Die "Extras" (Beriemter Panzerhandschuh,
+      Rüstungs-/Schildstacheln als Rüstungszusatz) sind nicht im Katalog.
 - [ ] Magische Verzauberung/Material als Berechnung statt Freitext —
       `roadmap.md`.
 - [ ] Wondrous-Item-Katalog mit echter Attributsboni-Wirkung — `roadmap.md`.

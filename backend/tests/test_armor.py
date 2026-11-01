@@ -105,6 +105,9 @@ def test_catalog_has_the_prd_armor_table(client: TestClient, db_session: Session
     items = {i["name"]: i for i in client.get("/api/items").json()}
     assert {"Waffenrock", "Fellrüstung", "Kettenpanzer", "Schienenpanzer", "Bänderpanzer", "Plattenpanzer",
             "Ritterrüstung", "Tartsche", "Leichter Holzschild", "Schwerer Stahlschild"} <= set(items)
+    # Ausrüstungskompendium additions
+    assert items["O-yoroi"]["acBonus"] == 8 and items["Madu (Stahl)"]["category"] == "shield"
+    assert items["Haramaki"]["maxDexBonus"] is None
     assert "Halbplatte" not in items and "Vollplatte" not in items
 
 

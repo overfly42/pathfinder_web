@@ -9,7 +9,8 @@
     "armor_weight_class": "heavy",
     "masterwork_price_delta": 150,
     "armor_check_penalty": -7,
-    "weight_lb": "50 Pfd."
+    "weight_lb": "50 Pfd.",
+    "description": "Ein Plattenpanzer verbindet Teile einer Ritterrüstung und eines Kettenpanzers, wobei mehrere Platten aus geformtem Metall und ein darunter liegendes Netz aus Kettengliedern eingearbeitet sind. Zwar schützt diese Rüstung lebenswichtige Bereiche mit mehreren gepanzerten Lagen, ist jedoch nicht an die Körperform eines Einzelnen angepasst, sodass sie die Beweglichkeit des Trägers noch stärker als eine Ritterrüstung einschränkt. Zu einem Plattenpanzer gehören Panzerhandschuhe und ein Helm."
   },
   {
     "id": "540303fe-b4f0-4348-bb5a-d8b4eceabb6c",
@@ -21,7 +22,8 @@
     "armor_weight_class": "light",
     "masterwork_price_delta": 150,
     "armor_check_penalty": -2,
-    "weight_lb": "25 Pfd."
+    "weight_lb": "25 Pfd.",
+    "description": "Dieses aus Tausenden ineinandergreifender Kettenringe bestehende Kettemhemd schützt den Rumpf seines Trägers."
   },
   {
     "id": "80f55a62-a017-498c-9586-c89489c78bbc",
@@ -33,7 +35,8 @@
     "armor_weight_class": "light",
     "masterwork_price_delta": 150,
     "armor_check_penalty": 0,
-    "weight_lb": "15 Pfd."
+    "weight_lb": "15 Pfd.",
+    "description": "Eine Lederrüstung besteht aus mehreren übereinander liegenden Lederstücken, die zunächst gekocht wurden, um ihre natürliche Robustheit zu erhöhen, und dann geflissentlich zusammengenäht werden. Zwar ist sie nicht so robust wie eine Metallrüstung, doch aufgrund der Beweglichkeit, die sie dem Träger lässt, ist diese Rüstung am weitesten verbreitet."
   },
   {
     "id": "495054d7-729b-49a8-821b-182f1ec03cc4",
@@ -45,7 +48,8 @@
     "armor_weight_class": "light",
     "masterwork_price_delta": 150,
     "armor_check_penalty": -1,
-    "weight_lb": "20 Pfd."
+    "weight_lb": "20 Pfd.",
+    "description": "Die beschlagene Lederrüstung ist eine verbesserte Variante der gewöhnlichen Lederrüstung und mit Dutzenden von Metallnieten bedeckt. Auch wenn diese runden Buckel einzeln keinen Schutz bieten, werden aufgrund ihren großen Zahl, die über die Rüstung verteilt ist, tödliche Klingenwaffen abgefangen und von lebenswichtigen Körperteilen abgelenkt. Wegen der Steifheit durch das zusätzliche Metall ist die Bewegungsfreiheit jedoch stärker eingeschränkt als bei einer gewöhnlichen Lederrüstung."
   },
   {
     "id": "ade1ce00-43ba-4e6b-bcf8-03e5360b5ebc",
@@ -57,7 +61,8 @@
     "armor_weight_class": "medium",
     "masterwork_price_delta": 150,
     "armor_check_penalty": -4,
-    "weight_lb": "30 Pfd."
+    "weight_lb": "30 Pfd.",
+    "description": "Ein Schuppenpanzer wird aus Dutzenden kleiner, übereinander liegender Metallplatten hergestellt. Ähnlich wie der Schienen- und der Bänderpanzer, besteht der Schuppenpanzer aus einer beweglichen Anordnung von Schuppen, welche die Beweglichkeit des Trägers nicht einschränken sollen. Dafür werden allerdings zusätzliche Panzerungsschichten ausgelassen. Zu einem Schuppenpanzer gehören Panzerhandschuhe."
   },
   {
     "id": "f6f79fd0-e822-400b-b6e9-df23bb9e0b8f",
@@ -69,7 +74,8 @@
     "armor_weight_class": "heavy",
     "masterwork_price_delta": 150,
     "armor_check_penalty": -6,
-    "weight_lb": "50 Pfd."
+    "weight_lb": "50 Pfd.",
+    "description": "Diese Metallrüstung besteht aus mehreren Stücken miteinander verbundener und übereinander liegender Metallplatten und vereinigt in sich die Vorzüge mehrerer Arten kleinerer Rüstungen. Eine komplette Ritterrüstung (oder Feldharnisch, wie sie oft genannt wird) beinhaltet Panzerhandschuhe, schwere Lederstiefel, einen Helm mit Visier sowie eine feste Lage von Polstern, die unter der Rüstung getragen wird. Jede Ritterrüstung muss von einem Rüstungsschmiedemeister individuell an den Besitzer angepasst werden. Allerdings kann eine erbeutete Rüstung für einen Preis zwischen 200 und 800 (2W4 x 100) GM an den neuen Besitzer angepasst werden."
   },
   {
     "id": "4c6ed3a5-6020-4282-82cc-010e4d61956a",
@@ -305,7 +311,8 @@
     "masterwork_price_delta": 150,
     "armor_check_penalty": -1,
     "armor_weight_class": null,
-    "weight_lb": "6 Pfd."
+    "weight_lb": "6 Pfd.",
+    "description": "Ein Schild wird an deinem Unterarm befestigt und mit der Hand festgehalten. Ein leichter Schild erlaubt es dir, noch andere Gegenstände in dieser Hand zu halten, wobei du jedoch keine Waffen mit ihr führen kannst.\n\nHolz oder Stahl: Holz- und Stahlschilde bieten im Prinzip denselben Schutz, reagieren aber unterschiedlich auf besondere Angriffe.\n\nSchildstoßangriffe: Mit einem leichten Schild kann man einem Gegner einen heftigen Stoß versetzen. Der Schaden, der durch einen Schildstoß mit einem leichten Schild verursacht wird, steht in der Tabelle: Kriegswaffen unter „Leichter Schild“. Ein auf diese Weise eingesetzter leichter Schild gilt als Kriegswaffe mit Wuchtschaden. Für Mali auf Angriffswürfe wird der leichte Schild wie eine leichte Waffe behandelt. Wird der Schild als Waffe eingesetzt, verliert man bis zu seinem nächsten Zug den RK-Bonus. Ein Verbesserungsbonus für den Schild verbessert nicht die Wirkung eines Schildstoßes, allerdings kann der Schild selbst in eine magische Waffe verwandelt werden."
   },
   {
     "id": "44b091af-8c4f-48f0-a6c0-7c85c1fb838c",
@@ -317,7 +324,8 @@
     "masterwork_price_delta": 150,
     "armor_check_penalty": -10,
     "armor_weight_class": null,
-    "weight_lb": "45 Pfd."
+    "weight_lb": "45 Pfd.",
+    "description": "Dieser wuchtige Schild ist beinahe so groß wie sein Besitzer. In den meisten Situationen verleiht er den angegebenen Schildbonus auf die RK. Allerdings kann man zu Beginn seines Zuges den Turmschild mit einer Standard-Aktion dazu nutzen, um vollständige Deckung zu erlangen. Wenn der Turmschild auf diese Weise eingesetzt wird, muss man einen Rand seiner Angriffsfläche auswählen. Dieser Rand wird als feste Mauer gegenüber Angriffen betrachtet, die nur auf den Träger abzielen. Dieser erhält vollständige Deckung gegenüber Angriffen, die durch diesen Rand hindurchgehen würden, aber keine Deckung gegenüber Angriffen aus anderen Richtungen (siehe Deckung). Der Schild bietet jedoch keine Deckung gegenüber gezielten Zaubern: Ein Zauberkundiger kann einen Zauber gegen den Träger wirken, wenn er auf den Schild zielt. Weder kann man einen Schildstoß mit einem Turmschild ausführen, noch kann man den Schildarm für irgendetwas anderes benutzen.\n\nWenn man den Turmschild im Kampf einsetzt, erleidet man aufgrund der Belastung durch den Schild einen Malus von -2 auf die Angriffswürfe."
   },
   {
     "id": "286b9b81-2c35-50f7-99f0-b74c283b281e",
@@ -7250,7 +7258,8 @@
     "max_dex_bonus": 8,
     "armor_check_penalty": 0,
     "armor_weight_class": "light",
-    "weight_lb": "10 Pfd."
+    "weight_lb": "10 Pfd.",
+    "description": "Der Waffenrock ist mehr, als nur ein einfaches Kleidungsstück: Er stellt eine Mischung aus schwerem, gestepptem Stoff und dicht gepackter Polsterung dar, wodurch ein günstiger und grundlegender Schutz entsteht. In der Regel wird der Waffenrock von Leute getragen, die sich nicht in einen tödlichen Kampf stürzen oder die ihre Bewegungsfreiheit so wenig wie möglich eingeschränkt wissen wollen."
   },
   {
     "id": "d951eca3-46b5-53a2-b89a-15f91ab2d3b3",
@@ -7262,7 +7271,8 @@
     "max_dex_bonus": 4,
     "armor_check_penalty": -3,
     "armor_weight_class": "medium",
-    "weight_lb": "25 Pfd."
+    "weight_lb": "25 Pfd.",
+    "description": "Eine Fellrüstung besteht aus dem gegerbten Fell besonders dickhäutiger Tiere. Die Rüstung wird entweder aus mehreren überlappenden Schichten groben Leders zusammengenäht, oder besteht aus einer äußeren Lederschicht, die mit Polstern oder Fell gefüttert wird. Die Rüstung kann in der Regel durch das Zusammennähen von Rissen oder dem Hinzufügen neuer Lederstücke repariert werden, sodass ein besonders beanspruchtes Stück die Beschaffenheit von Flickwerk annimmt."
   },
   {
     "id": "dd2a9dd5-c4d8-5e1c-89d6-9a1b503f287a",
@@ -7274,7 +7284,8 @@
     "max_dex_bonus": 2,
     "armor_check_penalty": -5,
     "armor_weight_class": "medium",
-    "weight_lb": "40 Pfd."
+    "weight_lb": "40 Pfd.",
+    "description": "Im Gegensatz zu einem Kettenhemd schützt der Kettenpanzer den Träger durch ein vollständiges Netz aus Kettengliedern, das den Oberkörper und die Arme bedeckt und bis unter die Hüfte reicht. Mehrere miteinander verbundene Rüstungsteile bieten einen zusätzlichen Schutz für lebenswichtige Organe. Zu dieser Rüstung gehören Panzerhandschuhe."
   },
   {
     "id": "7ffcc6b5-3d74-596f-9d06-62618857ded0",
@@ -7286,7 +7297,8 @@
     "max_dex_bonus": 3,
     "armor_check_penalty": -4,
     "armor_weight_class": "medium",
-    "weight_lb": "30 Pfd."
+    "weight_lb": "30 Pfd.",
+    "description": "Eine Brustplatte schützt mithilfe eines einzigen Formstückes aus Metall den Oberkörper des Trägers, ähnlich dem Herzstück einer Ritterrüstung. Trotz ihrer Robustheit ist die Brustplatte aufgrund ihrer Unbeweglichkeit und des offenen Rückens einer Vollrüstung gegenüber unterlegen, stellt aber trotzdem eine Verbesserung gegenüber Rüstungen dar, die nicht aus Metall bestehen."
   },
   {
     "id": "7a9ffd67-88ff-5c62-9f4a-cc5f51830ee5",
@@ -7298,7 +7310,8 @@
     "max_dex_bonus": 0,
     "armor_check_penalty": -7,
     "armor_weight_class": "heavy",
-    "weight_lb": "45 Pfd."
+    "weight_lb": "45 Pfd.",
+    "description": "Eine Schienenrüstung besteht aus übereinander liegenden Metallstreifen, die auf eine Lage aus Leder oder robustem Stoff aufgebracht werden. Diese Schienen sind größer und haltbarer als die Platten, aus denen ein Schuppenpanzer besteht. Dadurch erhöht sich der Schutz für den Träger, allerdings auf Kosten der Beweglichkeit. Zu einem Schienenpanzer gehören Panzerhandschuhe."
   },
   {
     "id": "55392696-e63d-5923-b863-507c3b0d5404",
@@ -7310,7 +7323,8 @@
     "max_dex_bonus": 1,
     "armor_check_penalty": -6,
     "armor_weight_class": "heavy",
-    "weight_lb": "35 Pfd."
+    "weight_lb": "35 Pfd.",
+    "description": "Ein Bänderpanzer besteht aus überlappenden Metallbändern, die auf einem robusten Polster aus Leder und Ketten angebracht werden. Aufgrund der Größe der Metallplatten, der miteinander verbundenen Metallbänder und der darunter liegenden Rüstungslagen liegt der Schutz erheblich höher als bei ähnlichen Rüstungen, wie dem Schuppen- oder dem Schienenpanzer."
   },
   {
     "id": "cec30640-c6e8-52da-9106-c899fc4a6d1a",
@@ -7322,7 +7336,8 @@
     "max_dex_bonus": null,
     "armor_check_penalty": -1,
     "armor_weight_class": null,
-    "weight_lb": "5 Pfd."
+    "weight_lb": "5 Pfd.",
+    "description": "Dieser kleine Metallschild wird mithilfe von Bändern am Unterarm befestigt. Ein Träger kann ohne Mali einen Bogen oder eine Armbrust verwenden. Zudem kann er seinen Schildarm benutzen, wenn er eine Waffe benutzt (ob nun eine Zweitwaffe oder wenn er mithilfe seiner zweiten Hand eine Zweihandwaffe einsetzt); allerdings erleidet er dabei einen Malus von -1 auf die Angriffswürfe. Dieser Malus ist kumulativ mit den Mali, die man aufgrund des Kampfes mit zweiten Hand und im Kampf mit zwei Waffen erleidet. In jedem Falle verliert man den RK-Bonus der Tartsche bis zu seinem nächsten Zug, wenn man eine Waffe in der zweiten Hand führt. Mit dem Schildarm kann man Zauber mit Gestenkomponenten wirken, allerdings verliert man den RK-Bonus der Tartsche bis zu seinem nächsten Zug. Mit einer Tartsche kann man keinen Schildstoß ausführen."
   },
   {
     "id": "b6c79061-253e-5c07-b7ea-c71d5bbf2712",
@@ -7334,7 +7349,8 @@
     "max_dex_bonus": null,
     "armor_check_penalty": -1,
     "armor_weight_class": null,
-    "weight_lb": "5 Pfd."
+    "weight_lb": "5 Pfd.",
+    "description": "Ein Schild wird an deinem Unterarm befestigt und mit der Hand festgehalten. Ein leichter Schild erlaubt es dir, noch andere Gegenstände in dieser Hand zu halten, wobei du jedoch keine Waffen mit ihr führen kannst.\n\nHolz oder Stahl: Holz- und Stahlschilde bieten im Prinzip denselben Schutz, reagieren aber unterschiedlich auf besondere Angriffe.\n\nSchildstoßangriffe: Mit einem leichten Schild kann man einem Gegner einen heftigen Stoß versetzen. Der Schaden, der durch einen Schildstoß mit einem leichten Schild verursacht wird, steht in der Tabelle: Kriegswaffen unter „Leichter Schild“. Ein auf diese Weise eingesetzter leichter Schild gilt als Kriegswaffe mit Wuchtschaden. Für Mali auf Angriffswürfe wird der leichte Schild wie eine leichte Waffe behandelt. Wird der Schild als Waffe eingesetzt, verliert man bis zu seinem nächsten Zug den RK-Bonus. Ein Verbesserungsbonus für den Schild verbessert nicht die Wirkung eines Schildstoßes, allerdings kann der Schild selbst in eine magische Waffe verwandelt werden."
   },
   {
     "id": "61405244-6494-582c-baee-622d9b8f849a",
@@ -7346,7 +7362,8 @@
     "max_dex_bonus": null,
     "armor_check_penalty": -2,
     "armor_weight_class": null,
-    "weight_lb": "10 Pfd."
+    "weight_lb": "10 Pfd.",
+    "description": "Ein Schild wird an deinem Unterarm befestigt und mit der Hand festgehalten. Ein schwerer Schild ist allerdings so schwer, dass du die Hand, die ihn hält, für nichts anderes einsetzen kannst.\n\nHolz oder Stahl: Holz- und Stahlschilde bieten zwar im Prinzip denselben Schutz, reagieren aber unterschiedlich auf besondere Angriffe.\n\nSchildstoßangriffe: Mit einem schweren Schild kann man einem Gegner einen heftigen Stoß versetzen. Der Schaden, der durch einen Schildstoß mit einem schweren Schild verursacht wird, steht in der Tabelle: Kriegswaffen unter „Schwerer Schild“. Ein auf diese Weise eingesetzter schwerer Schild gilt als Kriegswaffe, die Wuchtschaden verursacht. Für Mali auf Angriffswürfe wird der schwere Schild wie eine Einhandwaffe behandelt. Setzt man einen Schild als Waffe ein, verliert man bis zu seinem nächsten Zug dessen RK-Bonus. Ein Verbesserungsbonus für den Schild erhöht nicht die Wirkung eines Schildstoßes, allerdings kann der Schild selbst in eine magische Waffe verwandelt werden."
   },
   {
     "id": "b991478f-9ae1-5183-8799-0fb76cbcdd32",
@@ -7358,6 +7375,358 @@
     "max_dex_bonus": null,
     "armor_check_penalty": -2,
     "armor_weight_class": null,
-    "weight_lb": "15 Pfd."
+    "weight_lb": "15 Pfd.",
+    "description": "Ein Schild wird an deinem Unterarm befestigt und mit der Hand festgehalten. Ein schwerer Schild ist allerdings so schwer, dass du die Hand, die ihn hält, für nichts anderes einsetzen kannst.\n\nHolz oder Stahl: Holz- und Stahlschilde bieten zwar im Prinzip denselben Schutz, reagieren aber unterschiedlich auf besondere Angriffe.\n\nSchildstoßangriffe: Mit einem schweren Schild kann man einem Gegner einen heftigen Stoß versetzen. Der Schaden, der durch einen Schildstoß mit einem schweren Schild verursacht wird, steht in der Tabelle: Kriegswaffen unter „Schwerer Schild“. Ein auf diese Weise eingesetzter schwerer Schild gilt als Kriegswaffe, die Wuchtschaden verursacht. Für Mali auf Angriffswürfe wird der schwere Schild wie eine Einhandwaffe behandelt. Setzt man einen Schild als Waffe ein, verliert man bis zu seinem nächsten Zug dessen RK-Bonus. Ein Verbesserungsbonus für den Schild erhöht nicht die Wirkung eines Schildstoßes, allerdings kann der Schild selbst in eine magische Waffe verwandelt werden."
+  },
+  {
+    "id": "64fec67d-788b-59bf-ab76-4ec193422e80",
+    "name": "Gesteppter Waffenrock",
+    "category": "armor",
+    "price": 100.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": 8,
+    "armor_check_penalty": 0,
+    "armor_weight_class": "light",
+    "weight_lb": "15 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese verbesserte Version des Waffenrocks hat eingenähte Schichten, die Pfeile, Bolzen, Wurfpfeile, Shuriken, Wurfdolche und andere kleine im Fernkampf benutzte Stichwaffen aufhalten sollen. Wenn dich solche Waffen treffen, bleiben sie in den Schichten hängen und verletzen dich nicht. Du besitzt gegen solche Angriffe SR 3/-. Die besonderen Schichten haben aber keine Auswirkungen bei anderen Waffengattungen."
+  },
+  {
+    "id": "c91dba8d-5e1c-5b25-b97c-015499f586bb",
+    "name": "Haramaki",
+    "category": "armor",
+    "price": 3.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": 0,
+    "armor_weight_class": "light",
+    "weight_lb": "1 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Haramaki wird auch als Bauchwärmer bezeichnet. Es handelt sich dabei um eine einfache Seidenschärpe, die mit einem Kettengef lecht oder Metallplatten gefüttert ist und um die Bauchregion getragen wird."
+  },
+  {
+    "id": "15143084-a90c-53aa-aa50-b607fe7aed0b",
+    "name": "Zeremonielle Seidenrüstung",
+    "category": "armor",
+    "price": 30.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": 0,
+    "armor_weight_class": "light",
+    "weight_lb": "4 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Roben werden bei Zeremonien und zuweilen auch über schwererer Rüstung getragen, liefern im letzteren Fall aber keinen zusätzlichen Schutz. Sie bestehen aus mehreren Lagen Stoff und einer äußeren Schicht aus Seide, in die kunstvolle Muster aus Goldbrokade eingearbeitet sind und welche von Metallstücken bedeckt ist."
+  },
+  {
+    "id": "b4bb88e4-bee0-59bc-b33b-d33b17189d2a",
+    "name": "Lamellarbrustharnisch",
+    "category": "armor",
+    "price": 15.0,
+    "ac_bonus": 2,
+    "max_dex_bonus": 4,
+    "armor_check_penalty": 0,
+    "armor_weight_class": "light",
+    "weight_lb": "8 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Rüstung besteht aus einer leichten Brustplatte und Schulterstücken aus lackierten Lederplatten, welche auf einem Seidenhemd angebracht wurden."
+  },
+  {
+    "id": "76f95219-6c3e-5086-917d-8943cc9ee39e",
+    "name": "Holzrüstung",
+    "category": "armor",
+    "price": 20.0,
+    "ac_bonus": 3,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -1,
+    "armor_weight_class": "light",
+    "weight_lb": "25 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Bei dieser Lederrüstung wurden mit Feuer behandelte Holzplättchen über den schützenswerten Stellen aufgenäht. Auch wenn sie nicht so gut ist wie Metallrüstung, bietet diese Rüstung besseren Schutz als die Standard-Lederrüstung. Das Holz verleiht dir im Wasser leichten Auftrieb, so dass der Rüstungsmalus für Würfe auf Schwimmen in dieser Rüstung 0 beträgt."
+  },
+  {
+    "id": "a5975b2d-bf3d-5e13-838b-2b6297cc2ec7",
+    "name": "Paraderüstung",
+    "category": "armor",
+    "price": 25.0,
+    "ac_bonus": 3,
+    "max_dex_bonus": 5,
+    "armor_check_penalty": -1,
+    "armor_weight_class": "light",
+    "weight_lb": "20 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "In den meisten wohlhabenden Ländern mit einem stehenden Heer gibt es Uniformen für prunkvolle und nicht-kriegerische Situationen, wie Paraden, Krönungszeremonien und dergleichen. Das Aussehen dieser Rüstung hängt vom Ursprungsland und dem militärischen Zweig ab, bietet aber trotzdem etwas Schutz für den Fall, dass der Träger in Paradekleidung kämpfen muss. Die Paraderüstung eine Landes könnte zum Beispiel aus Kettenhemd, Waffenrock, Lederbeinlingen und Flügelhelm bestehen. Wenn du die Paraderüstung eines Landes trägst, erhältst du einen Situationsbonus von +2 auf Fertigkeitswürfe für Diplomatie und Einschüchtern, um eine Person aus diesem Land zu beeinflussen. Abhängig vom Ursprungsland, kann die Paraderüstung aus Leder, Metall oder einer Mischung aus beidem gefertigt sein."
+  },
+  {
+    "id": "4c057987-a5c6-5e35-9de7-c7e5f83444f3",
+    "name": "Lamellar-Rüstung (Leder)",
+    "category": "armor",
+    "price": 60.0,
+    "ac_bonus": 4,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -2,
+    "armor_weight_class": "light",
+    "weight_lb": "25 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Lamellar-Rüstung ist eine Rüstungsart aus Plättchen verschiedenster Materialien, die mithilfe dünner Schnüre in parallelen Reihen zusammengefügt werden. Lamellarplatten können aus lackiertem Leder, Horn oder sogar Stein bestehen, wenngleich Rüstungen aus Eisen und Stahl am geläufigsten sind. Lamellar-Rüstungen können verschiedene Formen annehmen, darunter auch einzelne Rüstungsteile wie Brustplatten, Beinschienen oder sogar vollständige Mäntel. Die Eigenschaften einer bestimmen Lamellar-Rüstung bzw. eines Teiles davon hängt vom Material ab. Eine Lamellarrüstung aus Stahl enthält außerdem Panzerhandschuhe."
+  },
+  {
+    "id": "ef3a0cbc-e8e1-57af-87c0-61a994b3a274",
+    "name": "Gepanzerter Mantel",
+    "category": "armor",
+    "price": 50.0,
+    "ac_bonus": 4,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -2,
+    "armor_weight_class": "medium",
+    "weight_lb": "20 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Dieser robuste Ledermantel ist mit Metallplatten verstärkt, die ins Futter eingenäht wurden. Ein gepanzerter Mantel ist unhandlicher als eine leichte Rüstung und bietet weniger Schutz als die meisten mittelschweren Rüstungen. Der Vorteil liegt darin, dass eine Person den Mantel als Bewegungsaktion an- oder ablegen kann. (Einen gepanzerten Mantel kann man nicht „schnell anlegen“.) Wenn er über einer anderen Rüstung getragen wird, verwende den höheren RK-Bonus, dafür aber den schlechtesten Wert in allen anderen Kategorien. Trägt man ihn zusammen mit einer schweren Rüstung, bietet der gepanzerte Mantel keinen Schutz. Die einzigen magischen Effekte, die sich auf den Mantel anwenden lassen, gehören zu Rüstung, Kleidung und Gegenständen, die darüber getragen werden."
+  },
+  {
+    "id": "54f657e1-b254-5497-b94c-3746d52db7f8",
+    "name": "Do-maru",
+    "category": "armor",
+    "price": 200.0,
+    "ac_bonus": 5,
+    "max_dex_bonus": 4,
+    "armor_check_penalty": -4,
+    "armor_weight_class": "medium",
+    "weight_lb": "30 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese leichteste aller Samurairüstungen ähnelt einem kurzen, gepanzerten Mantel. Sie besteht hauptsächlich aus Lamellar-Rüstung und besitzt keine feste Brustplatte oder Ärmelstücke. Dies erlaubt ihrem Träger eine höhere Flexibilität als im Falle schwerer Rüstungen."
+  },
+  {
+    "id": "07e24b76-8064-50d5-b7bb-de93af03195c",
+    "name": "Kikko-Rüstung",
+    "category": "armor",
+    "price": 30.0,
+    "ac_bonus": 5,
+    "max_dex_bonus": 4,
+    "armor_check_penalty": -3,
+    "armor_weight_class": "medium",
+    "weight_lb": "25 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Kikko-Rüstung besteht aus sechseckigen Eisenplättchen, die auf Stoff aufgenäht werden. Die Platten können unter Stoff verborgen oder offen getragen werden."
+  },
+  {
+    "id": "fabecccf-1a43-509f-9212-cb577d2db279",
+    "name": "Lamellar-Rüstung (Horn)",
+    "category": "armor",
+    "price": 100.0,
+    "ac_bonus": 5,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -4,
+    "armor_weight_class": "medium",
+    "weight_lb": "30 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Lamellar-Rüstung ist eine Rüstungsart aus Plättchen verschiedenster Materialien, die mithilfe dünner Schnüre in parallelen Reihen zusammengefügt werden. Lamellarplatten können aus lackiertem Leder, Horn oder sogar Stein bestehen, wenngleich Rüstungen aus Eisen und Stahl am geläufigsten sind. Lamellar-Rüstungen können verschiedene Formen annehmen, darunter auch einzelne Rüstungsteile wie Brustplatten, Beinschienen oder sogar vollständige Mäntel. Die Eigenschaften einer bestimmen Lamellar-Rüstung bzw. eines Teiles davon hängt vom Material ab. Eine Lamellarrüstung aus Stahl enthält außerdem Panzerhandschuhe."
+  },
+  {
+    "id": "f2b70c97-9937-5dbd-b87d-d23e83da7c4d",
+    "name": "Behände Brustplatte",
+    "category": "armor",
+    "price": 400.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -4,
+    "armor_weight_class": "medium",
+    "weight_lb": "25 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Brustplatte wurde speziell so konstruiert, dass sie dem Träger zusätzliche Beweglichkeit bei verschiedenen Aktivitäten gestattet. Der Rüstungsmalus bei Würfen auf Klettern und Springen beträgt nur -1 (Meisterarbeit und Mithralausführungen dieser Rüstung reduzieren diesen Malus sowie den normalen Malus)."
+  },
+  {
+    "id": "a8a261ab-db25-5533-8ee6-535196e1f3a2",
+    "name": "Bergmusterrüstung",
+    "category": "armor",
+    "price": 250.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -4,
+    "armor_weight_class": "medium",
+    "weight_lb": "40 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese mittelschwere Rüstung besteht aus Hunderten kleiner, ineinander greifende Stahlstücke, die so geformt sind, dass sie einem uralten Symbol für das Wort „Berg“ ähneln. Dieses Kettenhemd wird danach auf ein Polster aus Stoff oder Leder aufgebracht. Sie wird wie ein Kettenmantel getragen und bedeckt Oberkörper, Schultern und Hüften."
+  },
+  {
+    "id": "eda29001-14c9-58f5-8e6d-cba7fada9223",
+    "name": "Lamellar-Rüstung (Stahl)",
+    "category": "armor",
+    "price": 150.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -5,
+    "armor_weight_class": "medium",
+    "weight_lb": "35 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Lamellar-Rüstung ist eine Rüstungsart aus Plättchen verschiedenster Materialien, die mithilfe dünner Schnüre in parallelen Reihen zusammengefügt werden. Lamellarplatten können aus lackiertem Leder, Horn oder sogar Stein bestehen, wenngleich Rüstungen aus Eisen und Stahl am geläufigsten sind. Lamellar-Rüstungen können verschiedene Formen annehmen, darunter auch einzelne Rüstungsteile wie Brustplatten, Beinschienen oder sogar vollständige Mäntel. Die Eigenschaften einer bestimmen Lamellar-Rüstung bzw. eines Teiles davon hängt vom Material ab. Eine Lamellarrüstung aus Stahl enthält außerdem Panzerhandschuhe."
+  },
+  {
+    "id": "8cd8c6eb-f1a5-5a76-b964-7d4cc9a14d80",
+    "name": "Vier-Spiegel-Rüstung",
+    "category": "armor",
+    "price": 45.0,
+    "ac_bonus": 6,
+    "max_dex_bonus": 2,
+    "armor_check_penalty": -5,
+    "armor_weight_class": "medium",
+    "weight_lb": "45 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Rüstung besteht aus vier Platten, die mittels lederner Schulterriemen zusammengehalten werden. Zwei runde Platten schützen Brust und Rücken, während zwei kleinere, rechteckige Platten die Seiten schützen. Ein Vier-Spiegel-Panzer wird über einem Kettenpanzer getragen, um zusätzlichen Schutz zu bieten. Zu der Panzerung gehört ein nach oben spitz zulaufender Helm mit einem Nackenschutz aus Kettengeflecht."
+  },
+  {
+    "id": "fc7a4add-eb66-5299-be45-f66246e48a62",
+    "name": "Kusari-Gusoku",
+    "category": "armor",
+    "price": 350.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 1,
+    "armor_check_penalty": -7,
+    "armor_weight_class": "heavy",
+    "weight_lb": "45 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Rüstung ähnelt einer Tatami-do, allerdings wird anstelle der Brustpanzerung eine Katabira getragen, eine Art Jacke aus Kettengeflecht."
+  },
+  {
+    "id": "62712527-2e85-58f3-958d-b7fa385890ad",
+    "name": "Lamellar-Rüstung (Eisen)",
+    "category": "armor",
+    "price": 200.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 0,
+    "armor_check_penalty": -7,
+    "armor_weight_class": "heavy",
+    "weight_lb": "50 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Lamellar-Rüstung ist eine Rüstungsart aus Plättchen verschiedenster Materialien, die mithilfe dünner Schnüre in parallelen Reihen zusammengefügt werden. Lamellarplatten können aus lackiertem Leder, Horn oder sogar Stein bestehen, wenngleich Rüstungen aus Eisen und Stahl am geläufigsten sind. Lamellar-Rüstungen können verschiedene Formen annehmen, darunter auch einzelne Rüstungsteile wie Brustplatten, Beinschienen oder sogar vollständige Mäntel. Die Eigenschaften einer bestimmen Lamellar-Rüstung bzw. eines Teiles davon hängt vom Material ab. Eine Lamellarrüstung aus Stahl enthält außerdem Panzerhandschuhe."
+  },
+  {
+    "id": "ace33515-d017-5be9-b9af-c8d09774bf84",
+    "name": "Tatami-do",
+    "category": "armor",
+    "price": 1000.0,
+    "ac_bonus": 7,
+    "max_dex_bonus": 3,
+    "armor_check_penalty": -6,
+    "armor_weight_class": "heavy",
+    "weight_lb": "45 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Die Tatami-Do wird von Samurai als leichtere Alternative zur O-yoroi getragen. Sie ist eine Ganzkörper-Gefechtsrüstung, welche Lamellar- und Kikko-Komponenten zu einer Rüstung auf einer Stoffunterlage verbindet. Zu ihr gehören meist ein zusammenlegbarer Kabutohelm oder eine gepanzerte Kapuze, sowie Schulter-, Arm- und Oberschenkelpanzerung."
+  },
+  {
+    "id": "59d6e6c5-32c7-5816-a694-19a6c0807a5b",
+    "name": "Behänder Plattenpanzer",
+    "category": "armor",
+    "price": 850.0,
+    "ac_bonus": 8,
+    "max_dex_bonus": 0,
+    "armor_check_penalty": -7,
+    "armor_weight_class": "heavy",
+    "weight_lb": "55 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Dieser Plattenpanzer wurde speziell so konstruiert, dass er dem Träger zusätzliche Beweglichkeit bei verschiedenen Aktivitäten gestattet. Der Rüstungsmalus bei Würfen auf Klettern und Springen beträgt nur -4 (Meisterarbeit und Mithralausführungen dieser Rüstung reduzieren diesen Malus sowie den normalen Malus). Außerdem kann der Träger immer noch mit dem vierfachen seiner Bewegungsrate rennen statt nur des dreifachen."
+  },
+  {
+    "id": "8a07485f-c2b6-5537-8e6e-3a1a8adb0359",
+    "name": "Lamellar-Rüstung (Stein)",
+    "category": "armor",
+    "price": 500.0,
+    "ac_bonus": 8,
+    "max_dex_bonus": 0,
+    "armor_check_penalty": -7,
+    "armor_weight_class": "heavy",
+    "weight_lb": "45 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Eine Lamellar-Rüstung ist eine Rüstungsart aus Plättchen verschiedenster Materialien, die mithilfe dünner Schnüre in parallelen Reihen zusammengefügt werden. Lamellarplatten können aus lackiertem Leder, Horn oder sogar Stein bestehen, wenngleich Rüstungen aus Eisen und Stahl am geläufigsten sind. Lamellar-Rüstungen können verschiedene Formen annehmen, darunter auch einzelne Rüstungsteile wie Brustplatten, Beinschienen oder sogar vollständige Mäntel. Die Eigenschaften einer bestimmen Lamellar-Rüstung bzw. eines Teiles davon hängt vom Material ab. Eine Lamellarrüstung aus Stahl enthält außerdem Panzerhandschuhe."
+  },
+  {
+    "id": "f6982332-bf68-50a5-b1df-70b51856f2f5",
+    "name": "O-yoroi",
+    "category": "armor",
+    "price": 1700.0,
+    "ac_bonus": 8,
+    "max_dex_bonus": 2,
+    "armor_check_penalty": -6,
+    "armor_weight_class": "heavy",
+    "weight_lb": "45 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Die O-yoroi, oder „Große Rüstung“ ist eine schwere Kampfrüstung, welche fast ausschließlich von hochrangigen Samurai getragen wird. Sie besteht aus diversen Komponenten, zu denen sowohl Platten-, wie Lamellar-Rüstung gehören. Jede Rüstung wird für einen Träger individuell nach dessen Wünschen hergestellt. Nach Vervollständigung der Rüstung wird sie bemalt und lackiert. Das Hauptstück einer O-yoroi ist ein zweiteiliger Brustharnisch – ein Kikko-Harnisch und eine Waidate genannte Verstärkung für die rechte Seite. Der obere Teil einer Waidate besteht aus einer lederbedeckten Eisenplatte. Die ledernen Schulterriemen des Harnischs werden als Watagami bezeichnet und sind ebenfalls mit Metallplättchen gepanzert. An diesem Harnisch werden weitere Rüstungsteile befestigt, darunter ausladende Lamellarschulterpanzerungen, ein Kikko-Ärmelstück für den Schildarm, lackierte eiserne Beinlinge auf gepolsterten Seidenhosen und ein Bauchschutz. Die Signaturkomponente jeder Rüstung ist aber der Kabutohelm und die dazugehörige Hoate-Maske. Ho-ate-Masken werden aus Metall oder gehärtetem Leder gefertigt und stellen furchteinflößende Gesichter wie die von Drachen, Dämonen und anderen mystischen Geschöpfen dar."
+  },
+  {
+    "id": "9d773cbb-d7f6-56dd-b76b-a1a3e08fa523",
+    "name": "Steinplatte",
+    "category": "armor",
+    "price": 1800.0,
+    "ac_bonus": 9,
+    "max_dex_bonus": 1,
+    "armor_check_penalty": -6,
+    "armor_weight_class": "heavy",
+    "weight_lb": "75 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Diese Rüstung wird von zwergischen Steinmetzen aus alchemistisch behandelten Basaltplatten hergestellt. Eine Steinplatte ist schwer und sperrig, bietet dem Träger allerdings einen hervorragenden Schutz. Sie wird hauptsächlich von Zwergendruiden verwendet, die keine Rüstungen aus Metall tragen können."
+  },
+  {
+    "id": "14f38058-4841-5b94-a382-1aa5d202db6c",
+    "name": "Bereitschaftsschild, Leichter Holz-",
+    "category": "shield",
+    "price": 53.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "6 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Dieser leichte Schild ist mit einer Reihe von Lederriemen ausgestattet, die es einem Charakter, der im Umgang mit Schilden geübt ist, erlauben, ihn schnell anzulegen oder auf dem Rücken festzuzurren. Sollte dein Grundangriffsbonus +1 oder höher sein, kannst du einen Bereitschaftsschild während einer Bewegung als Schnelle Aktion an- oder ablegen. Solltest du das Talent Kampf mit zwei Waffen besitzen, kannst du mit einer Hand eine leichte oder einhändige Waffe ziehen und mit der anderen den Schild in derselben Zeit bereit machen, in der du normalerweise eine Waffe ziehst. Solltest du über das Talent Schnelle Waffenbereitschaft verfügen, kannst du den Bereitschaftsschild mit einer Freien Aktion an- oder ablegen."
+  },
+  {
+    "id": "0a3b40a5-81b9-517d-ab5e-21569acdc877",
+    "name": "Bereitschaftsschild, Leichter Stahl-",
+    "category": "shield",
+    "price": 59.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "7 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Dieser leichte Schild ist mit einer Reihe von Lederriemen ausgestattet, die es einem Charakter, der im Umgang mit Schilden geübt ist, erlauben, ihn schnell anzulegen oder auf dem Rücken festzuzurren. Sollte dein Grundangriffsbonus +1 oder höher sein, kannst du einen Bereitschaftsschild während einer Bewegung als Schnelle Aktion an- oder ablegen. Solltest du das Talent Kampf mit zwei Waffen besitzen, kannst du mit einer Hand eine leichte oder einhändige Waffe ziehen und mit der anderen den Schild in derselben Zeit bereit machen, in der du normalerweise eine Waffe ziehst. Solltest du über das Talent Schnelle Waffenbereitschaft verfügen, kannst du den Bereitschaftsschild mit einer Freien Aktion an- oder ablegen."
+  },
+  {
+    "id": "b2f94272-7625-526b-a043-32b0bb228341",
+    "name": "Klar",
+    "category": "shield",
+    "price": 12.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -1,
+    "armor_weight_class": null,
+    "weight_lb": "6 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Traditionell besteht diese Stammeswaffe aus einer kurzen Klinge, die am Schädel einer großen gehörnten Echse angebracht ist, allerdings kann ein ausgebildeter Schmied solch eine Waffe auch gänzlich aus Metall herstellen. Ein traditioneller Klar gilt als leichter Holzschild mit Rüstungsstacheln; ein Metallklar gilt als leichter Stahlschild mit Rüstungsstacheln."
+  },
+  {
+    "id": "7b502018-c0d8-576d-b13f-23b496aa219e",
+    "name": "Madu (Leder)",
+    "category": "shield",
+    "price": 40.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "5 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Der Madu ist ein runder, leichter Lederschild mit zwei Tierhörnern – für gewöhnlich von Antilopen – an den gegenüber liegenden Seiten. Wenn man mit dem Madu umgehen kann, erleidet man einen Malus von lediglich -2 statt der üblichen -4, wenn man ihn defensiv einsetzt, und der Angriffsmalus beim Einsatz von Defensive Kampfweise verbessert sich um +1 (mindestens -1). In der Hand, in der man den Madu trägt, kann man keinen anderen Gegenstand halten. Wenn man nicht mit dem Madu umgehen kann, gilt er lediglich als leichter Stachelschild. Ein Madu kann nicht Ziel einer Entwaffnung werden. Er kann gänzlich aus Metall hergestellt sein, allerdings bieten beide Versionen die gleichen Vorteile für den Schutzund den Angriff, reagieren allerdings verschieden auf bestimmte Zauber und Effekte. Ein Druide kann einen ledernen Madu einsetzen, aber keinen Stahlmadu."
+  },
+  {
+    "id": "f57d4ea9-f94c-5619-85a2-f75d192a327c",
+    "name": "Madu (Stahl)",
+    "category": "shield",
+    "price": 50.0,
+    "ac_bonus": 1,
+    "max_dex_bonus": null,
+    "armor_check_penalty": -2,
+    "armor_weight_class": null,
+    "weight_lb": "6 Pfd.",
+    "masterwork_price_delta": 150,
+    "description": "Der Madu ist ein runder, leichter Lederschild mit zwei Tierhörnern – für gewöhnlich von Antilopen – an den gegenüber liegenden Seiten. Wenn man mit dem Madu umgehen kann, erleidet man einen Malus von lediglich -2 statt der üblichen -4, wenn man ihn defensiv einsetzt, und der Angriffsmalus beim Einsatz von Defensive Kampfweise verbessert sich um +1 (mindestens -1). In der Hand, in der man den Madu trägt, kann man keinen anderen Gegenstand halten. Wenn man nicht mit dem Madu umgehen kann, gilt er lediglich als leichter Stachelschild. Ein Madu kann nicht Ziel einer Entwaffnung werden. Er kann gänzlich aus Metall hergestellt sein, allerdings bieten beide Versionen die gleichen Vorteile für den Schutzund den Angriff, reagieren allerdings verschieden auf bestimmte Zauber und Effekte. Ein Druide kann einen ledernen Madu einsetzen, aber keinen Stahlmadu."
   }
 ]
