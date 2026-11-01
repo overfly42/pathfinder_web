@@ -475,7 +475,16 @@ export interface CompanionSlot {
   level: number;
   hitDice: number | null;
   species: { id: string; name: string }[];
+  /** Selectable archetypes (house rule) — empty for a familiar slot. */
+  archetypes: CompanionArchetype[];
   companion: { id: string; name: string } | null;
+}
+
+/** An animal companion archetype (house rule, backend `BaseCompanionArchetype`). */
+export interface CompanionArchetype {
+  id: string;
+  name: string;
+  description: string;
 }
 
 /** A companion's own sheet section (backend `companion_payload`). */
@@ -493,6 +502,9 @@ export interface CompanionInfo {
   bonusTricks: number;
   advancementChoice: 'species' | 'dex_con';
   advanced: boolean;
+  /** The companion's archetype, `null` for none; `archetypeOptions` empty for a familiar. */
+  archetype: { id: string; name: string } | null;
+  archetypeOptions: CompanionArchetype[];
   /** HD whose choices (skills, feats, ability increase, HP) are still open — filled in the
    *  level-up wizard's companion mode (roadmap slice 10 step 3); `openHitPoints` of those
    *  still need their HP roll (added by the HD sync on the master's level-up). */

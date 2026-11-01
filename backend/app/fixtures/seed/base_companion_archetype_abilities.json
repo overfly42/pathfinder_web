@@ -1,0 +1,74 @@
+[
+  {
+    "id": "71d84045-f668-5625-8136-e0e1e50ab172",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "level": 1,
+    "ability_id": "a27bb9fd-8ba8-5c09-9278-55a9a2d1b616"
+  },
+  {
+    "id": "4c86acf5-b46f-58a2-b903-1fc74cecb11b",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "level": 2,
+    "ability_id": "aa727b10-08c4-5b19-bcc6-e1b19c8d6983"
+  },
+  {
+    "id": "104ee032-5984-53e9-a78b-85cebbd409e9",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "level": 9,
+    "ability_id": "15f1f607-71b5-56a9-906d-1f6095741293"
+  },
+  {
+    "id": "d53bfd8a-593c-527d-9e65-e74aa39b2cf5",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "level": 1,
+    "ability_id": "47d5271f-baa8-5b4d-99d1-d90c737c20ee"
+  },
+  {
+    "id": "d41446ae-25fd-5071-a15d-1829e94703d6",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "level": 2,
+    "ability_id": "6fb5c805-ae8c-5085-90a4-bb35effaffa8"
+  },
+  {
+    "id": "cd69063f-4fd1-5014-9555-8cf70400a6e9",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "level": 9,
+    "ability_id": "1a124e65-87ec-5503-b47a-dd9b6287c0be"
+  },
+  {
+    "id": "33e1c8fe-1b8a-527f-9eef-9fab536ea133",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "level": 1,
+    "ability_id": "09d4a057-eb99-5687-8a85-f1ba1979db15"
+  },
+  {
+    "id": "ece9ae81-8427-5a2c-a6e7-0487ab4bdd3b",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "level": 2,
+    "ability_id": "4ef87fa4-fd6d-5179-9ad1-a1b1f0336ff5"
+  },
+  {
+    "id": "612e7394-7591-5c6d-ab07-99e8479abb29",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "level": 9,
+    "ability_id": "b1b6ca49-0071-59c9-aa97-8f18a9eb9389"
+  },
+  {
+    "id": "94945953-f536-5f6c-9560-e129f64513f4",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "level": 1,
+    "ability_id": "e9c74f35-0cb5-51c3-a3da-3b30a51e2d63"
+  },
+  {
+    "id": "52ec1c79-fcac-5841-82e6-dd25c5dde368",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "level": 2,
+    "ability_id": "0a8966f2-65f5-54c7-8d7a-6c22e2d2070f"
+  },
+  {
+    "id": "d378fef8-86c7-550d-9830-3203bf2e9dc6",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "level": 9,
+    "ability_id": "cb0b5465-3582-5290-aed3-33e4b1cf4c59"
+  }
+]

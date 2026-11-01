@@ -25,6 +25,9 @@ from .character import (
     CharacterWand,
 )
 from .companion import (
+    BaseCompanionArchetype,
+    BaseCompanionArchetypeAbility,
+    BaseCompanionArchetypeReplacement,
     BaseCompanionLevelSource,
     BaseCompanionProgression,
     BaseCompanionProgressionAbility,
@@ -70,6 +73,9 @@ from .user import User
 
 __all__ = [
     "Base",
+    "BaseCompanionArchetype",
+    "BaseCompanionArchetypeAbility",
+    "BaseCompanionArchetypeReplacement",
     "BaseCompanionLevelSource",
     "BaseCompanionProgression",
     "BaseCompanionProgressionAbility",

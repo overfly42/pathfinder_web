@@ -267,3 +267,20 @@ def jump_skill_note(total_land_speed: int) -> SkillNote:
         value=bonus,
         detail=f" bei {total_land_speed} m Bewegungsrate, 4 pro volle 3 m über/unter 9 m",
     )
+
+
+# Fly maneuverability, worst to best (PRD Fertigkeit "Fliegen").
+MANEUVERABILITY_ORDER = ("unbeholfen", "schlecht", "durchschnittlich", "gut", "perfekt")
+
+
+def maneuverability_rank(maneuverability: str | None) -> int:
+    """Position in `MANEUVERABILITY_ORDER` (species rows aren't consistently
+    capitalized); -1 for none or an unknown label."""
+    label = (maneuverability or "").lower()
+    return MANEUVERABILITY_ORDER.index(label) if label in MANEUVERABILITY_ORDER else -1
+
+
+def improved_maneuverability(maneuverability: str | None) -> str:
+    """One category better, capped at "perfekt"."""
+    rank = maneuverability_rank(maneuverability)
+    return MANEUVERABILITY_ORDER[min(rank + 1, len(MANEUVERABILITY_ORDER) - 1)]

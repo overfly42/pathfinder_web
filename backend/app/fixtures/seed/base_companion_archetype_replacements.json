@@ -1,0 +1,62 @@
+[
+  {
+    "id": "5c02affb-c2fd-5458-9366-14aea833908e",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "ability_id": "18d69c89-60be-54eb-8332-58f7e0187bf2"
+  },
+  {
+    "id": "6dbb4ea1-fff8-56c2-8933-28eb52f7ebc3",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "ability_id": "d613a371-31dd-5b6f-8a86-1b72902cba96"
+  },
+  {
+    "id": "bc3c41bd-dc3b-5be8-bb6d-065a0d34fd3c",
+    "archetype_id": "9388f0e4-4c27-51c9-a585-959608ed2724",
+    "ability_id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7"
+  },
+  {
+    "id": "5e671f17-2d16-59d0-a3d3-2326fb123fca",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "ability_id": "18d69c89-60be-54eb-8332-58f7e0187bf2"
+  },
+  {
+    "id": "1b83ec3a-7723-56d5-9cba-f83f6972b338",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "ability_id": "d613a371-31dd-5b6f-8a86-1b72902cba96"
+  },
+  {
+    "id": "545b6f46-f82c-5e5c-b805-9665943d27ef",
+    "archetype_id": "1e5dc645-db7a-558f-aeb1-27a40317ac7f",
+    "ability_id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7"
+  },
+  {
+    "id": "4cbc2a03-ba81-5182-8c6f-7ac0f0f4c9ba",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "ability_id": "18d69c89-60be-54eb-8332-58f7e0187bf2"
+  },
+  {
+    "id": "ea871ee9-7a24-5f2b-8417-ad52c4efc818",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "ability_id": "d613a371-31dd-5b6f-8a86-1b72902cba96"
+  },
+  {
+    "id": "6ce55d7f-589e-5886-a8f2-68f7178fd895",
+    "archetype_id": "ce5c45ff-5189-5a27-8ee8-1beae4e26082",
+    "ability_id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7"
+  },
+  {
+    "id": "05e80cb3-5581-58bd-a2e3-edf138ab0e18",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "ability_id": "18d69c89-60be-54eb-8332-58f7e0187bf2"
+  },
+  {
+    "id": "1f492aff-4a91-5e5f-8a80-64dea2427f1d",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "ability_id": "d613a371-31dd-5b6f-8a86-1b72902cba96"
+  },
+  {
+    "id": "a1e2ef42-9b38-56b6-a04b-67fbef16a833",
+    "archetype_id": "7fb095c8-011e-5608-995d-2356d80dde8f",
+    "ability_id": "25d66f4b-94be-5d10-a40b-7a50c2848ed7"
+  }
+]

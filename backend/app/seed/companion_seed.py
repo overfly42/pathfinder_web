@@ -3,7 +3,8 @@
 progression and entitlements (`scripts/import_companion_species.py`, step
 2b), familiar species/table/entitlements (`scripts/import_familiars.py`,
 step 4), tricks and trainings (`scripts/import_companion_tricks.py`, step
-5), one fixture file per table.
+5), companion archetypes (`scripts/import_hausregel_elementargefaehrte.py`),
+one fixture file per table.
 
 Idempotent: each row is upserted by its own `id`. Requires `base_races`,
 `base_classes`, `base_class_abilities` and `base_feats` to be seeded first
@@ -20,6 +21,9 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 
 from ..models import (
+    BaseCompanionArchetype,
+    BaseCompanionArchetypeAbility,
+    BaseCompanionArchetypeReplacement,
     BaseCompanionLevelSource,
     BaseCompanionProgression,
     BaseCompanionProgressionAbility,
@@ -38,7 +42,7 @@ SEED_DIR = Path(__file__).resolve().parent.parent / "fixtures" / "seed"
 
 _UUID_FIELDS = {
     "class_ability_id", "feat_id", "root_class_id", "race_id", "stage_id", "ability_id", "slot_grant_id",
-    "required_ability_id", "variant_of_id", "purpose_id", "trick_id",
+    "required_ability_id", "variant_of_id", "purpose_id", "trick_id", "archetype_id",
 }
 
 # Foreign-key order.
@@ -55,6 +59,9 @@ _TABLES: tuple[tuple[str, type], ...] = (
     ("base_companion_tricks.json", BaseCompanionTrick),
     ("base_companion_trick_purposes.json", BaseCompanionTrickPurpose),
     ("base_companion_trick_purpose_tricks.json", BaseCompanionTrickPurposeTrick),
+    ("base_companion_archetypes.json", BaseCompanionArchetype),
+    ("base_companion_archetype_abilities.json", BaseCompanionArchetypeAbility),
+    ("base_companion_archetype_replacements.json", BaseCompanionArchetypeReplacement),
 )
 
 

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ..companions import companion_class, natural_weapon_facts, pending_levels
+from ..companions import companion_class, companion_state, natural_weapon_facts, pending_levels
 from ..db import get_db
 from ..models import BaseFeat, Character
 from ..rules.effective_scores import full_effective_ability_scores
@@ -38,6 +38,11 @@ def _character_prereq_state(db: Session, character: Character) -> CharacterPrere
     # feat's prerequisite here too, not just in the character-sheet display.
     secondary_ability_ids, _ = secondary_granted_ability_ids_and_levels(db, character)
     granted_ability_ids.update(secondary_ability_ids)
+    # A companion's progression/archetype abilities (`app/companions.py`) —
+    # the Feuer-Elementargefährte's Behände Bewegung counts for Geschmeidige
+    # Bewegung's prerequisite.
+    if (companion := companion_state(db, character)) is not None:
+        granted_ability_ids.update(companion.progression_ability_ids)
     granted_ability_ids = frozenset(granted_ability_ids)
     # Proficiency-granting class abilities (e.g. "Umgang mit Waffen und
     # Rüstungen") count the same as literally holding the matching

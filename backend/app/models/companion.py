@@ -145,6 +145,42 @@ class BaseCompanionProgressionAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin)
     ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
 
 
+class BaseCompanionArchetype(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """An animal companion archetype (Hausregel, `requirements_v2.md` §10 —
+    the PRD has none): it trades progression abilities for its own. One row
+    per selectable variant, so an archetype with a pick (Elementargefährte:
+    Luft/Erde/Feuer/Wasser) is one row per pick — the pick never changes
+    afterwards, so it needs no separate option table."""
+
+    __tablename__ = "base_companion_archetypes"
+
+    name: Mapped[str] = mapped_column(String(255))
+    description: Mapped[str] = mapped_column(Text)
+
+
+class BaseCompanionArchetypeAbility(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A class ability an archetype adds at an effective master level — the
+    same level axis as `BaseCompanionProgressionAbility`."""
+
+    __tablename__ = "base_companion_archetype_abilities"
+    __table_args__ = (UniqueConstraint("archetype_id", "ability_id", name="uq_companion_archetype_ability"),)
+
+    archetype_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_archetypes.id"))
+    level: Mapped[int] = mapped_column(Integer)
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+
+class BaseCompanionArchetypeReplacement(Base, UUIDPrimaryKeyMixin, TimestampMixin):
+    """A progression ability (`BaseCompanionProgressionAbility.ability_id`)
+    a companion of this archetype doesn't get."""
+
+    __tablename__ = "base_companion_archetype_replacements"
+    __table_args__ = (UniqueConstraint("archetype_id", "ability_id", name="uq_companion_archetype_replacement"),)
+
+    archetype_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_companion_archetypes.id"))
+    ability_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("base_class_abilities.id"))
+
+
 class BaseFamiliarProgression(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """One row per master level (1–20) of the PRD's familiar table (Magier,
     "Besondere Fähigkeiten des Vertrauten"; the PRD lists two-level
@@ -212,7 +248,10 @@ class CharacterCompanion(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     `advancement_choice`: "species" (the species' 4th/7th-level
     advancement) or "dex_con" (+2 GE and +2 KO instead, PRD "Auswahl einer
     Tierart"). A master who loses the entitlement keeps the companion —
-    shown as "ohne Anspruch", never deleted."""
+    shown as "ohne Anspruch", never deleted.
+
+    `archetype_id`: the companion's archetype (`BaseCompanionArchetype`,
+    animal companions only), `None` for none."""
 
     __tablename__ = "character_companions"
     __table_args__ = (
@@ -226,6 +265,9 @@ class CharacterCompanion(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     track: Mapped[str] = mapped_column(String(32))
     slot_key: Mapped[str] = mapped_column(String(32))
     advancement_choice: Mapped[str] = mapped_column(String(16), default="species", server_default="species")
+    archetype_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("base_companion_archetypes.id"), nullable=True
+    )
 
 
 class BaseCompanionTrick(Base, UUIDPrimaryKeyMixin, TimestampMixin):

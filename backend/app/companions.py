@@ -46,6 +46,11 @@ master himself (`FamiliarDerived`). It gives its master a bonus by species
 (`rules/companions.py`'s `FAMILIAR_MASTER_HANDLERS`, fed by
 `familiar_species_ids`).
 
+Archetypes (Hausregel, `BaseCompanionArchetype`, the Elementargefährte):
+`CharacterCompanion.archetype_id`, picked at creation or later
+(`set_companion_archetype`). `companion_state` drops the progression
+abilities it replaces and adds its own by the same effective level.
+
 Step 5 stores the tricks an animal companion knows
 (`CharacterCompanionTrick`, written by `set_companion_tricks` and validated
 by `rules/companions.py`'s `trick_errors`): bonus tricks up to the
@@ -64,6 +69,9 @@ from sqlalchemy.orm import Session
 
 from .models import (
     BaseClass,
+    BaseCompanionArchetype,
+    BaseCompanionArchetypeAbility,
+    BaseCompanionArchetypeReplacement,
     BaseCompanionLevelSource,
     BaseCompanionProgression,
     BaseCompanionProgressionAbility,
@@ -151,6 +159,11 @@ class CompanionState:
     # How many natural attacks the species' current statblock lists,
     # alternatives not counted (`CharacterContext.natural_attack_count`).
     natural_attack_count: int = 0
+    archetype: BaseCompanionArchetype | None = None
+    # The species' starting movement modes and fly maneuverability
+    # (`CharacterContext.companion_species_speeds`).
+    species_speeds: dict[str, float] = field(default_factory=dict)
+    fly_maneuverability: str | None = None
 
 
 @dataclass
@@ -227,6 +240,8 @@ def companion_context_fields(state: "CompanionState") -> dict:
     master_ctx = state.master_context
     return {
         "natural_attack_count": state.natural_attack_count,
+        "companion_species_speeds": state.species_speeds,
+        "companion_fly_maneuverability": state.fly_maneuverability,
         "master_granted_ability_ids": master_ctx.granted_ability_ids if master_ctx else Counter(),
         "master_favored_class_bonus_pick_counts": (
             master_ctx.favored_class_bonus_pick_counts if master_ctx else Counter()
@@ -443,6 +458,22 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
             )
         )
     )
+    archetype = db.get(BaseCompanionArchetype, link.archetype_id) if link.archetype_id else None
+    if archetype is not None:
+        for replaced_id in db.scalars(
+            select(BaseCompanionArchetypeReplacement.ability_id).where(
+                BaseCompanionArchetypeReplacement.archetype_id == archetype.id
+            )
+        ):
+            progression_ability_ids.pop(replaced_id, None)
+        progression_ability_ids.update(
+            db.scalars(
+                select(BaseCompanionArchetypeAbility.ability_id).where(
+                    BaseCompanionArchetypeAbility.archetype_id == archetype.id,
+                    BaseCompanionArchetypeAbility.level <= effective_level_for_stats,
+                )
+            )
+        )
     return CompanionState(
         master=master,
         link=link,
@@ -460,6 +491,9 @@ def companion_state(db: Session, companion: Character) -> CompanionState | None:
         master_context=master_ctx,
         natural_armor=natural_armor,
         natural_attack_count=sum(row["count"] for row in attacks if not row.get("alternative", False)),
+        archetype=archetype,
+        species_speeds=speeds,
+        fly_maneuverability=base.fly_maneuverability if base else None,
     )
 
 
@@ -572,6 +606,7 @@ def companion_payload(state: CompanionState, companion: Character, context: Char
         "expectedHitDice": state.progression.hit_dice if state.progression else None,
         "bonusTricks": bonus_trick_count(state),
         "advancementChoice": state.link.advancement_choice,
+        "archetype": {"id": str(state.archetype.id), "name": state.archetype.name} if state.archetype else None,
         "advanced": state.advanced,
         # Open HD (step 3): choices still to make in the level-up wizard's
         # companion mode, and how many of those still need their HP roll.
@@ -616,6 +651,7 @@ def create_companion(
     name: str,
     hit_points: list[int],
     advancement_choice: str,
+    archetype_id: UUID | None = None,
 ) -> Character:
     """Creates the companion `Character` for one of `master`'s free slots:
     species' starting scores, one pseudo-class level per HD of the current
@@ -634,6 +670,8 @@ def create_companion(
     species = next((race for race in slot.species if race.id == species_id), None)
     if species is None:
         raise HTTPException(status_code=422, detail="This species isn't allowed for this companion")
+    if archetype_id is not None:
+        _check_archetype(db, track, archetype_id)
     pseudo_class = companion_class(db)
     if track == "familiar":
         if hit_points:
@@ -671,11 +709,42 @@ def create_companion(
             track=slot.track,
             slot_key=slot_key,
             advancement_choice=advancement_choice,
+            archetype_id=archetype_id,
         )
     )
     db.commit()
     db.refresh(companion)
     return companion
+
+
+def _check_archetype(db: Session, track: str, archetype_id: UUID) -> None:
+    if track != "animal_companion":
+        raise HTTPException(status_code=422, detail="Only an animal companion can have an archetype")
+    if db.get(BaseCompanionArchetype, archetype_id) is None:
+        raise HTTPException(status_code=422, detail="Unknown companion archetype")
+
+
+def set_companion_archetype(db: Session, companion: Character, archetype_id: UUID | None) -> Character:
+    """Sets or clears an existing animal companion's archetype (`None`: no
+    archetype) — for companions created before archetypes existed, too."""
+    link = db.scalar(select(CharacterCompanion).where(CharacterCompanion.companion_character_id == companion.id))
+    if link is None:
+        raise HTTPException(status_code=422, detail="Only a companion can have an archetype")
+    if archetype_id is not None:
+        _check_archetype(db, link.track, archetype_id)
+    link.archetype_id = archetype_id
+    db.commit()
+    db.refresh(companion)
+    return companion
+
+
+def archetypes_payload(db: Session) -> list[dict]:
+    """Every animal companion archetype, for the creation form and the
+    companion's own picker."""
+    return [
+        {"id": str(archetype.id), "name": archetype.name, "description": archetype.description}
+        for archetype in db.scalars(select(BaseCompanionArchetype).order_by(BaseCompanionArchetype.name))
+    ]
 
 
 def slots_payload(db: Session, slots: list[CompanionSlot]) -> list[dict]:
@@ -693,6 +762,7 @@ def slots_payload(db: Session, slots: list[CompanionSlot]) -> list[dict]:
                 else progression.hit_dice if (progression := progression_row(db, slot.level)) else None
             ),
             "species": [{"id": str(race.id), "name": race.name} for race in slot.species],
+            "archetypes": archetypes_payload(db) if slot.track == "animal_companion" else [],
             "companion": {"id": str(slot.companion.id), "name": slot.companion.name} if slot.companion else None,
         }
         for slot in slots

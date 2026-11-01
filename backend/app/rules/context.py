@@ -188,6 +188,12 @@ class CharacterContext:
     # data, read by the companion's "Mehrfachangriff" (three or more: the
     # feat as a bonus feat, fewer: one extra attack at −5). 0 for a PC.
     natural_attack_count: int = 0
+    # The companion species' own movement modes ("swim"/"fly"/... -> meters)
+    # and fly maneuverability from its starting statblock (`app/companions.py`)
+    # — read by the Elementargefährte's manifestations, which improve an
+    # existing mode instead of granting a new one. Empty for a PC.
+    companion_species_speeds: dict[str, float] = field(default_factory=dict)
+    companion_fly_maneuverability: str | None = None
     # The master's raw composition, set only on a companion's context
     # (roadmap slice 10 step 3, the master → companion channel): which of
     # the master's granted abilities, favored-class-bonus picks, class

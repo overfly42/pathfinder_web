@@ -84,6 +84,7 @@ from .companions import (
     companion_class,
     companion_context_fields,
     companion_intelligence,
+    archetypes_payload,
     companion_payload,
     companion_slots,
     companion_state,
@@ -177,6 +178,7 @@ from .rules.secondary_class import secondary_granted_ability_ids_and_levels
 from .rules.speed import (
     class_speed_bonus,
     jump_skill_note,
+    maneuverability_rank,
     movement_mode_skill_modifiers,
     race_climb_speed,
     race_speed,
@@ -527,7 +529,11 @@ def build_character_sheet(character: Character, db: Session) -> dict:
     swim_speed = stacked.get((ModifierTarget.SWIM_SPEED, None), 0) or None
     fly_speed = None if heavy_barding else stacked.get((ModifierTarget.FLY_SPEED, None), 0) or None
     fly_modifiers = contributing(groups.get((ModifierTarget.FLY_SPEED, None), []))
-    fly_maneuverability = max(fly_modifiers, key=lambda m: m.value).detail if fly_modifiers else None
+    # The fastest fly speed's maneuverability; at equal speed the better one
+    # (a Luft-Elementargefährte improving its species' own flight).
+    fly_maneuverability = (
+        max(fly_modifiers, key=lambda m: (m.value, maneuverability_rank(m.detail))).detail if fly_modifiers else None
+    )
     # A climb/swim speed from any source carries a +8 Volksbonus on the
     # matching skill (`movement_mode_skill_modifiers`). Folded into
     # `groups`/`stacked` here, after the speeds are known but before
@@ -667,12 +673,13 @@ def build_character_sheet(character: Character, db: Session) -> dict:
         "companion": (
             {
                 **companion_payload(companion, character, context),
-                # Tricks (roadmap slice 10 step 5) — animal companions only.
+                # Tricks (roadmap slice 10 step 5) and archetypes — animal companions only.
                 **(
                     tricks_payload(db, companion, character, effective_scores["IN"])
                     if companion.link.track != "familiar"
                     else {"tricks": [], "trickPurpose": None, "trickLimits": None}
                 ),
+                "archetypeOptions": archetypes_payload(db) if companion.link.track != "familiar" else [],
             }
             if companion
             else None

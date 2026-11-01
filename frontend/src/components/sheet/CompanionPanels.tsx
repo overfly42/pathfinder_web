@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { apiPost } from '../../api/client';
+import { apiPost, apiPut } from '../../api/client';
 import type { Character, CompanionLevel, CompanionSlot } from '../../types/character';
 import { companionLevelName, formatCompanionBreakdown } from '../../lib/companionLevels';
 import { CompanionTricks } from './CompanionTricks';
@@ -67,6 +67,7 @@ export function CompanionBanner({ character, onChanged }: { character: Character
           {' · '}Aufstieg: {info.advancementChoice === 'dex_con' ? '+2 GE/+2 KO statt Tierart' : info.advanced ? 'erreicht' : 'noch nicht erreicht'}
         </p>
       )}
+      {info.track !== 'familiar' && <CompanionArchetypePicker character={character} onChanged={onChanged} />}
       {info.openHitDice > 0 && (
         <p className="companion-open">
           {info.openHitDice} TW mit offenen Entscheidungen (Fertigkeiten, Talente
@@ -84,6 +85,45 @@ export function CompanionBanner({ character, onChanged }: { character: Character
         </ul>
       )}
       <CompanionTricks character={character} onChanged={onChanged} />
+    </div>
+  );
+}
+
+/** The companion's archetype (house rule), changeable at any time — companions created before
+ *  archetypes existed get theirs this way. */
+function CompanionArchetypePicker({ character, onChanged }: { character: Character; onChanged: () => void }) {
+  const info = character.companion!;
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  if (info.archetypeOptions.length === 0) return null;
+  const current = info.archetypeOptions.find((a) => a.id === info.archetype?.id);
+
+  async function change(archetypeId: string) {
+    setSaving(true);
+    setError(null);
+    try {
+      await apiPut(`/api/characters/${character.id}/companion-archetype`, { archetype_id: archetypeId || null });
+      onChanged();
+    } catch {
+      setError('Archetyp konnte nicht gespeichert werden.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="companion-archetype">
+      <label>
+        Archetyp:{' '}
+        <select value={info.archetype?.id ?? ''} disabled={saving} onChange={(e) => change(e.target.value)}>
+          <option value="">— keiner —</option>
+          {info.archetypeOptions.map((a) => (
+            <option key={a.id} value={a.id}>{a.name}</option>
+          ))}
+        </select>
+      </label>
+      {current && <p className="desc">{current.description}</p>}
+      {error && <p style={{ color: '#e29a9a' }}>{error}</p>}
     </div>
   );
 }
@@ -144,6 +184,7 @@ function CompanionCreateForm({
   const [speciesId, setSpeciesId] = useState('');
   const [name, setName] = useState('');
   const [advancement, setAdvancement] = useState<'species' | 'dex_con'>('species');
+  const [archetypeId, setArchetypeId] = useState('');
   const [hitPoints, setHitPoints] = useState<string[]>(() => Array.from({ length: hitDice }, () => '5'));
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -168,6 +209,7 @@ function CompanionCreateForm({
         name: name.trim(),
         hit_points: values,
         advancement_choice: advancement,
+        archetype_id: archetypeId || null,
       });
       onCreated(created.id);
     } catch {
@@ -192,6 +234,14 @@ function CompanionCreateForm({
           <select value={advancement} onChange={(e) => setAdvancement(e.target.value as 'species' | 'dex_con')}>
             <option value="species">Aufstieg der Tierart</option>
             <option value="dex_con">+2 GE/KO statt Aufstieg</option>
+          </select>
+        )}
+        {slot.archetypes.length > 0 && (
+          <select value={archetypeId} onChange={(e) => setArchetypeId(e.target.value)}>
+            <option value="">Kein Archetyp</option>
+            {slot.archetypes.map((a) => (
+              <option key={a.id} value={a.id} title={a.description}>{a.name}</option>
+            ))}
           </select>
         )}
         {isFamiliar ? (

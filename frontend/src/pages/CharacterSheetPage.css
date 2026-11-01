@@ -403,6 +403,8 @@
 .companion-switcher-current { font-family: 'Spectral', serif; font-weight: 600; color: var(--ink); }
 .companion-banner { border: 1px solid var(--parchment-shadow); border-radius: 6px; padding: 8px 10px; margin: 8px 0; font-size: 13px; color: var(--ink-soft); }
 .companion-banner p { margin: 2px 0; }
+.companion-archetype { margin: 4px 0; }
+.companion-archetype select { margin-left: 4px; }
 .companion-warning { color: var(--danger); }
 .companion-open { font-weight: 600; color: var(--ink); }
 .companion-master-notes { margin: 4px 0 0; padding-left: 18px; }

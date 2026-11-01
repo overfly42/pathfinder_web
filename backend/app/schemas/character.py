@@ -745,6 +745,8 @@ class CompanionCreate(BaseModel):
     name: str
     hit_points: list[int] = []
     advancement_choice: Literal["species", "dex_con"] = "species"
+    # A `BaseCompanionArchetype` (animal companions only), `None` for none.
+    archetype_id: UUID | None = None
 
     @field_validator("name")
     @classmethod
@@ -753,6 +755,13 @@ class CompanionCreate(BaseModel):
         if not stripped:
             raise ValueError("name must not be blank")
         return stripped
+
+
+class CompanionArchetypeUpdate(BaseModel):
+    """`PUT /api/characters/{companion_id}/companion-archetype`: sets or
+    clears (`None`) an animal companion's archetype."""
+
+    archetype_id: UUID | None = None
 
 
 class CompanionTrickPick(BaseModel):

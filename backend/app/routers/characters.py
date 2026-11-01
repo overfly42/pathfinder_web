@@ -19,6 +19,7 @@ from ..companions import (
     master_context,
     natural_weapon_facts,
     pending_levels,
+    set_companion_archetype,
     set_companion_tricks,
     sync_companion_hit_dice,
 )
@@ -115,6 +116,7 @@ from ..rules.weapon_abilities import is_togglable
 from ..schemas.character import (
     AdvanceTime,
     AlignmentUpdate,
+    CompanionArchetypeUpdate,
     CompanionCreate,
     CompanionTricksUpdate,
     CharacterCreate,
@@ -1250,7 +1252,20 @@ def add_companion(character_id: UUID, body: CompanionCreate, db: Annotated[Sessi
         name=body.name,
         hit_points=body.hit_points,
         advancement_choice=body.advancement_choice,
+        archetype_id=body.archetype_id,
     )
+
+
+@router.put("/{character_id}/companion-archetype", response_model=CharacterRead)
+def update_companion_archetype(
+    character_id: UUID, body: CompanionArchetypeUpdate, db: Annotated[Session, Depends(get_db)]
+) -> Character:
+    """Sets or clears an animal companion's archetype (`app/companions.py`'s
+    `set_companion_archetype` validates)."""
+    companion = db.get(Character, character_id)
+    if companion is None:
+        raise HTTPException(status_code=404, detail="Character not found")
+    return set_companion_archetype(db, companion, body.archetype_id)
 
 
 @router.put("/{character_id}/tricks", response_model=CharacterRead)

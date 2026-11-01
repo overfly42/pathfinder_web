@@ -6558,5 +6558,65 @@
     "id": "0c3ee771-8c62-5ece-ad62-c4c3a09c4227",
     "name": "Wahrsagung",
     "description": "Unterschule der Vorsehung: (ÜF) Ab der 8. Stufe kann der Magier eine Prophezeiung hinsichtlich der nahen Zukunft aussprechen. Während diese Prophezeiung wirksam ist, strahlt er eine Aura des Glücks von 9 m Radius aus, welche seinen Verbündeten hilft oder seine Gegner behindert, ganz wie er es sich bei Einsatz dieser Fähigkeit aussucht. Sollte er sich entscheiden zu helfen, erhalten seine Verbündeten einen Glücksbonus von +2 auf ihre Attributs-, Angriffs-, Zauberstufen-, Rettungs- und Fertigkeitswürfe. Sollte er sich stattdessen entscheiden, seine Gegner zu behindern, erleiden diese einen Malus gleicher Höhe auf diese Würfe. Der Magier kann diese Fähigkeit täglich für eine Anzahl von Runden in Höhe seiner Stufe als Magier einsetzen. Diese Runden müssen nicht aufeinander folgen."
+  },
+  {
+    "id": "a27bb9fd-8ba8-5c09-9278-55a9a2d1b616",
+    "name": "Elementare Unterart (Luft)",
+    "description": "(AF) Der Gefährte erhält die Unterart Luft."
+  },
+  {
+    "id": "aa727b10-08c4-5b19-bcc6-e1b19c8d6983",
+    "name": "Geringere elementare Manifestation (Luft)",
+    "description": "(AF) Ab der 2. Stufe erhält der Gefährte eine Fehlschlagchance von 20 % gegen Fernkampfangriffe. Ersetzt Entrinnen und Verbessertes Entrinnen."
+  },
+  {
+    "id": "15f1f607-71b5-56a9-906d-1f6095741293",
+    "name": "Größere elementare Manifestation (Luft)",
+    "description": "(ÜF) Ab der 9. Stufe erhält der Gefährte eine Flugbewegungsrate von 6 m (gut). Kann er bereits fliegen, verbessert sich stattdessen seine Manövrierfähigkeit um eine Stufe. Ersetzt Mehrfachangriff."
+  },
+  {
+    "id": "47d5271f-baa8-5b4d-99d1-d90c737c20ee",
+    "name": "Elementare Unterart (Erde)",
+    "description": "(AF) Der Gefährte erhält die Unterart Erde."
+  },
+  {
+    "id": "6fb5c805-ae8c-5085-90a4-bb35effaffa8",
+    "name": "Geringere elementare Manifestation (Erde)",
+    "description": "(AF) Ab der 2. Stufe erhält der Gefährte Schadensreduzierung 1/Adamant. Sie steigt um 1 für je 4 Druidenstufen seines Meisters. Ersetzt Entrinnen und Verbessertes Entrinnen."
+  },
+  {
+    "id": "1a124e65-87ec-5503-b47a-dd9b6287c0be",
+    "name": "Größere elementare Manifestation (Erde)",
+    "description": "(ÜF) Ab der 9. Stufe überwinden die natürlichen Angriffe des Gefährten Schadensreduzierung, als wären sie Waffen aus Adamant, kaltem Eisen und Silber. Ersetzt Mehrfachangriff."
+  },
+  {
+    "id": "09d4a057-eb99-5687-8a85-f1ba1979db15",
+    "name": "Elementare Unterart (Feuer)",
+    "description": "(AF) Der Gefährte erhält die Unterart Feuer."
+  },
+  {
+    "id": "4ef87fa4-fd6d-5179-9ad1-a1b1f0336ff5",
+    "name": "Geringere elementare Manifestation (Feuer)",
+    "description": "(AF) Ab der 2. Stufe kann der Gefährte ohne Abzüge durch Feuer, Nebel und Rauch sehen und erhält Behände Bewegung als Bonustalent. Ersetzt Entrinnen und Verbessertes Entrinnen."
+  },
+  {
+    "id": "b1b6ca49-0071-59c9-aa97-8f18a9eb9389",
+    "name": "Größere elementare Manifestation (Feuer)",
+    "description": "(ÜF) Ab der 9. Stufe verursacht ein natürlicher Angriff nach Wahl zusätzlich 1W6 Punkte Feuerschaden je 5 Trefferwürfel des Gefährten. Ersetzt Mehrfachangriff."
+  },
+  {
+    "id": "e9c74f35-0cb5-51c3-a3da-3b30a51e2d63",
+    "name": "Elementare Unterart (Wasser)",
+    "description": "(AF) Der Gefährte erhält die Unterart Wasser."
+  },
+  {
+    "id": "0a8966f2-65f5-54c7-8d7a-6c22e2d2070f",
+    "name": "Geringere elementare Manifestation (Wasser)",
+    "description": "(AF) Ab der 2. Stufe kann der Gefährte unter Wasser atmen, erhält eine Schwimmbewegungsrate von 6 m und einen Ausweichbonus von +2 auf die RK gegen Gelegenheitsangriffe. Hat er bereits eine Schwimmbewegungsrate, steigt sie stattdessen um 3 m. Ersetzt Entrinnen und Verbessertes Entrinnen."
+  },
+  {
+    "id": "cb0b5465-3582-5290-aed3-33e4b1cf4c59",
+    "name": "Größere elementare Manifestation (Wasser)",
+    "description": "(ÜF) Ab der 9. Stufe erhält ein natürlicher Nahkampfangriff nach Wahl die Sonderfähigkeit Stoßen (3 m). Ersetzt Mehrfachangriff."
   }
 ]

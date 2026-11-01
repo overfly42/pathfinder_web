@@ -92,6 +92,8 @@ from .paladin import POOL_SOURCE_ID as _PALADIN_POOL_SOURCE_ID
 from .paladin import WEAPON_ENHANCEMENT_HANDLERS as _PALADIN_WEAPON_ENHANCEMENT_HANDLERS
 from .tiergefaehrte import APPLIED_OUTSIDE_HANDLERS_IDS as _TIERGEFAEHRTE_APPLIED_OUTSIDE_HANDLERS_IDS
 from .tiergefaehrte import FEATURE_SUMMARY_HANDLERS as _TIERGEFAEHRTE_FEATURE_SUMMARY_HANDLERS
+from .tiergefaehrte import HANDLERS as _TIERGEFAEHRTE_HANDLERS
+from .tiergefaehrte import PARTIAL_EFFECT_NOTES as _TIERGEFAEHRTE_PARTIAL_EFFECT_NOTES
 from .vertrauter import FEATURE_SUMMARY_HANDLERS as _VERTRAUTER_FEATURE_SUMMARY_HANDLERS
 
 HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
@@ -104,6 +106,7 @@ HANDLERS: dict[UUID, Callable[[CharacterContext], list[Modifier]]] = {
     **_MOENCH_HANDLERS,
     **_MYSTIKER_HANDLERS,
     **_PALADIN_HANDLERS,
+    **_TIERGEFAEHRTE_HANDLERS,
 }
 # A handler may return several attacks at once (a Tierschamane's bite and
 # claws) — see `rules/handlers.py`'s merged registry.
@@ -240,4 +243,5 @@ PARTIAL_EFFECT_NOTES: dict[UUID, str] = {
     **_JAEGER_PARTIAL_EFFECT_NOTES,
     **_KLERIKER_PARTIAL_EFFECT_NOTES,
     **_MAGIER_PARTIAL_EFFECT_NOTES,
+    **_TIERGEFAEHRTE_PARTIAL_EFFECT_NOTES,
 }
