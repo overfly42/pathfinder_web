@@ -214,6 +214,11 @@ def test_level_up_requires_ability_increase_on_4th_level(client: TestClient, db_
     assert with_increase.status_code == 201
     body = with_increase.json()
     assert body["ability_scores"]["ST"] == DEFAULT_ABILITY_SCORES["ST"] + 1
+    # Stored once, on the level row — the base column keeps the point-buy score.
+    character = db_session.get(Character, UUID(character_id))
+    db_session.refresh(character)
+    assert character.ability_score_st == DEFAULT_ABILITY_SCORES["ST"]
+    assert [lvl.ability_increase for lvl in character.levels if lvl.level == 4] == ["ST"]
 
 
 def test_level_up_rejects_ability_increase_on_an_ineligible_level(client: TestClient, db_session: Session) -> None:

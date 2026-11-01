@@ -74,13 +74,20 @@ def ability_damage_totals(character: Character) -> dict[str, int]:
 
 
 def full_effective_ability_scores(
-    db: Session, character: Character, race_mods: dict[str, int]
+    db: Session, character: Character, race_mods: dict[str, int], *, pending_increase: str | None = None
 ) -> dict[str, int]:
     """The complete effective ability scores: base/race/flex, plus equipped
     gear bonuses, minus ability damage — the single source of truth any HP
     or ability-check math should read from, rather than each caller
-    re-composing the three adjustments itself."""
-    scores = effective_ability_scores(character.ability_scores, race_mods, character.flex_ability)
+    re-composing the three adjustments itself.
+
+    `pending_increase`: the ability increase of a level being taken right
+    now, whose `CharacterLevel` row doesn't carry it yet — the level-up's
+    budgets already count it (`routers/characters.py`)."""
+    base_scores = character.ability_scores
+    if pending_increase is not None:
+        base_scores[pending_increase] += 1
+    scores = effective_ability_scores(base_scores, race_mods, character.flex_ability)
     for key, bonus in gear_ability_bonuses(db, character).items():
         scores[key] = scores.get(key, 0) + bonus
     for key, amount in ability_damage_totals(character).items():

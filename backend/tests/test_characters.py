@@ -447,6 +447,9 @@ def test_create_character_applies_ability_increase_to_base_ability_score(
     assert response.status_code == 201
     body = response.json()
     assert body["ability_scores"] == {**DEFAULT_ABILITY_SCORES, "IN": DEFAULT_ABILITY_SCORES["IN"] + 2}
+    # Stored once, on the level rows — the base column keeps the point-buy score.
+    character = db_session.get(Character, UUID(body["id"]))
+    assert character.ability_score_in == DEFAULT_ABILITY_SCORES["IN"]
 
 
 def test_create_character_with_archetype_persists_and_round_trips(client: TestClient, db_session: Session) -> None:

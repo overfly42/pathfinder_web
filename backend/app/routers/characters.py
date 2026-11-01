@@ -863,10 +863,10 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
 
     # Ability increases are permanent, retroactive base-score bumps (PF1e —
     # see level_up_character's own comment on why skill points aren't
-    # 3.5e's non-retroactive exception), folded directly into the base
-    # scores before any effective-score computation below — same mutation
-    # level-up applies via `setattr`, just all at once since creation
-    # submits the whole career in one request.
+    # 3.5e's non-retroactive exception), counted into every effective-score
+    # computation below. Stored only on their level rows
+    # (`CharacterLevel.ability_increase`); the base columns keep the
+    # point-buy scores (`Character.ability_scores` adds the two).
     ability_scores = dict(body.ability_scores)
     for value in submitted_ability_increases.values():
         ability_scores[value] = ability_scores.get(value, 0) + 1
@@ -1038,12 +1038,12 @@ def create_character(body: CharacterCreate, db: Annotated[Session, Depends(get_d
         name=body.name,
         user_id=body.user_id,
         race_id=body.race_id,
-        ability_score_st=ability_scores["ST"],
-        ability_score_ge=ability_scores["GE"],
-        ability_score_ko=ability_scores["KO"],
-        ability_score_in=ability_scores["IN"],
-        ability_score_we=ability_scores["WE"],
-        ability_score_ch=ability_scores["CH"],
+        ability_score_st=body.ability_scores["ST"],
+        ability_score_ge=body.ability_scores["GE"],
+        ability_score_ko=body.ability_scores["KO"],
+        ability_score_in=body.ability_scores["IN"],
+        ability_score_we=body.ability_scores["WE"],
+        ability_score_ch=body.ability_scores["CH"],
         point_budget=body.point_budget,
         use_background_skills=body.use_background_skills,
         secondary_base_class_id=secondary_base_class_id,
@@ -2669,9 +2669,6 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     # "already spent" counter.
     race_mods = race_ability_score_mods(db, character.race_id)
     pre_increase_int_mod = ability_mod(full_effective_ability_scores(db, character, race_mods)["IN"])
-    if body.ability_increase is not None:
-        column = f"ability_score_{body.ability_increase.lower()}"
-        setattr(character, column, getattr(character, column) + 1)
 
     if body.target.mode == "existing" and existing_level_options:
         if any(len(choices) > 1 for choices in existing_level_options.values()):
@@ -2715,7 +2712,10 @@ def level_up_character(character_id: UUID, body: LevelUp, db: Annotated[Session,
     # above already do — otherwise the skill/spell budget this endpoint
     # enforces silently diverges from what the wizard shows and the
     # character sheet displays.
-    effective_scores = full_effective_ability_scores(db, character, race_mods)
+    # This level's increase isn't on a level row yet (`new_level` below).
+    effective_scores = full_effective_ability_scores(
+        db, character, race_mods, pending_increase=body.ability_increase
+    )
 
     def _effective_ability_mod(ability: str) -> int:
         return ability_mod(effective_scores[ability])
@@ -3091,10 +3091,10 @@ def _complete_companion_level(db: Session, companion: Character, body: LevelUp) 
         )
     race_mods = race_ability_score_mods(db, companion.race_id)
     pre_increase_int_mod = ability_mod(full_effective_ability_scores(db, companion, race_mods)["IN"])
-    if body.ability_increase is not None:
-        column = f"ability_score_{body.ability_increase.lower()}"
-        setattr(companion, column, getattr(companion, column) + 1)
-    int_mod = ability_mod(full_effective_ability_scores(db, companion, race_mods)["IN"])
+    # Stored on the level row further down (`level.ability_increase`).
+    int_mod = ability_mod(
+        full_effective_ability_scores(db, companion, race_mods, pending_increase=body.ability_increase)["IN"]
+    )
 
     # Same per-HD formula as `_skill_points_total` (max(1, base + IN) per
     # HD, IN retroactive), for HD `hit_die` vs. the HD before it.

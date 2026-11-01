@@ -221,7 +221,11 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     @property
     def ability_scores(self) -> dict[str, int]:
-        return {
+        """Base scores plus every level's ability increase. The
+        `ability_score_*` columns hold only the point-buy (or companion
+        species) scores; an increase is stored once, on its
+        `CharacterLevel.ability_increase` (migration `e4b7c1d9a2f6`)."""
+        scores = {
             "ST": self.ability_score_st,
             "GE": self.ability_score_ge,
             "KO": self.ability_score_ko,
@@ -229,6 +233,10 @@ class Character(Base, UUIDPrimaryKeyMixin, TimestampMixin):
             "WE": self.ability_score_we,
             "CH": self.ability_score_ch,
         }
+        for level in self.levels:
+            if level.ability_increase:
+                scores[level.ability_increase] += 1
+        return scores
 
     @property
     def skill_ranks(self) -> dict[str, int]:
